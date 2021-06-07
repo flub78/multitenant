@@ -4,6 +4,15 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+        
+        @if (session('error'))
+       <div class="alert alert-danger">
+         <ul>
+              <li>{{ session('error') }}</li>
+         </ul>
+        </div><br />
+        @endif
+        
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 

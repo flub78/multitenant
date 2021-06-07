@@ -19,7 +19,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+    	'password', 'admin', 'active'
     ];
 
     /**
@@ -40,4 +40,34 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    /**
+     * @return boolean
+     */
+    public function isAdmin() {
+    	return $this->admin;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isActive() {
+    	return $this->active;
+    }
+    
+    /**
+     * Check it two users are equals (mainly for testing)
+     * @param User $x
+     * @return boolean
+     */
+    public function equals(User $x) {
+    	foreach ($this->fillable as $attr) {
+    		if ($this->$attr != $x->$attr) {
+    			// echo "$attr : " . ($this->$attr) . " != " . ($x->$attr);
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
 }
