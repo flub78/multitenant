@@ -27,6 +27,7 @@
                     {{ config('app.name', 'Laravel') }}
                     @if (tenant('id'))
                     {{ " tenant=" . tenant('id') }}
+                    <a href="{{ str_replace(tenant('id') . '.', '', url('/')) }}" class="ml-4 text-sm text-gray-700 underline">Back to Central</a>                    
                     @else
                     {{ " Central Application"}}
                     @endif
