@@ -42,7 +42,7 @@
                                                         
                             @if (tenant('id'))
                              <h1>Webapp - Welcome to {{tenant('id')}}</h1>
-                             <a href="{{ str_replace(tenant('id') . '.', '', url('/')) }}" class="ml-4 text-sm text-gray-700 underline">Back to Central</a>
+                             <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-gray-700 underline">Back to {{config('tenancy.central_domains')[0]}}</a>
                             @else
                             <h1>Webapp Central application - Tenants management</h1>
                             @endif

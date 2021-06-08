@@ -24,4 +24,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // admin routes
 Route::group(['middleware' => ['admin']], function () {
 	Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
+	Route::resource('tenants', App\Http\Controllers\TenantController::class)->middleware('auth');
 });
