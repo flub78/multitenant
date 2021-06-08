@@ -8,7 +8,7 @@
                     @if (tenant('id'))
                     {{ " tenant=" . tenant('id') }}
                     <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-gray-700 underline">Back to {{config('tenancy.central_domains')[0]}}</a>
-                    
+                    {{storage_path()}}
                     @else
                     {{ " Central Application"}}
                     @endif

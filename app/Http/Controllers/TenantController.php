@@ -64,6 +64,9 @@ class TenantController extends Controller
     	$tenant = Tenant::create($validatedData);
     	    	
     	$tenant->domains()->create(['domain' => $validatedData['domain']]);
+    	
+    	// TODO create local storage for the tenant
+    	// \storage/tenantAbbeville
     	    	
     	return redirect ( '/tenants' )->with ( 'success', 'Tenant ' . $validatedData ['id'] . ' has been created' );
     }
