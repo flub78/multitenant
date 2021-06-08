@@ -25,9 +25,9 @@
     <tbody>
         @foreach($tenants as $tenant)
         <tr>
-            <td>{{$tenant->id}}</td>
-            
+            <td>{{$tenant->id}}</td>            
 			<td><a href="{{ $tenant->url()}}" >{{$tenant->domain}}</a></td>
+
             <td><a href="{{ route('tenants.edit', $tenant->id)}}" class="btn btn-primary">Edit</a></td>
             
             <td>

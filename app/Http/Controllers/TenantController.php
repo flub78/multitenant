@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Stancl\Tenancy\Database\Models\Domain;
 use App\Models\Tenant;
 
 class TenantController extends Controller
@@ -34,9 +35,8 @@ class TenantController extends Controller
      */
     public function index()
     {
-  
-    	$tenants = Tenant::all ();
-    	    	
+    	$tenants = Tenant::all();
+    	
     	return view ( 'tenants/index', compact ( 'tenants' ) );
     }
 
@@ -62,6 +62,7 @@ class TenantController extends Controller
     	    	
     	// $tenant = Tenant::create(['id' => $validatedData['id'], 'email' => $validatedData['email']]);
     	$tenant = Tenant::create($validatedData);
+    	    	
     	$tenant->domains()->create(['domain' => $validatedData['domain']]);
     	    	
     	return redirect ( '/tenants' )->with ( 'success', 'Tenant ' . $validatedData ['id'] . ' has been created' );
@@ -104,10 +105,14 @@ class TenantController extends Controller
     	$domain = $validatedData ['domain'];
     	unset($validatedData ['domain']);
     	
-    	Tenant::whereId ( $id )->update ( $validatedData );
+    	$tenant = Tenant::whereId ( $id );
+    	$tenant->update ( $validatedData );
     	
-    	$id = $validatedData ['id'];
-    	return redirect ( '/tenants' )->with ( 'success', "Tenant $id has been updated" );
+    	var_dump($tenant);exit;
+    	// $tenant->domains()->update(['domain' => $domain]);
+    	
+    	$tenant_name = $validatedData ['id'];
+    	return redirect ( '/tenants' )->with ( 'success', "Tenant $tenant_name has been updated" );
     	
     }
 

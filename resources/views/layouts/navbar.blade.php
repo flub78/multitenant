@@ -18,10 +18,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     
-@if (auth()->user()->isAdmin())    				
                     <ul class="navbar-nav mr-auto">
+@if (auth()->user()->isAdmin())    				
     					<li class="nav-item dropdown">
       						<a class="nav-link" href="{{ route('users.index') }}" id="navbardrop1" >Users</a>     						
+     					</li>
+    					<li class="nav-item dropdown">
+      						<a class="nav-link" href="{{ route('tenants.index') }}" id="navbardrop1" >Tenants</a>     						
      					</li>
 @endif    					
 
