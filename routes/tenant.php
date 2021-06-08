@@ -32,7 +32,9 @@ Route::middleware([
 		
 	Auth::routes();
 	
-    Route::get('/', function () {
-    	return view('welcome');
-    });
+	// admin routes
+	Route::group(['middleware' => ['admin']], function () {
+		Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
+	});
+	
 });

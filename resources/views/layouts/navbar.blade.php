@@ -4,12 +4,15 @@
 @auth
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
+                    
                     @if (tenant('id'))
                     {{ " tenant=" . tenant('id') }}
-                    <a href="{{ str_replace(tenant('id') . '.', '', url('/')) }}" class="ml-4 text-sm text-gray-700 underline">Back to Central</a>                    
+                    <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-gray-700 underline">Back to {{config('tenancy.central_domains')[0]}}</a>
+                    
                     @else
                     {{ " Central Application"}}
                     @endif
+                    
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -23,10 +26,13 @@
     					<li class="nav-item dropdown">
       						<a class="nav-link" href="{{ route('users.index') }}" id="navbardrop1" >Users</a>     						
      					</li>
+     					
+     					@unless (tenant('id'))
     					<li class="nav-item dropdown">
       						<a class="nav-link" href="{{ route('tenants.index') }}" id="navbardrop1" >Tenants</a>     						
      					</li>
-@endif    					
+       				   @endunless
+@endif	
 
                     </ul>
 @endauth
