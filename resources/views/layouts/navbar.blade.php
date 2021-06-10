@@ -8,7 +8,6 @@
                     @if (tenant('id'))
                     {{ " tenant=" . tenant('id') }}
                     <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-gray-700 underline">Back to {{config('tenancy.central_domains')[0]}}</a>
-                    {{storage_path()}}
                     @else
                     {{ " Central Application"}}
                     @endif
@@ -23,16 +22,36 @@
                     
                     <ul class="navbar-nav mr-auto">
 @if (auth()->user()->isAdmin())    				
+                    
+@if (tenant('id'))
+<!-- Tenant => admin dropdown -->
     					<li class="nav-item dropdown">
-      						<a class="nav-link" href="{{ route('users.index') }}" id="navbardrop1" >Users</a>     						
+      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop1" data-toggle="dropdown">Admin</a>
+      						
+      						<div class="dropdown-menu">
+        						<a class="dropdown-item" href="{{ route('users.index') }}">Users</a>
+        						<a class="dropdown-item" href="{{ route('backup.index') }}">Backup</a>
+      						</div>
+    					</li>
+
+@else
+<!-- Central flat admin navbar -->
+                    
+    					<li class="nav-item dropdown">
+      						<a class="nav-link" href="{{ route('users.index') }}" id="navbar1" >Users</a>     						
      					</li>
      					
-     					@unless (tenant('id'))
     					<li class="nav-item dropdown">
-      						<a class="nav-link" href="{{ route('tenants.index') }}" id="navbardrop1" >Tenants</a>     						
+      						<a class="nav-link" href="{{ route('tenants.index') }}" id="navbar2" >Tenants</a>     						
      					</li>
-       				   @endunless
-@endif	
+       				   
+       				   	<li class="nav-item dropdown">
+      						<a class="nav-link" href="{{ route('backup.index') }}" id="navbar3" >Backups</a>     						
+     					</li>
+     					
+@endif <!-- (tenant('id')) -->
+       				   
+@endif	<!-- (auth()->user()->isAdmin()) -->
 
                     </ul>
 @endauth
