@@ -4,14 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class BackupDelete extends Command
+class BackupDelete extends TenantCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'backup:delete {--force} {backup_id}';
+    protected $signature = 'backup:delete {--force} {--tenant= : one tenant} {backup_id}';
 
     /**
      * The console command description.
@@ -38,8 +38,15 @@ class BackupDelete extends Command
     public function handle()
     {
     	$backupId = $this->argument('backup_id');
+    	$tenant = $this->option('tenant');
+    	if (!$tenant) $tenant = "";
     	
-    	$dirpath = storage_path() . "/app/backup/";
+    	if ($tenant) {
+    		$dirpath = $this->backup_dirpath($tenant);
+    	} else {
+    		$dirpath = $this->backup_dirpath();
+    	}
+    	
     	$backup_list = scandir($dirpath);
     	
     	// Look for the file specified by the user
@@ -59,7 +66,7 @@ class BackupDelete extends Command
     	
     	// The backup exists
     	if ($this->option('force') || $this->confirm('Delete ' . $selected_file . '?')) {
-    		$filename = storage_path() . "/app/backup/" . $selected_file;
+    		$filename = $this->backup_fullname($tenant, $selected_file);
     		unlink($filename);
     		
     		if (file_exists($filename)) {

@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 // Use Storage;
 
-class BackupRestore extends Command
+class BackupRestore extends TenantCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'backup:restore {--force} {backup_id}';
+    protected $signature = 'backup:restore {--force} {--tenant= : one tenant} {backup_id}';
 
     /**
      * The console command description.
@@ -39,8 +39,14 @@ class BackupRestore extends Command
     public function handle()
     {
     	$backupId = $this->argument('backup_id');
+    	$tenant = $this->option('tenant');
+    	if (!$tenant) $tenant = "";
     	
-    	$dirpath = storage_path() . "/app/backup/";   	
+    	if ($tenant) {
+    		$dirpath = $this->backup_dirpath($tenant);
+    	} else {
+    		$dirpath = $this->backup_dirpath();
+    	}
     	$backup_list = scandir($dirpath);
     	
     	// Look for the file specified by the user
@@ -59,7 +65,8 @@ class BackupRestore extends Command
     	}
     	 	
     	// The backup exists
-    	$filename = storage_path() . "/app/backup/" . $selected_file;
+    	$filename = $this->backup_fullname($tenant, $selected_file);
+    	$database = $this->database_name($tenant);
     	
     	if ( $this->option('force') || $this->confirm('Are you sure you want to restore ' . $selected_file . ' ?')) {
     		
@@ -68,7 +75,7 @@ class BackupRestore extends Command
     		$command = "gzip -d < " . $filename . 
     			"| $mysql --user=" . env('DB_USERNAME') .
     			" --password=" . env('DB_PASSWORD') .
-    			" --host=" . env('DB_HOST') . " " . env('DB_DATABASE');
+    			" --host=" . env('DB_HOST') . " " . $database;
     		    		
     		$returnVar = NULL;
     		$output  = NULL;

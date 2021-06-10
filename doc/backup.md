@@ -2,7 +2,7 @@
 
 Both central and tenant databases can be backed up and restored independently. Either with artisan commands or through the backup controller.
 
-## Artisan commands
+## PHP artisan commands
 
 ### For central database
 
@@ -15,14 +15,9 @@ Both central and tenant databases can be backed up and restored independently. E
 
 ### For tenants
 
-    php artisan tenants:run --tenants=Abbeville backup:list
-    php artisan tenants:run --tenants=Abbeville backup:create
-    php artisan tenants:run backup:delete 4 --tenants=Abbeville
-    
-or better
-
-    php artisan --tenants=Abbeville backup:create
-    php artisan --tenants=Abbeville backup:list
-    php artisan --tenants=Abbeville backup:delete 2
+    php artisan --tenant=Abbeville backup:create
+    php artisan --tenant=Abbeville backup:list
+    php artisan --tenant=Abbeville backup:delete 2
+    php artisan --tenant=Abbeville backup:restore 2
     php artisan --all backup:create 
      

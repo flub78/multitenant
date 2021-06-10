@@ -2,17 +2,16 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class BackUpCreate extends Command
+class BackUpCreate extends TenantCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'backup:create';
+    protected $signature = 'backup:create  {--all : All tenants} {--tenant= : one tenant}';
 
     /**
      * The console command description.
@@ -31,25 +30,53 @@ class BackUpCreate extends Command
         parent::__construct();
     }
 
+    private function backup(string $tenant_id = "") {
+    	
+    	$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
+    	
+    	$database = $this->database_name($tenant_id);
+    	$fullname = $this->backup_fullname($tenant_id);
+    	
+    	if ($database && $fullname) {
+    		$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
+    		
+    		$cmd = "$mysqldump --user=" . env('DB_USERNAME') .
+    		" --password=" . env('DB_PASSWORD') .
+    		" --host=" . env('DB_HOST') . " $database " . 
+    		"  | gzip > $fullname";
+    		
+    		$returnVar = NULL;
+    		$output  = NULL;
+    		
+    		// echo $cmd;
+    		exec($cmd, $output, $returnVar);
+    		
+    		echo "backup $fullname created\n"; 
+    	}
+    }
+    
     /**
      * Execute the console command.
      *
      * @return int
      */
     public function handle()
-    {
-        $filename = "backup-" . Carbon::now()->format('Y-m-d_His') . ".gz";
+    {   	
+    	// one tenant backup
+    	if ($this->option('tenant')) {
+    		$this->backup($this->option('tenant'));
+    		return 0;
+    	}
+    	
+    	// backup of the central database
+        $this->backup();
+     
+        // backup of all the tenants
+        if ($this->option('all')) {
+        	foreach ($this->tenant_id_list() as $tenant_id) {
+        		$this->backup($tenant_id);
+        	}
+        }
         
-        $mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
-        
-        $command = "$mysqldump --user=" . env('DB_USERNAME') .
-        	" --password=" . env('DB_PASSWORD') . 
-        	" --host=" . env('DB_HOST') . " " . env('DB_DATABASE') .
-        	"  | gzip > " . storage_path() . "/app/backup/" . $filename;
-                
-        $returnVar = NULL;
-        $output  = NULL;
-        
-        exec($command, $output, $returnVar);
     }
 }

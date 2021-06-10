@@ -2,10 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Tenant;
-
-class BackupList extends Command
+class BackupList extends TenantCommand
 {
     /**
      * The name and signature of the console command.
@@ -20,6 +17,7 @@ class BackupList extends Command
      * @var string
      */
     protected $description = 'List the local backups';
+    
 
     /**
      * Create a new command instance.
@@ -54,14 +52,14 @@ class BackupList extends Command
      * @param string $tenant
      */
     public function listTenantBackup(string $tenant_id) {
-    	$tnt = Tenant::whereId ( $tenant_id )->first();
     	
-    	if (!$tnt) {
+    	$backup_storage = $this->backup_dirpath($tenant_id);
+    	
+    	if (!$backup_storage) {
     		echo "tenant $tenant_id not found";
     		return;
     	}
-    	$database = $tnt['tenancy_db_name'];
-    	$this->listBackups(storage_path() . "/$database/app/backup", "tenant=" . $tenant_id);
+    	$this->listBackups($backup_storage, "tenant=" . $tenant_id);
     }
     
     /**
@@ -76,12 +74,11 @@ class BackupList extends Command
     		return 0;
     	}
     	
-    	$this->listBackups(storage_path() . "/app/backup", "central database");
+    	$this->listBackups($this->backup_dirpath(), "central database");
     	
     	if ($this->option('all')) {
-    		$tenants = Tenant::all();
-    		foreach ($tenants as $tenant) {
-    			$this->listTenantBackup($tenant->id);
+    		foreach ($this->tenant_id_list() as $tenant_id) {
+    			$this->listTenantBackup($tenant_id);
     		}
     	}
     	   	    	    	
