@@ -1,0 +1,1 @@
+php vendor\phpunit\phpunit\phpunit --testdox

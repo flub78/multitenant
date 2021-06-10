@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Tenant;
 use Carbon\Carbon;
+use App\Helpers\CommonTenant;
 
 
 /**
