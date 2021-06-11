@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="TestJenkins" default="ci" basedir=".">
+    <property name="source" value="src" />
+
+    <target name="ci"
+        description="Main contiuous integration job"
+        depends="clean,qa"
+    />
+
+    <target name="clean" description="Clean artefacts">
+        <delete dir="${project.basedir}/build/code-browser" />
+        <delete dir="${project.basedir}/build/coverage" />
+        <delete dir="${project.basedir}/build/logs" />
+        <delete dir="${project.basedir}/build/pdepend" />
+        <delete dir="${project.basedir}/build/doc" />
+
+        <delete file="${project.basedir}/build/checkstyle.xml" />
+        <delete file="${project.basedir}/build/jdepend-chart.svg" />
+        <delete file="${project.basedir}/build/jdepend-log.xml" />
+        <delete file="${project.basedir}/build/pdepensummary.xml" />
+        <delete file="${project.basedir}/build/phpmd.xml" />
+        <delete file="${project.basedir}/build/pyramid.svg" />
+        <delete file="${project.basedir}/build/phpcs.xml" />
+
+        <mkdir dir="${project.basedir}/build/code-browser" />
+        <mkdir dir="${project.basedir}/build/coverage" />
+        <mkdir dir="${project.basedir}/build/logs" />
+        <mkdir dir="${project.basedir}/build/pdepend" />
+        <mkdir dir="${project.basedir}/build/doc" />
+    </target>
+
+    <target name="qa" description="Lance les outils d'analyse">
+        <phingcall target="phploc" />
+        <phingcall target="pdepend" />
+        <phingcall target="phpmd" />
+        <phingcall target="phpcb" />
+        <phingcall target="phpcpd" />
+        <phingcall target="phpdoc" />
+        <phingcall target="phpcs" />
+
+        <!-- 
+        <phingcall target="phpunit" />
+
+        <phingcall target="phpcpd" />
+        <phingcall target="phpdoc" />
+
+         -->
+    </target>
+
+    <target name="phploc">
+        <exec logoutput="true" dir="${project.basedir}" 
+        command="phploc 
+        --log-csv '${project.basedir}/build/logs/phploc.csv'
+        --exclude '${project.basedir}/build' 
+        '${project.basedir}'" escape="false" />
+    </target>
+    
+    <target name="pdepend">
+        <exec logoutput="true" dir="${project.basedir}/" command="pdepend --jdepend-chart=build/jdepend-chart.svg --jdepend-xml=build/jdepend-log.xml --overview-pyramid=build/pyramid.svg --summary-xml=build/pdepensummary.xml app,bootstrap,config,public,database,resources,routes" escape="false" />
+     </target>
+    
+    <target name="phpmd">
+        <exec logoutput="true" dir="${project.basedir}/" command="phpmd ./app,./bootstrap,./config,./public,./database,./resources,./routes xml cleancode,codesize > build/logs/md.xml" escape="false" />
+    </target>
+    
+    <target name="phpcpd">
+        <exec logoutput="true" dir="${project.basedir}/" command="phpcpd app bootstrap config public database resources routes --log-pmd=build/logs/phpcpd.xml " escape="false" />
+    </target>
+    
+    <target name="phpcs">
+        <exec logoutput="true" dir="${project.basedir}/" command="phpcs app bootstrap config database resources routes --report-checkstyle=build/checkstyle.xml" escape="false" />
+    </target>
+    
+    <target name="phpdoc">
+        <exec logoutput="true" dir="${project.basedir}/" command="phpdoc run -d ./app,./bootstrap,./config,./public,./database,./resources,./routes -t build/doc" escape="false" />
+    </target>
+    
+    <target name="phpunit">
+         <exec logoutput="true" dir="${project.basedir}/application/tests" command="phpunit --stderr" escape="false" />
+    </target>
+    
+    <target name="phpcb">
+        <exec logoutput="true" command="phpcb --log '${project.basedir}/build/logs' --source '${project.basedir}/application/controllers' --source '${project.basedir}/application/helpers' --source '${project.basedir}/application/libraries' --source '${project.basedir}/application/models' --source '${project.basedir}/application/views' --output '${project.basedir}/build/code-browser'" escape="false" />
+    </target>
+    
+</project>
