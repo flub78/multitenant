@@ -3,8 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Helpers\TenantHelper;
 
-class BackUpCreate extends TenantCommand
+class BackUpCreate extends Command
 {
     /**
      * The name and signature of the console command.
@@ -13,7 +14,8 @@ class BackUpCreate extends TenantCommand
      */
     protected $signature = 'backup:create  {--all : All tenants} {--tenant= : one tenant}';
 
-    /**
+    /**:w
+     * 
      * The console command description.
      *
      * @var string
@@ -34,8 +36,8 @@ class BackUpCreate extends TenantCommand
     	
     	$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
     	
-    	$database = TenantCommand::database_name($tenant_id);
-    	$fullname = $this->backup_fullname($tenant_id);
+    	$database = TenantHelper::tenant_database($tenant_id);
+    	$fullname = TenantHelper::backup_fullname($tenant_id);
     	
     	if ($database && $fullname) {
     		$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';

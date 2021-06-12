@@ -66,6 +66,7 @@ class BackupArtisanTest extends TestCase {
 	 */
 	private function local_backup_count() {
 		$dirpath = storage_path () . "/app/backup/";
+		echo "dirpath = $dirpath\n";
 		$backup_list = scandir ( $dirpath );
 
 		return count ( $backup_list ) - 2;
@@ -93,7 +94,7 @@ class BackupArtisanTest extends TestCase {
 		$exitCode = Artisan::call('backup:create', []);
 		$this->assertEquals($exitCode, 0, "No error on backup:create");
 		
-		$this->assertEquals ( $this->local_backup_count (), $initial_count + 1, "a backup has been created" );
+		$this->assertEquals ($initial_count + 1,  $this->local_backup_count (),  "a backup has been created" );
 
 		$id = $initial_count + 1;
 		

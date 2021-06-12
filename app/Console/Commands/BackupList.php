@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
-class BackupList extends TenantCommand
+use App\Helpers\TenantHelper;
+use Illuminate\Console\Command;
+
+class BackupList extends Command
 {
     /**
      * The name and signature of the console command.
@@ -53,7 +56,7 @@ class BackupList extends TenantCommand
      */
     public function listTenantBackup(string $tenant_id) {
     	
-    	$backup_storage = $this->backup_dirpath($tenant_id);
+    	$backup_storage = TenantHelper::backup_dirpath($tenant_id);
     	
     	if (!$backup_storage) {
     		echo "tenant $tenant_id not found";
@@ -74,7 +77,7 @@ class BackupList extends TenantCommand
     		return 0;
     	}
     	
-    	$this->listBackups($this->backup_dirpath(), "central database");
+    	$this->listBackups(TenantHelper::backup_dirpath(), "central database");
     	
     	if ($this->option('all')) {
     		foreach ($this->tenant_id_list() as $tenant_id) {

@@ -3,9 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Helpers\TenantHelper;
+
 // Use Storage;
 
-class BackupRestore extends TenantCommand
+class BackupRestore extends Command
 {
     /**
      * The name and signature of the console command.
@@ -42,11 +44,7 @@ class BackupRestore extends TenantCommand
     	$tenant = $this->option('tenant');
     	if (!$tenant) $tenant = "";
     	
-    	if ($tenant) {
-    		$dirpath = $this->backup_dirpath($tenant);
-    	} else {
-    		$dirpath = $this->backup_dirpath();
-    	}
+    	$dirpath = TenantHelper::backup_dirpath($tenant);
     	$backup_list = scandir($dirpath);
     	
     	// Look for the file specified by the user
@@ -65,8 +63,8 @@ class BackupRestore extends TenantCommand
     	}
     	 	
     	// The backup exists
-    	$filename = $this->backup_fullname($tenant, $selected_file);
-    	$database = TenantCommand::database_name($tenant);
+    	$filename = TenantHelper::backup_fullname($tenant, $selected_file);
+    	$database = TenantHelper::tenant_database($tenant);
     	
     	if ( $this->option('force') || $this->confirm('Are you sure you want to restore ' . $selected_file . ' ?')) {
     		

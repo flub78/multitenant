@@ -3,8 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Helpers\TenantHelper;
 
-class BackupDelete extends TenantCommand
+class BackupDelete extends Command
 {
     /**
      * The name and signature of the console command.
@@ -41,11 +42,7 @@ class BackupDelete extends TenantCommand
     	$tenant = $this->option('tenant');
     	if (!$tenant) $tenant = "";
     	
-    	if ($tenant) {
-    		$dirpath = $this->backup_dirpath($tenant);
-    	} else {
-    		$dirpath = $this->backup_dirpath();
-    	}
+    	$dirpath = TenantHelper::backup_dirpath($tenant);
     	
     	$backup_list = scandir($dirpath);
     	
@@ -66,7 +63,7 @@ class BackupDelete extends TenantCommand
     	
     	// The backup exists
     	if ($this->option('force') || $this->confirm('Delete ' . $selected_file . '?')) {
-    		$filename = $this->backup_fullname($tenant, $selected_file);
+    		$filename = TenantHelper::backup_fullname($tenant, $selected_file);
     		unlink($filename);
     		
     		if (file_exists($filename)) {

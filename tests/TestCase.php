@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
 		
 		//Load .env.testing environment
 		$app->loadEnvironmentFrom('.env.testing');
-		
+		echo "\ntest database=" . ENV("DB_DATABASE") . "\n";
 		$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 		
 		return $app;
