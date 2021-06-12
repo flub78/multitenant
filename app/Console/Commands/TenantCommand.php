@@ -31,7 +31,7 @@ abstract class TenantCommand extends Command {
 	 * @param string $tenant_id
 	 * @return string
 	 */
-	public function database_name(string $tenant_id = "") {
+	public static function database_name(string $tenant_id = "") {
 		if ($tenant_id) {
 			$tnt = Tenant::whereId ( $tenant_id )->first ();
 
@@ -53,7 +53,7 @@ abstract class TenantCommand extends Command {
 	public function storage_path(string $tenant_id = "") {
 		if ($tenant_id) {
 			// tenant case
-			$db = $this->database_name ( $tenant_id );
+			$db = database_name ( $tenant_id );
 			if ($db) {
 				// regular tenant storage path
 				return storage_path () . "/$db";

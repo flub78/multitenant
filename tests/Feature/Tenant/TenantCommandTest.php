@@ -4,7 +4,7 @@ namespace Tests\Feature\Tenant;
 
 use Tests\TenantTestCase;
 
-class TenantFeatureExampleTest extends TenantTestCase
+class TenantCommandTest extends TenantTestCase
 {
 	protected $tenancy = true;
 	
@@ -23,4 +23,6 @@ class TenantFeatureExampleTest extends TenantTestCase
 
         $response->assertStatus(200);
     }
+    
+    
 }

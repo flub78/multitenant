@@ -66,7 +66,7 @@ class BackupRestore extends TenantCommand
     	 	
     	// The backup exists
     	$filename = $this->backup_fullname($tenant, $selected_file);
-    	$database = $this->database_name($tenant);
+    	$database = TenantCommand::database_name($tenant);
     	
     	if ( $this->option('force') || $this->confirm('Are you sure you want to restore ' . $selected_file . ' ?')) {
     		

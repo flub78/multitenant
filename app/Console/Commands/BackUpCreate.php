@@ -34,7 +34,7 @@ class BackUpCreate extends TenantCommand
     	
     	$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
     	
-    	$database = $this->database_name($tenant_id);
+    	$database = TenantCommand::database_name($tenant_id);
     	$fullname = $this->backup_fullname($tenant_id);
     	
     	if ($database && $fullname) {

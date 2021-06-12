@@ -9,7 +9,7 @@
  * delete a non existing backup
  * restore a non existing backup
  *
- * attempt to create, restore or delete a backup using the artisan commandes
+ * attempt to create, restore or delete a backup using the artisan commands
  */
 namespace tests\Feature;
 
