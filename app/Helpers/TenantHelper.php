@@ -43,7 +43,7 @@ class TenantHelper {
 			$db = TenantHelper::tenant_database ( $tenant_id );
 			if ($db) {
 				// regular tenant storage path
-				return storage_path () . "/$db";
+				return storage_path (); // . "/$db";
 			} else {
 				// tenant not found
 				return "";
@@ -63,7 +63,8 @@ class TenantHelper {
 	 * @return string
 	 */
 	public static function backup_dirpath(string $tenant_id = "") {
-		$storage = TenantHelper::storage_dirpath($tenant_id);
+		// TODO $storage = TenantHelper::storage_dirpath($tenant_id);
+		$storage = storage_path();
 		if ($storage)
 			return $storage . '/app/backup';
 		else 
@@ -98,5 +99,17 @@ class TenantHelper {
 		}
 		return $result;
 	}
+	
+	/**
+	 * count existing backups
+	 * @return number
+	 */
+	public static function backup_count(string $tenant_id = "") {
+		$dirpath = TenantHelper::backup_dirpath ($tenant_id);
+		$backup_list = scandir ( $dirpath );
+		
+		return count ( $backup_list ) - 2;
+	}
+	
 	
 }

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stancl\Tenancy\Database\Models\Domain;
 use App\Models\Tenant;
+use App\Helpers\DirHelper;
+use App\Helpers\TenantHelper;
+
 
 class TenantController extends Controller
 {
@@ -59,16 +62,19 @@ class TenantController extends Controller
     public function store(Request $request)
     {
     	$validatedData = $request->validate ( $this->rules );
+    	
+    	$tenant_id =  $validatedData ['id'];
     	    	
     	// $tenant = Tenant::create(['id' => $validatedData['id'], 'email' => $validatedData['email']]);
     	$tenant = Tenant::create($validatedData);
     	    	
     	$tenant->domains()->create(['domain' => $validatedData['domain']]);
     	
-    	// TODO create local storage for the tenant
-    	// \storage/tenantAbbeville
-    	    	
-    	return redirect ( '/tenants' )->with ( 'success', 'Tenant ' . $validatedData ['id'] . ' has been created' );
+    	// create local storage for the tenant
+    	$storage = TenantHelper::storage_dirpath($tenant_id);
+    	mkdir($torage, 0755, true);
+    	
+    	return redirect ( '/tenants' )->with ( 'success', "Tenant $tenant_id  has been created" );
     }
 
     /**
@@ -131,6 +137,10 @@ class TenantController extends Controller
     	$id = $tenant->id;
     	$tenant->delete ();
     	
+    	// delete tenant storage
+    	$storage = TenantHelper::storage_dirpath($id);
+		DirHelper::rrmdir($storage);
+		
     	return redirect ( '/tenants' )->with ( 'success', "Tenant $id has been deleted" );
     }
 }
