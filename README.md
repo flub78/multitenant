@@ -43,18 +43,6 @@ Short design notes are kept in the doc directory as a set of md files. Plantuml 
 
 The project is test driven with several level of tests. The goal is to provide a good test coverage for the the core features, so it should be easy to develop the business logic with the same spirit and add tests along the development.
 
-* Unit tests for models and simple classes.
-
-* Feature tests both for central application and tenant application. Test coverage is measured using xdebug both for unit and feature tests.
-
-* Dusk tests (browser controlled tests) for end to end testing
-
-* Deployment tests, (todo) the application is automatically installed from scratch and tested
-
-* Performance test (todo). Significant performance indicator should be automatically collected and it should be possible to compare the performance level of every build.
-
-* Robustness tests. (todo) These test check the behavior of the system under heavy load and should provide a way to size the servers against the expected load.
-
 
 ### Continuous integration
 
