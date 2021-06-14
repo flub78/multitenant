@@ -58,8 +58,7 @@ class TenantBackupArtisanTest extends TenantTestCase {
 	public function tearDown(): void {
 		parent::tearDown();
 		
-		// TODO cleanup test tenant local storage
-		echo "cleaning after tenant " . tenant('id');
+		// cleanup test tenant local storage
 		DirHelper::rrmdir($this->storage);
 	}
 	

@@ -14,25 +14,30 @@ class TenantHelper {
 	 */
 	public static function tenant_database (string $tenant_id = "") {
 		if ($tenant_id) {
-			// It is safer to retrieve the name from the database
-			$tnt = Tenant::whereId ( $tenant_id )->first ();
-
-			if ($tnt) {
-				return $tnt ['tenancy_db_name'];
-			} else {
-				echo "tenant $tenant_id not found in tenant table";
-				return "";
-			}
-			
-			// An alternative is tu follow the same convention than the tenant layer
-			// return "tenant" . $tenant_id;
+			return "tenant" . $tenant_id;			
 		} else {
 			return env ( 'DB_DATABASE' );
 		}
 	}
 	
 	/**
+	 * Check if a tenant exists
+	 * Multiple possible level, declared in tenant table, database exists on MySQL, storage exists, ...
+	 * @param string $tenant_id
+	 * @return boolean
+	 */
+	public static function exist (string $tenant_id = "") {
+		$tnt = Tenant::whereId ( $tenant_id )->first ();
+		if ($tnt) 
+			return true;
+		else
+			return false;
+	}
+	
+	/**
 	 * return storage path for tenant or central application
+	 * 
+	 * Warning: storage_path has been modified to return something different in central and tenant application 
 	 *
 	 * @param string $tenant_id
 	 * @return string
@@ -40,17 +45,7 @@ class TenantHelper {
 	public static function storage_dirpath(string $tenant_id = "") {
 		if ($tenant_id) {
 			// tenant case
-			$db = TenantHelper::tenant_database ( $tenant_id );
-			if ($db) {
-				// regular tenant storage path
-				return storage_path (); // . "/$db";
-			} else {
-				// tenant not found
-				return "";
-			}
-			
-			// by convention
-			// return storage_path () . "/tenant" . $tenant_id;
+			return storage_path () . "/tenant" . $tenant_id;
 		} else {
 			return storage_path ();
 		}
@@ -63,12 +58,7 @@ class TenantHelper {
 	 * @return string
 	 */
 	public static function backup_dirpath(string $tenant_id = "") {
-		// TODO $storage = TenantHelper::storage_dirpath($tenant_id);
-		$storage = storage_path();
-		if ($storage)
-			return $storage . '/app/backup';
-		else 
-			return "";
+		return storage_path() . '/app/backup';
 	}
 	
 	/**

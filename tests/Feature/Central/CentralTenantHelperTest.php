@@ -11,24 +11,27 @@ use App\Helpers\DirHelper;
  * @author frederic
  *
  */
-class TenantHelperTest extends TenantTestCase
+class CentralTenantHelperTest extends TenantTestCase
 {
  
-	protected $tenancy = true;
+	protected $tenancy = false;
 		
 	public function test_storage_dirpath() {
-    	$tenant = tenant('id');
-    	$tenant_storage_dirpath = storage_path();
-    	
+    	$tenant = "Abbeville";
+    	$tenant_storage_dirpath = TenantHelper::storage_dirpath($tenant);
+    	echo $tenant_storage_dirpath;
     	$pos = strpos($tenant_storage_dirpath, "tenant");
     	$this->assertTrue($pos > 0, "tenant in storage path");
 
     	$pos = strpos($tenant_storage_dirpath, $tenant);
     	$this->assertTrue($pos > 0, "tenant id in storage path");
+    	
+    	$storage_dirpath = TenantHelper::storage_dirpath("");
+    	$this->assertEquals(storage_path(), $storage_dirpath);
     }
     
     public function test_tenant_database() {
-    	$tenant = tenant('id');
+    	$tenant = "Abbeville";
     	
     	$central_db = TenantHelper::tenant_database();
     	$this->assertNotEquals($central_db, "", "$central_db not empty");
@@ -39,15 +42,13 @@ class TenantHelperTest extends TenantTestCase
     }
     
     public function test_backup_dirpath(){
-    	$tenant = tenant('id');
+    	$tenant = "Abbeville";
     	$this->assertEquals(TenantHelper::backup_dirpath($tenant), storage_path() . '/app/backup');
     	
     }
     
-    public function test_exists() {
-    	$tenant = tenant('id');
-    	$this->assertTrue(TenantHelper::exist($tenant), "existing tenant");
-    	
-    	$this->assertFalse(TenantHelper::exist("non existing"), "non existing tenant");
+    public function test_tenant_id_list() {
+    	$list = TenantHelper::tenant_id_list();
+    	$this->assertIsArray($list);
     }
 }
