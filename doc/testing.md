@@ -37,9 +37,12 @@ phpunit.xml
    <env name="DB_CONNECTION" value="mysql_test"/>
    
 TestCase loads a specific environment for testing:
+
     $app->loadEnvironmentFrom('.env.testing');
     
 # Browser controlled End to End testing
+
+Laravel Dusk provides an easy-to-use browser automation and testing API. It is similar to Selenium.
 
 ## Installation
 
