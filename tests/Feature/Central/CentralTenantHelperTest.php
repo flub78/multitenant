@@ -42,8 +42,10 @@ class CentralTenantHelperTest extends TenantTestCase
     }
     
     public function test_backup_dirpath(){
+    	$this->assertEquals(TenantHelper::backup_dirpath(), storage_path() . '/app/backup');
+    	
     	$tenant = "Abbeville";
-    	$this->assertEquals(TenantHelper::backup_dirpath($tenant), storage_path() . '/app/backup');
+    	$this->assertEquals(TenantHelper::backup_dirpath($tenant), storage_path() . "/tenant$tenant/app/backup");
     	
     }
     

@@ -57,6 +57,7 @@ class BackupList extends Command
     public function listTenantBackup(string $tenant_id) {
     	
     	$backup_storage = TenantHelper::backup_dirpath($tenant_id);
+    	echo "backup storage for $tenant_id = $backup_storage\n";
     	
     	if (!$backup_storage) {
     		echo "tenant $tenant_id not found";

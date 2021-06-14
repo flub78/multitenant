@@ -21,6 +21,8 @@ use App\Helpers\DirHelper;
 
 class TenantBackupArtisanTest extends TenantTestCase {
 
+	protected $tenancy = true;
+	
 	// Clean up the database
 	// Not refreshing the database may break others tests
 	// use RefreshDatabase; (not usable in Tenant context)
@@ -37,31 +39,7 @@ class TenantBackupArtisanTest extends TenantTestCase {
 	function __destruct() {
 		$this->user->delete ();
 	}
-	
-	public function setUp(): void
-	{
-		parent::setUp();
 		
-		$tenant = tenant('id');
-		
-		// TODO create test tenant local storage
-		echo "\nsetup for tenant $tenant\n";
-		// TODO $this->storage = TenantHelper::storage_dirpath($tenant);
-		$this->storage = storage_path();
-		$this->backup_dirpath = TenantHelper::backup_dirpath($tenant);
-		echo "tenant backup dirpath $this->backup_dirpath\n";
-		if (!is_dir($this->backup_dirpath)) {
-			mkdir($this->backup_dirpath, 0777, true);
-		}
-	}
-	
-	public function tearDown(): void {
-		parent::tearDown();
-		
-		// cleanup test tenant local storage
-		DirHelper::rrmdir($this->storage);
-	}
-	
 	public function test_setup() {
 		$this->assertTrue(is_dir($this->backup_dirpath));	
 	}
@@ -76,7 +54,7 @@ class TenantBackupArtisanTest extends TenantTestCase {
 	 * delete the backup
 	 * check that there is one less backup in the local storage
 	 */
-	public function ttest_backup_create_delete() {
+	public function test_backup_create_delete() {
 		$this->be ( $this->user );
 		
 		$tenant = tenant('id');
@@ -84,11 +62,11 @@ class TenantBackupArtisanTest extends TenantTestCase {
 		$initial_count = TenantHelper::backup_count ($tenant);
 				
 		// backup list
-		$exitCode = Artisan::call('backup:list', ['--tenant' => $tenant]);
+		$exitCode = Artisan::call("backup:list --tenant=$tenant");
 		$this->assertEquals($exitCode, 0, "No error on backup:list");
 		
 		// create a backup
-		$exitCode = Artisan::call("backup:create", ['--tenant' => $tenant]);
+		$exitCode = Artisan::call("backup:create --tenant=$tenant");
 		$this->assertEquals($exitCode, 0, "No error on backup:create");
 		
 		$this->assertEquals ($initial_count + 1,  TenantHelper::backup_count ($tenant),  "a backup has been created" );
@@ -101,7 +79,9 @@ class TenantBackupArtisanTest extends TenantTestCase {
 		 */
 		
 		$exitCode = Artisan::call("backup:delete --force --tenant=$tenant $id");
-		$this->assertEquals ($initial_count,  TenantHelper::backup_count (),  "a backup has been deleted" );				
+		$this->assertEquals ($initial_count,  TenantHelper::backup_count ($tenant),  "a backup has been deleted" );
+		
+		
 	}
 
 	

@@ -43,22 +43,38 @@ class TenantHelper {
 	 * @return string
 	 */
 	public static function storage_dirpath(string $tenant_id = "") {
-		if ($tenant_id) {
-			// tenant case
-			return storage_path () . "/tenant" . $tenant_id;
+		if (!tenant('id')) {
+			// Called from central application	
+			if ($tenant_id) {
+				// tenant case
+				return storage_path () . "/tenant" . $tenant_id;
+			} else {
+				return storage_path ();
+			}
 		} else {
-			return storage_path ();
+			// called from a tenant
+			if (tenant('id') == $tenant_id) {
+				// request for the current tenant
+				return storage_path();
+			} else {
+				// request for another tenant, not sure that it should be allowed
+				return "";
+			}
 		}
 	}
 	
 	/**
 	 * return backup storage
-	 *
+	 * 
 	 * @param string $tenant_id
 	 * @return string
 	 */
 	public static function backup_dirpath(string $tenant_id = "") {
-		return storage_path() . '/app/backup';
+		$storage = TenantHelper::storage_dirpath($tenant_id);
+		if ($storage) 
+			return $storage . '/app/backup';
+		else
+			return "";
 	}
 	
 	/**
@@ -72,7 +88,7 @@ class TenantHelper {
 		}
 		$storage = TenantHelper::backup_dirpath($tenant_id);
 		if ($storage) {
-			return $storage . '/' . $filename;
+			return $storage . DIRECTORY_SEPARATOR . $filename;
 		}
 		return "";
 	}
@@ -100,6 +116,5 @@ class TenantHelper {
 		
 		return count ( $backup_list ) - 2;
 	}
-	
-	
+		
 }
