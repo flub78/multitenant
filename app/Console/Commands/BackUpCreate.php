@@ -75,7 +75,7 @@ class BackUpCreate extends Command
      
         // backup of all the tenants
         if ($this->option('all')) {
-        	foreach ($this->tenant_id_list() as $tenant_id) {
+        	foreach (TenantHelper::tenant_id_list() as $tenant_id) {
         		$this->backup($tenant_id);
         	}
         }

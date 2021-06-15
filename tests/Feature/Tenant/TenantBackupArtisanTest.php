@@ -88,7 +88,7 @@ class TenantBackupArtisanTest extends TenantTestCase {
 	/**
 	 * 
 	 */
-	public function ttest_delete_non_existing_backup() {
+	public function test_delete_non_existing_backup() {
 		$tenant = tenant('id');
 		$exitCode = Artisan::call("backup:delete --force --tenant=$tenant 999999999");
 		$this->assertEquals($exitCode, 1, "Error on backup:delete");		
@@ -97,9 +97,20 @@ class TenantBackupArtisanTest extends TenantTestCase {
 	/**
 	 *
 	 */
-	public function ttest_restore_non_existing_backup() {
+	public function test_restore_non_existing_backup() {
 		$tenant = tenant('id');
 		$exitCode = Artisan::call("backup:restore --force --tenant=$tenant 999999999");
 		$this->assertEquals($exitCode, 1, "Error on backup:restore");
 	}
+	
+	public function test_backup_list_all() {
+		$exitCode = Artisan::call("backup:list --all");
+		$this->assertEquals($exitCode, 0, "No error on backup:list --all");
+	}
+	
+	public function test_backup_create_all() {
+		$exitCode = Artisan::call("backup:create --all");
+		$this->assertEquals($exitCode, 0, "No error on backup:create --all");
+	}
+	
 }

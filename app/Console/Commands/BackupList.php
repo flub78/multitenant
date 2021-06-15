@@ -57,10 +57,12 @@ class BackupList extends Command
     public function listTenantBackup(string $tenant_id) {
     	
     	$backup_storage = TenantHelper::backup_dirpath($tenant_id);
-    	echo "backup storage for $tenant_id = $backup_storage\n";
+    	echo "backup storage for $tenant_id = $backup_storage";
     	
-    	if (!$backup_storage) {
-    		echo "tenant $tenant_id not found";
+    	if ($backup_storage) {
+    		echo "backup storage for $tenant_id = $backup_storage\n";    		
+    	} else {
+    		echo "backup storage for $tenant_id = $backup_storage not found\n";    		
     		return;
     	}
     	$this->listBackups($backup_storage, "tenant=" . $tenant_id);
@@ -81,7 +83,7 @@ class BackupList extends Command
     	$this->listBackups(TenantHelper::backup_dirpath(), "central database");
     	
     	if ($this->option('all')) {
-    		foreach ($this->tenant_id_list() as $tenant_id) {
+    		foreach (TenantHelper::tenant_id_list() as $tenant_id) {
     			$this->listTenantBackup($tenant_id);
     		}
     	}
