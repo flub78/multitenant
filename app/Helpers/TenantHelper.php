@@ -53,13 +53,7 @@ class TenantHelper {
 			}
 		} else {
 			// called from a tenant
-			if (tenant('id') == $tenant_id) {
-				// request for the current tenant
-				return storage_path();
-			} else {
-				// request for another tenant, not sure that it should be allowed
-				return "";
-			}
+			return storage_path();
 		}
 	}
 	
@@ -71,10 +65,11 @@ class TenantHelper {
 	 */
 	public static function backup_dirpath(string $tenant_id = "") {
 		$storage = TenantHelper::storage_dirpath($tenant_id);
-		if ($storage) 
+		if ($storage) {
 			return $storage . '/app/backup';
-		else
+		} else {
 			return "";
+		}
 	}
 	
 	/**

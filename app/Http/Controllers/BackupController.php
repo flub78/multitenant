@@ -4,7 +4,7 @@ namespace app\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use App\Helpers\CommonTenant;
+use App\Helpers\TenantHelper;
 
 class BackupController extends Controller
 {
@@ -16,7 +16,7 @@ class BackupController extends Controller
 	 */
 	private function filename_from_index($id, $fullpath = false) {
 		
-		$dirpath = storage_path() . "/app/backup/";
+		$dirpath = TenantHelper::backup_dirpath();
 		$backup_list = scandir($dirpath);
 
 		// Look for the file specified by the user
@@ -25,7 +25,7 @@ class BackupController extends Controller
 			$num_id = $i - 1;
 			if (($num_id == $id) || ($backup_list[$i] == $id)) {
 				if ($fullpath) {
-					$filename = storage_path() . "/app/backup/" . $backup_list[$i];
+					$filename = $dirpath . DIRECTORY_SEPARATOR . $backup_list[$i];
 				} else {
 					$filename = $backup_list[$i];
 				}
@@ -61,7 +61,11 @@ class BackupController extends Controller
      */
     public function create()
     {
-        Artisan::call('backup:create', []);
+    	$tenant = tenant('id');
+    	if ($tenant)
+    		Artisan::call("backup:create --tenant=$tenant");
+    	else 
+        	Artisan::call('backup:create', []);
         return $this->index();
     }
 

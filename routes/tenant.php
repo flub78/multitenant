@@ -35,6 +35,12 @@ Route::middleware([
 	// admin routes
 	Route::group(['middleware' => ['admin']], function () {
 		Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
+		
+		// Backup controller is not a full resource
+		Route::get('/backup', [App\Http\Controllers\BackupController::class, 'index'])->name('backup.index')->middleware('auth');
+		Route::get('/backup/create', [App\Http\Controllers\BackupController::class, 'create'])->name('backup.create')->middleware('auth');
+		Route::get('/backup/{backup}/restore', [App\Http\Controllers\BackupController::class, 'restore'])->name('backup.restore')->middleware('auth');
+		Route::delete('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'destroy'])->name('backup.destroy')->middleware('auth');
 	});
 	
 });
