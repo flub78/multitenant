@@ -17,16 +17,11 @@ use Tests\TenantTestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use App\Helpers\TenantHelper;
-use App\Helpers\DirHelper;
 
 class TenantBackupArtisanTest extends TenantTestCase {
 
 	protected $tenancy = true;
 	
-	// Clean up the database
-	// Not refreshing the database may break others tests
-	// use RefreshDatabase; (not usable in Tenant context)
-
 	function __construct() {
 		parent::__construct ();
 

@@ -82,7 +82,7 @@ class BackupController extends Controller
         $filename = $this->filename_from_index($id);
         
         if ($filename) {
-        	echo "restoring $filename";
+        	// echo "restoring $filename";
         	Artisan::call('backup:restore', ['backup_id' => $filename, '--force' => true]);
         	return redirect('/backup')->with('success', 'Backup ' . $filename . " restored");
         }

@@ -19,7 +19,7 @@ class CentralTenantHelperTest extends TenantTestCase
 	public function test_storage_dirpath() {
     	$tenant = "Abbeville";
     	$tenant_storage_dirpath = TenantHelper::storage_dirpath($tenant);
-    	echo $tenant_storage_dirpath;
+    	// echo $tenant_storage_dirpath;
     	$pos = strpos($tenant_storage_dirpath, "tenant");
     	$this->assertTrue($pos > 0, "tenant in storage path");
 

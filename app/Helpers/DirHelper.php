@@ -38,7 +38,7 @@ class DirHelper {
 				} catch (Exception $e) {
 					$msg = $e->getMessage();
 					$next = 100 * $i;
-					echo "\n>>>>>>>>> Exception $msg, next attempt in $next usec\n";
+					// echo "\n>>>>>>>>> Exception $msg, next attempt in $next usec\n";
 					usleep($next);
 				}
 			}
