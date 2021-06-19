@@ -64,7 +64,7 @@ class TenantController extends Controller
     	$validatedData = $request->validate ( $this->rules );
     	
     	$tenant_id =  $validatedData ['id'];
-    	    	
+    	    	    	
     	// $tenant = Tenant::create(['id' => $validatedData['id'], 'email' => $validatedData['email']]);
     	$tenant = Tenant::create($validatedData);
     	    	

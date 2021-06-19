@@ -26,10 +26,13 @@ Test as a regular Laravel Application
 
 * Do not use RefreshDatabase
 
-There is an issue to test tenant with subdomains. On windows, I used to declare test tenants in the
-etc/hosts file. It is not compatible with dynamic creation of tenant for automated testing.
+#### On Windows
 
-So either I use always the same static tenant for testing or I need a way to dynamically declare the subdomain. 
+Test tenants must be declared in C:\Windows\System32\drivers\etc\hosts.
+
+    127.0.0.1   test.tenants.com
+    
+Unfortunately, it is not trivial under windows to use wildcard for subdomains. So the tenant "test" and the subdomain "test.tenants.com" will be used for testing.
 
 ## Test databases
 

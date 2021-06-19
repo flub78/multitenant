@@ -38,15 +38,13 @@ class CalendarEventControllerTest extends TenantTestCase {
 	
 	/**
 	 */
-	public function ttest_main_calendar_view() {
+	public function test_main_calendar_view() {
 		$this->be ( $this->user );
-		
-		// echo ("tenant = " . tenant('id'));
-		
+				
 		
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
 		
-		echo "url=" . $url;
+		echo "url=" . $url . "\n";
 		
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );

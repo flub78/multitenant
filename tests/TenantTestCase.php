@@ -19,6 +19,7 @@ abstract class TenantTestCase extends BaseTestCase
 		
 		if ($this->tenancy) {
 			
+			// Reset the domain and tenant database
 			DB::statement("SET foreign_key_checks=0");
 			DB::statement("DELETE FROM domains;");
 			Tenant::truncate();
@@ -44,7 +45,10 @@ abstract class TenantTestCase extends BaseTestCase
 	
 	public function initializeTenancy()
 	{
-		$tenant = Tenant::create();
+		$subdomain = 'test.tenants.com';
+		$tenant = Tenant::create(['id' => 'test', 'domain' => $subdomain]);
+		$tenant->domains()->create(['domain' => $subdomain]);
+		
 		tenancy()->initialize($tenant);
 		
 		$tenant = tenant('id');
