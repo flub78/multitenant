@@ -40,7 +40,7 @@ class TenantController extends Controller
     {
     	$tenants = Tenant::all();
     	
-    	return view ( 'tenants/index', compact ( 'tenants' ) );
+    	return view ( 'tenants_management.index', compact ( 'tenants' ) );
     }
 
     /**
@@ -50,7 +50,7 @@ class TenantController extends Controller
      */
     public function create()
     {
-    	return view ( 'tenants/create' );
+    	return view ( 'tenants_management.create' );
     }
 
     /**
@@ -97,7 +97,7 @@ class TenantController extends Controller
     public function edit($id)
     {
     	$tenant = Tenant::findOrFail ( $id );
-    	return view ( 'tenants/edit' )->with ( compact ( 'tenant' ) );
+    	return view ( 'tenants_management.edit' )->with ( compact ( 'tenant' ) );
     }
 
     /**

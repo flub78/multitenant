@@ -13,7 +13,8 @@
         </div><br />
         @endif
         
-            <h1>Central Application Home page</h1>
+            <h1>{{tenant('id')}}  Home page</h1>
+        
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -23,6 +24,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    {{tenant('id')}}  Home page
 
                     {{ __('You are logged in!') }}
                 </div>
