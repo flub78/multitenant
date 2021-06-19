@@ -2,6 +2,7 @@
 
 namespace app\Http\Controllers\Tenants;
 
+use app\Http\Controllers\Controller;
 use App\Models\Tenants\CalendarEvent;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class CalendarEventController extends Controller
      */
     public function index()
     {
-        //
+    	return view('tenants.calendar.calendar');
     }
 
     /**

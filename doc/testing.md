@@ -26,6 +26,11 @@ Test as a regular Laravel Application
 
 * Do not use RefreshDatabase
 
+There is an issue to test tenant with subdomains. On windows, I used to declare test tenants in the
+etc/hosts file. It is not compatible with dynamic creation of tenant for automated testing.
+
+So either I use always the same static tenant for testing or I need a way to dynamically declare the subdomain. 
+
 ## Test databases
 
 The mysql connection defined in config/database.php is used for manual testing.
