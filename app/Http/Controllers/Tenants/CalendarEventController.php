@@ -18,6 +18,26 @@ class CalendarEventController extends Controller
     	return view('tenants.calendar.calendar');
     }
 
+    public function json () {
+    	return 
+    '[
+        {
+          "title": "Event 1",
+          "start": "2021-06-22T09:00:00",
+          "end": "2021-06-22T18:00:00",
+          "startEditable": true
+        },
+        {
+          "title": "Event 2",
+          "start": "2021-06-22",
+          "end": "2021-06-22",
+          "startEditable": true,
+          "durationEditable": true,
+          "backgroundColor": "lightBlue"
+        }
+    ]';
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

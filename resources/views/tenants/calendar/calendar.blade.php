@@ -15,20 +15,10 @@
         
             <h1>{{tenant('id')}}  Calendar page</h1>
         
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    {{tenant('id')}}  Home page
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
+            
+            
+        <div id='calendar'></div>
+            
         </div>
     </div>
 </div>

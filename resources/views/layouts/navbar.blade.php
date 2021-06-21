@@ -34,6 +34,10 @@
       						</div>
     					</li>
 
+    					<li class="nav-item dropdown">
+      						<a class="nav-link" href="{{ route('calendar.index') }}" >Calendar</a>     						
+     					</li>
+     					
 @else
 <!-- Central flat admin navbar -->
                     
