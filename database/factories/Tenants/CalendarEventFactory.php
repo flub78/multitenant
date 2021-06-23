@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Tenants;
 
-use App\Models\CalendarEvent;
+use App\Models\Tenants\CalendarEvent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CalendarEventFactory extends Factory
@@ -21,8 +21,14 @@ class CalendarEventFactory extends Factory
      */
     public function definition()
     {
+    	$count = CalendarEvent::count();
+    	$next = $count + 1;
+    	$event = "event $next";
         return [
-            //
+            'title' => $event,
+        	'groupId' => 'appointement',
+        	'start' => '2021-06-23'
+        		
         ];
     }
 }

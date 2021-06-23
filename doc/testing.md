@@ -16,15 +16,18 @@
 
 ## Multi-tenant testing
 
+    https://tenancyforlaravel.com/docs/v3/testing
+    
 ### Central application
 
-Test as a regular Laravel Application
+To test your central app, just write normal Laravel tests.
 
 ### Tenants
 
-* Inherit from TenantTest to create a tenant context
+Inherit from TenantTest to create a tenant context
 
-* Do not use RefreshDatabase
+Note: If you're using multi-database tenancy & the automatic mode, it's not possible to use :memory: SQLite databases or the RefreshDatabase trait due to the switching of default database.
+
 
 #### On Windows
 

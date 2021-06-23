@@ -1,0 +1,11 @@
+cd storage
+mkdir logs
+mkdir framework
+mkdir framework\cache
+mkdir framework\cache\data
+mkdir framework\sessions
+mkdir framework\testing
+mkdir framework\views
+mkdir app
+mkdir app\backup
+cd ..

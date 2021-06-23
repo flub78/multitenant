@@ -72,7 +72,7 @@ class TenantController extends Controller
     	
     	// create local storage for the tenant
     	$storage = TenantHelper::storage_dirpath($tenant_id);
-    	mkdir($torage, 0755, true);
+    	mkdir($storage, 0755, true);
     	
     	return redirect ( '/tenants' )->with ( 'success', "Tenant $tenant_id  has been created" );
     }
@@ -117,7 +117,6 @@ class TenantController extends Controller
     	$tenant = Tenant::whereId ( $id );
     	$tenant->update ( $validatedData );
     	
-    	var_dump($tenant);exit;
     	// $tenant->domains()->update(['domain' => $domain]);
     	
     	$tenant_name = $validatedData ['id'];
