@@ -35,7 +35,7 @@
     					</li>
 
     					<li class="nav-item dropdown">
-      						<a class="nav-link" href="{{ route('calendar.index') }}" >Calendar</a>     						
+      						<a class="nav-link" href="{{ route('calendar.fullcalendar') }}" >Calendar</a>     						
      					</li>
      					
 @else

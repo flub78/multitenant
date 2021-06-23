@@ -5,22 +5,35 @@ namespace app\Http\Controllers\Tenants;
 use app\Http\Controllers\Controller;
 use App\Models\Tenants\CalendarEvent;
 use Illuminate\Http\Request;
+use App\Http\Requests\Tenants\CalendarEventRequest;
 
-class CalendarEventController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-    	return view('tenants.calendar.calendar');
-    }
+class CalendarEventController extends Controller {
+	
+	// name of the table
+	private $name = "calendar_events";
 
-    public function json () {
-    	return 
-    '[
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index() {
+		$events = CalendarEvent::all ();
+		return view ( 'tenants.calendar.index', compact ( 'events' ) );
+	}
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function fullcalendar() {
+		$events = CalendarEvent::all ();
+		return view ( 'tenants.calendar.calendar', compact ( 'events' ) );
+	}
+
+	public function json() {
+		return '[
         {
           "title": "Event 1",
           "start": "2021-06-22T09:00:00",
@@ -36,62 +49,59 @@ class CalendarEventController extends Controller
           "backgroundColor": "lightBlue"
         }
     ]';
-    }
-    
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create() {
+		return view ( 'tenants.calendar.create' );
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tenants\CalendarEvent  $calendarEvent
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CalendarEvent $calendarEvent)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(CalendarEventRequest $request) {
+		$validatedData = $request->validated ();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Tenants\CalendarEvent  $calendarEvent
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CalendarEvent $calendarEvent)
-    {
-        //
-    }
+		echo "store\n";
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tenants\CalendarEvent  $calendarEvent
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CalendarEvent $calendarEvent)
-    {
-        //
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param \App\Models\Tenants\CalendarEvent $calendarEvent
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(CalendarEvent $calendarEvent) {
+		echo "show\n";
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param \App\Models\Tenants\CalendarEvent $calendarEvent
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit(CalendarEvent $calendarEvent) {
+		echo "edit\n";
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 * @param \App\Models\Tenants\CalendarEvent $calendarEvent
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, CalendarEvent $calendarEvent) {
+		echo "update\n";
+	}
 
     /**
      * Remove the specified resource from storage.
@@ -101,6 +111,6 @@ class CalendarEventController extends Controller
      */
     public function destroy(CalendarEvent $calendarEvent)
     {
-        //
+    	echo "destroy\n";
     }
 }

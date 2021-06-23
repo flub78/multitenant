@@ -62,7 +62,7 @@ class TenantControllerTest extends TestCase {
 		$response->assertSeeText ( 'Domain' );
 		$response->assertSeeText ( 'Edit' );
 		$response->assertSeeText ( 'Delete' );
-		$response->assertSeeText ( 'create' );
+		$response->assertSeeText ( __('general.create') );
 	}
 
 	/**

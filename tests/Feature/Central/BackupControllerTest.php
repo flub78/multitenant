@@ -70,7 +70,7 @@ class BackupControllerTest extends TestCase {
 		$response->assertSeeText('Local backups');
 		$response->assertSeeText('Number');
 		$response->assertSeeText('Restore');
-		$response->assertSeeText('create backup');
+		$response->assertSeeText(__('general.create') . ' backup');
 		
 		// create a backup
 		$response = $this->get ( '/backup/create' );
