@@ -14,12 +14,18 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
+     * admin can be mass assignable allowing admin users to create others admin users
+     * However it is important to protect all URLs that modify users with the admin middleware.
+     * Forgetting to do that could allow users to gain unauthorizes access.
+     * 
      * @var array
      */
     protected $fillable = [
         'name',
         'email',
-    	'password', 'admin', 'active'
+    	'password', 
+    	'admin',  
+    	'active'
     ];
 
     /**

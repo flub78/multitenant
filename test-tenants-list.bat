@@ -1,0 +1,1 @@
+c:\xampp\mysql\bin\mysql.exe -u root < test-tenants-list.sql
