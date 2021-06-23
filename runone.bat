@@ -15,4 +15,4 @@
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantHelperTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantBackupControllerTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/CalendarEventControllerTest.php
-php vendor\phpunit\phpunit\phpunit tests/Unit/CalendarEventModelTest.php
+php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/CalendarEventModelTest.php

@@ -51,3 +51,11 @@ Modifiers list can be found on the same page. The main ones are:
 to migrate a tenant database
 
 see [Databases with tenants](databases_with_tenants.md)
+
+
+### Create form
+
+* Create a view
+* Create a Request
+
+    php artisan make:request Tenants\CalendarEventRequest

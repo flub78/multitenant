@@ -26,34 +26,34 @@ class CalendarEventModelTest extends TenantTestCase
         $initial_count = CalendarEvent::count();
         
         // Create
-        $user = CalendarEvent::factory()->make();        
-        $user->save();
+        $event = CalendarEvent::factory()->make();        
+        $event->save();
         
         // and a second
         CalendarEvent::factory()->make()->save();
         
         $count = CalendarEvent::count();
         $this->assertTrue($count == $initial_count + 2, "Two new elements in the table");
-        $this->assertDatabaseCount('users',  $initial_count + 2);
+        $this->assertDatabaseCount('calendar_events',  $initial_count + 2);
                 
         # Read
-        $stored = CalendarEvent::where('name', $user->name)->first();
+        $stored = CalendarEvent::where('id', $event->id)->first();
         
-        $this->assertTrue($user->equals($stored), "Checks the element fetched from the database");
+        $this->assertTrue($event->equals($stored), "Checks the element fetched from the database");
         
         // Update
-        $new_name = "updated user";
-        $new_email = 12;
-        $stored->name = $new_name;
-        $stored->email = $new_email;
+        $new_title = "updated title";
+        $new_backgroundColor = "red";
+        $stored->title = $new_title;
+        $stored->backgroundColor = $new_backgroundColor;
         
         $stored->save();
         
-        $back = CalendarEvent::where('name', $new_name)->first();
-        $this->assertEquals($back->email, $new_email, "After update");
-        $this->assertEquals($back->isAdmin(), false, "Not admin by default");
-        $this->assertDatabaseHas('users', [
-            'name' => $new_name,
+        $back = CalendarEvent::where('id', $event->id)->first();
+        $this->assertEquals($back->title, $new_title, "After update");
+        $this->assertEquals($back->backgroundColor, $new_backgroundColor, "Updated color");
+        $this->assertDatabaseHas('calendar_events', [
+            'title' => $new_title,
         ]);
         
         // Delete
@@ -61,8 +61,8 @@ class CalendarEventModelTest extends TenantTestCase
         $this->assertDeleted($stored);
         $count = CalendarEvent::count();
         $this->assertTrue($count == $initial_count + 1, "One less elements in the table");
-        $this->assertDatabaseMissing('users', [
-            'name' => $new_name,
+        $this->assertDatabaseMissing('calendar_events', [
+            'title' => $new_title,
         ]);
     }
     
@@ -70,9 +70,9 @@ class CalendarEventModelTest extends TenantTestCase
     public function test_deleting_non_existing_element () {
     	$initial_count = CalendarEvent::count();
     	
-    	$user = CalendarEvent::factory()->make();
-    	$user->id = 999999999;
-    	$user->delete();
+    	$event = CalendarEvent::factory()->make();
+    	$event->id = 999999999;
+    	$event->delete();
     	
     	$count = CalendarEvent::count();
     	$this->assertTrue($count == $initial_count, "No changes in database");

@@ -45,7 +45,7 @@ class CalendarEventController extends Controller
      */
     public function create()
     {
-        //
+        return view('tenants.calendar.create');
     }
 
     /**
@@ -56,7 +56,7 @@ class CalendarEventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    	echo "store\n";
     }
 
     /**
@@ -67,7 +67,7 @@ class CalendarEventController extends Controller
      */
     public function show(CalendarEvent $calendarEvent)
     {
-        //
+    	echo "show\n";
     }
 
     /**
@@ -78,7 +78,7 @@ class CalendarEventController extends Controller
      */
     public function edit(CalendarEvent $calendarEvent)
     {
-        //
+    	echo "edit\n";
     }
 
     /**
@@ -90,7 +90,7 @@ class CalendarEventController extends Controller
      */
     public function update(Request $request, CalendarEvent $calendarEvent)
     {
-        //
+    	echo "update\n";
     }
 
     /**
@@ -101,6 +101,6 @@ class CalendarEventController extends Controller
      */
     public function destroy(CalendarEvent $calendarEvent)
     {
-        //
+    	echo "destroy\n";
     }
 }

@@ -46,7 +46,7 @@ class CalendarEvent extends ModelWithLogs
     public function equals(CalendarEvent $x) {
     	foreach ($this->fillable as $attr) {
     		if ($this->$attr != $x->$attr) {
-    			// echo "$attr : " . ($this->$attr) . " != " . ($x->$attr);
+    			echo "$attr : " . ($this->$attr) . " != " . ($x->$attr);
     			return false;
     		}
     	}
