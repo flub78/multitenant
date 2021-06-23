@@ -8,6 +8,7 @@ use App\Models\Tenants\CalendarEvent;
 // use database\factories\CalendarEventFactory;
 
 class CalendarEventModelTest extends TenantTestCase
+
 {
     // Clean up the database
     // not for tenants
