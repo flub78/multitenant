@@ -83,7 +83,7 @@ class TenantControllerTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function ttest_users_edit_view_existing_element() {
+	public function test_users_edit_view_existing_element() {
 		
 		$id = $this->create_first();
 		
@@ -97,7 +97,7 @@ class TenantControllerTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function ttest_users_edit_view_unknown_element_return_404() {
+	public function test_users_edit_view_unknown_element_return_404() {
 		
 		$id = $this->create_first() + 1000;
 		
@@ -108,7 +108,7 @@ class TenantControllerTest extends TestCase {
 	/**
 	 * Test element storage
 	 */
-	public function ttest_users_store() {		
+	public function test_users_store() {		
 		
 		// to avoid the error: 419 = Authentication timeout
 		$this->withoutMiddleware();
@@ -129,7 +129,7 @@ class TenantControllerTest extends TestCase {
 	/**
 	 * Test element storage
 	 */
-	public function ttest_users_store_incorrect_element() {
+	public function test_users_store_incorrect_element() {
 		
 		// to avoid the error: 419 = Authentication timeout
 		$this->withoutMiddleware();
@@ -151,7 +151,7 @@ class TenantControllerTest extends TestCase {
 	/**
 	 * 
 	 */
-	public function ttest_users_update_and_delete() {
+	public function test_users_update_and_delete() {
 		$this->test_users_store();
 		
 		$initial_count = User::count();

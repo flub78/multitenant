@@ -13,8 +13,11 @@ Tenant application are selected by sub domains.
 ## Implementation
 
 The application uses the tenancy for Laravel module (see below).
+
 ## References
 
 * [Tenancy for Laravel](https://tenancyforlaravel.com/)
+
+* [Stancl module documentation](https://github.com/stancl/tenancy-docs)
 
 * [Multi-tenancy package comparison](https://tenancyforlaravel.com/docs/v3/package-comparison/)

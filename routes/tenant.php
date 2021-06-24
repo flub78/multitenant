@@ -34,7 +34,7 @@ Route::middleware([
 	 * Warning: routes are parsed in order of declaration and resource matches all the sub urls
 	 */
 	Route::get('calendar/fullcalendar', [App\Http\Controllers\Tenants\CalendarEventController::class, 'fullcalendar'])
-		->name('calendar.fullcalendar')->middleware('auth');
+	->name('calendar.fullcalendar')->middleware('auth');
 	
 	Route::get('/calendar/json', [App\Http\Controllers\Tenants\CalendarEventController::class, 'json'])
 		->name('calendar.json')->middleware('auth');
