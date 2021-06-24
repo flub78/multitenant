@@ -70,7 +70,7 @@ class ConfigurationControllerTest extends TenantTestCase {
 		$response->assertSeeText('Add a new configuration entry');
 	}
 	
-	public function ttest_store() {
+	public function test_store() {
 		// Post a creation request
 		$configuration = Configuration::factory()->make();
 		$key = $configuration->key;
@@ -78,20 +78,129 @@ class ConfigurationControllerTest extends TenantTestCase {
 		
 		$count = Configuration::count ();
 
+		$this->withoutMiddleware();
+		
 		$url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
-		echo "\nurl = $url\n";
-		$response = $this->post ( $url, ["key" => $key, "value" => $value] );
+		$elt = ["key" => $key, "value" => $value, '_token' => csrf_token()];
+		$response = $this->post ( $url, $elt );
 		$response->assertStatus ( 302 );
 		
-		$response->dumpHeaders();
-		$response->dumpSession();
-		$response->dump();
+		if (session('errors')) {
+			$this->assertTrue(session('errors'), "session has no errors");
+		}
+		
+		// $response->dumpHeaders();
+		// $response->dumpSession();
+		// $response->dump();
 		
 		$new_count = Configuration::count ();
 		$expected = $count + 1;
-		$this->assertEquals ( $expected, $new_count, "a configuration has been created, actual=$new_count, expected=$expected" );		
+		$this->assertEquals ( $expected, $new_count, "configuration created, actual=$new_count, expected=$expected" );		
 	}
 	
+	public function test_store_incorrect_value() {
+		// Post a creation request
+		$configuration = Configuration::factory()->make();
+		$key = "bad_key";
+		$value = $configuration->value;
+		
+		$count = Configuration::count ();
+		
+		$this->withoutMiddleware();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
+		$elt = ["key" => $key, "value" => $value, '_token' => csrf_token()];
+		$response = $this->post ( $url, $elt );
+		$response->assertStatus ( 302 );
+		
+		if (session('errors')) {
+			$this->assertTrue(true, "session has errors");
+		} else {
+			$this->assertTrue(false, "session has no errors");
+		}
+		
+		// $response->dumpHeaders();
+		// $response->dumpSession();
+		// $response->dump();
+		
+		$new_count = Configuration::count ();
+		$expected = $count;
+		$this->assertEquals ( $expected, $new_count, "configuration not created, actual=$new_count, expected=$expected" );
+	}
 	
+	public function test_show_page() {
+		$this->be ( $this->user );
+		
+		$configuration = Configuration::factory()->make();
+		$key = $configuration->key;
+		$configuration->save();
+				
+		$url = 'http://' . tenant('id'). '.tenants.com/configuration/' . $key ;
+
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+	}
+
+	public function test_edit_page() {
+		$this->be ( $this->user );
+		
+		$configuration = Configuration::factory()->make();
+		$key = $configuration->key;
+		$configuration->save();
+				
+		$url = 'http://' . tenant('id'). '.tenants.com/configuration/' . $key .'/edit';
+		
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		$response->assertSeeText('Edit configuration');		
+		// $response->dump();
+	}
+
+	public function test_update() {
+		$this->be ( $this->user );
+		
+		$configuration = Configuration::factory()->make();
+		$key = $configuration->key;
+		$value = $configuration->value;
+		$new_value = "new value";
+		
+		$this->assertNotEquals($value, $new_value);
+		$configuration->save();
+		
+		$this->withoutMiddleware();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/configuration/' . $key;
+		$elt = ["key" => $key, "value" => $new_value, '_token' => csrf_token()];
+		
+		$response = $this->put ( $url, $elt);
+		$response->assertStatus ( 302 );
+		
+		$back = Configuration::where('key', $key)->first();
+		
+		$this->assertEquals($new_value, $back->value);
+		
+		$back->delete();
+	}
+	
+	public function test_delete() {
+		$this->be ( $this->user );
+		
+		$configuration = Configuration::factory()->make();
+		$key = $configuration->key;
+		$configuration->save();
+		
+		$count = Configuration::count ();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/configuration/' . $key;
+		
+		$response = $this->delete ( $url);
+		$response->assertStatus ( 302 );
+		
+		$new_count = Configuration::count ();
+		$expected = $count - 1;
+		$this->assertEquals ( $expected, $new_count, "configuration deleted, actual=$new_count, expected=$expected" );
+		
+		// $response->dump();
+	}
 	
 }

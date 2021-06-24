@@ -3,9 +3,10 @@
 namespace App\Models\Tenants;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
+use App\Models\ModelWithLogs;
 
-class Configuration extends Model
+class Configuration extends ModelWithLogs
 {
     use HasFactory;
     
