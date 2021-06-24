@@ -31,6 +31,7 @@
       						<div class="dropdown-menu">
         						<a class="dropdown-item" href="{{ route('users.index') }}">Users</a>
         						<a class="dropdown-item" href="{{ route('backup.index') }}">Backup</a>
+        						<a class="dropdown-item" href="{{ route('configuration.index') }}">Configuration</a>
       						</div>
     					</li>
 

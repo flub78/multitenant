@@ -20,7 +20,7 @@ Then the migration is automatically applied during tenant creation
 
 In case of upgrade central database and tenant database must be migrated.
 
-Note that the central database should never be reset with existing tenants. It it is required, tenant should be deleted first and recreated after the migration. Normally it should ne be necessary.
+Note that the central database should never be reset with existing tenants. It it is required, tenant should be deleted first and recreated after the migration. Normally it should not be necessary.
 
 Upgrades of the central database should be rare. To do it
 

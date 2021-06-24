@@ -2,7 +2,8 @@
 
 The application uses the [Laravel configuration](https://laravel.com/docs/8.x/configuration) for global configuration (when all tenants are configured the same way).
 
-    $value = config('app.timezone');
+    $value = config('app.timezone');    // "UTC", "Europe/Paris"
+    $value = config('app.locale');      // "fr", "en"
     
 But it is quite obvious that configuration should be possible per tenant.
 

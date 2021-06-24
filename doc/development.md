@@ -12,8 +12,9 @@ Most ot features will imply the following steps
 
     php artisan make:model --all CalendarEvent
     
-    ?
-    php artisan make:model --all Tenants\CalendarEvent
+    php artisan make:model --all Tenants\Configuration
+    
+    ()
     
     php artisan make:factory Tenants\CalendarEventFactory -m Tenants\CalendarEvent
     
@@ -36,7 +37,6 @@ What is missing:
 * the tests
 
 Create a unit test for the model
-
 
 
 ### The migration
