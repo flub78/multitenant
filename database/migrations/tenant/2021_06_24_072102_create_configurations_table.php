@@ -13,16 +13,10 @@ class CreateConfigurationsTable extends Migration {
 	public function up() {
 		
 		/*
-		 * It is possible to use the key as primary index as it is a unique value.
-		 * However it is a bad idea to use user visible keys. Modifications may have
-		 * consequences.
-		 * 
-		 * For example it has been a nightmare to change a primary key make of a user first name
-		 * initial and name when a spelling mistake has been discovered. 
-		 * 
-		 * to be checked, it works fine with tenants where foreign keys are modified when
-		 * tenant ids are modified ...
+		 * Laravel seems to update foreign keys when a primary key field is updated. (to be confirmed).
+		 * If not, usage of primary keys visible to the user is not recommended.
 		 */
+		
 		Schema::create ( 'configurations', function (Blueprint $table) {
 			$table->primary ( 'key' );
 			$table->string ( 'key' );

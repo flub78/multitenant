@@ -49,5 +49,10 @@ The project is test driven with several level of tests. The goal is to provide a
 A jenkins server is in charge of the static analysis of the code and provide quality indicators.
 
 
+## Sources, references and inspiration
+
+[Laravel 8 CRUD tutorial](https://appdividend.com/2020/10/13/laravel-8-crud-tutorial-example-step-by-step-from-scratch/)
+    
+[Markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
 
