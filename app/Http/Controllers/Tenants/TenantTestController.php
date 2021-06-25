@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Tenants;
 
 use Illuminate\Http\Request;
-use app\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
+use App\Helpers\Config;
 
 class TenantTestController extends Controller
 {
@@ -26,7 +27,7 @@ class TenantTestController extends Controller
     {
     	echo ("Tenant Test Controller\n");
     	echo ("Tenant=" . tenant('id'));
-    	echo ("Local=" . config('app.locale'));
+    	echo ("Local=" . Config::config('app.locale'));
     	// return view('test');
     }
 }
