@@ -26,4 +26,5 @@ class TestController extends Controller
     {
         return view('test', ['locale' => Config::config('app.locale')]);
     }
+    
 }
