@@ -14,7 +14,7 @@ class BackupRestore extends Command
      *
      * @var string
      */
-    protected $signature = 'backup:restore {--force} {--tenant= : one tenant} {backup_id}';
+    protected $signature = 'backup:restore {--force : do not ask for confirmation} {--tenant= : Tenant to restore} {--pretend :  Dump the command that would be run} {backup_id}';
 
     /**
      * The console command description.
@@ -78,7 +78,11 @@ class BackupRestore extends Command
     		$returnVar = NULL;
     		$output  = NULL;
     		
-    		exec($command, $output, $returnVar);
+    		if ($this->option('pretend')) {
+    			echo "pretend: " . $command . "\n";
+    		} else {
+    			exec($command, $output, $returnVar);
+    		}
     		
     		echo 'backup ' . $selected_file . " restored";	
      		

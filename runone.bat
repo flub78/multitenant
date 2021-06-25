@@ -8,8 +8,9 @@
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/LoginTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/CentralTenantHelperTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/BackupControllerTest.php
-@rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/TenantControllerTest.php
+php vendor\phpunit\phpunit\phpunit tests/Feature/Central/TenantControllerTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/CentralHomeControllerTest.php
+@rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/AdminAccessTest.php
 
 @rem Tenant application tests
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantFeatureExampleTest.php

@@ -11,7 +11,7 @@
  *
  * attempt to create, restore or delete a backup as non admin
  */
-namespace tests\Feature;
+namespace tests\Feature\Central;
 
 use Tests\TestCase;
 use App\Models\User;

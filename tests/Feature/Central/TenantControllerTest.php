@@ -1,18 +1,16 @@
 <?php
 
-namespace tests\Feature;
+namespace tests\Feature\Central;
 
-use Tests\TestCase;
+use Tests\TenantTestCase;
 use App\Models\User;
+use App\Models\Tenant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TenantControllerTest extends TestCase {
-	
-	// protected $basename = "users";
-	
+class TenantControllerTest extends TenantTestCase {
 	
 	// Clean up the database
-	use RefreshDatabase;
+	// use RefreshDatabase;
 	
 	function __construct() {
 		parent::__construct ();
@@ -28,27 +26,6 @@ class TenantControllerTest extends TestCase {
 		$this->user->delete ();
 	}
 	
-	/**
-	 * Create an element and returns its id
-	 * @return int
-	 */
-	private function create_first() {
-		$this->be ( $this->user );
-		
-		$initial_count = User::count();
-		$this->assertTrue($initial_count == 0, "No element after refresh");
-		
-		// Create
-		$game = User::factory()->make();
-		$game->save();
-		$count = User::count();
-		$this->assertTrue($count == 1, "One element created");
-
-		# Read
-		$stored = User::where('name', $game->name)->first();
-		return ($stored->id);		
-	}
-
 	/**
 	 * Index view
 	 *
@@ -72,6 +49,7 @@ class TenantControllerTest extends TestCase {
 	 */
 	public function test_tenants_create_view() {
 		$this->be ( $this->user );
+		
 		$response = $this->get ( '/tenants/create' );
 		$response->assertStatus ( 200 );
 		$response->assertSeeText ( 'New tenant' );
@@ -83,99 +61,35 @@ class TenantControllerTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_users_edit_view_existing_element() {
+	public function test_tenant_edit_view_existing_element() {
+		$this->be ( $this->user );
 		
-		$id = $this->create_first();
+		$count = Tenant::count();
+		$this->assertNotEquals(0, $count, "at least one tenant exist"); 
 		
-		$response = $this->get ( "/users/$id/edit" );
+		$tnt = Tenant::first();
+		$this->assertNotNull($tnt);
+				
+		$id = $tnt->id;
+		$response = $this->get ( "/tenants/$id/edit" );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText ( 'Edit User' );
+		$response->assertSeeText ( 'Edit tenant' );
 	}
-	
+
 	/**
 	 * Edit view
 	 *
 	 * @return void
 	 */
-	public function test_users_edit_view_unknown_element_return_404() {
+	public function test_tenant_show() {
+		$this->be ( $this->user );
 		
-		$id = $this->create_first() + 1000;
+		$tnt = Tenant::first();
+		$this->assertNotNull($tnt);
 		
-		$response = $this->get ( "/users/$id/edit" );
-		$response->assertStatus ( 404 );	// not found		
+		$id = $tnt->id;
+		$response = $this->get ( "/tenants/$id" );
+		$response->assertStatus ( 200 );
 	}
-		
-	/**
-	 * Test element storage
-	 */
-	public function test_users_store() {		
-		
-		// to avoid the error: 419 = Authentication timeout
-		$this->withoutMiddleware();
-				
-		$initial_count = User::count();
-		
-		$elt = array('name' => 'Turlututu', 'email' => 'turlututu@free.fr', 'password' => 'password', 'password_confirmation' => 'password');
-		$response = $this->post('/users', $elt);
-		
-		if (session('errors')) {
-			$this->assertTrue(session('errors'), "session has no errors");
-		}
-		
-		$count = User::count();
-		$this->assertTrue($count == $initial_count + 1, "One new elements in the table");
-	}
-
-	/**
-	 * Test element storage
-	 */
-	public function test_users_store_incorrect_element() {
-		
-		// to avoid the error: 419 = Authentication timeout
-		$this->withoutMiddleware();
-		
-		$initial_count = User::count();
-		
-		$elt = array('name' => 'Turlututu', 'email' => 'go.email');
-		$response = $this->post('/users', $elt);
-		$response->assertStatus ( 302);
-		
-		if (!session('errors')) {
-			$this->assertTrue(session('errors'), "session has errors");
-		}
-		
-		$count = User::count();
-		$this->assertTrue($count == $initial_count, "No creation in the table");
-	}
-	
-	/**
-	 * 
-	 */
-	public function test_users_update_and_delete() {
-		$this->test_users_store();
-		
-		$initial_count = User::count();
-		
-		$stored = User::where('name', 'Turlututu')->first();
-		$this->assertEquals( $stored->email, 'turlututu@free.fr', "check retrieve value");
-		$new_email = 'new.email@free.fr';
-		$elt = array('name' => $stored->name, 'email' => $new_email, 'id' => $stored->id, 'password' => 'password', 'password_confirmation' => 'password');
-		
-		$url = "/users/" . $stored->id;
-		$response = $this->patch($url, $elt);
-		
-		$response->assertStatus (302);
-		
-		$this->assertNull(session('errors'), "session has no errors");
-		
-		$stored = User::where('name', 'Turlututu')->first();
-		$this->assertEquals( $stored->email, $new_email, "value updated");
-		
-		$url = "/users/" . $stored->id;
-		$this->delete($url);
-		$count = User::count();
-		$this->assertTrue($count == $initial_count - 1, "Element updated then deleted ($url)"); 
-	}
-	
 	
 }
