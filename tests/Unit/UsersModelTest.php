@@ -22,12 +22,15 @@ class UsersModelTest extends TestCase
     	        
         $initial_count = User::count();
         
-        // Create
+        // Create 2 users
         $user = User::factory()->make();        
-        $user->save();
+        $user2 = User::factory()->make();
+        $this->assertFalse($user->equals($user2));
         
-        // and a second
-        User::factory()->make()->save();
+        $this->assertTrue($user->isActive());
+
+        $user->save();
+        $user2->save();
         
         $count = User::count();
         $this->assertTrue($count == $initial_count + 2, "Two new elements in the table");

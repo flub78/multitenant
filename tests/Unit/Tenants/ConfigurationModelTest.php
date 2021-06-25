@@ -1,11 +1,10 @@
 <?php
 
-namespace tests\Unit;
+namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
 
 use App\Models\Tenants\Configuration;
-// use database\factories\ConfigurationFactory;
 
 class ConfigurationModelTest extends TenantTestCase
 
@@ -51,7 +50,7 @@ class ConfigurationModelTest extends TenantTestCase
         $new_value = "updated value";
         $stored->value = $new_value;
         
-        $stored->save();
+        $stored->update();
         
         $back = Configuration::where('key', $key)->first();
         $this->assertEquals($back->value, $new_value, "After update");
