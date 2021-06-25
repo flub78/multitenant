@@ -24,7 +24,8 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('You are logged in!') }}                    
+                    locale={{$locale}}
                 </div>
             </div>
         </div>

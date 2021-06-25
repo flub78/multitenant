@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Helpers\Config;
 
 class TestController extends Controller
 {
@@ -23,6 +24,6 @@ class TestController extends Controller
      */
     public function index()
     {
-        return view('test');
+        return view('test', ['locale' => Config::config('app.locale')]);
     }
 }
