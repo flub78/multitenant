@@ -1,21 +1,13 @@
 <?php
 
 /**
- * Test cases:
+ * Test cases: CalendarEvent CRUD
  *
- * Nominal: list backups, create a new one, checks that it exists and delete it.
- *
- * Error test case:
- * delete a non existing backup
- * restore a non existing backup
- *
- * attempt to create, restore or delete a backup as non admin
  */
 namespace tests\Feature\Tenant;
 
 use Tests\TenantTestCase;
 use App\Models\User;
-use App\Helpers\TenantHelper;
 
 class CalendarEventControllerTest extends TenantTestCase {
 	
@@ -36,21 +28,52 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 
 	
-	/**
-	 */
-	public function test_main_calendar_view() {
+	public function test_calendar_event_list() {
 		$this->be ( $this->user );
 				
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
-		
-		echo "url=" . $url . "\n";
-		
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;		
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
-		// $response->assertSeeText('calendar');
-		
+		$response->assertSeeText('New event');
 	}
 
+	public function test_calendar_event_fullcalendar() {
+		$this->be ( $this->user );
+		
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/fullcalendar' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		$response->assertSeeText('Calendar page');
+	}
+	
+	public function test_calendar_event_create() {
+		$this->be ( $this->user );
+				
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/create' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		$response->assertSeeText('Add Event');
+	}
+
+	public function test_calendar_json() {
+		$this->be ( $this->user );
+			
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/json' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+	}
+
+	public function test_calendar_event_store() {
+		$this->be ( $this->user );
+		
+		$this->withoutMiddleware();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
+		$response = $this->post ( $url, []);
+		$response->assertStatus ( 302 );
+	}
+	
 	
 }

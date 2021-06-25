@@ -24,6 +24,7 @@ class Config {
 			}
 		} catch (Exception $e) {
 			// likely central application, fall back to config
+			// echo "exception:" . $e->getMessage();
 		}
 		return config($key);
 	}

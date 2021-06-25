@@ -31,6 +31,7 @@ return [
         Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper::class,
+    	App\LocaleTenancyBootstrapper::class,
         // Stancl\Tenancy\Bootstrappers\RedisTenancyBootstrapper::class, // Note: phpredis is needed
     ],
 

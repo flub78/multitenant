@@ -36,8 +36,14 @@
     					</li>
 
     					<li class="nav-item dropdown">
-      						<a class="nav-link" href="{{ route('calendar.fullcalendar') }}" >Calendar</a>     						
-     					</li>
+      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">Calendar</a>
+      						
+      						<div class="dropdown-menu">
+        						<a class="dropdown-item" href="{{ route('calendar.fullcalendar') }}">Full Calendar</a>
+        						<a class="dropdown-item" href="{{ route('calendar.index') }}">Event list</a>
+        						<a class="dropdown-item" href="{{ route('calendar.create') }}">New event</a>
+      						</div>
+    					</li>
      					
 @else
 <!-- Central flat admin navbar -->

@@ -5,13 +5,9 @@ namespace tests\Feature\Central;
 use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenant;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TenantControllerTest extends TenantTestCase {
-	
-	// Clean up the database
-	// use RefreshDatabase;
-	
+		
 	function __construct() {
 		parent::__construct ();
 
