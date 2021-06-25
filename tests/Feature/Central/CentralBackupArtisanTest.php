@@ -69,6 +69,8 @@ class CentralBackupArtisanTest extends TestCase {
 		 * It seems that restoring a database while phpunit is running has some negative effects...
 		 * It blocks the test ....
     	 */
+		$exitCode = Artisan::call("backup:restore --pretend --force $id");
+		$this->assertEquals($exitCode, 0, "No error on backup:restore");
 		
 		$exitCode = Artisan::call("backup:delete --force $id");
 		$this->assertEquals ($initial_count,  TenantHelper::backup_count (),  "a backup has been deleted" );				
