@@ -12,15 +12,15 @@
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">
-    <caption>Users</caption>
+    <caption>{{__('users.title')}}</caption>
     <thead>
         <tr>
-          <td>Name</td>
-          <td>Email</td>
-          <td>Admin</td>
-          <td>Active</td>
-          <td >Edit</td>
-          <td >Delete</td>
+          <td>{{__('users.name')}}</td>
+          <td>{{__('users.email')}}</td>
+          <td>{{__('users.admin')}}</td>
+          <td>{{__('users.active')}}</td>
+          <td >{{__('general.edit')}}</td>
+          <td >{{__('general.delete')}}</td>
         </tr>
     </thead>
     
@@ -35,13 +35,13 @@
             <td>
             	<input type="checkbox"   {{($user->active) ? 'checked' : ''}} onclick="return false;" />
             </td>
-            <td><a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary">Edit</a></td>
+            <td><a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
             
             <td>
                 <form action="{{ route('users.destroy', $user->id)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+                  <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
                 </form>
             </td>
         </tr>
@@ -49,7 +49,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('users')}}/create"><button type="submit" class="btn btn-primary" >@lang('general.create') @lang('users.element')</button></a> 
+    <a href="{{url('users')}}/create"><button type="submit" class="btn btn-primary" >@lang('users.add')</button></a> 
 </div>  
 @endsection
 

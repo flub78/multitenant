@@ -1,0 +1,24 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Menu strings to translate (French version)
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+
+	'logout' => "Déconnection",
+	'tenant' => "locataire",
+	'Tenants' => 'Locataires',
+	'back_to' => "Retour à",
+	'admin' => "Admin",
+	'help' => "Aide",
+	'about' => "A propos",
+	'backups' => "Sauvegardes",
+	'users' => "Utilisateurs",
+	'passports' => "Passeport",
+	'configuration' => "Configuration",
+];

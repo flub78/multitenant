@@ -12,7 +12,7 @@
 
 <div class="card uper">
   <div class="card-header">
-    New user
+    {{__('users.new')}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -29,36 +29,36 @@
           <div class="form-group">
               @csrf
               
-              <label for="country_name">Name</label>
+              <label for="country_name">{{__('users.name')}}</label>
               <input type="text" class="form-control" name="name" value="{{ old('name') }}"/>
           </div>
           
           <div class="form-group">
-              <label for="cases">Email</label>
+              <label for="cases">{{__('users.email')}}</label>
               <input type="text" class="form-control" name="email" value="{{ old('email') }}"/>
           </div>
           
            <div class="form-group">
-              <label for="cases">Admin</label>
+              <label for="cases">{{__('users.admin')}}</label>
               <input type="checkbox" class="form-control" name="admin" value="1"  {{old('admin') ? 'checked' : ''}}/>
           </div>
           
            <div class="form-group">
-              <label for="cases">Active</label>
+              <label for="cases">{{__('users.active')}}</label>
               <input type="checkbox" class="form-control" name="active" value="1"  {{old('active') ? 'checked' : ''}}/>
           </div>
           
           <div class="form-group">
-              <label for="cases">Password</label>
+              <label for="cases">{{__('users.password')}}</label>
               <input type="password" class="form-control" name="password" value="{{ old('password') }}"/>
           </div>
 
           <div class="form-group">
-              <label for="cases">Confirm Password</label>
+              <label for="cases">{{__('users.confirm')}}</label>
               <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}"/>
           </div>
 
-          <button type="submit" class="btn btn-primary">Add User</button>
+          <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
       </form>
   </div>
 </div>

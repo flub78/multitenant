@@ -37,7 +37,12 @@
             <li style="color: #ef2929;">❌ C r u d</li>
             <li style="color: #555753;">✓ Deleting non existing element</li>
         </ul>
-        <h2 id="tests\Unit\ConfigurationModelTest">Configuration Model (tests\Unit\ConfigurationModel)</h2>
+        <h2 id="tests\Unit\ConfigHelperTest">Config Helper (tests\Unit\ConfigHelper)</h2>
+        <ul>
+            <li style="color: #555753;">✓ Unknow config value</li>
+            <li style="color: #555753;">✓ Not overwritten config value</li>
+        </ul>
+        <h2 id="tests\Unit\Tenants\ConfigurationModelTest">Configuration Model (tests\Unit\Tenants\ConfigurationModel)</h2>
         <ul>
             <li style="color: #555753;">✓ C r u d</li>
             <li style="color: #555753;">✓ Deleting non existing element</li>
@@ -46,6 +51,12 @@
         <ul>
             <li style="color: #555753;">✓ C r u d</li>
             <li style="color: #555753;">✓ Deleting non existing element</li>
+        </ul>
+        <h2 id="tests\Feature\Central\AdminAccessTest">Admin Access (tests\Feature\Central\AdminAccess)</h2>
+        <ul>
+            <li style="color: #555753;">✓ Admin user</li>
+            <li style="color: #555753;">✓ Non admin user</li>
+            <li style="color: #555753;">✓ Non active user</li>
         </ul>
         <h2 id="tests\Feature\Auth\LoginTest">Login (tests\Feature\Auth\Login)</h2>
         <ul>
@@ -61,7 +72,7 @@
             <li style="color: #555753;">✓ User cannot view the register form when authenticated</li>
             <li style="color: #555753;">✓ User can register and create a user</li>
         </ul>
-        <h2 id="tests\Feature\BackupControllerTest">Backup Controller (tests\Feature\BackupController)</h2>
+        <h2 id="tests\Feature\Central\BackupControllerTest">Backup Controller (tests\Feature\Central\BackupController)</h2>
         <ul>
             <li style="color: #555753;">✓ Backup create delete</li>
             <li style="color: #555753;">✓ Delete non existing backup</li>
@@ -92,10 +103,12 @@
         <ul>
             <li style="color: #555753;">✓ Active users can login</li>
         </ul>
-        <h2 id="tests\Feature\TenantControllerTest">Tenant Controller (tests\Feature\TenantController)</h2>
+        <h2 id="tests\Feature\Central\TenantControllerTest">Tenant Controller (tests\Feature\Central\TenantController)</h2>
         <ul>
             <li style="color: #555753;">✓ Tenants index view</li>
             <li style="color: #555753;">✓ Tenants create view</li>
+            <li style="color: #555753;">✓ Tenant edit view existing element</li>
+            <li style="color: #555753;">✓ Tenant show</li>
         </ul>
         <h2 id="tests\Feature\Central\TestControllerTest">Controller (tests\Feature\Central\Controller)</h2>
         <ul>
@@ -119,7 +132,22 @@
         </ul>
         <h2 id="tests\Feature\Tenant\CalendarEventControllerTest">Calendar Event Controller (tests\Feature\Tenant\CalendarEventController)</h2>
         <ul>
-            <li style="color: #555753;">✓ Main calendar view</li>
+            <li style="color: #555753;">✓ Calendar event list</li>
+            <li style="color: #555753;">✓ Calendar event fullcalendar</li>
+            <li style="color: #555753;">✓ Calendar event create</li>
+            <li style="color: #555753;">✓ Calendar json</li>
+            <li style="color: #555753;">✓ Calendar event store</li>
+        </ul>
+        <h2 id="tests\Feature\Tenant\ConfigurationControllerTest">Configuration Controller (tests\Feature\Tenant\ConfigurationController)</h2>
+        <ul>
+            <li style="color: #555753;">✓ Index page</li>
+            <li style="color: #555753;">✓ Create page</li>
+            <li style="color: #555753;">✓ Store</li>
+            <li style="color: #555753;">✓ Store incorrect value</li>
+            <li style="color: #555753;">✓ Show page</li>
+            <li style="color: #555753;">✓ Edit page</li>
+            <li style="color: #555753;">✓ Update</li>
+            <li style="color: #555753;">✓ Delete</li>
         </ul>
         <h2 id="tests\Feature\Tenant\TenantBackupArtisanTest">Tenant Backup Artisan (tests\Feature\Tenant\TenantBackupArtisan)</h2>
         <ul>
@@ -146,6 +174,14 @@
             <li style="color: #555753;">✓ Tenant database</li>
             <li style="color: #555753;">✓ Backup dirpath</li>
             <li style="color: #555753;">✓ Exists</li>
+        </ul>
+        <h2 id="tests\Feature\Tenant\TenantModelTest">Tenant Model (tests\Feature\Tenant\TenantModel)</h2>
+        <ul>
+            <li style="color: #555753;">✓ Url</li>
+        </ul>
+        <h2 id="tests\Feature\Tenant\TestControllerTest">Controller (tests\Feature\Tenant\Controller)</h2>
+        <ul>
+            <li style="color: #555753;">✓ Index</li>
         </ul>
     </body>
 </html>

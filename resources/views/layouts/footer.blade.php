@@ -1,5 +1,6 @@
-<p>Tenant WEBAPP ©2021 Flub78</p>
-
+<div class="container py-4">
+	<p>Tenant WEBAPP ©2021 Flub78</p>
+</div>
 <div>
 
 	<script type="text/javascript">

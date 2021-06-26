@@ -12,7 +12,7 @@
 
 <div class="card uper">
   <div class="card-header">
-    Edit configuration
+    {{__('general.edit')}} {{__('configuration.elt')}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -30,16 +30,16 @@
               @csrf
               @method('PATCH')
               
-              <label for="key">Key</label>
+              <label for="key">{{__('configuration.key')}}</label>
               <input type="text" class="form-control" name="key" value="{{ old('id', $configuration->key) }}"/>
           </div>
           
           <div class="form-group">
-              <label for="value">Value</label>
+              <label for="value">{{__('configuration.value')}}</label>
               <input type="text" class="form-control" name="value" value="{{ old('value', $configuration->value) }}"/>
           </div>
 
-          <button type="submit" class="btn btn-primary">Edit Configuration</button>
+          <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
       </form>
   </div>
 </div>

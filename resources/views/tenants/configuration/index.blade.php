@@ -12,13 +12,13 @@
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">
-    <caption>Tenant Configuration</caption>
+    <caption>{{__('configuration.title')}}</caption>
     <thead>
         <tr>
-          <td>Key</td>
-          <td>Value</td>
-          <td >Edit</td>
-          <td >Delete</td>
+          <td>{{__('configuration.key')}}</td>
+          <td>{{__('configuration.value')}}</td>
+          <td >{{__('general.edit')}}</td>
+          <td >{{__('general.delete')}}</td>
         </tr>
     </thead>
     
@@ -29,13 +29,13 @@
             <td>{{$configuration->key}}</td>
             <td>{{$configuration->value}}</td>
             
-            <td><a href="{{ route('configuration.edit', $configuration->key)}}" class="btn btn-primary">Edit</a></td>
+            <td><a href="{{ route('configuration.edit', $configuration->key)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
             
             <td>
                 <form action="{{ route('configuration.destroy', $configuration->key)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+                  <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
                 </form>
             </td>
         </tr>
@@ -43,7 +43,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('configuration')}}/create"><button type="submit" class="btn btn-primary" >@lang('general.create') @lang('configurations.element')</button></a> 
+    <a href="{{url('configuration')}}/create"><button type="submit" class="btn btn-primary" >@lang('configuration.add')</button></a> 
 </div>  
 @endsection
 
