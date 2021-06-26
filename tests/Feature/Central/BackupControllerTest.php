@@ -67,10 +67,10 @@ class BackupControllerTest extends TestCase {
 		// backup list
 		$response = $this->get ( '/backup' );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText('Local backups');
-		$response->assertSeeText('Number');
-		$response->assertSeeText('Restore');
-		$response->assertSeeText(__('general.create') . ' backup');
+		$response->assertSeeText(__('backup.title'));
+		$response->assertSeeText(__('backup.number'));
+		$response->assertSeeText(__('backup.restore'));
+		$response->assertSeeText(__('backup.new'));
 		
 		// create a backup
 		$response = $this->get ( '/backup/create' );

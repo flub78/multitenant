@@ -1,7 +1,7 @@
 @rem Unit tests
 @rem php vendor\phpunit\phpunit\phpunit tests/Unit/ExampleTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/ConfigurationModelTest.php
-@rem php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/CalendarEventModelTest.php
+php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/CalendarEventModelTest.php
 
 @rem Central application tests
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/CentralFeatureExampleTest.php
@@ -18,5 +18,5 @@
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/DirHelperTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantHelperTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantBackupControllerTest.php
-php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/CalendarEventControllerTest.php
+@rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/CalendarEventControllerTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/ConfigurationControllerTest.php

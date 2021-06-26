@@ -13,10 +13,8 @@
         </div><br />
         @endif
         
-            <h1>{{tenant('id')}}  Calendar page</h1>
+        <h1>{{tenant('id') . ' ' . __('calendar.title')}}</h1>
         
-            
-            
         <div id='calendar'></div>
             
         </div>

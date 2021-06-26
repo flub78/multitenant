@@ -10,9 +10,6 @@ use App\Models\Tenants\CalendarEvent;
 class CalendarEventModelTest extends TenantTestCase
 
 {
-    // Clean up the database
-    // not for tenants
-    // use RefreshDatabase;
         
     /**
      * Test element creation, read, update and delete
