@@ -6,8 +6,8 @@
                     {{ config('app.name', 'Laravel') }}
                     
                     @if (tenant('id'))
-                    {{ " tenant=" . tenant('id') }}
-                    <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-gray-700 underline">Back to {{config('tenancy.central_domains')[0]}}</a>
+                    {{__('navbar.tenant') . " = " . tenant('id') }}
+                    <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-gray-700 underline">{{__("navbar.back_to") . ' ' . config('tenancy.central_domains')[0]}}</a>
                     @else
                     {{ " Central Application"}}
                     @endif
@@ -29,19 +29,19 @@
       						<a class="nav-link dropdown-toggle" href="#" id="navbardrop1" data-toggle="dropdown">Admin</a>
       						
       						<div class="dropdown-menu">
-        						<a class="dropdown-item" href="{{ route('users.index') }}">Users</a>
-        						<a class="dropdown-item" href="{{ route('backup.index') }}">Backup</a>
-        						<a class="dropdown-item" href="{{ route('configuration.index') }}">Configuration</a>
+        						<a class="dropdown-item" href="{{ route('users.index') }}">{{__('navbar.users')}}</a>
+        						<a class="dropdown-item" href="{{ route('backup.index') }}">{{__('navbar.backups')}}</a>
+        						<a class="dropdown-item" href="{{ route('configuration.index') }}">{{__('navbar.configuration')}}</a>
       						</div>
     					</li>
 
     					<li class="nav-item dropdown">
-      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">Calendar</a>
+      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">{{__('calendar.title')}}</a>
       						
       						<div class="dropdown-menu">
-        						<a class="dropdown-item" href="{{ route('calendar.fullcalendar') }}">Full Calendar</a>
-        						<a class="dropdown-item" href="{{ route('calendar.index') }}">Event list</a>
-        						<a class="dropdown-item" href="{{ route('calendar.create') }}">New event</a>
+        						<a class="dropdown-item" href="{{ route('calendar.fullcalendar') }}">{{__('calendar.fullcalendar')}}</a>
+        						<a class="dropdown-item" href="{{ route('calendar.index') }}">{{__('calendar.list')}}</a>
+        						<a class="dropdown-item" href="{{ route('calendar.create') }}">{{__('calendar.add')}}</a>
       						</div>
     					</li>
      					
@@ -91,7 +91,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('navbar.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

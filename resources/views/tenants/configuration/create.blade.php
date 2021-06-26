@@ -12,7 +12,7 @@
 
 <div class="card uper">
   <div class="card-header">
-    New configuration
+    {{__('configuration.new')}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -29,16 +29,16 @@
           <div class="form-group">
               @csrf
               
-              <label for="key">Key</label>
+              <label for="key">{{__('configuration.key')}}</label>
               <input type="text" class="form-control" name="key" value="{{ old('key') }}"/>
           </div>
           
           <div class="form-group">
-              <label for="value">Value</label>
+              <label for="value">{{__('configuration.value')}}</label>
               <input type="text" class="form-control" name="value" value="{{ old('value') }}"/>
           </div>
           
-          <button type="submit" class="btn btn-primary">Add a new configuration entry</button>
+          <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
       </form>
   </div>
 </div>
