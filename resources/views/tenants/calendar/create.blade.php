@@ -12,7 +12,7 @@
 
 <div class="card uper">
   <div class="card-header">
-    New event
+    {{__('calendar.new')}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -29,41 +29,41 @@
           <div class="form-group">
               @csrf
               
-              <label for="title">Title</label>
+              <label for="title"> {{__('calendar.title')}}</label>
               <input type="text" class="form-control" name="title" value="{{ old('title') }}"/>
           </div>
           
           <div class="form-group">
-              <label for="groupId">Group Id</label>
+              <label for="groupId"> {{__('calendar.groupId')}}</label>
               <input type="text" class="form-control" name="groupId" value="{{ old('groupId') }}"/>
           </div>
           
            <div class="form-group">
-              <label for="allDay">All day</label>
+              <label for="allDay"> {{__('calendar.allday')}}</label>
               <input type="checkbox" class="form-control" name="allDay" value="1"  {{old('allDay') ? 'checked' : ''}}/>
           </div>
           
            <div class="form-group">
-              <label for="start">Start Day</label>
+              <label for="start"> {{__('calendar.start_date')}}</label>
               <input type="text" class="form-control datepicker" name="start" value="{{ old('start') }}"/>
           </div>
 
            <div class="form-group">
-              <label for="starttime">Start Time</label>
+              <label for="starttime"> {{__('calendar.start_time')}}</label>
               <input type="text" class="form-control timepicker" name="starttime" value="{{ old('starttime') }}"/>
           </div>
 
            <div class="form-group">
-              <label for="backgroundColor">Background Color</label>
+              <label for="backgroundColor"> {{__('calendar.background_color')}}</label>
               <input type="text" class="form-control colorpicker" name="backgroundColor" value="{{ old('backgroundColor') }}"/>
           </div>
 
            <div class="form-group">
-              <label for="textColor">Text Color</label>
+              <label for="textColor"> {{__('calendar.text_color')}}</label>
               <input type="text" class="form-control namedcolorpicker" name="textColor" value="{{ old('textColor') }}"/>
           </div>
           
-          <button type="submit" class="btn btn-primary">Add Event</button>
+          <button type="submit" class="btn btn-primary"> {{__('calendar.add')}}</button>
       </form>
   </div>
 </div>

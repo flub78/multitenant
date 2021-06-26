@@ -16,10 +16,32 @@ function event_resized(info) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    var locale = document.documentElement.lang;
+    
+    // TODO organize localization with one file per language
+
+    var buttonText = {
+        today:    'today',
+        month:    'month',
+        week:     'week',
+        day:      'day',
+        list:     'list'};
+        
+    if (locale == 'fr') {
+        buttonText = {
+            today:    'Aujourdhui',
+            month:    'Mois',
+            week:     'Semaine',
+            day:      'Jour',
+            list:     'Liste'};       
+    }
+    
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        locale: 'fr',             // change day and month names, but not the buttons
+        locale: locale,             // change day and month names, but not the buttons (but it should)
+        buttonText: buttonText,
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -28,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         eventSources: [
             // your event source
             {
-                url: '/json', // use the `url` property
+                url: '/calendar/json', // use the `url` property
                 color: 'yellow',    // an option!
                 textColor: 'black'  // an option!
             }

@@ -16,21 +16,20 @@
 		        'pdf', 'colvis'
 		    ]
 	    });
-
-	
-	$( ".datepicker" ).datepicker();
+		
+	$( ".datepicker" ).datepicker($.datepicker.regional[ "fr" ]);
 	 
-$('.timepicker').timepicker({
-    timeFormat: 'HH:mm',
-    interval: 5,
-    minTime: '09:00',
-    maxTime: '20:00',
-	defaultTime: '12:00',
-    startTime: '09:00',
-    dynamic: false,
-    dropdown: true,
-    scrollbar: true
-});
+	$('.timepicker').timepicker({
+    	timeFormat: 'HH:mm',
+    	interval: 5,
+    	minTime: '09:00',
+    	maxTime: '20:00',
+		defaultTime: '12:00',
+    	startTime: '09:00',
+    	dynamic: false,
+    	dropdown: true,
+    	scrollbar: true
+	});
 
     $(".colorpicker").spectrum({
         color: "#f00"

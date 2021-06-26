@@ -34,7 +34,7 @@ class AdminAccessTest extends TestCase {
 		
 		$response = $this->get ( '/backup' );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText ( 'Local backups' );
+		$response->assertSeeText ( __('backup.title'));
 
 		$response = $this->get ( '/users' );
 		$response->assertStatus ( 200 );

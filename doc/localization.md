@@ -39,4 +39,64 @@ This class needs to be registered in the tenancy config file.
 
 With this approach, the locale can be set and changed in the tenant configuration (saved in the tenant database) and accessed the standard Laravel way with getLocale().
 
+## Fullcalendar localization
 
+First the locale is feteched from the HTML page.
+
+        var locale = document.documentElement.lang;
+    
+Then this local is used for javascript element localization
+
+https://stackoverflow.com/questions/2418041/how-to-load-jquery-ui-from-google-cdn-with-locale-different-than-english
+
+## Datatable
+
+Datatable can be simply localized by importing a javascript file, depending on the current locale, which defines some arrays with translated values.
+
+    var olanguage = {
+            "sProcessing":     "Traitement en cours...",
+            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Rechercher&nbsp;:",
+            "sLoadingRecords": "Téléchargement...",
+            "sUrl":            "",
+            "oPaginate": {
+                "sFirst":    "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext":     "Suivant",
+                "sLast":     "Dernier"
+            }                       
+    };
+    
+    var months = [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre',
+                  'Décembre' ];
+                  
+        $('.datedtable_ro').dataTable({
+        "bFilter": true,
+        "bPaginate": true,
+        "iDisplayLength": 25,
+        "bSort": false,
+        "bInfo": true,
+         "bJQueryUI": true,
+        "bStateSave": false,
+        "bAutoWidth": true,
+        "sPaginationType": "full_numbers",
+        "aoColumns" : [
+            { "sType": "date-uk" },
+            {"bSortable" : true},
+            {"bSortable" : true},
+            {"bSortable" : true},
+            {"bSortable" : true},
+            {"bSortable" : false},
+            {"bSortable" : false},
+            {"bSortable" : false},
+            {"bSortable" : false},
+            {"bSortable" : false}
+        ],
+        "oLanguage": olanguage
+    });

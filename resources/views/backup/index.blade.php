@@ -21,13 +21,13 @@
   
   
   <table class="table table-striped"  id="maintable">
-    <caption>Local backups</caption>
+    <caption>{{__('backup.title')}}</caption>
     <thead>
         <tr>
-          <td>Number</td>
-          <td>Backup</td>
-          <td >Restore</td>
-          <td >Delete</td>
+          <td>{{__('backup.number')}}</td>
+          <td>{{__('backup.backup')}}</td>
+          <td >{{__('backup.restore')}}</td>
+          <td >{{__('general.delete')}}</td>
         </tr>
     </thead>
 
@@ -36,12 +36,12 @@
         <tr>
             <td>{{$backup['id']}}</td>
             <td>{{$backup['filename']}}</td>
-            <td><a href="{{ route('backup.restore', $backup['id'])}}" class="btn btn-primary">Restore</a></td>
+            <td><a href="{{ route('backup.restore', $backup['id'])}}" class="btn btn-primary">{{__('backup.restore')}}</a></td>
             <td>
                 <form action="{{ route('backup.destroy', $backup['id'])}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+                  <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
                 </form>
             </td>
         </tr>
@@ -49,7 +49,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('backup')}}/create"><button type="submit" class="btn btn-primary" >@lang('general.create') backup</button></a> 
+    <a href="{{url('backup')}}/create"><button type="submit" class="btn btn-primary" >{{__('backup.new')}}</button></a> 
 </div>  
 @endsection
 

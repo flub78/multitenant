@@ -1,19 +1,27 @@
 <?php
+return [ 
 
-return [
+		/*
+		 * |--------------------------------------------------------------------------
+		 * | Menu strings to translate (English version)
+		 * |--------------------------------------------------------------------------
+		 * |
+		 * |
+		 */
 
-    /*
-    |--------------------------------------------------------------------------
-    | Menu strings to translate (English version)
-    |--------------------------------------------------------------------------
-    |
-    |
-    */
-
-	'title' => "Calendar",
-	'list' => "Event list",	
-	'new' => "New Event",
-	'add' => "Add Event",
-	'fullcalendar' => 'Full Calendar',
-		
+		'title' => "Calendar",
+		'list' => "Event list",
+		'new' => "New Event",
+		'add' => "Add Event",
+		'fullcalendar' => 'Full Calendar',
+		'title' => 'Title',
+		'groupId' => 'Category',
+		'allday' => 'All Day',
+		'start_date' => 'Date',
+		'end_date' => 'End Date',
+		'start_time' => 'Time',
+		'end_time' => 'End time',
+		'duration' => 'Duration',
+		'background_color' => 'Background Color',
+		'text_color' => 'Texte Color'
 ];
