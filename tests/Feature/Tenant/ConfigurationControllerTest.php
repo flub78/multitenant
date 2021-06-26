@@ -49,11 +49,11 @@ class ConfigurationControllerTest extends TenantTestCase {
 		
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
-		$response->assertSeeText('Tenant Configuration');
-		$response->assertSeeText('Key');
-		$response->assertSeeText('Value');
-		$response->assertSeeText(__('general.create') . ' configuration');
-		$response->assertSeeText('tenant=');
+		$response->assertSeeText(__('configuration.title'));
+		$response->assertSeeText(__('configuration.key'));
+		$response->assertSeeText(__('configuration.value'));
+		$response->assertSeeText(__('configuration.add') );
+		$response->assertSeeText(__('navbar.tenant'));
 		$response->assertSeeText(tenant('id'));
 		
 		// $response->dump();
@@ -66,8 +66,7 @@ class ConfigurationControllerTest extends TenantTestCase {
 		$url = 'http://' . tenant('id'). '.tenants.com/configuration/create' ;
 		$response = $this->get ( $url );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText('New configuration');
-		$response->assertSeeText('Add a new configuration entry');
+		$response->assertSeeText(__('configuration.new'));
 	}
 	
 	public function test_store() {

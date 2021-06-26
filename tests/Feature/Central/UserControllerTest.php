@@ -72,7 +72,7 @@ class UserControllerTest extends TestCase {
 		$this->be ( $this->user );
 		$response = $this->get ( '/users/create' );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText ( 'New user' );
+		$response->assertSeeText (__('users.new'));
 	}
 	
 	/**
@@ -86,7 +86,8 @@ class UserControllerTest extends TestCase {
 		
 		$response = $this->get ( "/users/$id/edit" );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText ( 'Edit User' );
+		$response->assertSeeText ( __('general.edit') );
+		$response->assertSeeText ( __('users.elt') );
 	}
 	
 	/**

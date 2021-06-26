@@ -38,7 +38,7 @@ class AdminAccessTest extends TestCase {
 
 		$response = $this->get ( '/users' );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText ( 'New users' );
+		$response->assertSeeText ( __('users.add') );
 		
 		$response = $this->get ( '/tenants' );
 		$response->assertStatus ( 200 );

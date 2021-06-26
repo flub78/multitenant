@@ -68,7 +68,7 @@ class TenantBackupControllerTest extends TenantTestCase {
 		$response->assertSeeText('Number');
 		$response->assertSeeText('Restore');
 		$response->assertSeeText(__('general.create') . ' backup');
-		$response->assertSeeText('tenant=');
+		$response->assertSeeText(__('navbar.tenant'));
 		$response->assertSeeText(tenant('id'));
 		
 		// create a backup
