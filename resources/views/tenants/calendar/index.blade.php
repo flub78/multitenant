@@ -12,15 +12,15 @@
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">
-    <caption>Users</caption>
+    <caption>{{__('calendar.title')}}</caption>
     <thead>
         <tr>
-          <td>Title</td>
-          <td>Group Id</td>
-          <td>Start date</td>
-          <td>All day</td>
-          <td >Edit</td>
-          <td >Delete</td>
+          <td>{{__('calendar.event_title')}}</td>
+          <td>{{__('calendar.groupId')}}</td>
+          <td>{{__('calendar.start_date')}}</td>
+          <td>{{__('calendar.allday')}}</td>
+          <td >{{__('general.edit')}}</td>
+          <td >{{__('general.delete')}}</td>
         </tr>
     </thead>
     
@@ -35,13 +35,13 @@
             <td>
             	<input type="checkbox"   {{($event->active) ? 'checked' : ''}} onclick="return false;" />
             </td>
-            <td><a href="{{ route('events.edit', $event->id)}}" class="btn btn-primary">Edit</a></td>
+            <td><a href="{{ route('events.edit', $event->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
             
             <td>
                 <form action="{{ route('events.destroy', $event->id)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+                  <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
                 </form>
             </td>
         </tr>
@@ -49,7 +49,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('calendar')}}/create"><button type="submit" class="btn btn-primary" >@lang('general.create') @lang('events.element')</button></a> 
+    <a href="{{url('calendar')}}/create"><button type="submit" class="btn btn-primary" >{{__('calendar.add')}}</button></a> 
 </div>  
 @endsection
 

@@ -15,7 +15,7 @@ return [
 	'new' => "Nouvel événement",
 	'add' => "Ajout Evenement",
 	'fullcalendar' => 'Mensuel',
-	'title' => 'Titre',
+	'event_title' => 'Titre',
 	'groupId' => 'Catégorie',
 	'allday' => 'Toute la journée',
 	'start_date' => 'Date',

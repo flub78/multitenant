@@ -100,3 +100,8 @@ Datatable can be simply localized by importing a javascript file, depending on t
         ],
         "oLanguage": olanguage
     });
+    
+    https://datatables.net/manual/i18n
+    
+## JQuery datepicker
+
