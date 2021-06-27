@@ -7,6 +7,8 @@
 	<!--
 	$(document).ready( function () {
 	
+	var locale = document.documentElement.lang;
+	
     var olanguage = {
             "sProcessing":     "Traitement en cours...",
             "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
@@ -47,8 +49,40 @@ $.datepicker.regional['it'] = {
     dayNamesMin: ['Do','Lu','Ma','Me','Gio','Ve','Sa'], // set more short days names
     dateFormat: 'dd/mm/yy' // set format date
 };
-		
-	$( ".datepicker" ).datepicker($.datepicker.regional['it']);
+
+$.datepicker.regional['en'] = {
+    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    today: "Today",
+    clear: "Clear",
+    format: "mm/dd/yyyy",
+    titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+    weekStart: 0
+};
+
+$.datepicker.regional['fr'] = {
+    closeText: "Fermer",
+    prevText: "Précédent",
+    nextText: "Suivant",
+    currentText: "Aujourd'hui",
+    monthNames: [ "janvier", "février", "mars", "avril", "mai", "juin",
+        "juillet", "août", "septembre", "octobre", "novembre", "décembre" ],
+    monthNamesShort: [ "janv.", "févr.", "mars", "avr.", "mai", "juin",
+        "juil.", "août", "sept.", "oct.", "nov.", "déc." ],
+    dayNames: [ "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi" ],
+    dayNamesShort: [ "dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam." ],
+    dayNamesMin: [ "D","L","M","M","J","V","S" ],
+    weekHeader: "Sem.",
+    dateFormat: "dd/mm/yy",
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: "" };
+    		
+	$( ".datepicker" ).datepicker($.datepicker.regional[locale]);
 	 
 	$('.timepicker').timepicker({
     	timeFormat: 'HH:mm',

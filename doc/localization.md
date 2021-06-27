@@ -41,7 +41,7 @@ With this approach, the locale can be set and changed in the tenant configuratio
 
 ## Fullcalendar localization
 
-First the locale is feteched from the HTML page.
+First the locale is fetched from the HTML page.
 
         var locale = document.documentElement.lang;
     
