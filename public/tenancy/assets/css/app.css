@@ -10002,3 +10002,8 @@ h3 {
     border-color: #dee2e6;
   }
 }
+
+caption {
+    padding: 10px;
+    caption-side: top;
+}

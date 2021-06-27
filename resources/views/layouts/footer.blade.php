@@ -8,8 +8,8 @@
 	$(document).ready( function () {
 	
 	    $('#maintable').DataTable({
-	    paging:true,
-	     dom: 'Blfrtip',
+	    	paging:true,
+	     	dom: 'Blfrtip',
 		    buttons: [
 		        'csv',
 		        'print',
