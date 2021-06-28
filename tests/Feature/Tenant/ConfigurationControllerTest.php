@@ -12,7 +12,6 @@
  * From the Laravel documentation:
  * Unexpected behavior may occur if multiple 
  * requests are executed within a single test method.
- * 
  */
 namespace tests\Feature\Tenant;
 

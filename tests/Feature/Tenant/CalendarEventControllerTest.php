@@ -35,7 +35,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;		
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
-		$response->assertSeeText('New event');
+		$response->assertSeeText(__('calendar.add'));
 	}
 
 	public function test_calendar_event_fullcalendar() {
