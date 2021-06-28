@@ -9,11 +9,12 @@ return [
 		 * |
 		 */
 
-		'fullcalendar_title' => 'Calendar',
-		'title' => "Event title",
-		'event_desc' => "Description",
+		'title' => "Calendar",
 		'list' => "Event list",
+		'new' => "New Event",
+		'add' => "Add Event",
 		'fullcalendar' => 'Full Calendar',
+		'title' => 'Title',
 		'groupId' => 'Category',
 		'allday' => 'All Day',
 		'start_date' => 'Date',
