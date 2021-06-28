@@ -32,7 +32,7 @@ class CalendarEventController extends Controller {
 		return view ( 'tenants.calendar.calendar', compact ( 'events' ) );
 	}
 
-	public function json() {
+	public function json2() {
 		return '[
         {
           "title": "Event 1",

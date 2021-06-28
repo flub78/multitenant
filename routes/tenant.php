@@ -24,32 +24,28 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
 	
-	Route::get('/', function () {
-		return view('welcome');
-	});
+	Auth::routes();
+	
+	Route::get('/', function () {return view('welcome');});
 		
-	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 	
 	/*
 	 * Warning: routes are parsed in order of declaration and resource matches all the sub urls
 	 */
-	Route::get('calendar/fullcalendar', [App\Http\Controllers\Tenants\CalendarEventController::class, 'fullcalendar'])
+	Route::get('/calendar/fullcalendar', [App\Http\Controllers\Tenants\CalendarEventController::class, 'fullcalendar'])
 	->name('calendar.fullcalendar')->middleware('auth');
 	
-	Route::get('/calendar/json', [App\Http\Controllers\Tenants\CalendarEventController::class, 'json'])
-		->name('calendar.json')->middleware('auth');
+	// Route::get('/calendar/json', [App\Http\Controllers\Tenants\CalendarEventController::class, 'json'])
+	//	->name('calendar.json')->middleware('auth');
 	
 	Route::resource('calendar', App\Http\Controllers\Tenants\CalendarEventController::class)->middleware('auth');
-
 	
-	Auth::routes();
 	
 	// admin routes
 	Route::group(['middleware' => ['admin']], function () {
 		Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
-		
-		// Route::get('configuration/{key}');
-		
+				
 		Route::resource('configuration', App\Http\Controllers\Tenants\ConfigurationController::class)->middleware('auth');
 		
 		// Backup controller is not a full resource
