@@ -41,7 +41,6 @@ Route::middleware([
 	
 	Route::resource('calendar', App\Http\Controllers\Tenants\CalendarEventController::class)->middleware('auth');
 
-	
 	Auth::routes();
 	
 	// admin routes

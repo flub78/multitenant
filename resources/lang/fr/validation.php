@@ -1,126 +1,131 @@
 <?php
+return [ 
 
-return [
+		/*
+		 * |--------------------------------------------------------------------------
+		 * | Validation Language Lines
+		 * |--------------------------------------------------------------------------
+		 * |
+		 * | The following language lines contain the default error messages used by
+		 * | the validator class. Some of these rules have multiple versions such
+		 * | as the size rules. Feel free to tweak each of these messages here.
+		 * |
+		 */
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
-
-		'accepted'             => ':attribute doit être accepté.',
-		'active_url'           => ":attribute n'est pas une URL valide.",
-		'after'                => ':attribute doit être une date postérieure à :date.',
-		'after_or_equal'       => ':attribute doit être une date postérieure ou égale à :date.',
-		'alpha'                => ':attribute ne doit contenir que des lettres.',
-		'alpha_dash'           => ':attribute ne doit contenier que des lettres, des chiffres et des tirets.',
-		'alpha_num'            => ':attribute ne doit contenier que des lettres et des chiffres.',
-		'array'                => ':attribute doit être une liste.',
-		'before'               => ':attribute doit être une date antérieure à :date.',
-		'before_or_equal'      => ':attribute doit être une date antérieure ou égale à :date.',
-		'between'              => [
-				'numeric' => 'Le champ :attribute doit être entre :min et :max.',
-				'file'    => 'Le taille du fichier :attribute doit être entre :min et :max kilobytes.',
-				'string'  => 'La chaine :attribute doit avoir entre :min et :max caracteres.',
-				'array'   => 'La liste :attribute doit avoir entre :min et :max éléments.',
+		'accepted' => ':attribute doit être accepté.',
+		'active_url' => ":attribute n'est pas une URL valide.",
+		'after' => ':attribute doit être une date postérieure à :date.',
+		'after_or_equal' => ':attribute doit être une date postérieure ou égale à :date.',
+		'alpha' => ':attribute ne doit contenir que des lettres.',
+		'alpha_dash' => ':attribute ne doit contenier que des lettres, des chiffres et des tirets.',
+		'alpha_num' => ':attribute ne doit contenier que des lettres et des chiffres.',
+		'array' => ':attribute doit être une liste.',
+		'before' => ':attribute doit être une date antérieure à :date.',
+		'before_or_equal' => ':attribute doit être une date antérieure ou égale à :date.',
+		'between' => [ 
+				'numeric' => ':attribute doit être entre :min et :max.',
+				'file' => 'Le taille du fichier :attribute doit être entre :min et :max kilobytes.',
+				'string' => 'La chaine :attribute doit avoir entre :min et :max caracteres.',
+				'array' => 'La liste :attribute doit avoir entre :min et :max éléments.'
 		],
-    'boolean' => 'The :attribute field must be true or false.',
-    'confirmed' => 'The :attribute confirmation does not match.',
-    'date' => 'The :attribute is not a valid date.',
-    'date_equals' => 'The :attribute must be a date equal to :date.',
-    'date_format' => 'The :attribute does not match the format :format.',
-    'different' => 'The :attribute and :other must be different.',
-    'digits' => 'The :attribute must be :digits digits.',
-    'digits_between' => 'The :attribute must be between :min and :max digits.',
-    'dimensions' => 'The :attribute has invalid image dimensions.',
-    'distinct' => 'The :attribute field has a duplicate value.',
-    'email' => 'The :attribute must be a valid email address.',
-    'ends_with' => 'The :attribute must end with one of the following: :values.',
-    'exists' => 'The selected :attribute is invalid.',
-    'file' => 'The :attribute must be a file.',
-    'filled' => 'The :attribute field must have a value.',
-    'gt' => [
-        'numeric' => 'The :attribute must be greater than :value.',
-        'file' => 'The :attribute must be greater than :value kilobytes.',
-        'string' => 'The :attribute must be greater than :value characters.',
-        'array' => 'The :attribute must have more than :value items.',
-    ],
-    'gte' => [
-        'numeric' => 'The :attribute must be greater than or equal :value.',
-        'file' => 'The :attribute must be greater than or equal :value kilobytes.',
-        'string' => 'The :attribute must be greater than or equal :value characters.',
-        'array' => 'The :attribute must have :value items or more.',
-    ],
-    'image' => 'The :attribute must be an image.',
-    'in' => 'The selected :attribute is invalid.',
-    'in_array' => 'The :attribute field does not exist in :other.',
-    'integer' => 'The :attribute must be an integer.',
-    'ip' => 'The :attribute must be a valid IP address.',
-    'ipv4' => 'The :attribute must be a valid IPv4 address.',
-    'ipv6' => 'The :attribute must be a valid IPv6 address.',
-    'json' => 'The :attribute must be a valid JSON string.',
-    'lt' => [
-        'numeric' => 'The :attribute must be less than :value.',
-        'file' => 'The :attribute must be less than :value kilobytes.',
-        'string' => 'The :attribute must be less than :value characters.',
-        'array' => 'The :attribute must have less than :value items.',
-    ],
-    'lte' => [
-        'numeric' => 'The :attribute must be less than or equal :value.',
-        'file' => 'The :attribute must be less than or equal :value kilobytes.',
-        'string' => 'The :attribute must be less than or equal :value characters.',
-        'array' => 'The :attribute must not have more than :value items.',
-    ],
-    'max' => [
-        'numeric' => 'The :attribute must not be greater than :max.',
-        'file' => 'The :attribute must not be greater than :max kilobytes.',
-        'string' => 'The :attribute must not be greater than :max characters.',
-        'array' => 'The :attribute must not have more than :max items.',
-    ],
-    'mimes' => 'The :attribute must be a file of type: :values.',
-    'mimetypes' => 'The :attribute must be a file of type: :values.',
-    'min' => [
-        'numeric' => 'The :attribute must be at least :min.',
-        'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'The :attribute must be at least :min characters.',
-        'array' => 'The :attribute must have at least :min items.',
-    ],
-    'multiple_of' => 'The :attribute must be a multiple of :value.',
-    'not_in' => 'The selected :attribute is invalid.',
-    'not_regex' => 'The :attribute format is invalid.',
-    'numeric' => 'The :attribute must be a number.',
-    'password' => 'The password is incorrect.',
-    'present' => 'The :attribute field must be present.',
-    'regex' => 'The :attribute format is invalid.',
-    'required' => 'The :attribute field is required.',
-    'required_if' => 'The :attribute field is required when :other is :value.',
-    'required_unless' => 'The :attribute field is required unless :other is in :values.',
-    'required_with' => 'The :attribute field is required when :values is present.',
-    'required_with_all' => 'The :attribute field is required when :values are present.',
-    'required_without' => 'The :attribute field is required when :values is not present.',
-    'required_without_all' => 'The :attribute field is required when none of :values are present.',
-    'prohibited' => 'The :attribute field is prohibited.',
-    'prohibited_if' => 'The :attribute field is prohibited when :other is :value.',
-    'prohibited_unless' => 'The :attribute field is prohibited unless :other is in :values.',
-    'same' => 'The :attribute and :other must match.',
-    'size' => [
-        'numeric' => 'The :attribute must be :size.',
-        'file' => 'The :attribute must be :size kilobytes.',
-        'string' => 'The :attribute must be :size characters.',
-        'array' => 'The :attribute must contain :size items.',
-    ],
-    'starts_with' => 'The :attribute must start with one of the following: :values.',
-    'string' => 'The :attribute must be a string.',
-    'timezone' => 'The :attribute must be a valid zone.',
-    'unique' => 'The :attribute has already been taken.',
-    'uploaded' => 'The :attribute failed to upload.',
-    'url' => 'The :attribute format is invalid.',
-    'uuid' => 'The :attribute must be a valid UUID.',
+		'boolean' => ':attribute doit être true ou false.',
+		'confirmed' => 'Valeur de confirmation incorrecte pour :attribute.',
+		'date' => ":attribute n'est pas une date valide.",
+		'date_format' => 'Format incorrect pour :attribute format attendu :format.',
+		'different' => 'Les champs :attribute et :other doivent être different.',
+		'digits' => ':attribute doit avoir :digits chiffres.',
+		'digits_between' => ':attribute doit avoir entre :min et :max chiffres.',
+		'dimensions' => "L'image :attribute a des dimensions incorrectes.",
+		'distinct' => ':attribute est dupliqué.',
+		'email' => ':attribute doit être une adresse email valide.',
+		'exists' => 'La selection :attribute est invalide.',
+		'file' => ':attribute doit être un fichier.',
+		'filled' => ':attribute ne doit pas être vide.',
+
+		'date_equals' => ':attribute doit être une date valide égale à :date.',
+		'ends_with' => ':attribute doit se terminer avec: :values.',
+
+		'gt' => [ 
+				'numeric' => ':attribute doit être supérieur à :value.',
+				'file' => 'Le fichier :attribute doit faire plus de :value Ko.',
+				'string' => ':attribute dot avoir plus de :value caractères.',
+				'array' => 'Le tableau :attribute doit contenir plus de :value objets.'
+		],
+		'gte' => [ 
+				'numeric' => ':attribute attribute doit être supérieur ou égale à :value.',
+				'file' => 'Le fichier :attribute doit faire plus de :value Ko.',
+				'string' => ':attribute doit avoir plus de :value caractères.',
+				'array' => 'Le tableau :attribute doit contenir plus de :value objets.'
+		],
+		'image' => ':attribute doit être une image.',
+		'in' => 'La selection :attribute est invalide.',
+		'in_array' => ':attribute ne doit pas exister dans :other.',
+		'integer' => ':attribute doit être un entier.',
+		'ip' => ':attribute doit être une adresse IP valide.',
+		'ipv4' => ':attribute doit être une adresse IPv4 valide.',
+		'ipv6' => ':attribute doit être une adresse IPv6 valide.',
+		'json' => ':attribute doit être une chaine JSON.',
+		'lt' => [ 
+				'numeric' => ':attribute doit être inférieur à :value.',
+				'file' => 'Le fichier :attribute doit faire moins de :value Ko.',
+				'string' => ':attribute dot avoir moins de :value caractères.',
+				'array' => 'Le tableau :attribute doit contenir moins de :value objets.'
+		],
+		'lte' => [ 
+				'numeric' => ':attribute attribute doit être inférieur ou égale à :value.',
+				'file' => 'Le fichier :attribute doit faire moins de :value Ko.',
+				'string' => ':attribute doit avoir moins de :value caractères.',
+				'array' => 'Le tableau :attribute doit contenir moins de :value objets.'
+		],
+		'max' => [ 
+				'numeric' => ':attribute doit être inférieur à :max.',
+				'file' => 'Le fichier :attribute doit faire moins de :max Ko.',
+				'string' => ':attribute dot avoir moins de :max caractères.',
+				'array' => 'Le tableau :attribute doit contenir moins de :max objets.'
+		],
+		'mimes' => 'The :attribute must be a file of type: :values.',
+		'mimetypes' => 'The :attribute must be a file of type: :values.',
+		'min' => [ 
+				'numeric' => ':attribute attribute doit être supérieur ou égale à :min.',
+				'file' => 'Le fichier :attribute doit faire plus de :min Ko.',
+				'string' => ':attribute doit avoir plus de :min caractères.',
+				'array' => 'Le tableau :attribute doit contenir plus de :min objets.'
+		],
+		'multiple_of' => ':attribute doit être un multiple de :value.',
+
+		'not_in' => ':attribute est invalide.',
+		'not_regex' => 'Le format du champ :attribute est incorrect.',
+		'numeric' => ':attribute doit être un nombre.',
+		'present' => ':attribute ne doit pas être vide.',
+		'regex' => 'Le format du champ :attribute est invalide.',
+		'required' => ':attribute est obligatoire.',
+		'required_if' => ':attribute est obligatoire quand :other vaut :value.',
+		'required_unless' => ':attribute est obligatoire quand :other est dans :values.',
+		'required_with' => ':attribute est obligatoire quand :values est present.',
+		'required_with_all' => ':attribute est obligatoire quand :values est present.',
+		'required_without' => ':attribute est obligatoire quand :values est absent.',
+		'required_without_all' => ':attribute est obligatoire quand aucun :values est present.',
+		'same' => ':attribute et :other doivent être équivalent.',
+		'size' => [ 
+				'numeric' => 'La taille du champ :attribute doit être :size.',
+				'file' => 'La taille du fichier :attribute doit être :size kilobytes.',
+				'string' => 'La longueur de la chaine :attribute doit être :size characteres.',
+				'array' => 'La liste :attribute doit contenir :size éléments.'
+		],
+
+		'prohibited' => 'Le champ :attribute est interdit.',
+		'prohibited_if' => 'Le champ :attribute est interdit quand :other vaut :value.',
+		'prohibited_unless' => 'Le champ :attribute est interdit sauf si :other is vaut :values.',
+
+		'starts_with' => ':attribute doit commencer avec : :values.',
+
+		'string' => ':attribute doit être une chaine de caractères.',
+		'timezone' => ':attribute doit être une timezone.',
+		'unique' => ':attribute doit être unique, la valeur existe déjà.',
+		'uploaded' => "Echec du téléchargement du fichier :attribute.",
+		'url' => 'Le format du champ :attribute invalide.',
+
+		'uuid' => ':attribute doit être un UUID valid.',
 
     /*
     |--------------------------------------------------------------------------
@@ -133,11 +138,11 @@ return [
     |
     */
 
-    'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
-    ],
+    'custom' => [ 
+				'attribute-name' => [ 
+						'rule-name' => 'custom-message'
+				]
+		],
 
     /*
     |--------------------------------------------------------------------------
@@ -150,6 +155,18 @@ return [
     |
     */
 
-    'attributes' => [],
-
+    'attributes' => [ 
+			'start' => 'Date',
+    		'title' => 'Evénement',
+    		'event_desc' => "Description",
+    		'groupId' => 'Catégorie',
+    		'allday' => 'Toute la journée',
+    		'start_date' => 'Date',
+    		'end_date' => 'Date de fin',
+    		'start_time' => 'Heure',
+    		'end_time' => 'Heure de fin',
+    		'duration' => 'Durée',
+    		'background_color' => 'Couleur de fond',
+    		'text_color' => 'Couleur du texte'
+    ]
 ];
