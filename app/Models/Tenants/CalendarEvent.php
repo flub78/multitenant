@@ -3,12 +3,15 @@
 namespace App\Models\Tenants;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Database\Eloquent\Model;
 use App\Models\ModelWithLogs;
 
 class CalendarEvent extends ModelWithLogs
 {
     use HasFactory;
+    
+    protected $primaryKey = 'id';
+    
+    protected $table = 'calendar_events';
     
     /**
      * The attributes that are mass assignable.

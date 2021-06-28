@@ -8,6 +8,7 @@ namespace tests\Feature\Tenant;
 
 use Tests\TenantTestCase;
 use App\Models\User;
+use App\Models\Tenants\CalendarEvent;
 
 class CalendarEventControllerTest extends TenantTestCase {
 	
@@ -66,16 +67,33 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar/json' ;
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
+		$response->dump();
+		// $response->dumpHeaders();
+		$response->assertSessionHasNoErrors();
 	}
 
 	public function test_calendar_event_store() {
 		$this->be ( $this->user );
 		
+		$count = CalendarEvent::count ();
+		
 		$this->withoutMiddleware();
 		
+		$title = "Event $count";
+		$groupId = "GroupId $count";
+		$start = "07-31-2021";
+		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start];
+		
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
-		$response = $this->post ( $url, []);
+		$response = $this->post ( $url, $elt);
 		$response->assertStatus ( 302 );
+		
+		$response->assertSessionHasNoErrors();
+		
+		$new_count = CalendarEvent::count ();
+		$expected = $count + 1;
+		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
+		
 	}
 	
 	

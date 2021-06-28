@@ -73,9 +73,16 @@ class CalendarEventController extends Controller {
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();
 
-		var_dump($validatedData);
-		//CalendarEvent::create();
-		echo "store\n";
+		// var_dump($validatedData);
+		if (array_key_exists('start', $validatedData)) {
+			$validatedData['start'] = DateFormat::date_to_db($validatedData['start']);
+		}
+		if (array_key_exists('end', $validatedData)) {
+			$validatedData['end'] = DateFormat::date_to_db($validatedData['end']);
+		}
+		
+		CalendarEvent::create ( $validatedData );
+		return redirect ( 'calendar.list'  )->with ( 'success', 'Configuration entry ' . $validatedData ['title'] . ' created' );
 	}
 
 	/**
@@ -85,7 +92,6 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show(CalendarEvent $calendarEvent) {
-		echo "show\n";
 	}
 
 	/**
@@ -95,7 +101,7 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(CalendarEvent $calendarEvent) {
-		echo "edit\n";
+		return view ( 'tenants.calendar.edit' )->with ( compact ( 'calendarEvent' ) );
 	}
 
 	/**
@@ -115,8 +121,12 @@ class CalendarEventController extends Controller {
      * @param  \App\Models\Tenants\CalendarEvent  $calendarEvent
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CalendarEvent $calendarEvent)
+    public function destroy(string $id)
     {
-    	echo "destroy\n";
+    	// CalendarEvent $calendarEvent
+    	$calendarEvent = CalendarEvent::where(['id' => $id])->first();
+    	$title = $calendarEvent->title;
+    	$calendarEvent->delete ();
+    	return redirect ('calendar')->with ( 'success', "Event $title deleted" );
     }
 }

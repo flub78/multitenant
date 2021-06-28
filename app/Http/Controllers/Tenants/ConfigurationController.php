@@ -83,6 +83,7 @@ class ConfigurationController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy(Configuration $configuration) {
+		// var_dump($configuration); exit;
 		$key = $configuration->key;
 		$configuration->delete ();
 		return redirect ( 'configuration' )->with ( 'success', "Configuration $key deleted" );
