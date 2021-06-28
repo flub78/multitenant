@@ -36,6 +36,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		$response->assertSeeText(__('calendar.add'));
+		$response->assertSeeText(__('calendar.groupId'));
+		$response->assertSeeText(__('calendar.event_title'));
+		$response->assertSeeText(__('calendar.allday'));	
 	}
 
 	public function test_calendar_event_fullcalendar() {

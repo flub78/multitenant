@@ -27,18 +27,16 @@
     <tbody>
         @foreach($events as $event)
         <tr>
-            <td>{{$event->name}}</td>
-            <td>{{$event->email}}</td>
+            <td>{{$event->title}}</td>
+            <td>{{$event->groupId}}</td>
+            <td>{{$event->start}}</td>
             <td>
-            	<input type="checkbox"   {{($event->admin) ? 'checked' : ''}} onclick="return false;" />
+            	<input type="checkbox"   {{($event->allday) ? 'checked' : ''}} onclick="return false;" />
             </td>
-            <td>
-            	<input type="checkbox"   {{($event->active) ? 'checked' : ''}} onclick="return false;" />
-            </td>
-            <td><a href="{{ route('events.edit', $event->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
+            <td><a href="{{ route('calendar.edit', $event->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
             
             <td>
-                <form action="{{ route('events.destroy', $event->id)}}" method="post">
+                <form action="{{ route('calendar.destroy', $event->id)}}" method="post">
                   @csrf
                   @method('DELETE')
                   <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>

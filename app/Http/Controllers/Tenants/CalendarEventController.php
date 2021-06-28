@@ -6,6 +6,7 @@ use app\Http\Controllers\Controller;
 use App\Models\Tenants\CalendarEvent;
 use Illuminate\Http\Request;
 use App\Http\Requests\Tenants\CalendarEventRequest;
+use App\Helpers\DateFormat;
 
 class CalendarEventController extends Controller {
 	
@@ -19,6 +20,9 @@ class CalendarEventController extends Controller {
 	 */
 	public function index() {
 		$events = CalendarEvent::all ();
+		foreach ($events as $event) {
+			// var_dump($event);exit;
+		}
 		return view ( 'tenants.calendar.index', compact ( 'events' ) );
 	}
 
@@ -69,6 +73,8 @@ class CalendarEventController extends Controller {
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();
 
+		var_dump($validatedData);
+		//CalendarEvent::create();
 		echo "store\n";
 	}
 

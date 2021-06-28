@@ -20,7 +20,7 @@ return [
 	'search' => "Search",
 		
 	'footer' => "This is the footer",
-    'date_format' => 'Y-m-d',
-    'datepicker_format' => 'yy-mm-dd',		
+    'date_format' => 'm-d-Y',
+    'datepicker_format' => 'mm-dd-yy',		
 		
 ];
