@@ -67,7 +67,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar/json' ;
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
-		$response->dump();
+		// $response->dump();
 		// $response->dumpHeaders();
 		$response->assertSessionHasNoErrors();
 	}
@@ -96,5 +96,81 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 	}
 	
+	public function test_calendar_event_store_incorrect_value() {
+		$this->be ( $this->user );
+		
+		$count = CalendarEvent::count ();
+		
+		$this->withoutMiddleware();
+		
+		$title = "Event $count";
+		$groupId = "GroupId $count";
+		$start = "start";
+		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start];
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
+		$response = $this->post ( $url, $elt);
+		$response->assertStatus ( 302 );
+		
+		$response->assertSessionHasErrors();
+		
+		$new_count = CalendarEvent::count ();
+		$expected = $count;
+		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
+	}
+
+	public function test_delete() {
+		$this->be ( $this->user );
+		
+		$event = CalendarEvent::factory()->make();
+		$id = $event->save();
+
+		$count = CalendarEvent::count ();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id;
+		
+		$response = $this->delete ( $url);
+		$response->assertStatus ( 302 );
+		
+		$new_count = CalendarEvent::count ();
+		$expected = $count - 1;
+		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );		
+	}
+
+	public function ttest_edit() {
+		$this->be ( $this->user );
+		
+		$event = CalendarEvent::factory()->make();
+		$id = $event->save();
+		
+		$count = CalendarEvent::count ();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id;
+		
+		$response = $this->delete ( $url);
+		$response->assertStatus ( 302 );
+		
+		$new_count = CalendarEvent::count ();
+		$expected = $count - 1;
+		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );
+	}
+	
+	public function ttest_update() {
+		$this->be ( $this->user );
+		
+		$event = CalendarEvent::factory()->make();
+		$id = $event->save();
+		
+		$count = CalendarEvent::count ();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id;
+		
+		$response = $this->delete ( $url);
+		$response->assertStatus ( 302 );
+		
+		$new_count = CalendarEvent::count ();
+		$expected = $count - 1;
+		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );
+	}
 	
 }

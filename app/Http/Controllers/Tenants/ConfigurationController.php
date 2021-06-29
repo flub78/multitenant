@@ -56,6 +56,7 @@ class ConfigurationController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(Configuration $configuration) {
+		// var_dump($configuration);exit;
 		return view ( 'tenants/configuration/edit' )->with ( compact ( 'configuration' ) );
 	}
 

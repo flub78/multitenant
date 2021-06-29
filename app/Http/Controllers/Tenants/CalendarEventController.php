@@ -36,6 +36,7 @@ class CalendarEventController extends Controller {
 		return view ( 'tenants.calendar.calendar', compact ( 'events' ) );
 	}
 
+/*
 	public function json2() {
 		return '[
         {
@@ -54,7 +55,8 @@ class CalendarEventController extends Controller {
         }
     ]';
 	}
-
+*/
+	
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -100,8 +102,13 @@ class CalendarEventController extends Controller {
 	 * @param \App\Models\Tenants\CalendarEvent $calendarEvent
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(CalendarEvent $calendarEvent) {
-		return view ( 'tenants.calendar.edit' )->with ( compact ( 'calendarEvent' ) );
+	public function edit($id) {
+		$calendarEvent = CalendarEvent::findOrFail($id);
+		var_dump($calendarEvent); exit;
+		$attr = $calendarEvent->attributes();
+		$compact = compact ( 'calendarEvent' );
+		var_dump($attr); exit;
+		return view ( 'tenants.calendar.edit' )->with ( $attr );
 	}
 
 	/**
@@ -124,7 +131,7 @@ class CalendarEventController extends Controller {
     public function destroy(string $id)
     {
     	// CalendarEvent $calendarEvent
-    	$calendarEvent = CalendarEvent::where(['id' => $id])->first();
+    	$calendarEvent = CalendarEvent::findOrFail($id);
     	$title = $calendarEvent->title;
     	$calendarEvent->delete ();
     	return redirect ('calendar')->with ( 'success', "Event $title deleted" );
