@@ -3,13 +3,30 @@
 namespace tests\Unit;
 
 use Tests\TenantTestCase;
+use App\Helpers\Config;
 
 use App\Models\Tenants\CalendarEvent;
+use Carbon\Carbon;
 // use database\factories\CalendarEventFactory;
 
+/**
+ * Unit test for CalendarEventModel
+ * 
+ * https://carbon.nesbot.com/docs/
+ * 
+ * @author frederic
+ *
+ */
 class CalendarEventModelTest extends TenantTestCase
 
 {
+	public function assertEqualDates($date1, $date2, $comment = "") {
+		$d1 = Date::createFromFormat('Y-m-d', $date1);
+		
+		var_dump($d1); exit;
+		$d2 = strtotime(date_format($date2, 'Y-m-d'));
+		return $this->Equals($d1, $d2, $comment);
+	}
         
     /**
      * Test element creation, read, update and delete
@@ -23,7 +40,7 @@ class CalendarEventModelTest extends TenantTestCase
         $initial_count = CalendarEvent::count();
         
         // Create
-        $event = CalendarEvent::factory()->make();        
+        $event = CalendarEvent::factory()->make(['start' => '2021-06-30']);        
         $event->save();
         
         // and a second
@@ -36,7 +53,9 @@ class CalendarEventModelTest extends TenantTestCase
         # Read
         $stored = CalendarEvent::where('id', $event->id)->first();
         
-        $this->assertTrue($event->equals($stored), "Checks the element fetched from the database");
+        $this->assertEquals($event->title, $stored->title);
+        // $this->assertEqualDates($event->start, $stored->start);
+        // $this->assertEqualDates($event->end, $stored->end);
         
         // Update
         $new_title = "updated title";
@@ -73,5 +92,18 @@ class CalendarEventModelTest extends TenantTestCase
     	
     	$count = CalendarEvent::count();
     	$this->assertTrue($count == $initial_count, "No changes in database");
+    }
+    
+    public function test_carbon() {
+    	$mutable = Carbon::now();
+    	$mutable->add(1, 'day');
+    	var_dump($mutable->isoFormat('dddd D'));  
+    	
+    	$this->assertNotNull($mutable);
+    	
+    	Config::set('app.timezone', 'Europe/Paris');
+    	$tz = Config::config('app.timezone');
+    	echo "Timezone = $tz\n";
+    	
     }
 }

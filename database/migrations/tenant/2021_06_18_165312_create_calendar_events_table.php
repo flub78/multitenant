@@ -19,8 +19,8 @@ class CreateCalendarEventsTable extends Migration
             $table->string('title');
             $table->string('groupId')->nullable();
             $table->boolean('allDay')->default(true);
-            $table->datetime('start');	// '2018-09-01'
-            $table->datetime('end')->nullable();	// '2018-09-01'
+            $table->datetime('start');	// '2021-06-29 00:00:00'
+            $table->datetime('end')->nullable();	// '2021-06-28 11:30:00'
             $table->boolean('editable')->default(true);
             $table->boolean('startEditable')->default(true);
             $table->boolean('durationEditable')->default(true);

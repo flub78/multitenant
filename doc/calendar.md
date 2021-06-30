@@ -14,10 +14,8 @@ For example it will be possible to create a reservation system with several type
         title           String
         description     String - Multiline
         all_deay_event  Boolean
-        start_date      date
-        start_time      time
-        end_date        date
-        end_time        time
+        start           datetime
+        end             datetime
         color           string
         
     Repetition
@@ -34,7 +32,29 @@ For example it will be possible to create a reservation system with several type
         number
         unit    minute|hours|days|weeks
         
-    
+### Discussion on Database Schema
+
+There are a lot of ways to represent calendar events in database
+
+* Timestamps for start and end of event
+* Timestamp for start of event and integer for duration  
+* Separate fields for date and time
+
+When the event represents some period of activity, the option timestamp plus duration may be convenient. The choice likely depends on how often events are created or changed, compared to the number of time addition of duration has to be done.
+
+Note that whatever the choice for database storage it may be convenient to develop the accessors to get the other points of view.
+
+Also note that the form to create or edit an event may be different from the internal format. At least the dates and timestamp will be stored in some kind of universal format (UTC time MySQL timestamp format) and the user interface with local timezone and format.
+
+In the forms to handle events, it may be convenient to let the user input either the end of event or the duration whatever is the most convenient for her.
+
+In MySQL the dates have a range from '1000-01-01' to '9999-12-31', while the timestamps  has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.  (limit of a 32 bit integer which handles the time in second since january 1970)
+
+[Interresting discussion on timestamps versus datetime](https://stackoverflow.com/questions/409286/should-i-use-the-datetime-or-timestamp-data-type-in-mysql)
+
+In 2021, 2038 is almost tomorrow (17 years away), let's avoid a new year 2000 bug :-).
+The project that this one is supposed to replaced has already been deployed 11 years ago.
+     
 ## Rendering
 
 The calendar rendering is done using the FullCalendar javascript module (https://fullcalendar.io/).
