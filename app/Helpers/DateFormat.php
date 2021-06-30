@@ -3,6 +3,12 @@ namespace App\Helpers;
 
 use Exception;
 
+/**
+ * Helper to handle dates in the current context
+ * 
+ * @author frederic
+ *
+ */
 class DateFormat {
 	
     /**

@@ -8,7 +8,7 @@ use App;
 use Exception;
 
 
-class DateHelperTest extends TestCase {
+class DateFormatHelperTest extends TestCase {
 
 	/**
 	 * Date display

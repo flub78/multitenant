@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -77,8 +77,6 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		// TODO: handle price decimal values with comma (French localisation)
-		// Curently price is an integer value ...
 		$validatedData = $request->validate ( $this->create_rules );
 
 		$validatedData ['password'] = Hash::make ( $validatedData ['password'] );

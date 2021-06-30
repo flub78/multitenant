@@ -4,6 +4,7 @@ namespace App\Models\Tenants;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\ModelWithLogs;
+use Exception;
 
 /**
  * Calendar event model
@@ -60,7 +61,7 @@ class CalendarEvent extends ModelWithLogs
     protected $fillable = [
     		'title',
     		'groupId',
-    		'allDay', 
+    		'allDay',
     		'start', 'end',
     		'editable', 'startEditable', 'durationEditable',
     		'backgroundColor', 'borderColor', 'textColor'
@@ -80,5 +81,87 @@ class CalendarEvent extends ModelWithLogs
     protected $hidden = [
     		'editable', 'startEditable', 'durationEditable'
     ];
+    
+    
+    /**
+     * Extract the date part from a DateTime
+     * @throws Exception
+     * @return string
+     */
+    protected function extractDate($date) {
+    	if ($date == "") return "";
+    	
+    	$date_regexp = '/((\d{4})\-(\d{2})\-(\d{2}))/';
+    	    	
+    	if (preg_match($date_regexp, $date, $matches)) {
+    		$year = $matches[2];
+    		$month = $matches[3];
+    		$day = $matches[4];
+    		return "$day/$month/$year";
+    	} else {
+    		throw new Exception("Incorrect date format: $date, expected YYY-MM-DD");
+    	}
+    }
 
+    /**
+     * Extract the time part from a DateTime
+     * @throws Exception
+     * @return string
+     */
+    protected function extractTime($date) {
+    	if ($date == "") return "";
+    	
+    	$time_regexp = '/((\d{2})\:(\d{2})\:(\d{2}))/';
+    	
+    	if (preg_match($time_regexp, $date, $matches)) {
+    		$hour = $matches[2];
+    		$minute = $matches[3];
+    		$second = $matches[4];
+    		return "$hour:$minute";
+    	} else {
+    		throw new Exception("Incorrect date format: $date, expected YYY-MM-DD");
+    	}
+    }
+    
+    /**
+     * StartDate getter
+     * @throws Exception
+     * @return string
+     */
+    public function getStartDate() {
+    	return $this->extractDate($this->start);    	
+    }
+    
+    /**
+     * StartTime getter
+     * @throws Exception
+     * @return string
+     */
+    public function getStartTime() {
+    	return $this->extractTime($this->start); 
+    }
+    
+    /**
+     * EndDate getter
+     * @throws Exception
+     * @return string
+     */
+    public function getEndDate() {
+    	return $this->extractDate($this->end);
+    }
+    
+    /**
+     * EndTime getter
+     * @throws Exception
+     * @return string
+     */
+    public function getEndTime() {
+    	return $this->extractTime($this->end);
+    }
+    
+    public function setStartAttribute($value)
+    {
+    	//echo "setStartAttribute($value)\n"; exit;
+    	$this->attributes['start'] = $value;
+    }
 }
