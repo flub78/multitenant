@@ -111,3 +111,7 @@ The calendar can get the events from an URL providing a json events description.
         }
     ]
   
+## Datetime picker
+
+    https://www.solodev.com/blog/web-design/adding-a-datetime-picker-to-your-forms.stml
+    

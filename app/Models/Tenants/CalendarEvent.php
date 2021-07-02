@@ -164,4 +164,6 @@ class CalendarEvent extends ModelWithLogs
     	//echo "setStartAttribute($value)\n"; exit;
     	$this->attributes['start'] = $value;
     }
+    
+    
 }

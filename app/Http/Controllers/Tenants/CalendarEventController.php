@@ -20,9 +20,6 @@ class CalendarEventController extends Controller {
 	 */
 	public function index() {
 		$events = CalendarEvent::all ();
-		foreach ($events as $event) {
-			// var_dump($event);exit;
-		}
 		return view ( 'tenants.calendar.index', compact ( 'events' ) );
 	}
 

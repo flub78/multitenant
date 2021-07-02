@@ -18,6 +18,7 @@
           <td>{{__('calendar.event_title')}}</td>
           <td>{{__('calendar.groupId')}}</td>
           <td>{{__('calendar.start_date')}}</td>
+          <td>{{__('calendar.start_time')}}</td>
           <td>{{__('calendar.allday')}}</td>
           <td >{{__('general.edit')}}</td>
           <td >{{__('general.delete')}}</td>
@@ -29,7 +30,8 @@
         <tr>
             <td>{{$event->title}}</td>
             <td>{{$event->groupId}}</td>
-            <td>{{$event->start}}</td>
+            <td>{{$event->getStartDate()}}</td>
+            <td>{{$event->getStartTime()}}</td>
             <td>
             	<input type="checkbox"   {{($event->allday) ? 'checked' : ''}} onclick="return false;" />
             </td>

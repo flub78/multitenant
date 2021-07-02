@@ -39,6 +39,15 @@ class CalendarEventModelTest extends TenantTestCase
 	public function test_accessor() {
 		$event = CalendarEvent::factory()->create(['start' => '2021-06-30 12:00:00']);
 		
+		/*
+		$methods = get_class_methods($event);
+		sort($methods);
+		for ($i =0; $i < count($methods); $i++) {
+			echo $i . ' - ' . $methods[$i] . "\n";
+		}
+		exit;
+		*/
+		
 		$this->assertNotNull($event);
 		
 		$this->assertEquals('30/06/2021', $event->getStartDate());
@@ -47,7 +56,9 @@ class CalendarEventModelTest extends TenantTestCase
 
 		$this->assertEquals('', $event->getEndDate());
 		
-		$this->assertEquals('', $event->getEndTime() );		
+		$this->assertEquals('', $event->getEndTime() );
+		
+		
 	}
 	
 	/**

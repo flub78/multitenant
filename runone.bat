@@ -1,8 +1,8 @@
 @rem Unit tests
 @rem php vendor\phpunit\phpunit\phpunit tests/Unit/ExampleTest.php
-@rem php vendor\phpunit\phpunit\phpunit tests/Unit/DateFormatHelperTest.php
+php vendor\phpunit\phpunit\phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/ConfigurationModelTest.php
-php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/CalendarEventModelTest.php
+@rem #### php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/CalendarEventModelTest.php
 
 @rem Central application tests
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/CentralFeatureExampleTest.php
