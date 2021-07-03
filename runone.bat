@@ -2,7 +2,7 @@
 @rem php vendor\phpunit\phpunit\phpunit tests/Unit/ExampleTest.php
 php vendor\phpunit\phpunit\phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/ConfigurationModelTest.php
-@rem #### php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/CalendarEventModelTest.php
+php vendor\phpunit\phpunit\phpunit tests/Unit/Tenants/CalendarEventModelTest.php
 
 @rem Central application tests
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/CentralFeatureExampleTest.php

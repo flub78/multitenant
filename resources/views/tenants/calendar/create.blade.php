@@ -49,8 +49,8 @@
           </div>
 
            <div class="form-group">
-              <label for="starttime"> {{__('calendar.start_time')}}</label>
-              <input type="text" class="form-control timepicker" name="starttime" value="{{ old('starttime') }}"/>
+              <label for="start_time"> {{__('calendar.start_time')}}</label>
+              <input type="text" class="form-control timepicker" name="start_time" value="{{ old('start_time') }}"/>
           </div>
 
            <div class="form-group">

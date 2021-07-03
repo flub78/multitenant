@@ -63,7 +63,7 @@ class DateFormat {
      * Translate a localized date from into a MySql storage format
      *
      * @param  string $date localized date
-     * @param optional timezone
+     * @param optional tz timezone
      * @return string yyyy-mm-dd
      */
     static public function date_to_db($local_date, $tz = "") 
@@ -71,7 +71,6 @@ class DateFormat {
     	if (!$tz) {
     		$tz = Config::config('app.timezone');
     	}
-    	$date = date_create_from_format(__('general.date_format'), $local_date);
         $date = Carbon::createFromFormat(__('general.date_format'), $local_date, $tz);
         if (!$date) {
         	throw new Exception("incorrect date $local_date");
@@ -79,4 +78,24 @@ class DateFormat {
         return $date->format("Y-m-d");
     }
 
+    /**
+     * Build an UTC datetime from a local date and a time
+     *
+     * @param  string $date localized date
+     * @param optional tz timezone
+     * @return string yyyy-mm-dd
+     */
+    static public function datetime_to_db($local_date, $time, $tz = "")
+    {
+    	if (!$tz) {
+    		$tz = Config::config('app.timezone');
+    	}
+    	$local_datetime = $local_date . ' ' . $time;
+    	$date = Carbon::createFromFormat(__('general.datetime_format'), $local_datetime, $tz);
+    	if (!$date) {
+    		throw new Exception("incorrect date $local_date");
+    	}
+    	return $date->format("Y-m-d ");
+    }
+    
 }

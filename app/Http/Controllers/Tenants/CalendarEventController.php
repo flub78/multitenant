@@ -72,9 +72,9 @@ class CalendarEventController extends Controller {
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();
 
-		// var_dump($validatedData);
+		var_dump($validatedData); exit;
 		if (array_key_exists('start', $validatedData)) {
-			$validatedData['start'] = DateFormat::date_to_db($validatedData['start']);
+			$validatedData['start'] = DateFormat::datetime_to_db($validatedData['start'], $validatedData['start_time']);
 		}
 		if (array_key_exists('end', $validatedData)) {
 			$validatedData['end'] = DateFormat::date_to_db($validatedData['end']);

@@ -32,6 +32,7 @@ class CalendarEventRequest extends FormRequest
     				'title' => 'required|max:191',
     				'groupId' => 'max:191',
     				'start' => 'required|date_format:' . __('general.date_format') . '',
+    				'start_time' => 'regex:/\d{2}\:\d{2}/'
     			];
     		}
     		case 'PUT':
@@ -40,6 +41,7 @@ class CalendarEventRequest extends FormRequest
     				'title' => 'required|max:191',
     				'groupId' => 'max:191',
     				'start' => 'required|date_format:' . __('general.date_format') . '',
+    				'start_time' => 'regex:/\d{2}\:\d{2}/'
     			];
     		}
     		default:
