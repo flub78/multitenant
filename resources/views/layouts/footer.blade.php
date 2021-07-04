@@ -89,7 +89,6 @@ $.datepicker.regional['fr'] = {
     	interval: 5,
     	minTime: '09:00',
     	maxTime: '20:00',
-		defaultTime: '12:00',
     	startTime: '09:00',
     	dynamic: false,
     	dropdown: true,

@@ -51,7 +51,7 @@
 
            <div class="form-group">
               <label for="start_time"> {{__('calendar.start_time')}}</label>
-    {{ " = " . old('start_time',$calendarEvent->getStartTime())               }}
+    		  <!--  {{ old('start_time',$calendarEvent->getStartTime())               }} -->
               <input type="text" class="form-control timepicker" name="start_time" value="{{ old('start_time', $calendarEvent->getStartTime()) }}"/>
           </div>
 
