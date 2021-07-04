@@ -13,6 +13,7 @@ return [
 		'list' => "Event list",
 		'new' => "New Event",
 		'add' => "Add Event",
+		'edit' => "Event Modification",
 		'fullcalendar' => 'Full Calendar',
 		'title' => 'Title',
 		'groupId' => 'Category',

@@ -72,4 +72,21 @@ class DateFormatHelperTest extends TestCase {
 		
 		$this->assertFalse (DateFormat::db_date_has_time("12:34"));
 	}
+	
+	public function test_datetime() {
+		App::setLocale ( 'fr' );
+		$res = DateFormat::datetime_to_db ( "22/04/2018", "10:00", "Europe/Paris");
+		$this->assertTrue ( $res == '2018-04-22 08:00', "basic french format " . $res );
+		
+		try {
+			$res = DateFormat::datetime_to_db ( "22/04/2018", "01:00:61", "Europe/Paris");
+		} catch (Exception $e) {
+			// echo "Exception: " . $e->getMessage() . "\n";
+		}
+		
+		App::setLocale ( 'en' );
+		$res = DateFormat::datetime_to_db ( '04-22-2018', '10:00', "UTC");
+		$this->assertTrue ( $res == "2018-04-22 10:00", "basic english format " . $res );
+		
+	}
 }

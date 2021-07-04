@@ -72,7 +72,6 @@ class CalendarEventController extends Controller {
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();
 
-		var_dump($validatedData); exit;
 		if (array_key_exists('start', $validatedData)) {
 			$validatedData['start'] = DateFormat::datetime_to_db($validatedData['start'], $validatedData['start_time']);
 		}
@@ -81,7 +80,7 @@ class CalendarEventController extends Controller {
 		}
 		
 		CalendarEvent::create ( $validatedData );
-		return redirect ( 'calendar.list'  )->with ( 'success', 'Configuration entry ' . $validatedData ['title'] . ' created' );
+		return redirect ( 'calendar'  )->with ( 'success', 'Configuration entry ' . $validatedData ['title'] . ' created' );
 	}
 
 	/**
@@ -101,11 +100,7 @@ class CalendarEventController extends Controller {
 	 */
 	public function edit($id) {
 		$calendarEvent = CalendarEvent::findOrFail($id);
-		var_dump($calendarEvent); exit;
-		$attr = $calendarEvent->attributes();
-		$compact = compact ( 'calendarEvent' );
-		var_dump($attr); exit;
-		return view ( 'tenants.calendar.edit' )->with ( $attr );
+		return view ( 'tenants.calendar.edit' )->with ( 'calendarEvent', $calendarEvent);
 	}
 
 	/**

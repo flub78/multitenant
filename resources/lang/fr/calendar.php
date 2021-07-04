@@ -14,6 +14,7 @@ return [
 	'list' => "Liste",	
 	'new' => "Nouvel événement",
 	'add' => "Ajout Evenement",
+	'edit' => "Modification Evenement",
 	'fullcalendar' => 'Mensuel',
 	'event_title' => 'Titre',
 	'groupId' => 'Catégorie',

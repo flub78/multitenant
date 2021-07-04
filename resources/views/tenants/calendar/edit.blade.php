@@ -39,6 +39,22 @@
               <input type="text" class="form-control" name="groupId" value="{{ old('groupId', $calendarEvent->groupId) }}"/>
           </div>
 
+           <div class="form-group">
+              <label for="allDay"> {{__('calendar.allday')}}</label>
+              <input type="checkbox" class="form-control" name="allDay" value="1"  {{old('allDay', $calendarEvent->allDay) ? 'checked' : ''}}/>
+          </div>
+          
+           <div class="form-group">
+              <label for="start"> {{__('calendar.start_date')}}</label>
+              <input type="text" class="form-control datepicker" name="start" value="{{ old('start', $calendarEvent->getStartDate()) }}"/>
+          </div>
+
+           <div class="form-group">
+              <label for="start_time"> {{__('calendar.start_time')}}</label>
+    {{ " = " . old('start_time',$calendarEvent->getStartTime())               }}
+              <input type="text" class="form-control timepicker" name="start_time" value="{{ old('start_time', $calendarEvent->getStartTime()) }}"/>
+          </div>
+
           <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
       </form>
   </div>

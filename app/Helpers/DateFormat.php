@@ -92,10 +92,11 @@ class DateFormat {
     	}
     	$local_datetime = $local_date . ' ' . $time;
     	$date = Carbon::createFromFormat(__('general.datetime_format'), $local_datetime, $tz);
+    	$date->timezone("UTC");
     	if (!$date) {
     		throw new Exception("incorrect date $local_date");
     	}
-    	return $date->format("Y-m-d ");
+    	return $date->format("Y-m-d H:i");
     }
     
 }
