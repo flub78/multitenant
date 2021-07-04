@@ -81,6 +81,7 @@ class AdminAccessTest extends TestCase {
 		
 		$response = $this->get ( '/backup' );
 		$response->dump();
+		
 		$response->assertStatus ( 302 );
 		$response->assertSeeText ( 'Redirecting to' );
 		

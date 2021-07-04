@@ -82,7 +82,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$title = "Event $count";
 		$groupId = "GroupId $count";
 		$start = "07-31-2021";
-		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start];
+		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start, 'start_time' => '10:00'];
 		
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
 		$response = $this->post ( $url, $elt);
@@ -142,38 +142,44 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
-		
-		$count = CalendarEvent::count ();
-		
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id;
-		
-		return;
-		
-		$response = $this->delete ( $url);
-		$response->assertStatus ( 302 );
-		
-		$new_count = CalendarEvent::count ();
-		$expected = $count - 1;
-		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );
+				
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id . '/edit';
+				
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		$response->assertSeeText(__('calendar.edit'));
 	}
 	
 	public function test_update() {
+		// TODO test allDay attributes
 		$this->be ( $this->user );
 		
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
 		
+		$event = CalendarEvent::find($id);
 		$count = CalendarEvent::count ();
 		
+        $this->withoutMiddleware();
+
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id;
 		
-		$response = $this->patch ( $url);
-		$response->assertStatus ( 200 );
+		$new_title = "new title";
+		$new_start = '06-24-2021';
+		$elt = ["id" => $event->id, "title" => $new_title, 'start' => $new_start, 'start_time' => '06:30', 
+				'_token' => csrf_token()];
+				
+		$response = $this->patch ( $url, $elt);
+		// $response->dumpSession();
 		
-		return;
-		$new_count = CalendarEvent::count ();
-		$expected = $count - 1;
-		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );
+		$response->assertStatus ( 302);
+		
+		$stored = CalendarEvent::findOrFail($id);
+		$this->assertEquals($new_title, $stored->title);
+        $this->assertEquals("2021-06-24 06:30:00", $stored->start);
+		
+		$expected = CalendarEvent::count ();
+		$this->assertEquals ( $expected, $count, "Count does not change on update, actual=$count, expected=$expected" );
 	}
 	
 }

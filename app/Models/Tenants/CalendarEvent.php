@@ -5,6 +5,9 @@ namespace App\Models\Tenants;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\ModelWithLogs;
 use Exception;
+use Carbon\Carbon;
+use App\Helpers\Config;
+use App;
 
 /**
  * Calendar event model
@@ -21,6 +24,10 @@ use Exception;
  * 		start_time
  * 		end_date
  * 		end_time
+ * 
+ * When an EventCalendar is created or fetched from the database only the start and end attributes are set.
+ * The start_date, start_time, end_date and end_time will be populated the first time that 
+ * getStartDate, getStartTime, getEndDate, getEndTime are called.
  * 
  * Maybe later:
  * -----------
@@ -82,44 +89,30 @@ class CalendarEvent extends ModelWithLogs
     		'editable', 'startEditable', 'durationEditable'
     ];
     
-    
-    /**
-     * Extract the date part from a DateTime
-     * @throws Exception
-     * @return string
-     */
-    protected function extractDate($date) {
-    	if ($date == "") return "";
+    protected function setStartDateAndTime() {
+    	if (isset($this->start)) {
+    		$date = Carbon::createFromFormat('Y-m-d H:i:s', $this->start);
+    		$tz = Config::config('app.timezone');
+    		$date->tz($tz);
     	
-    	$date_regexp = '/((\d{4})\-(\d{2})\-(\d{2}))/';
-    	    	
-    	if (preg_match($date_regexp, $date, $matches)) {
-    		$year = $matches[2];
-    		$month = $matches[3];
-    		$day = $matches[4];
-    		return "$day/$month/$year";
+    		$this->start_date = $date->format(__('general.date_format'));
+    		$this->start_time = $date->format(__('general.time_format'));
     	} else {
-    		throw new Exception("Incorrect date format: $date, expected YYY-MM-DD");
+    		$this->start_date = '';
+    		$this->start_time = '';
     	}
     }
 
-    /**
-     * Extract the time part from a DateTime
-     * @throws Exception
-     * @return string
-     */
-    protected function extractTime($date) {
-    	if ($date == "") return "";
+    protected function setEndDateAndTime() {
+    	if (isset($this->end)) {
+    		$date = Carbon::createFromFormat('Y-m-d H:i:s', $this->end);
+    		$date->tz(Config::config('app.timezone'));
     	
-    	$time_regexp = '/((\d{2})\:(\d{2})\:(\d{2}))/';
-    	
-    	if (preg_match($time_regexp, $date, $matches)) {
-    		$hour = $matches[2];
-    		$minute = $matches[3];
-    		$second = $matches[4];
-    		return "$hour:$minute";
+    		$this->end_date = $date->format(__('general.date_format'));
+    		$this->end_time = $date->format(__('general.time_format'));
     	} else {
-    		throw new Exception("Incorrect date format: $date, expected YYY-MM-DD");
+    		$this->end_date = '';
+    		$this->end_time = '';	
     	}
     }
     
@@ -129,7 +122,10 @@ class CalendarEvent extends ModelWithLogs
      * @return string
      */
     public function getStartDate() {
-    	return $this->extractDate($this->start);    	
+    	if (!isset($this->start_date)) {
+    		$this->setStartDateAndTime();
+    	}
+    	return $this->start_date;
     }
     
     /**
@@ -138,7 +134,10 @@ class CalendarEvent extends ModelWithLogs
      * @return string
      */
     public function getStartTime() {
-    	return $this->extractTime($this->start); 
+    	if (!isset($this->start_time)) {
+    		$this->setStartDateAndTime();
+    	}
+    	return $this->start_time;
     }
     
     /**
@@ -147,7 +146,10 @@ class CalendarEvent extends ModelWithLogs
      * @return string
      */
     public function getEndDate() {
-    	return $this->extractDate($this->end);
+    	if (!isset($this->end_date)) {
+    		$this->setEndDateAndTime();
+    	}
+    	return $this->end_date;
     }
     
     /**
@@ -156,14 +158,10 @@ class CalendarEvent extends ModelWithLogs
      * @return string
      */
     public function getEndTime() {
-    	return $this->extractTime($this->end);
-    }
-    
-    public function setStartAttribute($value)
-    {
-    	//echo "setStartAttribute($value)\n"; exit;
-    	$this->attributes['start'] = $value;
-    }
-    
+    	if (!isset($this->end_time)) {
+    		$this->setEndDateAndTime();
+    	}
+    	return $this->end_time;
+    }    
     
 }

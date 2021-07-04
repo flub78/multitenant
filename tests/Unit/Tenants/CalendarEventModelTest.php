@@ -4,12 +4,10 @@ namespace tests\Unit;
 
 use Tests\TenantTestCase;
 use App\Helpers\Config;
+use App;
 
 use App\Models\Tenants\CalendarEvent;
 use Carbon\Carbon;
-// use DateTime;
-// use DateTimeZone;
-// use database\factories\CalendarEventFactory;
 
 /**
  * Unit test for CalendarEventModel
@@ -37,27 +35,27 @@ class CalendarEventModelTest extends TenantTestCase
 	 * Test Calendar Even accessors
 	 */
 	public function test_accessor() {
-		$event = CalendarEvent::factory()->create(['start' => '2021-06-30 12:00:00']);
+		$event = CalendarEvent::factory()->create(['start' => '2021-06-30 12:00:00']);  // UTC
 		
-		/*
-		$methods = get_class_methods($event);
-		sort($methods);
-		for ($i =0; $i < count($methods); $i++) {
-			echo $i . ' - ' . $methods[$i] . "\n";
-		}
-		exit;
-		*/
-		
+		Config::set('app.timezone', 'Europe/Paris');
+		App::setLocale('fr');
+		$tz = Config::config('app.timezone');
+					
 		$this->assertNotNull($event);
 		
 		$this->assertEquals('30/06/2021', $event->getStartDate());
 
-		$this->assertEquals('12:00', $event->getStartTime());
+		$this->assertEquals('14:00', $event->getStartTime());
 
 		$this->assertEquals('', $event->getEndDate());
 		
 		$this->assertEquals('', $event->getEndTime() );
 		
+		$event = CalendarEvent::factory()->create(['start' => '2021-06-30 12:00:00', 
+				'end' => '2021-06-30 12:35:00']);  // UTC
+		
+		$this->assertEquals('30/06/2021', $event->getEndDate());
+		$this->assertEquals('14:35', $event->getEndTime() );
 		
 	}
 	

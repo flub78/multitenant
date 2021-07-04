@@ -76,10 +76,11 @@ class CalendarEventController extends Controller {
 			$validatedData['start'] = DateFormat::datetime_to_db($validatedData['start'], $validatedData['start_time']);
 		}
 		if (array_key_exists('end', $validatedData)) {
-			$validatedData['end'] = DateFormat::date_to_db($validatedData['end']);
+			$validatedData['end'] = DateFormat::date_to_db($validatedData['end'], $validatedData['end_time']);
 		}
 		
 		CalendarEvent::create ( $validatedData );
+		// TODO localization of success messages
 		return redirect ( 'calendar'  )->with ( 'success', 'Configuration entry ' . $validatedData ['title'] . ' created' );
 	}
 
@@ -110,8 +111,23 @@ class CalendarEventController extends Controller {
 	 * @param \App\Models\Tenants\CalendarEvent $calendarEvent
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, CalendarEvent $calendarEvent) {
-		echo "update\n";
+	public function update(CalendarEventRequest $request, $id) {
+		$validatedData = $request->validated ();
+		
+		if (array_key_exists('start', $validatedData)) {
+			$validatedData['start'] = DateFormat::datetime_to_db($validatedData['start'], $validatedData['start_time']);
+		}
+		if (array_key_exists('end', $validatedData)) {
+			$validatedData['end'] = DateFormat::datetime_to_db($validatedData['end'], $validatedData['end_time']);
+		}
+		
+		unset($validatedData['start_time']);
+		unset($validatedData['end_time']);
+		
+		CalendarEvent::whereId ( $id )->update ( $validatedData );
+		
+		// TODO localization of success messages
+		return redirect ( 'calendar'  )->with ( 'success', 'Event ' . $validatedData ['title'] . ' updated' );
 	}
 
     /**
@@ -126,6 +142,8 @@ class CalendarEventController extends Controller {
     	$calendarEvent = CalendarEvent::findOrFail($id);
     	$title = $calendarEvent->title;
     	$calendarEvent->delete ();
+    	
+    	// TODO localization of success messages
     	return redirect ('calendar')->with ( 'success', "Event $title deleted" );
     }
 }
