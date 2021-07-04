@@ -33,7 +33,7 @@
             <td>{{$event->getStartDate()}}</td>
             <td>{{$event->getStartTime()}}</td>
             <td>
-            	<input type="checkbox"   {{($event->allday) ? 'checked' : ''}} onclick="return false;" />
+            	<input type="checkbox"   {{($event->allDay) ? 'checked' : ''}} onclick="return false;" />
             </td>
             <td><a href="{{ route('calendar.edit', $event->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
             

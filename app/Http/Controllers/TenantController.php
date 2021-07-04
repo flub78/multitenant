@@ -11,6 +11,7 @@ use App\Helpers\TenantHelper;
 
 class TenantController extends Controller
 {
+	// TODO create a request for tenants
 	protected $rules = [
 			'id' => [
 					'required',

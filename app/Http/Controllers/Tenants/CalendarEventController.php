@@ -70,14 +70,15 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(CalendarEventRequest $request) {
-		$validatedData = $request->validated ();
+		$validatedData = $request->validated ();	
 
 		if (array_key_exists('start', $validatedData)) {
 			$validatedData['start'] = DateFormat::datetime_to_db($validatedData['start'], $validatedData['start_time']);
 		}
 		if (array_key_exists('end', $validatedData)) {
-			$validatedData['end'] = DateFormat::date_to_db($validatedData['end'], $validatedData['end_time']);
+			$validatedData['end'] = DateFormat::datetime_to_db($validatedData['end'], $validatedData['end_time']);
 		}
+		$validatedData['allDay'] = $request->has('allDay');
 		
 		CalendarEvent::create ( $validatedData );
 		// TODO localization of success messages
@@ -120,10 +121,11 @@ class CalendarEventController extends Controller {
 		if (array_key_exists('end', $validatedData)) {
 			$validatedData['end'] = DateFormat::datetime_to_db($validatedData['end'], $validatedData['end_time']);
 		}
+		$validatedData['allDay'] = $request->has('allDay') && $request->allDay;
 		
 		unset($validatedData['start_time']);
 		unset($validatedData['end_time']);
-		
+				
 		CalendarEvent::whereId ( $id )->update ( $validatedData );
 		
 		// TODO localization of success messages

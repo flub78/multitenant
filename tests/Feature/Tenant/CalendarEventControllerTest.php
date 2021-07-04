@@ -82,7 +82,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$title = "Event $count";
 		$groupId = "GroupId $count";
 		$start = "07-31-2021";
-		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start, 'start_time' => '10:00'];
+		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start, 'start_time' => '10:00',
+				'allDay' => 1
+		];
 		
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
 		$response = $this->post ( $url, $elt);
@@ -94,6 +96,11 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$expected = $count + 1;
 		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
 		
+		$search = ['title' => $title, 'groupId' => $groupId];
+		
+		$event = CalendarEvent::where($search)->first();
+		$this->assertNotNull($event);
+		$this->assertEquals($event->allDay, 1);
 	}
 	
 	public function test_calendar_event_store_incorrect_value() {
@@ -160,14 +167,16 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$event = CalendarEvent::find($id);
 		$count = CalendarEvent::count ();
 		
-        $this->withoutMiddleware();
+		$this->assertEquals($event->allDay, 1); // by default
+		
+		$this->withoutMiddleware();
 
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id;
 		
 		$new_title = "new title";
 		$new_start = '06-24-2021';
 		$elt = ["id" => $event->id, "title" => $new_title, 'start' => $new_start, 'start_time' => '06:30', 
-				'_token' => csrf_token()];
+				'allDay' => false, '_token' => csrf_token()];
 				
 		$response = $this->patch ( $url, $elt);
 		// $response->dumpSession();
@@ -177,7 +186,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$stored = CalendarEvent::findOrFail($id);
 		$this->assertEquals($new_title, $stored->title);
         $this->assertEquals("2021-06-24 06:30:00", $stored->start);
-		
+        $this->assertEquals($stored->allDay, 0); 
+        
 		$expected = CalendarEvent::count ();
 		$this->assertEquals ( $expected, $count, "Count does not change on update, actual=$count, expected=$expected" );
 	}
