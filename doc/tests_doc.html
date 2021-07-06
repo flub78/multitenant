@@ -28,19 +28,28 @@
         </style>
     </head>
     <body>
+        <h2 id="Tests\Unit\DateFormatHelperTest">Date Format Helper (Tests\Unit\DateFormatHelper)</h2>
+        <ul>
+            <li style="color: #555753;">✓ Dates in different languages can be stored in database</li>
+            <li style="color: #555753;">✓ Date format errors</li>
+            <li style="color: #555753;">✓ Datetime</li>
+        </ul>
         <h2 id="Tests\Unit\ExampleTest">Example (Tests\Unit\Example)</h2>
         <ul>
             <li style="color: #555753;">✓ Example</li>
         </ul>
         <h2 id="tests\Unit\CalendarEventModelTest">Calendar Event Model (tests\Unit\CalendarEventModel)</h2>
         <ul>
-            <li style="color: #ef2929;">❌ C r u d</li>
+            <li style="color: #555753;">✓ Accessor</li>
+            <li style="color: #555753;">✓ C r u d</li>
             <li style="color: #555753;">✓ Deleting non existing element</li>
+            <li style="color: #555753;">✓ Carbon</li>
         </ul>
         <h2 id="tests\Unit\ConfigHelperTest">Config Helper (tests\Unit\ConfigHelper)</h2>
         <ul>
             <li style="color: #555753;">✓ Unknow config value</li>
             <li style="color: #555753;">✓ Not overwritten config value</li>
+            <li style="color: #555753;">✓ Set</li>
         </ul>
         <h2 id="tests\Unit\Tenants\ConfigurationModelTest">Configuration Model (tests\Unit\Tenants\ConfigurationModel)</h2>
         <ul>
@@ -109,6 +118,9 @@
             <li style="color: #555753;">✓ Tenants create view</li>
             <li style="color: #555753;">✓ Tenant edit view existing element</li>
             <li style="color: #555753;">✓ Tenant show</li>
+            <li style="color: #555753;">✓ Store</li>
+            <li style="color: #555753;">✓ Update</li>
+            <li style="color: #555753;">✓ Delete</li>
         </ul>
         <h2 id="tests\Feature\Central\TestControllerTest">Controller (tests\Feature\Central\Controller)</h2>
         <ul>
@@ -137,6 +149,10 @@
             <li style="color: #555753;">✓ Calendar event create</li>
             <li style="color: #555753;">✓ Calendar json</li>
             <li style="color: #555753;">✓ Calendar event store</li>
+            <li style="color: #555753;">✓ Calendar event store incorrect value</li>
+            <li style="color: #555753;">✓ Delete</li>
+            <li style="color: #555753;">✓ Edit</li>
+            <li style="color: #555753;">✓ Update</li>
         </ul>
         <h2 id="tests\Feature\Tenant\ConfigurationControllerTest">Configuration Controller (tests\Feature\Tenant\ConfigurationController)</h2>
         <ul>
@@ -148,6 +164,13 @@
             <li style="color: #555753;">✓ Edit page</li>
             <li style="color: #555753;">✓ Update</li>
             <li style="color: #555753;">✓ Delete</li>
+        </ul>
+        <h2 id="tests\Feature\Tenant\LocalizationTest">Localization (tests\Feature\Tenant\Localization)</h2>
+        <ul>
+            <li style="color: #555753;">✓ Language when app locale is not defined in database</li>
+            <li style="color: #555753;">✓ Language when app locale is en</li>
+            <li style="color: #555753;">✓ Language when app locale is set with an unsupported value</li>
+            <li style="color: #555753;">✓ Language when app locale is fr</li>
         </ul>
         <h2 id="tests\Feature\Tenant\TenantBackupArtisanTest">Tenant Backup Artisan (tests\Feature\Tenant\TenantBackupArtisan)</h2>
         <ul>
@@ -174,6 +197,10 @@
             <li style="color: #555753;">✓ Tenant database</li>
             <li style="color: #555753;">✓ Backup dirpath</li>
             <li style="color: #555753;">✓ Exists</li>
+        </ul>
+        <h2 id="tests\Feature\Tenant\TenantHomeControllerTest">Tenant Home Controller (tests\Feature\Tenant\TenantHomeController)</h2>
+        <ul>
+            <li style="color: #555753;">✓ Home</li>
         </ul>
         <h2 id="tests\Feature\Tenant\TenantModelTest">Tenant Model (tests\Feature\Tenant\TenantModel)</h2>
         <ul>

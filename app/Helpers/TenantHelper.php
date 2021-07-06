@@ -4,6 +4,12 @@ namespace App\Helpers;
 use App\Models\Tenant;
 use Carbon\Carbon;
   
+/**
+ * Static functions to return information about tenants.
+ * 
+ * @author frederic
+ *
+ */
 class TenantHelper {
 	
 	/**
@@ -73,7 +79,7 @@ class TenantHelper {
 	}
 	
 	/**
-	 * return a backup full file name
+	 * generate a backup full file name
 	 *
 	 * @param string $tenant_id
 	 */
@@ -103,6 +109,7 @@ class TenantHelper {
 	
 	/**
 	 * count existing backups
+	 * @param $tenant_id
 	 * @return number
 	 */
 	public static function backup_count(string $tenant_id = "") {
