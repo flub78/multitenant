@@ -1,0 +1,59 @@
+# Continuous delivery
+
+A continuous delivery pipeline is an automated process from commits to validation of releases suitable for deployment.
+
+They should contain at least the following steps
+
+* Commit. Marking of a release candidate
+* Static analysis
+* Unit and features tests (no failure)
+* End to End test on local server
+* Installation - End to end testing
+* Upgrade - End to End testing
+
+## Commit
+
+Not all commits trigger the release pipeline. The release pipeline must be executed at least once a day when commits have happened. The could be started during the night and maybe once in the middle of the work day.
+
+## Marking and artifact generation
+
+When the release pipeline is started, the first thing is to mark the release candidate under git.
+
+It cand be done with a build number for example build_657.
+
+Note that in this case installation will be done directly from git. SO there is not really any artifact to build. 
+
+## Static analysis
+
+Then static analysis is triggered. I still need to decide if it makes sense to declare the release invalid if some quality threshold is not reached. It is usually rather arbitrary but it may be helpfull to define a limit just in case the quality slowly decrease.
+
+## Unit and features tests (no failure)
+
+All test should pass, no exception.
+
+## End to End test on local server
+
+If the installation process is fast, this step may not be necessary. At least it may be an intermediary step to develop the end to end test. But running them at this stage may be optional.
+
+## Installation - End to end testing
+
+The an installation is done from scratch, exactly the same way than an installation from a customer.
+
+Installation should be fully automated, and test first the prerequisite. In some cases, for example, the databases could already exist. If possible limit the prerequisite to a shell access. ANsible is likely a suitable tool for installation.
+
+* Both central and tenant database should be reinitialized.
+* Central database should be refreshed and migrated
+* The test tenant is created
+* Central end to end test
+* Tenant end to end test
+
+## Upgrade - End to End testing
+
+This environment is never reset. It emulates a customer who would upgrade and keep its data.
+
+* After migration end to end tests are run.
+* There are some tests to check that data has persisted across the update
+* It is typically the environment to use to handle big data set
+* And to test performance
+
+If all these steps have passed successfully, the release candidate is upgraded as an official release.

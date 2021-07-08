@@ -6,6 +6,20 @@ use App\Models\Tenants\Configuration;
 use App\Http\Requests\Tenants\ConfigRequest;
 use app\Http\Controllers\Controller;
 
+/**
+ * A controller for tenant configuration
+ * 
+ * The tenant configuration is a mechanism that manage configuration parameters per tenant.
+ * For example every tenant could use his own language and be in his own timezone.
+ * The basic configuration module can only return a global value for each parameter.
+ * 
+ * The current implementation uses a table in the tenant database. When a parameter
+ * is not defined in the database, the mechanism fall back to the global configuration
+ * parameter.
+ * 
+ * @author frederic
+ *
+ */
 class ConfigurationController extends Controller {
 
 	/**

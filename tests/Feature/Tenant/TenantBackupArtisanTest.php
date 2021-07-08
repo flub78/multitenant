@@ -71,6 +71,7 @@ class TenantBackupArtisanTest extends TenantTestCase {
 		/*
 		 * It seems that restoring a database while phpunit is running has some negative effects...
 		 * It blocks the test ....
+		 * $exitCode = Artisan::call("backup:restore --tenant=$tenant $id");
 		 */
 		
 		$exitCode = Artisan::call("backup:delete --force --tenant=$tenant $id");

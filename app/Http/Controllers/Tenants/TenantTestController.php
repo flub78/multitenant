@@ -7,6 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Config;
 use Illuminate\Support\Facades\App;
 
+/**
+ * Just a controller to trigger test code used during development. It should be disabled before deployment.
+ * 
+ * (maybe I should create a developer middleware)
+ * 
+ * @author frederic
+ *
+ */
 class TenantTestController extends Controller
 {
     /**
@@ -17,6 +25,9 @@ class TenantTestController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        
+        // Forbiden access except during testing
+        if (config("app.env") != "testing" ) exit;
     }
 
     /**
@@ -26,10 +37,11 @@ class TenantTestController extends Controller
      */
     public function index()
     {
-    	echo ("Tenant Test Controller\n");
-    	echo ("Tenant=" . tenant('id') . " \n");
-    	echo ("Local from Config:: =" . Config::config('app.locale'). " \n");
-    	echo ("Local =" . App::getLocale() . " \n");
+    	$msg = "Tenant Test Controller\n";
+    	$msg .= "Tenant=" . tenant('id') . " \n";
+    	$msg .= "Local from Config:: =" . Config::config('app.locale'). " \n";
+    	$msg .= "Local =" . App::getLocale() . " \n";
+    	return $msg;
     	// return view('test');
     }
 }
