@@ -66,8 +66,7 @@ class CentralBackupArtisanTest extends TestCase {
 		$id = $initial_count + 1;
 		
 		/*
-		 * It seems that restoring a database while phpunit is running has some negative effects...
-		 * It blocks the test ....
+		 * Restoring tenant database blocks the test. It works with central database.
     	 */
 		$exitCode = Artisan::call("backup:restore --pretend --force $id");
 		$this->assertEquals($exitCode, 0, "No error on backup:restore");
