@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class ExampleTest extends DuskTestCase {
 
-	use DatabaseMigrations;
+	// use DatabaseMigrations;
 
 	public function setUp(): void {
 		parent::setUp ();
@@ -24,7 +24,8 @@ class ExampleTest extends DuskTestCase {
 		// Restore a test database
 		Artisan::call ( 'backup:restore', [ 
 				'backup_id' => 'testing.gz',
-				'--force' => true
+				'--force' => true,
+				'--quiet' => true
 		] );
 
 		$count = User::count ();
@@ -52,16 +53,22 @@ class ExampleTest extends DuskTestCase {
 	 * @return void
 	 */
 	public function test_login() {
+		/*
 		$user = User::factory ()->create ( [ 
 				'email' => 'taylor@laravel.com'
 		] );
+		
+		use ($user)
+		*/
 
-		$this->browse ( function ($browser) use ($user) {
+		$this->browse ( function ($browser)  {
 			$browser->visit ( '/login' )
 			->type ( 'email', env('TEST_LOGIN') )
 			->type ( 'password', env('TEST_PASSWORD') )
 			->press ( 'Login' )
 			->assertPathIs ( '/home' );
+			
+			$browser->screenshot('after_login');
 		} );
 	}
 

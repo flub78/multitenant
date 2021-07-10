@@ -16,3 +16,4 @@ yarn-error.log
 /storage/
 /results.txt
 /.env.testing
+/.env.dusk.local

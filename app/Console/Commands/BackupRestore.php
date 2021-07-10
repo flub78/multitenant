@@ -44,6 +44,7 @@ class BackupRestore extends Command {
 	public function handle() {
 		$backupId = $this->argument ( 'backup_id' );
 		$tenant = $this->option ( 'tenant' );
+		$quiet = $this->option ( 'quiet' );
 		if (! $tenant)
 			$tenant = "";
 
@@ -84,7 +85,7 @@ class BackupRestore extends Command {
 				exec ( $command, $output, $returnVar );
 			}
 
-			echo 'backup ' . $selected_file . " restored";
+			if (!$quiet) echo 'backup ' . $selected_file . " restored";
 		} else {
 			echo "command cancelled";
 		}
