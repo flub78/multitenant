@@ -4,12 +4,17 @@ A continuous delivery pipeline is an automated process from commits to validatio
 
 They should contain at least the following steps
 
-* Commit. Marking of a release candidate
+* Development, test execution in the development environment
+* Commit.
 * Static analysis
 * Unit and features tests (no failure)
-* End to End test on local server
-* Installation - End to end testing
-* Upgrade - End to End testing
+* Installation
+    - Smoke tests
+    - End to End testing
+* Upgrade 
+    - End to End testing
+    - performance tests
+  
 
 ## Commit
 

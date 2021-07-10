@@ -18,7 +18,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use App\Helpers\TenantHelper;
-
+use App\Models\Tenant;
 
 class CentralBackupArtisanTest extends TestCase {
 
@@ -48,7 +48,7 @@ class CentralBackupArtisanTest extends TestCase {
 	 * delete the backup
 	 * check that there is one less backup in the local storage
 	 */
-	public function test_backup_create_delete() {
+	public function test_backup_create_restore_delete() {
 		$this->be ( $this->user );
 
 		$initial_count = TenantHelper::backup_count ();
@@ -57,22 +57,58 @@ class CentralBackupArtisanTest extends TestCase {
 		$exitCode = Artisan::call('backup:list');
 		$this->assertEquals($exitCode, 0, "No error on backup:list");
 		
+		/**
+		// Create a tenant
+		$tenant_count = Tenant::count();
+		$this->assertEquals(0, $tenant_count, 'no tenants after refresh');
+		
+		$new_tenant = 'third';
+		$new_domain = 'third.tenants.com';
+		$validatedData = ['id' => $new_tenant, 'domain' => $new_domain];
+		$tenant = Tenant::create($validatedData);
+		// No needs to create the storage ...
+
+		
+		// Get a signature of the database
+		$domain_count = $tenant->domains()->count();
+		$this->assertEquals(0, $domain_count, 'no domains after tenant creation');		
+		 * 
+		 */
+		
 		// create a backup
 		$exitCode = Artisan::call('backup:create', []);
-		$this->assertEquals($exitCode, 0, "No error on backup:create");
-		
+		$this->assertEquals($exitCode, 0, "No error on backup:create");		
 		$this->assertEquals ($initial_count + 1,  TenantHelper::backup_count (),  "a backup has been created" );
 
-		$id = $initial_count + 1;
+		/**
+		// Change the database
+		$tenant->domains()->create(['domain' => $new_domain]);
+		$domain_count = $tenant->domains()->count();
+		$this->assertEquals(1, $domain_count, 'one domain created');
+		*/
 		
 		/*
-		 * Restoring tenant database blocks the test. It works with central database.
+		 * Restore central database
     	 */
+		$id = $initial_count + 1;
 		$exitCode = Artisan::call("backup:restore --pretend --force $id");
 		$this->assertEquals($exitCode, 0, "No error on backup:restore");
 		
+		/**
+		// Check that the database modification has been lost
+		$tnt = Tenant::findOrFail ( $new_tenant );
+		$domain_count = $tnt->domains()->count();
+		$this->assertEquals(0, $domain_count, 'domain creation overwritten');
+				
+		// Delete the tenant
+		$tnt->delete ();
+		*/
+		
+		// Delete the backup
 		$exitCode = Artisan::call("backup:delete --force $id");
-		$this->assertEquals ($initial_count,  TenantHelper::backup_count (),  "a backup has been deleted" );				
+		$this->assertEquals($exitCode, 0, "No error on backup:delete");
+		
+		$this->assertEquals ($initial_count,  TenantHelper::backup_count (),  "the backups have been deleted" );				
 	}
 
 	/**

@@ -12,7 +12,7 @@
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/TenantControllerTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/CentralHomeControllerTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Central/AdminAccessTest.php
-@rem @@@ php vendor\phpunit\phpunit\phpunit tests/Feature/Central/CentralBackupArtisanTest.php
+php vendor\phpunit\phpunit\phpunit tests/Feature/Central/CentralBackupArtisanTest.php
 
 @rem Tenant application tests
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantFeatureExampleTest.php
@@ -25,5 +25,5 @@
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/LocalizationTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantHomeControllerTest.php
 @rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TestControllerTest.php
-php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantModelTest.php
+@rem php vendor\phpunit\phpunit\phpunit tests/Feature/Tenant/TenantModelTest.php
 
