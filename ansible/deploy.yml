@@ -88,19 +88,19 @@
 
     # Application key
     - name: Generate application key
-      command: /usr/bin/php7.3 artisan key:generate
+      command: /usr/bin/php8.0 artisan key:generate
       args:
         chdir: '{{installation_path}}'
 
     # reset database
     - name: Reset database
-      command: /usr/bin/php7.3 artisan migrate:reset
+      command: /usr/bin/php8.0 artisan migrate:reset
       args:
         chdir: '{{installation_path}}'
 
     # setup database
     - name: setup database
-      command: /usr/bin/php7.3 artisan migrate --seed
+      command: /usr/bin/php8.0 artisan migrate --seed
       args:
         chdir: '{{installation_path}}'
 
