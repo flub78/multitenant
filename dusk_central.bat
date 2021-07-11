@@ -1,0 +1,1 @@
+php artisan dusk tests/Browser/Central

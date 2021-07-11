@@ -1,13 +1,21 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Tenants;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
-use App\Models\User;
-use Illuminate\Support\Facades\Artisan;
+use App\Helpers\BackupHelper;
 
+/**
+ * Dusk Tenant Test Example
+ * 
+ * As end to end tests are white box tests, we should not rely on any context,
+ * only the url and a pre-existing database state. So there is no needs
+ * to generate a tenant context like for unit or feature tests.
+ * 
+ * @author frederic
+ *
+ */
 class TenantExampleTest extends DuskTestCase {
 
 
@@ -15,21 +23,18 @@ class TenantExampleTest extends DuskTestCase {
 		parent::setUp ();
 		/**
 		*/
+		$database = "tenanttest";
+		
 		echo "\nENV=" . env ( 'APP_ENV' ) . "\n";
-		echo "DB_DATABASE=" . env ( 'DB_DATABASE' ) . "\n";
 		echo "login=" . env ( 'TEST_LOGIN' ) . "\n";
 		echo "password=" . env ( 'TEST_PASSWORD' ) . "\n";
-		echo "tenant=" . tenant('id') . "\n";
+		echo "url=" . env('APP_URL') . "\n";
+		echo "database=$database\n";
 
 		// Restore a test database
-		Artisan::call ( 'backup:restore', [ 
-				'backup_id' => 'a_test.gz',
-				'--force' => true,
-				'--quiet' => true
-		] );
-
-		$count = User::count ();
-		$this->assertEquals ( 3, $count );
+		$filename = storage_path () . '/app/tests/tenant_nominal.gz';
+		$this->assertFileExists($filename, "tenant_nominal test backup found");
+		BackupHelper::restore($filename, $database, false);		
 	}
 
 	public function tearDown(): void {
@@ -43,7 +48,7 @@ class TenantExampleTest extends DuskTestCase {
 	 */
 	public function testBasicExample() {
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/' )->assertSee ( 'Laravel' );
+			$browser->visit ( '/' )->assertSee ( 'Webapp - Welcome' );
 		} );
 	}
 
@@ -61,7 +66,7 @@ class TenantExampleTest extends DuskTestCase {
 			->press ( 'Login' )
 			->assertPathIs ( '/home' );
 			
-			$browser->screenshot('tenant_after_login');
+			$browser->screenshot('Tenants/after_login');
 		} );
 	}
 

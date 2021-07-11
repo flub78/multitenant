@@ -26,8 +26,11 @@ class ExampleTest extends DuskTestCase {
 		$database = env ( 'DB_DATABASE' );
 		BackupHelper::restore($filename, $database, false);
 		
+		// Todo accessing the database does not work for end to end tests
+		/*
 		$count = User::count ();
 		$this->assertEquals ( 3, $count );
+		*/
 	}
 
 	public function tearDown(): void {
@@ -51,13 +54,6 @@ class ExampleTest extends DuskTestCase {
 	 * @return void
 	 */
 	public function test_login() {
-		/*
-		$user = User::factory ()->create ( [ 
-				'email' => 'taylor@laravel.com'
-		] );
-		
-		use ($user)
-		*/
 
 		$this->browse ( function ($browser)  {
 			$browser->visit ( '/login' )
@@ -66,7 +62,7 @@ class ExampleTest extends DuskTestCase {
 			->press ( 'Login' )
 			->assertPathIs ( '/home' );
 			
-			$browser->screenshot('after_login');
+			$browser->screenshot('Central/after_login');
 		} );
 	}
 
