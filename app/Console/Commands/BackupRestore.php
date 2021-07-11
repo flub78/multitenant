@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Helpers\TenantHelper;
+use App\Helpers\BackupHelper;
 
 /**
  * An artisan command to restore a database backup
@@ -72,18 +73,7 @@ class BackupRestore extends Command {
 
 		if ($this->option ( 'force' ) || $this->confirm ( 'Are you sure you want to restore ' . $selected_file . ' ?' )) {
 
-			$mysql = 'c:\xampp\mysql\bin\mysql.exe';
-
-			$command = "gzip -d < " . $filename . "| $mysql --user=" . env ( 'DB_USERNAME' ) . " --password=" . env ( 'DB_PASSWORD' ) . " --host=" . env ( 'DB_HOST' ) . " " . $database;
-
-			$returnVar = NULL;
-			$output = NULL;
-
-			if ($this->option ( 'pretend' )) {
-				echo "pretend: " . $command . "\n";
-			} else {
-				exec ( $command, $output, $returnVar );
-			}
+			BackupHelper::restore($filename, $database, $this->option ( 'pretend' ));
 
 			if (!$quiet) echo 'backup ' . $selected_file . " restored";
 		} else {

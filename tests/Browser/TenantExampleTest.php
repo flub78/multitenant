@@ -2,30 +2,32 @@
 
 namespace Tests\Browser;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Models\User;
-use App\Helpers\TenantHelper;
-use App\Helpers\BackupHelper;
+use Illuminate\Support\Facades\Artisan;
 
+class TenantExampleTest extends DuskTestCase {
 
-class ExampleTest extends DuskTestCase {
 
 	public function setUp(): void {
 		parent::setUp ();
 		/**
+		*/
 		echo "\nENV=" . env ( 'APP_ENV' ) . "\n";
 		echo "DB_DATABASE=" . env ( 'DB_DATABASE' ) . "\n";
 		echo "login=" . env ( 'TEST_LOGIN' ) . "\n";
 		echo "password=" . env ( 'TEST_PASSWORD' ) . "\n";
-		*/
-	
+		echo "tenant=" . tenant('id') . "\n";
+
 		// Restore a test database
-		$filename = TenantHelper::storage_dirpath() . '/app/tests/central_nominal.gz';
-		$this->assertFileExists($filename, "central_nominal test backup found");
-		$database = env ( 'DB_DATABASE' );
-		BackupHelper::restore($filename, $database, false);
-		
+		Artisan::call ( 'backup:restore', [ 
+				'backup_id' => 'a_test.gz',
+				'--force' => true,
+				'--quiet' => true
+		] );
+
 		$count = User::count ();
 		$this->assertEquals ( 3, $count );
 	}
@@ -51,13 +53,6 @@ class ExampleTest extends DuskTestCase {
 	 * @return void
 	 */
 	public function test_login() {
-		/*
-		$user = User::factory ()->create ( [ 
-				'email' => 'taylor@laravel.com'
-		] );
-		
-		use ($user)
-		*/
 
 		$this->browse ( function ($browser)  {
 			$browser->visit ( '/login' )
@@ -66,7 +61,7 @@ class ExampleTest extends DuskTestCase {
 			->press ( 'Login' )
 			->assertPathIs ( '/home' );
 			
-			$browser->screenshot('after_login');
+			$browser->screenshot('tenant_after_login');
 		} );
 	}
 
