@@ -10,6 +10,7 @@ return [
 		 |
 		 */
 		
+		'language' => 'Français',
 		'submit' => "Valider",
 		'cancel' => "Cancel",
 		'update' => "Modifier",

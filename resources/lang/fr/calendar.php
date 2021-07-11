@@ -16,7 +16,7 @@ return [
 	'add' => "Ajout Evenement",
 	'edit' => "Modification Evenement",
 	'fullcalendar' => 'Mensuel',
-	'event_title' => 'Titre',
+	'event_title' => 'Evénement',
 	'groupId' => 'Catégorie',
 	'allday' => 'Toute la journée',
 	'start_date' => 'Date',

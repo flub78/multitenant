@@ -1,4 +1,4 @@
-# Continuous delivery
+# Continuous delivery Pipeline
 
 A continuous delivery pipeline is an automated process from commits to validation of releases suitable for deployment.
 
@@ -24,27 +24,23 @@ Not all commits trigger the release pipeline. The release pipeline must be execu
 
 When the release pipeline is started, the first thing is to mark the release candidate under git.
 
-It cand be done with a build number for example build_657.
+It can be done with a build number for example build_657.
 
-Note that in this case installation will be done directly from git. SO there is not really any artifact to build. 
+Note that in this case installation will be done directly from git. So there is not really artifacts to build. 
 
 ## Static analysis
 
-Then static analysis is triggered. I still need to decide if it makes sense to declare the release invalid if some quality threshold is not reached. It is usually rather arbitrary but it may be helpfull to define a limit just in case the quality slowly decrease.
+Then static analysis is triggered. I still need to decide if it makes sense to declare the release invalid if some quality threshold is not reached. It is usually rather arbitrary but it may be helpful to define a limit just in case the quality slowly decrease.
 
 ## Unit and features tests (no failure)
 
 All test should pass, no exception.
 
-## End to End test on local server
-
-If the installation process is fast, this step may not be necessary. At least it may be an intermediary step to develop the end to end test. But running them at this stage may be optional.
-
 ## Installation - End to end testing
 
-The an installation is done from scratch, exactly the same way than an installation from a customer.
+Then an installation is done from scratch, exactly the same way than an installation for a customer.
 
-Installation should be fully automated, and test first the prerequisite. In some cases, for example, the databases could already exist. If possible limit the prerequisite to a shell access. ANsible is likely a suitable tool for installation.
+Installation should be fully automated, and test first the prerequisite. In some cases, for example, the databases could already exist. If possible limit the prerequisite to a shell access. Ansible is likely the tool of choice for installation.
 
 * Both central and tenant database should be reinitialized.
 * Central database should be refreshed and migrated
@@ -54,7 +50,7 @@ Installation should be fully automated, and test first the prerequisite. In some
 
 ## Upgrade - End to End testing
 
-This environment is never reset. It emulates a customer who would upgrade and keep its data.
+This environment is never reset. It emulates a customer who would upgrade and keep data from one version to the next.
 
 * After migration end to end tests are run.
 * There are some tests to check that data has persisted across the update

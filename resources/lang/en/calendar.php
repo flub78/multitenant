@@ -15,7 +15,7 @@ return [
 		'add' => "Add Event",
 		'edit' => "Event Modification",
 		'fullcalendar' => 'Full Calendar',
-		'title' => 'Title',
+		'event_title' => 'Event',
 		'groupId' => 'Category',
 		'allday' => 'All Day',
 		'start_date' => 'Date',

@@ -12,6 +12,11 @@ To improve the user interface, the views use sophisticated Javascript modules, m
 ## Datatable
 
 Nice javascript module to enhance user experience when tabular data are displayed. Add pagination, filtering, sorting, PDF export, ect.
+
+Most datatable are instancied into footer.blade.php.
+
+Todo: Localize the strings, currently French is hardcoded
+
     
 ## Spectrum color picker
 
