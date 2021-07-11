@@ -1,1 +1,1 @@
-php vendor\phpunit\phpunit\phpunit --testdox-html doc/tests_doc.html
+php vendor\phpunit\phpunit\phpunit --testdox-html results/tests_doc.html

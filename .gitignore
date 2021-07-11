@@ -17,3 +17,5 @@ yarn-error.log
 /results.txt
 /.env.testing
 /.env.dusk.local
+/.env.dusk.tenants
+/.env.svg
