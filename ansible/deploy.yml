@@ -80,10 +80,11 @@
          line: "APP_URL=webapp"
 
     # composer install
-    - composer:
-        command: install
-        no_dev: no
-        working_dir: '{{installation_path}}'
+    # vendor directory has been put under version control to be able to deploy without composer
+    # - composer:
+    #    command: install
+    #    no_dev: no
+    #    working_dir: '{{installation_path}}'
 
     # Application key
     - name: Generate application key
