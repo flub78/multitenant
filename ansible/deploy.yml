@@ -1,0 +1,153 @@
+# Multitenant deployment
+#
+# edit configuration files, by using environment variables
+# configuration.
+#
+# BASE_URL              for central application
+# INSTALLATION_PATH     installation directory
+
+# DB_HOST               database host
+# DB_USERNAME           and user name
+# DB_PASSWORD
+# DB_DATABASE           and name
+#
+# to execute:
+# ansible-playbook deploy.yml
+---
+
+- name: Simple local playbook
+
+  gather_facts: true
+  hosts: localhost
+
+  vars:
+    base_url: "{{lookup('env','BASE_URL')}}" 
+    installation_path: "{{lookup('env','INSTALLATION_PATH')}}"
+    env_file: '{{installation_path}}/.env'
+    db_username: "{{lookup('env','DB_USERNAME')}}"
+    db_password: "{{lookup('env','DB_PASSWORD')}}"
+    db_database: "{{lookup('env','DB_DATABASE')}}"
+
+  tasks:
+# ======
+
+    - name: ENV
+      debug: 
+        msg:
+          - "BASE_URL = {{ base_url }}"
+          - "INSTALLATION_PATH = {{ installation_path }}"
+
+    # set .env
+    - name:  create .env
+      copy:
+         src: '{{installation_path}}/.env.example'
+         dest: '{{env_file}}'
+
+    # setup database in .env
+    - name:  setup database in .env
+      lineinfile:
+         dest:  '{{env_file}}'
+         regexp: 'DB_DATABASE'
+         line: "DB_DATABASE={{db_database}}"
+
+    # setup database user in .env
+    - name:  setup database user in .env
+      lineinfile:
+         dest:  '{{env_file}}'
+         regexp: 'DB_USERNAME'
+         line: "DB_USERNAME={{db_username}}"
+
+    # setup database password in .env
+    - name:  setup database password in .env
+      lineinfile:
+         dest:  '{{env_file}}'
+         regexp: 'DB_PASSWORD'
+         line: "DB_PASSWORD={{db_password}}"
+
+    # setup APP_URL in .env
+    # phpunit tests do not run with a domain ???
+    # - name:  setup APP_URL in .env
+    #  lineinfile:
+    #     dest:  '{{env_file}}'
+    #     regexp: 'APP_URL'
+    #     line: "APP_URL={{base_url}}"
+
+    # setup APP_NAME in .env
+    - name:  setup APP_NAME in .env
+      lineinfile:
+         dest:  '{{env_file}}'
+         regexp: 'APP_NAME'
+         line: "APP_URL=webapp"
+
+    # composer install
+    - composer:
+        command: install
+        no_dev: no
+        working_dir: '{{installation_path}}'
+
+    # Application key
+    - name: Generate application key
+      command: php artisan key:generate
+      args:
+        chdir: '{{installation_path}}'
+
+    # reset database
+    - name: Reset database
+      command: php artisan migrate:reset
+      args:
+        chdir: '{{installation_path}}'
+
+    # setup database
+    - name: setup database
+      command: php artisan migrate --seed
+      args:
+        chdir: '{{installation_path}}'
+
+    # Create result directory
+    - name: Create results directory
+      file:
+        path:  '{{installation_path}}/results'
+        state: directory
+        mode: '0755'
+
+    # Setup owner and permissions
+    #
+    # The script is executed as jenkins who is not sudoer for
+    # obvious security reasons.
+    #
+    # Apache requests are executed as www-data
+    # www-data must have read access to all files
+    #                    execution access to all directories
+    #                    write access to uploads, backups, etc
+
+    # - name: Ensure directories are 0755
+    #  command: find {{ installation_path }} -type d -exec chmod 0755 {} \;
+
+    # - name: Ensure files are 0644
+    #  command: find {{ installation_path }} -type f -exec chmod 0644 {} \;
+
+    
+    # writable files
+#    - name: Ensure file is writable
+#      command: chmod a+w "{{ installation_path }}/application/config/{{item}}.php"
+#      warn: False
+#      with_items:
+#        - club
+#        - facturation
+#        - config
+#
+    # writable directories
+    - name: make some directories writable
+      file:
+        path: "{{ installation_path }}/storage"
+        state: directory
+        mode: 0777
+        recurse: yes
+        
+    - name: make some files executable
+      file:
+        path: "{{ installation_path }}"
+        mode: 0744
+      with_items:
+        - test.sh
+
