@@ -1,0 +1,54 @@
+{
+    "name": "stancl/tenancy",
+    "description": "Automatic multi-tenancy for your Laravel application.",
+    "keywords": ["laravel", "multi-tenancy", "multi-database", "tenancy"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Samuel Štancl",
+            "email": "samuel.stancl@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "illuminate/support": "^6.0|^7.0|^8.0",
+        "facade/ignition-contracts": "^1.0",
+        "ramsey/uuid": "^3.7|^4.0",
+        "stancl/jobpipeline": "^1.0",
+        "stancl/virtualcolumn": "^1.0"
+    },
+    "require-dev": {
+        "vlucas/phpdotenv": "^3.3|^4.0|^5.0",
+        "laravel/framework": "^6.0|^7.0|^8.0",
+        "orchestra/testbench-browser-kit": "^4.0|^5.0|^6.0",
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "doctrine/dbal": "^2.10",
+        "spatie/valuestore": "^1.2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Stancl\\Tenancy\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Stancl\\Tenancy\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Stancl\\Tenancy\\TenancyServiceProvider"
+            ],
+            "aliases": {
+                "Tenancy": "Stancl\\Tenancy\\Facades\\Tenancy",
+                "GlobalCache": "Stancl\\Tenancy\\Facades\\GlobalCache"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
