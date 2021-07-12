@@ -105,6 +105,11 @@
         chdir: '{{installation_path}}'
 
     # reset database
+    - name: Migrate database
+      command: /usr/bin/php8.0 artisan migrate
+      args:
+        chdir: '{{installation_path}}'
+
     - name: Reset database
       command: /usr/bin/php8.0 artisan migrate:reset
       args:
