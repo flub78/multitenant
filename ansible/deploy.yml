@@ -145,14 +145,6 @@
     #  command: find {{ installation_path }} -type f -exec chmod 0644 {} \;
 
     
-    # writable files
-#    - name: Ensure file is writable
-#      command: chmod a+w "{{ installation_path }}/application/config/{{item}}.php"
-#      warn: False
-#      with_items:
-#        - club
-#        - facturation
-#        - config
 #
     # writable directories
     - name: make some directories writable
@@ -169,3 +161,9 @@
       with_items:
         - test.sh
 
+    # writable files
+    - name: Ensure file are executable
+      command: chmod +x "{{ installation_path }}/{{item}}"
+      warn: False
+      with_items:
+        - test.sh
