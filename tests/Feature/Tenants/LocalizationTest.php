@@ -16,9 +16,7 @@
  * check language when app.locale is not redefined
  * check language when app.locale is set to en
  * check language when app.locale is set to fr
- * check language when app.locale is set to an unsupported language
- * 
- * TODO: add test cases on javascript obbjects localization
+ * check language when app.locale is set to an unsupported language 
  */
 namespace tests\Feature\Tenant;
 
@@ -69,6 +67,9 @@ class LocalizationTest extends TenantTestCase {
 		App::setLocale ($lang);
 	}
 	
+	/**
+	 * Test for English
+	 */
 	protected function check_en() {
 		$this->be ( $this->user );
 		
@@ -99,7 +100,7 @@ class LocalizationTest extends TenantTestCase {
 	}
 	
 	/**
-	 * For some reason the bootstrapper
+	 * Test for French
 	 */
 	public function test_language_when_app_locale_is_fr() {
 
@@ -123,6 +124,5 @@ class LocalizationTest extends TenantTestCase {
 		$response->assertSeeText ( 'test' );
 
 		// $response->dump();
-	}
-
+	}	
 }

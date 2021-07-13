@@ -7,9 +7,11 @@
 	<!--
 	$(document).ready( function () {
 	
-	var locale = document.documentElement.lang;
+	var locale = document.documentElement.lang;    // fr, en, ...
 	
-    var olanguage = {
+	// Localization for datatable
+	var olanguage  = new Object();
+    olanguage['fr'] = {
             "sProcessing":     "Traitement en cours...",
             "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
             "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
@@ -27,7 +29,28 @@
                 "sLast":     "Dernier"
             }                       
     };
+
+    olanguage['en'] = {
+            "sProcessing":     "Processing...",
+            "sLengthMenu":     "Show _MENU_ entries",
+            "sZeroRecords":    "No matching records found",
+            "sInfo":           "Showing _START_ to _END_ of _TOTAL_ entries",
+            "sInfoEmpty":      "Showing 0 to 0 of 0 entries",
+            "sInfoFiltered":   "(filtered from _MAX_ total entries)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Search:",
+            "sLoadingRecords": "Loading...",
+            "sUrl":            "",
+            "oPaginate": {
+                "sFirst":    "First",
+                "sPrevious": "Previous",
+                "sNext":     "Next",
+                "sLast":     "Last"
+            }                       
+    };
+
     
+    // DataTable
 	    $('#maintable').DataTable({
 	    	paging:true,
 	     	dom: 'Blfrtip',
@@ -36,20 +59,9 @@
 		        'print',
 		        'pdf', 'colvis'
 		    ],
-		    "oLanguage": olanguage
+		    "oLanguage": olanguage['fr']
 	    });
 		
-$.datepicker.regional['it'] = {
-    closeText: 'Chiudi', // set a close button text
-    currentText: 'Oggi', // set today text
-    monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',   'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'], // set month names
-    monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'], // set short month names
-    dayNames: ['Domenica','Luned&#236','Marted&#236','Mercoled&#236','Gioved&#236','Venerd&#236','Sabato'], // set days names
-    dayNamesShort: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'], // set short day names
-    dayNamesMin: ['Do','Lu','Ma','Me','Gio','Ve','Sa'], // set more short days names
-    dateFormat: 'dd/mm/yy' // set format date
-};
-
 $.datepicker.regional['en'] = {
     days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
