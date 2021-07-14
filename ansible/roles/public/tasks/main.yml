@@ -4,3 +4,13 @@
       debug: 
         msg:
           - "Move public"
+
+    - synchronize:
+        src: '{{installation_path}}/public/'
+        dest: '{{server_path}}/'
+        
+    - name: edit index.php
+      replace:
+        path: '{{server_path}}/index.php'
+        regexp: "__DIR__\\.'\\/\\.\\."
+        replace: "\'{{installation_path}}"
