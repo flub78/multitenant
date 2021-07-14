@@ -1,0 +1,6 @@
+# Ansible create public directory
+
+     - name: Setup .env file
+      debug: 
+        msg:
+          - "Move structure"

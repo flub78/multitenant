@@ -1,0 +1,42 @@
+# Ansible create directories
+
+    # Create laravel directories
+    - name: Create laravel directories
+      file:
+        path:  "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - '{{installation_path}}/storage/framework'
+        - '{{installation_path}}/storage/framework/sessions'
+        - '{{installation_path}}/storage/framework/views'
+        - '{{installation_path}}/storage/framework/cache'
+
+    # Create result directory
+    - name: Create results directory
+      file:
+        path:  '{{installation_path}}/results'
+        state: directory
+        mode: '0755'
+
+    # writable directories
+    - name: make some directories writable
+      file:
+        path: "{{ installation_path }}/storage"
+        state: directory
+        mode: 0777
+        recurse: yes
+        
+    - name: make some files executable
+      file:
+        path: "{{ installation_path }}"
+        mode: 0744
+      with_items:
+        - test.sh
+
+    # writable files
+    - name: Ensure file are executable
+      command: chmod +x "{{ installation_path }}/{{item}}"
+      warn: False
+      with_items:
+        - test.sh

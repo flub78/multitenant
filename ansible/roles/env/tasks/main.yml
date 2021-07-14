@@ -1,0 +1,50 @@
+# Ansible setup environment file
+
+    - name: Setup .env file
+      debug: 
+        msg:
+          - "BASE_URL = {{ base_url }}"
+          - "INSTALLATION_PATH = {{ installation_path }}"
+          - "Welcome to Multitenant installation"
+
+    # set .env
+    - name:  create .env
+      copy:
+         src: '{{installation_path}}/.env.example'
+         dest: '{{env_file}}'
+
+    # setup database in .env
+    - name:  setup database in .env
+      lineinfile:
+         dest:  '{{env_file}}'
+         regexp: 'DB_DATABASE'
+         line: "DB_DATABASE={{db_database}}"
+
+    # setup database user in .env
+    - name:  setup database user in .env
+      lineinfile:
+         dest:  '{{env_file}}'
+         regexp: 'DB_USERNAME'
+         line: "DB_USERNAME={{db_username}}"
+
+    # setup database password in .env
+    - name:  setup database password in .env
+      lineinfile:
+         dest:  '{{env_file}}'
+         regexp: 'DB_PASSWORD'
+         line: "DB_PASSWORD={{db_password}}"
+
+    # setup APP_URL in .env
+    # phpunit tests do not run with a domain ???
+    # - name:  setup APP_URL in .env
+    #  lineinfile:
+    #     dest:  '{{env_file}}'
+    #     regexp: 'APP_URL'
+    #     line: "APP_URL={{base_url}}"
+
+    # setup APP_NAME in .env
+    - name:  setup APP_NAME in .env
+      lineinfile:
+         dest:  '{{env_file}}'
+         regexp: 'APP_NAME'
+         line: "APP_URL=webapp"
