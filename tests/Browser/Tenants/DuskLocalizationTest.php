@@ -70,5 +70,18 @@ class DuskLocalizationTest extends DuskTestCase {
 			$browser->screenshot('Tenants/after_login');
 		} );
 	}
-
+	
+	public function test_configuration() {
+		$this->browse ( function (Browser $browser) {
+			$browser->visit ( '/configuration' )
+			->assertSee ( 'Tenant Configuration' );
+			
+			$browser->screenshot('Tenants/configuration');
+			
+			$browser->assertSee ( 'Search' )
+			->assertSee ( 'Previous' )
+			->assertSee ( 'Next' );
+		} );
+	}
+	
 }

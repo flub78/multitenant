@@ -59,7 +59,7 @@
 		        'print',
 		        'pdf', 'colvis'
 		    ],
-		    "oLanguage": olanguage['fr']
+		    "oLanguage": olanguage[locale]
 	    });
 		
 $.datepicker.regional['en'] = {
