@@ -70,7 +70,7 @@ class ConfigurationControllerTest extends TenantTestCase {
 	
 	public function test_store() {
 		// Post a creation request
-		$configuration = Configuration::factory()->make();
+		$configuration = Configuration::factory()->make(['key' => 'app.locale', 'value' => 'en']);
 		$key = $configuration->key;
 		$value = $configuration->value;
 		
@@ -98,8 +98,8 @@ class ConfigurationControllerTest extends TenantTestCase {
 	
 	public function test_store_incorrect_value() {
 		// Post a creation request
-		$configuration = Configuration::factory()->make();
-		$key = "bad_key";
+		$bad_key = "app.bad_key";
+		$configuration = Configuration::factory()->make(['key' => $bad_key, 'value' => 'en']);
 		$value = $configuration->value;
 		
 		$count = Configuration::count ();
@@ -107,7 +107,7 @@ class ConfigurationControllerTest extends TenantTestCase {
 		$this->withoutMiddleware();
 		
 		$url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
-		$elt = ["key" => $key, "value" => $value, '_token' => csrf_token()];
+		$elt = ["key" => $bad_key, "value" => $value, '_token' => csrf_token()];
 		$response = $this->post ( $url, $elt );
 		$response->assertStatus ( 302 );
 		
@@ -157,7 +157,7 @@ class ConfigurationControllerTest extends TenantTestCase {
 	public function test_update() {
 		$this->be ( $this->user );
 		
-		$configuration = Configuration::factory()->make();
+		$configuration = Configuration::factory()->make(['key' => 'app.timezone', 'value' => 'Europe/Munich']);
 		$key = $configuration->key;
 		$value = $configuration->value;
 		$new_value = "new value";
@@ -183,7 +183,7 @@ class ConfigurationControllerTest extends TenantTestCase {
 	public function test_delete() {
 		$this->be ( $this->user );
 		
-		$configuration = Configuration::factory()->make();
+		$configuration = Configuration::factory()->make(['key' => 'app.timezone', 'value' => 'Europe/London']);
 		$key = $configuration->key;
 		$configuration->save();
 		

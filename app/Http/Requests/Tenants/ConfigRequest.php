@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Tenants;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ConfigRequest extends FormRequest
 {
@@ -22,6 +24,11 @@ class ConfigRequest extends FormRequest
      * @return array
      */
     public function rules() {
+    	
+    	$valid_configs = [
+    	  'app.locale', 'app.timezone'
+    	];
+    	
     	switch($this->method()) {
     		case 'GET':
     		case 'DELETE': {
@@ -29,14 +36,20 @@ class ConfigRequest extends FormRequest
     		}
     		case 'POST': {
     			return [
-    				'key' => 'required|max:191|regex:/\w+\.\w+(\.\w+)*/',
+    				'key' => ['required', 'max:191', 
+    				'regex:/\w+\.\w+(\.\w+)*/',
+    				Rule::in($valid_configs)
+    				],
     				'value' => 'required|max:191',
     			];
     		}
     		case 'PUT':
     		case 'PATCH': {
     			return [
-    				'key' => 'required|max:191|regex:/\w+\.\w+(\.\w+)*/',
+    				'key' => ['required', 'max:191', 
+    				'regex:/\w+\.\w+(\.\w+)*/',
+    				// Rule::in($valid_configs)
+    				],	
     				'value' => 'required|max:191',
     			];
     		}
