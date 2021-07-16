@@ -13,10 +13,10 @@
         </div><br />
         @endif
         
-            <h1>{{tenant('id')}}  Home page</h1>
+            <h1>{{tenant('id') . ' ' .  __('home.title')}} </h1>
         
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('home.dashboard') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -24,9 +24,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    {{tenant('id')}}  Home page
+                    {{tenant('id')  }}
 
-                    {{ __('You are logged in!') }}
+                    {{ __('home.logged_in') }}
                 </div>
             </div>
         </div>

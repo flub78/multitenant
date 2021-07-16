@@ -110,16 +110,14 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 
 	public function test_datatable_titles_localization() {
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/configuration' )
-			->assertSee ( 'Tenant Configuration' );
+			$browser->visit ( '/configuration' );
 						
 			$browser->assertSee ( 'Key' )
 			->assertSee ( 'Value' )
 			->assertSee ( 'Edit' )
 			->assertSee ( 'Delete' );
 			
-			$browser->press ( 'Add Configuration' )
-			->assertPathIs('/configuration/create');
+			$browser->press ( 'Add Configuration' );
 			
 			// app.locale	fr
 			$browser->type ( 'key', 'app.locale')
@@ -140,8 +138,7 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 
 	public function test_fullcalendar_localization() {
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/calendar/fullcalendar' )
-			->assertSee ( 'Calendar' );
+			$browser->visit ( '/calendar/fullcalendar' );
 			
 			$browser->assertSee ( 'today' )
 			->assertSee ( 'month' )
@@ -158,10 +155,7 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 			->assertSee ( 'Sat' )
 			;
 			
-			$browser->visit ( '/configuration' )
-			->assertSee ( 'Tenant Configuration' );
-			$browser->press ( 'Add Configuration' )
-			->assertPathIs('/configuration/create');
+			$browser->visit ( '/configuration/create' );
 			
 			// app.locale	fr
 			$browser->type ( 'key', 'app.locale')
@@ -189,9 +183,7 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 			// delete
 			$browser->visit ( '/configuration' );
 			$browser->press('Supprimer')
-			->assertPathIs('/configuration')
-			->assertSee ( 'Configuration app.locale deleted' )
-			->assertSee ( 'Showing 0 to 0 of 0 entries' );
+			->assertSee ( 'Configuration app.locale deleted' );
 		} );
 	}
 
@@ -211,8 +203,7 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 			->assertSee ( 'Sa' )
 			;
 			
-			$browser->visit ( '/configuration/create' )
-			->assertPathIs('/configuration/create');
+			$browser->visit ( '/configuration/create' );
 			
 			// app.locale	fr
 			$browser->type ( 'key', 'app.locale')
@@ -233,10 +224,35 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 			;
 			
 			// delete app.locale
-			$browser->visit ( '/configuration' );
-			$browser->press('Supprimer')
+			$browser->visit ( '/configuration' )
+			->press('Supprimer')
 			->assertPathIs('/configuration')
 			->assertSee ( 'Configuration app.locale deleted' )
+			->assertSee ( 'Showing 0 to 0 of 0 entries' );
+		} );
+	}
+	
+	public function test_home_page_localization() {
+		$this->browse ( function (Browser $browser) {
+			$browser->visit ( '/home' )
+			->assertSee ( 'Home page' )
+			->assertSee ( 'Dashboard' )
+			->assertSee ( 'You are logged in' );
+			
+			// app.locale	fr
+			$browser->visit('/configuration/create')
+			->type ( 'key', 'app.locale')
+			->type ( 'value', 'fr')
+			->press ( 'Submit' );
+			
+			$browser->visit ( '/home' )
+			->assertSee ( 'Accueil' )
+			->assertSee ( 'Tableau de bord' )
+			->assertSee ( 'Vous etes connecté' );
+			
+			// delete
+			$browser->visit ( '/configuration' )
+			->press('Supprimer')
 			->assertSee ( 'Showing 0 to 0 of 0 entries' );
 		} );
 	}
