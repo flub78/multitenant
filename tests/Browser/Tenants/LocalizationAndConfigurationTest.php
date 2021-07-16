@@ -13,6 +13,9 @@ use App\Helpers\BackupHelper;
  * - fullcalendar
  * - datepicker
  *  
+ *  TODO Test datepicker localization
+ *  TODO Test Logout
+ *  
  * @author frederic
  *
  */
@@ -40,17 +43,6 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 
 	public function tearDown(): void {
 		parent::tearDown ();
-	}
-
-	/**
-	 * A basic browser test example.
-	 *
-	 * @return void
-	 */
-	public function testBasicExample() {
-		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/' )->assertSee ( 'Webapp - Welcome' );
-		} );
 	}
 
 	/**
@@ -200,6 +192,70 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 			->assertPathIs('/configuration')
 			->assertSee ( 'Configuration app.locale deleted' )
 			->assertSee ( 'Showing 0 to 0 of 0 entries' );
+		} );
+	}
+
+	public function test_datepicker_localization() {
+		
+		$this->browse ( function (Browser $browser) {
+			$browser->visit ( '/calendar/create' )
+			->assertSee ( 'New Event' )
+			->click('@start');
+						
+			$browser->assertSee ( 'Su' )
+			->assertSee ( 'Mo' )
+			->assertSee ( 'Tu' )
+			->assertSee ( 'We' )
+			->assertSee ( 'Th' )
+			->assertSee ( 'Fr' )
+			->assertSee ( 'Sa' )
+			;
+			
+			$browser->visit ( '/configuration/create' )
+			->assertPathIs('/configuration/create');
+			
+			// app.locale	fr
+			$browser->type ( 'key', 'app.locale')
+			->type ( 'value', 'fr')
+			->press ( 'Submit' );
+			
+			// Check datepicker in French
+			$browser->visit ( '/calendar/create' )
+			->assertSee ( 'Nouvel événement' )
+			->click('@start');
+			
+			$browser->assertSee ( 'L' )
+			->assertSee ( 'M' )
+			->assertSee ( 'J' )
+			->assertSee ( 'V' )
+			->assertSee ( 'S' )
+			->assertSee ( 'D' )
+			;
+			
+			// delete app.locale
+			$browser->visit ( '/configuration' );
+			$browser->press('Supprimer')
+			->assertPathIs('/configuration')
+			->assertSee ( 'Configuration app.locale deleted' )
+			->assertSee ( 'Showing 0 to 0 of 0 entries' );
+		} );
+	}
+	
+	/**
+	 * Test that the user can log out
+	 *
+	 * @return void
+	 */
+	public function test_logout() {
+		
+		$this->browse ( function ($browser)  {
+			$browser->visit ( '/home' )
+			->click('@user_name')
+			->click('@logout')
+			->assertPathIs ( '/' )
+			->assertSee ('Register');
+			
+			$browser->screenshot('Tenants/after_logout');
 		} );
 	}
 	
