@@ -14,7 +14,6 @@ use App\Helpers\BackupHelper;
  * - datepicker
  *  
  *  TODO Test datepicker localization
- *  TODO Test Logout
  *  
  * @author frederic
  *

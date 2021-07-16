@@ -3,53 +3,12 @@
 namespace app\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
 	
-	// TODO move rules into a request
-	
-	protected $create_rules = [ 
-			'name' => [ 
-					'required',
-					'string',
-					'max:255'
-			],
-			'email' => [ 
-					'required',
-					'string',
-					'email',
-					'max:255',
-					'unique:users'
-			],
-			'password' => [ 
-					'required',
-					'string',
-					'min:8',
-					'confirmed'
-			]
-	];
-	protected $edit_rules = [ 
-			'name' => [ 
-					'required',
-					'string',
-					'max:255'
-			],
-			'email' => [ 
-					'required',
-					'string',
-					'email',
-					'max:255'
-			],
-			'password' => [ 
-					'nullable',
-					'string',
-					'min:8',
-					'confirmed'
-			]
-	];
-
 	/**
 	 * Display the resource table view
 	 *
@@ -76,8 +35,8 @@ class UserController extends Controller {
 	 * @param \Illuminate\Http\Request $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request) {
-		$validatedData = $request->validate ( $this->create_rules );
+	public function store(UserRequest $request) {
+		$validatedData = $request->validated ();
 
 		$validatedData ['password'] = Hash::make ( $validatedData ['password'] );
 		if ($request->has('admin')) {
@@ -118,8 +77,8 @@ class UserController extends Controller {
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id) {
-		$validatedData = $request->validate ( $this->edit_rules );
+	public function update(UserRequest $request, $id) {
+		$validatedData = $request->validated ();
 		if ($validatedData ['password']) {
 			$validatedData ['password'] = Hash::make ( $validatedData ['password'] );
 		} else {
@@ -133,6 +92,8 @@ class UserController extends Controller {
 			$validatedData['admin'] = false;
 		}
 		$validatedData['active'] = ($request->has('active'));
+		// var_dump($validatedData); exit;
+		
 		User::whereId ( $id )->update ( $validatedData );
 
 		$name = $validatedData ['name'];

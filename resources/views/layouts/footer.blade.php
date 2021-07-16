@@ -70,7 +70,7 @@ $.datepicker.regional['en'] = {
     monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     today: "Today",
     clear: "Clear",
-    format: "mm/dd/yyyy",
+    dateFormat: "yy-mm-dd",
     titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
     weekStart: 0
 };

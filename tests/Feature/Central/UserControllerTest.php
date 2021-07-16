@@ -163,11 +163,18 @@ class UserControllerTest extends TestCase {
 		$response = $this->patch($url, $elt);
 		
 		$response->assertStatus (302);
+		$this->assertNull(session('errors'), "session has no errors");
 		
+		$elt['admin'] = 1;
+		unset($elt['password']);
+		unset($elt['password_confirmation']);
+		$response = $this->patch($url, $elt);
 		$this->assertNull(session('errors'), "session has no errors");
 		
 		$stored = User::where('name', 'Turlututu')->first();
 		$this->assertEquals( $stored->email, $new_email, "value updated");
+		// $this->assertEquals(1, $stored->isAdmin());
+		echo "admin = " . $stored->admin;
 		
 		$url = "/users/" . $stored->id;
 		$this->delete($url);
