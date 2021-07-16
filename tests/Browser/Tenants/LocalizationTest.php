@@ -19,7 +19,7 @@ use App\Helpers\BackupHelper;
  * @author frederic
  *
  */
-class LocalizationAndConfigurationTest extends DuskTestCase {
+class LocalizationTest extends DuskTestCase {
 
 
 	public function setUp(): void {
@@ -75,8 +75,7 @@ class LocalizationAndConfigurationTest extends DuskTestCase {
 			->assertSee ( 'Next' )
 			->assertSee ( 'Showing 0 to 0 of 0 entries' );
 			
-			$browser->press ( 'Add Configuration' )
-			->assertPathIs('/configuration/create');
+			$browser->press ( 'Add Configuration' );
 			
 			// app.locale	fr
 			$browser->type ( 'key', 'app.locale')
