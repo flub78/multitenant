@@ -99,7 +99,7 @@ class CalendarTest extends DuskTestCase {
 			$browser->storeSource('Tenants/calendar_create.html');
 			
 			$browser->type ( 'title', 'dentist')
-			->type('start', '07/13/2021')
+			->type('start', '07-13-2021')
 			->check('allDay')
 			->type('start_time', '10:15')
 			->press ( 'Add Event' )
