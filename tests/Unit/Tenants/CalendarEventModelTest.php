@@ -8,6 +8,8 @@ use App;
 
 use App\Models\Tenants\CalendarEvent;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
+
 
 /**
  * Unit test for CalendarEventModel
@@ -51,11 +53,16 @@ class CalendarEventModelTest extends TenantTestCase
 		
 		$this->assertEquals('', $event->getEndTime() );
 		
+		// $this->assertEquals(0, $event->getDuration());
+		
+		
 		$event = CalendarEvent::factory()->create(['start' => '2021-06-30 12:00:00', 
 				'end' => '2021-06-30 12:35:00']);  // UTC
 		
 		$this->assertEquals('30/06/2021', $event->getEndDate());
 		$this->assertEquals('14:35', $event->getEndTime() );
+		
+		// $this->assertEquals($event->getEndTime());
 		
 	}
 	
@@ -274,7 +281,27 @@ class CalendarEventModelTest extends TenantTestCase
 	   	var_dump(Carbon::HOURS_PER_DAY);                   // int(24)
 	   	var_dump(Carbon::MINUTES_PER_HOUR);                // int(60)
 	   	var_dump(Carbon::SECONDS_PER_MINUTE);              // int(60)
-	   	*/
-	   	
+	   	*/   	
+    }
+    
+    /**
+     * Not to test the carbon library, but to learn how to use it
+     * https://carbon.nesbot.com/docs/
+     */
+    public function test_carbon_interval() {
+    	
+    	$ci = CarbonInterval::create('P1Y2M3D');
+    	$this->assertEquals("1 year 2 months 3 days", $ci->forHumans());
+    	$this->assertFalse($ci->isEmpty());
+    	
+    	CarbonInterval::setLocale('fr');
+    	$this->assertEquals("1 an 2 mois 3 jours", $ci->forHumans());
+    	
+    	$ci2 = new CarbonInterval('PT0S');
+    	echo "\ninterval = " . $ci2->forHumans() . "\n";
+    	    	
+    	$start  = new Carbon('2018-10-04 15:00:03');
+    	$end    = new Carbon('2018-10-05 17:00:09');
+    	echo "diff = " . $start->diff($end)->format('%d %H:%I:%S');
     }
 }
