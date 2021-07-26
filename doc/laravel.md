@@ -1,4 +1,4 @@
-# Laravel
+r# Laravel
 
 Some hints on Laravel usage
 
@@ -10,5 +10,4 @@ Models should be singular and “studly case” (i.e. BillingAccount) and table 
 
 ## Attributes
 
-Laravel automatically generates attributes from the database
-table column names. However the accessors, getters and setters must be manually generated. 
+Laravel automatically generates attributes from the database table column names. However the accessors, getters and setters must be manually generated. 

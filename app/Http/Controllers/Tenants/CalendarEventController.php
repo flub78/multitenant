@@ -94,6 +94,7 @@ class CalendarEventController extends Controller {
 		$validatedData ['allDay'] = $request->has ( 'allDay' );
 		
 		CalendarEvent::create ( $validatedData );
+		
 		// TODO localization of success messages
 		return redirect ( 'calendar' )->with ( 'success', 'Calendar entry ' . $validatedData ['title'] . ' created' );
 	}
@@ -116,6 +117,8 @@ class CalendarEventController extends Controller {
 	 */
 	public function edit($id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
+		// var_dump($calendarEvent);
+		// exit;
 		return view ( 'tenants.calendar.edit' )->with ( 'calendarEvent', $calendarEvent );
 	}
 
@@ -140,6 +143,8 @@ class CalendarEventController extends Controller {
 
 		unset ( $validatedData ['start_time'] );
 		unset ( $validatedData ['end_time'] );
+		
+		// var_dump($validatedData); exit;
 
 		CalendarEvent::whereId ( $id )->update ( $validatedData );
 

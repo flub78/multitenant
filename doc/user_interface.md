@@ -20,6 +20,9 @@ Todo: Localize the strings, currently French is hardcoded
     
 ## Spectrum color picker
 
+    https://bgrins.github.io/spectrum/
+    
+
 ### To only display named colors
 
     $(document).ready(function(){

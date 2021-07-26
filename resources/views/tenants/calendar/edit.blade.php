@@ -68,12 +68,12 @@
 
            <div class="form-group">
               <label for="backgroundColor"> {{__('calendar.background_color')}}</label>
-              <input type="text" class="form-control colorpicker" name="backgroundColor" value="{{ old('backgroundColor') }}"/>
+              <input type="color" class="form-control colorpicker" name="backgroundColor" value="{{ old('backgroundColor', $calendarEvent->backgroundColor) }}"/>
           </div>
 
            <div class="form-group">
-              <label for="textColor"> {{__('calendar.text_color')}}</label>
-              <input type="text" class="form-control namedcolorpicker" name="textColor" value="{{ old('textColor') }}"/>
+              <label for="textColor"> {{__('calendar.text_color')}}</label> 
+              <input type="color" class="form-control colorpicker" name="textColor" value="{{ old('textColor', $calendarEvent->textColor) }}"/>
           </div>
           
           <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>

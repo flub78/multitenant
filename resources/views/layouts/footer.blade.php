@@ -108,19 +108,14 @@ $.datepicker.regional['fr'] = {
 	});
 
     $(".colorpicker").spectrum({
-        color: "#f00"
     });	 
-
-    $(".namedcolorpicker").spectrum({
-        color: "#f00"
-    });
     
     $(".namedcolorpicker").spectrum({
+    	preferredFormat: "name",
     	showPaletteOnly: true,
     	showPalette:true,
     	hideAfterPaletteSelect:true,
-    	color: 'blanchedalmond',
-    	/*
+    	/*   
 		change: function(color) {
         	printColor(color);
     	},
