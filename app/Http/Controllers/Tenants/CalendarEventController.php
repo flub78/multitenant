@@ -30,6 +30,7 @@ class CalendarEventController extends Controller {
 	 */
 	public function index() {
 		$events = CalendarEvent::all ();
+		// var_dump($events);exit;
 		return view ( 'tenants.calendar.index', compact ( 'events' ) );
 	}
 
@@ -91,10 +92,10 @@ class CalendarEventController extends Controller {
 			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
 		}
 		$validatedData ['allDay'] = $request->has ( 'allDay' );
-
+		
 		CalendarEvent::create ( $validatedData );
 		// TODO localization of success messages
-		return redirect ( 'calendar' )->with ( 'success', 'Configuration entry ' . $validatedData ['title'] . ' created' );
+		return redirect ( 'calendar' )->with ( 'success', 'Calendar entry ' . $validatedData ['title'] . ' created' );
 	}
 
 	/**

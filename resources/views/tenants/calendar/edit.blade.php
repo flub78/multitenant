@@ -55,6 +55,17 @@
               <input type="text" class="form-control timepicker" name="start_time" value="{{ old('start_time', $calendarEvent->getStartTime()) }}"/>
           </div>
 
+           <div class="form-group">
+              <label for="end"> {{__('calendar.end_date')}}</label>
+              <input type="text" class="form-control datepicker" name="end" value="{{ old('end', $calendarEvent->getEndDate()) }}"/>
+          </div>
+
+           <div class="form-group">
+              <label for="end_time"> {{__('calendar.end_time')}}</label>
+    		  <!--  {{ old('end_time',$calendarEvent->getEndTime())               }} -->
+              <input type="text" class="form-control timepicker" name="end_time" value="{{ old('end_time', $calendarEvent->getEndTime()) }}"/>
+          </div>
+
           <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
       </form>
   </div>

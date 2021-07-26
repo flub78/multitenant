@@ -10,7 +10,7 @@ return [
     |
     */
 
-	'title' => "Calendrier",
+	'feature' => "Calendrier",
 	'list' => "Liste",	
 	'new' => "Nouvel événement",
 	'add' => "Ajout Evenement",

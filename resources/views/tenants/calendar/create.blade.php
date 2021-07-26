@@ -51,6 +51,13 @@
           </div>
 
            <div class="form-group">
+              <label for="end"> {{__('calendar.end_date')}}</label>
+              <input type="text" class="form-control datepicker" name="end" value="{{ old('end') }}" dusk="end"/>
+              <label for="end_time"> {{__('calendar.end_time')}}</label>
+              <input type="text" class="form-control timepicker" name="end_time" value="{{ old('end_time') }}"/>
+          </div>
+
+           <div class="form-group">
               <label for="backgroundColor"> {{__('calendar.background_color')}}</label>
               <input type="text" class="form-control colorpicker" name="backgroundColor" value="{{ old('backgroundColor') }}"/>
           </div>

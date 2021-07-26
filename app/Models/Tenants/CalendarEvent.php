@@ -16,18 +16,22 @@ use App;
  * and the user interface (localized attribute in the user timezone)
  * 
  * database attributes:
- * 		datetime('start');	// '2021-06-29 00:00:00'
+ * 		datetime('start');				// '2021-06-29 00:00:00'
  * 		datetime('end')->nullable();	// '2021-06-28 11:30:00'
  * 
  * UI attributes
- * 		start_date
- * 		start_time
+ * 		start_date						string in local format
+ * 		start_time						time in local format
  * 		end_date
  * 		end_time
  * 
  * When an EventCalendar is created or fetched from the database only the start and end attributes are set.
  * The start_date, start_time, end_date and end_time will be populated the first time that 
  * getStartDate, getStartTime, getEndDate, getEndTime are called.
+ * 
+ * Should these derived values be stored in database ? It depends on how often events are created, modified and read,
+ * and of the relative cost to compute derived attributes compared to retrieve them.
+ * 
  * 
  * Maybe later:
  * -----------
@@ -89,6 +93,13 @@ class CalendarEvent extends ModelWithLogs
     		'editable', 'startEditable', 'durationEditable'
     ];
     
+    /**
+     * In database date time are stored as composed UTC strings
+     * 
+     * $this->start:      string value in UTC "2021-07-14 12:30:00"
+     * $this->start_date: cached string value for local date
+     * $this->start_time: cached string for local time
+     */
     protected function setStartDateAndTime() {
     	if (isset($this->start)) {
     		$date = Carbon::createFromFormat('Y-m-d H:i:s', $this->start);
@@ -103,6 +114,9 @@ class CalendarEvent extends ModelWithLogs
     	}
     }
 
+    /**
+     * 
+     */
     protected function setEndDateAndTime() {
     	if (isset($this->end)) {
     		$date = Carbon::createFromFormat('Y-m-d H:i:s', $this->end);
@@ -164,4 +178,16 @@ class CalendarEvent extends ModelWithLogs
     	return $this->end_time;
     }    
     
+    /**
+     * @return number
+     */
+    public function durationInSeconds() {
+    	if (!isset($this->start) || !isset($this->end)) {
+    		return 0;
+    	}
+    	$start = Carbon::createFromFormat('Y-m-d H:i:s', $this->start);
+    	$end = Carbon::createFromFormat('Y-m-d H:i:s', $this->end);
+    	return $end->diffInSeconds($start);
+    }
+        
 }

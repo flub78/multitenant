@@ -36,7 +36,7 @@
     					</li>
 
     					<li class="nav-item dropdown">
-      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">{{__('calendar.title')}}</a>
+      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">{{__('calendar.feature')}}</a>
       						
       						<div class="dropdown-menu">
         						<a class="dropdown-item" href="{{ route('calendar.fullcalendar') }}">{{__('calendar.fullcalendar')}}</a>

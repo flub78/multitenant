@@ -20,6 +20,8 @@
           <td>{{__('calendar.start_date')}}</td>
           <td>{{__('calendar.start_time')}}</td>
           <td>{{__('calendar.allday')}}</td>
+          <td>{{__('calendar.end_date')}}</td>
+          <td>{{__('calendar.end_time')}}</td>
           <td >{{__('general.edit')}}</td>
           <td >{{__('general.delete')}}</td>
         </tr>
@@ -35,6 +37,8 @@
             <td>
             	<input type="checkbox"   {{($event->allDay) ? 'checked' : ''}} onclick="return false;" />
             </td>
+            <td>{{$event->getEndDate()}}</td>
+            <td>{{$event->getEndTime()}}</td>
             <td><a href="{{ route('calendar.edit', $event->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
             
             <td>

@@ -9,7 +9,8 @@ return [
 		 * |
 		 */
 
-		'title' => "Calendar",
+		'feature' => "Calendar",
+		'title' => "Title",
 		'list' => "Event list",
 		'new' => "New Event",
 		'add' => "Add Event",
