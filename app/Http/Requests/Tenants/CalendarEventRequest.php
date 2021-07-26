@@ -33,9 +33,9 @@ class CalendarEventRequest extends FormRequest {
 							'title' => 'required|max:191',
 							'groupId' => 'max:191',
 							'start' => 'required|date_format:' . __ ( 'general.date_format' ) . '',
-							'start_time' => 'regex:/\d{1,2}\:\d{2}/',
-							'end' => 'date_format:' . __ ( 'general.date_format' ) . '',
-							'end_time' => 'regex:/\d{1,2}\:\d{2}/'
+							'start_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
+							'end' => 'nullable|date_format:' . __ ( 'general.date_format' ) . '',
+							'end_time' => 'nullable|regex:/\d{1,2}\:\d{2}/'
 					];
 				}
 			case 'PUT' :
@@ -45,9 +45,9 @@ class CalendarEventRequest extends FormRequest {
 							'title' => 'required|max:191',
 							'groupId' => 'max:191',
 							'start' => 'required|date_format:' . __ ( 'general.date_format' ) . '',
-							'start_time' => 'regex:/\d{1,2}\:\d{2}/',
-							'end' => 'date_format:' . __ ( 'general.date_format' ) . '',
-							'end_time' => 'regex:/\d{1,2}\:\d{2}/'
+							'start_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
+							'end' => 'nullable|date_format:' . __ ( 'general.date_format' ) . '',
+							'end_time' => 'nullable|regex:/\d{1,2}\:\d{2}/'
 					];
 				}
 			default :

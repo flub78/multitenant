@@ -85,10 +85,10 @@ class CalendarEventController extends Controller {
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();
 
-		if (array_key_exists ( 'start', $validatedData )) {
+		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
 			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
 		}
-		if (array_key_exists ( 'end', $validatedData )) {
+		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
 			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
 		}
 		$validatedData ['allDay'] = $request->has ( 'allDay' );
@@ -110,7 +110,7 @@ class CalendarEventController extends Controller {
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param $id of
+	 * @param $id of the calendar event to edit
 	 *        	the event
 	 * @return \Illuminate\Http\Response
 	 */
@@ -130,10 +130,10 @@ class CalendarEventController extends Controller {
 	public function update(CalendarEventRequest $request, $id) {
 		$validatedData = $request->validated ();
 
-		if (array_key_exists ( 'start', $validatedData )) {
+		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
 			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
 		}
-		if (array_key_exists ( 'end', $validatedData )) {
+		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
 			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
 		}
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;

@@ -175,7 +175,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		$new_title = "new title";
 		$new_start = '06-24-2021';
-		$elt = ["id" => $event->id, "title" => $new_title, 'start' => $new_start, 'start_time' => '06:30', 
+		$elt = ["id" => $event->id, "title" => $new_title,
+				'start' => $new_start, 'end' => $new_start,
+				'start_time' => '06:30', 'end_time' => '07:45', 
 				'allDay' => false, '_token' => csrf_token()];
 				
 		$response = $this->patch ( $url, $elt);
@@ -187,6 +189,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals($new_title, $stored->title);
         $this->assertEquals("2021-06-24 06:30:00", $stored->start);
         $this->assertEquals($stored->allDay, 0); 
+        $this->assertEquals(3600 * 1.25, $stored->durationInSeconds());
         
 		$expected = CalendarEvent::count ();
 		$this->assertEquals ( $expected, $count, "Count does not change on update, actual=$count, expected=$expected" );
