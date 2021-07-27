@@ -26,5 +26,5 @@ return [
 	'duration' => 'Durée',
 	'background_color' => 'Couleur de fond',
 	'text_color' => 'Couleur du texte',
-		
+
 ];

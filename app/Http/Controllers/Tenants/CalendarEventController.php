@@ -95,8 +95,7 @@ class CalendarEventController extends Controller {
 		
 		CalendarEvent::create ( $validatedData );
 		
-		// TODO localization of success messages
-		return redirect ( 'calendar' )->with ( 'success', 'Calendar entry ' . $validatedData ['title'] . ' created' );
+		return redirect ( 'calendar' )->with ( 'success', __('general.creation_success', ['elt' => $validatedData ['title']]));
 	}
 
 	/**
@@ -148,8 +147,7 @@ class CalendarEventController extends Controller {
 
 		CalendarEvent::whereId ( $id )->update ( $validatedData );
 
-		// TODO localization of success messages
-		return redirect ( 'calendar' )->with ( 'success', 'Event ' . $validatedData ['title'] . ' updated' );
+		return redirect ( 'calendar' )->with ( 'success', __('general.modification_success', ['elt' => $validatedData ['title']]));
 	}
 
 	/**
@@ -165,8 +163,7 @@ class CalendarEventController extends Controller {
 		$title = $calendarEvent->title;
 		$calendarEvent->delete ();
 
-		// TODO localization of success messages
-		return redirect ( 'calendar' )->with ( 'success', "Event $title deleted" );
+		return redirect ( 'calendar' )->with ( 'success', __('general.deletion_success', ['elt' => $title]));		
 	}
 
 }

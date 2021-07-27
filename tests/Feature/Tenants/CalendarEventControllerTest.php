@@ -68,7 +68,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		];
 				
 		// call the post method to create it
-		$this->post_tenant_url($this->user, 'calendar', $elt);
+		$this->post_tenant_url($this->user, 'calendar', ['created'], $elt);
 		
 		// check that an element has been created
 		$new_count = CalendarEvent::count ();
@@ -91,7 +91,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$start = "start";
 		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start];
 		
-		$this->post_tenant_url( $this->user, 'calendar', $elt, $errors_expected = true);
+		$this->post_tenant_url( $this->user, 'calendar', [], $elt, $errors_expected = true);
 		
 		// Check that nothing has been created
 		$new_count = CalendarEvent::count ();
@@ -104,7 +104,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$id = $event->save();
 		$initial_count = CalendarEvent::count ();
 		
-		$this->delete_tenant_url($this->user, 'calendar/' . $id);
+		$this->delete_tenant_url($this->user, 'calendar/' . $id, ['deleted']);
 				
 		$new_count = CalendarEvent::count ();
 		$expected = $initial_count - 1;

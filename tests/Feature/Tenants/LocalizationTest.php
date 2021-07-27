@@ -43,29 +43,6 @@ class LocalizationTest extends TenantTestCase {
 	function __destruct() {
 		$this->user->delete ();
 	}
-
-	public function set_lang(String $lang): void {
-		$cfg = Configuration::where ( 'key', 'app.locale' )->first ();
-		if ($cfg) {
-			$cfg->value = $lang;
-			$cfg->update ();
-		} else {
-			Configuration::factory ()->create ( [ 
-					'key' => 'app.locale',
-					'value' => $lang
-			] );
-		}
-		/*
-		 *  When LocaleTenancyBootstrapper is executed, it set locale according to the app.locale value in database.
-		 *  But the locale is not set while running the tests
-		 *     
-		 *  The database app.locale cannot be set in the test constuctor (too early tenant context are not established)
-		 *  And when app.locale is set in test setUp, it's too late, the bootstrapper has already been executed
-		 *  
-		 *  So the local is set again here, before the tests
-		 */
-		App::setLocale ($lang);
-	}
 	
 	/**
 	 * Test for English

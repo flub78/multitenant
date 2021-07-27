@@ -25,4 +25,9 @@ return [
 		'time_format' => 'H:i',
 		'datetime_format' => 'd/m/Y H:i',
 		'datepicker_format' => 'dd/mm/yy',
+
+		'creation_success' => "Création de :elt",
+		'modification_success' => ":elt modifié",
+		'deletion_success' => ":elt supprimé",
+		
 ];

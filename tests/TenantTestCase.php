@@ -7,6 +7,8 @@ use App\Models\Tenant;
 use App\Helpers\TenantHelper;
 use App\Helpers\DirHelper;
 use Illuminate\Support\Facades\DB;
+use App\Models\Tenants\Configuration;
+use Illuminate\Support\Facades\App;
 
 abstract class TenantTestCase extends BaseTestCase
 {
@@ -87,6 +89,29 @@ abstract class TenantTestCase extends BaseTestCase
 		return $app;
 	}
 	
+	public function set_lang(String $lang): void {
+		$cfg = Configuration::where ( 'key', 'app.locale' )->first ();
+		if ($cfg) {
+			$cfg->value = $lang;
+			$cfg->update ();
+		} else {
+			Configuration::factory ()->create ( [
+					'key' => 'app.locale',
+					'value' => $lang
+			] );
+		}
+		/*
+		 *  When LocaleTenancyBootstrapper is executed, it set locale according to the app.locale value in database.
+		 *  But the locale is not set while running the tests
+		 *
+		 *  The database app.locale cannot be set in the test constuctor (too early tenant context are not established)
+		 *  And when app.locale is set in test setUp, it's too late, the bootstrapper has already been executed
+		 *
+		 *  So the local is set again here, before the tests
+		 */
+		App::setLocale ($lang);
+	}
+	
 	/**
 	 * Check a tenant get URL
 	 * @param unknown $user
@@ -114,23 +139,28 @@ abstract class TenantTestCase extends BaseTestCase
 	 * @param boolean $errors_expected
 	 * @param string $method = post or put
 	 */
-	public function post_tenant_url ($user, $sub_url, $elt = [], $errors_expected = false, $method='post') {
+	public function post_tenant_url ($user, $sub_url, $see_list = [], $elt = [], $errors_expected = false, $method='post') {
 		$this->be ( $user );
 		$this->withoutMiddleware();
 		
 		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
 		
-		$response = $this->$method ( $url, $elt);
-		$response->assertStatus ( 302 );
+		$response = $this->followingRedirects()->$method ( $url, $elt);
+		$response->assertStatus ( 200 );
 		
-		// $response->dumpHeaders();
-		// $response->dumpSession();
-		// $response->dump();
+		/*
+			$response->dumpHeaders();
+			$response->dumpSession();
+			$response->dump();
+		*/
 		
 		if ($errors_expected) {
 			$response->assertSessionHasErrors();
 		} else {
 			$response->assertSessionHasNoErrors();
+		}
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
 		}
 	}
 	
@@ -141,8 +171,8 @@ abstract class TenantTestCase extends BaseTestCase
 	 * @param array $elt
 	 * @param boolean $errors_expected
 	 */
-	public function put_tenant_url ($user, $sub_url, $elt = [], $errors_expected = false) {
-		$this->post_tenant_url($user, $sub_url, $elt, $errors_expected, $method = 'put');
+	public function put_tenant_url ($user, $sub_url, $see_list = [], $elt = [], $errors_expected = false) {
+		$this->post_tenant_url($user, $sub_url, $see_list, $elt, $errors_expected, $method = 'put');
 	}
 	
 	/**
@@ -151,12 +181,15 @@ abstract class TenantTestCase extends BaseTestCase
 	 * @param unknown $user
 	 * @param unknown $sub_url
 	 */
-	public function delete_tenant_url($user, $sub_url) {
+	public function delete_tenant_url($user, $sub_url, $see_list = []) {
 		$this->be ( $this->user );
 		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
 		
-		$response = $this->delete ( $url);
-		$response->assertStatus ( 302 );
+		$response = $this->followingRedirects()->delete ( $url);
+		$response->assertStatus ( 200 );
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
+		}
 	}
 	
 	/**

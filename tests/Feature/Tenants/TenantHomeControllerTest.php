@@ -33,7 +33,6 @@ class TenantHomeControllerTest extends TenantTestCase {
 	/**
 	 */
 	public function test_home() {		
-		$this->get_tenant_url($this->user, 'home', [ tenant ('id')]);
-		
+		$this->get_tenant_url($this->user, 'home', [ tenant ('id')]);		
 	}	
 }

@@ -47,7 +47,6 @@ class ConfigurationControllerTest extends TenantTestCase {
 	
 	public function test_create_page() {
 		$this->get_tenant_url($this->user, 'configuration/create', [__('configuration.new')]);
-		
 	}
 	
 	public function test_store() {
@@ -60,13 +59,13 @@ class ConfigurationControllerTest extends TenantTestCase {
 		$initial_count = Configuration::count ();
 		
 		// call the post method to create it
-		$this->post_tenant_url($this->user, 'configuration', $elt);
+		$this->post_tenant_url($this->user, 'configuration', ['created'], $elt);
 		
 		$new_count = Configuration::count ();
 		$expected = $initial_count + 1;
 		$this->assertEquals ( $expected, $new_count, "configuration created, actual=$new_count, expected=$expected" );		
 	}
-	
+			
 	public function test_store_incorrect_value() {
 		// Post a creation request
 		$bad_key = "app.bad_key";
@@ -78,7 +77,8 @@ class ConfigurationControllerTest extends TenantTestCase {
 		// $url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
 		$elt = ["key" => $bad_key, "value" => $value, '_token' => csrf_token()];
 
-		$this->post_tenant_url( $this->user, 'configuration', $elt, $errors_expected = true);
+		// 'The key format is invalid'
+		$this->post_tenant_url( $this->user, 'configuration', [], $elt, $errors_expected = true);
 		
 		$new_count = Configuration::count ();
 		$expected = $initial_count;
@@ -114,12 +114,10 @@ class ConfigurationControllerTest extends TenantTestCase {
 		$this->assertNotEquals($value, $new_value);
 		$configuration->save();
 				
-		$this->put_tenant_url($this->user, 'configuration/' . $key, $elt);
+		$this->put_tenant_url($this->user, 'configuration/' . $key, ['updated'], $elt);
 		
-		$back = Configuration::where('key', $key)->first();
-		
+		$back = Configuration::where('key', $key)->first();		
 		$this->assertEquals($new_value, $back->value);
-		
 		$back->delete();
 	}
 	
@@ -131,7 +129,7 @@ class ConfigurationControllerTest extends TenantTestCase {
 		
 		$initial_count = Configuration::count ();
 		
-		$this->delete_tenant_url($this->user, 'configuration/' . $key);
+		$this->delete_tenant_url($this->user, 'configuration/' . $key, ['deleted']);
 		
 		$new_count = Configuration::count ();
 		$expected = $initial_count - 1;

@@ -25,5 +25,5 @@ return [
 		'end_time' => 'End time',
 		'duration' => 'Duration',
 		'background_color' => 'Background Color',
-		'text_color' => 'Texte Color'
+		'text_color' => 'Texte Color',
 ];

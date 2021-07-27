@@ -50,7 +50,8 @@ class ConfigurationController extends Controller {
 	public function store(ConfigRequest $request) {
 		$validatedData = $request->validated (); // Only retrieve the data, the validation is done
 		Configuration::create ( $validatedData );
-		return redirect ( '/configuration' )->with ( 'success', 'Configuration entry ' . $validatedData ['key'] . ' created' );
+		
+		return redirect ( '/configuration' )->with ( 'success',  __('general.creation_success', ['elt' => $validatedData ['key']]));
 	}
 
 	/**
@@ -87,8 +88,7 @@ class ConfigurationController extends Controller {
 		
 		Configuration::where ( ['key' => $id ])->update ( $validatedData );
 
-		return redirect ( '/configuration' )->with ( 'success', "Configuration " 
-				. $validatedData['key'] . " updated" );
+		return redirect ( '/configuration' )->with ( 'success', __('general.modification_success', ['elt' => $validatedData ['key']]));
 	}
 
 	/**
@@ -101,7 +101,7 @@ class ConfigurationController extends Controller {
 		// var_dump($configuration); exit;
 		$key = $configuration->key;
 		$configuration->delete ();
-		return redirect ( 'configuration' )->with ( 'success', "Configuration $key deleted" );
+		return redirect ( 'configuration' )->with ( 'success', __('general.deletion_success', ['elt' => $key]));
 	}
 
 }
