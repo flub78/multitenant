@@ -71,18 +71,8 @@ class LocalizationTest extends TenantTestCase {
 	 * Test for English
 	 */
 	protected function check_en() {
-		$this->be ( $this->user );
+		$this->get_tenant_url($this->user, 'configuration/', ["Tenant Configuration",  "Key", "Value", 'tenant', tenant ( 'id' )]);
 		
-		// configuration list
-		$url = 'http://' . tenant ( 'id' ) . '.tenants.com/configuration';
-		
-		$response = $this->get ( $url );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText ( "Tenant Configuration" );
-		$response->assertSeeText ( "Key" );
-		$response->assertSeeText ( "Value" );
-		$response->assertSeeText ( 'tenant' );
-		$response->assertSeeText ( tenant ( 'id' ) );
 	}
 
 	public function test_language_when_app_locale_is_not_defined_in_database() {
@@ -105,24 +95,12 @@ class LocalizationTest extends TenantTestCase {
 	public function test_language_when_app_locale_is_fr() {
 
 		$this->set_lang('fr');
-		$this->be ( $this->user );
 
 		$cfg = Configuration::where ( 'key', 'app.locale' )->first ();
 		$this->assertEquals ( 'fr', $cfg->value );
 		$this->assertEquals ( 'fr', App::getLocale () );
 
 		// configuration list
-		$url = 'http://' . tenant ( 'id' ) . '.tenants.com/configuration';
-
-		$response = $this->get ( $url );
-		$response->assertStatus ( 200 );
-		// $response->dump();
-		$response->assertSeeText ( "Configuration par locataire" );
-		$response->assertSeeText ( "Clé" );
-		$response->assertSeeText ( "Valeur" );
-		$response->assertSeeText ( 'locataire' );
-		$response->assertSeeText ( 'test' );
-
-		// $response->dump();
+		$this->get_tenant_url($this->user, 'configuration/', ["Configuration par locataire",  "Clé", "Valeur", 'locataire', 'test']);
 	}	
 }

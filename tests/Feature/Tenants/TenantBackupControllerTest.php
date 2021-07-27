@@ -57,19 +57,14 @@ class TenantBackupControllerTest extends TenantTestCase {
 	 * check that there is one less backup in the local storage
 	 */
 	public function test_backup_create_delete() {
-		$this->be ( $this->user );
-
 		$initial_count = $this->backup_count ();
 		
+		$this->be ( $this->user );
+		
 		// backup list
-		$response = $this->get ( '/backup' );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText(__('backup.title'));
-		$response->assertSeeText(__('backup.number'));
-		$response->assertSeeText(__('backup.restore'));
-		$response->assertSeeText(__('backup.new'));
-		$response->assertSeeText(__('navbar.tenant'));
-		$response->assertSeeText(tenant('id'));
+		$this->get_tenant_url($this->user, 'backup', 
+				[__('backup.title'), __('backup.number'), __('backup.restore'), __('backup.new'), __('navbar.tenant'), tenant('id')]);
+		
 		
 		// create a backup
 		$response = $this->get ( '/backup/create' );
@@ -118,8 +113,7 @@ class TenantBackupControllerTest extends TenantTestCase {
 		$response = $this->delete ( "/backup/999999999" );
 		$response->assertStatus ( 302 ); // redirected
 		
-		// echo "   warning: no reported error is checked\n";
-		
+		// echo "   warning: no reported error is checked\n";		
 	}
 	
 	/**
