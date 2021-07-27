@@ -29,18 +29,11 @@ class TenantHomeControllerTest extends TenantTestCase {
 		$this->user->delete ();
 	}
 
-	
 
 	/**
 	 */
-	public function test_home() {
-		$this->be ( $this->user );
+	public function test_home() {		
+		$this->get_tenant_url($this->user, 'home', [ tenant ('id')]);
 		
-		// home
-		$response = $this->get ( '/home' );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText(tenant('id'));		
-	}
-
-	
+	}	
 }
