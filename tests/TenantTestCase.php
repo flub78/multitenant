@@ -87,5 +87,92 @@ abstract class TenantTestCase extends BaseTestCase
 		return $app;
 	}
 	
+	/**
+	 * Check a tenant get URL
+	 * @param unknown $user
+	 * @param unknown $sub_url
+	 * @param array $see_list
+	 */
+	public function get_tenant_url($user, $sub_url, $see_list = []) {
+		$this->be ( $user );
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
+		}
+	}
 	
+	/**
+	 * Check a tenant post (or put) method
+	 * 
+	 * @param unknown $user
+	 * @param unknown $sub_url
+	 * @param array $elt
+	 * @param boolean $errors_expected
+	 * @param string $method = post or put
+	 */
+	public function post_tenant_url ($user, $sub_url, $elt = [], $errors_expected = false, $method='post') {
+		$this->be ( $user );
+		$this->withoutMiddleware();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
+		
+		$response = $this->$method ( $url, $elt);
+		$response->assertStatus ( 302 );
+		
+		// $response->dumpHeaders();
+		// $response->dumpSession();
+		// $response->dump();
+		
+		if ($errors_expected) {
+			$response->assertSessionHasErrors();
+		} else {
+			$response->assertSessionHasNoErrors();
+		}
+	}
+	
+	/**
+	 * Check tenant put method
+	 * @param unknown $user
+	 * @param unknown $sub_url
+	 * @param array $elt
+	 * @param boolean $errors_expected
+	 */
+	public function put_tenant_url ($user, $sub_url, $elt = [], $errors_expected = false) {
+		$this->post_tenant_url($user, $sub_url, $elt, $errors_expected, $method = 'put');
+	}
+	
+	/**
+	 * Check tenant delete URL
+	 * 
+	 * @param unknown $user
+	 * @param unknown $sub_url
+	 */
+	public function delete_tenant_url($user, $sub_url) {
+		$this->be ( $this->user );
+		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
+		
+		$response = $this->delete ( $url);
+		$response->assertStatus ( 302 );
+	}
+	
+	/**
+	 * Check tenant patch URL
+	 * @param unknown $user
+	 * @param unknown $sub_url
+	 * @param array $elt
+	 */
+	public function patch_tenant_url($user, $sub_url, $elt = []) {
+		$this->be ( $user );
+		$this->withoutMiddleware();
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
+		$response = $this->patch ( $url, $elt);
+		// $response->dumpSession();
+		
+		$response->assertStatus ( 302);
+	}
 }

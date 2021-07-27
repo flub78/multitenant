@@ -30,35 +30,18 @@ class CalendarEventControllerTest extends TenantTestCase {
 
 	
 	public function test_calendar_event_list() {
-		$this->be ( $this->user );
-				
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;		
-		$response = $this->get ( $url);
-		$response->assertStatus ( 200 );
-		$response->assertSeeText(__('calendar.add'));
-		$response->assertSeeText(__('calendar.groupId'));
-		$response->assertSeeText(__('calendar.event_title'));
-		$response->assertSeeText(__('calendar.allday'));	
+		$this->get_tenant_url($this->user, 'calendar', 
+				[__('calendar.add'), __('calendar.groupId'), __('calendar.event_title'), __('calendar.allday')]);	
 	}
 
 	public function test_calendar_event_fullcalendar() {
-		$this->be ( $this->user );
-		
-		
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/fullcalendar' ;
-		$response = $this->get ( $url);
-		$response->assertStatus ( 200 );
-		$response->assertSeeText(__('calendar.title'));
+		$this->get_tenant_url($this->user, 'calendar/fullcalendar',
+				[__('calendar.title')]);
 	}
 	
 	public function test_calendar_event_create() {
-		$this->be ( $this->user );
-				
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/create' ;
-		$response = $this->get ( $url);
-		$response->assertStatus ( 200 );
-		$response->assertSeeText('Add Event');
+		$this->get_tenant_url($this->user, 'calendar/create', ['Add Event']);		
 	}
 
 	public function test_calendar_json() {
@@ -73,29 +56,26 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 
 	public function test_calendar_event_store() {
-		$this->be ( $this->user );
 		
-		$count = CalendarEvent::count ();
+		$initial_count = CalendarEvent::count ();
 		
-		$this->withoutMiddleware();
-		
-		$title = "Event $count";
-		$groupId = "GroupId $count";
+		//prepare an element
+		$title = "Event $initial_count";
+		$groupId = "GroupId $initial_count";
 		$start = "07-31-2021";
 		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start, 'start_time' => '10:00',
 				'allDay' => 1
 		];
+				
+		// call the post method to create it
+		$this->post_tenant_url($this->user, 'calendar', $elt);
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
-		$response = $this->post ( $url, $elt);
-		$response->assertStatus ( 302 );
-		
-		$response->assertSessionHasNoErrors();
-		
+		// check that an element has been created
 		$new_count = CalendarEvent::count ();
-		$expected = $count + 1;
+		$expected = $initial_count + 1;
 		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
 		
+		// and it can be retrieved
 		$search = ['title' => $title, 'groupId' => $groupId];
 		
 		$event = CalendarEvent::where($search)->first();
@@ -103,44 +83,31 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals($event->allDay, 1);
 	}
 	
-	public function test_calendar_event_store_incorrect_value() {
-		$this->be ( $this->user );
-		
-		$count = CalendarEvent::count ();
-		
-		$this->withoutMiddleware();
-		
-		$title = "Event $count";
-		$groupId = "GroupId $count";
+	public function test_calendar_event_store_incorrect_value() {		
+		$initial_count = CalendarEvent::count ();
+						
+		$title = "Event $initial_count";
+		$groupId = "GroupId $initial_count";
 		$start = "start";
 		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start];
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar' ;
-		$response = $this->post ( $url, $elt);
-		$response->assertStatus ( 302 );
+		$this->post_tenant_url( $this->user, 'calendar', $elt, $errors_expected = true);
 		
-		$response->assertSessionHasErrors();
-		
+		// Check that nothing has been created
 		$new_count = CalendarEvent::count ();
-		$expected = $count;
-		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
+		$this->assertEquals ( $initial_count, $new_count, "event created, actual=$new_count, expected=$initial_count" );
 	}
 
 	public function test_delete() {
-		$this->be ( $this->user );
 		
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
-
-		$count = CalendarEvent::count ();
+		$initial_count = CalendarEvent::count ();
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id;
-		
-		$response = $this->delete ( $url);
-		$response->assertStatus ( 302 );
-		
+		$this->delete_tenant_url($this->user, 'calendar/' . $id);
+				
 		$new_count = CalendarEvent::count ();
-		$expected = $count - 1;
+		$expected = $initial_count - 1;
 		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );		
 	}
 
@@ -149,29 +116,20 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
-				
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id . '/edit';
-				
-		$response = $this->get ( $url);
-		$response->assertStatus ( 200 );
-		$response->assertSeeText(__('calendar.edit'));
+		
+		$this->get_tenant_url($this->user, 'calendar/' . $id . '/edit', [__('calendar.edit')]);		
 	}
 	
 	public function test_update() {
 		// TODO test allDay attributes
-		$this->be ( $this->user );
 		
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
 		
 		$event = CalendarEvent::find($id);
-		$count = CalendarEvent::count ();
+		$initial_count = CalendarEvent::count ();
 		
 		$this->assertEquals($event->allDay, 1); // by default
-		
-		$this->withoutMiddleware();
-
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/' . $id;
 		
 		$new_title = "new title";
 		$new_start = '06-24-2021';
@@ -179,11 +137,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 				'start' => $new_start, 'end' => $new_start,
 				'start_time' => '06:30', 'end_time' => '07:45', 
 				'allDay' => false, '_token' => csrf_token()];
-				
-		$response = $this->patch ( $url, $elt);
-		// $response->dumpSession();
-		
-		$response->assertStatus ( 302);
+						
+		$this->patch_tenant_url( $this->user, 'calendar/' . $id, $elt);
 		
 		$stored = CalendarEvent::findOrFail($id);
 		$this->assertEquals($new_title, $stored->title);
@@ -191,8 +146,8 @@ class CalendarEventControllerTest extends TenantTestCase {
         $this->assertEquals($stored->allDay, 0); 
         $this->assertEquals(3600 * 1.25, $stored->durationInSeconds());
         
-		$expected = CalendarEvent::count ();
-		$this->assertEquals ( $expected, $count, "Count does not change on update, actual=$count, expected=$expected" );
+		$new_count = CalendarEvent::count ();
+		$this->assertEquals ( $new_count, $initial_count, "Count does not change on update, actual=$initial_count, expected=$new_count" );
 	}
 	
 }

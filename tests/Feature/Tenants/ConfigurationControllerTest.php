@@ -41,31 +41,13 @@ class ConfigurationControllerTest extends TenantTestCase {
 
 
 	public function test_index_page() {
-		$this->be ( $this->user );
-		
-		// configuration list
-		$url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
-		
-		$response = $this->get ( $url);
-		$response->assertStatus ( 200 );
-		$response->assertSeeText(__('configuration.title'));
-		$response->assertSeeText(__('configuration.key'));
-		$response->assertSeeText(__('configuration.value'));
-		$response->assertSeeText(__('configuration.add') );
-		$response->assertSeeText(__('navbar.tenant'));
-		$response->assertSeeText(tenant('id'));
-		
-		// $response->dump();
+		$this->get_tenant_url($this->user, 'configuration',
+			[__('configuration.title'), __('configuration.key'), __('configuration.value'), __('configuration.add'), __('navbar.tenant'), tenant('id')]);
 	}
 	
 	public function test_create_page() {
-		$this->be ( $this->user );
-				
-		// create a configuration, display the creation form
-		$url = 'http://' . tenant('id'). '.tenants.com/configuration/create' ;
-		$response = $this->get ( $url );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText(__('configuration.new'));
+		$this->get_tenant_url($this->user, 'configuration/create', [__('configuration.new')]);
+		
 	}
 	
 	public function test_store() {
@@ -73,26 +55,15 @@ class ConfigurationControllerTest extends TenantTestCase {
 		$configuration = Configuration::factory()->make(['key' => 'app.locale', 'value' => 'en']);
 		$key = $configuration->key;
 		$value = $configuration->value;
-		
-		$count = Configuration::count ();
-
-		$this->withoutMiddleware();
-		
-		$url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
 		$elt = ["key" => $key, "value" => $value, '_token' => csrf_token()];
-		$response = $this->post ( $url, $elt );
-		$response->assertStatus ( 302 );
 		
-		if (session('errors')) {
-			$this->assertTrue(session('errors'), "session has no errors");
-		}
+		$initial_count = Configuration::count ();
 		
-		// $response->dumpHeaders();
-		// $response->dumpSession();
-		// $response->dump();
+		// call the post method to create it
+		$this->post_tenant_url($this->user, 'configuration', $elt);
 		
 		$new_count = Configuration::count ();
-		$expected = $count + 1;
+		$expected = $initial_count + 1;
 		$this->assertEquals ( $expected, $new_count, "configuration created, actual=$new_count, expected=$expected" );		
 	}
 	
@@ -102,76 +73,48 @@ class ConfigurationControllerTest extends TenantTestCase {
 		$configuration = Configuration::factory()->make(['key' => $bad_key, 'value' => 'en']);
 		$value = $configuration->value;
 		
-		$count = Configuration::count ();
-		
-		$this->withoutMiddleware();
-		
-		$url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
+		$initial_count = Configuration::count ();
+				
+		// $url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
 		$elt = ["key" => $bad_key, "value" => $value, '_token' => csrf_token()];
-		$response = $this->post ( $url, $elt );
-		$response->assertStatus ( 302 );
-		
-		if (session('errors')) {
-			$this->assertTrue(true, "session has errors");
-		} else {
-			$this->assertTrue(false, "session has no errors");
-		}
-		
-		// $response->dumpHeaders();
-		// $response->dumpSession();
-		// $response->dump();
+
+		$this->post_tenant_url( $this->user, 'configuration', $elt, $errors_expected = true);
 		
 		$new_count = Configuration::count ();
-		$expected = $count;
+		$expected = $initial_count;
 		$this->assertEquals ( $expected, $new_count, "configuration not created, actual=$new_count, expected=$expected" );
 	}
 	
 	public function test_show_page() {
-		$this->be ( $this->user );
 		
 		$configuration = Configuration::factory()->make();
 		$key = $configuration->key;
 		$configuration->save();
-				
-		$url = 'http://' . tenant('id'). '.tenants.com/configuration/' . $key ;
-
-		$response = $this->get ( $url);
-		$response->assertStatus ( 200 );
+		
+		$this->get_tenant_url($this->user, 'configuration/' . $key);
 	}
 
 	public function test_edit_page() {
-		$this->be ( $this->user );
 		
 		$configuration = Configuration::factory()->make();
 		$key = $configuration->key;
 		$configuration->save();
-				
-		$url = 'http://' . tenant('id'). '.tenants.com/configuration/' . $key .'/edit';
 		
-		$response = $this->get ( $url);
-		$response->assertStatus ( 200 );
-		$response->assertSeeText('Edit configuration');		
-		// $response->dump();
+		$this->get_tenant_url($this->user, 'configuration/' . $key . '/edit', ['Edit configuration']);
 	}
 
 	public function test_update() {
-		$this->be ( $this->user );
 		
 		$configuration = Configuration::factory()->make(['key' => 'app.timezone', 'value' => 'Europe/Munich']);
 		$key = $configuration->key;
 		$value = $configuration->value;
 		$new_value = "new value";
+		$elt = ["key" => $key, "value" => $new_value, '_token' => csrf_token()];
 		
 		$this->assertNotEquals($value, $new_value);
 		$configuration->save();
-		
-		$this->withoutMiddleware();
-		
-		$url = 'http://' . tenant('id'). '.tenants.com/configuration/' . $key;
-		$elt = ["key" => $key, "value" => $new_value, '_token' => csrf_token()];
-		
-		$response = $this->put ( $url, $elt);
-		$response->assertStatus ( 302 );
+				
+		$this->put_tenant_url($this->user, 'configuration/' . $key, $elt);
 		
 		$back = Configuration::where('key', $key)->first();
 		
@@ -181,24 +124,18 @@ class ConfigurationControllerTest extends TenantTestCase {
 	}
 	
 	public function test_delete() {
-		$this->be ( $this->user );
 		
 		$configuration = Configuration::factory()->make(['key' => 'app.timezone', 'value' => 'Europe/London']);
 		$key = $configuration->key;
 		$configuration->save();
 		
-		$count = Configuration::count ();
+		$initial_count = Configuration::count ();
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/configuration/' . $key;
-		
-		$response = $this->delete ( $url);
-		$response->assertStatus ( 302 );
+		$this->delete_tenant_url($this->user, 'configuration/' . $key);
 		
 		$new_count = Configuration::count ();
-		$expected = $count - 1;
-		$this->assertEquals ( $expected, $new_count, "configuration deleted, actual=$new_count, expected=$expected" );
-		
-		// $response->dump();
+		$expected = $initial_count - 1;
+		$this->assertEquals ( $expected, $new_count, "configuration deleted, actual=$new_count, expected=$expected" );		
 	}
 	
 }
