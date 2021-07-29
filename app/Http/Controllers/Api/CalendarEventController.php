@@ -9,6 +9,12 @@ use App\Http\Requests\Tenants\CalendarEventRequest;
 use App\Helpers\DateFormat;
 
 
+/**
+ * REST API for Calendar Events
+ * 
+ * @author frederic
+ *
+ */
 class CalendarEventController extends Controller
 {
     /**
@@ -16,9 +22,11 @@ class CalendarEventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+	public function index(Request $request)
     {
-    	return CalendarEvent::all ();
+    	$per_page = $request->get('per_page');
+    	// $page = $request->get('page');
+    	return CalendarEvent::paginate($per_page);
     }
 
     /**
@@ -92,10 +100,5 @@ class CalendarEventController extends Controller
     {
     	$calendarEvent = CalendarEvent::findOrFail ( $id );
     	return $calendarEvent->delete ();
-    	return response()->json([
-    			'status' => 'OK',
-    			'action' => 'delete',
-    			'id' => $id
-    	]);
     }
 }

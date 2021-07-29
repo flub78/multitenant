@@ -46,10 +46,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertStatus(200);
 		
 		$json = $response->json();
-		$this->assertEquals(2, count($json));
-		$this->assertEquals('event 1', $json[0]['title']);
-		
-		// var_dump($json);				
+		// var_dump($json);
+		$this->assertEquals(2, count($json['data']));
+		$this->assertEquals('event 1', $json['data'][0]['title']);
 	}
 	
 	public function test_show() {
@@ -188,6 +187,33 @@ class CalendarEventControllerTest extends TenantTestCase {
         
 		$new_count = CalendarEvent::count ();
 		$this->assertEquals ( $new_count, $initial_count, "Count does not change on update, actual=$initial_count, expected=$new_count" );
+	}
+
+	public function test_calendar_event_pagination() {
+		$this->be ( $this->user );
+		
+		for ($i = 0; $i < 100; $i++) {
+			$evt = CalendarEvent::factory ()->create ( [
+				'title' => "event_$i",
+				'start' => '2021-06-30 12:00:00',
+				'end' => '2021-06-30 12:35:00',
+				'allDay' => 0
+			] ); // UTC
+		}
+		
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?per_page=20&page=1');
+		$response->assertStatus(200);
+		
+		$json = $response->json();
+		$this->assertEquals(20, count($json['data']));
+		$this->assertEquals('event_0', $json['data'][0]['title']);
+		
+		//echo "last_page_url = " . $json['last_page_url'] . "\n";
+		$response = $this->getJson($json['last_page_url'] . '&per_page=20');
+		$json = $response->json();
+		// var_dump($json);
+		$this->assertEquals(20, count($json['data']));
+		$this->assertEquals('event_80', $json['data'][0]['title']);
 	}
 	
 }
