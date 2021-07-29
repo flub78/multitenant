@@ -27,9 +27,20 @@ class CalendarEventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CalendarEventRequest $request)
     {
-    	CalendarEvent::create( $request-> all());
+    	$validatedData = $request->validated ();
+    	
+    	// CalendarEvent::create( $request-> all());
+    	if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
+    		$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
+    	}
+    	if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
+    		$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
+    	}
+    	$validatedData ['allDay'] = $request->has ( 'allDay' );
+    	
+    	return CalendarEvent::create ( $validatedData );
     }
 
     /**
@@ -51,10 +62,24 @@ class CalendarEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CalendarEventRequest $request, $id)
     {
-        $event = CalendarEvent::findOrFail($id);
-        $event->update($request);
+        // $event = CalendarEvent::findOrFail($id);
+        // return $event->update($request);
+        $validatedData = $request->validated ();
+        
+        if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
+        	$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
+        }
+        if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
+        	$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
+        }
+        $validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
+        
+        unset ( $validatedData ['start_time'] );
+        unset ( $validatedData ['end_time'] );
+                
+        return CalendarEvent::whereId ( $id )->update ( $validatedData );
     }
 
     /**
@@ -66,6 +91,11 @@ class CalendarEventController extends Controller
     public function destroy($id)
     {
     	$calendarEvent = CalendarEvent::findOrFail ( $id );
-    	$calendarEvent->delete ();
+    	return $calendarEvent->delete ();
+    	return response()->json([
+    			'status' => 'OK',
+    			'action' => 'delete',
+    			'id' => $id
+    	]);
     }
 }
