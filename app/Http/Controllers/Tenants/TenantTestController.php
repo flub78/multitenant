@@ -27,7 +27,10 @@ class TenantTestController extends Controller
         $this->middleware('auth');
         
         // Forbiden access except during testing
-        if (config("app.env") != "testing" ) exit;
+        if (config("app.env") != "testing" ) {
+        	echo "Access only for testing";
+        	//exit;
+        }
     }
 
     /**
@@ -41,7 +44,10 @@ class TenantTestController extends Controller
     	$msg .= "Tenant=" . tenant('id') . " \n";
     	$msg .= "Local from Config:: =" . Config::config('app.locale'). " \n";
     	$msg .= "Local =" . App::getLocale() . " \n";
-    	return $msg;
+    	$route = route('calendar.index');
+    	$msg .= "route('calendar.index') = $route"; 
+    	echo $msg;
+    	// return $msg;
     	// return view('test');
     }
 }

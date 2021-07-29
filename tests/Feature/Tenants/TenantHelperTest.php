@@ -50,4 +50,9 @@ class TenantHelperTest extends TenantTestCase
     	
     	$this->assertFalse(TenantHelper::exist("non existing"), "non existing tenant");
     }
+    
+    public function test_routes() {    	
+    	$this->assertEquals('http://tenants.com/calendar', route('calendar.index'));
+    	$this->assertEquals('http://tenants.com/api/calendar', route('api.calendar.index'));
+    }
 }

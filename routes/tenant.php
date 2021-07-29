@@ -29,6 +29,7 @@ Route::middleware([
 	Route::get('/', function () {return view('welcome');});
 		
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+	Route::get('/test', [App\Http\Controllers\Tenants\TenantTestController::class, 'index'])->name('test')->middleware('auth');
 	
 	/*
 	 * Warning: routes are parsed in order of declaration and resource matches all the sub urls
@@ -41,7 +42,6 @@ Route::middleware([
 	
 	Route::resource('calendar', App\Http\Controllers\Tenants\CalendarEventController::class)->middleware('auth');
 	
-	
 	// admin routes
 	Route::group(['middleware' => ['admin']], function () {
 		Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
@@ -53,8 +53,14 @@ Route::middleware([
 		Route::get('/backup/create', [App\Http\Controllers\BackupController::class, 'create'])->name('backup.create')->middleware('auth');
 		Route::get('/backup/{backup}/restore', [App\Http\Controllers\BackupController::class, 'restore'])->name('backup.restore')->middleware('auth');
 		Route::delete('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'destroy'])->name('backup.destroy')->middleware('auth');
-	});
-	
-	Route::get('/test', [App\Http\Controllers\Tenants\TenantTestController::class, 'index'])->name('test')->middleware('auth');
+	});	
 		
 });
+
+Route::middleware([
+			'api',
+			InitializeTenancyByDomain::class,
+			PreventAccessFromCentralDomains::class,
+	])->group(function () {
+		Route::resource('api/calendar', App\Http\Controllers\Api\CalendarEventController::class, ['as' => 'api']);
+	});
