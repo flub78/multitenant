@@ -47,25 +47,25 @@ class CalendarEventController extends Controller {
 	/*
 	 * TODO cleanup once there is an API controller for the same model
 	 *
-	 * public function json2() {
-	 * return '[
-	 * {
-	 * "title": "Event 1",
-	 * "start": "2021-06-22T09:00:00",
-	 * "end": "2021-06-22T18:00:00",
-	 * "startEditable": true
-	 * },
-	 * {
-	 * "title": "Event 2",
-	 * "start": "2021-06-22",
-	 * "end": "2021-06-22",
-	 * "startEditable": true,
-	 * "durationEditable": true,
-	 * "backgroundColor": "lightBlue"
-	 * }
-	 * ]';
-	 * }
 	 */
+	public function json() {
+		return '[
+	 		{
+	 			"title": "Event 1",
+		 		"start": "2021-06-22T09:00:00",
+				 "end": "2021-06-22T18:00:00",
+	 "startEditable": true
+	 },
+	 {
+	 "title": "Event 2",
+	 "start": "2021-06-22",
+	 "end": "2021-06-22",
+	 "startEditable": true,
+	 "durationEditable": true,
+	 "backgroundColor": "lightBlue"
+	 }
+	 ]';
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -92,10 +92,12 @@ class CalendarEventController extends Controller {
 			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
 		}
 		$validatedData ['allDay'] = $request->has ( 'allDay' );
-		
+
 		CalendarEvent::create ( $validatedData );
-		
-		return redirect ( 'calendar' )->with ( 'success', __('general.creation_success', ['elt' => $validatedData ['title']]));
+
+		return redirect ( 'calendar' )->with ( 'success', __ ( 'general.creation_success', [ 
+				'elt' => $validatedData ['title']
+		] ) );
 	}
 
 	/**
@@ -110,7 +112,8 @@ class CalendarEventController extends Controller {
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param $id of the calendar event to edit
+	 * @param $id of
+	 *        	the calendar event to edit
 	 *        	the event
 	 * @return \Illuminate\Http\Response
 	 */
@@ -142,12 +145,14 @@ class CalendarEventController extends Controller {
 
 		unset ( $validatedData ['start_time'] );
 		unset ( $validatedData ['end_time'] );
-		
+
 		// var_dump($validatedData); exit;
 
 		CalendarEvent::whereId ( $id )->update ( $validatedData );
 
-		return redirect ( 'calendar' )->with ( 'success', __('general.modification_success', ['elt' => $validatedData ['title']]));
+		return redirect ( 'calendar' )->with ( 'success', __ ( 'general.modification_success', [ 
+				'elt' => $validatedData ['title']
+		] ) );
 	}
 
 	/**

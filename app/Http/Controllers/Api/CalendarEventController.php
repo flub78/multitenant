@@ -24,9 +24,13 @@ class CalendarEventController extends Controller
      */
 	public function index(Request $request)
     {
-    	$per_page = $request->get('per_page');
-    	// $page = $request->get('page');
-    	return CalendarEvent::paginate($per_page);
+    	if ($request->has('page')) {
+			// page parameter is handled directly per Laravel
+    		$per_page = $request->get('per_page');
+    		return CalendarEvent::paginate($per_page);
+    	} else {
+    		return CalendarEvent::all();
+    	}
     }
 
     /**

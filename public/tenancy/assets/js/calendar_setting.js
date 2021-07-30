@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         eventSources: [
             // your event source
             {
-                // url: '/calendar/json', // use the `url` property
+                url: '/api/calendar', // use the `url` property
                 color: 'yellow',    // an option!
                 textColor: 'black'  // an option!
             }

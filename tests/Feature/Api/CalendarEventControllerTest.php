@@ -28,6 +28,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->user->delete ();
 	}
 	
+	/**
+	 * 
+	 */
 	public function test_calendar_event_index_json() {
 		
 		$this->be ( $this->user );
@@ -42,15 +45,19 @@ class CalendarEventControllerTest extends TenantTestCase {
 				'allDay' => 1
 		] ); // UTC
 		
+		// Without page parameter the URL returns a collection
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
 		// var_dump($json);
-		$this->assertEquals(2, count($json['data']));
-		$this->assertEquals('event 1', $json['data'][0]['title']);
+		$this->assertEquals(2, count($json));
+		$this->assertEquals('event 1', $json[0]['title']);
 	}
 	
+	/**
+	 * 
+	 */
 	public function test_show() {
 		$this->be ( $this->user );
 		
@@ -71,6 +78,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		//var_dump($json);
 	}
 	
+	/**
+	 * 
+	 */
 	public function test_calendar_event_store() {
 		
 		$initial_count = CalendarEvent::count ();
@@ -105,6 +115,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals($event->allDay, 1);
 	}
 	
+	/**
+	 * 
+	 */
 	public function test_calendar_event_store_incorrect_value() {		
 		$initial_count = CalendarEvent::count ();
 						
@@ -123,6 +136,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals ( $initial_count, $new_count, "event created, actual=$new_count, expected=$initial_count" );
 	}
 
+	/**
+	 * 
+	 */
 	public function test_delete() {
 		$this->be ( $this->user );
 		
@@ -141,6 +157,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );		
 	}
 	
+	/**
+	 * 
+	 */
 	public function test_delete_inexisting_elt() {
 		$this->be ( $this->user );
 		
@@ -159,6 +178,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals ( $expected, $new_count, "Nothing deleted, actual=$new_count, expected=$expected" );
 	}
 	
+	/**
+	 * 
+	 */
 	public function test_update() {
 		
 		$event = CalendarEvent::factory()->make();
@@ -189,6 +211,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals ( $new_count, $initial_count, "Count does not change on update, actual=$initial_count, expected=$new_count" );
 	}
 
+	/**
+	 * 
+	 */
 	public function test_calendar_event_pagination() {
 		$this->be ( $this->user );
 		
@@ -205,6 +230,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertStatus(200);
 		
 		$json = $response->json();
+		// with a page parameter the API returns the collection in the data field
 		$this->assertEquals(20, count($json['data']));
 		$this->assertEquals('event_0', $json['data'][0]['title']);
 		
