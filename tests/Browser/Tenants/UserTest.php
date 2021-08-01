@@ -5,16 +5,24 @@ namespace Tests\Browser\Tenants;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Helpers\BackupHelper;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Configuration CRUD
+ * User CRUD
  *  
  * @author frederic
  *
  */
-class ConfigurationTest extends DuskTestCase {
+class UserTest extends DuskTestCase {
 
-
+	function __construct() {
+		parent::__construct();
+		
+		$this->email1 = "titi@gmail.com";
+		$this->email2 = "titi@free.fr";
+		$this->password = "password4titi";
+	}
+	
 	public function setUp(): void {
 		parent::setUp ();
 		
@@ -38,28 +46,12 @@ class ConfigurationTest extends DuskTestCase {
 		parent::tearDown ();
 	}
 
-	/**
-	 * A basic browser test example.
-	 *
-	 * @return void
-	 */
-	public function test_login() {
-
-		$this->browse ( function ($browser)  {
-			$browser->visit ( '/login' )
-			->type ( 'email', env('TEST_LOGIN') )
-			->type ( 'password', env('TEST_PASSWORD') )
-			->press ( 'Login' )
-			->assertPathIs ( '/home' );
-			
-			$browser->screenshot('Tenants/after_login');
-		} );
-	}
-	
-	public function test_configuration_CRUD() {
+	public function test_user_can_register() {
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/configuration' )
-			->assertSee ( 'Tenant Configuration' );
+			$browser->visit ( '/register' )
+			->assertSee ( 'Register' );
+			
+			return;
 			
 			$browser->screenshot('Tenants/configuration');
 			
@@ -85,15 +77,33 @@ class ConfigurationTest extends DuskTestCase {
 			->type ( 'value', 'Europe/London')
 			->press ( 'Update' )
 			->assertPathIs('/configuration')
-			->assertSee ( 'app.timezone updated' )
+			->assertSee ( 'Configuration app.timezone updated' )
 			->assertSee ( 'London' )
 			->assertSee ( 'Showing 1 to 1 of 1 entries' );
 			
 			// delete
 			$browser->press('Delete')
 			->assertPathIs('/configuration')
-			->assertSee ( 'app.timezone deleted' )
+			->assertSee ( 'Configuration app.timezone deleted' )
 			->assertSee ( 'Showing 0 to 0 of 0 entries' );
+		} );
+	}
+	
+	/**
+	 * A basic browser test example.
+	 *
+	 * @return void
+	 */
+	public function test_login() {
+		
+		$this->browse ( function ($browser)  {
+			$browser->visit ( '/login' )
+			->type ( 'email', env('TEST_LOGIN') )
+			->type ( 'password', env('TEST_PASSWORD') )
+			->press ( 'Login' )
+			->assertPathIs ( '/home' );
+			
+			$browser->screenshot('Tenants/after_login');
 		} );
 	}
 	

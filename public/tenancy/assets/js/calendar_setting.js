@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initialView: 'dayGridMonth',
         locale: locale,             // change day and month names, but not the buttons (but it should)
         buttonText: buttonText,
+        editable: true,
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // any other sources...
         ],
 
+       
         eventClick: event_clicked,
         eventDrop: event_dragged,
         eventResize: event_resized,
