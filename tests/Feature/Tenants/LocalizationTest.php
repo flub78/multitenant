@@ -79,5 +79,79 @@ class LocalizationTest extends TenantTestCase {
 
 		// configuration list
 		$this->get_tenant_url($this->user, 'configuration/', ["Configuration par locataire",  "Clé", "Valeur", 'locataire', 'test']);
-	}	
+	}
+	
+	public function test_login_localization() {
+		
+		$this->set_lang('en');
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/login' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		
+		$see_list = ['Login', 'Register', 'E-Mail Address', 'Password', 'Remember Me', 'Forgot Your Password'];
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
+		}
+
+		$this->set_lang('fr');
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/login' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		
+		$see_list = ['Connexion', 'Enregistrement', 'Adresse E-Mail', 'Mot de passe', 'Se souvenir de moi', 'Mot de passe oublié'];
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
+		}
+	}
+	
+	public function test_register_localization() {
+		
+		$this->set_lang('en');
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/register' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		
+		$see_list = ['Login', 'Register', 'Name', 'E-Mail Address', 'Password', 'Confirm Password'];
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
+		}
+		
+		$this->set_lang('fr');
+		$url = 'http://' . tenant('id'). '.tenants.com/register' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		
+		$see_list = ['Connexion', 'Enregistrement', 'Nom', 'Adresse E-Mail', 'Mot de passe', 'Confirmez le mot de passe'];
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
+		}
+	}
+	
+	public function test_forgoten_password_localization() {
+		
+		$this->set_lang('en');
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/password/reset' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		
+		$see_list = ['Login', 'Register', "Reset Password", "E-Mail Address", "Send Password Reset Link"];
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
+		}
+		
+		$this->set_lang('fr');
+		$url = 'http://' . tenant('id'). '.tenants.com/password/reset' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		
+		$see_list = ['Connexion', 'Enregistrement', 'Réinitialiser le mot de passe', 'Adresse E-Mail', 'Envoyer le lien de réinitialisation'];
+		foreach ($see_list as $see) {
+			$response->assertSeeText($see);
+		}
+	}
+	
 }

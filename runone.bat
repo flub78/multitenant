@@ -20,7 +20,7 @@
 @rem Tenant application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantFeatureExampleTest.php
 @rem >>>>> php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/LocalizationTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/LocalizationTest.php
 
     @rem Helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/DirHelperTest.php
@@ -37,5 +37,5 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 
     @rem APIs
-php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
 
