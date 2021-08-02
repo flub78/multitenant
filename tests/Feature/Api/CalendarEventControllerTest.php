@@ -9,6 +9,7 @@ namespace tests\Feature\Api;
 use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\CalendarEvent;
+use Carbon\Carbon;
 
 class CalendarEventControllerTest extends TenantTestCase {
 	
@@ -90,7 +91,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$groupId = "GroupId $initial_count";
 		$start = "07-31-2021";
 		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start, 'start_time' => '10:00',
-				'allDay' => 1
+				'allDay' => 0, 'end' => $start, 'end_time' => '12:00'
 		];
 				
 		// call the post method to create it
@@ -217,12 +218,15 @@ class CalendarEventControllerTest extends TenantTestCase {
 	public function test_calendar_event_pagination() {
 		$this->be ( $this->user );
 		
+		$date = Carbon::now();
 		for ($i = 0; $i < 100; $i++) {
+			$date->add(2, 'hour');
+			
 			$evt = CalendarEvent::factory ()->create ( [
 				'title' => "event_$i",
 				'start' => '2021-06-30 12:00:00',
-				'end' => '2021-06-30 12:35:00',
-				'allDay' => 0
+				'end' => $date->toDateTimeString(),
+				'allDay' => ($i % 2 == 0) ? 0 :1
 			] ); // UTC
 		}
 		
@@ -241,5 +245,38 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals(20, count($json['data']));
 		$this->assertEquals('event_80', $json['data'][0]['title']);
 	}
+	
+	public function test_calendar_event_ordering() {
+		$this->be ( $this->user );
+		
+		$start = Carbon::now();
+		$date = Carbon::now();
+		for ($i = 0; $i < 100; $i++) {
+			
+			$evt = CalendarEvent::factory ()->create ( [
+					'title' => "event_$i",
+					'start' => '2021-06-30 12:00:00',
+					'end' => $date->toDateTimeString(),
+					'allDay' => ($i % 2 == 0) ? 0 :1
+			] ); // UTC
+			$date->add(2, 'hour');
+		}
+		
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?per_page=20&page=1');
+		$response->assertStatus(200);
+		
+		$json = $response->json();
+		// with a page parameter the API returns the collection in the data field
+		$this->assertEquals(20, count($json['data']));
+		$this->assertEquals('event_0', $json['data'][0]['title']);
+		
+		//echo "last_page_url = " . $json['last_page_url'] . "\n";
+		$response = $this->getJson($json['last_page_url'] . '&per_page=20');
+		$json = $response->json();
+		// var_dump($json);
+		$this->assertEquals(20, count($json['data']));
+		$this->assertEquals('event_80', $json['data'][0]['title']);
+	}
+	
 	
 }

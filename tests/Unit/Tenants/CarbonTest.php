@@ -192,4 +192,14 @@ class CarbonTest extends TenantTestCase
     	// echo "diffInMinutes = " . $end->diffInMinutes($start) . "\n";
     	
     }
+    
+    public function ttest_carbon_arithmethic() {
+    	// '2021-06-30 12:00:00'
+    	
+    	$date = Carbon::now();
+    	for ($i = 0; $i < 100; $i++) {
+    		$date->add(2, 'hour');
+    		echo "\n" . $date->toDateTimeString();
+    	}    	
+    }
 }

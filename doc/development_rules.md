@@ -49,14 +49,6 @@ Code should be reviewed frequently.
 * Through pair programming
 * Through special sessions in which the goal is to determine if the code has a sufficient level of quality for delivery (even self review is possible but it should be avoided).
 
-Note that the goal of the review sessions should be carefully defined before the review. Note that a clear mechanism need to be defined to decide when remarks need to be taken into account.
-
-* Some remarks (bugs or obvious minor fixes) need to be taken into account immediately
-* Some are considered technical debt and need to be put in the technical debt backlog 
-* Some need to be evaluated to decide if they are worth taken into account.
-
-A backlog should only contains elements for which the decision to do them has been taken. A backlog should only contains elements to be ordered, not elements to park there forever. For keeping track of suggestions or ideas another mechanism must be used).
-
 
 
 # Nice to have practices 
