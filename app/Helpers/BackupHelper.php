@@ -20,7 +20,11 @@ class BackupHelper {
 	 * @param boolean $pretend 
 	 */
 	public static function restore (string $filename, string $database, $pretend) {
-		$mysql = 'c:\xampp\mysql\bin\mysql.exe';
+		if (PHP_OS == "WINNT") {
+			$mysql = 'c:\xampp\mysql\bin\mysql.exe';
+		} else {
+			$mysql = '/usr/bin/mysql';
+		}
 		
 		$command = "gzip -d < " . $filename . "| $mysql --user=" . env ( 'DB_USERNAME' ) . " --password=" . env ( 'DB_PASSWORD' ) . " --host=" . env ( 'DB_HOST' ) . " " . $database;
 		

@@ -44,13 +44,16 @@ class BackUpCreate extends Command {
 	 * @param string $tenant_id
 	 */
 	private function backup(string $tenant_id = "") {
-		$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
+		if (PHP_OS == "WINNT") {
+			$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
+		} else {
+			$mysqldump = '/usr/bin/mysqldump';
+		}
 
 		$database = TenantHelper::tenant_database ( $tenant_id );
 		$fullname = TenantHelper::backup_fullname ( $tenant_id );
 
 		if ($database && $fullname) {
-			$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
 
 			$cmd = "$mysqldump --user=" . env ( 'DB_USERNAME' ) . " --password=" . env ( 'DB_PASSWORD' ) . " --host=" . env ( 'DB_HOST' ) . " $database " . "  | gzip > $fullname";
 
