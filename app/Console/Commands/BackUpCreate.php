@@ -47,6 +47,7 @@ class BackUpCreate extends Command {
 		if (PHP_OS == "WINNT") {
 			$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
 		} else {
+			// Default on Linux
 			$mysqldump = '/usr/bin/mysqldump';
 		}
 
