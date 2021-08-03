@@ -32,6 +32,5 @@
   roles:
     - env
     - directories
-    - public
     - laravel
 
