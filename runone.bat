@@ -1,6 +1,6 @@
 @rem Unit tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ConfigurationModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php
@@ -35,7 +35,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 
     @rem APIs
 php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

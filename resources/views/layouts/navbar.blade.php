@@ -60,6 +60,11 @@
       						<a class="nav-link" href="{{ route('backup.index') }}" id="navbar3" >Backups</a>     						
      					</li>
      					
+       				   	<li class="nav-item dropdown">
+      						<a class="nav-link" href="{{ route('info') }}" id="navbar3" >Info</a>     						
+     					</li>
+     					
+     					
 @endif <!-- (tenant('id')) -->
        				   
 @endif	<!-- (auth()->user()->isAdmin()) -->

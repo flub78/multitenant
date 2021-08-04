@@ -40,8 +40,17 @@ class TestControllerTest extends TestCase {
 		// main test entry
 		$response = $this->get ( '/test' );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText('Test page');
-		
-		$this->assertTrue(true);
+		$response->assertSeeText('Test page');		
 	}
+	
+	public function test_info() {
+		$this->be ( $this->user );
+		
+		// main test entry
+		$response = $this->get ( '/info' );
+		$response->assertStatus ( 200 );
+		$response->assertSeeText('PHP Version 8');		
+		$response->assertSeeText('HTTP Headers Information');
+	}
+	
 }

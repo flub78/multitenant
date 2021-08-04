@@ -27,4 +27,8 @@ class TestController extends Controller
         return view('test', ['locale' => Config::config('app.locale')]);
     }
     
+    public function info() {
+    	phpinfo();
+    }
+    
 }
