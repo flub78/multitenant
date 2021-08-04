@@ -61,7 +61,7 @@
      </target>
     
     <target name="phpmd">
-        <exec logoutput="true" dir="${project.basedir}/" command="phpmd ./app,./bootstrap,./config,./public,./database,./resources,./routes xml cleancode,codesize > build/logs/md.xml" escape="false" />
+        <exec logoutput="true" dir="${project.basedir}/" command="phpmd ./app,./bootstrap,./config,./public,./database,./resources,./routes xml codesize,unusedcode,naming > build/logs/md.xml" escape="false" />
     </target>
     
     <target name="phpcpd">
