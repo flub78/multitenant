@@ -49,8 +49,6 @@ class TestControllerTest extends TestCase {
 		// main test entry
 		$response = $this->get ( '/info' );
 		$response->assertStatus ( 200 );
-		// $response->assertSeeText('PHP Version');		
-		$response->assertSeeText('HTTP Headers Information');
 	}
 	
 }
