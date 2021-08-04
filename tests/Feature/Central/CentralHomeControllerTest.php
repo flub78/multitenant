@@ -46,7 +46,6 @@ class CentralHomeControllerTest extends TestCase {
 		// Home page
 		$response = $this->get ( '/home' );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText('Multi');
 		$response->assertSeeText('Central Application');
 		$response->assertSeeText('Dashboard');		
 	}
