@@ -23,14 +23,24 @@
     # writable directories
     - name: make some directories writable
       file:
-        path: "{{ installation_path }}/storage"
+        path: "{{installation_path}}/storage"
+        state: directory
+        mode: 0777
+        recurse: no
+        
+    - name: make some subdirectories writable
+      file:
+        path: "{{installation_path}}/{{item}}"
         state: directory
         mode: 0777
         recurse: yes
-        
+      with_items:
+        - app
+        - framework
+
     - name: make some files executable
       file:
-        path: "{{ installation_path }}"
+        path: "{{ installation_path }}/{{item}}"
         mode: 0744
       with_items:
         - test.sh
