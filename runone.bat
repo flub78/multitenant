@@ -35,7 +35,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 
     @rem APIs
 php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

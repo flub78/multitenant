@@ -7,36 +7,52 @@ use Illuminate\Http\Request;
 use App\Models\Tenants\CalendarEvent;
 use App\Http\Requests\Tenants\CalendarEventRequest;
 use App\Helpers\DateFormat;
-use Laravel\Dusk\Page;
+// use Laravel\Dusk\Page;
+// use Facade\Ignition\Solutions\UseDefaultValetDbCredentialsSolution;
+use Illuminate\Support\Str;
 
 /**
  * REST API for Calendar Events
  *
  * @author frederic
- * reviewed on 2021/08/01
+ *         reviewed on 2021/08/01
  *        
  */
 class CalendarEventController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
-	 * 
+	 *
 	 * HTML parameters:
-	 * 		@param int per_page
-	 *      @param int Page
-	 *      @param string 
-	 * 
-	 * function parameters
+	 *
+	 * @param
+	 *        	int per_page
+	 * @param
+	 *        	int page
+	 * @param
+	 *        	string sort column name sort=start&sort=end, use minus sign for reverse order
+	 * @param
+	 *        	filter
+	 *        	
+	 *        	function parameters
 	 * @param Request $request
 	 * @return \Illuminate\Http\Response
+	 *
+	 * @return an object with pagination information and the collection in the data field
+	 *        
 	 */
 	public function index(Request $request) {
-		if ($request->has ( 'page' )) {
-			// page parameter is handled directly per Laravel
-			$per_page = $request->get ( 'per_page' );
-			return CalendarEvent::paginate ( $per_page );
+		// Laravel default is 15
+		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
+		
+		if ($request->has ('sort')) {
+			$sortCol = $request->input ( 'sort' );
+			$sortDir = Str::startsWith( $sortCol, '-') ? 'desc' : 'asc';
+			$sortCol = ltrim( $sortCol, '-');
+			
+			return CalendarEvent::orderBy($sortCol, $sortDir)->paginate ( $per_page );
 		} else {
-			return CalendarEvent::all ();
+			return CalendarEvent::paginate($per_page);
 		}
 	}
 
@@ -97,15 +113,15 @@ class CalendarEventController extends Controller {
 		return CalendarEvent::whereId ( $id )->update ( $validatedData );
 	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-    	$calendarEvent = CalendarEvent::findOrFail ( $id );
-    	return $calendarEvent->delete ();
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param int $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id) {
+		$calendarEvent = CalendarEvent::findOrFail ( $id );
+		return $calendarEvent->delete ();
+	}
+
 }

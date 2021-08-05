@@ -52,8 +52,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		$json = $response->json();
 		// var_dump($json);
-		$this->assertEquals(2, count($json));
-		$this->assertEquals('event 1', $json[0]['title']);
+		$this->assertEquals(2, count($json['data']));
+		$this->assertEquals('event 1', $json['data'][0]['title']);
 	}
 	
 	/**
@@ -249,33 +249,34 @@ class CalendarEventControllerTest extends TenantTestCase {
 	public function test_calendar_event_ordering() {
 		$this->be ( $this->user );
 		
+		// generate the test data set
+		// 
 		$start = Carbon::now();
 		$date = Carbon::now();
-		for ($i = 0; $i < 100; $i++) {
-			
+		for ($i = 1; $i < 101; $i++) {			
 			$evt = CalendarEvent::factory ()->create ( [
 					'title' => "event_$i",
-					'start' => '2021-06-30 12:00:00',
-					'end' => $date->toDateTimeString(),
+					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
+					'end' => $date->add($i, 'day')->toDateTimeString(),
 					'allDay' => ($i % 2 == 0) ? 0 :1
 			] ); // UTC
 			$date->add(2, 'hour');
 		}
 		
+		// Call a page
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?per_page=20&page=1');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
-		// with a page parameter the API returns the collection in the data field
+		// First call without sorting
 		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_0', $json['data'][0]['title']);
+		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
 		
-		//echo "last_page_url = " . $json['last_page_url'] . "\n";
-		$response = $this->getJson($json['last_page_url'] . '&per_page=20');
+		// Sorting on start (reverse order)
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?sort=-start');
 		$json = $response->json();
+		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
 		// var_dump($json);
-		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_80', $json['data'][0]['title']);
 	}
 	
 	
