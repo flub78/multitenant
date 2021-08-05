@@ -32,9 +32,9 @@ class CalendarEventController extends Controller {
 	 *        	string sort comma separated column names, use minus sign for reverse OrderedTimeCodec
 	 *          ex: sort=allDay,-start
 	 * @param
-	 *        	filter
+	 *        	string filter ?filter=sex:female,color:brown
 	 *        	
-	 *        	function parameters
+	 * function parameters
 	 * @param Request $request
 	 * @return \Illuminate\Http\Response
 	 *
@@ -44,23 +44,47 @@ class CalendarEventController extends Controller {
 	public function index(Request $request) {
 		// Laravel default is 15
 		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
-		
-		
+				
+		$query = CalendarEvent::query();
 		if ($request->has ('sort')) {
 			
 			$sorts = explode(',', $request->input ('sort'));
 			
-			$query = CalendarEvent::query();
 			foreach($sorts as $sortCol) {
 				$sortDir = Str::startsWith( $sortCol, '-') ? 'desc' : 'asc';
 				$sortCol = ltrim( $sortCol, '-');
 				$query->orderBy($sortCol, $sortDir);
 			}
-
-			return $query->paginate ( $per_page );
-		} else {
-			return CalendarEvent::paginate($per_page);
 		}
+		
+		if ($request->has ('filter')) {
+			$filters = explode(',', $request->input ('filter'));
+			
+			foreach ($filters as $filter) {
+				list($criteria, $value) = explode(':', $filter, 2);
+				
+				if (Str::startsWith($value, '<=')) {
+					$value = ltrim($value, '<=');
+					$query->where($criteria, '<=', $value);
+					
+				} elseif (Str::startsWith($value, '>=')) {
+					$value = ltrim($value, '>=');
+					$query->where($criteria, '>=', $value);
+					
+				} elseif (Str::startsWith($value, '>')) {
+					$value = ltrim($value, '>');
+					$query->where($criteria, '>', $value);
+
+				} elseif (Str::startsWith($value, '<')) {
+					$value = ltrim($value, '<');
+					$query->where($criteria, '<', $value);
+				} else {
+					$query->where($criteria, $value);
+				}
+			}
+			
+		}
+		return $query->paginate ( $per_page );
 	}
 
 	/**

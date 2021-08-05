@@ -370,5 +370,47 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		// var_dump($json);
 	}
+
+	public function test_filtering() {
+		$this->be ( $this->user );
+		
+		// generate the test data set
+		//
+		$date = Carbon::now();
+		$start = Carbon::now();
+		$end = Carbon::now();
+		for ($i = 1; $i < 101; $i++) {
+			CalendarEvent::factory ()->create ( [
+					'title' => "event_$i",
+					'start' => $start->toDateTimeString(),
+					'end' => $end->toDateTimeString(),
+					'allDay' => ($i % 2 == 0) ? 0 :1
+			] ); // UTCs
+			$start->sub(2, 'hour');
+			$end->add(2, 'hour');
+		}
+		
+		
+		// Filtering on multiple columns
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?filter=allDay:1');
+		$json = $response->json();
+		$this->assertEquals(50, count($json['data']));
+		
+		// Filtering on multiple columns
+		$limit = $date->sub(10, 'hour');
+		$after =  htmlspecialchars(',start:>' . $limit->toDateTimeString());
+		$response = $this->getJson('http://' . tenant('id') . 
+				'.tenants.com/api/' . 'calendar?filter=allDay:1' . $after);
+		$json = $response->json();
+		$this->assertEquals(3, count($json['data']));
+
+		$after =  htmlspecialchars(',start:>=' . $limit->toDateTimeString());
+		$url = 'http://' . tenant('id') . '.tenants.com/api/' . 'calendar?filter=allDay:1' . $after;
+		$response = $this->getJson($url);
+		$json = $response->json();
+		$this->assertEquals(3, count($json['data']));
+		
+		// var_dump($json);
+	}
 	
 }
