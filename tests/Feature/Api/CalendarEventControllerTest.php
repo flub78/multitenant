@@ -246,15 +246,38 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals('event_80', $json['data'][0]['title']);
 	}
 	
-	public function test_calendar_event_ordering() {
+	public function test_bad_page_number() {
+		$this->be ( $this->user );
+		
+		$date = Carbon::now();
+		for ($i = 0; $i < 100; $i++) {
+			$date->add(2, 'hour');
+			
+			$evt = CalendarEvent::factory ()->create ( [
+					'title' => "event_$i",
+					'start' => '2021-06-30 12:00:00',
+					'end' => $date->toDateTimeString(),
+					'allDay' => ($i % 2 == 0) ? 0 :1
+			] ); // UTC
+		}
+		
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?per_page=20&page=120');
+		$response->assertStatus(200);
+		
+		$json = $response->json();
+		$this->assertEquals(0, count($json['data'])); // just returns no data
+		// var_dump($json);
+	}
+	
+	
+	public function test_calendar_event_sorting() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
 		// 
-		$start = Carbon::now();
 		$date = Carbon::now();
 		for ($i = 1; $i < 101; $i++) {			
-			$evt = CalendarEvent::factory ()->create ( [
+			CalendarEvent::factory ()->create ( [
 					'title' => "event_$i",
 					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
 					'end' => $date->add($i, 'day')->toDateTimeString(),
@@ -279,5 +302,73 @@ class CalendarEventControllerTest extends TenantTestCase {
 		// var_dump($json);
 	}
 	
+	public function test_calendar_event_sorting_on_multiple_columns() {
+		$this->be ( $this->user );
+		
+		// generate the test data set
+		//
+		$date = Carbon::now();
+		for ($i = 1; $i < 101; $i++) {
+			CalendarEvent::factory ()->create ( [
+					'title' => "event_$i",
+					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
+					'end' => $date->add($i, 'day')->toDateTimeString(),
+					'allDay' => ($i % 2 == 0) ? 0 :1
+			] ); // UTC
+			$date->add(2, 'hour');
+		}
+		
+		// First page, non sorted
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?per_page=20&page=1');
+		$response->assertStatus(200);
+		
+		$json = $response->json();
+		// First call without sorting
+		$this->assertEquals(20, count($json['data']));
+		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
+		
+		// Sorting on multiple columns
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?sort=allDay,-start');
+		$json = $response->json();
+		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
+		$this->assertEquals('event_98', $json['data'][1]['title']); // reverse order
+		$this->assertEquals('event_96', $json['data'][2]['title']); // reverse order
+		
+		$this->assertEquals(0, $json['data'][0]['allDay']);
+		$this->assertEquals(0, $json['data'][1]['allDay']);
+		$this->assertEquals(0, $json['data'][2]['allDay']);
+		$this->assertEquals(0, $json['data'][48]['allDay']);
+		$this->assertEquals(0, $json['data'][49]['allDay']);
+		$this->assertEquals(1, $json['data'][50]['allDay']);
+		$this->assertEquals(1, $json['data'][51]['allDay']);
+		$this->assertEquals(1, $json['data'][99]['allDay']);
+		
+		// var_dump($json);
+	}
+
+	public function test_sorting_on_bad_column_name() {
+		$this->be ( $this->user );
+		
+		// generate the test data set
+		//
+		$date = Carbon::now();
+		for ($i = 1; $i < 101; $i++) {
+			CalendarEvent::factory ()->create ( [
+					'title' => "event_$i",
+					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
+					'end' => $date->add($i, 'day')->toDateTimeString(),
+					'allDay' => ($i % 2 == 0) ? 0 :1
+			] ); // UTC
+			$date->add(2, 'hour');
+		}
+				
+		// Sorting on multiple columns
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar?sort=allDate,-startTime');
+		$json = $response->json();
+		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
+		$this->assertStringContainsString("Unknown column 'allDate'", $json['message']);
+		
+		// var_dump($json);
+	}
 	
 }

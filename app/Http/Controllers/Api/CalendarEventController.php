@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Tenants\CalendarEvent;
 use App\Http\Requests\Tenants\CalendarEventRequest;
 use App\Helpers\DateFormat;
-// use Laravel\Dusk\Page;
-// use Facade\Ignition\Solutions\UseDefaultValetDbCredentialsSolution;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Codec\OrderedTimeCodec;
 
 /**
  * REST API for Calendar Events
@@ -26,11 +25,12 @@ class CalendarEventController extends Controller {
 	 * HTML parameters:
 	 *
 	 * @param
-	 *        	int per_page
+	 *        	int per_page number of item per page
 	 * @param
-	 *        	int page
+	 *        	int page to return
 	 * @param
-	 *        	string sort column name sort=start&sort=end, use minus sign for reverse order
+	 *        	string sort comma separated column names, use minus sign for reverse OrderedTimeCodec
+	 *          ex: sort=allDay,-start
 	 * @param
 	 *        	filter
 	 *        	
@@ -45,12 +45,19 @@ class CalendarEventController extends Controller {
 		// Laravel default is 15
 		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
 		
+		
 		if ($request->has ('sort')) {
-			$sortCol = $request->input ( 'sort' );
-			$sortDir = Str::startsWith( $sortCol, '-') ? 'desc' : 'asc';
-			$sortCol = ltrim( $sortCol, '-');
 			
-			return CalendarEvent::orderBy($sortCol, $sortDir)->paginate ( $per_page );
+			$sorts = explode(',', $request->input ('sort'));
+			
+			$query = CalendarEvent::query();
+			foreach($sorts as $sortCol) {
+				$sortDir = Str::startsWith( $sortCol, '-') ? 'desc' : 'asc';
+				$sortCol = ltrim( $sortCol, '-');
+				$query->orderBy($sortCol, $sortDir);
+			}
+
+			return $query->paginate ( $per_page );
 		} else {
 			return CalendarEvent::paginate($per_page);
 		}
