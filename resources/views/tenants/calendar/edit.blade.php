@@ -35,8 +35,8 @@
           </div>
           
           <div class="form-group">
-              <label for="groupId">{{__('calendar.groupId')}}</label>
-              <input type="text" class="form-control" name="groupId" value="{{ old('groupId', $calendarEvent->groupId) }}"/>
+              <label for="description">{{__('calendar.description')}}</label>
+              <input type="text" class="form-control" name="description" value="{{ old('description', $calendarEvent->description) }}"/>
           </div>
 
            <div class="form-group">

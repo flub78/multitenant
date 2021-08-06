@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This project is a framework for Web applications. The idea is to prepare a core of features, common to a lot of web applications and then to add the business logic.
+This project is a framework for Web applications. It provides several core features, common to a lot of web applications. Spefific business logic should be easy and fast to add.
 
 ## Basic features
 
-* The project is multi-tenant with one database per tenant. By default tenants are identified from their sub-domain.
+* The project is multi-tenant with one database per tenant. By default tenants are identified by their sub-domain.
 
 * Localization and interface in several languages
 
@@ -18,13 +18,13 @@ This project is a framework for Web applications. The idea is to prepare a core 
 
 * Backup and restore. There is a php artisan set of command to create, list, delete and restore the backups, both for the central database or for the tenant database. The feature is also available through a web interface and every tenant can backup or restore his/her own database without interfering with other tenants data.
 
-## Future features
-
 * Use of datatable for flexible and convenient views for the database tables. (pagination, ordering, filtering, CSV and pdf export.
 
 * REST API to access the database (at least for the tenant databases)
 
 * Shared calendar
+
+## Future features
 
 * Email and sort text message notifications
 
@@ -48,6 +48,10 @@ The project is test driven with several level of tests. The goal is to provide a
 
 A jenkins server is in charge of the static analysis of the code and provide quality indicators.
 
+
+### Continuous deployment
+
+Not yet, but it is on the agenda.
 
 ## Sources, references and inspiration
 

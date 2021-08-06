@@ -88,9 +88,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		//prepare an element
 		$title = "Event $initial_count";
-		$groupId = "GroupId $initial_count";
+		$description = "Description $initial_count";
 		$start = "07-31-2021";
-		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start, 'start_time' => '10:00',
+		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 'start_time' => '10:00',
 				'allDay' => 0, 'end' => $start, 'end_time' => '12:00'
 		];
 				
@@ -109,7 +109,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
 		
 		// and it can be retrieved
-		$search = ['title' => $title, 'groupId' => $groupId];
+		$search = ['title' => $title, 'description' => $description];
 		
 		$event = CalendarEvent::where($search)->first();
 		$this->assertNotNull($event);
@@ -123,9 +123,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$initial_count = CalendarEvent::count ();
 						
 		$title = "Event $initial_count";
-		$groupId = "GroupId $initial_count";
+		$description = "description $initial_count";
 		$start = "start";
-		$elt = ['title' => $title, 'groupId' => $groupId, 'start' => $start];
+		$elt = ['title' => $title, 'description' => $description, 'start' => $start];
 		
 		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar', $elt);
 		$json = $response->json();

@@ -63,28 +63,20 @@ class CalendarEventController extends Controller {
 			foreach ($filters as $filter) {
 				list($criteria, $value) = explode(':', $filter, 2);
 				
-				if (Str::startsWith($value, '<=')) {
-					$value = ltrim($value, '<=');
-					$query->where($criteria, '<=', $value);
-					
-				} elseif (Str::startsWith($value, '>=')) {
-					$value = ltrim($value, '>=');
-					$query->where($criteria, '>=', $value);
-					
-				} elseif (Str::startsWith($value, '>')) {
-					$value = ltrim($value, '>');
-					$query->where($criteria, '>', $value);
-
-				} elseif (Str::startsWith($value, '<')) {
-					$value = ltrim($value, '<');
-					$query->where($criteria, '<', $value);
-				} else {
-					$query->where($criteria, $value);
+				$operator_found = false;
+				foreach (['<=', '>=', '<', '>'] as $op) {
+					if (Str::startsWith($value, $op)) {
+						$value = ltrim($value, $op);
+						$query->where($criteria, $op, $value);
+						$operator_found = true;
+						break;
+					}
 				}
+				if (!$operator_found) $query->where($criteria, $value);
 			}
 			
 		}
-		return $query->paginate ( $per_page );
+		return $query->paginate ($per_page);
 	}
 
 	/**

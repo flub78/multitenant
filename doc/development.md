@@ -59,3 +59,31 @@ see [Databases with tenants](databases_with_tenants.md)
 * Create a Request
 
     php artisan make:request Tenants\CalendarEventRequest
+
+# How to
+
+Some examples of workflow
+
+## How to rename a filed in a database (refactoring)
+
+### update the migration
+### Migrate the database
+
+migrate the tenant database
+
+Note that the connection does not matter.
+    php artisan tenants:migrate-fresh
+    php artisan test-tenants:migrate-fresh --tenants=test
+    php artisan test-tenants:migrate-fresh --tenants=abbeville
+     
+
+Several options: 
+1. make the refactoring and run the tests, then fix the tests
+1. just change the model, then run the test and fix them
+
+### Example renaming category into description in calendar_events
+* Change the migration
+* migrate the database
+* run the tests
+* search fo the previous column name and replace it
+* Including texts in language files

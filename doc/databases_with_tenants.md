@@ -63,8 +63,7 @@ and for some reasons the php artisan tenants:migrate-fresh command does not supp
 
 Note that when running tenant tests the tenant context must already exists, in particular they must exist inside the tenant table of the central application.
 
-    # php artisan test-tenants:migrate-fresh --tenants=xxx
-    test-tenant-refresh.bat
+    php artisan tenants:migrate-fresh --tenants=xxx
 
 then
     
@@ -74,7 +73,7 @@ Conclusions:
 
 * It is better to use a special database connection for tests
 * central database should never be reset 
-* for convenience the same tenant nammed "test" is used for all tenant testing
+* for convenience the same tenant named "test" is used for all tenant testing
 
 
     

@@ -31,7 +31,7 @@ class ConfigHelperTest extends TenantTestCase
     	$this->assertEquals("de", Config::config($key), "When nothing in database returnsn it");    	
     }
     
-    public function test_set() {
+    public function test_set_config_values() {
     	$timezone = 'Europe/Paris';
     	
     	Config::set('app.timezone', $timezone);

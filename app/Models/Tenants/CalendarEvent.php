@@ -71,7 +71,7 @@ class CalendarEvent extends ModelWithLogs
      */
     protected $fillable = [
     		'title',
-    		'groupId',
+    		'description',
     		'allDay',
     		'start', 'end',
     		'editable', 'startEditable', 'durationEditable',

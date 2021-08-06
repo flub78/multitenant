@@ -26,7 +26,7 @@ class CalendarEventFactory extends Factory
     	$event = "event $next";
         return [
             'title' => $event,
-        	'groupId' => 'appointement',
+        	'description' => 'appointement',
         	'start' => '2021-06-23'        		
         ];
     }

@@ -17,7 +17,7 @@ class CreateCalendarEventsTable extends Migration
         Schema::create('calendar_events', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('groupId')->nullable();
+            $table->string('description')->nullable();
             $table->boolean('allDay')->default(true);
             $table->datetime('start');	// '2021-06-29 00:00:00'
             $table->datetime('end')->nullable();	// '2021-06-28 11:30:00'

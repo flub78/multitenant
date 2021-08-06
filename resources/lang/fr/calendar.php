@@ -17,7 +17,7 @@ return [
 	'edit' => "Modification Evenement",
 	'fullcalendar' => 'Mensuel',
 	'event_title' => 'Evénement',
-	'groupId' => 'Catégorie',
+	'description' => 'Description',
 	'allday' => 'Toute la journée',
 	'start_date' => 'Date',
 	'end_date' => 'Date de fin',
