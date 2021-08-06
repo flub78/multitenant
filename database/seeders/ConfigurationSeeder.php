@@ -13,6 +13,7 @@ class ConfigurationSeeder extends Seeder
      */
     public function run()
     {
-        //
+    	// \App\Models\Configuration::factory()->create(['key' => 'app.locale', 'value' => 'en']);
+    	// \App\Models\Configuration::factory()->create(['key' => 'app.timezone', 'value' => 'Europe/London']);
     }
 }

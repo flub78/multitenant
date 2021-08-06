@@ -73,8 +73,12 @@ migrate the tenant database
 
 Note that the connection does not matter.
     php artisan tenants:migrate-fresh
-    php artisan test-tenants:migrate-fresh --tenants=test
-    php artisan test-tenants:migrate-fresh --tenants=abbeville
+    php artisan tenants:migrate-fresh --tenants=test
+    php artisan tenants:migrate-fresh --tenants=abbeville
+    
+    php artisan tenants:seed --tenants=abbeville --class="Database\Seeders\RoleSeeder"
+    
+to migrate and seed
      
 
 Several options: 
