@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Tenants;
+namespace app\Http\Controllers\Tenants;
 
+use app\Http\Controllers\Controller;
 use App\Models\Tenants\Role;
 use Illuminate\Http\Request;
 

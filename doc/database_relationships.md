@@ -129,4 +129,26 @@ It could be used for example if a billing line is related to a flight, and fligh
         session_id
         student_id
         
-        
+## Forign Key Constraints
+
+Laravel also provides support for creating foreign key constraints, which are used to force referential integrity at the database level. For example, let's define a user_id column on the posts table that references the id column on a users table:
+
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Support\Facades\Schema;
+
+    Schema::table('posts', function (Blueprint $table) {
+        $table->unsignedBigInteger('user_id');
+
+        $table->foreign('user_id')->references('id')->on('users');
+    });
+    
+    $table->foreignId('user_id')
+      ->constrained()
+      ->onUpdate('cascade')
+      ->onDelete('cascade');
+     
+possible values are:
+* "cascade"
+* "restrict"
+* "set null"
+
