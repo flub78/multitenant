@@ -44,6 +44,7 @@
         mode: 0744
       with_items:
         - test.sh
+        - vendor/laravel/dusk/bin/chromedriver-linux
 
     # writable files
     - name: Ensure file are executable
@@ -51,3 +52,4 @@
       warn: False
       with_items:
         - test.sh
+        - vendor/laravel/dusk/bin/chromedriver-linux
