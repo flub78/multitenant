@@ -41,7 +41,7 @@
          regexp: '^APP_KEY='
          line: "APP_KEY=base64:VAuDJGfFIbKrDiSDg+Wjxh4uf4fitNEaZO0zuHOtuWk="
       with_items:
-        - {{env_file}}
+        - '{{env_file}}'
 
     # setup APP_URL in .env
     # phpunit tests do not run with a domain ???
