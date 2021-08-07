@@ -26,7 +26,7 @@ it creates
     database\migrations\2021_xx_yy_165312_create_celendar_events_table.php
     database\seeders\CalendarEventSeeder.php
 
-Note as Calendar is a tenant feature it needs to be moved in the correct directory.
+In case of tenant feature some files need to be moved to the correct directory.
 
 Edit and adapt all the created files.
     

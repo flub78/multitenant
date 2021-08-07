@@ -22,6 +22,7 @@
 
   vars:
     base_url: "{{lookup('env','BASE_URL')}}" 
+    tenant_url: "{{lookup('env','TENANT_URL')}}" 
     installation_path: "{{lookup('env','INSTALLATION_PATH')}}"
     server_path: "{{lookup('env','SERVER_PATH')}}"
     env_file: '{{installation_path}}/.env'

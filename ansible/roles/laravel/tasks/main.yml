@@ -1,10 +1,10 @@
 # Ansible laravel setup
 
     # Application key
-    - name: Generate application key
-      command: /usr/bin/php8.0 artisan key:generate
-      args:
-        chdir: '{{installation_path}}'
+    # - name: Generate application key
+    #  command: /usr/bin/php8.0 artisan key:generate
+    #  args:
+    #    chdir: '{{installation_path}}'
 
     # reset database
     - name: Migrate database
