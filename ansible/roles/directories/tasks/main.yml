@@ -12,6 +12,9 @@
         - '{{installation_path}}/storage/framework/views'
         - '{{installation_path}}/storage/framework/cache'
         - '{{installation_path}}/storage/app/backup'
+        - '{{installation_path}}/storage/tenanttest'
+        - '{{installation_path}}/storage/tenanttest/app'
+        - '{{installation_path}}/storage/tenanttest/app/backup'
 
     # Create result directory
     - name: Create results directory
