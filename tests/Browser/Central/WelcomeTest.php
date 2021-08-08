@@ -24,13 +24,7 @@ class WelcomeTest extends DuskTestCase {
 		$filename = TenantHelper::storage_dirpath() . '/app/tests/central_nominal.gz';
 		$this->assertFileExists($filename, "central_nominal test backup found");
 		$database = env ( 'DB_DATABASE' );
-		BackupHelper::restore($filename, $database, false);
-		
-		// Todo accessing the database does not work for end to end tests
-		/*
-		$count = User::count ();
-		$this->assertEquals ( 3, $count );
-		*/
+		BackupHelper::restore($filename, $database, false);		
 	}
 
 	public function tearDown(): void {
@@ -61,12 +55,8 @@ class WelcomeTest extends DuskTestCase {
 	public function test_login() {
 
 		$this->browse ( function ($browser)  {
-			$browser->visit ( '/login' )
-			->type ( 'email', env('TEST_LOGIN') )
-			->type ( 'password', env('TEST_PASSWORD') )
-			->press ( 'Login' )
-			->assertPathIs ( '/home' );
-			
+			$this->login($browser);
+
 			$browser->screenshot('Central/after_login');
 			
 			$browser->assertSee ( 'Users' )

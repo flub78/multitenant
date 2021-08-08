@@ -62,7 +62,10 @@ abstract class DuskTestCase extends BaseTestCase {
 		->assertSee ( 'Register' );
 	}
 
-	protected function login($browser, $user, $password) {
+	protected function login($browser, $user = "", $password = "") {
+		if (!$user) $user = env('TEST_LOGIN');
+		if (!$password) $password = env('TEST_PASSWORD');
+			
 		$browser->visit ( '/login' )
 		->type ( 'email', $user )
 		->type ( 'password', $password )

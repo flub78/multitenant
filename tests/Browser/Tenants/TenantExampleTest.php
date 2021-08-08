@@ -61,7 +61,7 @@ class TenantExampleTest extends DuskTestCase {
 	public function test_login() {
 
 		$this->browse ( function ($browser)  {
-			$this->login($browser, env('TEST_LOGIN'), env('TEST_PASSWORD'));
+			$this->login($browser);
 			
 			$browser->screenshot('Tenants/after_login');
 		} );
