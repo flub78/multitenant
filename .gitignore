@@ -18,3 +18,4 @@ yarn-error.log
 /.env.dusk.local
 /.env.dusk.tenants
 /.env.svg
+/result.txt
