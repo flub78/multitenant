@@ -9,7 +9,7 @@ use App\Helpers\TenantHelper;
 use App\Helpers\BackupHelper;
 
 
-class ExampleTest extends DuskTestCase {
+class WelcomeTest extends DuskTestCase {
 
 	public function setUp(): void {
 		parent::setUp ();
@@ -42,9 +42,11 @@ class ExampleTest extends DuskTestCase {
 	 *
 	 * @return void
 	 */
-	public function testBasicExample() {
+	public function testWelcome() {
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/' )->assertSee ( 'Laravel' );
+			$browser->visit ( '/' )
+			->assertSee ( 'Laravel' )
+			->assertSee ( 'Register' );
 		} );
 	}
 
@@ -63,7 +65,29 @@ class ExampleTest extends DuskTestCase {
 			->assertPathIs ( '/home' );
 			
 			$browser->screenshot('Central/after_login');
+			
+			$browser->assertSee ( 'Users' )
+			->assertSee ( 'Tenants' )
+			->assertSee ( 'Backups' )
+			->assertSee ( 'Dashboard' );
 		} );
 	}
 
+	/**
+	 * Test that the user can log out
+	 *
+	 * @return void
+	 */
+	public function test_logout() {
+		$this->browse ( function ($browser) {
+			$browser->visit ( '/home' )
+			->click ( '@user_name' )
+			->click ( '@logout' )
+			->assertPathIs ( '/' )
+			->assertSee ('Register');
+			
+			$browser->screenshot('Central/after_logout');
+		} );
+	}
+	
 }
