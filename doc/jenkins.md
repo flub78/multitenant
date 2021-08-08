@@ -22,7 +22,7 @@ Run the unit and feature tests.
 
 Several cases:
 
-#### Full featured applicationservers 
+#### Full featured application servers 
 
 Cases when the server offers
     * ssh access
