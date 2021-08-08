@@ -69,7 +69,7 @@
       lineinfile:
          dest:  '{{env_file}}'
          regexp: 'DB_DATABASE'
-         line: "DB_DATABASE={{db_database}}_test"
+         line: "DB_DATABASE={{db_database}}"
 
     # set .env.dusk.tenants
     - name:  create .env.dusk.tenants
