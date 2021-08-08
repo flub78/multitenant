@@ -42,7 +42,7 @@ class AdminAccessTest extends TestCase {
 		
 		$response = $this->get ( '/tenants' );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText ( 'New tenants' );
+		$response->assertSeeText ( 'New tenant' );
 	}
 
 	/**
