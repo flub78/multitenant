@@ -7,6 +7,10 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\TestCase as BaseTestCase;
 
+/**
+ * @author frederic
+ *
+ */
 abstract class DuskTestCase extends BaseTestCase {
 	use CreatesApplication;
 
@@ -62,6 +66,12 @@ abstract class DuskTestCase extends BaseTestCase {
 		->assertSee ( 'Register' );
 	}
 
+	/**
+	 * Login in the application
+	 * @param unknown $browser
+	 * @param string $user
+	 * @param string $password
+	 */
 	protected function login($browser, $user = "", $password = "") {
 		if (!$user) $user = env('TEST_LOGIN');
 		if (!$password) $password = env('TEST_PASSWORD');
@@ -71,5 +81,36 @@ abstract class DuskTestCase extends BaseTestCase {
 		->type ( 'password', $password )
 		->press ( 'Login' )
 		->assertPathIs ( '/home' );
+	}
+	
+	/**
+	 * Use the "Showing X to Y of Z entries" to extract first, last or count.
+	 * 
+	 * @param unknown $browser
+	 * @param string $which
+	 */
+	protected function datatable_count($browser, $which="count") {
+		$dump = $browser->driver->getPageSource();
+		$pattern = '/Showing (\d+) to (\d+) of (\d+) entries/';
+		
+		if (preg_match($pattern, $dump, $matches)) {
+			switch ($which) {
+				case 'string':
+					return $matches[0];
+					break;
+				case 'first':
+					return $matches[1];
+					break;
+				case 'last':
+					return $matches[2];
+					break;
+				case 'count':
+					return $matches[3];
+					break;
+				default:
+					return -1;
+			}
+		}
+		return -1;
 	}
 }

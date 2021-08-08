@@ -9,7 +9,7 @@ use App\Helpers\TenantHelper;
 use App\Helpers\BackupHelper;
 
 
-class WelcomeTest extends DuskTestCase {
+class TenantsTest extends DuskTestCase {
 
 	public function setUp(): void {
 		parent::setUp ();
@@ -24,7 +24,8 @@ class WelcomeTest extends DuskTestCase {
 		$filename = TenantHelper::storage_dirpath() . '/app/tests/central_nominal.gz';
 		$this->assertFileExists($filename, "central_nominal test backup found");
 		$database = env ( 'DB_DATABASE' );
-		BackupHelper::restore($filename, $database, false);		
+		BackupHelper::restore($filename, $database, false);
+		
 	}
 
 	public function tearDown(): void {
@@ -36,37 +37,33 @@ class WelcomeTest extends DuskTestCase {
 	 *
 	 * @return void
 	 */
-	public function testWelcome() {
-		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/' )
-			->assertSee ( 'Laravel' )
-			->assertSee ( 'Register' );
-			
-			$browser->screenshot('Central/welcome');
-		} );
-		
-	}
-
-	/**
-	 * A basic browser test example.
-	 *
-	 * @return void
-	 */
 	public function test_login() {
 
 		$this->browse ( function ($browser)  {
 			$this->login($browser);
-
-			$browser->screenshot('Central/after_login');
-			
+						
 			$browser->assertSee ( 'Users' )
 			->assertSee ( 'Tenants' )
 			->assertSee ( 'Backups' )
-			->assertSee ( 'Info' )
 			->assertSee ( 'Dashboard' );
 		} );
 	}
 
+	public function test_tenants() {
+		
+		$this->browse ( function ($browser)  {
+			$browser->visit('/tenants')
+			->assertPathIs('/tenants')
+			->assertSee ( 'Edit' )
+			->assertSee ( 'Delete' )
+			->assertSee ( 'Domain');
+			
+			$initial_count = $this->datatable_count($browser, "count");
+						
+						
+		} );
+	}
+	
 	/**
 	 * Test that the user can log out
 	 *
