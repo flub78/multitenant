@@ -28,13 +28,13 @@
             <td>{{$tenant->id}}</td>            
 			<td><a href="{{ $tenant->url()}}" >{{$tenant->domain}}</a></td>
 
-            <td><a href="{{ route('tenants.edit', $tenant->id)}}" class="btn btn-primary">Edit</a></td>
+            <td><a href="{{ route('tenants.edit', $tenant->id)}}" class="btn btn-primary" dusk="edit_{{$tenant->id}}">Edit</a></td>
             
             <td>
                 <form action="{{ route('tenants.destroy', $tenant->id)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+                  <button class="btn btn-danger" type="submit" dusk="delete_{{$tenant->id}}" >Delete</button>
                 </form>
             </td>
         </tr>
@@ -42,7 +42,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('tenants')}}/create"><button type="submit" class="btn btn-primary" >@lang('general.create') @lang('tenants.element')</button></a> 
+    <a href="{{url('tenants')}}/create"><button type="submit" class="btn btn-primary" >@lang('general.create') tenant</button></a> 
 </div>  
 @endsection
 

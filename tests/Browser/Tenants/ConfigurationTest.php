@@ -20,14 +20,6 @@ class ConfigurationTest extends DuskTestCase {
 		
 		$database = "tenanttest";
 		
-		/**
-		echo "\nENV=" . env ( 'APP_ENV' ) . "\n";
-		echo "login=" . env ( 'TEST_LOGIN' ) . "\n";
-		echo "password=" . env ( 'TEST_PASSWORD' ) . "\n";
-		echo "url=" . env('APP_URL') . "\n";
-		echo "database=$database\n";
-		*/
-
 		// Restore a test database
 		$filename = storage_path () . '/app/tests/tenant_nominal.gz';
 		$this->assertFileExists($filename, "tenant_nominal test backup found");
