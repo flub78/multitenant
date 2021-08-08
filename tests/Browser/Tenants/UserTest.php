@@ -65,33 +65,19 @@ class UserTest extends DuskTestCase {
 			->assertSee ( 'Dashboard' );
 
 			// Logout
-			$browser->visit ( '/home' )
-			->click ( '@user_name' )
-			->click ( '@logout' )
-			->assertPathIs ( '/' )
-			->assertSee ( 'Register' );
-
+			$this->logout($browser);
+			
 			// Login again
-			$browser->visit ( '/login' )
-			->type ( 'email', $this->email1 )
-			->type ( 'password', $this->password )
-			->press ( 'Login' )->assertPathIs ( '/home' )
-			->assertSee ( $this->name )
+			$this->login($browser, $this->email1, $this->password);
+			$browser->assertSee ( $this->name )
 			->assertSee ( 'Dashboard' );
 			
 			// Logout again
-			$browser->visit ( '/home' )
-			->click ( '@user_name' )
-			->click ( '@logout' )
-			->assertPathIs ( '/' )
-			->assertSee ( 'Register' );
+			$this->logout($browser);
 			
 			// login as admin
-			$browser->visit ( '/login' )
-			->type ( 'email', env ( 'TEST_LOGIN' ) )
-			->type ( 'password', env ( 'TEST_PASSWORD' ) )
-			->press ( 'Login' )
-			->assertPathIs ( '/home' );
+			$this->login($browser, env('TEST_LOGIN'), env('TEST_PASSWORD'));
+			$browser->assertPathIs ( '/home' );
 			
 			// goto the user page
 			$browser->visit ( '/users' )
@@ -109,26 +95,16 @@ class UserTest extends DuskTestCase {
 			->assertSee('Showing 1 to 2 of 2 entries');
 			
 			// logout
-			$browser->visit ( '/home' )
-			->click ( '@user_name' )
-			->click ( '@logout' )
-			->assertPathIs ( '/' )
-			->assertSee ('Register');
+			$this->logout($browser);
 			
 			// login with the new email address
-			$browser->visit ( '/login' )
-			->type ( 'email', $this->email2 )
-			->type ( 'password', $this->password )
-			->press ( 'Login' )->assertPathIs ( '/home' )
-			->assertSee ( $this->name )
+			$this->login($browser, $this->email2, $this->password);
+			
+			$browser->assertSee ( $this->name )
 			->assertSee ( 'Dashboard' );
 			
 			// logout
-			$browser->visit ( '/home' )
-			->click ( '@user_name' )
-			->click ( '@logout' )
-			->assertPathIs ( '/' )
-			->assertSee ('Register');
+			$this->logout($browser);
 			
 		} );
 	}
@@ -140,12 +116,8 @@ class UserTest extends DuskTestCase {
 	 */
 	public function test_login() {
 		$this->browse ( function ($browser) {
-			$browser->visit ( '/login' )
-			->type ( 'email', env ( 'TEST_LOGIN' ) )
-			->type ( 'password', env ( 'TEST_PASSWORD' ) )
-			->press ( 'Login' )
-			->assertPathIs ( '/home' );
-
+			$this->login($browser, env('TEST_LOGIN'), env('TEST_PASSWORD'));
+			
 			$browser->screenshot ( 'Tenants/after_login' );
 		} );
 	}
@@ -157,14 +129,9 @@ class UserTest extends DuskTestCase {
 	 */
 	public function test_logout() {
 		$this->browse ( function ($browser) {
-			$browser->visit ( '/home' )
-			->click ( '@user_name' )
-			->click ( '@logout' )
-			->assertPathIs ( '/' )
-			->assertSee ('Register');
+			$this->logout($browser);
 			
 			$browser->screenshot('Tenants/after_logout');
 		} );
-	}
-	
+	}	
 }

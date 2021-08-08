@@ -47,7 +47,10 @@ class WelcomeTest extends DuskTestCase {
 			$browser->visit ( '/' )
 			->assertSee ( 'Laravel' )
 			->assertSee ( 'Register' );
+			
+			$browser->screenshot('Central/welcome');
 		} );
+		
 	}
 
 	/**
@@ -80,11 +83,8 @@ class WelcomeTest extends DuskTestCase {
 	 */
 	public function test_logout() {
 		$this->browse ( function ($browser) {
-			$browser->visit ( '/home' )
-			->click ( '@user_name' )
-			->click ( '@logout' )
-			->assertPathIs ( '/' )
-			->assertSee ('Register');
+			
+			$this->logout($browser);
 			
 			$browser->screenshot('Central/after_logout');
 		} );

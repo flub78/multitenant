@@ -46,11 +46,7 @@ class CalendarTest extends DuskTestCase {
 	public function test_login() {
 
 		$this->browse ( function ($browser)  {
-			$browser->visit ( '/login' )
-			->type ( 'email', env('TEST_LOGIN') )
-			->type ( 'password', env('TEST_PASSWORD') )
-			->press ( 'Login' )
-			->assertPathIs ( '/home' );
+			$this->login($browser, env('TEST_LOGIN'), env('TEST_PASSWORD'));
 			
 			$browser->screenshot('Tenants/after_login');
 		} );

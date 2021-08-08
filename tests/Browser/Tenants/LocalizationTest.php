@@ -52,11 +52,7 @@ class LocalizationTest extends DuskTestCase {
 	public function test_login() {
 
 		$this->browse ( function ($browser)  {
-			$browser->visit ( '/login' )
-			->type ( 'email', env('TEST_LOGIN') )
-			->type ( 'password', env('TEST_PASSWORD') )
-			->press ( 'Login' )
-			->assertPathIs ( '/home' );
+			$this->login($browser, env('TEST_LOGIN'), env('TEST_PASSWORD'));
 			
 			$browser->screenshot('Tenants/after_login');
 		} );
@@ -273,11 +269,7 @@ class LocalizationTest extends DuskTestCase {
 	public function test_logout() {
 		
 		$this->browse ( function ($browser)  {
-			$browser->visit ( '/home' )
-			->click('@user_name')
-			->click('@logout')
-			->assertPathIs ( '/' )
-			->assertSee ('Register');
+			$this->logout($browser);
 			
 			$browser->screenshot('Tenants/after_logout');
 		} );
