@@ -35,13 +35,13 @@
             <td>
             	<input type="checkbox"   {{($user->active) ? 'checked' : ''}} onclick="return false;" />
             </td>
-            <td><a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
+            <td><a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary" dusk="edit_{{$user->name}}">{{__('general.edit')}}</a></td>
             
             <td>
-                <form action="{{ route('users.destroy', $user->id)}}" method="post">
+                <form action="{{ route('users.destroy', $user->email)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
+                  <button class="btn btn-danger" type="submit" dusk="delete_{{$user->name}}" >{{__('general.delete')}}</button>
                 </form>
             </td>
         </tr>

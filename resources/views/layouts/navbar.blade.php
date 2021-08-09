@@ -63,6 +63,7 @@
        				   	<li class="nav-item dropdown">
       						<a class="nav-link" href="{{ route('info') }}" id="navbar3" >Info</a>     						
      					</li>
+     					<li> {{env ( 'DB_DATABASE' )}} </li>
      					
      					
 @endif <!-- (tenant('id')) -->

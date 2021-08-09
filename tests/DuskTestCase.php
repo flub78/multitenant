@@ -14,6 +14,11 @@ use Laravel\Dusk\TestCase as BaseTestCase;
 abstract class DuskTestCase extends BaseTestCase {
 	use CreatesApplication;
 
+	function __construct() {
+		parent::__construct ();
+		$this->wait = 0;
+	}
+	
 	/**
 	 * Prepare for Dusk test execution.
 	 *
@@ -60,8 +65,10 @@ abstract class DuskTestCase extends BaseTestCase {
 	 */
 	protected function logout($browser) {
 		$browser->visit ( '/home' )
-		->click ( '@user_name' )
-		->click ( '@logout' )
+		->click ( '@user_name' );
+		sleep($this->wait);
+		
+		$browser->click ( '@logout' )
 		->assertPathIs ( '/' )
 		->assertSee ( 'Register' );
 	}
@@ -75,12 +82,17 @@ abstract class DuskTestCase extends BaseTestCase {
 	protected function login($browser, $user = "", $password = "") {
 		if (!$user) $user = env('TEST_LOGIN');
 		if (!$password) $password = env('TEST_PASSWORD');
+		
+		// echo "\nlogin with $user/$password\n";
 			
 		$browser->visit ( '/login' )
 		->type ( 'email', $user )
-		->type ( 'password', $password )
-		->press ( 'Login' )
+		->type ( 'password', $password );
+		sleep(2 * $this->wait);
+		
+		$browser->press ( 'Login' )
 		->assertPathIs ( '/home' );
+		sleep($this->wait);
 	}
 	
 	/**
