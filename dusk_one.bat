@@ -1,6 +1,6 @@
 @rem php artisan dusk --colors=always --browse tests/Browser/Central/TenantsTest.php
-php artisan dusk  --browse tests/Browser/Central/UserTest.php
-@rem php artisan dusk --colors=always --browse tests/Browser/Central/BackupsTest.php
+@rem php artisan dusk  --browse tests/Browser/Central/UserTest.php
+php artisan dusk --colors=always --browse tests/Browser/Central/BackupsTest.php
 
 cp .env .env.svg
 cp .env.dusk.tenants .env

@@ -36,12 +36,12 @@
         <tr>
             <td>{{$backup['id']}}</td>
             <td>{{$backup['filename']}}</td>
-            <td><a href="{{ route('backup.restore', $backup['id'])}}" class="btn btn-primary">{{__('backup.restore')}}</a></td>
+            <td><a href="{{ route('backup.restore', $backup['id'])}}" class="btn btn-primary" dusk="restore_{{$backup['id']}}">{{__('backup.restore')}}</a></td>
             <td>
                 <form action="{{ route('backup.destroy', $backup['id'])}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
+                  <button class="btn btn-danger" type="submit" dusk="delete_{{$backup['id']}}">{{__('general.delete')}}</button>
                 </form>
             </td>
         </tr>
@@ -49,7 +49,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('backup')}}/create"><button type="submit" class="btn btn-primary" >{{__('backup.new')}}</button></a> 
+    <a href="{{url('backup')}}/create"><button type="submit" class="btn btn-primary" dusk="new_backup">{{__('backup.new')}}</button></a> 
 </div>  
 @endsection
 
