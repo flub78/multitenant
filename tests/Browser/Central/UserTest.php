@@ -137,13 +137,13 @@ class UserTest extends DuskTestCase {
 			$browser->visit ('/users');
 			$dusk_label = '@delete_' . $this->name;
 			// echo "\npressing $dusk_label\n";
-			$browser->press( $dusk_label);
+			$browser->click( $dusk_label);
 			
 			$browser->screenshot('Central/after_user_delete');
 			
 			$browser->visit ('/users');
 			$final_count = $this->datatable_count($browser);
-			// $this->assertEquals($initial_count, $final_count);
+			$this->assertEquals($initial_count, $final_count);
 			
 			// logout
 			$this->logout($browser);
