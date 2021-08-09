@@ -72,11 +72,11 @@ Even if it is easy to extract features specifications and test scenarios it does
 
     https://tenancyforlaravel.com/docs/v3/testing
     
-### Central application
+### phpunit fo central application
 
 To test your central app, just write normal Laravel tests.
 
-### Tenants
+### phpunit for enants
 
 Inherit from TenantTest to create a tenant context
 
@@ -85,7 +85,7 @@ Note: If you're using multi-database tenancy & the automatic mode, it's not poss
 
 #### On Windows
 
-Test tenants must be declared in C:\Windows\System32\drivers\etc\hosts.
+Test tenants domains must be declared in C:\Windows\System32\drivers\etc\hosts.
 
     127.0.0.1   test.tenants.com
     
@@ -108,6 +108,10 @@ TestCase loads a specific environment for testing:
 # Browser controlled End to End testing
 
 Laravel Dusk provides an easy-to-use browser automation and testing API. It is similar to Selenium.
+
+Most Dusk tests restore a well known database before running. It implies that Dusk tests have access to the filesystem where the test backups are stored.
+
+For tests on deployed servers another mechanism will be required. Maybe a backup restoration from an uploaded file.
 
 ## Installation
 

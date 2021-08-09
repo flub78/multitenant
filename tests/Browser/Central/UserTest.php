@@ -53,7 +53,7 @@ class UserTest extends DuskTestCase {
 		$this->browse ( function (Browser $browser) {
 			
 			// get initial count
-			$this->login($browser, env('TEST_LOGIN'), env('TEST_PASSWORD'));
+			$this->login($browser);
 			$browser->visit ( '/users' );
 			$initial_count = $this->datatable_count($browser);
 			$this->logout($browser);
@@ -135,7 +135,11 @@ class UserTest extends DuskTestCase {
 			
 			// goto the user page
 			$browser->visit ('/users');
-			// $browser->click ( '@delete_' . $this->name );
+			$dusk_label = '@delete_' . $this->name;
+			// echo "\npressing $dusk_label\n";
+			$browser->press( $dusk_label);
+			
+			$browser->screenshot('Central/after_user_delete');
 			
 			$browser->visit ('/users');
 			$final_count = $this->datatable_count($browser);
