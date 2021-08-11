@@ -43,6 +43,7 @@ class UserTest extends DuskTestCase {
 		$this->email1 = "titi@gmail.com";
 		$this->email2 = "titi@free.fr";
 		$this->password = "password4titi";
+		$this->new_password = "new4titi";
 		
 		$this->wait = 0;
 	}
@@ -230,12 +231,23 @@ class UserTest extends DuskTestCase {
 			->assertSee ( 'Dashboard' );
 			sleep($this->wait);
 			
-
 			// Goto the change password page
+			/*
+			 * Does not work because the edit page is reserved to admin
+			 * I really should have a reset password for users
+			 * 
+			$browser->visit ( '/users/change_password' )
+			->click('@edit_' . $this->name)
+			->assertSee('Change password')
+			->assertSee($this->name);
+			*/
 			
 			// Logout
 			$this->logout($browser);
 			sleep($this->wait);
+			
+			// And log in again with new email and password
+			
 		} );
 	}
 
@@ -276,6 +288,42 @@ class UserTest extends DuskTestCase {
 			
 			$new_count = $this->datatable_count($browser);
 			$this->assertEquals($new_count, $initial_count + 1, "a user has been created");
+			$this->logout($browser);
+			
+			// Login as the new user
+			$this->login($browser, $this->email1, $this->password);
+			$browser->assertSee ( $this->name )
+			->assertSee ( 'Dashboard' );
+			sleep($this->wait);
+			
+			// Logout
+			$this->logout($browser);
+			sleep($this->wait);
+			
+			// and admin can chage a user password
+			$this->login($browser);
+			
+			$browser->visit ( '/users' )
+			->click('@edit_' . $this->name)
+			//->assertValue('name', $this->name )
+			->assertSee('Edit user');
+			
+			$browser			
+			->type ( 'email', $this->email2 )
+			->type ( 'password', $this->new_password )
+			->type ( 'password_confirmation', $this->new_password );
+			sleep($this->wait);
+			
+			$browser->press ( 'Update' )
+			->assertPathIs ( '/users' )
+			->assertSee($this->name);
+			sleep($this->wait);
+			
+			$this->logout($browser);
+			
+			// The user can login using new credentials
+			$this->login($browser, $this->email2, $this->new_password);
+			
 			$this->logout($browser);
 		} );
 	}

@@ -1,5 +1,5 @@
 @rem php artisan dusk --colors=always --browse tests/Browser/Central/TenantsTest.php
-@rem php artisan dusk  --browse tests/Browser/Central/UserTest.php
+php artisan dusk  --browse tests/Browser/Central/UserTest.php
 @rem php artisan dusk --colors=always --browse tests/Browser/Central/BackupsTest.php
 @rem ### php artisan dusk --colors=always --browse tests/Browser/Central/PasswordResetTest.php
 
@@ -12,6 +12,6 @@ cp .env.dusk.tenants .env
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/CalendarTest.php
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/ConfigurationTest.php
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/UserTest.php
-php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/BackupsTest.php
+@rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/BackupsTest.php
 
 cp .env.svg .env
