@@ -21,5 +21,9 @@ return [
 	'active' => 'Active',
 	'password' => 'Password',
 	'confirm' => 'Confirm Password',
+	'change_password' => 'Change password',
+	'previous_password' => 'Previous password',
+	'new_password' => 'New password',
+	'confirm_new' => 'Confirm new password'
 		
 ];

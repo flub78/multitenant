@@ -182,5 +182,16 @@ class UserControllerTest extends TestCase {
 		$this->assertTrue($count == $initial_count - 1, "Element updated then deleted ($url)"); 
 	}
 	
+	/**
+	 * Change password
+	 *
+	 * @return void
+	 */
+	public function test_users_change_password() {
+		$this->be ( $this->user );
+		$response = $this->get ( '/users/change_password' );
+		$response->assertStatus ( 200 );
+		$response->assertSeeText (__('users.change_password'));
+	}
 	
 }

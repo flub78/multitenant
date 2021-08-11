@@ -95,12 +95,16 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                	
+                                	<a class="dropdown-item" href="{{ route('users.change_password') }}" dusk="password"> {{__('users.change_password')}}</a>
+                                	
                                     <a class="dropdown-item" href="{{ route('logout') }}" dusk="logout"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('navbar.logout') }}
                                     </a>
 
+									
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

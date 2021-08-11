@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Central;
 
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Helpers\BackupHelper;
+use App\Traits\UserTestTrait;
 
 /**
  * Feature: User registration
@@ -35,7 +36,9 @@ use App\Helpers\BackupHelper;
  *        
  */
 class UserTest extends DuskTestCase {
-
+	
+	use UserTestTrait;
+	
 	function __construct() {
 		parent::__construct ();
 
@@ -46,6 +49,7 @@ class UserTest extends DuskTestCase {
 		$this->new_password = "new4titi";
 		
 		$this->wait = 0;
+		
 	}
 
 	public function setUp(): void {

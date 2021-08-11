@@ -21,6 +21,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/users/change_password', [App\Http\Controllers\UserController::class, 'change_password'])->name('users.change_password');
+Route::post('/users/password', [App\Http\Controllers\UserController::class, 'password'])->name('users.password');
 
 // admin routes
 Route::group(['middleware' => ['admin']], function () {
