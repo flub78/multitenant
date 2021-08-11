@@ -70,7 +70,7 @@ class BackupRestore extends Command {
 		// The backup exists
 		$filename = TenantHelper::backup_fullname ( $tenant, $selected_file );
 		$database = TenantHelper::tenant_database ( $tenant );
-
+		
 		if ($this->option ( 'force' ) || $this->confirm ( 'Are you sure you want to restore ' . $selected_file . ' ?' )) {
 
 			BackupHelper::restore($filename, $database, $this->option ( 'pretend' ));

@@ -5,7 +5,6 @@ namespace Tests\Browser\Tenants;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Helpers\BackupHelper;
-use PHPUnit\Framework\TestCase;
 
 /**
  * User CRUD

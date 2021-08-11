@@ -3,6 +3,8 @@ namespace App\Helpers;
 
 use App\Models\Tenant;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+
   
 /**
  * Static functions to restore a database
@@ -30,6 +32,8 @@ class BackupHelper {
 		
 		$returnVar = NULL;
 		$output = NULL;
+		
+		Log::Debug("BackupHelper.restore : $command");
 		
 		if ($pretend) {
 			echo "pretend: " . $command . "\n";

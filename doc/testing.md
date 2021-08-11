@@ -14,6 +14,8 @@
 
 * Robustness tests. (todo) These test check the behavior of the system under heavy load and should provide a way to size the servers against the expected load.
 
+A discussion on how to chose between unit test and BDD (given-when-then) tests. https://specflow.org/challenges/bdd-vs-unit-tests/
+
 ## TDD Test Driven Development
 
 Test driven development. It implies the tests to be developed before the code. 
@@ -30,28 +32,49 @@ It is well suited for systems with a lot of requirements when gathering of requi
 
 In BDD test scenarios are often written as :
 
-    Feature: Making backup
-        As an admin user
-        I want to trigger backups
-        So I have them later in case of need
+    /**
+     * Feature: Making backup
+     *      As an admin user
+     *      I want to trigger backups
+     *      So I have them later in case of need
+     *
+     *      rule: non admin users cannot start backups
+     *      rule: ...
+     */
 
-        rule: non admin users cannot start backups
-        rule: ...
-
-    Scenario: An admin user makes a backup
-        Given I am an admin
-        and I am logged in
-        and on the backup page
-        When I request a new backup
-        Then it should be stored in the tenant storage and visible in the backup list
+    /**
+     * Scenario: An admin user makes a backup
+     *      Given I am an admin
+     *      and I am logged in
+     *      and on the backup page
+     *      When I request a new backup
+     *      Then it should be stored in the tenant storage and visible in the backup list
+     */
         
 Usually there are several scenarios per feature.
 
-By definition it should be applied at the feature test level (not unit test). Laravel multitenancy tends to transform tests that should logically be unit tests into feature tests because tenant testing require some context to be established (container) and container are only created for feature tests. There is no need to be BDD for these unit tests in the feature directory.
+By definition it should be applied at the feature test level (not unit test). Laravel multitenancy tends to transform tests that should logically be unit tests into feature tests because tenant testing require some context to be established (container) and containers are only created for feature tests. There is no need to be BDD for these unit tests in the feature directory.
 
-Should I use a special framework like cumcumber or behat to implement BDD? The simplest implementation is just to create BDD scenarios as comments inside regular tests. It can make it a little more difficult to access for non technical persons (the source of truth is inside the code). But a simple script to extract them may be simpler to write and more flexible than deploying a BDD framework.
+Should I use a special framework like cumcumber or behat to implement BDD? The simplest implementation is just to create BDD scenarios as comments inside regular tests. It can make it a little more difficult to access test descriptions for non technical persons (the source of truth is inside the code). But a simple script to extract them may be simpler to write and more flexible than deploying a BDD framework.
 
-It is always the same story, is it possible to apply the spirit of something without tools to support it ?(like writing object oriented programs in non object oriented languages or using a garbage collector on language which have none). The answer is usually yes but it requires more discipline, so it is only applicable to teams who decide to enforce the discipline. Note that it is a better situation than using  tool to support something with a team who do not want to use it.
+The drawback of this approach is that it requires more discipline.
+
+Note that by definition BDD should be defined at the feature or behavior level and stay independent of the implementation. I have seen a lot of examples on the net which violate this principle where tests are described as when I visit this url and fill this field with this value then I see this string on the screen. Of course it is too much details and totally dependent on the implementation. We should always keep in mind that the tests should stay valid with a totally different implementation.
+
+The usual approach is to develop test drivers which translate the high level feature description into implementation dependent operations. The BDD spirit is preserved if and only a change in implementation keep the test definition valid and only require modifications inside the test drivers.
+
+Advantages of BDD framework:
+
+* They provides an easy access to test descriptions to stakeholders.
+* It is easier to organize tests into structure features and they are easier to find. In others approaches the test of a feature can be split between several tests.
+* They are quite systematic and every feature has a test
+
+Drawbacks pf a BDD framework
+
+* I am not sure that they interface nicely with phpunit, especially in the multi tenant context which already imposes several limitations on Laravel tests.
+* There is an additional cost to develop the test drivers
+* In case of implementation change the cost to adapt the test drivers can be significant but no more than the cost of adapting implementation dependent tests 
+
 
 ### Current decision:
 

@@ -9,3 +9,4 @@ At minimum renaming of these primary keys should be propagated in the whole data
 * Use email addresses for authentication. And the user should be able to change it.
 
 If the user has private data, they should be identified with the user id as foreign key. (not the email address).
+

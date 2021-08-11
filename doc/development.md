@@ -1,5 +1,22 @@
 # Development
 
+
+## General workflow
+
+* Defines a feature using
+  * As a user
+  * I want to 
+  * So ..
+* Define validation scenarios
+  * Given ..
+  * When ..
+  * Then ..
+* Implement the validation scenarios that should not pass
+  * Write the code
+  * write unit tests for the code
+
+  
+# Specific workflow
 Most ot features will imply the following steps
 
 * Creation of a model in a migration class

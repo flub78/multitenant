@@ -5,6 +5,7 @@ namespace app\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use App\Helpers\TenantHelper;
+use Illuminate\Support\Facades\Log;
 
 class BackupController extends Controller
 {
@@ -79,14 +80,23 @@ class BackupController extends Controller
      */
     public function restore($id)
     {
-        $filename = $this->filename_from_index($id);
+    	$filename = $this->filename_from_index($id);
         
+    	$tenant = tenant('id');
+    	Log::Debug("BackupController.restore($id), filename=$filename, tenant=$tenant");
+    	Log::Debug("DB_USERNAME = " .  env('DB_USERNAME'));
         if ($filename) {
-        	// echo "restoring $filename";
-        	Artisan::call('backup:restore', ['backup_id' => $filename, '--force' => true]);
+        	
+        	if ($tenant) {
+        		Artisan::call('backup:restore', ['backup_id' => $filename, '--force' => true, '--tenant' => $tenant]);        		
+        	} else {
+        		Artisan::call('backup:restore', ['backup_id' => $filename, '--force' => true]);
+        	}
         	return redirect('/backup')->with('success', 'Backup ' . $filename . " restored");
         }
 
+        Log::Error("BackupController.restore($id), filename=$filename, tenant=$tenant, backup not found");
+        
         return redirect('/backup')->with('error', "backup " . $id . " not found");
     }
 
