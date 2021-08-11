@@ -47,7 +47,10 @@ class BackupsTest extends DuskTestCase {
 		parent::tearDown ();
 	}
 	
+	// TODO: test disabled because env is not correctly setup for tenant controllers
 	public function test_backup() {
+		
+		$this->markTestSkipped('Skipped env is not correctly setup for tenant controllers'); 
 		
 		$this->browse ( function (Browser $browser) {
 			
@@ -110,7 +113,6 @@ class BackupsTest extends DuskTestCase {
 			// count again the users
 			$browser->visit ( '/users' );
 			$user_count_after_restore = $this->datatable_count($browser);
-			// TODO: test disabled because env is not correctly setup for tenant controllers
 			// $this->assertEquals($user_count, $user_count_after_restore, "the new user has been erased");
 					
 			// delete the new backup

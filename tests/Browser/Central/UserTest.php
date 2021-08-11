@@ -253,8 +253,29 @@ class UserTest extends DuskTestCase {
 		
 		$this->browse ( function (Browser $browser) {
 			
-			// get initial count
 			$this->login($browser);
+			
+			// get initial user count
+			$browser->visit ( '/users' );
+			$initial_count = $this->datatable_count($browser);
+			
+			// create a user
+			$browser->visit ( '/users/create' )
+			->assertSee ( 'New User' )
+			->type ( 'name', $this->name )
+			->type ( 'email', $this->email1 )
+			->check ('active')
+			->type ( 'password', $this->password )
+			->type ( 'password_confirmation', $this->password );
+			sleep($this->wait);
+			
+			$browser->press ( 'Submit' )
+			->assertPathIs ( '/users' )
+			->assertSee ( $this->name );
+			sleep($this->wait);
+			
+			$new_count = $this->datatable_count($browser);
+			$this->assertEquals($new_count, $initial_count + 1, "a user has been created");
 			$this->logout($browser);
 		} );
 	}
