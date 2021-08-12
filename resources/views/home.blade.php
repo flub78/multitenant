@@ -12,6 +12,12 @@
          </ul>
         </div><br />
         @endif
+        @if(session()->get('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}  
+        </div><br />
+        @endif
+        
         
             <h1>Central Application Home page</h1>
             <div class="card">

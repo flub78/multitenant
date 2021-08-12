@@ -22,7 +22,7 @@ return [
 	'password' => 'Mot de passe',
 	'confirm' => 'Confirmation Mot de passe',
 	'change_password' => 'Changer le mot de passe',
-	'previous_password' => 'Mot de passe précédant',
+	'current_password' => 'Mot de passe actuel',
 	'new_password' => 'Nouveau mot de passe',
 	'confirm_new' => 'Confirmation du nouveau mot de passe'
 		

@@ -96,7 +96,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 	
-                                	<a class="dropdown-item" href="{{ route('users.change_password') }}" dusk="password"> {{__('users.change_password')}}</a>
+                                	<a class="dropdown-item" href="{{ route('change_password.change_password') }}" dusk="password"> {{__('users.change_password')}}</a>
                                 	
                                     <a class="dropdown-item" href="{{ route('logout') }}" dusk="logout"
                                        onclick="event.preventDefault();

@@ -22,7 +22,7 @@ return [
 	'password' => 'Password',
 	'confirm' => 'Confirm Password',
 	'change_password' => 'Change password',
-	'previous_password' => 'Previous password',
+	'current_password' => 'Current password',
 	'new_password' => 'New password',
 	'confirm_new' => 'Confirm new password'
 		

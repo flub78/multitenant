@@ -25,14 +25,14 @@
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('users.password', $user->id ) }}">
+      <form method="post" action="{{ route('change_password.password', $user->id ) }}">
           <div class="form-group">
               @csrf
               @method('PATCH')              
           </div>
            
           <div class="form-group">
-              <label for="cases">{{__('users.previous_password')}}</label>
+              <label for="cases">{{__('users.current_password')}}</label>
               <input type="password" class="form-control" name="password" value="{{ old('password') }}"/>
           </div>
           
@@ -43,7 +43,7 @@
 
           <div class="form-group">
               <label for="cases">{{__('users.confirm_new')}}</label>
-              <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}"/>
+              <input type="password" class="form-control" name="new_password_confirmation" value="{{ old('new_password_confirmation') }}"/>
           </div>
 
           <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>

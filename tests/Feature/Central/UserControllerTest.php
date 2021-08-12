@@ -189,7 +189,7 @@ class UserControllerTest extends TestCase {
 	 */
 	public function test_users_change_password() {
 		$this->be ( $this->user );
-		$response = $this->get ( '/users/change_password' );
+		$response = $this->get ( '/change_password/change_password' );
 		$response->assertStatus ( 200 );
 		$response->assertSeeText (__('users.change_password'));
 	}

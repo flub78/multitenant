@@ -239,18 +239,37 @@ class UserTest extends DuskTestCase {
 			/*
 			 * Does not work because the edit page is reserved to admin
 			 * I really should have a reset password for users
-			 * 
-			$browser->visit ( '/users/change_password' )
-			->click('@edit_' . $this->name)
-			->assertSee('Change password')
+			 *
+			 */ 
+			$browser->visit ( '/change_password/change_password' )
+			->assertSee(__('users.change_password'))
 			->assertSee($this->name);
-			*/
+			
+			// First a couple of negative cases
+			$browser->press('Update')
+			->assertSee('The password field is required')
+			->assertSee('The new password field is required.');
+			
+			$browser->type ( 'password', 'zzzzzzzzzzz' )
+			->type ( 'new_password', $this->password )
+			->type ( 'new_password_confirmation', 'xxxxxxxxxx' )
+			->press('Update')
+			->assertSee('The password is incorrect')
+			->assertSee('The new password confirmation does not match');
+			
+			$browser->type ( 'password',  $this->password )
+			->type ( 'new_password', $this->new_password )
+			->type ( 'new_password_confirmation', $this->new_password)
+			->press('Update')
+			->assertSee('changed');
 			
 			// Logout
 			$this->logout($browser);
 			sleep($this->wait);
 			
-			// And log in again with new email and password
+			// And log in again with new password
+			$this->login($browser, $this->email1, $this->new_password);
+			$this->logout($browser);
 			
 		} );
 	}

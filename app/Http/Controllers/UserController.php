@@ -2,11 +2,9 @@
 
 namespace app\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller {
 	
@@ -93,11 +91,11 @@ class UserController extends Controller {
 			$validatedData['admin'] = false;
 		}
 		$validatedData['active'] = ($request->has('active'));
-		// var_dump($validatedData); exit;
 		
 		User::whereId ( $id )->update ( $validatedData );
 
 		$name = $validatedData ['name'];
+		// TODO: localize success string
 		return redirect ( '/users' )->with ( 'success', "User $name has been updated" );
 	}
 
@@ -113,18 +111,5 @@ class UserController extends Controller {
 		$user->delete ();
 
 		return redirect ( '/users' )->with ( 'success', "User $name has been deleted" );
-	}
-
-	/**
-	 * Display a change password view
-	 * for the current user
-	 */
-	public function change_password() {
-		$user = Auth::user();
-		return view ( 'users/change_password' )->with ( compact ( 'user' ) );
-	}
-	
-	public function password(UserRequest $request, $id) {
-		
 	}
 }
