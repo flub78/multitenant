@@ -3,8 +3,8 @@
 namespace Tests\Browser\Tenants;
 
 use Laravel\Dusk\Browser;
-use Tests\DuskTestCase;
 use App\Helpers\BackupHelper;
+use Tests\Browser\UserSupport;
 
 /**
  * User CRUD
@@ -12,17 +12,14 @@ use App\Helpers\BackupHelper;
  * @author frederic
  *        
  */
-class UserTest extends DuskTestCase {
+class UserTest extends UserSupport {
 
 	function __construct() {
 		parent::__construct ();
-
-		$this->name = "Titi Paris";
-		$this->email1 = "titi@gmail.com";
-		$this->email2 = "titi@free.fr";
-		$this->password = "password4titi";
+		
+		$this->screenshots_dir = "Tenants";
 	}
-
+	
 	public function setUp(): void {
 		parent::setUp ();
 
@@ -45,67 +42,6 @@ class UserTest extends DuskTestCase {
 
 	public function tearDown(): void {
 		parent::tearDown ();
-	}
-
-	public function test_user_can_register() {
-		
-		$this->browse ( function (Browser $browser) {
-			
-			// Register a new user
-			$browser->visit ( '/register' )
-			->assertSee ( 'Register' )
-			->type ( 'name', $this->name )
-			->type ( 'email', $this->email1 )
-			->type ( 'password', $this->password )
-			->type ( 'password_confirmation', $this->password )
-			->press ( 'Register' )
-			->assertPathIs ( '/home' )
-			->assertSee ( $this->name )
-			->assertSee ( 'Dashboard' );
-
-			// Logout
-			$this->logout($browser);
-			
-			// Login again
-			$this->login($browser, $this->email1, $this->password);
-			$browser->assertSee ( $this->name )
-			->assertSee ( 'Dashboard' );
-			
-			// Logout again
-			$this->logout($browser);
-			
-			// login as admin
-			$this->login($browser, env('TEST_LOGIN'), env('TEST_PASSWORD'));
-			$browser->assertPathIs ( '/home' );
-			
-			// goto the user page
-			$browser->visit ( '/users' )
-			->assertSee ( $this->name)
-			->assertSee ( $this->email1)
-			->assertSee('Showing 1 to 2 of 2 entries');
-			
-			// goto the user edit page
-			$browser->visit ( '/users/2/edit' )
-			->assertSee ('Edit user')
-			->type ( 'email', $this->email2 )
-			->press('Update')
-			->assertPathIs ( '/users' )
-			->assertSee ( $this->email2)
-			->assertSee('Showing 1 to 2 of 2 entries');
-			
-			// logout
-			$this->logout($browser);
-			
-			// login with the new email address
-			$this->login($browser, $this->email2, $this->password);
-			
-			$browser->assertSee ( $this->name )
-			->assertSee ( 'Dashboard' );
-			
-			// logout
-			$this->logout($browser);
-			
-		} );
 	}
 
 	/**
