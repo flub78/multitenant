@@ -229,8 +229,10 @@ class LocalizationTest extends DuskTestCase {
 			
 			// delete app.locale
 			$browser->visit ( '/configuration' )
-			->press('Supprimer')
-			->assertPathIs('/configuration')
+			->press('Supprimer');
+			
+			sleep(0.5);
+			$browser->assertPathIs('/configuration')
 			->assertSee ( 'app.locale supprimé' )
 			->assertSee ( 'Showing 0 to 0 of 0 entries' );
 		} );

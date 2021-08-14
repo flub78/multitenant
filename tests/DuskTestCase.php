@@ -123,6 +123,6 @@ abstract class DuskTestCase extends BaseTestCase {
 					return -1;
 			}
 		}
-		return -1;
+		return 0;
 	}
 }

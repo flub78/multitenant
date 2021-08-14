@@ -7,10 +7,32 @@ use App\Helpers\BackupHelper;
 use Tests\Browser\UserSupport;
 
 /**
- * User CRUD
+ * Feature: User registration
+ *      As a guest
+ *      I want to register
+ *      So I can login
+ 
+ *      rule: first registered user is admin
+ *      rule: others registered users are not admin
+ *
+ * Feature: User management
+ *      As an admin
+ *      I want to create users
+ *
+ *      So they can login
+ *      I want to delete users
+ *      So they are forgotten by the system
+ *
+ *      I want to change user email address
+ *      So they can log in with another email
+ *
+ *      I want to change the user password
+ *      So they can login with the new password
+ *
+ *      rule: non admin users cannot modify others users
  *
  * @author frederic
- *        
+ *
  */
 class UserTest extends UserSupport {
 
@@ -40,33 +62,5 @@ class UserTest extends UserSupport {
 		BackupHelper::restore ( $filename, $database, false );
 	}
 
-	public function tearDown(): void {
-		parent::tearDown ();
-	}
 
-	/**
-	 * A basic browser test example.
-	 *
-	 * @return void
-	 */
-	public function test_login() {
-		$this->browse ( function ($browser) {
-			$this->login($browser, env('TEST_LOGIN'), env('TEST_PASSWORD'));
-			
-			$browser->screenshot ( 'Tenants/after_login' );
-		} );
-	}
-
-	/**
-	 * Test that the user can log out
-	 *
-	 * @return void
-	 */
-	public function test_logout() {
-		$this->browse ( function ($browser) {
-			$this->logout($browser);
-			
-			$browser->screenshot('Tenants/after_logout');
-		} );
-	}	
 }

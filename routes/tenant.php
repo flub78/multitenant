@@ -30,6 +30,8 @@ Route::middleware([
 		
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 	Route::get('/test', [App\Http\Controllers\Tenants\TenantTestController::class, 'index'])->name('test')->middleware('auth');
+	Route::get('/change_password/change_password', [App\Http\Controllers\ChangePasswordController::class, 'change_password'])->name('change_password.change_password');
+	Route::patch('/change_password/password', [App\Http\Controllers\ChangePasswordController::class, 'password'])->name('change_password.password');
 	
 	/*
 	 * Warning: routes are parsed in order of declaration and resource matches all the sub urls
