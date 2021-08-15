@@ -318,6 +318,7 @@ class UserSupport extends DuskTestCase {
 			// Goto the change password page
 			$browser->visit ( '/change_password/change_password' )
 			->assertSee(__('users.change_password'))
+			->assertSee(__('users.email'))
 			->assertSee($this->name);
 			
 			// First a couple of negative cases
@@ -334,6 +335,7 @@ class UserSupport extends DuskTestCase {
 
 			// Then change with valid values
 			$browser->type ( 'password',  $this->password )
+			->type ( 'email', $this->email2)
 			->type ( 'new_password', $this->new_password )
 			->type ( 'new_password_confirmation', $this->new_password)
 			->press('Update');
@@ -344,7 +346,7 @@ class UserSupport extends DuskTestCase {
 			sleep($this->wait);
 			
 			// And log in again with new password
-			$this->login($browser, $this->email1, $this->new_password);
+			$this->login($browser, $this->email2, $this->new_password);
 			$this->logout($browser);
 			
 		} );

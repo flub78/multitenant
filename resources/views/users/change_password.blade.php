@@ -32,6 +32,11 @@
           </div>
            
           <div class="form-group">
+              <label for="cases">{{__('users.email')}}</label>
+              <input type="text" class="form-control" name="email" value="{{ old('email', $user->email) }}"/>
+          </div>
+
+          <div class="form-group">
               <label for="cases">{{__('users.current_password')}}</label>
               <input type="password" class="form-control" name="password" value="{{ old('password') }}"/>
           </div>

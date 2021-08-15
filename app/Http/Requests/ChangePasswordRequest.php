@@ -32,7 +32,13 @@ class ChangePasswordRequest extends FormRequest {
 			case 'PUT' :
 			case 'PATCH' : {
 				return [
-				    'password' => [
+				   'email' => [
+						'required',
+						'string',
+						'email',
+						'max:255'
+					],
+					'password' => [
 						'required',
 						'password'
 				    ],
