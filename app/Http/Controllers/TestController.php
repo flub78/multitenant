@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\Config;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Invitation;
 
 class TestController extends Controller
 {
@@ -29,6 +31,14 @@ class TestController extends Controller
     
     public function info() {
     	phpinfo();
+    }
+    
+    public function email () {
+    
+    	$name = 'Fred';
+    	Mail::to('frederic.peignot@free.fr')->send(new Invitation($name));
+    	
+    	return 'Email was sent';
     }
     
 }
