@@ -82,7 +82,6 @@ class WelcomeTest extends DuskTestCase {
 			$browser->assertSee ( 'Users' )
 			->assertSee ( 'Tenants' )
 			->assertSee ( 'Backups' )
-			->assertSee ( 'Info' )
 			->assertSee ( 'Dashboard' );
 		} );
 	}
