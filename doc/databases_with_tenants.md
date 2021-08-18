@@ -22,18 +22,9 @@ In case of upgrade central database and tenant database must be migrated.
 
 Note that the central database should never be reset with existing tenants. It it is required, tenant should be deleted first and recreated after the migration. Normally it should not be necessary.
 
-Upgrades of the central database should be rare. To do it
+Upgrades of the central database should be rare. 
 
-    php artisan migrate
-    
-to migrate the tenants
-
-    php artisan tenants:migrate
-    php artisan tenants:migrate --tenants=test --tenants=abbeville
-
-or
-
-    php artisan tenants:migrate-fresh
+See [migrations](migrations.md)
     
     
 ## Testing
@@ -50,10 +41,7 @@ Listing of the tenants
 ### List of tenants on test connection
     
     test-tenants-list.bat
-    
-Migration of the central test database using the test connection
-    
-    php artisan migrate --database=mysql_test
+
     
 ### to migrate the tenants
 

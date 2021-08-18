@@ -352,4 +352,48 @@ class UserSupport extends DuskTestCase {
 		} );
 	}
 	
+	/**
+	 * Scenario: A user can ask for a password reset link
+	 *      Given I am a registered user
+	 *      and on the password forgotten page
+	 *      When I type my email address
+	 *      Then I see a message that a reset password link has been sent
+	 *      
+	 *      Note it would be better to check that the message has actually been sent
+	 *      but it is more complicated. 
+	 */
+	public function test_user_can_ask_for_a_password_reset_link() {
+		
+		$this->browse ( function (Browser $browser) {
+			
+			// Register a new user
+			$browser->visit ( '/register' )
+			->assertSee ( 'Register' )
+			->type ( 'name', $this->name )
+			->type ( 'email', $this->email1 )
+			->type ( 'password', $this->password )
+			->type ( 'password_confirmation', $this->password );
+			sleep($this->wait);
+			
+			$browser->press ( 'Register' )
+			->assertPathIs ( '/home' )
+			->assertSee ( $this->name )
+			->assertSee ( 'Dashboard' );
+			sleep($this->wait);
+			
+			$this->logout($browser);
+			
+			// there is a forgotten password link on the login page
+			$browser->visit ( '/login' )
+			->clickLink('Forgot Your Password?')
+			->assertPathIs ( '/password/reset' );
+			
+			// a link can be requested
+			// The test can only work with user pre registered with mailgun
+			$browser->type ( 'email', env('TEST_LOGIN'))
+			->press ('Send Password Reset Link')
+			->assertSee('We have emailed your password reset link');
+		} );
+	}
+	
 }
