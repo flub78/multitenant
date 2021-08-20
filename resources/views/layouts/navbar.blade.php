@@ -59,7 +59,11 @@
        				   	<li class="nav-item dropdown">
       						<a class="nav-link" href="{{ route('backup.index') }}" id="navbar3" >Backups</a>     						
      					</li>
+   					
      					
+     					
+@endif <!-- (tenant('id')) -->
+
      					<li class="nav-item dropdown">
       						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">Development</a>
       						
@@ -67,14 +71,9 @@
         						<a class="dropdown-item" href="{{ route('info') }}">Info</a>
         						<a class="dropdown-item" href="{{ route('test') }}">Test</a>
         						<a class="dropdown-item" href="{{ route('test.email') }}">Email</a>
-        						<a class="dropdown-item"> database = {{env ( 'DB_DATABASE' )}} </a>
+        						<a class="dropdown-item"> central database = {{env ( 'DB_DATABASE' )}} </a>
       						</div>
     					</li>
-     					
-     					
-     					
-     					
-@endif <!-- (tenant('id')) -->
        				   
 @endif	<!-- (auth()->user()->isAdmin()) -->
 

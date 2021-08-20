@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenants;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\Config;
+use App\Helpers\HtmlHelper;
 use Illuminate\Support\Facades\App;
 
 /**
@@ -40,7 +41,7 @@ class TenantTestController extends Controller
      */
     public function index()
     {
-    	$msg = "Tenant Test Controller\n";
+    	$msg = HtmlHelper::h1("Tenant Test Controller") . "\n";
     	$msg .= "Tenant=" . tenant('id') . " \n";
     	$msg .= "Local from Config:: =" . Config::config('app.locale'). " \n";
     	$msg .= "Local =" . App::getLocale() . " \n";

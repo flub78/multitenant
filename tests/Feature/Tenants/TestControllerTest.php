@@ -40,5 +40,17 @@ class TestControllerTest extends TenantTestCase {
 		$response->assertStatus ( 200 );
 		
 		// $response->dump();
-	}	
+	}
+	
+	public function test_email() {
+		$this->be ( $this->user );
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/test/email' ;
+		
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		$response->assertSeeText('Email was sent');
+		// $response->dump();		
+	}
+	
 }

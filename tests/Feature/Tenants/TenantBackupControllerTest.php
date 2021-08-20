@@ -127,4 +127,29 @@ class TenantBackupControllerTest extends TenantTestCase {
 
 		// echo "   warning: no reported error is checked\n";
 	}
+	
+	public function test_backup_download () {
+		// create a backup
+		$initial_count = $this->backup_count ();
+		$this->be ( $this->user );
+		$response = $this->get ( '/backup/create' );
+		$id = $initial_count + 1;
+		
+		// download it
+		
+		// delete it
+		$response = $this->delete ( "/backup/$id" );
+	}
+	
+	public function test_backup_upload () {
+		
+		$initial_count = $this->backup_count ();
+		$this->be ( $this->user );
+		$id = $initial_count + 1;
+		
+		// Upload a backup
+		
+		// delete it
+		$response = $this->delete ( "/backup/$id" );
+	}
 }

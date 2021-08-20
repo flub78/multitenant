@@ -1,15 +1,16 @@
 <?php
 
-namespace tests\Feature\Central;
+namespace tests\Feature\Tenants;
 
-use Tests\TestCase;
+use Tests\TenantTestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class UserControllerTest extends TestCase {
+class UserControllerTest extends TenantTestCase {
 	
 	protected $basename = "users";
 	
+	protected $tenancy = true;
 	
 	// Clean up the database
 	use RefreshDatabase;
