@@ -6,7 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use App\Helpers\TenantHelper;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
+
+/**
+ * Backup controller
+ * GUI and logic to create, list, delete, upload and download backups
+ * 
+ * TODO Refactoring using Laravel storage to avoid references to the file system.
+ * 
+ * @author frederic
+ *
+ */
 class BackupController extends Controller
 {
 	
@@ -35,6 +46,21 @@ class BackupController extends Controller
 		}
 		
 		return $filename;
+	}
+	
+	/**
+	 * Find a backup, return a storage related filename
+	 * @param unknown $id
+	 * @return mixed|NULL
+	 */
+	private function storage_filename_from_index ($id) {
+		$backup_list = Storage::files('backup');
+
+		if (($id >=1) && ($id <= count($backup_list)))
+			return $backup_list[$id - 1];
+		else 
+			return null;
+
 	}
 	
     /**
@@ -69,8 +95,6 @@ class BackupController extends Controller
         	Artisan::call('backup:create', []);
         return $this->index();
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
@@ -117,5 +141,20 @@ class BackupController extends Controller
     		return redirect('/backup')->with('success', 'Backup ' . $short_filename . " deleted");
     	}
     	return redirect('/backup')->with('error', "Backup " . $id . " not found");    	
+    }
+    
+    
+    /**
+     * Download a backup
+     * @param unknown $id
+     */
+    public function download($id) {
+    	
+    	$filename = $this->storage_filename_from_index($id, true);    	
+    	if ($filename) 
+    		return Storage::download($filename);
+    	else
+    		return redirect('/backup')->with('error', "Backup " . $id . " not found");
+    	
     }
 }

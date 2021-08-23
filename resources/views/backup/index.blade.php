@@ -35,7 +35,7 @@
         @foreach($backups as $backup)
         <tr>
             <td>{{$backup['id']}}</td>
-            <td>{{$backup['filename']}}</td>
+            <td> <a href="{{ route('backup.download', $backup['id'])}}" > {{$backup['filename']}} </a></td>
             <td><a href="{{ route('backup.restore', $backup['id'])}}" class="btn btn-primary" dusk="restore_{{$backup['id']}}">{{__('backup.restore')}}</a></td>
             <td>
                 <form action="{{ route('backup.destroy', $backup['id'])}}" method="post">

@@ -10,6 +10,8 @@
  * restore a non existing backup
  *
  * attempt to create, restore or delete a backup as non admin
+ * 
+ * TODO avoid code duplication with central backup test
  */
 namespace tests\Feature\Tenant;
 
@@ -136,6 +138,8 @@ class TenantBackupControllerTest extends TenantTestCase {
 		$id = $initial_count + 1;
 		
 		// download it
+		$response = $this->get ( "/backup/$id" );
+		$response->assertStatus ( 200 );
 		
 		// delete it
 		$response = $this->delete ( "/backup/$id" );
