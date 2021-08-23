@@ -119,13 +119,22 @@ class TenantControllerTest extends TenantTestCase {
 	}
 
 	protected function create_tenant ($tenant_id, $domain) {
+		// normally the tenant should not exist
+		$tenant = Tenant::find ( $tenant_id );
+		if ($tenant) {
+			// but it does
+			$this->destroy_tenant($tenant->id);
+		}
+		
 		$tenant = Tenant::create(['id' => $tenant_id]);
 		
 		$tenant->domains()->create(['domain' => $domain]);
 		
 		// create local storage for the tenant
 		$storage = TenantHelper::storage_dirpath($tenant_id);
-		mkdir($storage, 0755, true);
+		if (!is_dir($storage)) {
+			mkdir($storage, 0755, true);
+		}
 		
 	}
 	
@@ -146,7 +155,7 @@ class TenantControllerTest extends TenantTestCase {
 		// call the store entry of the controller
 		$elt = ["id" => $tenant_id, "domain" => $domain, '_token' => csrf_token()];
 		$response = $this->post ( "/tenants/", $elt );
-		$response->assertStatus ( 302 );
+		$response->assertStatus ( 302, "call the store entry of the controller, url=/tenants/, \$elt=" . json_encode($elt));
 		
 		
 		// check that the tenant exists
