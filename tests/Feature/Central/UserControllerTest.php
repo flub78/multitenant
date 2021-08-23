@@ -194,7 +194,7 @@ class UserControllerTest extends TestCase {
 		$response->assertSeeText (__('users.change_password'));
 	}
 	
-	public function test_user_can_change_password () {
+	public function ttest_user_can_change_password () {
 		// var_dump($this->user);
 	}
 }
