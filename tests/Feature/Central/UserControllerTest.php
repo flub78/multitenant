@@ -195,6 +195,6 @@ class UserControllerTest extends TestCase {
 	}
 	
 	public function test_user_can_change_password () {
-		var_dump($this->user);
+		// var_dump($this->user);
 	}
 }
