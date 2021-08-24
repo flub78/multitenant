@@ -35,6 +35,24 @@ This project is a framework for Web applications. It provides several core featu
 
 ## Development principles
 
+### Development priorities
+
+1. Bug fixing
+2. Test
+3. Refactoring
+4. New features
+
+Without this list being an absolute rules and in order to keep a high level of quality these are the general priorities of development activities. Note that this project is a hobby and I am curious to see the effect of these rules applied quite strictly. In professional environment, a lot of people agree with them until the pressure of the business convinces them to do something else.
+I consider their strict application as an experiment. Is the highest overall velocity achieved with a more strict application of these rules ? Or is the highest velocity achieved by applying them most of the time but with flexibility. I honestly do not know the answer.
+
+Fix of known bugs is the highest priority activity. Even the fix of minor bugs. Bugs are the demonstration that something wrong happened in the development process and we want to get it fixed as soon as possible. Of course in implies fix of the build jobs.
+
+Tests are part of the development process. Every line of code, every feature should have their own tests developed before they are modified. If for some reason something is checked with missing tests, the next highest priority situation is to fix that.
+
+Refactoring, keeping the technical debt as minimal is considered a highest priority than developing new features. However it is considered less important than completing the testing because the code is already working. 
+
+New feature, they should only be developed on a working, well tested and minimal base of code. This ideal situation should make development of new features fast and easy and so compensate for the invested efforts. 
+
 ### Documentation
 
 Short design notes are kept in the doc directory as a set of md files. Plantuml is used to support the specification and design documentation.

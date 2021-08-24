@@ -139,7 +139,8 @@ class TenantBackupControllerTest extends TenantTestCase {
 		
 		// download it
 		$response = $this->get ( "/backup/$id" );
-		$response->assertStatus ( 200 );
+		$response->assertStatus ( 200 )
+		->assertDownload();
 		
 		// delete it
 		$response = $this->delete ( "/backup/$id" );

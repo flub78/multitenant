@@ -43,8 +43,7 @@ class BackupController extends Controller
 				}
 				break;
 			}
-		}
-		
+		}		
 		return $filename;
 	}
 	

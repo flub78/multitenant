@@ -134,4 +134,21 @@ class BackupControllerTest extends TestCase {
 
 		// echo "   warning: no reported error is checked\n";
 	}
+	
+	public function test_backup_download () {
+		// create a backup
+		$initial_count = $this->backup_count ();
+		$this->be ( $this->user );
+		$response = $this->get ( '/backup/create' );
+		$id = $initial_count + 1;
+		
+		// download it
+		$response = $this->get ( "/backup/$id" );
+		$response->assertStatus ( 200 )
+		->assertDownload();
+		
+		// delete it
+		$response = $this->delete ( "/backup/$id" );
+	}
+	
 }
