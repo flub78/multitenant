@@ -20,46 +20,26 @@ use Illuminate\Support\Facades\Storage;
  */
 class BackupController extends Controller
 {
-	
-	/**
-	 * Find the backup filename from the id
-	 * @param unknown $id
-	 * @return string
-	 */
-	private function filename_from_index($id, $fullpath = false) {
 		
-		$dirpath = TenantHelper::backup_dirpath();
-		$backup_list = scandir($dirpath);
-
-		// Look for the file specified by the user
-		$filename = "";
-		for ($i = 2; $i < count($backup_list); $i++) {
-			$num_id = $i - 1;
-			if (($num_id == $id) || ($backup_list[$i] == $id)) {
-				if ($fullpath) {
-					$filename = $dirpath . DIRECTORY_SEPARATOR . $backup_list[$i];
-				} else {
-					$filename = $backup_list[$i];
-				}
-				break;
-			}
-		}		
-		return $filename;
-	}
-	
 	/**
 	 * Find a backup, return a storage related filename
 	 * @param unknown $id
 	 * @return mixed|NULL
 	 */
-	private function storage_filename_from_index ($id) {
+	private function filename_from_index ($id, $fullpath = false) {
 		$backup_list = Storage::files('backup');
 
-		if (($id >=1) && ($id <= count($backup_list)))
-			return $backup_list[$id - 1];
-		else 
-			return null;
-
+		if (($id >=1) && ($id <= count($backup_list))) {
+			if ($fullpath) {
+				$filename = TenantHelper::storage_dirpath(tenant('id') ? tenant('id') : "")
+				. DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .$backup_list[$id - 1];
+				return $filename;
+			} else {
+				return $backup_list[$id - 1];				
+			}
+		} else {
+			return "";
+		}
 	}
 	
     /**
@@ -70,13 +50,11 @@ class BackupController extends Controller
     public function index()
     {    	
         $backups = array();
-        $dirpath = storage_path() . "/app/backup/";
-        $backup_list = scandir($dirpath);
-        for ($i = 2; $i < count($backup_list); $i++) {
-        	$elt = array('id' => ($i - 1), 'filename' => $backup_list[$i]);
+        $backup_list = Storage::files('backup');
+        for ($i = 0; $i < count($backup_list); $i++) {
+        	$elt = array('id' => ($i + 1), 'filename' => basename($backup_list[$i]));
         	array_push($backups, $elt);
         }
-                
         return view("backup.index", compact('backups'));
     }
 
@@ -104,6 +82,7 @@ class BackupController extends Controller
     public function restore($id)
     {
     	$filename = $this->filename_from_index($id);
+    	if ($filename) $filename = basename($filename);
         
     	$tenant = tenant('id');
     	Log::Debug("BackupController.restore($id), filename=$filename, tenant=$tenant");
@@ -132,12 +111,12 @@ class BackupController extends Controller
      */
     public function destroy($id)
     {
-    	$filename = $this->filename_from_index($id, true);
-    	$short_filename = $this->filename_from_index($id);
+    	$filename = $this->filename_from_index($id);
     	
     	if ($filename) {
-    		unlink($filename);
-    		return redirect('/backup')->with('success', 'Backup ' . $short_filename . " deleted");
+    		Storage::delete($filename);
+    		// TODO localize success message
+    		return redirect('/backup')->with('success', 'Backup ' . basename($filename) . " deleted");
     	}
     	return redirect('/backup')->with('error', "Backup " . $id . " not found");    	
     }
@@ -149,7 +128,7 @@ class BackupController extends Controller
      */
     public function download($id) {
     	
-    	$filename = $this->storage_filename_from_index($id, true);    	
+    	$filename = $this->filename_from_index($id);    	
     	if ($filename) 
     		return Storage::download($filename);
     	else

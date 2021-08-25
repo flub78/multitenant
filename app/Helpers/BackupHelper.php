@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
   
 /**
- * Static functions to restore a database
+ * Class to manage backups
  * 
  * @author frederic
  *
