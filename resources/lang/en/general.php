@@ -19,6 +19,8 @@ return [
 	'delete'   => "Delete",
 	'create'   => "New",
 	'search' => "Search",
+	'upload' => 'Upload',
+	'select_file' => 'Select file',
 		
 	'footer' => "This is the footer",
     'date_format' => 'm-d-Y',

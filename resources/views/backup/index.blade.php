@@ -50,6 +50,38 @@
   </table>
   
     <a href="{{url('backup')}}/create"><button type="submit" class="btn btn-primary" dusk="new_backup">{{__('backup.new')}}</button></a> 
+    
+    <section>
+    
+    <form action="{{route('backup.upload')}}" method="post" enctype="multipart/form-data">
+    
+    <h5 class="text mb-5"></h5>
+    <h5 class="text mb-5">{{__('backup.upload_backup')}}</h5>
+       @csrf
+       @if ($message = Session::get('success'))
+           <div class="alert alert-success">
+                <strong>{{ $message }}</strong>
+           </div>
+       @endif
+
+       @if (count($errors) > 0)
+           <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+           </div>
+       @endif
+
+	   <input type="file" name="backup_file" />
+
+       <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+            {{__('general.upload')}}
+       </button>
+    </form>
+    </section>
+            
 </div>  
 @endsection
 

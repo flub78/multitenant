@@ -18,5 +18,6 @@ return [
 	'not_found' => 'Backup :id not found',
 	'deleted' => 'Backup :id deleted',
 	'restored' => 'Backup :id restored',
-		
+
+	'upload_backup' => 'Upload backup',
 ];

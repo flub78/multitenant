@@ -59,6 +59,7 @@ Route::middleware([
 		Route::get('/backup/{backup}/restore', [App\Http\Controllers\BackupController::class, 'restore'])->name('backup.restore')->middleware('auth');
 		Route::delete('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'destroy'])->name('backup.destroy')->middleware('auth');
 		Route::get('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'download'])->name('backup.download')->middleware('auth');
+		Route::post('/backup', [App\Http\Controllers\BackupController::class, 'upload'])->name('backup.upload')->middleware('auth');
 	});	
 		
 });

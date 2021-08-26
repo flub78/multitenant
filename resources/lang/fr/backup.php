@@ -18,4 +18,6 @@ return [
 	'not_found' => 'Sauvegarde :id inconnue',
 	'deleted' => 'Sauvegarde :id supprimée',
 	'restored' => 'Sauvegarde :id restaurée',	
+
+	'upload_backup' => 'Charger une sauvegarde',	
 ];

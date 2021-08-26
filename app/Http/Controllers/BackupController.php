@@ -8,7 +8,6 @@ use App\Helpers\TenantHelper;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-
 /**
  * Backup controller
  * GUI and logic to create, list, delete, upload and download backups
@@ -133,5 +132,10 @@ class BackupController extends Controller
     	else
     		return redirect('/backup')->with('error', __('backup.not_found', ['id' => $id]));
     	
+    }
+    
+    public function upload(Request $request) {
+    	$file = $request->file('backup_file');
+    	echo "uploading $file";
     }
 }

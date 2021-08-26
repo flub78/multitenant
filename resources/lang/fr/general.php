@@ -19,6 +19,8 @@ return [
 		'delete'   => "Supprimer",
 		'create'   => "Nouveau",
 		'search' => "Chercher",
+		'upload' => 'Télécharger',
+		'select_file' => 'Selectionnez un fichier',
 		
 		'footer' => "Pied de page",
 		'date_format' => 'd/m/Y',
