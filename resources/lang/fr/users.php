@@ -24,6 +24,10 @@ return [
 	'change_password' => 'Changer le mot de passe',
 	'current_password' => 'Mot de passe actuel',
 	'new_password' => 'Nouveau mot de passe',
-	'confirm_new' => 'Confirmation du nouveau mot de passe'
+	'confirm_new' => 'Confirmation du nouveau mot de passe',
+		
+	'created' => 'Utilisateur :name créé',
+	'updated' => 'Utilisateur :name mis à jour',
+	'deleted' => 'Utilisateur :name supprimé',
 		
 ];

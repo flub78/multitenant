@@ -24,6 +24,10 @@ return [
 	'change_password' => 'Change password',
 	'current_password' => 'Current password',
 	'new_password' => 'New password',
-	'confirm_new' => 'Confirm new password'
+	'confirm_new' => 'Confirm new password',
+		
+	'created' => 'User :name created',
+	'updated' => 'User :name updated',
+	'deleted' => 'User :name deleted',
 		
 ];

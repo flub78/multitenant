@@ -46,7 +46,7 @@ class UserController extends Controller {
 		$validatedData['active'] = ($request->has('active'));
 		User::create ( $validatedData );
 
-		return redirect ( '/users' )->with ( 'success', 'User ' . $validatedData ['name'] . ' has been created' );
+		return redirect ( '/users' )->with ( 'success', __('users.created', ['name' =>  $validatedData ['name']] ) );
 	}
 
 	/**
@@ -95,8 +95,7 @@ class UserController extends Controller {
 		User::whereId ( $id )->update ( $validatedData );
 
 		$name = $validatedData ['name'];
-		// TODO: localize success string
-		return redirect ( '/users' )->with ( 'success', "User $name has been updated" );
+		return redirect ( '/users' )->with ( 'success', __('users.updated', ['name' =>  $name] ) );
 	}
 
 	/**
@@ -110,6 +109,6 @@ class UserController extends Controller {
 		$name = $user->name;
 		$user->delete ();
 
-		return redirect ( '/users' )->with ( 'success', "User $name has been deleted" );
+		return redirect ( '/users' )->with ( 'success', __('users.deleted', ['name' =>  $name] ) );
 	}
 }
