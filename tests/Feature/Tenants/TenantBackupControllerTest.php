@@ -146,15 +146,18 @@ class TenantBackupControllerTest extends TenantTestCase {
 		$response = $this->delete ( "/backup/$id" );
 	}
 	
-	public function ttest_backup_upload () {
+	public function test_backup_upload () {
 		
 		$initial_count = $this->backup_count ();
 		$this->be ( $this->user );
 		$id = $initial_count + 1;
 		
 		// Upload a backup
+		$this->assertTrue(true);
+		
+		echo "pwd = " . getcwd();
 		
 		// delete it
-		$response = $this->delete ( "/backup/$id" );
+		//$response = $this->delete ( "/backup/$id" );
 	}
 }

@@ -52,7 +52,7 @@
         <exec logoutput="true" dir="${project.basedir}" 
         command="phploc 
         --log-csv '${project.basedir}/build/logs/phploc.csv'
-        --exclude '${project.basedir}/build' 
+        --exclude 'build' --exclude 'vendor'
         '${project.basedir}'" escape="false" />
     </target>
     

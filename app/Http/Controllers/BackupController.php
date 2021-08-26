@@ -135,7 +135,12 @@ class BackupController extends Controller
     }
     
     public function upload(Request $request) {
-    	$file = $request->file('backup_file');
-    	echo "uploading $file";
+    	if ($request->file('backup_file')) {
+    		$name =  $request->file('backup_file')->getClientOriginalName();
+    		$request->file('backup_file')->storeAs('backup', $name);
+    		return redirect('/backup')->with('success', "Backup $name uploaded");
+    	} else {
+    		return redirect('/backup');
+    	}
     }
 }
