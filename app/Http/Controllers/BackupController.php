@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Storage;
  * Backup controller
  * GUI and logic to create, list, delete, upload and download backups
  * 
- * TODO Refactoring using Laravel storage to avoid references to the file system.
- * 
  * @author frederic
  *
  */
@@ -60,6 +58,8 @@ class BackupController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * 
+     * TODO: refactoring move backup operations into the helper to avoid calling artisan from the controller
      *
      * @return \Illuminate\Http\Response
      */
@@ -67,9 +67,9 @@ class BackupController extends Controller
     {
     	$tenant = tenant('id');
     	if ($tenant)
-    		Artisan::call("backup:create --tenant=$tenant");
+    		Artisan::call("backup:create --quiet --tenant=$tenant");
     	else 
-        	Artisan::call('backup:create', []);
+        	Artisan::call('backup:create --quiet', []);
         return $this->index();
     }
 
@@ -94,12 +94,12 @@ class BackupController extends Controller
         	} else {
         		Artisan::call('backup:restore', ['backup_id' => $filename, '--force' => true]);
         	}
-        	return redirect('/backup')->with('success', 'Backup ' . $filename . " restored");
+        	return redirect('/backup')->with('success', __('backup.restored', ['id' => $filename]) );
         }
 
         Log::Error("BackupController.restore($id), filename=$filename, tenant=$tenant, backup not found");
         
-        return redirect('/backup')->with('error', "backup " . $id . " not found");
+        return redirect('/backup')->with('error', __('backup.not_found', ['id' => $id]) );
     }
 
 
@@ -115,10 +115,9 @@ class BackupController extends Controller
     	
     	if ($filename) {
     		Storage::delete($filename);
-    		// TODO localize success message
-    		return redirect('/backup')->with('success', 'Backup ' . basename($filename) . " deleted");
+    		return redirect('/backup')->with('success', __('backup.deleted', ['id' => $id]));
     	}
-    	return redirect('/backup')->with('error', "Backup " . $id . " not found");    	
+    	return redirect('/backup')->with('error', __('backup.not_found', ['id' => $id]));
     }
     
     
@@ -132,7 +131,7 @@ class BackupController extends Controller
     	if ($filename) 
     		return Storage::download($filename);
     	else
-    		return redirect('/backup')->with('error', "Backup " . $id . " not found");
+    		return redirect('/backup')->with('error', __('backup.not_found', ['id' => $id]));
     	
     }
 }

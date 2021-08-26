@@ -15,4 +15,7 @@ return [
 	'restore' => 'Restaurer',
 	'backup' => 'Sauvegarde',
 	'new' => 'Faire une sauvegarde',
+	'not_found' => 'Sauvegarde :id inconnue',
+	'deleted' => 'Sauvegarde :id supprimée',
+	'restored' => 'Sauvegarde :id restaurée',	
 ];

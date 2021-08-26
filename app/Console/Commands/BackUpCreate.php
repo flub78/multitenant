@@ -63,7 +63,9 @@ class BackUpCreate extends Command {
 
 			exec ( $cmd, $output, $returnVar );
 
-			echo "backup $fullname created\n";
+			if (!$this->option ( 'quiet' )) {
+				echo "backup $fullname created\n";
+			}
 		}
 	}
 
