@@ -21,7 +21,8 @@ class UserControllerTest extends TenantTestCase {
 		// required to be able to use the factory inside the constructor
 		$this->createApplication ();
 		// $this->user = factory(User::class)->create();
-		$this->user = User::factory ()->make ();
+		// $this->user = User::factory ()->make ();
+		$this->user = User::factory ()->create ();
 		$this->user->admin = true;
 	}
 
@@ -175,7 +176,7 @@ class UserControllerTest extends TenantTestCase {
 		$stored = User::where('name', 'Turlututu')->first();
 		$this->assertEquals( $stored->email, $new_email, "value updated");
 		// $this->assertEquals(1, $stored->isAdmin());
-		echo "admin = " . $stored->admin;
+		// echo "admin = " . $stored->admin;
 		
 		$url = "/users/" . $stored->id;
 		$this->delete($url);
@@ -188,14 +189,29 @@ class UserControllerTest extends TenantTestCase {
 	 *
 	 * @return void
 	 */
-	public function ttest_users_can_access_change_password_view() {
+	public function test_users_can_access_change_password_view() {
 		$this->be ( $this->user );
 		$response = $this->get ( '/change_password/change_password' );
 		$response->assertStatus ( 200 );
 		$response->assertSeeText (__('users.change_password'));
 	}
 	
-	public function ttest_user_can_change_password () {
-		// var_dump($this->user);
+	public function test_user_can_change_password () {
+		$this->be ( $this->user );
+		
+		$new_mail = 'my-new-email@free.fr';
+		$elt = array('password' => 'password', 
+				'new_password' => 'new_password',
+				'email' => $new_mail,
+				'new_password_confirmation' => 'new_password');
+		
+		$url = "/change_password/password";
+		$response = $this->patch($url, $elt);
+		$response->assertStatus ( 302 );
+		/*
+		var_dump($this->user->id);
+		$updated = User::where(['email' => $new_mail]);
+		var_dump($updated);
+		*/
 	}
 }
