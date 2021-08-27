@@ -52,6 +52,7 @@ Route::middleware([
 		Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
 				
 		Route::resource('configuration', App\Http\Controllers\Tenants\ConfigurationController::class)->middleware('auth');
+		Route::resource('role', App\Http\Controllers\Tenants\RoleController::class)->middleware('auth');
 		
 		// Backup controller is not a full resource
 		Route::get('/backup', [App\Http\Controllers\BackupController::class, 'index'])->name('backup.index')->middleware('auth');

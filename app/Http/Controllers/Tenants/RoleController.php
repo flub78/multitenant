@@ -4,7 +4,7 @@ namespace app\Http\Controllers\Tenants;
 
 use app\Http\Controllers\Controller;
 use App\Models\Tenants\Role;
-use Illuminate\Http\Request;
+use App\Http\Requests\Tenants\RoleRequest;
 
 class RoleController extends Controller
 {
@@ -15,7 +15,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+    	$roles = Role::all ();
+    	return view ( 'tenants/role/index', compact ( 'roles' ) );
     }
 
     /**
@@ -25,7 +26,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+    	return view ( 'tenants/role/create' );
     }
 
     /**
@@ -34,9 +35,12 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        //
+    	$validatedData = $request->validated (); // Only retrieve the data, the validation is done
+    	Role::create ( $validatedData );
+    	
+    	return redirect ( '/role' )->with ( 'success',  __('general.creation_success', ['elt' => $validatedData ['name']]));
     }
 
     /**
@@ -58,7 +62,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+    	return view ( 'tenants/role/edit' )->with ( compact ( 'role' ) );
     }
 
     /**
@@ -68,9 +72,14 @@ class RoleController extends Controller
      * @param  \App\Models\Tenants\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, $id)
     {
         //
+    	$validatedData = $request->validated ();
+    	
+    	Role::where ( ['id' => $id ])->update ( $validatedData );
+    	
+    	return redirect ( '/role' )->with ( 'success', __('general.modification_success', ['elt' => $validatedData ['name']]));
     }
 
     /**
@@ -81,6 +90,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+    	$name = $role->name;
+    	$role->delete ();
+    	return redirect ( 'role' )->with ( 'success', __('general.deletion_success', ['elt' => $name]));
     }
 }

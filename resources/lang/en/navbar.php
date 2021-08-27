@@ -21,6 +21,7 @@ return [
 	'users' => "Users",
 	'passports' => "Passports",
 	'configuration' => "Configuration",
+	'roles' => "Roles",
 		
 		
 ];
