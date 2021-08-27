@@ -53,7 +53,7 @@
         command="phploc 
         --log-csv '${project.basedir}/build/logs/phploc.csv'
         --exclude 'build' --exclude 'vendor'
-        '${project.basedir}'" escape="false" />
+        '${project.basedir}/app'" escape="false" />
     </target>
     
     <target name="pdepend">
