@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Helpers\TenantHelper;
+use App\Helpers\BackupHelper;
 
 /**
  * An artisan command to generate a backup in the local storage
@@ -44,29 +45,17 @@ class BackUpCreate extends Command {
 	 * @param string $tenant_id
 	 */
 	private function backup(string $tenant_id = "") {
-		if (PHP_OS == "WINNT") {
-			$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
-		} else {
-			// Default on Linux
-			$mysqldump = '/usr/bin/mysqldump';
-		}
-
+				
 		$database = TenantHelper::tenant_database ( $tenant_id );
 		$fullname = TenantHelper::backup_fullname ( $tenant_id );
-
-		if ($database && $fullname) {
-
-			$cmd = "$mysqldump --user=" . env ( 'DB_USERNAME' ) . " --password=" . env ( 'DB_PASSWORD' ) . " --host=" . env ( 'DB_HOST' ) . " $database " . "  | gzip > $fullname";
-
-			$returnVar = NULL;
-			$output = NULL;
-
-			exec ( $cmd, $output, $returnVar );
-
+		
+		if (BackupHelper::backup($database, $fullname, env('DB_HOST'), env('DB_USERNAME'),  env ('DB_PASSWORD'))) {
 			if (!$this->option ( 'quiet' )) {
 				echo "backup $fullname created\n";
 			}
-		}
+		} else {
+			echo "Error on backup $database $fullname";
+		}		
 	}
 
 	/**

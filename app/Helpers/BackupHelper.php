@@ -41,4 +41,33 @@ class BackupHelper {
 			exec ( $command, $output, $returnVar );
 		}
 	}
+	
+	/**
+	 * Create a backup file for a database
+	 * @param string $database
+	 * @param string $backup_fullname
+	 * @param string $host
+	 * @param string $user
+	 * @param string $password
+	 */
+	public static function backup($database, $backup_fullname, $host, $user, $password) {
+		if (PHP_OS == "WINNT") {
+			$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
+		} else {
+			// Default on Linux
+			$mysqldump = '/usr/bin/mysqldump';
+			
+		}
+		if ($database && $backup_fullname) {
+			
+			$cmd = "$mysqldump --user=$user --password=$password --host=$host $database  | gzip > $backup_fullname";
+			
+			$returnVar = NULL;
+			$output = NULL;
+			
+			return exec ( $cmd, $output, $returnVar );		
+		} else {
+			return false;
+		}
+	}
 }
