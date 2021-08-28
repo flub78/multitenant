@@ -1,4 +1,4 @@
-# Databases with tenants
+# Tenants Databases
 
 The database organization is a little bit tricky in tenant environment.
 
@@ -12,9 +12,7 @@ In this project tenants are implemented with https://tenancyforlaravel.com/
 
 * One database per tenant
 
-During deployment the central database must be migrated
-
-Then the migration is automatically applied during tenant creation
+During deployment the central database must be migrated. Then the migration is automatically applied during tenant creation.
 
 ## Upgrade
 

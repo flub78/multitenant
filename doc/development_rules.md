@@ -50,6 +50,6 @@ Code should be reviewed frequently.
 * Through special sessions in which the goal is to determine if the code has a sufficient level of quality for delivery (even self review is possible but it should be avoided).
 
 
-
-# Nice to have practices 
+# Nice to have practices
+ 
 

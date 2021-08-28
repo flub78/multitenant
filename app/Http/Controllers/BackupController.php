@@ -59,6 +59,7 @@ class BackupController extends Controller
      * Show the form for creating a new resource.
      * 
      * TODO: refactoring move backup operations into the helper to avoid calling artisan from the controller
+     * TODO create the backup directory if it does not exists
      *
      * @return \Illuminate\Http\Response
      */

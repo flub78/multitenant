@@ -8,7 +8,7 @@ This project is a framework for Web applications. It provides several core featu
 
 * The project is multi-tenant with one database per tenant. By default tenants are identified by their sub-domain.
 
-* Localization and interface in several languages
+* Localization and graphical interfaces in several languages
 
 * The central application provide a tenant management interface. It is possible to create, modify or delete the tenants.
 

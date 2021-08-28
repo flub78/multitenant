@@ -43,7 +43,7 @@ it creates
     database\migrations\2021_xx_yy_165312_create_celendar_events_table.php
     database\seeders\CalendarEventSeeder.php
 
-In case of tenant feature some files need to be moved to the correct directory.
+In case of tenant feature some files need to be moved to the tenant directory.
 
 Edit and adapt all the created files.
     
@@ -51,9 +51,7 @@ What is missing:
 
 * the Request for validation in app\Http\Requests
 * the views
-* the tests
-
-Create a unit test for the model
+* the tests, Model unit test and Feature controller test
 
 
 ### The migration

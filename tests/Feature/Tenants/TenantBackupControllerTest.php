@@ -44,9 +44,12 @@ class TenantBackupControllerTest extends TenantTestCase {
 	 */
 	private function backup_count() {
 		$dirpath = TenantHelper::backup_dirpath();
+		$this->assertDirectoryExists($dirpath);
 		$backup_list = scandir ( $dirpath );
 
-		return count ( $backup_list ) - 2;
+		$count = count ( $backup_list ) - 2;
+		// echo "\n$count backups in $dirpath\n";
+		return $count;
 	}
 
 	/**
