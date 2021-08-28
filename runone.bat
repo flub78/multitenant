@@ -28,12 +28,13 @@
     @rem Helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/DirHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/BackupHelperTest.php
 
     @rem Models
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantModelTest.php
 
     @rem Controllers
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php

@@ -55,9 +55,15 @@ class BackupHelper {
 			$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
 		} else {
 			// Default on Linux
-			$mysqldump = '/usr/bin/mysqldump';
-			
+			$mysqldump = '/usr/bin/mysqldump';			
 		}
+		
+		// create the backup directory if it does not exist
+		$dirname = dirname($backup_fullname);
+		if (!is_dir($dirname)) {
+			mkdir($dirname, 0777, true);
+		}
+		
 		if ($database && $backup_fullname) {
 			
 			$cmd = "$mysqldump --user=$user --password=$password --host=$host $database  | gzip > $backup_fullname";
