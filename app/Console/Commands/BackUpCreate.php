@@ -49,7 +49,8 @@ class BackUpCreate extends Command {
 		$database = TenantHelper::tenant_database ( $tenant_id );
 		$fullname = TenantHelper::backup_fullname ( $tenant_id );
 		
-		if (BackupHelper::backup($database, $fullname, env('DB_HOST'), env('DB_USERNAME'),  env ('DB_PASSWORD'))) {
+		$res = BackupHelper::backup($database, $fullname, env('DB_HOST'), env('DB_USERNAME'),  env ('DB_PASSWORD'));
+		if ($res == '') {
 			if (!$this->option ( 'quiet' )) {
 				echo "backup $fullname created\n";
 			}

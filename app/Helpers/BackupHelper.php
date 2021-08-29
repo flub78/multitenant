@@ -21,7 +21,7 @@ class BackupHelper {
 	 * @param string $database to overwrite
 	 * @param boolean $pretend 
 	 */
-	public static function restore (string $filename, string $database, $pretend) {
+	public static function restore (string $filename, string $database, $pretend = false) {
 		if (PHP_OS == "WINNT") {
 			$mysql = 'c:\xampp\mysql\bin\mysql.exe';
 		} else {

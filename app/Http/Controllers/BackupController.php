@@ -3,8 +3,8 @@
 namespace app\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use App\Helpers\TenantHelper;
+use App\Helpers\BackupHelper;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Storage;
  * GUI and logic to create, list, delete, upload and download backups
  * 
  * @author frederic
- *
+ * @reviewed 2021/08/29
  */
 class BackupController extends Controller
 {
 		
 	/**
 	 * Find a backup, return a storage related filename
-	 * @param unknown $id
+	 * @param integer $id
 	 * @return mixed|NULL
 	 */
 	private function filename_from_index ($id, $fullpath = false) {
@@ -58,19 +58,22 @@ class BackupController extends Controller
     /**
      * Show the form for creating a new resource.
      * 
-     * TODO: refactoring move backup operations into the helper to avoid calling artisan from the controller
-     * TODO create the backup directory if it does not exists
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
     	$tenant = tenant('id');
-    	if ($tenant)
-    		Artisan::call("backup:create --quiet --tenant=$tenant");
+    	if (!$tenant) $tenant = "";
+    	
+    	$database = TenantHelper::tenant_database ( $tenant );
+    	$fullname = TenantHelper::backup_fullname ( $tenant );
+    	$filename = basename($fullname);
+    	
+    	$res = BackupHelper::backup($database, $fullname, env('DB_HOST'), env('DB_USERNAME'),  env ('DB_PASSWORD'));
+    	if ($res)
+    		return $this->index()->with('success', __('backup.created', ['id' => $filename]) );
     	else 
-        	Artisan::call('backup:create --quiet', []);
-        return $this->index();
+    		return $this->index()->with('error', __('backup.error', ['id' => $filename]) );
     }
 
     /**
@@ -81,19 +84,17 @@ class BackupController extends Controller
      */
     public function restore($id)
     {
-    	$filename = $this->filename_from_index($id);
-    	if ($filename) $filename = basename($filename);
+    	$fullname = $this->filename_from_index($id, true);
+    	$filename = ($fullname) ? basename($fullname) : '';
         
-    	$tenant = tenant('id');
+    	$tenant = (tenant('id') ? tenant('id') : "");
     	Log::Debug("BackupController.restore($id), filename=$filename, tenant=$tenant");
     	Log::Debug("DB_USERNAME = " .  env('DB_USERNAME'));
-        if ($filename) {
+    	
+        if ($fullname) {        	
+        	$database = TenantHelper::tenant_database ( $tenant );
         	
-        	if ($tenant) {
-        		Artisan::call('backup:restore', ['backup_id' => $filename, '--force' => true, '--tenant' => $tenant]);        		
-        	} else {
-        		Artisan::call('backup:restore', ['backup_id' => $filename, '--force' => true]);
-        	}
+        	BackupHelper::restore($fullname, $database);
         	return redirect('/backup')->with('success', __('backup.restored', ['id' => $filename]) );
         }
 
@@ -135,6 +136,11 @@ class BackupController extends Controller
     	
     }
     
+    /**
+     * Let the user upload a backup into storage
+     * @param Request $request
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function upload(Request $request) {
     	if ($request->file('backup_file')) {
     		$name =  $request->file('backup_file')->getClientOriginalName();
