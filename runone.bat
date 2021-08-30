@@ -39,9 +39,9 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

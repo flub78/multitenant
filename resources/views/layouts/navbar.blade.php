@@ -33,7 +33,7 @@
         						<a class="dropdown-item" href="{{ route('backup.index') }}">{{__('navbar.backups')}}</a>
         						<a class="dropdown-item" href="{{ route('configuration.index') }}">{{__('navbar.configuration')}}</a>
         						<a class="dropdown-item" href="{{ route('role.index') }}">{{__('navbar.roles')}}</a>
-        						<a class="dropdown-item" href="{{ route('user_roles.index') }}">{{__('navbar.user_roles')}}</a>
+        						<a class="dropdown-item" href="{{ route('user_role.index') }}">{{__('navbar.user_roles')}}</a>
       						</div>
     					</li>
 

@@ -5,6 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
         
+  @if(session()->get('success'))
+    <div class="alert alert-success">
+      {{ session()->get('success') }}  
+    </div><br />
+  @endif 
         @if (session('error'))
        <div class="alert alert-danger">
          <ul>

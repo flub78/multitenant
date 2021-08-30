@@ -22,7 +22,7 @@ class UserControllerTest extends TenantTestCase {
 		$this->createApplication ();
 		// $this->user = factory(User::class)->create();
 		// $this->user = User::factory ()->make ();
-		$this->user = User::factory ()->create ();
+		$this->user = User::factory()->create ();
 		$this->user->admin = true;
 	}
 
@@ -196,22 +196,36 @@ class UserControllerTest extends TenantTestCase {
 		$response->assertSeeText (__('users.change_password'));
 	}
 	
-	public function test_user_can_change_password () {
+	public function test_user_can_change_password_and_email () {
 		$this->be ( $this->user );
 		
+		// put a user in database
+		$email = 'jean@gmail.com';
+		$user = User::factory()->create ([
+				'name' => 'Jean',
+				'password' => 'password',
+				'email' => $email
+		]);
+				
 		$new_mail = 'my-new-email@free.fr';
-		$elt = array('password' => 'password', 
+		$elt = array('id' => $user->id,
+				'password' => 'password', 
 				'new_password' => 'new_password',
 				'email' => $new_mail,
 				'new_password_confirmation' => 'new_password');
 		
 		$url = "/change_password/password";
-		$response = $this->patch($url, $elt);
-		$response->assertStatus ( 302 );
+		$response = $this->followingRedirects()->patch($url, $elt);
+		$response->assertStatus ( 200 );
+		$response->assertSeeText(__("Password changed"));
+		// $response->dump();
 		/*
 		var_dump($this->user->id);
-		$updated = User::where(['email' => $new_mail]);
-		var_dump($updated);
 		*/
+		$updated = User::where(['email' => $email])->first();
+		// var_dump($updated);
+		//$this->assertEquals($new_mail, $updated->email);
+		
+		$user->delete();
 	}
 }

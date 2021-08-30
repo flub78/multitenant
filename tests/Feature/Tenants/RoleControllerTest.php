@@ -13,7 +13,7 @@
  * Unexpected behavior may occur if multiple 
  * requests are executed within a single test method.
  */
-namespace tests\Feature\Tenant;
+namespace tests\Feature\Tenants;
 
 use Tests\TenantTestCase;
 use App\Models\User;

@@ -15,7 +15,8 @@ class UserRoleController extends Controller
      */
     public function index()
     {
-        echo "UserRoleController.index";
+    	$user_roles = UserRole::all();
+    	return view ( 'tenants/user_role/index', compact ( 'user_roles' ) );
     }
 
     /**
@@ -25,7 +26,7 @@ class UserRoleController extends Controller
      */
     public function create()
     {
-        //
+    	return view ('tenants/user_role/create');
     }
 
     /**

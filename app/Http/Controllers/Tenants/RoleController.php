@@ -26,7 +26,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-    	return view ( 'tenants/role/create' );
+    	return view ('tenants/role/create');
     }
 
     /**
