@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tenants;
 
+use app\Http\Controllers\Controller;
 use App\Models\Tenants\UserRole;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class UserRoleController extends Controller
      */
     public function index()
     {
-        //
+        echo "UserRoleController.index";
     }
 
     /**

@@ -33,18 +33,10 @@
         						<a class="dropdown-item" href="{{ route('backup.index') }}">{{__('navbar.backups')}}</a>
         						<a class="dropdown-item" href="{{ route('configuration.index') }}">{{__('navbar.configuration')}}</a>
         						<a class="dropdown-item" href="{{ route('role.index') }}">{{__('navbar.roles')}}</a>
+        						<a class="dropdown-item" href="{{ route('user_roles.index') }}">{{__('navbar.user_roles')}}</a>
       						</div>
     					</li>
 
-    					<li class="nav-item dropdown">
-      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">{{__('calendar.feature')}}</a>
-      						
-      						<div class="dropdown-menu">
-        						<a class="dropdown-item" href="{{ route('calendar.fullcalendar') }}">{{__('calendar.fullcalendar')}}</a>
-        						<a class="dropdown-item" href="{{ route('calendar.index') }}">{{__('calendar.list')}}</a>
-        						<a class="dropdown-item" href="{{ route('calendar.create') }}">{{__('calendar.add')}}</a>
-      						</div>
-    					</li>
      					
 @else
 <!-- Central flat admin navbar -->
@@ -78,8 +70,20 @@
        				   
 @endif	<!-- (auth()->user()->isAdmin()) -->
 
+    					<li class="nav-item dropdown">
+      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">{{__('calendar.feature')}}</a>
+      						
+      						<div class="dropdown-menu">
+        						<a class="dropdown-item" href="{{ route('calendar.fullcalendar') }}">{{__('calendar.fullcalendar')}}</a>
+        						<a class="dropdown-item" href="{{ route('calendar.index') }}">{{__('calendar.list')}}</a>
+        						<a class="dropdown-item" href="{{ route('calendar.create') }}">{{__('calendar.add')}}</a>
+      						</div>
+    					</li>
+
                     </ul>
 @endauth
+
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

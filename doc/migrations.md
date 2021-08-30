@@ -24,5 +24,14 @@ Migration of the central test database using the test connection
     php artisan migrate --database=mysql_test
     
 ### Tenant application
+    
+migrate the tenant database
 
-    php artisan tenants:migrate --database=mysql_test
+Note that the connection does not matter.
+    
+    php artisan tenants:migrate-fresh
+    php artisan tenants:migrate-fresh --tenants=test
+    php artisan tenants:migrate-fresh --tenants=abbeville
+    
+    php artisan tenants:seed --tenants=abbeville --class="Database\Seeders\RoleSeeder"
+    

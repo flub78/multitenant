@@ -67,6 +67,13 @@ to migrate a tenant database
 
 see [Databases with tenants](databases_with_tenants.md)
 
+### Update the routes
+
+Either in routes/tenant.php or routes/web.php
+
+### Give access to the controller in the GUI
+
+Either in the navbar or other navigation mean.
 
 ### Create form
 

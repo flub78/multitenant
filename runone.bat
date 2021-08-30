@@ -28,7 +28,7 @@
     @rem Helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/DirHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHelperTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/BackupHelperTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/BackupHelperTest.php
 
     @rem Models
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantModelTest.php
@@ -41,6 +41,7 @@ php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/BackupHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

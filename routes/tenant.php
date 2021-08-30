@@ -50,7 +50,8 @@ Route::middleware([
 	// admin routes
 	Route::group(['middleware' => ['admin']], function () {
 		Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
-				
+		Route::resource('user_roles', App\Http\Controllers\Tenants\UserRoleController::class)->middleware('auth');
+		
 		Route::resource('configuration', App\Http\Controllers\Tenants\ConfigurationController::class)->middleware('auth');
 		Route::resource('role', App\Http\Controllers\Tenants\RoleController::class)->middleware('auth');
 		
