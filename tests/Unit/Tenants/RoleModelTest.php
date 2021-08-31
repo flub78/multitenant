@@ -85,4 +85,21 @@ class RoleModelTest extends TenantTestCase
     	$count = Role::count();
     	$this->assertTrue($count == $initial_count, "No changes in database");
     }
+    
+    public function test_computed_attributes() {
+    	$role = Role::factory()->create(['name' => 'musician', 'description' => 'plays the guitar']);
+    	$role2 = Role::factory()->create(['name' => 'serial killer', 'description' => 'virus']);
+    	
+    	$this->assertEquals($role->name, $role->full_name, "full_name");
+    	$this->assertEquals($role->name, $role->short_name, "short_name");
+    	
+    	$selector = Role::selector();
+    	$this->assertEquals(2, count($selector));
+    	$this->assertEquals($role->id, $selector[0]['id']);
+    	$this->assertEquals($role2->full_name, $selector[1]['name']);
+    	
+    	$selector2 = Role::selector(['id' => $role2->id]);
+    	$this->assertEquals(1, count($selector2));
+    }
+    
 }

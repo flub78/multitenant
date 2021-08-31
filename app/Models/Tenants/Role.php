@@ -15,4 +15,23 @@ class Role extends Model
      * @var array
      */
     protected $fillable = ['name', 'description'];
+    
+    // As names are unique, just create aliases
+    public function getFullNameAttribute() {
+    	return $this->name;
+    }
+    
+    public function getShortNameAttribute() {
+    	return $this->name;
+    }
+    
+    public static function selector($where = []) {
+    	$users = Role::where($where)->get();
+    	$res = [];
+    	foreach ($users as $user) {
+    		$res[] = ['name' => $user->full_name, 'id' => $user->id];
+    	}
+    	return $res;
+    }
+    
 }

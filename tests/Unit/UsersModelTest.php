@@ -87,8 +87,8 @@ class UsersModelTest extends TestCase
     	
     	$selector = User::selector();
     	$this->assertEquals(2, count($selector));
-    	$this->assertEquals($user->id, $selector[0][1]);
-    	$this->assertEquals($user2->full_name, $selector[1][0]);
+    	$this->assertEquals($user->id, $selector[0]['id']);
+    	$this->assertEquals($user2->full_name, $selector[1]['name']);
     	
     	$selector2 = User::selector(['id' => $user2->id]);
     	$this->assertEquals(1, count($selector2));    	

@@ -89,7 +89,7 @@ class User extends Authenticatable
     	$users = User::where($where)->get();
     	$res = [];
     	foreach ($users as $user) {
-    		$res[] = [$user->full_name, $user->id];
+    		$res[] = ['name' => $user->full_name, 'id' => $user->id];
     	}
     	return $res;
     }

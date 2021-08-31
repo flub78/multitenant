@@ -30,4 +30,31 @@ class HtmlHelperTest extends TestCase {
 		$this->assertEquals("<p>Hello</p>", $res);
 	}
 	
+	public function testSelector() {
+		
+		$l1 = [];
+	
+		$l2 = [
+				['id' => "F-CDYO", 'name' => "ASK13 - F-CDYO - (CJ)"],
+				['id' => "F-CJRG", 'name' => "Ask21 - F-CJRG - (RG)"],
+				['id' => "F-CERP", 'name' => "Asw20 - F-CERP - (UP)"],
+				['id' => "F-CGKS", 'name' => "Asw20 - F-CGKS - (WE)"],
+				['id' => "F-CFXR", 'name' => "xPégase - F-CFXR - (B114)"],				
+		];
+		
+		$s1 = HtmlHelper::selector($l1);
+		
+		$attrs = ['name' => 'vpmacid', 'id' => 'vpmacid'];
+		
+		$this->assertEquals("<select>\n</select>", $s1);
+		
+		$s2 = HtmlHelper::selector($l1, $with_null=false, $selected="",  $attrs=$attrs);
+		$this->assertEquals("<select 'name'='vpmacid' 'id'='vpmacid'>\n</select>", $s2);
+		
+		$s3 = HtmlHelper::selector($l2, $with_null=false, $selected="F-CGKS", $attrs=$attrs);
+		echo "\n$s3   \n";
+		
+		$s4 = HtmlHelper::selector($l2, $with_null=true, $selected="F-CGKS", $attrs=$attrs);
+		echo "\n$s4   \n";
+	}
 }
