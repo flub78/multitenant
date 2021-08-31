@@ -5,6 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * Validation of user requests
+ * 
+ * TOOD: localization of the error messages, I still have The name has already been taken.
+ * 
+ * @author frederic
+ *
+ */
 class UserRequest extends FormRequest {
 
 	/**
@@ -29,7 +37,7 @@ class UserRequest extends FormRequest {
 			}
 			case 'POST' : {
 				return [
-					'name' => ['required', 'string', 'max:255'],
+					'name' => ['required', 'string', 'max:255', 'unique:users'],
 					'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
 					'password' => ['required', 'string', 'min:8', 'confirmed']
 				];
@@ -40,7 +48,8 @@ class UserRequest extends FormRequest {
 				    'name' => [
 						'required',
 						'string',
-						'max:255'
+						'max:255',
+						Rule::unique('users')->ignore(request('user')),
 				    ],
 				    'email' => [
 						'required',

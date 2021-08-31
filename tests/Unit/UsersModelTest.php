@@ -77,4 +77,20 @@ class UsersModelTest extends TestCase
     	$count = User::count();
     	$this->assertTrue($count == $initial_count, "No changes in database");
     }
+    
+    public function test_computed_attributes() {
+    	$user = User::factory()->create();
+    	$user2 = User::factory()->create();
+    	
+    	$this->assertEquals($user->name, $user->full_name, "full_name");
+    	$this->assertEquals($user->name, $user->short_name, "short_name");
+    	
+    	$selector = User::selector();
+    	$this->assertEquals(2, count($selector));
+    	$this->assertEquals($user->id, $selector[0][1]);
+    	$this->assertEquals($user2->full_name, $selector[1][0]);
+    	
+    	$selector2 = User::selector(['id' => $user2->id]);
+    	$this->assertEquals(1, count($selector2));    	
+    }
 }

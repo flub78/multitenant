@@ -76,4 +76,21 @@ class User extends Authenticatable
     	return true;
     }
     
+    // As names are unique, just create aliases
+    public function getFullNameAttribute() {
+    	return $this->name;
+    }
+
+    public function getShortNameAttribute() {
+    	return $this->name;
+    }
+    
+    public static function selector($where = []) {
+    	$users = User::where($where)->get();
+    	$res = [];
+    	foreach ($users as $user) {
+    		$res[] = [$user->full_name, $user->id];
+    	}
+    	return $res;
+    }
 }

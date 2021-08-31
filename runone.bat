@@ -3,6 +3,8 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
+
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ConfigurationModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
