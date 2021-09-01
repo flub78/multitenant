@@ -60,6 +60,13 @@ Same
 Example:
 * tables: users, roles, and role_user. role_user contains user_id and role_id.
 
+In the example above the relationship is unique (a user has a role or not, her cannot have the same role several times). This restriction can be implemented by declaring an index with the two foreign keys. As one of the design principle is to be data driven it is better to enforce the limitation in the database that at any other level (controller or model).
+
+Note that even if I like Laravel quite a lot, The Ruby on Rail to implement data checks in the model is a better approach than the Laravel one to put these rules in a request, even if nothing in Laravel prevent the RoR approach. It is a better approach because the data coherency checks are done whatever the way the data are modified and if data can be changed through different workflow in different controllers the Request controls have to be duplicated.
+
+I currently have in mind no real good example of multiple many to many relationship. We can imagine a rating system in which a user has several points in one category or another. It is a poor example as there are alternative implementations which do not require one database entry for each point...
+
+
 ## Polymorphic relationship
 
 A child model belongs to more than one type of model. For example a comment could belong to the Post and Video models.

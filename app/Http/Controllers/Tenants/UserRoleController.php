@@ -3,9 +3,23 @@
 namespace App\Http\Controllers\Tenants;
 
 use app\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Tenants\Role;
 use App\Models\Tenants\UserRole;
 use Illuminate\Http\Request;
+use App\Helpers\HtmlHelper;
 
+
+/**
+ * Controller to assign a role to a user
+ * 
+ * TODO: manage unicity
+ * TODO: complete destroy and edit
+ * TODO: controller phpunit
+ * 
+ * @author frederic
+ *
+ */
 class UserRoleController extends Controller
 {
     /**
@@ -26,7 +40,11 @@ class UserRoleController extends Controller
      */
     public function create()
     {
-    	return view ('tenants/user_role/create');
+    	$user_list = User::selector();
+    	$role_list = Role::selector();
+    	return view ('tenants/user_role/create')
+    		->with('role_list', $role_list)
+    		->with('user_list', $user_list);
     }
 
     /**
@@ -37,7 +55,10 @@ class UserRoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = $request->user_id;
+        $role_id = $request->role_id;
+        UserRole::create(['user_id' => $user_id, 'role_id' => $role_id]);
+        return redirect ( '/user_role' )->with ( 'success',  __('general.creation_success', ['elt' => "user=$user_id role=$role_id"]));
     }
 
     /**
@@ -82,6 +103,6 @@ class UserRoleController extends Controller
      */
     public function destroy(UserRole $userRole)
     {
-        //
+    	echo "destroying";
     }
 }

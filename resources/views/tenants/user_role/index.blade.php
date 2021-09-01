@@ -26,13 +26,13 @@
         @foreach($user_roles as $user_role)
         <tr>
         
-            <td>{{$user_role->name}}</td>
-            <td>{{$user_role->description}}</td>
+            <td>{{$user_role->user_name}}</td>
+            <td>{{$user_role->role_name}}</td>
             
             <td><a href="{{ route('user_role.edit', $user_role->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
             
             <td>
-                <form action="{{ route('user_role.destroy', $role->id)}}" method="post">
+                <form action="{{ route('user_role.destroy', $user_role->id)}}" method="post">
                   @csrf
                   @method('DELETE')
                   <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>

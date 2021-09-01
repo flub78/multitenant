@@ -59,7 +59,7 @@ class  HtmlHelper {
 			$attrs = []) {
 		$res = '<select';
 		foreach ($attrs as $key => $value) {
-			$res .= " '$key'='$value'";
+			$res .= " $key=\"$value\"";
 		}
 		$res .= ">\n";
 		if ($with_null) {

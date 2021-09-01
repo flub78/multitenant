@@ -22,4 +22,5 @@ return [
 	'updated' => 'Rôle :role pour :user mis à jour',
 	'deleted' => 'Rôle :role supprimé pour :user',
 		
+	'fullname' => ':user est :role',
 ];

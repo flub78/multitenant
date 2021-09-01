@@ -30,12 +30,13 @@
               @csrf
               
               <label for="name">{{__('user_roles.user_id')}}</label>
-              <input type="text" class="form-control" name="name" value="{{ old('name') }}"/>
-          </div>
-          
-          <div class="form-group">
+              
+              {!! App\Helpers\HtmlHelper::selector($user_list, false, "", 
+              ["class" => "form-select", "name" => "user_id", "id" => "user_id"]) !!}
+
               <label for="description">{{__('user_roles.role_id')}}</label>
-              <input type="text" class="form-control" name="description" value="{{ old('description') }}"/>
+              {!! App\Helpers\HtmlHelper::selector($role_list, false, "",
+              ["name" => "role_id", "id" => "role_id"]) !!}
           </div>
           
           <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>

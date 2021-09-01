@@ -21,5 +21,7 @@ return [
 	'created' => 'Role :role assigned to :user',
 	'updated' => 'Role :role for :user updated',
 	'deleted' => 'Role :role deleted for :user',
+
+	'fullname' => ':user is :role',
 		
 ];

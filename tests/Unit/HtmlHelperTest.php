@@ -49,12 +49,12 @@ class HtmlHelperTest extends TestCase {
 		$this->assertEquals("<select>\n</select>", $s1);
 		
 		$s2 = HtmlHelper::selector($l1, $with_null=false, $selected="",  $attrs=$attrs);
-		$this->assertEquals("<select 'name'='vpmacid' 'id'='vpmacid'>\n</select>", $s2);
+		$this->assertEquals('<select name="vpmacid" id="vpmacid">' ."\n</select>", $s2);
 		
 		$s3 = HtmlHelper::selector($l2, $with_null=false, $selected="F-CGKS", $attrs=$attrs);
-		echo "\n$s3   \n";
+		// echo "\n$s3   \n";
 		
 		$s4 = HtmlHelper::selector($l2, $with_null=true, $selected="F-CGKS", $attrs=$attrs);
-		echo "\n$s4   \n";
+		// echo "\n$s4   \n";
 	}
 }
