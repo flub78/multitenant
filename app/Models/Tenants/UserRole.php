@@ -21,7 +21,7 @@ class UserRole extends Model
     		'user_id',
     		'role_id',
     ];
-    
+        
     /**
      * full_name attribute
      * 

@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Tenants\Role;
 use App\Models\Tenants\UserRole;
 use Illuminate\Http\Request;
-use App\Helpers\HtmlHelper;
+use Illuminate\Database\QueryException;
 
 
 /**
@@ -57,8 +57,13 @@ class UserRoleController extends Controller
     {
         $user_id = $request->user_id;
         $role_id = $request->role_id;
-        UserRole::create(['user_id' => $user_id, 'role_id' => $role_id]);
-        return redirect ( '/user_role' )->with ( 'success',  __('general.creation_success', ['elt' => "user=$user_id role=$role_id"]));
+        try {
+        	$id = UserRole::create(['user_id' => $user_id, 'role_id' => $role_id]);
+        	return redirect ( '/user_role' )->with ( 'success',  __('user_roles.created', ['user' => $id->user_name, 'role'=> $id->role_name]));
+        } catch (QueryException $e) {
+        	// very likely a duplicate
+        	return redirect ( '/user_role' );
+        }
     }
 
     /**
@@ -66,35 +71,38 @@ class UserRoleController extends Controller
      *
      * @param  \App\Models\Tenants\UserRole  $userRole
      * @return \Illuminate\Http\Response
-     */
+
     public function show(UserRole $userRole)
     {
         //
     }
-
+     */
+    
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Tenants\UserRole  $userRole
      * @return \Illuminate\Http\Response
-     */
+
     public function edit(UserRole $userRole)
     {
         //
     }
-
+     */
+    
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Tenants\UserRole  $userRole
      * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, UserRole $userRole)
     {
         //
     }
-
+     */
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -103,6 +111,8 @@ class UserRoleController extends Controller
      */
     public function destroy(UserRole $userRole)
     {
-    	echo "destroying";
+    	$full_name = $userRole->full_name;
+    	$userRole->delete();
+    	return redirect ( 'user_role' )->with ( 'success', __('general.deletion_success', ['elt' => $full_name]));
     }
 }

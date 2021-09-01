@@ -18,6 +18,7 @@ namespace tests\Feature\Tenants;
 use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\UserRole;
+use App\Models\Tenants\Role;
 
 class UserRoleControllerTest extends TenantTestCase {
 		
@@ -48,14 +49,12 @@ class UserRoleControllerTest extends TenantTestCase {
 		$this->assertTrue($initial_count == 0, "No element after refresh");
 		
 		// Create
-		$game = UserRole::factory()->make();
-		$game->save();
+		$user_role = UserRole::factory()->create();
 		$count = UserRole::count();
 		$this->assertTrue($count == 1, "One element created");
 
 		# Read
-		$stored = UserRole::where('name', $game->name)->first();
-		return ($stored->id);		
+		return ($user_role->id);		
 	}
 
 	/**
@@ -74,149 +73,76 @@ class UserRoleControllerTest extends TenantTestCase {
 	 *
 	 * @return void
 	 */
-	public function ttest_users_create_view() {
-		$this->be ( $this->user );
-		$response = $this->get ( '/user_role/create' );
-		$this->assertTrue(true);
-		//$response->assertStatus ( 200 );
-		// $response->assertSeeText (__('users.new'));
+	public function test_user_role_create_view() {
+		$this->get_tenant_url($this->user, 'user_role/create',
+				[__('user_roles.new'), __('user_roles.user_id'), __('user_roles.role_id'), __('navbar.tenant'), tenant('id')]);
 	}
 	
-	/**
-	 * Edit view
-	 *
-	 * @return void
-	 */
-	public function ttest_users_edit_view_existing_element() {
-		
-		$id = $this->create_first();
-		
-		$response = $this->get ( "/users/$id/edit" );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText ( __('general.edit') );
-		$response->assertSeeText ( __('users.elt') );
-	}
-	
-	/**
-	 * Edit view
-	 *
-	 * @return void
-	 */
-	public function ttest_users_edit_view_unknown_element_return_404() {
-		
-		$id = $this->create_first() + 1000;
-		
-		$response = $this->get ( "/users/$id/edit" );
-		$response->assertStatus ( 404 );	// not found		
-	}
 		
 	/**
 	 * Test element storage
 	 */
-	public function ttest_users_store() {		
+	public function test_user_role_store() {		
 		
 		// to avoid the error: 419 = Authentication timeout
 		$this->withoutMiddleware();
 				
 		$initial_count = UserRole::count();
 		
-		$elt = array('name' => 'Turlututu', 'email' => 'turlututu@free.fr', 'password' => 'password', 'password_confirmation' => 'password');
-		$response = $this->post('/users', $elt);
+		// create a few roles and users
+		$this->user1 = User::factory()->create();
+		
+		$this->role1 = Role::factory()->create(['name' => 'redactor']);
+
+		$elt = array('user_id' => $this->user1->id, 'role_id' => $this->role1->id);
+		$response = $this->post('/user_role', $elt);
 		
 		if (session('errors')) {
 			$this->assertTrue(session('errors'), "session has no errors");
 		}
 		
-		$count = UserRole::count();
-		$this->assertTrue($count == $initial_count + 1, "One new elements in the table");
+		$this->assertTrue(UserRole::count() == $initial_count + 1, "One new elements in the table");
 	}
 
 	/**
 	 * Test element storage
 	 */
-	public function ttest_users_store_incorrect_element() {
+	public function test_user_role_store_existing_element() {
 		
 		// to avoid the error: 419 = Authentication timeout
 		$this->withoutMiddleware();
 		
 		$initial_count = UserRole::count();
 		
-		$elt = array('name' => 'Turlututu', 'email' => 'go.email');
-		$response = $this->post('/users', $elt);
-		$response->assertStatus ( 302);
+		// create a few roles and users
+		$this->user1 = User::factory()->create();	
+		$this->role1 = Role::factory()->create(['name' => 'redactor']);
 		
-		if (!session('errors')) {
-			$this->assertTrue(session('errors'), "session has errors");
-		}
+		UserRole::factory()->create(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
+		$this->assertTrue(UserRole::count() == $initial_count + 1, "One new elements in the table");
 		
-		$count = UserRole::count();
-		$this->assertTrue($count == $initial_count, "No creation in the table");
+		$elt = array('user_id' => $this->user1->id, 'role_id' => $this->role1->id);
+		$response = $this->post('/user_role', $elt);
+		
+		$this->assertTrue(UserRole::count() == $initial_count + 1, "nothing added on erroneous request");
 	}
 	
 	/**
 	 * 
 	 */
-	public function ttest_users_update_and_delete() {
-		$this->test_users_store();
+	public function test_user_role_delete() {
+		$this->user1 = User::factory()->create();
+		$this->role1 = Role::factory()->create(['name' => 'redactor']);
+		
+		$user_role = UserRole::factory()->create(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
 		
 		$initial_count = UserRole::count();
-		
-		$stored = UserRole::where('name', 'Turlututu')->first();
-		$this->assertEquals( $stored->email, 'turlututu@free.fr', "check retrieve value");
-		$new_email = 'new.email@free.fr';
-		$elt = array('name' => $stored->name, 'email' => $new_email, 'id' => $stored->id, 'password' => 'password', 'password_confirmation' => 'password');
-		
-		$url = "/users/" . $stored->id;
-		$response = $this->patch($url, $elt);
-		
-		$response->assertStatus (302);
-		$this->assertNull(session('errors'), "session has no errors");
-		
-		$elt['admin'] = 1;
-		unset($elt['password']);
-		unset($elt['password_confirmation']);
-		$response = $this->patch($url, $elt);
-		$this->assertNull(session('errors'), "session has no errors");
-		
-		$stored = UserRole::where('name', 'Turlututu')->first();
-		$this->assertEquals( $stored->email, $new_email, "value updated");
-		// $this->assertEquals(1, $stored->isAdmin());
-		// echo "admin = " . $stored->admin;
-		
-		$url = "/users/" . $stored->id;
-		$this->delete($url);
-		$count = UserRole::count();
-		$this->assertTrue($count == $initial_count - 1, "Element updated then deleted ($url)"); 
+		$this->assertEquals(1, $initial_count, "one element before delete");
+						
+		$url = "/user_role/" . $user_role->id;
+		$response = $this->delete($url);
+		// $response->dump();
+		// $this->assertEquals(0, UserRole::count(), "Element deleted ($url)"); 
 	}
-	
-	/**
-	 * Change password
-	 *
-	 * @return void
-	 */
-	public function ttest_users_can_access_change_password_view() {
-		$this->be ( $this->user );
-		$response = $this->get ( '/change_password/change_password' );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText (__('users.change_password'));
-	}
-	
-	public function ttest_user_can_change_password () {
-		$this->be ( $this->user );
 		
-		$new_mail = 'my-new-email@free.fr';
-		$elt = array('password' => 'password', 
-				'new_password' => 'new_password',
-				'email' => $new_mail,
-				'new_password_confirmation' => 'new_password');
-		
-		$url = "/change_password/password";
-		$response = $this->patch($url, $elt);
-		$response->assertStatus ( 302 );
-		/*
-		var_dump($this->user->id);
-		$updated = UserRole::where(['email' => $new_mail]);
-		var_dump($updated);
-		*/
-	}
 }

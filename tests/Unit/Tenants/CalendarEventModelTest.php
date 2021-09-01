@@ -80,8 +80,7 @@ class CalendarEventModelTest extends TenantTestCase
 		// and a second
 		CalendarEvent::factory ()->make ()->save ();
 
-		$count = CalendarEvent::count ();
-		$this->assertTrue ( $count == $initial_count + 2, "Two new elements in the table" );
+		$this->assertTrue ( CalendarEvent::count () == $initial_count + 2, "Two new elements in the table" );
 		$this->assertDatabaseCount ( 'calendar_events', $initial_count + 2 );
 
 		# Read
@@ -109,8 +108,7 @@ class CalendarEventModelTest extends TenantTestCase
 		// Delete
 		$stored->delete ();
 		$this->assertDeleted ( $stored );
-		$count = CalendarEvent::count ();
-		$this->assertTrue ( $count == $initial_count + 1, "One less elements in the table" );
+		$this->assertTrue ( CalendarEvent::count ()  == $initial_count + 1, "One less elements in the table" );
 		$this->assertDatabaseMissing ( 'calendar_events', [ 
 				'title' => $new_title
 		] );
@@ -130,8 +128,7 @@ class CalendarEventModelTest extends TenantTestCase
 		$event->id = 999999999;
 		$event->delete ();
 
-		$count = CalendarEvent::count ();
-		$this->assertTrue ( $count == $initial_count, "No changes in database" );
+		$this->assertTrue (CalendarEvent::count () == $initial_count, "No changes in database" );
 	}
 
 	/**

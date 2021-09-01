@@ -40,8 +40,7 @@ class RoleModelTest extends TenantTestCase
         $config2 = Role::factory()->make(['name' => 'accounter', 'description' => 'Accounter role']);
         $config2->save();
         
-        $count = Role::count();
-        $this->assertTrue($count == $initial_count + 2, "Two new elements in the table");
+        $this->assertTrue(Role::count() == $initial_count + 2, "Two new elements in the table");
         $this->assertDatabaseCount('roles',  $initial_count + 2);
                         
         # Read
@@ -67,8 +66,7 @@ class RoleModelTest extends TenantTestCase
         // Delete
         $stored->delete();   
         $this->assertDeleted($stored);
-        $count = Role::count();
-        $this->assertTrue($count == $initial_count + 1, "One less elements in the table");
+        $this->assertTrue(Role::count() == $initial_count + 1, "One less elements in the table");
         $this->assertDatabaseMissing('roles', [
             'description' => $new_description,
         ]);
@@ -82,8 +80,7 @@ class RoleModelTest extends TenantTestCase
     	$role->name = "999999999";
     	$role->delete();
     	
-    	$count = Role::count();
-    	$this->assertTrue($count == $initial_count, "No changes in database");
+    	$this->assertTrue(Role::count() == $initial_count, "No changes in database");
     }
     
     public function test_computed_attributes() {

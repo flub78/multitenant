@@ -32,8 +32,7 @@ class UsersModelTest extends TestCase
         $user->save();
         $user2->save();
         
-        $count = User::count();
-        $this->assertTrue($count == $initial_count + 2, "Two new elements in the table");
+        $this->assertTrue(User::count() == $initial_count + 2, "Two new elements in the table");
         $this->assertDatabaseCount('users',  $initial_count + 2);
                 
         # Read
@@ -59,8 +58,7 @@ class UsersModelTest extends TestCase
         // Delete
         $stored->delete();   
         $this->assertDeleted($stored);
-        $count = User::count();
-        $this->assertTrue($count == $initial_count + 1, "One less elements in the table");
+        $this->assertTrue(User::count() == $initial_count + 1, "One less elements in the table");
         $this->assertDatabaseMissing('users', [
             'name' => $new_name,
         ]);
@@ -74,8 +72,7 @@ class UsersModelTest extends TestCase
     	$user->id = 999999999;
     	$user->delete();
     	
-    	$count = User::count();
-    	$this->assertTrue($count == $initial_count, "No changes in database");
+    	$this->assertTrue(User::count() == $initial_count, "No changes in database");
     }
     
     public function test_computed_attributes() {

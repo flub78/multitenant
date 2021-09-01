@@ -7,13 +7,11 @@ use Tests\TenantTestCase;
 use App\Models\Tenants\UserRole;
 use App\Models\Tenants\Role;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 
 /**
- * To adapt to another Model
- * rename the class
- * Replace the class name Role:: per ...
- * Replace the element name role per
- * replace the field names name and description per ...
+ * UserRole model unit test
+ * 
  * @author frederic
  *
  */
@@ -47,8 +45,8 @@ class UserRoleModelTest extends TenantTestCase
         $initial_count = UserRole::count();
         
         // Create
-        $role1 = UserRole::factory()->make(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
-        $role1->save();   // set $role to null
+        $user_role1 = UserRole::factory()->make(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
+        $user_role1->save();   // set $role to null
         
         // and a second
         $role2 = UserRole::factory()->make(['user_id' => $this->user1->id, 'role_id' => $this->role2->id]);
@@ -66,7 +64,7 @@ class UserRoleModelTest extends TenantTestCase
         $this->assertEquals($this->user1->id, $stored->user_id, "Checks the element fetched from the database");
         
         // Update
-        $new_role_id = $this->role2->id;
+        $new_role_id = $this->role4->id;
         $stored->role_id = $new_role_id;
         
         $id = $stored->id;
@@ -131,7 +129,38 @@ class UserRoleModelTest extends TenantTestCase
     	$this->assertEquals(5, UserRole::count(), "after role delete");
 
     	$this->user1->delete();
-    	$this->assertEquals(2, UserRole::count(), "after user delete");
+    	$this->assertEquals(2, UserRole::count(), "after user delete");	
+    }
+    
+    public function test_duplicate_are_rejected () {
+    	$initial_count = UserRole::count();
+    	$this->assertEquals(0, UserRole::count(), "after init");
     	
+    	$user_role1 = UserRole::factory()->create(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
+    	$this->assertEquals(1, UserRole::count(), "after creation");
+    	try {
+    		$role2 = UserRole::factory()->create(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
+    		$this->assertTrue(false, "Exception not raised on creating duplicate");
+    	} catch (QueryException $e) {
+    		$this->assertTrue(true, "Exception raised on creating duplicate");
+    	}
+    	$this->assertEquals(1, UserRole::count(), "after duplicate creation");  	
+    }
+    
+    public function test_foreign_keys () {
+    	// attempts to create user_role with incorrect indexes should be rejected
+    	try {
+    		UserRole::factory()->create(['user_id' => $this->user1->id + 1000000000, 'role_id' => $this->role1->id]);
+    		$this->assertTrue(false, "Exception not raised on referencing wrong user_id");
+    	} catch (QueryException $e) {
+    		$this->assertTrue(true, "Exception raised on referencing wrong user_id");
+    	}
+    
+    	try {
+    		UserRole::factory()->create(['user_id' => $this->user1->id, 'role_id' => $this->role1->id + 1000000000]);
+    		$this->assertTrue(false, "Exception not raised on referencing wrong role_id");
+    	} catch (QueryException $e) {
+    		$this->assertTrue(true, "Exception raised on referencing wrong role_id");
+    	}
     }
 }

@@ -34,8 +34,7 @@ class ConfigurationModelTest extends TenantTestCase
         $config2 = Configuration::factory()->make();
         $config2->save();
         
-        $count = Configuration::count();
-        $this->assertTrue($count == $initial_count + 2, "Two new elements in the table");
+        $this->assertTrue(Configuration::count() == $initial_count + 2, "Two new elements in the table");
         $this->assertDatabaseCount('configurations',  $initial_count + 2);
                         
         # Read
@@ -61,8 +60,7 @@ class ConfigurationModelTest extends TenantTestCase
         // Delete
         $stored->delete();   
         $this->assertDeleted($stored);
-        $count = Configuration::count();
-        $this->assertTrue($count == $initial_count + 1, "One less elements in the table");
+        $this->assertTrue(Configuration::count() == $initial_count + 1, "One less elements in the table");
         $this->assertDatabaseMissing('configurations', [
             'value' => $new_value,
         ]);
@@ -76,7 +74,6 @@ class ConfigurationModelTest extends TenantTestCase
     	$configuration->key = "999999999";
     	$configuration->delete();
     	
-    	$count = Configuration::count();
-    	$this->assertTrue($count == $initial_count, "No changes in database");
+    	$this->assertTrue(Configuration::count() == $initial_count, "No changes in database");
     }
 }
