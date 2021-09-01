@@ -46,7 +46,7 @@ class UserRoleModelTest extends TenantTestCase
         
         // Create
         $user_role1 = UserRole::factory()->make(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
-        $user_role1->save();   // set $role to null
+        $user_role1->save();   // set $user_role to null
         
         // and a second
         $role2 = UserRole::factory()->make(['user_id' => $this->user1->id, 'role_id' => $this->role2->id]);
@@ -162,5 +162,14 @@ class UserRoleModelTest extends TenantTestCase
     	} catch (QueryException $e) {
     		$this->assertTrue(true, "Exception raised on referencing wrong role_id");
     	}
+    }
+    
+    public function test_has_role() {
+    	
+    	$this->assertFalse(UserRole::hasRole($this->user1, "player"));
+    	UserRole::factory()->create(['user_id' => $this->user2->id, 'role_id' => $this->role2->id]);
+    	$this->assertTrue(UserRole::hasRole($this->user2, "guest"));
+    	$this->assertFalse(UserRole::hasRole($this->user2, "redactor"));
+    	
     }
 }

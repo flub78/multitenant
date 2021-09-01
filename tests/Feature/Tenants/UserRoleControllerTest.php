@@ -138,11 +138,10 @@ class UserRoleControllerTest extends TenantTestCase {
 		
 		$initial_count = UserRole::count();
 		$this->assertEquals(1, $initial_count, "one element before delete");
-						
-		$url = "/user_role/" . $user_role->id;
-		$response = $this->delete($url);
-		// $response->dump();
-		// $this->assertEquals(0, UserRole::count(), "Element deleted ($url)"); 
+		
+		$sub_url = "user_role/" . $user_role->id;
+		$this->delete_tenant_url($this->user, $sub_url);
+		$this->assertEquals(0, UserRole::count(), "Element deleted ($sub_url)"); 
 	}
 		
 }

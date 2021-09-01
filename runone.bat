@@ -9,7 +9,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/RoleModelTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
 
 @rem Central application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralFeatureExampleTest.php
