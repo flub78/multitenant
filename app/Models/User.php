@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * User Model for tenant and central application
+ * 
+ * @author frederic
+ * @review 02/09/2021
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -76,15 +82,29 @@ class User extends Authenticatable
     	return true;
     }
     
-    // As names are unique, just create aliases
+    /**
+     * full_name attribute
+     * As names are unique, just create aliases
+     * @return string
+     */
     public function getFullNameAttribute() {
     	return $this->name;
     }
 
+    
+    /**
+     * short_name attribute
+     * @return string
+     */
     public function getShortNameAttribute() {
     	return $this->name;
     }
     
+    /**
+     * Return a list of name and id to be used to generate HTML selectors
+     * @param array $where
+     * @return a list of ['name' => xxx, 'id' => yyy]
+     */
     public static function selector($where = []) {
     	$users = User::where($where)->get();
     	$res = [];

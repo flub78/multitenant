@@ -13,9 +13,6 @@ use Illuminate\Database\QueryException;
 /**
  * Controller to assign a role to a user
  * 
- * TODO: manage unicity
- * TODO: complete destroy and edit
- * TODO: controller phpunit
  * 
  * @author frederic
  *

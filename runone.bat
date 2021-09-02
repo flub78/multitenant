@@ -4,12 +4,13 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/SchemaModelTest.php
 
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ConfigurationModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/RoleModelTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
 
 @rem Central application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralFeatureExampleTest.php
@@ -44,7 +45,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
