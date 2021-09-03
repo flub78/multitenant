@@ -25,7 +25,7 @@ class Schema extends ModelWithLogs {
     		$select = DB::connection(SCHEMA)->select("SHOW TABLES");
     		
     		$res = [];
-    		$attr = "Tables_in_" . ENV('DB_SCHEMA');
+    		$attr = "Tables_in_" . ENV('DB_SCHEMA', 'tenanttest');
     		foreach ($select as $obj) {
     			$res[] = $obj->$attr;
     		}
@@ -105,7 +105,7 @@ class Schema extends ModelWithLogs {
     }
     
     public static function indexList ($table) {
-    	$database = ENV('DB_SCHEMA');
+    	$database = ENV('DB_SCHEMA', 'tenanttest');
     	return DB::connection(SCHEMA)->select("SHOW INDEX FROM $table FROM $database");
     }
 }
