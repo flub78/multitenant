@@ -20,38 +20,6 @@ const SCHEMA = "schema";
  */
 class Schema extends ModelWithLogs {
 	
-	
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * admin can be mass assignable allowing admin users to create others admin users
-     * However it is important to protect all URLs that modify users with the admin middleware.
-     * Forgetting to do that could allow users to gain unauthorizes access.
-     * 
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-    ];
-        
-
     public static function tableList() {
     	try {
     		$select = DB::connection(SCHEMA)->select("SHOW TABLES");
