@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use App\Models\ModelWithLogs;
 use Illuminate\Database\QueryException;
-
 
 const SCHEMA = "schema";
 

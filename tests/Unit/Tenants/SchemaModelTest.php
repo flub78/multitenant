@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Unit;
+namespace tests\Unit\Tenants;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -90,6 +90,8 @@ class SchemaModelTest extends TestCase
     	$this->assertEquals(255, Schema::columnSize('users', 'email'));
     	
     	$this->assertEquals(20, Schema::columnSize('user_roles', 'user_id'));	
+    	
+    	$this->assertEquals(0, Schema::columnSize('user_roles', 'created_at'));
     }
     
 
