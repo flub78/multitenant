@@ -1,12 +1,22 @@
 <?php
 
-namespace App\Models\Tenants;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Schema;
 use Exception;
 
+/**
+ * Metadata Model
+ * 
+ * Metada complements the data which can be found inside the database itself on 
+ * the database structure . These metadata gives additional information about table or view field
+ * by specifying for example that a VARCHAR is used to store an email address.
+ * 
+ * @author frederic
+ *
+ */
 class Metadata extends Model
 {
     use HasFactory;
@@ -49,7 +59,7 @@ class Metadata extends Model
     	 * For some unknown reason direct access to $this->table does not return
     	 * the correct value in this context
     	 */
-    	$table = $this->attributes['table'];
+    	$table = $this->attributes['table']; // instead of $this->table
     	$field = $this->attributes['field'];
     	$info = Schema::columnInformation($table, $field);
      	if (!$info)

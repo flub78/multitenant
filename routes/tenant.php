@@ -51,6 +51,7 @@ Route::middleware([
 	Route::group(['middleware' => ['admin']], function () {
 		Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
 		Route::resource('user_role', App\Http\Controllers\Tenants\UserRoleController::class)->middleware('auth');
+		Route::resource('metadata', App\Http\Controllers\Tenants\MetadataController::class)->middleware('auth');
 		
 		Route::resource('configuration', App\Http\Controllers\Tenants\ConfigurationController::class)->middleware('auth');
 		Route::resource('role', App\Http\Controllers\Tenants\RoleController::class)->middleware('auth');

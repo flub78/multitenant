@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tenants;
 
 use App\Models\Tenants\Metadata;
 use Illuminate\Http\Request;

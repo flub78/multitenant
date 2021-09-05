@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories\Tenants;
+namespace Database\Factories;
 
-use App\Models\Tenants\Metadata;
+use App\Models\Metadata;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MetadataFactory extends Factory
