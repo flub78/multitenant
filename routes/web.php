@@ -40,5 +40,7 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::get('/test', [App\Http\Controllers\TestController::class, 'index'])->name('test')->middleware('auth');
 	Route::get('/info', [App\Http\Controllers\TestController::class, 'info'])->name('info')->middleware('auth');
 	Route::get('/test/email', [App\Http\Controllers\TestController::class, 'email'])->name('test.email')->middleware('auth');
+
+	Route::resource('metadata', App\Http\Controllers\MetadataController::class)->middleware('auth');
 	
 });

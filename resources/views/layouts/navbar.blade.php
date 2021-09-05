@@ -64,6 +64,7 @@
         						<a class="dropdown-item" href="{{ route('info') }}">Info</a>
         						<a class="dropdown-item" href="{{ route('test') }}">Test</a>
         						<a class="dropdown-item" href="{{ route('test.email') }}">Email</a>
+        						<a class="dropdown-item" href="{{ route('metadata.index') }}">Metadata</a>
         						<a class="dropdown-item"> central database = {{env ( 'DB_DATABASE' )}} </a>
       						</div>
     					</li>

@@ -11,7 +11,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/RoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/SchemaModelTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataModelTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataModelTest.php
 
 @rem Central application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralFeatureExampleTest.php
@@ -23,6 +23,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/AdminAccessTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralBackupArtisanTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/UserControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Central/MetadataControllerTest.php
 
 
 @rem Tenant application tests

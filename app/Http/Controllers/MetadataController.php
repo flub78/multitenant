@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Tenants;
+namespace App\Http\Controllers;
 
-use App\Models\Tenants\Metadata;
+use App\Models\Metadata;
 use Illuminate\Http\Request;
 
 class MetadataController extends Controller
@@ -14,7 +14,8 @@ class MetadataController extends Controller
      */
     public function index()
     {
-        //
+    	$metadata = Metadata::all();
+    	return view('metadata/index', compact('metadata'));
     }
 
     /**
@@ -24,7 +25,7 @@ class MetadataController extends Controller
      */
     public function create()
     {
-        //
+    	return view('metadata/create');
     }
 
     /**

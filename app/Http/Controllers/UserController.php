@@ -14,9 +14,9 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$users = User::all ();
+		$users = User::all();
 
-		return view ( 'users/index', compact ( 'users' ) );
+		return view('users/index', compact('users'));
 	}
 
 	/**
@@ -25,7 +25,7 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view ( 'users/create' );
+		return view('users/create');
 	}
 
 	/**
