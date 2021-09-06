@@ -1,10 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tenants;
 
-use App\Models\Metadata;
-use Illuminate\Http\Request;
+use app\Http\Controllers\Controller;
+use App\Models\Tenants\Metadata;
+use App\Http\Requests\Tenants\MetadataRequest;
+use Illuminate\Database\QueryException;
 
+/**
+ * Metadata controller
+ * 
+ * GUI for metadata management
+ * 
+ * @author frederic
+ *
+ */
 class MetadataController extends Controller
 {
     /**
@@ -15,7 +25,7 @@ class MetadataController extends Controller
     public function index()
     {
     	$metadata = Metadata::all();
-    	return view('metadata/index', compact('metadata'));
+    	return view('tenants/metadata/index', compact('metadata'));
     }
 
     /**
@@ -25,7 +35,7 @@ class MetadataController extends Controller
      */
     public function create()
     {
-    	return view('metadata/create');
+    	return view('tenants/metadata/create');
     }
 
     /**
@@ -34,22 +44,22 @@ class MetadataController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MetadataRequest $request)
     {
-        //
+        echo "metadata.store";
+        $validatedData = $request->validated (); // Only retrieve the data, the validation is done
+        
+        try {
+        	$metadata = Metadata::create ($validatedData);
+        	$name = 'metadata';
+        	return redirect ( '/metadata' )->with ( 'success',  __('general.creation_success', ['elt' => $name]));
+        } catch (QueryException $e) {
+        	$name = "metadata";
+        	return redirect ( '/metadata' )->with ( 'error',  __('general.creation_error', ['elt' => $name]));
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tenants\Metadata  $metadata
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Metadata $metadata)
-    {
-        //
-    }
-
+ 
     /**
      * Show the form for editing the specified resource.
      *
@@ -58,7 +68,7 @@ class MetadataController extends Controller
      */
     public function edit(Metadata $metadata)
     {
-        //
+        echo "metadata.edit";
     }
 
     /**
@@ -68,9 +78,9 @@ class MetadataController extends Controller
      * @param  \App\Models\Tenants\Metadata  $metadata
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Metadata $metadata)
+    public function update(MetadataRequest $request, Metadata $metadata)
     {
-        //
+    	echo "metadata.update";
     }
 
     /**
@@ -81,6 +91,6 @@ class MetadataController extends Controller
      */
     public function destroy(Metadata $metadata)
     {
-        //
+    	echo "metadata.destroy";
     }
 }

@@ -37,7 +37,17 @@
       						</div>
     					</li>
 
-     					
+     					<li class="nav-item dropdown">
+      						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">Development</a>
+      						
+      						<div class="dropdown-menu">
+        						<a class="dropdown-item" href="{{ route('info') }}">Info</a>
+        						<a class="dropdown-item" href="{{ route('test') }}">Test</a>
+        						<a class="dropdown-item" href="{{ route('test.email') }}">Email</a>
+        						<a class="dropdown-item" href="{{ route('metadata.index') }}">Metadata</a>
+        						<a class="dropdown-item"> central database = {{env ( 'DB_DATABASE' )}} </a>
+      						</div>
+    					</li>     					
 @else
 <!-- Central flat admin navbar -->
                     
@@ -53,10 +63,6 @@
       						<a class="nav-link" href="{{ route('backup.index') }}" id="navbar3" >Backups</a>     						
      					</li>
    					
-     					
-     					
-@endif <!-- (tenant('id')) -->
-
      					<li class="nav-item dropdown">
       						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">Development</a>
       						
@@ -64,10 +70,13 @@
         						<a class="dropdown-item" href="{{ route('info') }}">Info</a>
         						<a class="dropdown-item" href="{{ route('test') }}">Test</a>
         						<a class="dropdown-item" href="{{ route('test.email') }}">Email</a>
-        						<a class="dropdown-item" href="{{ route('metadata.index') }}">Metadata</a>
         						<a class="dropdown-item"> central database = {{env ( 'DB_DATABASE' )}} </a>
       						</div>
-    					</li>
+    					</li>     					
+     					
+@endif <!-- (tenant('id')) -->
+
+
        				   
 @endif	<!-- (auth()->user()->isAdmin()) -->
 

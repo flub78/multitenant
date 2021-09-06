@@ -4,7 +4,7 @@ namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
 
-use App\Models\Metadata;
+use App\Models\Tenants\Metadata;
 use Illuminate\Database\QueryException;
 use Exception;
 

@@ -1,0 +1,64 @@
+# Code Generation
+
+This project extends on the Laravel idea to use php artisan to generate migrations, controllers, models, ect.
+
+It is not only possible to generate templates with a given name, but also to adapt the template and the code inside them according to the database schema and additional metadata.
+
+Instead of developing code for every data, developers only have to develop code for every data type. Inside an application the quantity of information may be big but the number of data types is usually much smaller. I hope to get back the time spent on putting the infrastructure in place and even to gain in productivity. (knowing perfectly that it is a big investment and sometimes the time spent in the initial effort is not compensated if the thing is not used at a sufficiently large scale).
+     
+    
+## Implementation
+
+## The database schema
+
+Information about the existing tables, their fields and their data types are fetched from the database itself by the Schema model. This model also collects information about the existing indexes.
+
+Note that this approach implies a very clean database schema in with all the data constraints or relationship are described in the database. For example foreign keys need to be declared. Special indexes have to be created to enforce unicity, etc. 
+
+Another example, the field size must be exact in the database if the developer intends to limit the size of a string. The rules for string validation will be derived from the database field size and not the other way around. 
+
+## The Metadata
+
+The information from the schema are really useful but not sufficient to define all treatments to data types. For example a VARCHAR can be used to store a postal address, an email address or a name and in each case must be handled differently. 
+
+The information fetched from the database schema is complemented by metadata information stored in the database itself in a table named metadata.
+
+This mechanism will be more likely used to generate code to manage resources for the tenants as the central application has only one feature: to manage the tenants. So it is more useful to extract the schema information from the tenant database and so more logical to also store the metadata in the same database.
+
+## Templating mechanism
+
+The information fetched from the database is used to tune and adapt templates. Templates 
+can be used to generate controllers, models, validation rules in request, factories, model unit tests and controller unit tests, in fact all type of files which differ only by the data types that they handle.
+
+The template mechanism uses three directories with the same structure; a template directory, a result directory and an application directory.
+
+The initial implementation will be done using the mustache template package. It is a very generic template mechanism that has no dependencies to any development environment and available in multiple languages. 
+
+### The template directory
+
+It contains all the templates. The directory structure mimics the application structure and define where the generated files will be deployed.
+
+### The result directory
+
+Contains the files after that the templates have been processed.
+
+### The application directory
+
+It is where the generated files are copied when the generation is over
+
+## The php artisan command
+
+The whole mechanism is available through a few php artisan commands:
+
+    php artisan mustache:generate table files
+    php artisan mustache:compare table files
+    php artisan mustache:install files
+    php artisan mustache:info table
+    
+    table is a database table name
+    files identifies either a simple file or a directory that will be processed recursively
+    
+    mustache:generate process a template or a set of templates
+    mustache:compare y the display the differences between the generated files and the one of the application
+    mustache:install copy the generated files into the application
+     mustache:info just dump the metadata about one table

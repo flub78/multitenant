@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ConfigRequest extends FormRequest
+class MetadataRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,6 @@ class ConfigRequest extends FormRequest
      */
     public function rules() {
     	
-    	$valid_configs = [
-    	  'app.locale', 'app.timezone'
-    	];
-    	
     	switch($this->method()) {
     		case 'GET':
     		case 'DELETE': {
@@ -36,21 +32,15 @@ class ConfigRequest extends FormRequest
     		}
     		case 'POST': {
     			return [
-    				'key' => ['required', 'max:191', 
-    					'regex:/\w+\.\w+(\.\w+)*/',
-    					Rule::in($valid_configs)
-    				],
-    				'value' => 'required|max:191',
+    				'table' => ['required', 'max:191'], 
+    				'field' => 'required|max:191',
     			];
     		}
     		case 'PUT':
     		case 'PATCH': {
     			return [
-    				'key' => ['required', 'max:191', 
-    					'regex:/\w+\.\w+(\.\w+)*/',
-    					Rule::in($valid_configs)
-    				],	
-    				'value' => 'required|max:191',
+    					'table' => ['required', 'max:191'],
+    					'field' => 'required|max:191',
     			];
     		}
     		default:
