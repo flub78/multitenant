@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Tenants;
 
 use app\Http\Controllers\Controller;
 use App\Models\Tenants\Metadata;
+use \Illuminate\Http\Request;
 use App\Http\Requests\Tenants\MetadataRequest;
 use Illuminate\Database\QueryException;
+use Exception;
 
 /**
  * Metadata controller
@@ -46,16 +48,15 @@ class MetadataController extends Controller
      */
     public function store(MetadataRequest $request)
     {
-        echo "metadata.store";
-        $validatedData = $request->validated (); // Only retrieve the data, the validation is done
-        
+        $validatedData = $request->validated(); // Only retrieve the data, the validation is done
         try {
         	$metadata = Metadata::create ($validatedData);
         	$name = 'metadata';
         	return redirect ( '/metadata' )->with ( 'success',  __('general.creation_success', ['elt' => $name]));
-        } catch (QueryException $e) {
+        } catch (Exception $e) {
         	$name = "metadata";
-        	return redirect ( '/metadata' )->with ( 'error',  __('general.creation_error', ['elt' => $name]));
+        	$error = "Database error : " . $e->getMessage();
+        	return redirect ( '/metadata/create' )->with ( 'error',  $error);
         }
     }
 

@@ -17,8 +17,14 @@ class SchemaModelTest extends TestCase
     	$this->assertTrue(in_array('users', $result));
     }
     
+    public function test_table_exists () {
+    	$this->assertTrue(Schema::tableExists('users'));	
+    	$this->assertTrue(Schema::tableExists('user_roles'));
+    	$this->assertFalse(Schema::tableExists('unknow_table'));
+    }
+    
     public function test_table_information() {    	
-    	$result = Schema::tableInformation("configurations");   	
+    	$result = Schema::tableInformation("configurations");
      	$this->assertTrue(count($result) > 0);
     }
     
@@ -31,6 +37,13 @@ class SchemaModelTest extends TestCase
     	$list = Schema::fieldList("configurations");
     	$this->assertTrue(count($list) > 0);
     	$this->assertEquals(['key', 'value', 'created_at', 'updated_at'], $list);
+    }
+    
+    public function test_field_list_exists() {
+    	$this->assertTrue(Schema::fieldExists('users', 'email'));
+    	$this->assertTrue(Schema::fieldExists('user_roles', 'user_id'));
+    	$this->assertFalse(Schema::fieldExists('users', 'unknown_field'));
+    	$this->assertFalse(Schema::fieldExists('unknown', 'unknown_field'));
     }
     
     public function test_field_list_unknomw_table() {

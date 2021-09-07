@@ -24,7 +24,7 @@ class CreateMetadataTable extends Migration
             $table->string('target_field')->nullable();
             $table->timestamps();
 
-            $table->unique(['table', 'field'], 'unique');
+            $table->unique(['table', 'field'], 'unique_table_field');
         });
     }
 

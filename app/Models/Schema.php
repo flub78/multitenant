@@ -18,6 +18,10 @@ const SCHEMA = "schema";
  */
 class Schema extends ModelWithLogs {
 	
+    /**
+     * Returns a list of string containing the list of database table
+     * @return NULL[]|array
+     */
     public static function tableList() {
     	try {
     		$select = DB::connection(SCHEMA)->select("SHOW TABLES");
@@ -35,9 +39,19 @@ class Schema extends ModelWithLogs {
     }
     
     /**
+     * Return true when a table exists in the database
+     * @param string $table
+     * @return boolean
+     */
+    public static function tableExists(string $table) {
+    	return in_array($table, Schema::tableList());
+    }
+    
+    /**
      * Collect information about a database table
      * 
      * @param string $table
+     * @return an array of object information, one entry for every field
      */
     public static function tableInformation ($table) {
     	try {
@@ -48,7 +62,14 @@ class Schema extends ModelWithLogs {
     	}
     }
     
-    public static function columnInformation ($table, $field) {
+    /**
+     * Returns an object containing column information
+     *    Attributes are Field, Type, Null, Key, Defualt and Extra
+     * @param string $table
+     * @param string $field
+     * @return NULL| the info object
+     */
+    public static function columnInformation (string $table, string $field) {
     	$table_info = Schema::tableInformation($table);
     	
     	if (!$table_info) return null;
@@ -61,7 +82,12 @@ class Schema extends ModelWithLogs {
     	return null;
     }
     
-    public static function fieldList ($table) {
+    /**
+     * Returns the list of fields of a table
+     * @param string $table
+     * @return NULL| and array of string containing the field names
+     */
+    public static function fieldList (string $table) {
     	$table_info = Schema::tableInformation($table);
     	
     	if (!$table_info) return null;
@@ -73,6 +99,22 @@ class Schema extends ModelWithLogs {
     	return $res;    	
     }
     
+    /**
+     * Returns true if a field exists in a table
+     * @param string $table
+     * @param string $field
+     * @return boolean
+     */
+    public static function fieldExists (string $table, string $field) {
+    	$field_list = Schema::fieldList($table);
+    	if (!$field_list) return false;
+    	return in_array($field, $field_list);
+    }
+    
+    /**
+     * returns a list of string with the existing types used in the database
+     * @return string []
+     */
     public static function existingTypes () {
     	$res = [];
     	$tables = Schema::tableList();
@@ -87,11 +129,23 @@ class Schema extends ModelWithLogs {
     	return $res;
     }
     
-    public static function columnType ($table, $field) {
+    /**
+     * returns the database type of a field
+     * @param string $table
+     * @param string $field
+     * @return string
+     */
+    public static function columnType (string $table, string $field) {
     	return Schema::columnInformation($table, $field)->Type;
     }
     
-    public static function columnSize ($table, $field) {
+    /**
+     * Returns the size of a field or 0 when undefined
+     * @param string $table
+     * @param string $field
+     * @return 0|number
+     */
+    public static function columnSize (string $table, string $field) {
     	$type = Schema::columnInformation($table, $field)->Type;
     	
     	$pattern = '/^.*?(\d+).*$/i';
@@ -102,7 +156,12 @@ class Schema extends ModelWithLogs {
     	return 0;
     }
     
-    public static function indexList ($table) {
+    /**
+     * Returns the list of indexes of a table
+     * @param string $table
+     * @return array
+     */
+    public static function indexList (string $table) {
     	$database = ENV('DB_SCHEMA', 'tenanttest');
     	return DB::connection(SCHEMA)->select("SHOW INDEX FROM $table FROM $database");
     }

@@ -12,14 +12,18 @@ A backlog should only contains elements for which the decision to do them has be
 
 ## Checklist
 
-* Review date
-* Reviewer
-* Correct indentation (can be taken care by automatic reformatting is the team can agree on a formatter not too harmful).
+* The date of the review is in the file header
+* The reviewer name is in the file header
+* Indentation is correct (can be taken care by automatic reformatting is the team can agree on a formatter not too harmful).
 * Correct PHPDoc
-* At least a comment to describe the purpose of the file
+    * At least a comment to describe the purpose of the file
+    * Types of parameters are specified in the function declaration
+    * Types of parameters are specified in the PHPDoc comment
+    * The purpose of every method is provided in the PHP doc (or self described in the function name)
 * The reviewer have checked the result of the static analyzers on the file
 * No obvious bugs, missing use cases, 
 * Associated test coverage is correct
+
 * remarks are either
     * rejected
     * or accepted for immediate fix

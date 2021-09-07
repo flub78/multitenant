@@ -15,6 +15,12 @@
     {{__('metadata.new')}}
   </div>
   <div class="card-body">
+    @if(session()->get('error'))
+    <div class="alert alert-danger">
+      {{ session()->get('error') }}  
+    </div><br />
+  @endif
+  
     @if ($errors->any())
       <div class="alert alert-danger">
         <ul>
