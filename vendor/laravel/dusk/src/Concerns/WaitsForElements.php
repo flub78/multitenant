@@ -160,7 +160,9 @@ trait WaitsForElements
     {
         $message = $this->formatTimeOutMessage('Waited %s seconds for location', $path);
 
-        return $this->waitUntil("window.location.pathname == '{$path}'", $seconds, $message);
+        return Str::startsWith($path, ['http://', 'https://'])
+            ? $this->waitUntil('`${location.protocol}//${location.host}${location.pathname}` == \''.$path.'\'', $seconds, $message)
+            : $this->waitUntil("window.location.pathname == '{$path}'", $seconds, $message);
     }
 
     /**
@@ -176,6 +178,42 @@ trait WaitsForElements
     public function waitForRoute($route, $parameters = [], $seconds = null)
     {
         return $this->waitForLocation(route($route, $parameters, false), $seconds);
+    }
+
+    /**
+     * Wait until an element is enabled.
+     *
+     * @param  string  $selector
+     * @param  int|null  $seconds
+     * @return $this
+     */
+    public function waitUntilEnabled($selector, $seconds = null)
+    {
+        $message = $this->formatTimeOutMessage('Waited %s seconds for element to be enabled', $selector);
+
+        $this->waitUsing($seconds, 100, function () use ($selector) {
+            return $this->resolver->findOrFail($selector)->isEnabled();
+        }, $message);
+
+        return $this;
+    }
+
+    /**
+     * Wait until an element is disabled.
+     *
+     * @param  string  $selector
+     * @param  int|null  $seconds
+     * @return $this
+     */
+    public function waitUntilDisabled($selector, $seconds = null)
+    {
+        $message = $this->formatTimeOutMessage('Waited %s seconds for element to be disabled', $selector);
+
+        $this->waitUsing($seconds, 100, function () use ($selector) {
+            return ! $this->resolver->findOrFail($selector)->isEnabled();
+        }, $message);
+
+        return $this;
     }
 
     /**

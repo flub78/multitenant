@@ -1,6 +1,38 @@
 # Changelog
 
-All notable changes to `ignition` will be documented in this file
+All notable changes to `ignition` will be documented in this fil
+
+## 2.12.0 - 2021-08-24
+
+- add support for collecting information about jobs (#412)
+
+## 2.11.4 - 2021-08-16
+
+- use npm ci instead of install (#411)
+
+## 2.11.3 - 2021-08-16
+
+- fix issues with circular dependencies in model route parameters (#408)
+- remove notice about dirty git state in context
+- wrap `AddGitInformation` middleware in try-catch
+
+## 2.11.2 - 2021-07-20
+
+- fix issues introduced in 2.11.1 (#403)
+
+## 2.11.1 - 2021-07-20
+
+- fix sending queued reports on Laravel Vapor queues (#398)
+
+## 2.11.0 - 2021-07-12
+
+- prepare Laravel 9 support
+- remove filp/whoops dependency
+- update front-end dependencies
+
+## 2.10.2 - 2021-06-11
+
+- fix typo in config/flare.php (#395)
 
 ## 2.10.1 - 2021-06-03
 

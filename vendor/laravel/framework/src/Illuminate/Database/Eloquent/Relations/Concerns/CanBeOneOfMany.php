@@ -186,7 +186,7 @@ trait CanBeOneOfMany
         }
 
         if (! is_null($column)) {
-            $subQuery->selectRaw($aggregate.'('.$column.') as '.$column);
+            $subQuery->selectRaw($aggregate.'('.$subQuery->getQuery()->grammar->wrap($column).') as '.$subQuery->getQuery()->grammar->wrap($column));
         }
 
         $this->addOneOfManySubQueryConstraints($subQuery, $groupBy, $column, $aggregate);
@@ -205,6 +205,8 @@ trait CanBeOneOfMany
     protected function addOneOfManyJoinSubQuery(Builder $parent, Builder $subQuery, $on)
     {
         $parent->beforeQuery(function ($parent) use ($subQuery, $on) {
+            $subQuery->applyBeforeQueryCallbacks();
+
             $parent->joinSub($subQuery, $this->relationName, function ($join) use ($on) {
                 $join->on($this->qualifySubSelectColumn($on), '=', $this->qualifyRelatedColumn($on));
 

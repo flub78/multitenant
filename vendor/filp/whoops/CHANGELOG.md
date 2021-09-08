@@ -1,3 +1,14 @@
+# 2.14.1
+
+* Fix syntax highlighting scrolling too far.
+* Improve the way we detect xdebug linkformat.
+
+# 2.14.0
+
+* Switched syntax highlighting to Prism.js
+
+Avoids licensing issues with prettify, and uses a maintaned, modern project.
+
 # 2.13.0
 
 * Add Netbeans editor

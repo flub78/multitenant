@@ -203,18 +203,42 @@ abstract class Factory
     }
 
     /**
+     * Create a single model and persist it to the database.
+     *
+     * @param  array  $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function createOneQuietly($attributes = [])
+    {
+        return $this->count(null)->createQuietly($attributes);
+    }
+
+    /**
      * Create a collection of models and persist them to the database.
      *
      * @param  iterable  $records
-     * @return \Illuminate\Database\Eloquent\Collection|mixed
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function createMany(iterable $records)
     {
         return new EloquentCollection(
-            array_map(function ($record) {
+            collect($records)->map(function ($record) {
                 return $this->state($record)->create();
-            }, $records)
+            })
         );
+    }
+
+    /**
+     * Create a collection of models and persist them to the database.
+     *
+     * @param  iterable  $records
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function createManyQuietly(iterable $records)
+    {
+        return Model::withoutEvents(function () use ($records) {
+            return $this->createMany($records);
+        });
     }
 
     /**
@@ -222,7 +246,7 @@ abstract class Factory
      *
      * @param  array  $attributes
      * @param  \Illuminate\Database\Eloquent\Model|null  $parent
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function create($attributes = [], ?Model $parent = null)
     {
@@ -243,6 +267,20 @@ abstract class Factory
         }
 
         return $results;
+    }
+
+    /**
+     * Create a collection of models and persist them to the database.
+     *
+     * @param  array  $attributes
+     * @param  \Illuminate\Database\Eloquent\Model|null  $parent
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
+    public function createQuietly($attributes = [], ?Model $parent = null)
+    {
+        return Model::withoutEvents(function () use ($attributes, $parent) {
+            return $this->create($attributes, $parent);
+        });
     }
 
     /**
@@ -309,7 +347,7 @@ abstract class Factory
      *
      * @param  array  $attributes
      * @param  \Illuminate\Database\Eloquent\Model|null  $parent
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function make($attributes = [], ?Model $parent = null)
     {

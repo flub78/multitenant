@@ -429,7 +429,7 @@ class Browser
 
         if (! empty($source)) {
             file_put_contents(
-                sprintf('%s/%s', rtrim(static::$storeSourceAt, '/'), $name), $source
+                sprintf('%s/%s.txt', rtrim(static::$storeSourceAt, '/'), $name), $source
             );
         }
 
@@ -457,7 +457,7 @@ class Browser
     /**
      * Execute a Closure with a scoped browser instance.
      *
-     * @param  string  $selector
+     * @param  string|\Laravel\Dusk\Component  $selector
      * @param  \Closure  $callback
      * @return $this
      */
@@ -469,7 +469,7 @@ class Browser
     /**
      * Execute a Closure with a scoped browser instance.
      *
-     * @param  string  $selector
+     * @param  string|\Laravel\Dusk\Component  $selector
      * @param  \Closure  $callback
      * @return $this
      */
@@ -495,7 +495,7 @@ class Browser
     /**
      * Execute a Closure outside of the current browser scope.
      *
-     * @param  string  $selector
+     * @param  string|\Laravel\Dusk\Component  $selector
      * @param  \Closure  $callback
      * @return $this
      */

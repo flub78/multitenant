@@ -42,21 +42,21 @@ return [
     | Reporting Log statements
     |--------------------------------------------------------------------------
     |
-    | If this setting is `false` log statements won't be send as events to Flare,
+    | If this setting is `false` log statements won't be sent as events to Flare,
     | no matter which error level you specified in the Flare log channel.
     |
     */
 
     'send_logs_as_events' => true,
-    
+
     /*
     |--------------------------------------------------------------------------
     | Censor request body fields
     |--------------------------------------------------------------------------
     |
-    | These fields will be censored from your request when sent to Flare. 
+    | These fields will be censored from your request when sent to Flare.
     |
     */
-    
+
     'censor_request_body_fields' => ['password'],
 ];

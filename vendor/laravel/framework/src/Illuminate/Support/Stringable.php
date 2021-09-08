@@ -259,6 +259,16 @@ class Stringable implements JsonSerializable
     }
 
     /**
+     * Determine if a given string is a valid UUID.
+     *
+     * @return bool
+     */
+    public function isUuid()
+    {
+        return Str::isUuid($this->value);
+    }
+
+    /**
      * Determine if the given string is empty.
      *
      * @return bool
@@ -340,13 +350,7 @@ class Stringable implements JsonSerializable
      */
     public function match($pattern)
     {
-        preg_match($pattern, $this->value, $matches);
-
-        if (! $matches) {
-            return new static;
-        }
-
-        return new static($matches[1] ?? $matches[0]);
+        return new static(Str::match($pattern, $this->value));
     }
 
     /**
@@ -357,13 +361,7 @@ class Stringable implements JsonSerializable
      */
     public function matchAll($pattern)
     {
-        preg_match_all($pattern, $this->value, $matches);
-
-        if (empty($matches[0])) {
-            return collect();
-        }
-
-        return collect($matches[1] ?? $matches[0]);
+        return Str::matchAll($pattern, $this->value);
     }
 
     /**
@@ -794,6 +792,7 @@ class Stringable implements JsonSerializable
      *
      * @return string
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->__toString();
