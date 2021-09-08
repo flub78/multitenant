@@ -48,11 +48,10 @@ class MetadataController extends Controller {
 		$validatedData = $request->validated(); // Only retrieve the data, the validation is done
 		try {
 			$metadata = Metadata::create($validatedData);
-			$name = 'metadata';
-			return redirect('/metadata')->with('success', __('general.creation_success', [ 'elt' => $name
+			return redirect('/metadata')->with('success', __('general.creation_success', [ 'elt' => $metadata->full_name
 			]));
 		} catch (Exception $e) {
-			$name = "metadata";
+			// Should never happen as the validation should catch invalid data
 			$error = "Database error : " . $e->getMessage();
 			return redirect('/metadata/create')->with('error', $error);
 		}

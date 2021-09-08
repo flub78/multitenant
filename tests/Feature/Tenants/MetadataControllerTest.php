@@ -62,6 +62,34 @@ class MetadataControllerTest extends TenantTestCase {
 		$this->assertEquals ( $expected, $new_count, "metadata created, actual=$new_count, expected=$expected" );
 	}
 
+	public function test_store_unknown_table() {
+		// Post a creation request
+		$elt = ["table" => "unknow", "field" => 'email', '_token' => csrf_token()];
+		
+		$initial_count = Metadata::count ();
+		
+		// call the post method to create it
+		$this->post_tenant_url($this->user, 'metadata', [], $elt, $errors_expected = true);
+		
+		$new_count = Metadata::count ();
+		$expected = $initial_count;
+		$this->assertEquals ( $expected, $new_count, "metadata creation unknown table, actual=$new_count, expected=$expected" );
+	}
+
+	public function test_store_unknown_field() {
+		// Post a creation request
+		$elt = ["table" => "users", "field" => 'unknown', '_token' => csrf_token()];
+		
+		$initial_count = Metadata::count ();
+		
+		// call the post method to create it
+		$this->post_tenant_url($this->user, 'metadata', [], $elt, $errors_expected = true);
+		
+		$new_count = Metadata::count ();
+		$expected = $initial_count;
+		$this->assertEquals ( $expected, $new_count, "metadata creation unknown field, actual=$new_count, expected=$expected" );
+	}
+	
 	public function test_store_duplicate() {
 		// Post a creation request
 		$metadata = Metadata::factory()->create(['table' => 'users', 'field' => 'email', 'subtype' => 'email']);
