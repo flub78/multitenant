@@ -130,7 +130,13 @@ class MetadataModelTest extends TenantTestCase
     	} catch (Exception $e) {
     		$this->assertTrue(true, "Exception raised on duplicate");
     	}
+    }
+    
+    public function test_full_name () {
+    	$meta1 = Metadata::create(['table' => "users", 'field' => "email", "subtype" => "email"]);
     	
+    	$this->assertEquals('metadata users.email',  $meta1->full_name);
+    	$this->assertEquals('metadata users.email',  $meta1->short_name);
     }
     
 }

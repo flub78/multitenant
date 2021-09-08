@@ -34,6 +34,11 @@ class MetadataRequest extends FormRequest
     			return [
     				'table' => ['required', 'max:191'], 
     				'field' => 'required|max:191',
+    				'subtype' => 'max:191',
+    				'options' => 'max:191',
+    				'foreign_key' => 'max:191',
+    				'target_table' => 'max:191',
+    				'target_field' => 'max:191',
     			];
     		}
     		case 'PUT':
@@ -41,6 +46,11 @@ class MetadataRequest extends FormRequest
     			return [
     					'table' => ['required', 'max:191'],
     					'field' => 'required|max:191',
+    					'subtype' => 'max:191',
+    					'options' => 'max:191',
+    					'foreign_key' => 'max:191',
+    					'target_table' => 'max:191',
+    					'target_field' => 'max:191',
     			];
     		}
     		default:

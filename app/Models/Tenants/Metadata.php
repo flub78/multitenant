@@ -68,5 +68,22 @@ class Metadata extends Model
     	return parent::update($attributes, $options);
     }
     
+    /**
+     * full_name attribute
+     * As names are unique, just create aliases
+     * @return string
+     */
+    public function getFullNameAttribute() {
+    	return "metadata " . $this->attributes['table'] . '.' . $this->field;
+    }
+    
+    
+    /**
+     * short_name attribute
+     * @return string
+     */
+    public function getShortNameAttribute() {
+    	return $this->full_name;
+    }
     
 }
