@@ -61,4 +61,14 @@ The whole mechanism is available through a few php artisan commands:
     mustache:generate process a template or a set of templates
     mustache:compare y the display the differences between the generated files and the one of the application
     mustache:install copy the generated files into the application
-     mustache:info just dump the metadata about one table
+    mustache:info just dump the metadata about one table
+     
+# The mustache documentation
+
+# References
+
+    https://faun.pub/dynamic-content-in-your-mails-using-mustache-9f3a660462ad
+    https://github.com/bobthecow/mustache.php/wiki
+    
+    
+    
