@@ -5,6 +5,8 @@ namespace App\Http\Requests\Tenants;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Rules\IsTable;
+use App\Rules\IsField;
 
 class MetadataRequest extends FormRequest
 {
@@ -32,25 +34,25 @@ class MetadataRequest extends FormRequest
     		}
     		case 'POST': {
     			return [
-    				'table' => ['required', 'max:191'], 
-    				'field' => 'required|max:191',
+    				'table' => ['required', 'max:191', new IsTable], 
+    				'field' => ['required', 'max:191', new IsField(request('table')) ],
     				'subtype' => 'max:191',
     				'options' => 'max:191',
     				'foreign_key' => 'max:191',
-    				'target_table' => 'max:191',
-    				'target_field' => 'max:191',
+    				'target_table' => ['max:191', new IsTable],
+    				'target_field' => ['max:191', new IsField(request('table'))],
     			];
     		}
     		case 'PUT':
     		case 'PATCH': {
     			return [
-    					'table' => ['required', 'max:191'],
-    					'field' => 'required|max:191',
+    					'table' => ['required', 'max:191', new IsTable],
+    					'field' => ['required', 'max:191', new IsField(request('table')) ],
     					'subtype' => 'max:191',
     					'options' => 'max:191',
     					'foreign_key' => 'max:191',
-    					'target_table' => 'max:191',
-    					'target_field' => 'max:191',
+    					'target_table' => ['max:191', new IsTable],
+    					'target_field' => ['max:191', new IsField(request('table'))],
     			];
     		}
     		default:
