@@ -4,6 +4,8 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
 
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ConfigurationModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php
@@ -47,7 +49,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

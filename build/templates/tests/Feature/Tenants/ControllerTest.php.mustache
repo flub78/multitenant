@@ -1,0 +1,432 @@
+<?php
+/**
+ * This file is a template generated file filed from metadata extracted from the data model.
+ * If modifications are required, it is important to consider if they should be done in the template
+ * or in the generated file, in which case caution must be exerced to avoid overwritting.
+ */
+
+namespace Tests\Feature;
+
+use Tests\TestCase;
+use App;
+use App\{{class_name}};
+use App\User;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Log;
+
+/**
+ * Functional test for the {{class_name}} CRUD 
+ * 
+ * It is a functional test which tests
+ *   - the routes
+ *   - the {{table}}Controller class
+ *   - the views
+ *   - and the model
+ *   
+ * It is a test at the HTTP level, which means that if the page relies on javascript
+ * element to be functional it will not work. Javascript libraries should
+ * be used to make the user experience easier, it should not be used to make
+ * the application works. Note that this assertion could be reconsidered because of the datatable
+ * library
+ * 
+ * 
++--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
+| Domain | Method    | URI                           | Name              | Action                                                  | Middleware   |
++--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
+|        | GET|HEAD  | {{table}}                     | {{table}}.index   | App\Http\Controllers\{{table}}Controller@index          | web          |
+|        | POST      | {{table}}                     | {{table}}.store   | App\Http\Controllers\{{table}}Controller@store          | web          |
+|        | GET|HEAD  | {{table}}/create              | {{table}}.create  | App\Http\Controllers\{{table}}Controller@create         | web          |
+|        | PUT|PATCH | {{table}}/{task}              | {{table}}.update  | App\Http\Controllers\{{table}}Controller@update         | web          |
+|        | GET|HEAD  | {{table}}/{task}              | {{table}}.show    | App\Http\Controllers\{{table}}Controller@show           | web          |
+|        | DELETE    | {{table}}/{task}              | {{table}}.destroy | App\Http\Controllers\{{table}}Controller@destroy        | web          |
+|        | GET|HEAD  | {{table}}/{task}/edit         | {{table}}.edit    | App\Http\Controllers\{{table}}Controller@edit           | web          |
++--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
+
+ * 
+ * @author frede
+ *
+ */
+class ControllerTest extends TestCase
+{
+	protected $basename = "{{table}}";	
+	
+	function __construct() {
+		parent::__construct();
+		
+		// required to be able to use the factory inside the constructor
+		$this->createApplication();		
+		$this->user = factory(User::class)->create();
+	}
+	
+	function __destruct() {
+		$this->user->delete();
+	}		
+
+	
+	/**
+	 * 
+	 * @param string $segments
+	 * @return string
+	 */
+	protected function base_url($segments = "") {
+		$url = "/" . $this->basename;
+		if ($segments) {
+			$url = join("/", [$url, $segments]);
+		}
+		return $url;
+	}
+	
+	/**
+	 * Return the number of elements in the table managed by the CRUD controller under test
+	 * @return int
+	 */
+	protected function eltCount() {
+		return {{model_name}}::count(); 
+	}
+    
+    /**
+     * Test display of all elements
+     * Given the user is logged on
+     * When calling index URL
+     * Then the table view is displayed
+     * 
+     * @return void
+     */
+    public function testBaseUrlDisplaysTableView()
+    {   
+        $this->log(__METHOD__);
+    	$this->be($this->user);
+    	
+    	$response = $this->get($this->base_url());
+    	
+    	$response->assertStatus(200); // 302 is redirection
+        $response->assertSeeText( __('{{element}}.name'));
+        $response->assertSeeText(__('{{element}}.office'));
+        $response->assertDontSee('{{table}}.create');
+        
+        $count = $this->eltCount();
+        
+        if ($count > 0) {
+        	$response->assertSeeText('Edit');
+        } else {
+        	$response->assertDontSee('Edit');
+        }        
+    }
+
+    /**
+     * Test creation form display
+     * Given the user is logged on
+     * When calling create URL
+     * Then the create form is displayed
+     */
+    public function testCreateUrlDisplaysCreationForm()
+    {   
+        $this->log(__METHOD__);
+        $this->be($this->user);
+        
+        $url = $this->base_url('create');        
+        $response = $this->get($url);
+        $response->assertStatus(200);
+    	$response->assertSeeText(trans('{{element}}.create_title'));
+    }
+    
+    /**
+     * Test a post request
+     * Given the user is logged on
+     * When sending a post request
+     * Then the element is stored in the database
+     * 
+     * @return void
+     */
+    public function testPostRequestStoresElement()
+    {    	        
+        $this->log(__METHOD__);
+        
+        $count = $this->eltCount();
+        $name = "John Doe_" . $count;
+        
+        // to avoid the error: 419 = Authentication timeout
+        $this->withoutMiddleware();
+
+        // Currently disabled, the factory creates a {{element}} object
+        // and some errors are raised...
+        // The difference here is that a hash is required, not an object.
+        // $elt = factory({{element}}::class)->create();
+        // var_dump($elt);
+
+        $elt = [
+        		"name" => $name,
+        		"email" => str_replace(' ', '', $name . "@gmail.fr"),
+        		"number" => $count,
+        		"date" => date_format(date_create(), __('general.date_format')),
+        		"office" => "Bangalore",
+        		'_token' => csrf_token()
+        ];
+        $response = $this->post('/{{table}}', $elt);
+         
+        $this->assertFalse($response->getContent() == "", 
+            "Content empty, default when store is not implemented in the controller");
+       
+        $response->assertStatus(302, "Check redirection");  
+
+        $new_count = $this->eltCount();
+        $this->assertTrue($new_count == $count + 1, "One more row in the table");
+    }
+    
+    /**
+     * Test an invalid post request
+     * 
+     * Given the user is logged on
+     * When sending a post request with invalid fields
+     * Then errors messages are generated
+     * 
+     * TODO check duplicate emails
+     * 
+     * @return void
+     */
+    public function testInvalidPostGeneratesErrors()
+    {
+        $this->log(__METHOD__);
+        
+        $count = $this->eltCount();
+    	
+    	// to avoid the error: 419 = Authentication timeout
+    	$this->withoutMiddleware();
+    	
+    	$elt = [
+    			"name" => '',
+    			"email" => 'zorglub',
+    			"number" => $count,
+    			"date" => "This is not a date",
+    			"office" => "Bangalore",
+    			'_token' => csrf_token()
+    	];
+    	
+    	$response = $this->post('/{{table}}', $elt);
+    	
+    	$response->assertStatus(302, "Check redirection");
+    	
+    	// It is not possible to test the error messages inside the page
+    	// because in unit testing there is no previous page so the redirection is to the
+    	// home page.
+    	//
+    	// $this->followingRedirects();
+    	// var_dump($response->getContent());exit;
+    	
+    	$response->assertSessionHasErrors([
+    			"name" => 'The name field is required.',
+    			"email" => 'The email must be a valid email address.',
+    			"date" => 'The date does not match the format d/m/Y.'
+    	]);	
+    	
+    	$new_count = $this->eltCount();
+    	$this->assertTrue($new_count == $count, "No element added");
+    	
+    }
+    
+
+    /**
+     * Check that the edit form is correctly displayed
+     * Given the user is logged on
+     * When sending a get request to edit
+     * Then the modification form is displayed pre-filled with the element
+     * 
+     * @return void
+     */
+    public function testEditUrlDisplaysPopulatedEditForm()
+    {        
+        $this->log(__METHOD__);
+        
+        // if the table is empty no way to edit something
+    	if ($this->eltCount() == 0) {
+    		return;
+    	}
+    	
+    	$this->be($this->user);
+    	
+    	// get an existing element
+    	${{element}} = {{model_name}}::latest()->first();
+    	$id = ${{element}}->id;t
+    	
+    	// create the edit request
+    	$response = $this->get($this->base_url($id .'/edit'));
+    	$response->assertStatus(200);
+    	
+    	$response->assertSeeText(__('{{element}}.edit_title'));
+    }
+
+    /**
+     * Test an element update
+     * Given the user is logged on
+     * Given at least one element in the table
+     * When sending a put request
+     * Then the element is modified in the database
+     * 
+     * @return void
+     */
+    public function testPostRequestUpdatesElement()
+    {   
+        $this->log(__METHOD__);
+        
+        $this->withoutMiddleware();
+        
+        $elt = $this->eltCount();
+        if ($this->eltCount() == 0) {
+            return;
+        }
+        
+        // get an existing element
+        ${{element}} = {{model_name}}::latest()->first();
+        $id = ${{element}}->id;
+        $number = ${{element}}->number;
+                
+        // create a request to modify it
+        $url = "/{{table}}/" . $id;
+        $new_value = $number + 1;
+        
+        $trace = "\ntrying to update: url = $url, initial value=$number, new value=$new_value\n";
+        $this->log($trace);
+        $data = [
+            "id" => ${{element}}->id,
+            "name" => ${{element}}->name,
+            "email" => ${{element}}->email,
+            "number" => $new_value,
+            "date" => ${{element}}->date,
+            "office" => ${{element}}->office,
+            '_token' => csrf_token()
+        ];
+                
+        $response = $this->patch($url, $data);
+        
+        $response->assertStatus(302, "update $id OK"); // 302 = redirection
+        
+        $updated = {{class_name}}::find($id);
+        $this->assertEquals($updated->number, $new_value, "Modified value stored in DB = " . $updated->number);
+                
+    }
+
+    /**
+     * Test display of one element
+     * Given the user is logged on
+     * Given at least one element in the table
+     * When sending a get request
+     * Then the element is displayed
+     * 
+     * @return void
+     */
+    public function testGetRequestShowsElement()
+    {        
+        $this->log(__METHOD__);
+        if ($this->eltCount() == 0) {
+    		return;
+    	}
+    	
+    	// get an existing element
+    	${{element}} = {{class_name}}::latest()->first();
+    	$id = ${{element}}->id;
+    	
+    	$this->be($this->user);
+    	
+    	$response = $this->get("/{{table}}/$id");
+        $response->assertStatus(200);
+
+        // Not implemented yet in the controller
+        $response->assertSeeText('{{table}}.show');
+    }
+    
+    /**
+     * Test delete element
+     * Given the user is logged on
+     * Given at least one element in the table
+     * When sending a delete request
+     * Then the element is removed from the database
+     * @return void
+     */
+    public function testDeleteRequestsRemovesElement()
+    {
+        $this->log(__METHOD__);
+        if ($this->eltCount() == 0) {
+    		return;
+    	}
+    	
+    	// get an existing element
+    	${{element}} = {{class_name}}::latest()->first();
+    	$id = ${{element}}->id;
+    	
+    	$this->withoutMiddleware();
+    	
+    	$count = $this->eltCount();
+    	
+    	$response = $this->delete("/{{table}}/$id");
+    	
+        $response->assertStatus(302, "Redirected");	
+    	
+        $new_count = $this->eltCount();
+        $this->assertTrue($new_count == $count - 1, "One less row in the table");
+        
+    }
+    
+   
+    /**
+     * Test not found URL
+     * Given the user is logged on
+     * When calling an unknow URL
+     * Then an error is returned
+     * @return void
+     */
+    public function testNotFoundUrlReturns404()
+    {
+        $this->log(__METHOD__);
+        $response = $this->get('/undefined_url');
+        $response->assertStatus(404);
+    }
+
+    /**
+     * Test locale
+     * 
+     * The test should check that every page is displayed according
+     * to locale. If the test relies on the translations from ressources/lang
+     * there is no way to detect that some translation have been forgotten
+     * either by not using @lang in the views of by missing translation entry.
+     * 
+     * TODO loop around views and keys
+     *
+     */
+    public function testPagesAreDisplayedAccordingToLocaleLanguage()
+    {
+        $this->log(__METHOD__);
+        
+        /**
+         * Scenario: {{class_name}} testLocale fr
+         * Given the local is set to fr
+         * When calling URLs
+         * Then views are displayed in French
+         */
+        
+        $this->be($this->user);
+        
+        $locale = App::getLocale();
+
+    	App::setLocale('fr');
+    	$response = $this->get($this->base_url('create'));
+    	$response->assertStatus(200);
+    	$response->assertSeeText("Création d'un nouveau Passeport");
+    	
+    	/**
+    	 * Scenario: {{class_name}} testLocale en
+    	 * Given the local is set to en
+    	 * When calling URLs
+    	 * Then views are displayed in English
+    	 */
+    	
+    	App::setLocale('en');
+    	$response = $this->get($this->base_url('create'));
+    	$response->assertStatus(200);
+    	$response->assertSeeText('{{class_name}} Appointment System');
+    	
+    	App::setLocale($locale);
+    	$new_locale = App::getLocale();
+    	$this->assertTrue($new_locale == $locale, "Locale back to initial value");	
+    }
+        
+}

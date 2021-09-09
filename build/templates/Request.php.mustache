@@ -1,0 +1,62 @@
+<?php
+/**
+ * This file is a template generated file filed from metadata extracted from the data model.
+ * If modifications are required, it is important to consider if they should be done in the template
+ * or in the generated file, in which case caution must be exerced to avoid overwritting.
+ */
+ 
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class {{class_name}}Request extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     * 
+     * How to have specific rules during update
+     * https://laracasts.com/discuss/channels/requests/laravel-5-validation-request-how-to-handle-validation-on-update
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        switch($this->method())
+        {
+        	case 'GET':
+        	case 'DELETE':
+        		{
+        			return [];
+        		}
+        	case 'POST':
+        		{
+        			return [
+        			{{#fillable}}
+        			    '{{{name}}}' => '{{{field_create_rules}}}',
+        			{{/fillable}}
+        			];
+        		}
+        	case 'PUT':
+        	case 'PATCH':
+        		{
+        			return [
+        			    {{#fillable}}
+        			        '{{{name}}}' => '{{{field_edit_rules}}}',
+        			    {{/fillable}}
+        			];
+        		}
+        	default:
+        	    break;
+        }
+    }
+}

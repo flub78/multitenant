@@ -30,13 +30,14 @@ This mechanism will be more likely used to generate code to manage resources for
 The information fetched from the database is used to tune and adapt templates. Templates 
 can be used to generate controllers, models, validation rules in request, factories, model unit tests and controller unit tests, in fact all type of files which differ only by the data types that they handle.
 
-The template mechanism uses three directories with the same structure; a template directory, a result directory and an application directory.
-
 The initial implementation will be done using the mustache template package. It is a very generic template mechanism that has no dependencies to any development environment and available in multiple languages. 
+
+To generate a file from a template the user needs to specify the template, the database table and the destination.
+
 
 ### The template directory
 
-It contains all the templates. The directory structure mimics the application structure and define where the generated files will be deployed.
+It contains all the templates.
 
 ### The result directory
 
@@ -46,11 +47,14 @@ Contains the files after that the templates have been processed.
 
 It is where the generated files are copied when the generation is over
 
+
 ## The php artisan command
 
 The whole mechanism is available through a few php artisan commands:
 
-    php artisan mustache:generate table files
+    php artisan mustache:generate table=users files=templates
+    php artisan mustache:generate table=users files=templates/resources/views/tenants
+    
     php artisan mustache:compare table files
     php artisan mustache:install files
     php artisan mustache:info table

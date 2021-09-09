@@ -12,7 +12,11 @@ use PHPUnit\Framework\TestCase;
  *
  */
 class MustacheTest extends TestCase {
-
+		
+	const GEN_INSTALLATION = "C:\Users\frederic\Dropbox\xampp\htdocs\multitenant";
+	const GEN_TEMPLATES = "C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates";
+	const GEN_RESULTS = "C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results";
+		
 	public function test_basic_mustache() {
 		
 		$mustache = new \Mustache_Engine;
@@ -20,5 +24,32 @@ class MustacheTest extends TestCase {
 		
 		$rendered= $mustache->render('Hello, {{planet}}!', array('planet' => 'World')); // "Hello, World!"
 		$this->assertEquals("Hello, World!", $rendered);
+	}
+	
+	function getDirContents($dir){
+		$results = array();
+		$files = scandir($dir);
+		
+		foreach($files as $key => $value){
+			if ($value == '.') continue;
+			if ($value == '..') continue;
+			$file = $dir . DIRECTORY_SEPARATOR . $value;
+			if(!is_dir($file)){
+				$results[] = $file;
+			} else if(is_dir($file)) {
+				$results = array_merge($results, $this->getDirContents($file));
+			}
+		}
+		return $results;
+	}
+	
+	public function test_investigation() {
+		$installation = getcwd();
+		$templates =  getcwd() . '\build\templates';
+		$results = getcwd() . '\build\results';
+		echo "\nGEN_TEMPLATES = $templates";
+		
+		print_r($this->getDirContents($templates));
+		$this->assertTrue(true);
 	}
 }

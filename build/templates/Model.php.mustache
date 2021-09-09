@@ -1,0 +1,44 @@
+<?php
+/**
+ * This file is a template generated file filed from metadata extracted from the data model.
+ * If modifications are required, it is important to consider if they should be done in the template
+ * or in the generated file, in which case caution must be exerced to avoid overwritting.
+ */
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * {{class_name}} model
+ *
+ * Acces to the percistency layer and business rules checks
+ *
+ * @author frede
+ *
+ */
+class {{class_name}} extends Model
+{
+    //
+	protected $fillable = {{& fillable_names}};
+	
+	// TODO generate accessors depending on the metadata subtypes
+    /**
+     * Translate the date in the format into a display format
+     */
+    public function getDateAttribute($value)
+    {
+        return db_to_date($value);
+    }
+
+    /**
+     * Translate the date in the display format into the storage format
+     * 
+     * $value: date in localized format for example dd/mm/yy
+     */
+    public function setDateAttribute($value)
+    {
+         $this->attributes['date'] = date_to_db($value);
+    }
+
+}

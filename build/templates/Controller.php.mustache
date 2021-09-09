@@ -1,0 +1,170 @@
+<?php
+/**
+ * Controller for {{class_name}}
+ * 
+ * @author flub78
+ * @category web application framework
+ * @package webapp
+ * @license MIT https://en.wikipedia.org/wiki/MIT_License
+ * @link https://github.com/flub78/webapp
+ * 
+ */
+
+/**
+ * This file is a template generated file filed from metadata extracted from the data model.
+ * If modifications are required, it is important to consider if they should be done in the template
+ * or in the generated file, in which case caution must be exerced to avoid overwritting.
+ */
+
+namespace App\Http\Controllers;
+
+use App\{{class_name}};
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\{{class_name}}Request;
+use Illuminate\Support\Facades\Log;
+
+/**
+ * {{class_name}} CRUD controller
+ *
+ */
+class {{class_name}}Controller extends Controller
+{
+
+    // name of the table
+    private $name = "{{table}}";
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct() {
+        // by default, the user must be loged in to access the pages
+        $this->middleware('auth');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+    	Log::debug('{{class_name}}Controller.index');
+    	${{table}} = {{class_name}}::all();
+        return view('{{element}}/index', compact('{{table}}'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        Log::debug('{{class_name}}Controller.create');
+        return view('{{element}}/create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request storage request
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{class_name}}Request $request)
+    {
+        Log::debug('{{class_name}}Controller.store');
+                
+     	$validatedData = $request->validate();
+               
+        // TODO: make the following code generic or better include it into a validation rule
+        $name = "";
+        if ($request->hasfile('filename')) {
+            $file = $request->file('filename');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/images/', $name);
+            $validatedData['filename'] = $name;
+        }
+        
+        ${{element}} = {{class_name}}::create($validatedData);
+        ${{element}}->save();
+
+        Log::debug('{{class_name}}Controller.store: ' . var_export(${{element}}, true));
+        
+        return redirect('{{table}}')->with('success', 'Information has been added');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id of item to display
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        Log::debug("{{class_name}}Controller.show/$id");
+        return $this->name . ".show";
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id of the item to edit
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        Log::debug("{{class_name}}Controller.edit/$id");
+        ${{element}} = {{class_name}}::find($id);
+        return view('{{element}}/edit', compact('{{element}}', 'id'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request to update
+     * @param int $id of the item to update
+     * @return \Illuminate\Http\Response
+     */
+    public function update({{class_name}}Request $request, $id)
+    {
+        Log::debug("{{class_name}}Controller.update/$id");
+        //
+        ${{element}} = {{class_name}}::find($id);
+        ${{element}}->name = $request->get('name');
+        ${{element}}->email = $request->get('email');
+        ${{element}}->number = $request->get('number');
+        ${{element}}->date = $request->get('date');
+        ${{element}}->office = $request->get('office');
+
+        $name = "";
+        if ($request->hasfile('filename')) {
+        	$file = $request->file('filename');
+        	$name = time() . $file->getClientOriginalName();
+        	$file->move(public_path() . '/images/', $name);
+        	
+        	${{element}}->filename = $name;
+        }
+        
+        ${{element}}->save();
+
+        Log::debug('{{class_name}}Controller.update: ' . var_export(${{element}}, true));
+        
+        return redirect('{{table}}');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id of the item to delete
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+        Log::debug("{{class_name}}Controller.destroy/$id");
+
+        ${{element}} = {{element}}::find($id);
+        ${{element}}->delete();
+        return redirect('{{table}}')->with('success', 'Information has been  deleted');
+    }
+}
