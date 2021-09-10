@@ -43,7 +43,7 @@ class TestControllerTest extends TestCase {
 		$response->assertSeeText('Test page');		
 	}
 	
-	public function test_info() {
+	public function ttest_info() {
 		$this->be ( $this->user );
 		
 		// main test entry

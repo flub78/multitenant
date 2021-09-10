@@ -14,6 +14,11 @@ class MustacheHelper {
 	public const RESULT_SUBDIR = '\\build\\results\\';
 	public const INSTALLATION_DIR = '';
 	
+	/**
+	 * Returns the absolute path of a template file
+	 * @param string $template
+	 * @return string
+	 */
 	private static function absolute_template_path(string $template) {
 		return 	getcwd() . Self::TEMPLATE_SUBDIR . $template;
 	}

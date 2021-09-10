@@ -139,4 +139,23 @@ class MetadataModelTest extends TenantTestCase
     	$this->assertEquals('metadata users.email',  $meta1->short_name);
     }
     
+    public function test_attributes () {
+    	$table = "users";
+    	$field = "email";
+    	$subtype = "email";
+    	$options = "size=12, readonly=true";
+    	$foreign_key = 1;
+    	
+    	$meta = Metadata::create(
+    			['table' => $table,
+    			'field' => $field,
+    			"subtype" => $subtype,
+    			"options" => $options,
+    			"foreign_key" => $foreign_key
+    			]);
+    	
+    	$this->assertEquals($table,  $meta->table);
+    	$this->assertEquals($field,  $meta->field);
+    	$this->assertEquals($subtype,  $meta->subtype);
+    }
 }

@@ -66,7 +66,6 @@ class Mustache extends Command {
 		$table = $this->argument('table');
 		$template = $this->argument('template');
 		$result = $this->argument('result');
-		// $file = "build/templates/$template";
 
 		if (!in_array($action, [ 'info','generate','compare','install' ])) {
 			$this->error("Incorrect action $action, accepted values are info | generate | compare | install");

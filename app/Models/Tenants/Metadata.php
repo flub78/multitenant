@@ -20,6 +20,8 @@ use Exception;
 class Metadata extends Model
 {
     use HasFactory;
+    
+    protected $connection = 'schema';
 
     /**
      * The attributes that are mass assignable.
