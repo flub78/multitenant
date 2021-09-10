@@ -68,7 +68,7 @@ class MustacheInfo extends Command {
 
 		if (!Schema::tableExists($table)) {
 			$this->error("Unknow table $table in tenant database");
-			exit();
+			return 1;
 		}
 
 		$this->table_info($table);

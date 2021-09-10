@@ -29,9 +29,6 @@ class DateFormat {
 			$tz = Config::config ( 'app.timezone' );
 		}
 		$date = Carbon::createFromFormat ( __ ( 'general.date_format' ), $local_date, $tz );
-		if (! $date) {
-			throw new Exception ( "incorrect date $local_date" );
-		}
 		return $date->format ( "Y-m-d" );
 	}
 
@@ -55,9 +52,6 @@ class DateFormat {
 		$local_datetime = $local_date . ' ' . $time;
 		$date = Carbon::createFromFormat ( __ ( 'general.datetime_format' ), $local_datetime, $tz );
 		$date->timezone ( "UTC" );
-		if (! $date) {
-			throw new Exception ( "incorrect date $local_date" );
-		}
 		return $date->format ( "Y-m-d H:i" );
 	}
 
