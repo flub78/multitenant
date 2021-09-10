@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /**
  * A controller for the home page visible once logged in
@@ -29,7 +29,10 @@ class HomeController extends Controller
     public function index()
     {
     	if (tenant('id')) {
-    		return view('tenants.home');
+    		
+    		$qrcode = QrCode::size(100)->generate("Multi " . tenant('id'));
+    		
+    		return view('tenants.home', compact('qrcode'));
     	} else {
         	return view('home');
     	}

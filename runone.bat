@@ -1,7 +1,7 @@
 @rem Unit tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
@@ -31,7 +31,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantFeatureExampleTest.php
 @rem >>>>> php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/LocalizationTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ArtisanMustacheTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ArtisanMustacheTest.php
 
     @rem Helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/DirHelperTest.php

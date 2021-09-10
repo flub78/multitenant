@@ -32,8 +32,14 @@
                     {{tenant('id')  }}
 
                     {{ __('home.logged_in') }}
+                    
+                    
                 </div>
             </div>
+            <div class="card">
+	            <div>QRCODE  :  {{ $qrcode }}</div>
+            </div>
+            
         </div>
     </div>
 </div>

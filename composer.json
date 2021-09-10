@@ -12,8 +12,9 @@
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
-        "stancl/tenancy": "^3.4",
-        "mustache/mustache": "~2.5"
+        "mustache/mustache": "~2.5",
+        "simplesoftwareio/simple-qrcode": "~4",
+        "stancl/tenancy": "^3.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
