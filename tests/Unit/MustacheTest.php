@@ -44,9 +44,10 @@ class MustacheTest extends TestCase {
 	}
 	
 	public function test_investigation() {
+		$ds = DIRECTORY_SEPARATOR;
 		$installation = getcwd();
-		$templates =  getcwd() . '\build\templates';
-		$results = getcwd() . '\build\results';
+		$templates =  getcwd() . $ds . 'build' . $ds . 'templates';
+		$results =  getcwd() . $ds . 'build' . $ds . 'results';
 		echo "\nGEN_TEMPLATES = $templates";
 		
 		print_r($this->getDirContents($templates));
