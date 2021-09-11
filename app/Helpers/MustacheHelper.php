@@ -10,19 +10,25 @@ namespace App\Helpers;
  */
 class MustacheHelper {
 	
-	public const TEMPLATE_SUBDIR = '\\build\\templates\\';
 	public const RESULT_SUBDIR = '\\build\\results\\';
 	public const INSTALLATION_DIR = '';
 	
+
 	/**
 	 * Returns the absolute path of a template file
 	 * @param string $template
 	 * @return string
 	 */
 	private static function absolute_template_path(string $template) {
-		return 	getcwd() . Self::TEMPLATE_SUBDIR . $template;
+		return 	getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $template;
 	}
 	
+	/**
+	 * @param unknown $path
+	 * @throws \InvalidArgumentException
+	 * @throws \DomainException
+	 * @return boolean
+	 */
 	private static function isAbsolutePath($path) {
 		if (!is_string($path)) {
 			$mess = sprintf('String expected but was given %s', gettype($path));
@@ -49,12 +55,20 @@ class MustacheHelper {
 		return false;
 	}
 	
+	/**
+	 * @param string $template
+	 * @return string
+	 */
 	public static function template_dirname(string $template = "") {
 		$dir = Self::absolute_template_path($template);
 		if (!is_dir($dir)) return "";
 		return $dir;
 	}
 	
+	/**
+	 * @param string $template
+	 * @return string|string|\App\Helpers\string
+	 */
 	public static function template_filename(string $template = "") {
 		if (Self::isAbsolutePath($template)) {
 			$file = $template;
@@ -68,6 +82,10 @@ class MustacheHelper {
 	}
 	
 	
+	/**
+	 * @param string $result
+	 * @return string
+	 */
 	public static function result_filename(string $result) {
 		if (Self::isAbsolutePath($result)) {
 			return $result;
@@ -79,6 +97,7 @@ class MustacheHelper {
 			$basename = substr($basename, 0, -9);
 		}
 			
-		return getcwd() . Self::RESULT_SUBDIR . $dirname . $basename;
+		return getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results' 
+				. DIRECTORY_SEPARATOR . $dirname . $basename;
 	}
 }

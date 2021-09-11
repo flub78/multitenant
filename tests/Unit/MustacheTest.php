@@ -26,6 +26,15 @@ class MustacheTest extends TestCase {
 		$this->assertEquals("Hello, World!", $rendered);
 	}
 	
+	public function test_file_mustache() {
+		
+		$mustache = new \Mustache_Engine;
+		$this->assertNotNull($mustache);
+		
+		echo "\ngetcwd = " . getcwd() . "\n";
+	}
+	
+	
 	function getDirContents($dir){
 		$results = array();
 		$files = scandir($dir);
