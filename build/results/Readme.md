@@ -1,0 +1,1 @@
+This directory contains the file generated from the mustache templates
