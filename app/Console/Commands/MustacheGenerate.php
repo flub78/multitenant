@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Schema;
 use App\Helpers\MustacheHelper;
+use Illuminate\Filesystem\Filesystem;
 
 
 class MustacheGenerate extends Command {
@@ -41,17 +42,20 @@ class MustacheGenerate extends Command {
 	 * @param string $table
 	 * @param string $template
 	 */
-	protected function process_file(string $table, string $template, string $result) {
-		echo "\nprocessing $table $template";
+	protected function process_file(string $table, string $template_file, string $result_file) {
+		echo "\nprocessing $table $template_file $result_file";
+	
+		$mustache = new \Mustache_Engine;
+		$template = file_get_contents($template_file);
 		
-		// We need to generate the template filename, the result filename and the installation filename
-		$template_filename = MustacheHelper::template_filename($template);
-		$result_filename = MustacheHelper::result_filename($result);
-		// $installation_filename = MustacheHelper::installation_filename($template);
+		$rendered= $mustache->render($template, array('planet' => 'World'));
+		$result_file = 'storage\app\code\mustache.res';
 		
-		foreach (["table", "template", "template_filename", "result_filename"] as $name) {
-			echo "\n$name = " . "${$name}"; 
-		}
+		echo "\nrendered = $rendered";
+		echo "\nwriting to $result_file";
+		if (file_exists($result_file)) unlink($result_file, );
+		
+		file_put_contents($rendered, $result_file);
 	}
 
 	/**
@@ -76,14 +80,15 @@ class MustacheGenerate extends Command {
 			echo "$dir is a dir";
 			return;
 		} else {
-			$filename = MustacheHelper::template_filename($template);
-			if (!$filename) {
+			$template_file = MustacheHelper::template_filename($template);
+			if (!$template_file) {
 				$this->error("Template $template not found");
 				return 1;
 			}
+			$result_file = MustacheHelper::result_filename($result);			
+			$this->process_file($table, $template_file, $result_file);
 		}
 
-		$this->process_file($table, $template, $result);
 
 		return 0;
 	}
