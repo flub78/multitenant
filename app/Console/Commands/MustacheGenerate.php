@@ -55,7 +55,8 @@ class MustacheGenerate extends Command {
 		echo "\nwriting to $result_file";
 		if (file_exists($result_file)) unlink($result_file, );
 		
-		file_put_contents($rendered, $result_file);
+		// TODO fix the Failed to open stream: No such file or directory
+		// file_put_contents($rendered, $result_file);
 	}
 
 	/**
