@@ -51,6 +51,36 @@ class ArtisanMustacheTest extends TenantTestCase {
 		$this->assertEquals($exitCode, 1, "Error on mustache:info unknown_table");
 	}
 	
+	// ############################################################################## // 
+	
+	public function test_mustache_generate_users() {
+		$exitCode = Artisan::call("mustache:generate users Model.php.mustache app/Models/UserModel.php");
+		$this->assertEquals($exitCode, 0, "No errors");
+	}
+	
+	public function test_mustache_generate_users_create_directory () {
+		$dir = getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results';
+		$dir1 = $dir . DIRECTORY_SEPARATOR . 'test';
+		$dir2 = $dir1 . DIRECTORY_SEPARATOR . 'testing';
+		$file = $dir2 . DIRECTORY_SEPARATOR . 'UserModel.php';
+		
+		if (file_exists($file)) unlink($file);
+		$this->assertFileDoesNotExist($file);
+		
+		if (is_dir($dir2)) rmdir($dir2);
+		$this->assertFileDoesNotExist($dir2);
+		
+		if (is_dir($dir1)) rmdir($dir1);
+		$this->assertFileDoesNotExist($dir1);
+		
+		$exitCode = Artisan::call("mustache:generate users Model.php.mustache test/testing/UserModel.php");
+		$this->assertEquals($exitCode, 0, "No errors");
+		
+		$this->assertFileExists($file);
+		$this->assertFileExists($dir1);
+		$this->assertFileExists($dir2);
+	}
+	
 	public function test_mustache_generate_not_enought_parameters() {
 		try {
 			$exitCode = Artisan::call("mustache:generate");
@@ -60,11 +90,6 @@ class ArtisanMustacheTest extends TenantTestCase {
 		}
 	}
 		
-	public function test_mustache_generate_users() {
-		$exitCode = Artisan::call("mustache:generate users Model.php.mustache app/Models/UserModel.php");
-		$this->assertEquals($exitCode, 0, "No errors");
-	}
-	
 	public function test_mustache_generate_unknown_table() {
 		$exitCode = Artisan::call("mustache:generate unknown_table Model.php.mustache app/Models/UserModel.php");
 		$this->assertEquals($exitCode, 1, "Error");

@@ -36,6 +36,20 @@ class MustacheGenerate extends Command {
 		parent::__construct();
 	}
 
+	
+	protected function write_file(string $content, string $filename) {
+		
+		$dirname =  dirname($filename);
+		if (!is_dir($dirname)) {
+			mkdir($dirname, 0777, true);
+		}
+		
+		// For some reason file_put_content generates a Failed to open stream: Permission denied
+		$fh = fopen($filename, "a");
+		fwrite($fh, $content);
+		fclose($fh);	
+	}
+	
 	/**c
 	 * Apply action on one template
 	 *
@@ -49,14 +63,8 @@ class MustacheGenerate extends Command {
 		$template = file_get_contents($template_file);
 		
 		$rendered= $mustache->render($template, array('planet' => 'World'));
-		$result_file = 'storage\app\code\mustache.res';
-		
-		echo "\nrendered = $rendered";
-		echo "\nwriting to $result_file";
-		if (file_exists($result_file)) unlink($result_file, );
-		
-		// TODO fix the Failed to open stream: No such file or directory
-		// file_put_contents($rendered, $result_file);
+				
+		$this->write_file($rendered, $result_file);
 	}
 
 	/**

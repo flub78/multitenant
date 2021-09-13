@@ -25,35 +25,7 @@ class MustacheTest extends TestCase {
 		$rendered= $mustache->render('Hello, {{planet}}!', array('planet' => 'World')); // "Hello, World!"
 		$this->assertEquals("Hello, World!", $rendered);
 	}
-	
-	public function test_file_mustache() {
 		
-		$mustache = new \Mustache_Engine;
-		$this->assertNotNull($mustache);
-		
-		$template_file = getcwd() . DIRECTORY_SEPARATOR . 'build' 
-				. DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'test.mustache';
-		$template = file_get_contents($template_file);
-		
-		$rendered= $mustache->render($template, array('planet' => 'World'));
-		
-		$result = getcwd() . DIRECTORY_SEPARATOR . 'build'
-				. DIRECTORY_SEPARATOR . 'results' . DIRECTORY_SEPARATOR . 'mustache.result';
-		$result = 'C:\tmp\mustache.result';
-		$result = 'mustache.res';
-		
-		echo "\nresult file = $result";
-		
-		if (file_exists($result)) unlink($result);
-		
-		$this->assertFileDoesNotExist($result);
-		
-		// file_put_contents($rendered, $result);
-		
-		// $this->assertFileExist($result);
-		
-	}
-	
 	
 	function getDirContents($dir){
 		$results = array();
