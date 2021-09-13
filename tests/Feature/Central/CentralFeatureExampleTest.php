@@ -5,6 +5,12 @@ namespace Tests\Feature\Central;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * A template for feture test for central application
+ * 
+ * @author frederic
+ *
+ */
 class CentralFeatureExampleTest extends TestCase
 {
     /**

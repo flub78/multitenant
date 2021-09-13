@@ -1,15 +1,8 @@
 <?php
 
 /**
- * Test cases:
+ * Test the artisan mustache commands nominal and negative test cases
  *
- * Nominal:
- *
- * Error test case:
- * delete a non existing backup
- * restore a non existing backup
- *
- * attempt to create, restore or delete a backup using the artisan commands
  */
 namespace tests\Feature\Tenant;
 

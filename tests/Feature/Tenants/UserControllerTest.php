@@ -6,6 +6,12 @@ use Tests\TenantTestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Test for the UserController
+ * 
+ * @author frederic
+ *
+ */
 class UserControllerTest extends TenantTestCase {
 	
 	protected $basename = "users";

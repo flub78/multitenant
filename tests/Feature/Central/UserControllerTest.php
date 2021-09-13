@@ -6,6 +6,12 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Test UserController for central application
+ * 
+ * @author frederic
+ *
+ */
 class UserControllerTest extends TestCase {
 	
 	protected $basename = "users";

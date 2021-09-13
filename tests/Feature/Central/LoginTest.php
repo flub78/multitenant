@@ -6,6 +6,12 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Test login
+ * 
+ * @author frederic
+ *
+ */
 class LoginTest extends TestCase {
 	
 	protected $basename = "users";
@@ -36,10 +42,9 @@ class LoginTest extends TestCase {
 		$this->assertTrue(true);
 
 		$this->be ( $this->user );
-		$response = $this->get ( '/login' );
-		$response->assertStatus ( 302);
-		$response->assertSeeText ( 'Redirecting' );
-		$response->assertSeeText ( 'home' );
+		$response = $this->followingRedirects()->get ( '/login' );
+		$response->assertStatus (200);
+		$response->assertSeeText ( 'You are logged in' );
 	}		
 	
 	/**
@@ -50,12 +55,14 @@ class LoginTest extends TestCase {
 	public function ttest_disabled_users_cannot_login() {
 		
 		$this->user->active = false;
+		$this->user->admin = true;
+		$this->user->save();
 		
 		$this->be ( $this->user );
-		$response = $this->get ( '/users' );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText ( 'Multi Central' );
-		$response->assertSeeText ( 'Edit' );
+		$response = $this->followingRedirects()->get ('/users');
+		$response->assertStatus (200);
+		$response->assertSeeText ('Multi Central' );
+		$response->assertSeeText ('Edit');
 	}
 	
 }

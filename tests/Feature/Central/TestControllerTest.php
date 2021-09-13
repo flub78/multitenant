@@ -43,6 +43,9 @@ class TestControllerTest extends TestCase {
 		$response->assertSeeText('Test page');		
 	}
 	
+	/**
+	 * Disabled because phpinfo take a lot of space in the test logs
+	 */
 	public function ttest_info() {
 		$this->be ( $this->user );
 		

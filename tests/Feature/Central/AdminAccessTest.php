@@ -6,6 +6,12 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Test that admin can access to admin pages while regular users cannot
+ * 
+ * @author frederic
+ *
+ */
 class AdminAccessTest extends TestCase {
 	
 	// Clean up the database
