@@ -24,24 +24,34 @@ class MustacheHelperTest extends TestCase {
 	
 	public function test_template_filename() {
 
-		$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
-	
+		if (PHP_OS == "WINNT") {
+			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
+		} else {
+			$expected = '/var/www/html/multi_phpunit/build/templates/app\Http\Controllers\Tenants\Controller.php.mustache';
+		}
+		
 		$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp1));
 		$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp2));
 		$this->assertEquals($expected, MustacheHelper::template_filename($expected));
 	}
 	
 	public function test_result_filename () {
-		$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\app\Http\Controllers\Tenants\Controller.php';
-				
+		if (PHP_OS == "WINNT") {			
+			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\app\Http\Controllers\Tenants\Controller.php';
+		} else {
+			$expected = '/var/www/html/multi_phpunit/build/results/app\Http\Controllers\Tenants\Controller.php';
+		}
 		$this->assertEquals($expected, MustacheHelper::result_filename(Self::temp1));
 		$this->assertEquals($expected, MustacheHelper::result_filename(Self::temp2));		
 		$this->assertEquals($expected, MustacheHelper::result_filename($expected));
 	}
 	
 	public function test_is_absolute_path () {
-		$template = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
-		
+		if (PHP_OS == "WINNT") {
+			$template = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
+		} else {
+			$template = '/var/www/html/multi_phpunit/build/results/app\Http\Controllers\Tenants\Controller.php';
+		}
 		$this->assertTrue(MustacheHelper::is_absolute_path($template));
 		$this->assertFalse(MustacheHelper::is_absolute_path(Self::temp1));
 	}

@@ -14,10 +14,13 @@ class OsTest extends TestCase
     public function test_OS_identification()
     {
         $this->assertTrue(true);
-        
-        echo "php_uname('s') = " . php_uname('s') . "\n";
-        echo "PHP_OS = " . PHP_OS . "\n";
-        echo "php_uname() = " . php_uname() . "\n";
-        
+                
+        if (PHP_OS == "WINNT") {
+        	$this->assertEquals("Windows NT", php_uname('s'));
+        	$this->assertEquals("WINNT", PHP_OS);
+        } else {
+        	$this->assertEquals("Linux", PHP_OS);
+        	$this->assertEquals("Linux", php_uname('s'));
+        }
     }
 }

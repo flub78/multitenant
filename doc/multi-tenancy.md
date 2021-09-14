@@ -21,3 +21,12 @@ The application uses the tenancy for Laravel module (see below).
 * [Stancl module documentation](https://github.com/stancl/tenancy-docs)
 
 * [Multi-tenancy package comparison](https://tenancyforlaravel.com/docs/v3/package-comparison/)
+
+## Modifications
+
+By default the tenancy mechanism has a few characteristics:
+
+* The tenant database is created when a tenant is created
+* The tenant storage is created when a tenant is created.
+
+It makes the upgrade of the central database complicated as there is no way if you want to keep existing tenants.

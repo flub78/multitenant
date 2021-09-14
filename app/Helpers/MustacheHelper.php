@@ -43,18 +43,12 @@ class MustacheHelper {
 	 * @return string|string|\App\Helpers\string
 	 */
 	public static function template_filename(string $template = "") {
-		echo "\n";
-		echo "\ntemplate_filename($template)";
 		if (Self::is_absolute_path($template)) {
-			echo " absolute ";
 			$file = $template;
 		} else {
-			echo " relative ";
 			$file = Self::absolute_template_path($template);
 		}
 		$filename = str_ends_with($file, '.mustache') ? $file : $file . '.mustache';
-		
-		echo "\nfilename = $filename";
 		
 		if (!file_exists($filename)) return "";
 		return $filename;
