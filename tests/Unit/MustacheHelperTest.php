@@ -31,7 +31,7 @@ class MustacheHelperTest extends TestCase {
 			$this->assertEquals($expected, MustacheHelper::template_filename($expected));
 		} else {
 			$expected = '/var/www/html/multi_phpunit/build/templates/app\Http\Controllers\Tenants\Controller.php.mustache';
-			$this->asssertTrue(true);
+			$this->assertTrue(true);
 		}
 		
 	}
