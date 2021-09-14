@@ -36,6 +36,7 @@ class MustacheHelperTest extends TestCase {
 				
 		$this->assertEquals($expected, MustacheHelper::result_filename(Self::temp1));
 		$this->assertEquals($expected, MustacheHelper::result_filename(Self::temp2));		
+		$this->assertEquals($expected, MustacheHelper::result_filename($expected));
 	}
 	
 	public function test_is_absolute_path () {

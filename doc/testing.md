@@ -16,6 +16,33 @@
 
 A discussion on how to chose between unit test and BDD (given-when-then) tests. https://specflow.org/challenges/bdd-vs-unit-tests/
 
+## Unit testing
+
+The goal of unit testing is to test a simple class without implying other classes. It is usually relatively easy for simple classes that render a service of their own and do not call others classes.
+
+Feature tests are used when several classes are implicated.
+
+Here is a interesting discussion on the test of private methods. 
+    https://stackoverflow.com/questions/249664/best-practices-to-test-protected-methods-with-phpunit
+    
+IMHO :
+
+* Every code should be unit tested, even private methods. I understand that it breaks the black box approach for testing, but for me black box testing is only an absolute requirement for end to end testing. Simply having the knowledge of the classes used by an implementation breaks the black box approach. Unit testing is white box even if you try to not have to much coupling between tests and implementation.
+
+In other words BDD, and end to end tests are black box and loosely coupled with the implementation, unit tests are white box and more heavily coupled with the implementation. It is not chocking to have to rewrite them if you rewrite the code.
+
+Note also that efforts to keep a high percentage of lines covered by unit testing is also a white box approach.
+
+The suggestion to only test private method indirectly looks biased to me. If you have to design your input test to cover the internal private method you are already doing implementation dependent testing.
+
+Note also that the importance of a strict encapsulation, which makes all the methods which are not strictly part of the API private, depends on the audience of the software. It is critical for a large open source project used by thousands of developers. It is less important of a private project or something used by a small team. 
+
+And also note that I am aware of the weakness of the previous paragraph. A lot of software bugs have happens exactly because the developers did not expect their software to be used in a wider context (year 2000 bug, Ariane 5, etc). So breaking encapsulation of private methods by making them public just for testing may be a bad idea.
+
+Conclusion: it may be a good idea to spend some time to experiment on the reflexive methods giving assess to private methods for testing. 
+
+And last remarks, if you can use reflexivity to get access to private methods, it means that the private, protected, public classification is more a convention than a security mechanism. In this case the python approach of making things private by convention may be good enough and I should not care too much about keeping public for testing some methods that should logically be private.
+
 ## TDD Test Driven Development
 
 Test driven development. It implies the tests to be developed before the code. 
@@ -99,7 +126,7 @@ Even if it is easy to extract features specifications and test scenarios it does
 
 To test your central app, just write normal Laravel tests.
 
-### phpunit for enants
+### phpunit for tenants
 
 Inherit from TenantTest to create a tenant context
 
