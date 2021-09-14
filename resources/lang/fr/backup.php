@@ -18,7 +18,7 @@ return [
 	'not_found' => 'Sauvegarde :id inconnue',
 	'deleted' => 'Sauvegarde :id supprimée',
 	'restored' => 'Sauvegarde :id restaurée',	
-	'restored' => 'Sauvegarde :id réalisée',
+	'created' => 'Sauvegarde :id réalisée',
 	'error' => 'Erreur durant la sauvegarde :id',
 		
 	'upload_backup' => 'Charger une sauvegarde',	

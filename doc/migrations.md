@@ -5,6 +5,13 @@
 ### Central application migration
 
     php artisan migrate
+    
+or
+
+    php artisan migrate:fresh
+    
+When tenants already exist, if the migration is upward compatible, it may be convenient to backup the database, migrate it and restore the backup containing existing tenants. Note that it only works is the restore is compatible with existing backups (new fields have defaults).
+
 
 ### Tenant application migration
 

@@ -26,13 +26,14 @@ class MustacheHelperTest extends TestCase {
 
 		if (PHP_OS == "WINNT") {
 			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
+			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp1));
+			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp2));
+			$this->assertEquals($expected, MustacheHelper::template_filename($expected));
 		} else {
 			$expected = '/var/www/html/multi_phpunit/build/templates/app\Http\Controllers\Tenants\Controller.php.mustache';
+			$this->asssertTrue(true);
 		}
 		
-		$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp1));
-		$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp2));
-		$this->assertEquals($expected, MustacheHelper::template_filename($expected));
 	}
 	
 	public function test_result_filename () {
