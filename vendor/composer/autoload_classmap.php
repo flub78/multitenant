@@ -71,7 +71,6 @@ return array(
     'App\\Providers\\TenancyServiceProvider' => $baseDir . '/app/Providers/TenancyServiceProvider.php',
     'App\\Rules\\IsField' => $baseDir . '/app/Rules/IsField.php',
     'App\\Rules\\IsTable' => $baseDir . '/app/Rules/IsTable.php',
-    'App\\Traits\\UserTestTrait' => $baseDir . '/app/Traits/UserTestTrait.php',
     'Asm89\\Stack\\Cors' => $vendorDir . '/asm89/stack-cors/src/Cors.php',
     'Asm89\\Stack\\CorsService' => $vendorDir . '/asm89/stack-cors/src/CorsService.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

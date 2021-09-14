@@ -53,6 +53,9 @@ What is missing:
 * the views
 * the tests, Model unit test and Feature controller test
 
+Creation of only a migration
+
+    php artisan make:migration AddEmailToTenants
 
 ### The migration
 

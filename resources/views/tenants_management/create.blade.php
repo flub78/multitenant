@@ -32,10 +32,15 @@
               <label for="id">Tenant id</label>
               <input type="text" class="form-control" name="id" value="{{ old('id') }}"/>
           </div>
-@if (false)          
+@if (true)          
           <div class="form-group">
               <label for="email">Email</label>
               <input type="text" class="form-control" name="email" value="{{ old('email') }}"/>
+          </div>
+          
+          <div class="form-group">
+              <label for="database">Database</label>
+              <input type="text" class="form-control" name="database" value="{{ old('database') }}"/>
           </div>
 @endif          
            <div class="form-group">

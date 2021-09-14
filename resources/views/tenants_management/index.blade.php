@@ -17,6 +17,8 @@
         <tr>
           <td>Name</td>
           <td>Domain</td>
+          <td>Email</td>
+          <td>Database</td>
           <td >Edit</td>
           <td >Delete</td>
         </tr>
@@ -27,6 +29,8 @@
         <tr>
             <td>{{$tenant->id}}</td>            
 			<td><a href="{{ $tenant->url()}}" >{{$tenant->domain}}</a></td>
+			<td>{{$tenant->email}}</td>
+			<td>{{$tenant->database}}</td>
 
             <td><a href="{{ route('tenants.edit', $tenant->id)}}" class="btn btn-primary" dusk="edit_{{$tenant->id}}">Edit</a></td>
             

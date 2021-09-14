@@ -34,9 +34,20 @@
               <input type="text" class="form-control" name="id" value="{{ old('id', $tenant->id) }}"/>
           </div>
           
+          
           <div class="form-group">
               <label for="domain">Domain</label>
               <input type="text" class="form-control" name="domain" value="{{ old('domain', $tenant->domain) }}"/>
+          </div>
+
+          <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" class="form-control" name="email" value="{{ old('email', $tenant->email) }}"/>
+          </div>
+
+          <div class="form-group">
+              <label for="database">Database</label>
+              <input type="text" class="form-control" name="database" value="{{ old('database', $tenant->database) }}"/>
           </div>
           
           <button type="submit" class="btn btn-primary">Edit Tenant</button>

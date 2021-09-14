@@ -13,6 +13,13 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     use HasDatabase, HasDomains;
     use MaintenanceMode;
     
+    protected $fillable = [
+    		'id',
+    		'email',
+    		'database',
+    		'domain'
+    ];
+      
     public function url() {
     	$parsed = parse_url(url('/'));
     	

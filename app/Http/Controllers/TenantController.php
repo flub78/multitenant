@@ -7,31 +7,39 @@ use Stancl\Tenancy\Database\Models\Domain;
 use App\Models\Tenant;
 use App\Helpers\DirHelper;
 use App\Helpers\TenantHelper;
+use Illuminate\Validation\Rule;
 
 
 class TenantController extends Controller
 {
 	// TODO create a request for tenants
-	protected $rules = [
+	protected $create_rules = [
 			'id' => [
 					'required',
 					'string',
-					'max:255'
+					'max:255',
+					'unique:tenants'
 			],
-/*
+
 			'email' => [
-					'required',
-					'string',
+					'string', 'nullable',
 					'email',
 					'max:255',
 					'unique:tenants'
 			],
-*/			'domain' => [
+			'domain' => [
 					'required',
 					'string',
 					'min:4'
-			]
+			],
+			'database' => [
+					'string', 'nullable',
+					'max:255',
+					'unique:tenants'
+			],
 	];
+	
+	
 	/**
      * Display a listing of the resource.
      *
@@ -62,7 +70,7 @@ class TenantController extends Controller
      */
     public function store(Request $request)
     {
-    	$validatedData = $request->validate ( $this->rules );
+    	$validatedData = $request->validate ( $this->create_rules );
     	
     	$tenant_id =  $validatedData ['id'];
     	        	
@@ -74,7 +82,8 @@ class TenantController extends Controller
     	
     	// create local storage for the tenant
     	$storage = TenantHelper::storage_dirpath($tenant_id);
-    	mkdir($storage, 0755, true);
+    	if (!is_dir($storage))
+    		mkdir($storage, 0755, true);
     	
     	return redirect ( '/tenants' )->with ( 'success', "Tenant $tenant_id  has been created" );
     }
@@ -111,8 +120,27 @@ class TenantController extends Controller
      */
     public function update(Request $request, $id)
     {
-    	$validatedData = $request->validate ( $this->rules );
+    	$db = request('database');
+    	$edit_rules = [
+    			'id' => ['required', 'string', 'max:255', Rule::unique('tenants')->ignore($id)],
+    			
+    			'email' => [
+    					'string', 'nullable',
+    					'email',
+    					'max:255', Rule::unique('tenants')->ignore($id)
+    			],
+    			'domain' => [
+    					'required',
+    					'string',
+    					'min:4'
+    			],
+    			'database' => [
+    					'string', 'nullable',
+    					'max:255', Rule::unique('tenants')->ignore($id)
+    			],
+    	];
     	
+    	$validatedData = $request->validate ( $edit_rules );
     	$domain = $validatedData ['domain'];
     	unset($validatedData ['domain']);
     	

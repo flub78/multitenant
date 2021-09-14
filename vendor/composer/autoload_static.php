@@ -637,7 +637,6 @@ class ComposerStaticInit0fa8e07507ff799024300d2b007686aa
         'App\\Providers\\TenancyServiceProvider' => __DIR__ . '/../..' . '/app/Providers/TenancyServiceProvider.php',
         'App\\Rules\\IsField' => __DIR__ . '/../..' . '/app/Rules/IsField.php',
         'App\\Rules\\IsTable' => __DIR__ . '/../..' . '/app/Rules/IsTable.php',
-        'App\\Traits\\UserTestTrait' => __DIR__ . '/../..' . '/app/Traits/UserTestTrait.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
