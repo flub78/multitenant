@@ -23,36 +23,9 @@ class MustacheHelper {
 		return 	getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $template;
 	}
 	
-	/**
-	 * @param unknown $path
-	 * @throws \InvalidArgumentException
-	 * @throws \DomainException
-	 * @return boolean
-	 */
-	private static function isAbsolutePath($path) {
-		if (!is_string($path)) {
-			$mess = sprintf('String expected but was given %s', gettype($path));
-			throw new \InvalidArgumentException($mess);
-		}
-		if (!ctype_print($path)) {
-			$mess = 'Path can NOT have non-printable characters or be empty';
-			throw new \DomainException($mess);
-		}
-		// Optional wrapper(s).
-		$regExp = '%^(?<wrappers>(?:[[:print:]]{2,}://)*)';
-		// Optional root prefix.
-		$regExp .= '(?<root>(?:[[:alpha:]]:/|/)?)';
-		// Actual path.
-		$regExp .= '(?<path>(?:[[:print:]]*))$%';
-		$parts = [];
-		if (!preg_match($regExp, $path, $parts)) {
-			$mess = sprintf('Path is NOT valid, was given %s', $path);
-			throw new \DomainException($mess);
-		}
-		if ('' !== $parts['root']) {
-			return true;
-		}
-		return false;
+	public static function is_absolute_path($path) {
+		if($path === null || $path === '') throw new Exception("Empty path");
+		return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i',$path) > 0;
 	}
 	
 	/**
@@ -70,12 +43,18 @@ class MustacheHelper {
 	 * @return string|string|\App\Helpers\string
 	 */
 	public static function template_filename(string $template = "") {
-		if (Self::isAbsolutePath($template)) {
+		echo "\n";
+		echo "\ntemplate_filename($template)";
+		if (Self::is_absolute_path($template)) {
+			echo " absolute ";
 			$file = $template;
 		} else {
+			echo " relative ";
 			$file = Self::absolute_template_path($template);
 		}
 		$filename = str_ends_with($file, '.mustache') ? $file : $file . '.mustache';
+		
+		echo "\nfilename = $filename";
 		
 		if (!file_exists($filename)) return "";
 		return $filename;
@@ -87,7 +66,7 @@ class MustacheHelper {
 	 * @return string
 	 */
 	public static function result_filename(string $result) {
-		if (Self::isAbsolutePath($result)) {
+		if (Self::is_absolute_path($result)) {
 			return $result;
 		}
 		$dir = dirname($result);

@@ -4,7 +4,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
 
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ConfigurationModelTest.php
@@ -17,7 +17,7 @@
 
 @rem Central application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralFeatureExampleTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Central/LoginTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/LoginTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralTenantHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/BackupControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/TenantControllerTest.php
