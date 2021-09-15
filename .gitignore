@@ -12,7 +12,11 @@ yarn-error.log
 /.idea
 /.vscode
 /storage/
-!/storage/app/tests/*
+!/storage/app
+/storage/app/backup
+/storage/app/public
+!/storage/app/tests/central_nominal.gz
+!/storage/app/tests/tenant_nominal.gz
 /results.txt
 /.env.testing
 /.env.dusk.local
