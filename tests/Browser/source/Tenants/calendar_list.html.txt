@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="y8M0AHxAokS1jC5fVXHoVcw9vSU5MFJd64z5SZOb">
+    <meta name="csrf-token" content="bBZoEFXo09HzMLIOqYs0OzKdHOKXbmTRiXY8Po9d">
 
     <title>Multi</title>
     
@@ -146,7 +146,7 @@
 
 									
                                     <form id="logout-form" action="http://test.tenants.com/logout" method="POST" class="d-none">
-                                        <input type="hidden" name="_token" value="y8M0AHxAokS1jC5fVXHoVcw9vSU5MFJd64z5SZOb">                                    </form>
+                                        <input type="hidden" name="_token" value="bBZoEFXo09HzMLIOqYs0OzKdHOKXbmTRiXY8Po9d">                                    </form>
                                 </div>
                             </li>
                                             </ul>

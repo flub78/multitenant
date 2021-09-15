@@ -47,6 +47,16 @@ Dusk tests use the environment define in .env.dusk.tenants
 
 Dusk tests uses the mysql_test database connection
 
+### Dusk tests databases
+
+As the refreshDatabase trait cannot be used in multitenant context and it can be convenient to start tests in a well defined contexts several databases are defined to initialize the tests. By default they are stored in storage/app/tests.
+
+* central_nominal.gz is used for tests of the central application
+* tenant_nominal.gz is used for testing tenants.
+
+Both of them contains at least a default user to login.
+
+
 
 ## phpunit tests on Jenkins
 

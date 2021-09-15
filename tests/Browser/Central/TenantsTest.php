@@ -26,7 +26,7 @@ class TenantsTest extends DuskTestCase {
 		echo "DB_DATABASE=" . env ( 'DB_DATABASE' ) . "\n";
 		echo "login=" . env ( 'TEST_LOGIN' ) . "\n";
 		echo "password=" . env ( 'TEST_PASSWORD' ) . "\n";
-		*/
+		 */
 	
 		// Restore a test database
 		$filename = TenantHelper::storage_dirpath() . '/app/tests/central_nominal.gz';
