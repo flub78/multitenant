@@ -15,7 +15,7 @@ class AddEmailToTenants extends Migration
     {
         Schema::table('tenants', function (Blueprint $table) {
         	$table->string('email')->unique()->nullable();
-        	$table->string('database')->unique()->nullable();
+        	$table->string('db_name')->unique()->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class AddEmailToTenants extends Migration
     {
         Schema::table('tenants', function (Blueprint $table) {
         	$table->dropColumn('email');
-        	$table->dropColumn('database');
+        	$table->dropColumn('db_name');
         });
     }
 }

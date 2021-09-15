@@ -39,8 +39,8 @@
           </div>
           
           <div class="form-group">
-              <label for="database">Database</label>
-              <input type="text" class="form-control" name="database" value="{{ old('database') }}"/>
+              <label for="db_name">Database</label>
+              <input type="text" class="form-control" name="db_name" value="{{ old('db_name') }}"/>
           </div>
 @endif          
            <div class="form-group">

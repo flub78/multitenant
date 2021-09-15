@@ -32,7 +32,7 @@ class TenantController extends Controller
 					'string',
 					'min:4'
 			],
-			'database' => [
+			'db_name' => [
 					'string', 'nullable',
 					'max:255',
 					'unique:tenants'
@@ -120,7 +120,7 @@ class TenantController extends Controller
      */
     public function update(Request $request, $id)
     {
-    	$db = request('database');
+    	$db = request('db_name');
     	$edit_rules = [
     			'id' => ['required', 'string', 'max:255', Rule::unique('tenants')->ignore($id)],
     			
@@ -134,7 +134,7 @@ class TenantController extends Controller
     					'string',
     					'min:4'
     			],
-    			'database' => [
+    			'db_name' => [
     					'string', 'nullable',
     					'max:255', Rule::unique('tenants')->ignore($id)
     			],
