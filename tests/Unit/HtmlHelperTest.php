@@ -20,7 +20,7 @@ class HtmlHelperTest extends TestCase {
 	 */
 	public function testH1() {
 		$str = "Hello world";
-		$res = h1($str);
+		$res = HH::h1($str);
 		# $res = h1($str);
 		$this->assertEquals("<H1>Hello world</H1>", $res);
 	}
