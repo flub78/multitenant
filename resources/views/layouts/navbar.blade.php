@@ -80,6 +80,10 @@
        				   
 @endif	<!-- (auth()->user()->isAdmin()) -->
 
+@if (tenant('id'))
+
+					<!-- Feature Menu items for tenants -->
+
     					<li class="nav-item dropdown">
       						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">{{__('calendar.feature')}}</a>
       						
@@ -89,6 +93,8 @@
         						<a class="dropdown-item" href="{{ route('calendar.create') }}">{{__('calendar.add')}}</a>
       						</div>
     					</li>
+
+@endif <!-- (tenant('id')) -->
 
                     </ul>
 @endauth
