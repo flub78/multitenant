@@ -4,6 +4,8 @@
 
 @section('content')
 
+<?php use App\Helpers\HtmlHelper as HTML; ?>
+
 <style>
   .uper {
     margin-top: 40px;
@@ -31,12 +33,10 @@
               
               <label for="name">{{__('user_roles.user_id')}}</label>
               
-              {!! App\Helpers\HtmlHelper::selector($user_list, false, "", 
-              ["class" => "form-select", "name" => "user_id", "id" => "user_id"]) !!}
+              {!! HTML::selector($user_list, false, "", ["class" => "form-select", "name" => "user_id", "id" => "user_id"]) !!}
 
               <label for="description">{{__('user_roles.role_id')}}</label>
-              {!! App\Helpers\HtmlHelper::selector($role_list, false, "",
-              ["name" => "role_id", "id" => "role_id"]) !!}
+              {!! HTML::selector($role_list, false, "", ["name" => "role_id", "id" => "role_id"]) !!}
           </div>
           
           <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
