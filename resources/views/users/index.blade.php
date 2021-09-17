@@ -28,7 +28,7 @@
         @foreach($users as $user)
         <tr>
             <td>{{$user->name}}</td>
-            <td><A HREF="mailto:{{$user->email}}">{{$user->email}}</A></td>
+            <td>@email({{$user->email}})</td>
             <td>
             	<input type="checkbox"   {{($user->admin) ? 'checked' : ''}} onclick="return false;" />
             </td>
