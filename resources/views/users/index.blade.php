@@ -49,7 +49,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('users')}}/create"><button type="submit" class="btn btn-primary" >@lang('users.add')</button></a> 
+    @button_create({{url('users')}}, {{__('users.add')}}) 
 </div>  
 @endsection
 

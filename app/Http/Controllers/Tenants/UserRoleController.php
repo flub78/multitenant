@@ -41,7 +41,7 @@ class UserRoleController extends Controller
     	$role_list = Role::selector();
     	return view ('tenants/user_role/create')
     		->with('role_list', $role_list)
-    		->with('user_list', $user_list);
+    		->with('user_list', $user_list);   		;
     }
 
     /**

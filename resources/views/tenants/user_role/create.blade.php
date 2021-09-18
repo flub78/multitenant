@@ -4,7 +4,10 @@
 
 @section('content')
 
-<?php use App\Helpers\HtmlHelper as HTML; ?>
+@php
+use App\Helpers\HtmlHelper as HTML;
+use App\Helpers\BladeHelper as Blade;
+@endphp
 
 <style>
   .uper {
@@ -31,12 +34,12 @@
           <div class="form-group">
               @csrf
               
-              <label for="name">{{__('user_roles.user_id')}}</label>
+              <label for="user_id">{{__('user_roles.user_id')}}</label>
               
-              {!! HTML::selector($user_list, false, "", ["class" => "form-select", "name" => "user_id", "id" => "user_id"]) !!}
+              {!! Blade::selector("user_id", $user_list, "") !!}
 
-              <label for="description">{{__('user_roles.role_id')}}</label>
-              {!! HTML::selector($role_list, false, "", ["name" => "role_id", "id" => "role_id"]) !!}
+              <label for="role_id">{{__('user_roles.role_id')}}</label>
+              {!! Blade::selector("role_id", $role_list, "") !!}
           </div>
           
           <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
