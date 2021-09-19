@@ -46,13 +46,71 @@ class  BladeHelper {
 		return HH::selector($values, false, $selected, $attributes);
 	}
 	
+	/**
+	 * @param string $id
+	 * @param array $values
+	 * @param string $selected
+	 * @param array $attrs
+	 * @return string
+	 */
 	static public function selector_with_null(
-			$id = "",
-			$values = [],
-			$selected = "",
-			$attrs = []) {
+			string $id = "",
+			array $values = [],
+			string $selected = "",
+			array $attrs = []) {
 				$attributes = array_merge($attrs, ["class" => "form-select", 'name' => $id, 'id' => $id]);
 				return HH::selector($values, true, $selected, $attributes);
 	}
 	
+	/**
+	 * @param bool $checked
+	 * @return string
+	 */
+	static public function checkbox (bool $checked) {
+		// <input type="checkbox" {{($user->admin) ? 'checked' : ''}} onclick="return false;" />
+		$res = '<input type="checkbox" ';
+		if ($checked) $res .= 'checked';
+		$res .= ' onclick="return false;" />';
+		return $res;
+	}
+	
+	/**
+	 * @param string $email
+	 * @return string
+	 */
+	static public function email(string $email) {
+		return '<A HREF="mailto:' . $email . '">' . $email . '</A>';
+	}
+	
+	/**
+	 * @param string $route
+	 * @param string $dusk
+	 * @param string $label
+	 * @return string
+	 */
+	static public function button_edit(string $route, string $dusk, string $label) {
+		// <a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary" dusk="edit_{{$user->name}}">{{__('general.edit')}}</a>
+		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';		
+	}
+	
+	/**
+	 <form action="{{ route('users.destroy', $user->id)}}" method="post">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-danger" type="submit" dusk="delete_{{$user->name}}" >{{__('general.delete')}}</button>
+     </form>
+	 * 
+	 * @param string $route
+	 * @param string $dusk
+	 * @param string $label
+	 * @return string
+	 */
+	static public function button_delete(string $route, string $dusk, string $label) {
+		$res = '<form action="' . $route .'"  method="post">' . "\n";
+		$res .= '    <input type="hidden" name="_token" value="' . csrf_token() . '" />' . "\n";
+		$res .= '    <input type="hidden" name="_method" value="DELETE">' . "\n";
+		$res .= '    <button class="btn btn-danger" type="submit" dusk="' . $dusk . '"  >' . $label . "</button>\n";
+		$res .= "</form>\n";
+		return $res;
+	}
 }

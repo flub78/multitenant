@@ -1,13 +1,12 @@
 <!-- Users create.blade.php -->
 
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
-
-@php
-use App\Helpers\HtmlHelper as HTML;
-use App\Helpers\BladeHelper as Blade;
-@endphp
 
 <style>
   .uper {
@@ -34,15 +33,14 @@ use App\Helpers\BladeHelper as Blade;
           <div class="form-group">
               @csrf
               
-              <label for="user_id">{{__('user_roles.user_id')}}</label>
-              
+              @label("user_id", {{__('user_roles.user_id')}})
               {!! Blade::selector("user_id", $user_list, "") !!}
 
-              <label for="role_id">{{__('user_roles.role_id')}}</label>
+              @label("role_id", {{__('user_roles.role_id')}})
               {!! Blade::selector("role_id", $role_list, "") !!}
           </div>
           
-          <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
+          @button_submit()
       </form>
   </div>
 </div>
