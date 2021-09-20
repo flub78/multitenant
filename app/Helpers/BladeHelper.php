@@ -21,7 +21,33 @@ use App\Helpers\HtmlHelper as HH;
  */
 class  BladeHelper {
 
+	public static  $indent = '    ';
 	
+	/**
+	 * @param String $for
+	 * @param String $label
+	 * @return string
+	 */
+	static public function label(String $for, String $label, $indent = 0) {
+		// <label for="user_id">{{__('user_roles.user_id')}}</label>
+		return str_repeat(self::$indent, $indent) 
+			. '<label for=' . $for . '>' . $label . '</label>';
+	}
+	
+	static public function input_create(String $type, String $name, $value) {
+		return '<input type="' . $type . '" class="form-control" name="' 
+				. $name . '" value="' . $value . '"/>';	
+	}
+	
+	static public function text_create(String $name, $value) {
+		return self::input_create("text", $name, $value);
+	}
+	
+	static public function email_create(String $name, $value) {
+		return self::input_create("email", $name, $value);
+	}
+	
+
 	/**
 	 * returns an HTML select from a list of [string, id]
 	 * @param array $values list of name, id pairs

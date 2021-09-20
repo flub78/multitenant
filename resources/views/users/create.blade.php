@@ -1,4 +1,7 @@
 <!-- Users create.blade.php -->
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
 
 @extends('layouts.app')
 
@@ -26,16 +29,16 @@
     @endif
     
       <form method="post" action="{{ route('users.store') }}">
-          <div class="form-group">
-              @csrf
-              
-              <label for="country_name">{{__('users.name')}}</label>
-              <input type="text" class="form-control" name="name" value="{{ old('name') }}"/>
+          @csrf
+         
+          <div class="form-group">              
+              {!! Blade::label($for="name", $label=__('users.name')) !!}
+              {!! Blade::text_create("name", old('name'))!!}
           </div>
           
           <div class="form-group">
-              <label for="cases">{{__('users.email')}}</label>
-              <input type="text" class="form-control" name="email" value="{{ old('email') }}"/>
+              {!! Blade::label($for="email", $label=__('users.email')) !!}
+              {!! Blade::email_create("email", old('email'))!!}
           </div>
           
            <div class="form-group">
