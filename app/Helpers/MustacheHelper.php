@@ -1,7 +1,8 @@
 <?php
 namespace App\Helpers;
 
-  
+use App\Helpers\MetadataHelper as Meta;
+
 /**
  * Some function related to code generation
  * 
@@ -81,9 +82,10 @@ class MustacheHelper {
 	 */
 	public static function metadata(String $table) {
 		return array(
-			'class_name' => 'User',
+			'table' => $table,
+			'class_name' => Meta::class_name($table),
 			'fillable_names' => '"name", "email", "admin", "active"',
-			'element' => 'user',
+			'element' => Meta::element($table),
 			'fillable' => [
 					['name' => 'fld1', 'field_input' => 'field_1', 'field_display' => 'display_1'],
 					['name' => 'fld2', 'field_input' => 'field_2', 'field_display' => 'display_2'],
