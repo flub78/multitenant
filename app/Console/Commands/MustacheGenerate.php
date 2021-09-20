@@ -5,8 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Schema;
 use App\Helpers\MustacheHelper;
-use Illuminate\Filesystem\Filesystem;
-
+use Illuminate\Support\Facades\Log;
 
 class MustacheGenerate extends Command {
 	
@@ -57,13 +56,16 @@ class MustacheGenerate extends Command {
 	 * @param string $template
 	 */
 	protected function process_file(string $table, string $template_file, string $result_file) {
-		echo "\nprocessing $table $template_file $result_file";
+		$verbose =  $this->option('verbose');
+		if ($verbose) echo  "\nprocessing $table\n" 
+			. "template=$template_file\n" 
+			. "result=$result_file\n";
 	
-		$mustache = new \Mustache_Engine;
+		$mustache = new \Mustache_Engine(['logger' => Log::channel('stderr')]);
 		$template = file_get_contents($template_file);
 		
-		$rendered= $mustache->render($template, array('planet' => 'World'));
-				
+		$rendered = $mustache->render($template, MustacheHelper::metadata($table));
+		if ($verbose) echo $rendered;
 		$this->write_file($rendered, $result_file);
 	}
 

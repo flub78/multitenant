@@ -46,10 +46,6 @@ class ArtisanMustacheTest extends TenantTestCase {
 	
 	// ############################################################################## // 
 	
-	public function test_mustache_generate_users() {
-		$exitCode = Artisan::call("mustache:generate users Model.php.mustache app/Models/UserModel.php");
-		$this->assertEquals($exitCode, 0, "No errors");
-	}
 	
 	public function test_mustache_generate_users_create_directory () {
 		$dir = getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results';
@@ -91,6 +87,21 @@ class ArtisanMustacheTest extends TenantTestCase {
 	public function test_mustache_generate_users_unknown_model() {
 		$exitCode = Artisan::call("mustache:generate users Modelnotfound.php.mustache app/Models/UserModel.php");
 		$this->assertEquals($exitCode, 1, "Template not found");
+	}
+	
+	public function test_mustache_generate_users() {
+		$exitCode = Artisan::call("mustache:generate users Model.php.mustache app/Models/UserModel.php");
+		$this->assertEquals($exitCode, 0, "No errors");
+	}
+	
+	public function test_mustache_generate_users_create_view() {
+		$exitCode = Artisan::call("mustache:generate users resources/views/tenants/create_view.blade.php.mustache resources/views/users/create.blade.php");
+		$this->assertEquals($exitCode, 0, "No errors");
+	}
+
+	public function test_mustache_generate_users_index_view() {
+		$exitCode = Artisan::call("mustache:generate --verbose users resources/views/tenants/list_view.blade.php.mustache resources/views/users/index.blade.php");
+		$this->assertEquals($exitCode, 0, "No errors");
 	}
 	
 }

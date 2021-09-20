@@ -43,7 +43,13 @@ In this case the result parameter contains template values.
 Ex;
 * {{filename}}              use the template basename minus the .mustache extension
 * {{class}}{{filename}}     concatenation of the class name and the basename
-* {{table}}/{{filename}}    result in a subdirectory named with the table name 
+* {{table}}/{{filename}}    result in a subdirectory named with the table name
+
+### List of replaced patterns
+
+* {{class_name}}        Camel case class name (model)
+* {{fillable_names}}    List of fields
+* 
 
 ### The template directory
 

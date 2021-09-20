@@ -73,4 +73,28 @@ class MustacheHelper {
 		return getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results' 
 				. DIRECTORY_SEPARATOR . $dirname . $basename;
 	}
+	
+	/**
+	 * array('planet' => 'World')
+	 * @param String $table
+	 * @return string[]
+	 */
+	public static function metadata(String $table) {
+		return array(
+			'class_name' => 'User',
+			'fillable_names' => '"name", "email", "admin", "active"',
+			'element' => 'user',
+			'fillable' => [
+					['name' => 'fld1', 'field_input' => 'field_1', 'field_display' => 'display_1'],
+					['name' => 'fld2', 'field_input' => 'field_2', 'field_display' => 'display_2'],
+					['name' => 'fld3', 'field_input' => 'field_3', 'field_display' => 'display_3'],
+			],
+			'list' => [
+					['name' => 'fld1', 'field_input' => 'field_1', 'field_display' => 'display_1'],
+					['name' => 'fld2', 'field_input' => 'field_2', 'field_display' => 'display_2'],
+					['name' => 'fld3', 'field_input' => 'field_3', 'field_display' => 'display_3'],
+			]
+				
+		);
+	}
 }

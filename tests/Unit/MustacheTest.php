@@ -19,7 +19,7 @@ class MustacheTest extends TestCase {
 		
 	public function test_basic_mustache() {
 		
-		$mustache = new \Mustache_Engine;
+		$mustache = new \Mustache_Engine();
 		$this->assertNotNull($mustache);
 		
 		$rendered= $mustache->render('Hello, {{planet}}!', array('planet' => 'World')); // "Hello, World!"
