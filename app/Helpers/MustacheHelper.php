@@ -84,7 +84,7 @@ class MustacheHelper {
 		return array(
 			'table' => $table,
 			'class_name' => Meta::class_name($table),
-			'fillable_names' => '"name", "email", "admin", "active"',
+			'fillable_names' => Meta::fillable($table),
 			'element' => Meta::element($table),
 			'fillable' => [
 					['name' => 'fld1', 'field_input' => 'field_1', 'field_display' => 'display_1'],

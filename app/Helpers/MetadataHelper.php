@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Models\Tenants\Metadata;
+use App\Models\Schema;
+
 /**
  * Metadata interface
  *
@@ -17,7 +20,6 @@ class MetadataHelper {
 		if (!$capitalizeFirstCharacter) {
 			$str = lcfirst($str);
 		}
-
 		return $str;
 	}
 
@@ -29,4 +31,12 @@ class MetadataHelper {
 		return rtrim($table, 's');
 	}
 	
+	static public function fillable (String $table) {
+		$list = Schema::fieldList($table);
+		$list = array_diff($list, ["created_at", "updated_at"]);  // remove some values
+		$list = array_values($list); // re-index
+		array_walk($list, function(&$x) {$x = "\"$x\"";}); // put double quotes around each element
+		$res = implode(', ', $list); // transform into string
+		return $res;
+	}
 }
