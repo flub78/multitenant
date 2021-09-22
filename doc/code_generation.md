@@ -50,6 +50,124 @@ Ex;
 * {{class_name}}        Camel case class name (model)
 * {{fillable_names}}    List of fields
 * 
+{'class_name': 'User',
+ 'element': 'user',
+ 'field_names': ['id',
+                 'name',
+                 'email',
+                 'password',
+                 'remember_token',
+                 'created_at',
+                 'updated_at'],
+ 'fillable_names': ['name', 'email', 'password', 'remember_token'],
+ 'fields': [{'field_display': "{{$user['id']}}",
+             'field_edit': '<input type="text" class="form-control" name="id" '
+                           'id="id" value="{{ old("id") ? old("id") : '
+                           '$user->id }}">',
+             'field_input': '<input type="text" class="form-control" name="id" '
+                            'id="id" value="{{ old("id") }}">',
+             'label': 'Id',
+             'name': 'id'},
+            {'field_display': "{{$user['name']}}",
+             'field_edit': '<input type="text" class="form-control" '
+                           'name="name" id="name" value="{{ old("name") ? '
+                           'old("name") : $user->name }}">',
+             'field_input': '<input type="text" class="form-control" '
+                            'name="name" id="name" value="{{ old("name") }}">',
+             'label': 'Name',
+             'name': 'name'},
+            {'field_display': "{{$user['email']}}",
+             'field_edit': '<input type="text" class="form-control" '
+                           'name="email" id="email" value="{{ old("email") ? '
+                           'old("email") : $user->email }}">',
+             'field_input': '<input type="text" class="form-control" '
+                            'name="email" id="email" value="{{ old("email") '
+                            '}}">',
+             'label': 'Email',
+             'name': 'email'},
+            {'field_display': "{{$user['password']}}",
+             'field_edit': '<input type="password" class="form-control" '
+                           'name="password" id="password" value="{{ '
+                           'old("password") ? old("password") : '
+                           '$user->password }}">',
+             'field_input': '<input type="password" class="form-control" '
+                            'name="password" id="password" value="{{ '
+                            'old("password") }}">',
+             'label': 'Password',
+             'name': 'password'},
+            {'field_display': "{{$user['remember_token']}}",
+             'field_edit': '<input type="password" class="form-control" '
+                           'name="remember_token" id="remember_token" '
+                           'value="{{ old("remember_token") ? '
+                           'old("remember_token") : $user->remember_token }}">',
+             'field_input': '<input type="password" class="form-control" '
+                            'name="remember_token" id="remember_token" '
+                            'value="{{ old("remember_token") }}">',
+             'label': 'Remember_token',
+             'name': 'remember_token'},
+            {'field_display': "{{$user['created_at']}}",
+             'field_edit': '<input type="text" class="form-control" '
+                           'name="created_at" id="created_at" value="{{ '
+                           'old("created_at") ? old("created_at") : '
+                           '$user->created_at }}">',
+             'field_input': '<input type="text" class="form-control" '
+                            'name="created_at" id="created_at" value="{{ '
+                            'old("created_at") }}">',
+             'label': 'Created_at',
+             'name': 'created_at'},
+            {'field_display': "{{$user['updated_at']}}",
+             'field_edit': '<input type="text" class="form-control" '
+                           'name="updated_at" id="updated_at" value="{{ '
+                           'old("updated_at") ? old("updated_at") : '
+                           '$user->updated_at }}">',
+             'field_input': '<input type="text" class="form-control" '
+                            'name="updated_at" id="updated_at" value="{{ '
+                            'old("updated_at") }}">',
+             'label': 'Updated_at',
+             'name': 'updated_at'}],
+ 'fillable': [{'field_display': "{{$user['name']}}",
+               'field_edit': '<input type="text" class="form-control" '
+                             'name="name" id="name" value="{{ old("name") ? '
+                             'old("name") : $user->name }}">',
+               'field_input': '<input type="text" class="form-control" '
+                              'name="name" id="name" value="{{ old("name") '
+                              '}}">',
+               'label': 'Name',
+               'name': 'name'},
+              {'field_display': "{{$user['email']}}",
+               'field_edit': '<input type="text" class="form-control" '
+                             'name="email" id="email" value="{{ old("email") ? '
+                             'old("email") : $user->email }}">',
+               'field_input': '<input type="text" class="form-control" '
+                              'name="email" id="email" value="{{ old("email") '
+                              '}}">',
+               'label': 'Email',
+               'name': 'email'},
+              {'field_display': "{{$user['password']}}",
+               'field_edit': '<input type="password" class="form-control" '
+                             'name="password" id="password" value="{{ '
+                             'old("password") ? old("password") : '
+                             '$user->password }}">',
+               'field_input': '<input type="password" class="form-control" '
+                              'name="password" id="password" value="{{ '
+                              'old("password") }}">',
+               'label': 'Password',
+               'name': 'password'},
+              {'field_display': "{{$user['remember_token']}}",
+               'field_edit': '<input type="password" class="form-control" '
+                             'name="remember_token" id="remember_token" '
+                             'value="{{ old("remember_token") ? '
+                             'old("remember_token") : $user->remember_token '
+                             '}}">',
+               'field_input': '<input type="password" class="form-control" '
+                              'name="remember_token" id="remember_token" '
+                              'value="{{ old("remember_token") }}">',
+               'label': 'Remember_token',
+               'name': 'remember_token'}],
+ 'lang': [],
+ 'list': [],
+ 'table': 'users'}
+```
 
 ### The template directory
 

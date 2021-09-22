@@ -76,27 +76,11 @@ class MustacheHelper {
 	}
 	
 	/**
-	 * array('planet' => 'World')
+	 * Returns all metadata associated to a table
 	 * @param String $table
 	 * @return string[]
 	 */
 	public static function metadata(String $table) {
-		return array(
-			'table' => $table,
-			'class_name' => Meta::class_name($table),
-			'fillable_names' => Meta::fillable($table),
-			'element' => Meta::element($table),
-			'fillable' => [
-					['name' => 'fld1', 'field_input' => 'field_1', 'field_display' => 'display_1'],
-					['name' => 'fld2', 'field_input' => 'field_2', 'field_display' => 'display_2'],
-					['name' => 'fld3', 'field_input' => 'field_3', 'field_display' => 'display_3'],
-			],
-			'list' => [
-					['name' => 'fld1', 'field_input' => 'field_1', 'field_display' => 'display_1'],
-					['name' => 'fld2', 'field_input' => 'field_2', 'field_display' => 'display_2'],
-					['name' => 'fld3', 'field_input' => 'field_3', 'field_display' => 'display_3'],
-			]
-				
-		);
+		return Meta::metadata($table);
 	}
 }

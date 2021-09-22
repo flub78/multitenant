@@ -1,0 +1,58 @@
+<!-- index.blade.php -->
+{{=<% %>=}}
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
+
+@extends('layouts.app')
+
+@section('content')
+
+
+<div class="uper">
+  @if(session()->get('success'))
+    <div class="alert alert-success">
+      {{ session()->get('success') }}  
+    </div><br />
+  @endif
+  <table class="table table-striped"  id="maintable">
+    <caption>{{__('<%table%>.title')}}</caption>
+    <thead>
+        <tr>
+		  <%# fillable %>
+          <td> {{__('<%table%>.<%name%>')}} </td>
+		  <%/ fillable %>
+          <td> {{__('users.name')}}     </td>
+          <td> {{__('users.email')}}    </td>
+          <td> {{__('users.admin')}}    </td>
+          <td> {{__('users.active')}}   </td>
+		  
+          <td> {{__('general.edit')}}   </td>
+          <td> {{__('general.delete')}} </td>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @foreach($<%table%> as $<%element%>)
+        <tr>
+		  <%# fillable %>
+          <td> <%name%><%&display%></td>
+		  <%/ fillable %>
+            <td> {{$user->name}} </td>
+            <td> {!! Blade::email($user->email) !!} </td>
+            <td> {!! Blade::checkbox($user->admin) !!} </td>
+            <td> {!! Blade::checkbox($user->active) !!} </td>
+            
+            <td> {!! Blade::button_edit( route('users.edit', $user->id), "edit_$user->name", __('general.edit')) !!} </td>
+            <td> {!! Blade::button_delete( $route=route('users.destroy', $user->id), $dusk="delete_$user->name", $label=__('general.delete')) !!} </td>
+        </tr>
+        @endforeach
+    </tbody>
+  </table>
+  
+    @button_create({{url('<%table%>')}}, {{__('<%table%>.add')}}) 
+</div>  
+@endsection
+
+

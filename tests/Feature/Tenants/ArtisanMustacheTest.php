@@ -100,7 +100,7 @@ class ArtisanMustacheTest extends TenantTestCase {
 	}
 
 	public function test_mustache_generate_users_index_view() {
-		$exitCode = Artisan::call("mustache:generate --verbose users resources/views/tenants/list_view.blade.php.mustache resources/views/users/index.blade.php");
+		$exitCode = Artisan::call("mustache:generate --verbose users resources/views/tenants/index.blade.php.mustache resources/views/users/index.blade.php");
 		$this->assertEquals($exitCode, 0, "No errors");
 	}
 	
