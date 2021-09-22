@@ -68,7 +68,7 @@ class BackupsTest extends DuskTestCase {
 			
 			// count existing backups
 			$initial_count = $this->datatable_count($browser);
-			echo "\n$initial_count existing backups\n";
+			// echo "\n$initial_count existing backups\n";
 			
 			// create a new backup
 			$browser->click('@new_backup');
@@ -80,7 +80,7 @@ class BackupsTest extends DuskTestCase {
 			// count the users
 			$browser->visit ( '/users' );
 			$user_count = $this->datatable_count($browser);
-			echo "\ninitial user count = $user_count\n";
+			// echo "\ninitial user count = $user_count\n";
 			
 			// Create a new user
 			$name = "New_user";
@@ -102,7 +102,7 @@ class BackupsTest extends DuskTestCase {
 			$browser->visit ( '/users' );
 			$new_user_count = $this->datatable_count($browser);
 			$this->assertEquals($user_count + 1, $new_user_count, "a new user has been created");
-			echo "\nnew user count = $new_user_count\n";
+			// echo "\nnew user count = $new_user_count\n";
 			
 			// Restore the backup
 			$browser->visit ( '/backup' )

@@ -44,7 +44,7 @@ class MustacheGenerate extends Command {
 		}
 		
 		// For some reason file_put_content generates a Failed to open stream: Permission denied
-		$fh = fopen($filename, "a");
+		$fh = fopen($filename, "w");
 		fwrite($fh, $content);
 		fclose($fh);	
 	}
@@ -63,7 +63,11 @@ class MustacheGenerate extends Command {
 		
 		// if ($verbose) echo "schema=" . env("DB_SCHEMA") . "\n"; 
 	
-		$mustache = new \Mustache_Engine(['logger' => Log::channel('stderr')]);
+		if ($verbose) {
+			$mustache = new \Mustache_Engine(['logger' => Log::channel('stderr')]);
+		} else {
+			$mustache = new \Mustache_Engine();
+		}
 		$template = file_get_contents($template_file);
 		
 		$rendered = $mustache->render($template, MustacheHelper::metadata($table));

@@ -69,13 +69,15 @@ class MetadataHelper {
 	}
 	
 	// ###############################################################################################################
-	// ###############################################################################################################
 	
 	static public function field_display (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
+		$element = self::element($table);
 		
 		if ($subtype == "email") {
-			return '<A HREF="mailto:{{$' . $table . '->' . $field . '}}">{{$' . $table . '->' . $field . '}}</A>';
+			return '<A HREF="mailto:{{$' . $element . '->' . $field . '}}">{{$' . $element . '->' . $field . '}}</A>';
+		} elseif ($subtype == "checkbox") {
+			return '<input type="checkbox" {{ ($' . $element . '->' . $field . ') ? "checked" : "" }}  onclick="return false;" />';
 		}
 		
 		return '{{$' . $table . '->'. $field. '}}';
@@ -89,12 +91,23 @@ class MetadataHelper {
 		return "input_create $table.$field";
 	}
 	
-	static public function field_button_edit (String $table, String $field) {
-		return "button_edit $table.$field";
+	static public function button_delete (String $table) {
+		$element = self::element($table);   
+		$res = '<form action="{{ route("' . $element . '.destroy", $' . $element . '->id)}}" method="post">' . "\n";
+		$res .= "                   @csrf\n";
+		$res .= "                   @method('DELETE')\n";
+		$res .= "                   <button class=\"btn btn-danger\" type=\"submit\">{{__('general.delete')}}</button>\n";
+		$res .= "                 </form>\n";
+		return $res;
 	}
 	
-	static public function field_button_delete (String $table, String $field) {
-		return "button_delete $table.$field";
+	static public function button_edit (String $table) {
+		$element = self::element($table);
+		$id = $element . '->id';
+		$dusk = '{{ "edit_' . $element . '->name" }}';
+		$route = "{{ route('$element.edit', \$$id) }}";
+		$label = "{{ __('general.delete')) }}";
+		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';
 	}
 	
 	static public function field_rule_edit (String $table, String $field) {
@@ -109,15 +122,13 @@ class MetadataHelper {
 	 * Metadata for an individual field
 	 * @param String $table
 	 * @param String $field
-	 * @return string[]|\App\Helpers\String[]
+	 * @return Array[]
 	 */
 	static public function field_metadata(String $table, String $field) {
 		return ['name' => $field, 
 				'display' => self::field_display($table, $field), 
 				'input_edit' => self::field_input_edit($table, $field), 
 				'input_create' => self::field_input_create($table, $field), 
-				'button_edit' => self::field_button_edit($table, $field), 
-				'button_delete' => self::field_button_delete($table, $field), 
 				'rule_edit' => self::field_rule_edit($table, $field), 
 				'rule_create' => self::field_rule_create($table, $field), 
 		];
@@ -141,7 +152,7 @@ class MetadataHelper {
 	 * All the metadata for a table
 	 *
 	 * @param String $table
-	 * @return \App\Helpers\String[]|string[]|array[]|mixed[]
+	 * @return array[]
 	 */
 	static public function metadata(String $table) {
 		return array(
@@ -149,7 +160,9 @@ class MetadataHelper {
 				'class_name' => self::class_name($table),
 				'fillable_names' => self::fillable_names($table),
 				'element' => self::element($table),
-				'fillable' => self::fillable($table)
+				'fillable' => self::fillable($table),
+				'button_edit' => self::button_edit($table),
+				'button_delete' => self::button_delete($table),
 		);
 	}
 }
