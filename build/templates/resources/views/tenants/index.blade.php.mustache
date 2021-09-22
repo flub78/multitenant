@@ -37,7 +37,7 @@ use App\Helpers\BladeHelper as Blade;
         @foreach($<%table%> as $<%element%>)
         <tr>
 		  <%# fillable %>
-          <td> <%name%><%&display%></td>
+          <td> <%&display%></td>
 		  <%/ fillable %>
             <td> {{$user->name}} </td>
             <td> {!! Blade::email($user->email) !!} </td>

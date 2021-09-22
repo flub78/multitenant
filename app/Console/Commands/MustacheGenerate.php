@@ -60,6 +60,8 @@ class MustacheGenerate extends Command {
 		if ($verbose) echo  "\nprocessing $table\n" 
 			. "template=$template_file\n" 
 			. "result=$result_file\n";
+		
+		// if ($verbose) echo "schema=" . env("DB_SCHEMA") . "\n"; 
 	
 		$mustache = new \Mustache_Engine(['logger' => Log::channel('stderr')]);
 		$template = file_get_contents($template_file);
