@@ -15,9 +15,9 @@
     <caption>{{__('<%table%>.title')}}</caption>
     <thead>
         <tr>
-		  <%# fillable %>
+		  <%# table_list %>
           <td> {{__('<%table%>.<%name%>')}} </td>
-		  <%/ fillable %>
+		  <%/ table_list %>
 		  
           <td> {{__('general.edit')}}   </td>
           <td> {{__('general.delete')}} </td>
@@ -27,9 +27,9 @@
     <tbody>
         @foreach($<%table%> as $<%element%>)
         <tr>
-		  <%# fillable %>
+		  <%# table_list %>
           <td> <%&display%></td>
-		  <%/ fillable %>
+		  <%/ table_list %>
 		              
           <td> <%& button_edit %>  </td>
           <td> <%& button_delete %> </td>

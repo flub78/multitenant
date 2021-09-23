@@ -49,15 +49,20 @@ class MetadataHelper {
 		return rtrim($table, 's');
 	}
 
+	/**
+	 * Returns a list with fillable fields
+	 * @param String $table
+	 * @return array
+	 */
 	static public function fillable_fields(String $table) {
 		$list = Schema::fieldList($table);
-		$list = array_diff($list, ["created_at", "updated_at"]);  // remove some values
+		$list = array_diff($list, ["id", "created_at", "updated_at"]);  // remove some values
 		$list = array_values($list); // re-index
 		return $list;
 	}
 	
 	/**
-	 * List of fillable fields
+	 * List of fillable fields into a comma separated string
 	 * @param String $table
 	 * @return string
 	 */
@@ -80,7 +85,7 @@ class MetadataHelper {
 			return '<input type="checkbox" {{ ($' . $element . '->' . $field . ') ? "checked" : "" }}  onclick="return false;" />';
 		}
 		
-		return '{{$' . $table . '->'. $field. '}}';
+		return '{{$' . $element . '->'. $field. '}}';
 	}
 	
 	static public function field_input_edit (String $table, String $field) {
@@ -93,7 +98,7 @@ class MetadataHelper {
 	
 	static public function button_delete (String $table) {
 		$element = self::element($table);   
-		$res = '<form action="{{ route("' . $element . '.destroy", $' . $element . '->id)}}" method="post">' . "\n";
+		$res = '<form action="{{ route("' . $table . '.destroy", $' . $element . '->id)}}" method="post">' . "\n";
 		$res .= "                   @csrf\n";
 		$res .= "                   @method('DELETE')\n";
 		$res .= "                   <button class=\"btn btn-danger\" type=\"submit\">{{__('general.delete')}}</button>\n";
@@ -105,8 +110,8 @@ class MetadataHelper {
 		$element = self::element($table);
 		$id = $element . '->id';
 		$dusk = '{{ "edit_' . $element . '->name" }}';
-		$route = "{{ route('$element.edit', \$$id) }}";
-		$label = "{{ __('general.delete')) }}";
+		$route = "{{ route('$table.edit', \$$id) }}";
+		$label = "{{ __('general.edit') }}";
 		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';
 	}
 	
@@ -139,9 +144,13 @@ class MetadataHelper {
 	 * @param String $table
 	 * @return string[][]
 	 */
-	static public function fillable (String $table) {
+	static public function table_list (String $table) {
 		$res = [];
 		$list = self::fillable_fields($table);
+		if ($table == "users") {
+			// Todo store this information in database
+			$list = ["name", "email", "admin", "active"];
+		}
 		foreach ($list as $field) {
 			$res[] = self::field_metadata($table, $field);
 		}
@@ -160,7 +169,7 @@ class MetadataHelper {
 				'class_name' => self::class_name($table),
 				'fillable_names' => self::fillable_names($table),
 				'element' => self::element($table),
-				'fillable' => self::fillable($table),
+				'table_list' => self::table_list($table),
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),
 		);

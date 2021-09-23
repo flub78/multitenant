@@ -1,13 +1,8 @@
 <!-- index.blade.php -->
 
-@php
-use App\Helpers\BladeHelper as Blade;
-@endphp
-
 @extends('layouts.app')
 
 @section('content')
-
 
 <div class="uper">
   @if(session()->get('success'))
@@ -19,10 +14,11 @@ use App\Helpers\BladeHelper as Blade;
     <caption>{{__('users.title')}}</caption>
     <thead>
         <tr>
-          <td> {{__('users.name')}}     </td>
-          <td> {{__('users.email')}}    </td>
-          <td> {{__('users.admin')}}    </td>
-          <td> {{__('users.active')}}   </td>
+          <td> {{__('users.name')}} </td>
+          <td> {{__('users.email')}} </td>
+          <td> {{__('users.admin')}} </td>
+          <td> {{__('users.active')}} </td>
+		  
           <td> {{__('general.edit')}}   </td>
           <td> {{__('general.delete')}} </td>
         </tr>
@@ -31,13 +27,18 @@ use App\Helpers\BladeHelper as Blade;
     <tbody>
         @foreach($users as $user)
         <tr>
-            <td> {{$user->name}} </td>
-            <td> {!! Blade::email($user->email) !!} </td>
-            <td> {!! Blade::checkbox($user->admin) !!} </td>
-            <td> {!! Blade::checkbox($user->active) !!} </td>
-            
-            <td> {!! Blade::button_edit( route('users.edit', $user->id), "edit_$user->name", __('general.edit')) !!} </td>
-            <td> {!! Blade::button_delete( $route=route('users.destroy', $user->id), $dusk="delete_$user->name", $label=__('general.delete')) !!} </td>
+          <td> {{$user->name}}</td>
+          <td> <A HREF="mailto:{{$user->email}}">{{$user->email}}</A></td>
+          <td> <input type="checkbox" {{ ($user->admin) ? "checked" : "" }}  onclick="return false;" /></td>
+          <td> <input type="checkbox" {{ ($user->active) ? "checked" : "" }}  onclick="return false;" /></td>
+		              
+          <td> <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary" dusk="{{ "edit_user->name" }}">{{ __('general.edit') }}</a>  </td>
+          <td> <form action="{{ route("users.destroy", $user->id)}}" method="post">
+                   @csrf
+                   @method('DELETE')
+                   <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
+                 </form>
+ </td>
         </tr>
         @endforeach
     </tbody>
