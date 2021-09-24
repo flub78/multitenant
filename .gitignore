@@ -18,6 +18,7 @@ yarn-error.log
 !/storage/app/tests/central_nominal.gz
 !/storage/app/tests/tenant_nominal.gz
 /results.txt
+/results
 /.env.testing
 /.env.dusk.local
 /.env.dusk.tenants

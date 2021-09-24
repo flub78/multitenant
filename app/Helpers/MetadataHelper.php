@@ -73,6 +73,22 @@ class MetadataHelper {
 		return $res;
 	}
 	
+	/**
+	 * Generate a dusk anchor
+	 * @param String $table
+	 * @param String $element
+	 * @param String $type
+	 * @return string
+	 */
+	static public function dusk(String $table, String $element, String $type="edit") {
+		$dusk_field = ($table == "users") ? "name" : "id";
+		if ($type == "edit") {
+			return 'edit_{{ $' . $element . '->' . $dusk_field . ' }}';
+		} else {
+			return 'delete_{{ $' . $element . '->' . $dusk_field . ' }}';
+		}
+	}
+	
 	// ###############################################################################################################
 	
 	static public function field_display (String $table, String $field) {
@@ -98,9 +114,9 @@ class MetadataHelper {
 	
 	static public function button_delete (String $table) {
 		$element = self::element($table);
-		$dusk = 'delete_{{ $' . $element . '->name }}';
+		$dusk = self::dusk($table, $element, "delete");
 		
-		$res = '<form action="{{ route("' . $table . '.destroy", $' . $element . '->id)}}" method="post">' . "\n";
+		$res = '<form action="{{ route("' . $element . '.destroy", $' . $element . '->id)}}" method="post">' . "\n";
 		$res .= "                   @csrf\n";
 		$res .= "                   @method('DELETE')\n";
 		$res .= "                   <button class=\"btn btn-danger\" type=\"submit\" dusk=\"$dusk\">{{__('general.delete')}}</button>\n";
@@ -111,8 +127,8 @@ class MetadataHelper {
 	static public function button_edit (String $table) {
 		$element = self::element($table);
 		$id = $element . '->id';
-		$dusk = 'edit_{{ $' . $element . '->name }}';
-		$route = "{{ route('$table.edit', \$$id) }}";
+		$dusk = self::dusk($table, $element, "edit");		
+		$route = "{{ route('$element.edit', \$$id) }}";
 		$label = "{{ __('general.edit') }}";
 		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';
 	}

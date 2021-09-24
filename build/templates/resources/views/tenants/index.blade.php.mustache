@@ -12,11 +12,11 @@
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">
-    <caption>{{__('<%table%>.title')}}</caption>
+    <caption>{{__('<%element%>.title')}}</caption>
     <thead>
         <tr>
 		  <%# table_list %>
-          <td> {{__('<%table%>.<%name%>')}} </td>
+          <td> {{__('<%element%>.<%name%>')}} </td>
 		  <%/ table_list %>
 		  
           <td> {{__('general.edit')}}   </td>
@@ -38,7 +38,7 @@
     </tbody>
   </table>
   
-    @button_create({{url('<%table%>')}}, {{__('<%table%>.add')}}) 
+    @button_create({{url('<%element%>')}}, {{__('<%element%>.add')}}) 
 </div>  
 @endsection
 
