@@ -97,11 +97,13 @@ class MetadataHelper {
 	}
 	
 	static public function button_delete (String $table) {
-		$element = self::element($table);   
+		$element = self::element($table);
+		$dusk = 'delete_{{ $' . $element . '->name }}';
+		
 		$res = '<form action="{{ route("' . $table . '.destroy", $' . $element . '->id)}}" method="post">' . "\n";
 		$res .= "                   @csrf\n";
 		$res .= "                   @method('DELETE')\n";
-		$res .= "                   <button class=\"btn btn-danger\" type=\"submit\">{{__('general.delete')}}</button>\n";
+		$res .= "                   <button class=\"btn btn-danger\" type=\"submit\" dusk=\"$dusk\">{{__('general.delete')}}</button>\n";
 		$res .= "                 </form>\n";
 		return $res;
 	}
@@ -109,7 +111,7 @@ class MetadataHelper {
 	static public function button_edit (String $table) {
 		$element = self::element($table);
 		$id = $element . '->id';
-		$dusk = '{{ "edit_' . $element . '->name" }}';
+		$dusk = 'edit_{{ $' . $element . '->name }}';
 		$route = "{{ route('$table.edit', \$$id) }}";
 		$label = "{{ __('general.edit') }}";
 		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';
