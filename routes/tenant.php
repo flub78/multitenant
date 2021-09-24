@@ -49,7 +49,7 @@ Route::middleware([
 	
 	// admin routes
 	Route::group(['middleware' => ['admin']], function () {
-		Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
+		Route::resource('user', App\Http\Controllers\UserController::class)->middleware('auth');
 		Route::resource('user_role', App\Http\Controllers\Tenants\UserRoleController::class)->middleware('auth');
 		Route::resource('metadata', App\Http\Controllers\Tenants\MetadataController::class)->middleware('auth');
 		

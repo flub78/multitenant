@@ -12,7 +12,7 @@
 
 <div class="card uper">
   <div class="card-header">
-    {{__('users.change_password') . " " . $user->name}}
+    {{__('user.change_password') . " " . $user->name}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -32,22 +32,22 @@
           </div>
            
           <div class="form-group">
-              <label for="cases">{{__('users.email')}}</label>
+              <label for="cases">{{__('user.email')}}</label>
               <input type="text" class="form-control" name="email" value="{{ old('email', $user->email) }}"/>
           </div>
 
           <div class="form-group">
-              <label for="cases">{{__('users.current_password')}}</label>
+              <label for="cases">{{__('user.current_password')}}</label>
               <input type="password" class="form-control" name="password" value="{{ old('password') }}"/>
           </div>
           
           <div class="form-group">
-              <label for="cases">{{__('users.new_password')}}</label>
+              <label for="cases">{{__('user.new_password')}}</label>
               <input type="password" class="form-control" name="new_password" value="{{ old('new_password') }}"/>
           </div>
 
           <div class="form-group">
-              <label for="cases">{{__('users.confirm_new')}}</label>
+              <label for="cases">{{__('user.confirm_new')}}</label>
               <input type="password" class="form-control" name="new_password_confirmation" value="{{ old('new_password_confirmation') }}"/>
           </div>
 

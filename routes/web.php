@@ -26,7 +26,7 @@ Route::patch('/change_password/password', [App\Http\Controllers\ChangePasswordCo
 
 // admin routes
 Route::group(['middleware' => ['admin']], function () {
-	Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
+	Route::resource('user', App\Http\Controllers\UserController::class)->middleware('auth');
 	Route::resource('tenants', App\Http\Controllers\TenantController::class)->middleware('auth');
 	
 	// Backup controller is not a full resource

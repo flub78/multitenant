@@ -102,7 +102,7 @@ class PasswordResetTest extends DuskTestCase {
 			
 			// Change my password
 			/*
-			$browser->visit ('/users/change_password')
+			$browser->visit ('/user/change_password')
 			->assertPathIs ('/home');
 			*/ 
 			

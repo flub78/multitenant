@@ -42,9 +42,9 @@ class AdminAccessTest extends TestCase {
 		$response->assertStatus ( 200 );
 		$response->assertSeeText ( __('backup.title'));
 
-		$response = $this->get ( '/users' );
+		$response = $this->get ( '/user' );
 		$response->assertStatus ( 200 );
-		$response->assertSeeText ( __('users.add') );
+		$response->assertSeeText ( __('user.add') );
 		
 		$response = $this->get ( '/tenants' );
 		$response->assertStatus ( 200 );
@@ -66,7 +66,7 @@ class AdminAccessTest extends TestCase {
 		$response->assertSeeText ( 'Redirecting to' );
 
 		
-		$response = $this->get ( '/users' );
+		$response = $this->get ( '/user' );
 		$response->assertStatus ( 302 );
 		$response->assertSeeText ( 'Redirecting to' );
 		
@@ -92,7 +92,7 @@ class AdminAccessTest extends TestCase {
 		$response->assertSeeText ( 'Redirecting to' );
 		
 		
-		$response = $this->get ( '/users' );
+		$response = $this->get ( '/user' );
 		$response->assertStatus ( 302 );
 		$response->assertSeeText ( 'Redirecting to' );
 		

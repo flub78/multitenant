@@ -11,13 +11,13 @@
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">
-    <caption>{{__('users.title')}}</caption>
+    <caption>{{__('user.title')}}</caption>
     <thead>
         <tr>
-          <td> {{__('users.name')}} </td>
-          <td> {{__('users.email')}} </td>
-          <td> {{__('users.admin')}} </td>
-          <td> {{__('users.active')}} </td>
+          <td> {{__('user.name')}} </td>
+          <td> {{__('user.email')}} </td>
+          <td> {{__('user.admin')}} </td>
+          <td> {{__('user.active')}} </td>
 		  
           <td> {{__('general.edit')}}   </td>
           <td> {{__('general.delete')}} </td>
@@ -32,8 +32,8 @@
           <td> <input type="checkbox" {{ ($user->admin) ? "checked" : "" }}  onclick="return false;" /></td>
           <td> <input type="checkbox" {{ ($user->active) ? "checked" : "" }}  onclick="return false;" /></td>
 		              
-          <td> <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary" dusk="edit_{{ $user->name }}">{{ __('general.edit') }}</a>  </td>
-          <td> <form action="{{ route("users.destroy", $user->id)}}" method="post">
+          <td> <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary" dusk="edit_{{ $user->name }}">{{ __('general.edit') }}</a>  </td>
+          <td> <form action="{{ route("user.destroy", $user->id)}}" method="post">
                    @csrf
                    @method('DELETE')
                    <button class="btn btn-danger" type="submit" dusk="delete_{{ $user->name }}">{{__('general.delete')}}</button>
@@ -44,7 +44,7 @@
     </tbody>
   </table>
   
-    @button_create({{url('users')}}, {{__('users.add')}}) 
+    @button_create({{url('user')}}, {{__('user.add')}}) 
 </div>  
 @endsection
 

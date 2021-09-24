@@ -46,7 +46,7 @@ class UserController extends Controller {
 		$validatedData['active'] = ($request->has('active'));
 		User::create ( $validatedData );
 
-		return redirect ( '/users' )->with ( 'success', __('users.created', ['name' =>  $validatedData ['name']] ) );
+		return redirect ( '/user' )->with ( 'success', __('user.created', ['name' =>  $validatedData ['name']] ) );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class UserController extends Controller {
 		User::whereId ( $id )->update ( $validatedData );
 
 		$name = $validatedData ['name'];
-		return redirect ( '/users' )->with ( 'success', __('users.updated', ['name' =>  $name] ) );
+		return redirect ( '/user' )->with ( 'success', __('user.updated', ['name' =>  $name] ) );
 	}
 
 	/**
@@ -109,6 +109,6 @@ class UserController extends Controller {
 		$name = $user->name;
 		$user->delete ();
 
-		return redirect ( '/users' )->with ( 'success', __('users.deleted', ['name' =>  $name] ) );
+		return redirect ( '/user' )->with ( 'success', __('user.deleted', ['name' =>  $name] ) );
 	}
 }

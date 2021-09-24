@@ -59,7 +59,7 @@ class LoginTest extends TestCase {
 		$this->user->save();
 		
 		$this->be ( $this->user );
-		$response = $this->followingRedirects()->get ('/users');
+		$response = $this->followingRedirects()->get ('/user');
 		$response->assertStatus (200);
 		$response->assertSeeText ('Multi Central' );
 		$response->assertSeeText ('Edit');

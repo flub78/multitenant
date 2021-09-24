@@ -72,14 +72,14 @@ class BackupsTest extends DuskTestCase {
 			$this->assertEquals($initial_count + 1, $new_count, "A backup has been created");
 			
 			// count the users
-			$browser->visit ( '/users' );
+			$browser->visit ( '/user' );
 			$users_count = $this->datatable_count($browser);
 			
 			// Create a new user
 			$name = "New_user";
 			$email = "user@free.fr";
 			$password = "User_password";
-			$browser->visit ( '/users/create' )
+			$browser->visit ( '/user/create' )
 			->assertSee ( 'New User' )
 			->type ( 'name', $name )
 			->type ( 'email', $email )
@@ -88,11 +88,11 @@ class BackupsTest extends DuskTestCase {
 			sleep($this->wait);
 			
 			$browser->press ( 'Submit' )
-			->assertPathIs ( '/users' )
+			->assertPathIs ( '/user' )
 			->assertSee ( $email );
 			
 			// Check that a new user has been created
-			$browser->visit ( '/users' );
+			$browser->visit ( '/user' );
 			$new_users_count = $this->datatable_count($browser);
 			$this->assertEquals($users_count + 1, $new_users_count);
 			
@@ -101,7 +101,7 @@ class BackupsTest extends DuskTestCase {
 			->click('@restore_' . $new_count);
 
 			// count again the users
-			$browser->visit ( '/users' );
+			$browser->visit ( '/user' );
 			$users_count_after_restore = $this->datatable_count($browser);
 			$this->assertEquals($users_count, $users_count_after_restore);
 					

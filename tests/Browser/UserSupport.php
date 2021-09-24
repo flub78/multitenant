@@ -95,7 +95,7 @@ class UserSupport extends DuskTestCase {
 			
 			// get initial count
 			$this->login($browser);
-			$browser->visit ( '/users' );
+			$browser->visit ( '/user' );
 			$initial_count = $this->datatable_count($browser);
 			$this->logout($browser);
 			
@@ -134,7 +134,7 @@ class UserSupport extends DuskTestCase {
 			sleep($this->wait);
 			
 			// goto the user page
-			$browser->visit ( '/users' )
+			$browser->visit ( '/user' )
 			->assertSee ( $this->name)
 			->assertSee ( $this->email1);
 			
@@ -149,7 +149,7 @@ class UserSupport extends DuskTestCase {
 			sleep($this->wait);
 			
 			$browser->press('Update')
-			->assertPathIs ( '/users' )
+			->assertPathIs ( '/user' )
 			->assertSee ( $this->email2);
 			
 			$after_update_count = $this->datatable_count($browser);
@@ -175,7 +175,7 @@ class UserSupport extends DuskTestCase {
 			sleep($this->wait);
 			
 			// goto the user page
-			$browser->visit ('/users');
+			$browser->visit ('/user');
 			sleep(0.5);
 			$dusk_label = '@delete_' . $this->name;
 			$browser->click( $dusk_label);
@@ -183,7 +183,7 @@ class UserSupport extends DuskTestCase {
 			sleep(0.5);
 			// $browser->screenshot($this->screenshots_dir . '/after_user_delete');
 			
-			$browser->visit ('/users');
+			$browser->visit ('/user');
 			sleep(0.5);
 			
 			$final_count = $this->datatable_count($browser);
@@ -212,11 +212,11 @@ class UserSupport extends DuskTestCase {
 			$this->login($browser);
 			
 			// get initial user count
-			$browser->visit ( '/users' );
+			$browser->visit ( '/user' );
 			$initial_count = $this->datatable_count($browser);
 			
 			// create a user
-			$browser->visit ( '/users/create' )
+			$browser->visit ( '/user/create' )
 			->assertSee ( 'New User' )
 			->type ( 'name', $this->name )
 			->type ( 'email', $this->email1 )
@@ -226,7 +226,7 @@ class UserSupport extends DuskTestCase {
 			sleep($this->wait);
 			
 			$browser->press ( 'Submit' )
-			->assertPathIs ( '/users' )
+			->assertPathIs ( '/user' )
 			->assertSee ( $this->name );
 			sleep($this->wait);
 			
@@ -247,7 +247,7 @@ class UserSupport extends DuskTestCase {
 			// and admin can chage a user password
 			$this->login($browser);
 			
-			$browser->visit ( '/users' )
+			$browser->visit ( '/user' )
 			->click('@edit_' . $this->name)
 			//->assertValue('name', $this->name )
 			->assertSee('Edit user');
@@ -259,7 +259,7 @@ class UserSupport extends DuskTestCase {
 			sleep($this->wait);
 			
 			$browser->press ( 'Update' )
-			->assertPathIs ( '/users' )
+			->assertPathIs ( '/user' )
 			->assertSee($this->name);
 			sleep($this->wait);
 			
@@ -317,8 +317,8 @@ class UserSupport extends DuskTestCase {
 			
 			// Goto the change password page
 			$browser->visit ( '/change_password/change_password' )
-			->assertSee(__('users.change_password'))
-			->assertSee(__('users.email'))
+			->assertSee(__('user.change_password'))
+			->assertSee(__('user.email'))
 			->assertSee($this->name);
 			
 			// First a couple of negative cases

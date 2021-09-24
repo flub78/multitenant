@@ -29,7 +29,7 @@
       						<a class="nav-link dropdown-toggle" href="#" id="navbardrop1" data-toggle="dropdown">Admin</a>
       						
       						<div class="dropdown-menu">
-        						<a class="dropdown-item" href="{{ route('users.index') }}">{{__('navbar.users')}}</a>
+        						<a class="dropdown-item" href="{{ route('user.index') }}">{{__('navbar.users')}}</a>
         						<a class="dropdown-item" href="{{ route('backup.index') }}">{{__('navbar.backups')}}</a>
         						<a class="dropdown-item" href="{{ route('configuration.index') }}">{{__('navbar.configuration')}}</a>
         						<a class="dropdown-item" href="{{ route('role.index') }}">{{__('navbar.roles')}}</a>
@@ -52,7 +52,7 @@
 <!-- Central flat admin navbar -->
                     
     					<li class="nav-item dropdown">
-      						<a class="nav-link" href="{{ route('users.index') }}" id="navbar1" >Users</a>     						
+      						<a class="nav-link" href="{{ route('user.index') }}" id="navbar1" >Users</a>     						
      					</li>
      					
     					<li class="nav-item dropdown">
@@ -124,7 +124,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 	
-                                	<a class="dropdown-item" href="{{ route('change_password.change_password') }}" dusk="password"> {{__('users.change_password')}}</a>
+                                	<a class="dropdown-item" href="{{ route('change_password.change_password') }}" dusk="password"> {{__('user.change_password')}}</a>
                                 	
                                     <a class="dropdown-item" href="{{ route('logout') }}" dusk="logout"
                                        onclick="event.preventDefault();
