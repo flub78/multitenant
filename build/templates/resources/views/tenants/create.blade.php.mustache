@@ -1,4 +1,5 @@
-<!-- Role create.blade.php -->
+{{=[[ ]]=}}
+<!-- [[class_name]] create.blade.php -->
 
 @extends('layouts.app')
 
@@ -12,7 +13,7 @@
 
 <div class="card uper">
   <div class="card-header">
-    {{__('role.new')}}
+    {{__('[[element]].new')}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -25,19 +26,16 @@
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('role.store') }}">
+      <form method="post" action="{{ route('[[element]].store') }}">
            @csrf
            
+           [[# field_list ]]
            <div class="form-group">
-             <label for="name">{{__("role.name")}}</label>
-             <input type="text" class="form-control" name="name" value="{{ old("name") }}"/>
+             [[&label]]
+             [[&input_create]]
            </div>
            
-           <div class="form-group">
-             <label for="description">{{__("role.description")}}</label>
-             <input type="text" class="form-control" name="description" value="{{ old("description") }}"/>
-           </div>
-           
+           [[/ field_list ]]
            
            <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
       </form>

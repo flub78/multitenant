@@ -104,12 +104,23 @@ class MetadataHelper {
 		return '{{$' . $element . '->'. $field. '}}';
 	}
 	
+	static public function field_label (String $table, String $field) {
+		$element = self::element($table);
+		return '<label for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
+	}
+	
 	static public function field_input_edit (String $table, String $field) {
-		return "input_edit $table.$field";
+		$type = "text";
+		$element = self::element($table);
+		
+		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
 	}
 	
 	static public function field_input_create (String $table, String $field) {
-		return "input_create $table.$field";
+		$type = "text";
+		$element = self::element($table);
+		
+		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '") }}"/>';
 	}
 	
 	static public function button_delete (String $table) {
@@ -150,6 +161,7 @@ class MetadataHelper {
 	static public function field_metadata(String $table, String $field) {
 		return ['name' => $field, 
 				'display' => self::field_display($table, $field), 
+				'label' => self::field_label($table, $field),
 				'input_edit' => self::field_input_edit($table, $field), 
 				'input_create' => self::field_input_create($table, $field), 
 				'rule_edit' => self::field_rule_edit($table, $field), 
@@ -176,6 +188,24 @@ class MetadataHelper {
 	}
 	
 	/**
+	 * An array of metadata for all fillable fields
+	 * @param String $table
+	 * @return string[][]
+	 */
+	static public function field_list (String $table) {
+		$res = [];
+		$list = self::fillable_fields($table);
+		if ($table == "users") {
+			// Todo store this information in database
+			$list = ["name", "email", "admin", "active"];
+		}
+		foreach ($list as $field) {
+			$res[] = self::field_metadata($table, $field);
+		}
+		return $res;
+	}
+	
+	/**
 	 * All the metadata for a table
 	 *
 	 * @param String $table
@@ -188,6 +218,7 @@ class MetadataHelper {
 				'fillable_names' => self::fillable_names($table),
 				'element' => self::element($table),
 				'table_list' => self::table_list($table),
+				'field_list' => self::field_list($table),
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),
 		);

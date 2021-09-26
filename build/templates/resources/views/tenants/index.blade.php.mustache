@@ -1,5 +1,5 @@
 <!-- index.blade.php -->
-{{=<% %>=}}
+{{=[[ ]]=}}
 
 @extends('layouts.app')
 
@@ -12,12 +12,12 @@
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">
-    <caption>{{__('<%element%>.title')}}</caption>
+    <caption>{{__('[[element]].title')}}</caption>
     <thead>
         <tr>
-		  <%# table_list %>
-          <td> {{__('<%element%>.<%name%>')}} </td>
-		  <%/ table_list %>
+		  [[# table_list ]]
+          <td> {{__('[[element]].[[name]]')}} </td>
+		  [[/ table_list ]]
 		  
           <td> {{__('general.edit')}}   </td>
           <td> {{__('general.delete')}} </td>
@@ -25,20 +25,20 @@
     </thead>
     
     <tbody>
-        @foreach($<%table%> as $<%element%>)
+        @foreach($[[table]] as $[[element]])
         <tr>
-		  <%# table_list %>
-          <td> <%&display%></td>
-		  <%/ table_list %>
+		  [[# table_list ]]
+          <td> [[&display]]</td>
+		  [[/ table_list ]]
 		              
-          <td> <%& button_edit %>  </td>
-          <td> <%& button_delete %> </td>
+          <td> [[& button_edit ]]  </td>
+          <td> [[& button_delete ]] </td>
         </tr>
         @endforeach
     </tbody>
   </table>
   
-    @button_create({{url('<%element%>')}}, {{__('<%element%>.add')}}) 
+    @button_create({{url('[[element]]')}}, {{__('[[element]].add')}}) 
 </div>  
 @endsection
 

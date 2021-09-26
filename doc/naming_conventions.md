@@ -50,3 +50,4 @@ getters and setters are in lowerCamelCase getStartTime.
 By convention route to access resources use the element name (singular of the database table name). 
 
 ## Naming convention for PHP
+
