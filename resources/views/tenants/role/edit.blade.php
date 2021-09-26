@@ -1,4 +1,4 @@
-<!-- Users edit.blade.php -->
+<!-- Role edit.blade.php -->
 
 @extends('layouts.app')
 
@@ -30,15 +30,17 @@
               @csrf
               @method('PATCH')
               
-              <label for="key">{{__('role.name')}}</label>
-              <input type="text" class="form-control" name="name" value="{{ old('name', $role->name) }}"/>
-          </div>
-          
-          <div class="form-group">
-              <label for="value">{{__('role.description')}}</label>
-              <input type="text" class="form-control" name="description" value="{{ old('description', $role->description) }}"/>
-          </div>
-
+             <div class="form-group">
+               <label for="name">{{__("role.name")}}</label>
+               <input type="text" class="form-control" name="name" value="{{ old("name", $role->name) }}"/>
+             </div>
+           
+             <div class="form-group">
+               <label for="description">{{__("role.description")}}</label>
+               <input type="text" class="form-control" name="description" value="{{ old("description", $role->description) }}"/>
+             </div>
+           
+             
           <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
       </form>
   </div>
