@@ -99,11 +99,11 @@ class MustacheHelper {
 	 * @param String $template
 	 * @param String $result_file  (by default)
 	 */
-	public static function result_file(String $table, String $template, String $result_file = "") {
+	public static function result_file(String $table, String $template, bool $installation = false) {
 		$class_name = Meta::class_name($table);
 		$element = Meta::element($table);
 		
-		$file = $result_file;
+		$file = "";
 		if ($template == "controller") {
 			$file =  "app/Http/Controllers/Tenants/" . $class_name . "Controller.php";
 		} elseif ($template == "model") {
@@ -125,14 +125,14 @@ class MustacheHelper {
 		} elseif ($template == "test_controller") {
 			$file =  'tests/Feature/Tenants/' . $class_name . 'ControllerTest.php';
 		}
-		return self::result_filename($file);
+		return self::result_filename($file, $installation);
 	}
 	
 	/**
 	 * @param string $result
 	 * @return string
 	 */
-	public static function result_filename(string $result) {
+	public static function result_filename(string $result, bool $installation = false) {
 		if (Self::is_absolute_path($result)) {
 			return $result;
 		}
@@ -142,9 +142,13 @@ class MustacheHelper {
 		if (str_ends_with($basename, '.mustache')) {
 			$basename = substr($basename, 0, -9);
 		}
-			
-		return getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results' 
-				. DIRECTORY_SEPARATOR . $dirname . $basename;
+		
+		if ($installation) {
+			return realpath(getcwd() . DIRECTORY_SEPARATOR . $dirname . $basename);
+		} else {
+			return realpath(getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results' 
+				. DIRECTORY_SEPARATOR . $dirname . $basename);
+		}
 	}
 	
 	/**

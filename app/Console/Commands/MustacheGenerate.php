@@ -18,6 +18,8 @@ class MustacheGenerate extends Command {
 	 * @var string
 	 */
 	protected $signature = 'mustache:generate' 
+			. ' {--compare : compare generated files with current version}' 
+			. ' {--install : compare generated files with current version}' 
 			. ' {table : database table}' 
 			. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|french|test_model|test_controller}' 
 			. '';
@@ -86,29 +88,61 @@ class MustacheGenerate extends Command {
 	public function handle() {
 		$table = $this->argument('table');
 		$template = $this->argument('template');
-
+		$compare = $this->option('compare');
+		$install = $this->option('install');
+		$verbose = $this->option('verbose');
+		
 		if (!Schema::tableExists($table)) {
 			$this->error("Unknow table $table in tenant database");
 			return 1;
 		}
 
 		try {
-		if ($template == "all") {
-			foreach ($this->templates as $template) {
+			if ($template == "all") {
+				foreach ($this->templates as $template) {
+					$template_file = MustacheHelper::template_file($table, $template);
+					$result_file = MustacheHelper::result_file($table, $template);
+					$this->process_file($table, $template_file, $result_file);
+				}
+			} else {
 				$template_file = MustacheHelper::template_file($table, $template);
 				$result_file = MustacheHelper::result_file($table, $template);
 				$this->process_file($table, $template_file, $result_file);
 			}
-		} else {
-			$template_file = MustacheHelper::template_file($table, $template);
-			$result_file = MustacheHelper::result_file($table, $template);
-			$this->process_file($table, $template_file, $result_file);
-		}
 		} catch (Exception $e) {
 			echo "Error: " . $e->getMessage();
 			return 1;
 		}
+		
+		if ($compare) {
+			$comparator = "WinMergeU";
+			if ($template == "all") {
+				foreach ($this->templates as $template) {
+					$result_file = MustacheHelper::result_file($table, $template);
+					$install_file = MustacheHelper::result_file($table, $template, $install=true);
+					$cmd = "$comparator $result_file $install_file";
+					if ($verbose) echo "\ncmd = $cmd";
+					
+					$returnVar = NULL;
+					$output = NULL;										
+					exec ( $cmd, $output, $returnVar );
+				}
+			} else {
+				$result_file = MustacheHelper::result_file($table, $template);
+				$install_file = MustacheHelper::result_file($table, $template, $install=true);
+				$cmd = "$comparator $result_file $install_file";
+				if ($verbose) echo "\ncmd = $cmd";
+				
+				$returnVar = NULL;
+				$output = NULL;
+				exec ( $cmd, $output, $returnVar );
+			}
+		}
 
+		if ($install) {
+			echo "\ninstalling ...\n";
+		}
+		
 		return 0;
 	}
 
