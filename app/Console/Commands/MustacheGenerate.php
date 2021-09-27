@@ -6,9 +6,12 @@ use Illuminate\Console\Command;
 use App\Models\Schema;
 use App\Helpers\MustacheHelper;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class MustacheGenerate extends Command {
-	
+	protected $templates = [ "controller","model","request","index","create","edit","english","french"
+	];
+
 	/**
 	 * The name and signature of the console command.
 	 *
@@ -16,8 +19,8 @@ class MustacheGenerate extends Command {
 	 */
 	protected $signature = 'mustache:generate' 
 			. ' {table : database table}' 
-			. ' {template :  mustache template}' 
-			. ' {result}';
+			. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|french|test_model|test_controller}' 
+			. '';
 
 	/**
 	 * The console command description.
@@ -35,43 +38,43 @@ class MustacheGenerate extends Command {
 		parent::__construct();
 	}
 
-	
 	protected function write_file(string $content, string $filename) {
-		
-		$dirname =  dirname($filename);
+		$dirname = dirname($filename);
 		if (!is_dir($dirname)) {
 			mkdir($dirname, 0777, true);
 		}
-		
+
 		// For some reason file_put_content generates a Failed to open stream: Permission denied
 		$fh = fopen($filename, "w");
 		fwrite($fh, $content);
-		fclose($fh);	
+		fclose($fh);
 	}
-	
-	/**c
+
+	/**
+	 * c
 	 * Apply action on one template
 	 *
 	 * @param string $table
 	 * @param string $template
 	 */
 	protected function process_file(string $table, string $template_file, string $result_file) {
-		$verbose =  $this->option('verbose');
-		if ($verbose) echo  "\nprocessing $table\n" 
-			. "template=$template_file\n" 
-			. "result=$result_file\n";
-		
-		// if ($verbose) echo "schema=" . env("DB_SCHEMA") . "\n"; 
-	
+		$verbose = $this->option('verbose');
+		if ($verbose)
+			echo "\nprocessing $table\n" . "template=$template_file\n" . "result=$result_file\n";
+
+		// if ($verbose) echo "schema=" . env("DB_SCHEMA") . "\n";
+
 		if ($verbose) {
-			$mustache = new \Mustache_Engine(['logger' => Log::channel('stderr')]);
+			$mustache = new \Mustache_Engine([ 'logger' => Log::channel('stderr')
+			]);
 		} else {
 			$mustache = new \Mustache_Engine();
 		}
 		$template = file_get_contents($template_file);
-		
+
 		$rendered = $mustache->render($template, MustacheHelper::metadata($table));
-		if ($verbose) echo $rendered;
+		if ($verbose)
+			echo $rendered;
 		$this->write_file($rendered, $result_file);
 	}
 
@@ -83,29 +86,28 @@ class MustacheGenerate extends Command {
 	public function handle() {
 		$table = $this->argument('table');
 		$template = $this->argument('template');
-		$result = $this->argument('result');
 
 		if (!Schema::tableExists($table)) {
 			$this->error("Unknow table $table in tenant database");
 			return 1;
 		}
 
-		$dir = MustacheHelper::template_dirname($template);
-
-		if ($dir) {
-			// todo : recursive processing >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-			echo "$dir is a dir";
-			return;
-		} else {
-			$template_file = MustacheHelper::template_filename($template);
-			if (!$template_file) {
-				$this->error("Template $template not found");
-				return 1;
+		try {
+		if ($template == "all") {
+			foreach ($this->templates as $template) {
+				$template_file = MustacheHelper::template_file($table, $template);
+				$result_file = MustacheHelper::result_file($table, $template);
+				$this->process_file($table, $template_file, $result_file);
 			}
-			$result_file = MustacheHelper::result_filename($result);			
+		} else {
+			$template_file = MustacheHelper::template_file($table, $template);
+			$result_file = MustacheHelper::result_file($table, $template);
 			$this->process_file($table, $template_file, $result_file);
 		}
-
+		} catch (Exception $e) {
+			echo "Error: " . $e->getMessage();
+			return 1;
+		}
 
 		return 0;
 	}

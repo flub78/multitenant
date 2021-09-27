@@ -33,7 +33,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantFeatureExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/LocalizationTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ArtisanMustacheTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ArtisanMustacheTest.php
 
     @rem Helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/DirHelperTest.php
@@ -49,7 +49,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php

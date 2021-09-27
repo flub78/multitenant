@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Helpers\MetadataHelper as Meta;
+use Exception;
 
 /**
  * Some function related to code generation
@@ -55,6 +56,77 @@ class MustacheHelper {
 		return $filename;
 	}
 	
+	/**
+	 * Convention for the template name
+	 *
+	 * @param String $table
+	 * @param String $template
+	 * @param String $template_file (by default)
+	 */
+	public static function template_file(String $table, String $template, String $template_file = "") {
+		$class_name = Meta::class_name($table);
+		$element = Meta::element($table);
+		
+		$file = $template_file;
+		if ($template == "controller") {
+			$file =  'app/Http/Controllers/Tenants/Controller.php.mustache';
+		} elseif ($template == "model") {
+			$file =  'Model.php.mustache';
+		} elseif ($template == "request") {
+			$file =  'Request.php.mustache';
+		} elseif ($template == "index") {
+			$file =  'resources/views/tenants/index.blade.php.mustache';
+		} elseif ($template == "create") {
+			$file =  'resources/views/tenants/create.blade.php.mustache';
+		} elseif ($template == "edit") {
+			$file =  'resources/views/tenants/edit.blade.php.mustache';
+		} elseif ($template == "english") {
+			$file =  'lang.php.mustache';
+		} elseif ($template == "french") {
+			$file =  'lang.php.mustache';
+		} elseif ($template == "test_model") {
+			$file =  'test_model.php.mustache';
+		} elseif ($template == "test_controller") {
+			$file =  'test_controller.php.mustache';
+		}
+		return self::template_filename($file);
+	}
+
+	/**
+	 * Convention for the generated file name
+	 *
+	 * @param String $table
+	 * @param String $template
+	 * @param String $result_file  (by default)
+	 */
+	public static function result_file(String $table, String $template, String $result_file = "") {
+		$class_name = Meta::class_name($table);
+		$element = Meta::element($table);
+		
+		$file = $result_file;
+		if ($template == "controller") {
+			$file =  "app/Http/Controllers/Tenants/" . $class_name . "Controller.php";
+		} elseif ($template == "model") {
+			$file =  "app/Models/Tenants/" . $class_name . '.php';
+		} elseif ($template == "request") {
+			$file =  "app/Http/Requests/Tenants/" . $class_name . "Request.php";
+		} elseif ($template == "index") {
+			$file =  'resources/views/tenants/' . $element . '/index.blade.php';
+		} elseif ($template == "create") {
+			$file =  'resources/views/tenants/' . $element . '/create.blade.php';
+		} elseif ($template == "edit") {
+			$file =  'resources/views/tenants/' . $element . '/edit.blade.php';
+		} elseif ($template == "english") {
+			$file =  'resources/lang/en/' . $element . '.php';
+		} elseif ($template == "french") {
+			$file =  'resources/lang/fr/' . $element . '.php';
+		} elseif ($template == "test_model") {
+			$file =  'tests/Unit/Tenant/' . $class_name . 'ModelTest.php';
+		} elseif ($template == "test_controller") {
+			$file =  'tests/Feature/Tenants/' . $class_name . 'ControllerTest.php';
+		}
+		return self::result_filename($file);
+	}
 	
 	/**
 	 * @param string $result

@@ -8,6 +8,26 @@ Instead of developing code for every data, developers only have to develop code 
 
 The goal of the templating mechanism is to be able to generate quickly a working application to manage the database resources. Of course complex resources will need tuning and adaptations to make the user experience more friendly but it should work out of the box. In this context an resource may be a database table but also the result of a complex select stored as a view in the database.
      
+## Use cases
+
+Depending on the size of the application we can expect between twenty and a few hundred resources.
+
+As developer I want to be able to generate one file from one template for one table. I want to be able to generate all files from one table. I want to be able to compare the generated result with the current version. I want to be able to replace a current version with the generated file.
+
+As the code generation will rarely be fully automatic there are limited needs to generate and install all files of the application.
+
+For each resource I may have to generate:
+* a controller
+* a model
+* a request
+* an index form
+* a create form
+* an edit form
+* a model unit test
+* a controller test
+* an English language file
+* a template for French language
+and may be some others ones ...
     
 ## Implementation
 
@@ -47,6 +67,7 @@ Ex;
 
 ### List of replaced patterns
 
+This is an outdated example, the source code in MetadataHelper is the reference.
 * {{class_name}}        Camel case class name (model)
 * {{fillable_names}}    List of fields
 * 
@@ -171,7 +192,7 @@ Ex;
 
 ### The template directory
 
-It contains all the templates.
+It contains all the templates, optionally in sub directories.
 
 ### The result directory
 
@@ -186,16 +207,14 @@ It is where the generated files are copied when the generation is over
 
 The whole mechanism is available through a few php artisan commands:
 
-    php artisan mustache:generate users templates result
-    php artisan mustache:generate table=users files=templates/resources/views/tenants
+    php artisan mustache:generate users controller
     
-    php artisan mustache:compare table files
-    php artisan mustache:install files
+    php artisan mustache:compare table model
+    php artisan mustache:install table edit
     php artisan mustache:info table
     
     table is a database table name
-    files identifies either a simple file or a directory that will be processed recursively
-    
+     
     mustache:generate process a template or a set of templates
     mustache:compare and display the differences between the generated files and the one of the application
     mustache:install copy the generated files into the application
