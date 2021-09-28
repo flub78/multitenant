@@ -69,23 +69,32 @@ class MustacheHelper {
 		
 		$file = $template_file;
 		if ($template == "controller") {
-			$file =  'app/Http/Controllers/Tenants/Controller.php.mustache';
+			$file = implode(DIRECTORY_SEPARATOR, ['app', 'Http', 'Controller', 'Tenants', 'Controller.php.mustache']);
+			
 		} elseif ($template == "model") {
 			$file =  'Model.php.mustache';
+			
 		} elseif ($template == "request") {
 			$file =  'Request.php.mustache';
+			
 		} elseif ($template == "index") {
 			$file =  'resources/views/tenants/index.blade.php.mustache';
+			
 		} elseif ($template == "create") {
 			$file =  'resources/views/tenants/create.blade.php.mustache';
+			
 		} elseif ($template == "edit") {
 			$file =  'resources/views/tenants/edit.blade.php.mustache';
+			
 		} elseif ($template == "english") {
 			$file =  'lang.php.mustache';
+			
 		} elseif ($template == "french") {
 			$file =  'lang.php.mustache';
+			
 		} elseif ($template == "test_model") {
 			$file =  'test_model.php.mustache';
+			
 		} elseif ($template == "test_controller") {
 			$file =  'test_controller.php.mustache';
 		}
@@ -105,25 +114,47 @@ class MustacheHelper {
 		
 		$file = "";
 		if ($template == "controller") {
-			$file =  "app/Http/Controllers/Tenants/" . $class_name . "Controller.php";
+			$file = implode(DIRECTORY_SEPARATOR, ['app', 'Http', 'Controllers', 'Tenants', $class_name . 'Controller.php']);			
+			
 		} elseif ($template == "model") {
-			$file =  "app/Models/Tenants/" . $class_name . '.php';
+			$file = implode(DIRECTORY_SEPARATOR, ['app', 'Models', 'Tenants', $class_name . '.php']);
+			
 		} elseif ($template == "request") {
 			$file =  "app/Http/Requests/Tenants/" . $class_name . "Request.php";
+			$file = implode(DIRECTORY_SEPARATOR, ['app', 'Http', 'Requests', 'Tenants', $class_name . 'Request.php']);
+			
 		} elseif ($template == "index") {
-			$file =  'resources/views/tenants/' . $element . '/index.blade.php';
+			if ($table != "users") {
+				$file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'tenants', $element ,'index.blade.php']);
+			} else {
+				$file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'users', 'index.blade.php']);
+			}
+			
 		} elseif ($template == "create") {
-			$file =  'resources/views/tenants/' . $element . '/create.blade.php';
+			if ($table != "users") {
+				$file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'tenants', $element, 'create.blade.php']);
+			} else {
+				$file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'users', 'create.blade.php']);
+			}
+			
 		} elseif ($template == "edit") {
-			$file =  'resources/views/tenants/' . $element . '/edit.blade.php';
+			if ($table != "users") {
+				$file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'tenants', $element, 'edit.blade.php']);
+			} else {
+				$file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'users', 'edit.blade.php']);
+			}
+			
 		} elseif ($template == "english") {
-			$file =  'resources/lang/en/' . $element . '.php';
+			$file = implode(DIRECTORY_SEPARATOR, ['resources', 'lang', 'en', $element . '.php']);
+			
 		} elseif ($template == "french") {
-			$file =  'resources/lang/fr/' . $element . '.php';
+			$file = implode(DIRECTORY_SEPARATOR, ['resources', 'lang', 'fr', $element . '.php']);
+			
 		} elseif ($template == "test_model") {
-			$file =  'tests/Unit/Tenant/' . $class_name . 'ModelTest.php';
+			$file = implode(DIRECTORY_SEPARATOR, ['test', 'Unit', 'Tenants', $class_name . 'ModelTest.php']);			
+			
 		} elseif ($template == "test_controller") {
-			$file =  'tests/Feature/Tenants/' . $class_name . 'ControllerTest.php';
+			$file = implode(DIRECTORY_SEPARATOR, ['test', 'Feature', 'Tenants', $class_name . 'ControllerTest.php']);
 		}
 		return self::result_filename($file, $installation);
 	}
@@ -149,10 +180,7 @@ class MustacheHelper {
 			$path = getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results' 
 				. DIRECTORY_SEPARATOR . $dirname . $basename;
 		}
-		echo "\npath = $path\n";
-		$realpath = realpath($path);
-		echo "realpath = $realpath\n";
-		return $realpath;
+		return $path;
 	}
 	
 	/**

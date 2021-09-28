@@ -22,12 +22,14 @@ class MustacheHelperTest extends TestCase {
 	const temp1 = "app\Http\Controllers\Tenants\RoleController.php";
 	const temp2 = "app\Http\Controllers\Tenants\RoleController.php.mustache";
 	
-	public function ttest_template_filename() {
+	public function test_template_filename() {
 
 		if (PHP_OS == "WINNT") {
 			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
+			$expected = "";
 			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp1));
 			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp2));
+			$this->expectException(Exception::class);
 			$this->assertEquals($expected, MustacheHelper::template_filename($expected));
 		} else {
 			$expected = '/var/www/html/multi_phpunit/build/templates/app\Http\Controllers\Tenants\Controller.php.mustache';
@@ -36,7 +38,7 @@ class MustacheHelperTest extends TestCase {
 		
 	}
 	
-	public function ttest_result_filename () {
+	public function test_result_filename () {
 		if (PHP_OS == "WINNT") {			
 			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\app\Http\Controllers\Tenants\RoleController.php';
 		} else {
