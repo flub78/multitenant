@@ -104,4 +104,9 @@ class ArtisanMustacheTest extends TenantTestCase {
 		$this->assertEquals($exitCode, 0, "No errors");
 	}
 	
+	public function test_mustache_generate_compare() {
+		$exitCode = Artisan::call("mustache:generate --pretend --compare --install roles all");
+		$this->assertEquals($exitCode, 0, "No errors");
+	}
+	
 }

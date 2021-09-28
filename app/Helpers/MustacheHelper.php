@@ -30,15 +30,6 @@ class MustacheHelper {
 		return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i',$path) > 0;
 	}
 	
-	/**
-	 * @param string $template
-	 * @return string
-	 */
-	public static function template_dirname(string $template = "") {
-		$dir = Self::absolute_template_path($template);
-		if (!is_dir($dir)) return "";
-		return $dir;
-	}
 	
 	/**
 	 * @param string $template
@@ -69,7 +60,7 @@ class MustacheHelper {
 		
 		$file = $template_file;
 		if ($template == "controller") {
-			$file = implode(DIRECTORY_SEPARATOR, ['app', 'Http', 'Controller', 'Tenants', 'Controller.php.mustache']);
+			$file = implode(DIRECTORY_SEPARATOR, ['app', 'Http', 'Controllers', 'Tenants', 'Controller.php.mustache']);
 			
 		} elseif ($template == "model") {
 			$file =  'Model.php.mustache';

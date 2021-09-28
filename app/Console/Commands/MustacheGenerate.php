@@ -20,6 +20,7 @@ class MustacheGenerate extends Command {
 	protected $signature = 'mustache:generate' 
 			. ' {--compare : compare generated files with current version}' 
 			. ' {--install : compare generated files with current version}' 
+			. ' {--pretend : simulation, no actions}' 
 			. ' {table : database table}' 
 			. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|french|test_model|test_controller}' 
 			. '';
@@ -91,6 +92,7 @@ class MustacheGenerate extends Command {
 		$compare = $this->option('compare');
 		$install = $this->option('install');
 		$verbose = $this->option('verbose');
+		$pretend = $this->option('pretend');
 		
 		if (!Schema::tableExists($table)) {
 			$this->error("Unknow table $table in tenant database");
@@ -125,7 +127,7 @@ class MustacheGenerate extends Command {
 					
 					$returnVar = NULL;
 					$output = NULL;										
-					exec ( $cmd, $output, $returnVar );
+					if (!$pretend) exec ( $cmd, $output, $returnVar );
 				}
 			} else {
 				$result_file = MustacheHelper::result_file($table, $template);
@@ -135,7 +137,7 @@ class MustacheGenerate extends Command {
 				
 				$returnVar = NULL;
 				$output = NULL;
-				exec ( $cmd, $output, $returnVar );
+				if (!$pretend) exec ( $cmd, $output, $returnVar );
 			}
 		}
 

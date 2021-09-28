@@ -104,7 +104,7 @@ class  BladeHelper {
 	 * @param string $email
 	 * @return string
 	 */
-	static public function email(string $email) {
+	static public function blade_email(string $email) {
 		return '<A HREF="mailto:' . $email . '">' . $email . '</A>';
 	}
 	
@@ -114,7 +114,7 @@ class  BladeHelper {
 	 * @param string $label
 	 * @return string
 	 */
-	static public function button_edit(string $route, string $dusk, string $label) {
+	static public function blade_button_edit(string $route, string $dusk, string $label) {
 		// <a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary" dusk="edit_{{$user->name}}">{{__('general.edit')}}</a>
 		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';		
 	}
@@ -131,7 +131,7 @@ class  BladeHelper {
 	 * @param string $label
 	 * @return string
 	 */
-	static public function button_delete(string $route, string $dusk, string $label) {
+	static public function blade_button_delete(string $route, string $dusk, string $label) {
 		$res = '<form action="' . $route .'"  method="post">' . "\n";
 		$res .= '    <input type="hidden" name="_token" value="' . csrf_token() . '" />' . "\n";
 		$res .= '    <input type="hidden" name="_method" value="DELETE">' . "\n";

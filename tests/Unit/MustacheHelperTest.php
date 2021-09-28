@@ -58,4 +58,23 @@ class MustacheHelperTest extends TestCase {
 		$this->assertTrue(MustacheHelper::is_absolute_path($template));
 		$this->assertFalse(MustacheHelper::is_absolute_path(Self::temp1));
 	}
+	
+	public function test_template_file () {
+		$templates = [ "controller","model","request","index","create","edit","english","french"];
+		foreach ($templates as $template) {
+			$str = MustacheHelper::template_file('roles', $template);
+			// echo "\ntemplate $template = $str";
+			$this->assertNotEquals("", $str);
+		}
+	}
+	
+	public function test_result_file () {
+		$templates = [ "controller","model","request","index","create","edit","english","french", "test_model", "test_controller"];
+		foreach ($templates as $template) {
+			$str = MustacheHelper::result_file('roles', $template);
+			// echo "\nresult $template = $str";
+			$this->assertNotEquals("", $str);
+		}
+	}
+	
 }
