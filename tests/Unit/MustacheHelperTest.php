@@ -42,7 +42,7 @@ class MustacheHelperTest extends TestCase {
 		if (PHP_OS == "WINNT") {			
 			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\app\Http\Controllers\Tenants\RoleController.php';
 		} else {
-			$expected = '/var/www/html/multi_phpunit/build/results/app\Http\Controllers\Tenants\Controller.php';
+			$expected = '/var/www/html/multi_phpunit/build/results/app\Http\Controllers\Tenants\RoleController.php';
 		}
 		$this->assertEquals($expected, MustacheHelper::result_filename(Self::temp1));
 		$this->assertEquals($expected, MustacheHelper::result_filename(Self::temp2));		

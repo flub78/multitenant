@@ -100,43 +100,4 @@ class  BladeHelper {
 		return $res;
 	}
 	
-	/**
-	 * @param string $email
-	 * @return string
-	 */
-	static public function blade_email(string $email) {
-		return '<A HREF="mailto:' . $email . '">' . $email . '</A>';
-	}
-	
-	/**
-	 * @param string $route
-	 * @param string $dusk
-	 * @param string $label
-	 * @return string
-	 */
-	static public function blade_button_edit(string $route, string $dusk, string $label) {
-		// <a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary" dusk="edit_{{$user->name}}">{{__('general.edit')}}</a>
-		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';		
-	}
-	
-	/**
-	 <form action="{{ route('users.destroy', $user->id)}}" method="post">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-danger" type="submit" dusk="delete_{{$user->name}}" >{{__('general.delete')}}</button>
-     </form>
-	 * 
-	 * @param string $route
-	 * @param string $dusk
-	 * @param string $label
-	 * @return string
-	 */
-	static public function blade_button_delete(string $route, string $dusk, string $label) {
-		$res = '<form action="' . $route .'"  method="post">' . "\n";
-		$res .= '    <input type="hidden" name="_token" value="' . csrf_token() . '" />' . "\n";
-		$res .= '    <input type="hidden" name="_method" value="DELETE">' . "\n";
-		$res .= '    <button class="btn btn-danger" type="submit" dusk="' . $dusk . '"  >' . $label . "</button>\n";
-		$res .= "</form>\n";
-		return $res;
-	}
 }
