@@ -144,11 +144,15 @@ class MustacheHelper {
 		}
 		
 		if ($installation) {
-			return realpath(getcwd() . DIRECTORY_SEPARATOR . $dirname . $basename);
+			$path = getcwd() . DIRECTORY_SEPARATOR . $dirname . $basename;
 		} else {
-			return realpath(getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results' 
-				. DIRECTORY_SEPARATOR . $dirname . $basename);
+			$path = getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'results' 
+				. DIRECTORY_SEPARATOR . $dirname . $basename;
 		}
+		echo "\npath = $path\n";
+		$realpath = realpath($path);
+		echo "realpath = $realpath\n";
+		return $realpath;
 	}
 	
 	/**
