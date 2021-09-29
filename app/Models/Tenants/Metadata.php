@@ -45,7 +45,6 @@ class Metadata extends Model
 		if (!$info)
 			throw new Exception("field " . $params["field"] . " from table " . $params["table"] . " not found");
 							
-    	// do something here
     	return static::query()->create($params);
     }    
     
@@ -59,7 +58,7 @@ class Metadata extends Model
     public function update(array $attributes = [], array $options = []) {
     	/*
     	 * For some unknown reason direct access to $this->table does not return
-    	 * the correct value in this context
+    	 * the correct value in this context (very likely because table already exists in eloquent models)
     	 */
     	$table = $this->attributes['table']; // instead of $this->table
     	$field = $this->attributes['field'];

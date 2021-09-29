@@ -145,10 +145,14 @@ class MetadataHelper {
 	}
 	
 	static public function field_rule_edit (String $table, String $field) {
+		$subtype = Meta::subtype($table, $field);
+		
 		return "rule_edit $table.$field";
 	}
 	
 	static public function field_rule_create (String $table, String $field) {
+		$subtype = Meta::subtype($table, $field);
+		
 		return "rule_create $table.$field";
 	}
 	

@@ -64,7 +64,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * Returns an object containing column information
-     *    Attributes are Field, Type, Null, Key, Defualt and Extra
+     *    Attributes are Field, Type, Null, Key, Default and Extra
      * @param string $table
      * @param string $field
      * @return NULL| the info object
@@ -138,6 +138,54 @@ class Schema extends ModelWithLogs {
     public static function columnType (string $table, string $field) {
     	return Schema::columnInformation($table, $field)->Type;
     }
+    
+    /**
+     * @param string $table
+     * @param string $field
+     * @return unknown|string
+     */
+    public static function basicType (string $table, string $field) {
+    	$type = self::columnType($table, $field);
+    	$pattern = '/^([\w-]+).*$/i';
+    	if (preg_match($pattern, $type, $matches)) {
+    		// var_dump($matches);
+    		return $matches[1];
+    	}
+    	return "";
+    }
+    
+    /**
+     * @param string $table
+     * @param string $field
+     * @return boolean
+     */
+    public static function integerType (string $table, string $field) {
+    	$type = self::columnType($table, $field);
+    	$pattern = '/int/i';
+    	if (preg_match($pattern, $type, $matches)) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /**
+     * @param string $table
+     * @param string $field
+     * @return boolean
+     */
+    public static function unsignedType (string $table, string $field) {
+    	$type = self::columnType($table, $field);
+    	$pattern = '/int/i';
+    	if (preg_match($pattern, $type, $matches)) {
+    		$pattern = '/unsigned/i';
+    		if (preg_match($pattern, $type, $matches)) {
+    			return true;
+    		}
+    		return false;
+    	}
+    	return false;
+    }
+    
     
     /**
      * Returns the size of a field or 0 when undefined

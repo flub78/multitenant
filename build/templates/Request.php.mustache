@@ -36,7 +36,7 @@ class [[class_name]]Request extends FormRequest
                     'name' => ['required', 'max:191', 'unique:[[table]]'], 
                     'description' => 'required|max:191',
     			 [[# field_list ]]
-    			    '[[name]]' => [[create_rule]],
+    			    '[[name]]' => [[rule_create]],
                  [[/ field_list ]]
    			];
     		}
@@ -46,7 +46,7 @@ class [[class_name]]Request extends FormRequest
     				'name' => ['required', 'max:191', Rule::unique('[[table]]')->ignore(request('[[element]]'))],
     				'description' => 'required|max:191',
                  [[# field_list ]]
-                    '[[name]]' => [[edit_rule]],
+                    '[[name]]' => [[rule_edit]],
                  [[/ field_list ]]
     			];
     		}

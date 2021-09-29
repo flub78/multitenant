@@ -127,4 +127,38 @@ class SchemaModelTest extends TestCase
     	$this->dumpIndex(Schema::indexList('configurations'));
     	$this->assertTrue(true);
     }
+    
+    public function test_basic_type() {
+    	// tinyint(1)
+    	$this->assertEquals('tinyint', Schema::basicType('users', 'active'));
+    	
+    	// varchar(255)
+    	$this->assertEquals('varchar', Schema::basicType('users', 'email'));
+    	
+    	// bigint(20) unsigned
+    	$this->assertEquals('bigint', Schema::basicType('user_roles', 'user_id'));
+    }
+
+    public function test_integer_type() {
+    	// tinyint(1)
+    	$this->assertTrue(Schema::integerType('users', 'active'));
+    	
+    	// varchar(255)
+    	$this->assertFalse(Schema::integerType('users', 'email'));
+    	
+    	// bigint(20) unsigned
+    	$this->assertTrue(Schema::integerType('user_roles', 'user_id'));
+    }
+
+    public function test_unsigned_type() {
+    	// tinyint(1)
+    	$this->assertFalse(Schema::unsignedType('users', 'active'));
+    	
+    	// varchar(255)
+    	$this->assertFalse(Schema::unsignedType('users', 'email'));
+    	
+    	// bigint(20) unsigned
+    	$this->assertTrue(Schema::unsignedType('user_roles', 'user_id'));
+    }
+    
 }
