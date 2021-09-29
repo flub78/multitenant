@@ -82,6 +82,22 @@ class Schema extends ModelWithLogs {
     	return null;
     }
     
+    public static function required (string $table, string $field) {
+    	$col_info = self::columnInformation($table, $field);
+    	
+    	if ($col_info) {
+    		return ($col_info->Null != "YES");
+    	} else {
+    		return false;
+    	}
+    }
+
+    public static function unique(string $table, string $field) {
+    	$col_info = self::columnInformation($table, $field);
+    	// TODO real implementation
+		return ($field == 'name') ? true : false;    	
+    }
+    
     /**
      * Returns the list of fields of a table
      * @param string $table

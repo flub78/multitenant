@@ -33,20 +33,16 @@ class [[class_name]]Request extends FormRequest
     		}
     		case 'POST': {
     			return [
-                    'name' => ['required', 'max:191', 'unique:[[table]]'], 
-                    'description' => 'required|max:191',
     			 [[# field_list ]]
-    			    '[[name]]' => [[rule_create]],
+    			    '[[name]]' => [[&rule_create]],
                  [[/ field_list ]]
    			];
     		}
     		case 'PUT':
     		case 'PATCH': {
     			return [
-    				'name' => ['required', 'max:191', Rule::unique('[[table]]')->ignore(request('[[element]]'))],
-    				'description' => 'required|max:191',
-                 [[# field_list ]]
-                    '[[name]]' => [[rule_edit]],
+                  [[# field_list ]]
+                    '[[name]]' => [[&rule_edit]],
                  [[/ field_list ]]
     			];
     		}

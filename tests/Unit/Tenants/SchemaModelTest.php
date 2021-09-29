@@ -54,7 +54,10 @@ class SchemaModelTest extends TestCase
       
     public function test_column_information() {
     	$info = Schema::columnInformation("configurations", "key");
-    	$this->assertNotNull($info);	
+    	$this->assertNotNull($info);
+    	
+    	$this->assertTrue(Schema::required('configurations', 'key'));
+    	$this->assertFalse(Schema::required('roles', 'description'));
     }
 
     public function test_column_information_unknown_table() {
@@ -180,6 +183,8 @@ class SchemaModelTest extends TestCase
     	$this->assertEquals("BTREE", $ii->Index_type);
     	// echo "\nindexInfo\n";
     	// var_dump(Schema::indexInfo('user_roles', 'user_id'));
+    	
+    	$ii2 = Schema::indexInfo('roles', 'name');
     }
     
     public function test_foreign_key() {

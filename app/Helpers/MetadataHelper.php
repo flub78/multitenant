@@ -146,14 +146,49 @@ class MetadataHelper {
 	
 	static public function field_rule_edit (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
+		$element = self::element($table);
 		
-		return "rule_edit $table.$field";
+		$rules = [];
+		if (Schema::required($table, $field))  {
+			$rules[] = "'required'";
+		}
+		
+		if ($size = Schema::columnSize($table, $field)) {
+			$rules[] = "'max:$size'";
+		}
+		
+		if (Schema::unique($table, $field)) {
+			$rules[] = "Rule::unique('$table')->ignore(request('$element'))";
+		}
+		
+		if ($subtype == 'email') {
+			$rules[] = "'email'";
+		}
+		
+		return  '[' . implode(', ', $rules) . ']';
 	}
 	
 	static public function field_rule_create (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
 		
-		return "rule_create $table.$field";
+		$rules = [];
+		if (Schema::required($table, $field))  {
+			$rules[] = "'required'";
+		}
+		
+		if ($size = Schema::columnSize($table, $field)) {
+			$rules[] = "'max:$size'";
+		}
+		
+		if (Schema::unique($table, $field)) {
+			$rules[] = "'unique:$table'";
+		}
+		
+		if ($subtype == 'email') {
+			$rules[] = "'email'";
+		}
+		
+		return  '[' . implode(', ', $rules) . ']';
 	}
 	
 	/**
