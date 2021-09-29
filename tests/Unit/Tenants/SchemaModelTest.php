@@ -125,9 +125,9 @@ class SchemaModelTest extends TestCase
     public function test_indexes() {
     	$txt = $this->dumpIndex(Schema::indexList('users'));
     	$txt = $this->dumpIndex(Schema::indexList('user_roles'));
-    	echo "\nindexes : \n$txt";
+    	// echo "\nindexes : \n$txt";
     	$txt = $this->dumpIndex(Schema::indexList('configurations'));
-    	$this->assertTrue(true);
+    	$this->assertNotEquals("", $txt);
     }
     
     public function test_basic_type() {
@@ -172,11 +172,31 @@ class SchemaModelTest extends TestCase
     	$this->assertEquals('', Schema::primaryIndex('non_existing_table'));
     }
     
-    public function ttest_index_info() {
-    	var_dump(Schema::indexInfo('user_roles', 'user_id'));
+    public function test_index_info() {
+    	$ii = Schema::indexInfo('user_roles', 'user_id');
+    	$this->assertEquals("user_roles", $ii->Table);
+    	$this->assertEquals("unique_combination", $ii->Key_name);
+    	$this->assertEquals("user_id", $ii->Column_name);
+    	$this->assertEquals("BTREE", $ii->Index_type);
+    	// echo "\nindexInfo\n";
+    	// var_dump(Schema::indexInfo('user_roles', 'user_id'));
     }
     
-    public function ttest_foreign_key() {
-    	Schema::foreignKey('user_roles', 'user_id');
+    public function test_foreign_key() {
+    	$fk = Schema::foreignKey('user_roles', 'user_id');
+    	$this->assertEquals('users', $fk->REFERENCED_TABLE_NAME);
+    	$this->assertEquals('id', $fk->REFERENCED_COLUMN_NAME);
+    	
+    	$this->assertEquals(Schema::foreignKeyReferencedTable('user_roles', 'user_id'), $fk->REFERENCED_TABLE_NAME);
+    	$this->assertEquals(Schema::foreignKeyReferencedColumn('user_roles', 'user_id'), $fk->REFERENCED_COLUMN_NAME);
+    	
+    	$this->assertNull(Schema::foreignKey('unknown_table', 'user_id'));
+    	$this->assertNull(Schema::foreignKey('user_roles', 'unknown_column'));
+    	
+    	$this->assertNull(Schema::foreignKeyReferencedTable('unknown_table', 'user_id'));
+    	$this->assertNull(Schema::foreignKeyReferencedColumn('unknown_table', 'user_id'));
+
+    	$this->assertNull(Schema::foreignKeyReferencedTable('user_roles', 'unknown_column'));
+    	$this->assertNull(Schema::foreignKeyReferencedColumn('user_roles', 'unknown_column'));  	
     }
 }

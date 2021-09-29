@@ -248,7 +248,20 @@ class Schema extends ModelWithLogs {
 				WHERE CONSTRAINT_SCHEMA = '$database' 
 				and TABLE_NAME = '$table' and COLUMN_NAME = '$field' ";
     	$res = DB::connection(SCHEMA)->select($sql);
-    	var_dump($res);
-    	return $res;
+    	foreach ($res as $row) {
+    		if ($row->REFERENCED_TABLE_NAME != "") return $row;
+    	}
+    	return null;
     }
+
+    public static function foreignKeyReferencedTable (string $table, string $field) {
+    	$fk = self::foreignKey($table, $field);
+    	return ($fk) ? $fk->REFERENCED_TABLE_NAME : null;
+    }
+
+    public static function foreignKeyReferencedColumn (string $table, string $field) {
+    	$fk = self::foreignKey($table, $field);
+    	return ($fk) ? $fk->REFERENCED_COLUMN_NAME : null;
+    }
+    
 }
