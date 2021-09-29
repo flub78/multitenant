@@ -71,12 +71,9 @@ class ArtisanMustacheTest extends TenantTestCase {
 	}
 	
 	public function test_mustache_generate_not_enought_parameters() {
-		try {
-			$exitCode = Artisan::call("mustache:generate");
-			$this->assertTrue(false, "Exception not raised");
-		} catch (RuntimeException $e) {
-			$this->assertTrue(true, "Expected exception raised");
-		}
+		
+		$this->expectException(RuntimeException::class);
+		$exitCode = Artisan::call("mustache:generate");
 	}
 		
 	public function test_mustache_generate_unknown_table() {

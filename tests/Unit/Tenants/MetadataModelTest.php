@@ -81,31 +81,19 @@ class MetadataModelTest extends TenantTestCase
             
     public function test_duplicate_are_rejected () {
     	// Create
-    	try {
-    		Metadata::create(['table' => "users", 'field' => "email", "subtype" => "email"]);
-    		Metadata::create(['table' => "users", 'field' => "email", "subtype" => "email"]);
-    		$this->assertTrue(false, "Exception not raised while creating duplicate");
-    	} catch (QueryException $e) {
-    		$this->assertTrue(true, "Exception raised when creating duplicates");
-    	}    	
+   		Metadata::create(['table' => "users", 'field' => "email", "subtype" => "email"]);
+   		$this->expectException(QueryException::class);
+   		Metadata::create(['table' => "users", 'field' => "email", "subtype" => "email"]);
     }
     
     public function test_incorrect_table_or_field_are_rejected () {
-    	try {
-    		Metadata::create(['table' => "unknown", 'field' => "email", "subtype" => "email"]);
-    		$this->assertTrue(false, "Exception not raised when table is unknown");
-    	} catch (Exception $e) {
-    		$this->assertTrue(true, "Exception raised when table is unknown");
-    	}
-    }
+    	$this->expectException(Exception::class);
+    	Metadata::create(['table' => "unknown", 'field' => "email", "subtype" => "email"]);
+     }
     
     public function test_missing_table_or_field_are_rejected () {
-    	try {
-    		Metadata::create(['table' => "users", "subtype" => "email"]);
-    		$this->assertTrue(false, "Exception not raised when there are missing fields");
-    	} catch (Exception $e) {
-    		$this->assertTrue(true, "Exception raised when there are missing fields");
-    	}
+    	$this->expectException(Exception::class);
+    	Metadata::create(['table' => "users", "subtype" => "email"]);
     }
     
     public function test_model_checks_on_update () {
@@ -113,24 +101,16 @@ class MetadataModelTest extends TenantTestCase
     	$meta2 = Metadata::create(['table' => "users", 'field' => "name"]);
     	
     	$stored = Metadata::where(['table' => "users", "field" => "email"])->first();
-    	
-    	try {
-    		$stored->table = "unknown_table";
-    		$stored->update();
-    		$this->assertTrue(false, "Exception not raised when table is unknown");
-    	} catch (Exception $e) {
-    		$this->assertTrue(true, "Exception raised when table is unknown");
-    	}
-    	
-    	try {
-    		$stored->table = "users";
-    		$stored->field = "name";
-    		$stored->update();
-    		$this->assertTrue(false, "Exception not raised on duplicate");
-    	} catch (Exception $e) {
-    		$this->assertTrue(true, "Exception raised on duplicate");
-    	}
-    }
+
+    	$this->expectException(Exception::class);
+    	$stored->table = "unknown_table";
+    	$stored->update();
+ 
+    	$this->expectException(Exception::class, 'Exception raised on duplicate');
+    	$stored->table = "users";
+    	$stored->field = "name";
+    	$stored->update();   	
+     }
     
     public function test_full_name () {
     	$meta1 = Metadata::create(['table' => "users", 'field' => "email", "subtype" => "email"]);

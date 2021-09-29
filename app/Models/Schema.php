@@ -213,4 +213,42 @@ class Schema extends ModelWithLogs {
     	$database = ENV('DB_SCHEMA', 'tenanttest');
     	return DB::connection(SCHEMA)->select("SHOW INDEX FROM $table FROM $database");
     }
+
+    /**
+     * Returns information about one index
+     * @param string $table
+     * @return array
+     */
+    public static function indexInfo (string $table, string $field) {
+    	$indexes = self::indexList($table);
+    	
+    	foreach ($indexes as $i) {
+    		if ($i->Column_name == $field) return $i;
+    	}
+    	return null;
+    }
+    
+    /**
+     * Returns the primary index of a table
+     * @param String $table
+     * @return unknown|string
+     */
+    public static function primaryIndex(String $table) {
+    	$indexes = self::indexList($table);
+    	foreach ($indexes as $i) {
+    		if ($i->Key_name ==  "PRIMARY") return $i->Column_name;
+    	}
+    	return "";
+    }
+    
+    public static function foreignKey (string $table, string $field) {
+    	$database = ENV('DB_SCHEMA', 'tenanttest');
+    	$sql = "SELECT CONSTRAINT_SCHEMA, CONSTRAINT_NAME, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME 
+				from INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+				WHERE CONSTRAINT_SCHEMA = '$database' 
+				and TABLE_NAME = '$table' and COLUMN_NAME = '$field' ";
+    	$res = DB::connection(SCHEMA)->select($sql);
+    	var_dump($res);
+    	return $res;
+    }
 }

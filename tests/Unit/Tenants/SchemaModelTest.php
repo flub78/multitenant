@@ -5,6 +5,7 @@ namespace tests\Unit\Tenants;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Schema;
+use Illuminate\Database\QueryException;
 
 class SchemaModelTest extends TestCase
 {
@@ -122,9 +123,10 @@ class SchemaModelTest extends TestCase
     }
     
     public function test_indexes() {
-    	$this->dumpIndex(Schema::indexList('users'));
-    	$this->dumpIndex(Schema::indexList('user_roles'));
-    	$this->dumpIndex(Schema::indexList('configurations'));
+    	$txt = $this->dumpIndex(Schema::indexList('users'));
+    	$txt = $this->dumpIndex(Schema::indexList('user_roles'));
+    	echo "\nindexes : \n$txt";
+    	$txt = $this->dumpIndex(Schema::indexList('configurations'));
     	$this->assertTrue(true);
     }
     
@@ -161,4 +163,20 @@ class SchemaModelTest extends TestCase
     	$this->assertTrue(Schema::unsignedType('user_roles', 'user_id'));
     }
     
+    public function test_primary_index() {
+    	$this->assertEquals('id', Schema::primaryIndex('users'));
+    	$this->assertEquals('id', Schema::primaryIndex('user_roles'));
+    	$this->assertEquals('key', Schema::primaryIndex('configurations'));
+    	
+    	$this->expectException(QueryException::class);
+    	$this->assertEquals('', Schema::primaryIndex('non_existing_table'));
+    }
+    
+    public function ttest_index_info() {
+    	var_dump(Schema::indexInfo('user_roles', 'user_id'));
+    }
+    
+    public function ttest_foreign_key() {
+    	Schema::foreignKey('user_roles', 'user_id');
+    }
 }
