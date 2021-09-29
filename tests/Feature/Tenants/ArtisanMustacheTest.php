@@ -92,6 +92,8 @@ class ArtisanMustacheTest extends TenantTestCase {
 	public function test_mustache_generate_users() {
 		$exitCode = Artisan::call("mustache:generate users model");
 		$this->assertEquals($exitCode, 0, "No errors");
+		$exitCode = Artisan::call("mustache:generate users all");
+		$this->assertEquals($exitCode, 0, "No errors");
 	}
 	
 	public function test_mustache_generate_users_create_view() {
@@ -105,7 +107,18 @@ class ArtisanMustacheTest extends TenantTestCase {
 	}
 	
 	public function test_mustache_generate_compare() {
-		$exitCode = Artisan::call("mustache:generate --pretend --compare --install roles all");
+		$exitCode = Artisan::call("mustache:generate --pretend --compare roles controller");
+		$this->assertEquals($exitCode, 0, "No errors");
+		$exitCode = Artisan::call("mustache:generate --pretend --compare roles all");
+		$this->assertEquals($exitCode, 0, "No errors");
+	}
+	
+	public function test_mustache_generate_install() {
+		$verbose = "--verbose";
+		$verbose = "";
+		$exitCode = Artisan::call("mustache:generate $verbose --pretend --install roles request");
+		$this->assertEquals($exitCode, 0, "No errors");
+		$exitCode = Artisan::call("mustache:generate $verbose --pretend --install roles all");
 		$this->assertEquals($exitCode, 0, "No errors");
 	}
 	

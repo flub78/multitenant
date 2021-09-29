@@ -1,46 +1,25 @@
+{{=[[ ]]=}}
 <?php
+
+namespace App\Http\Controllers\Tenants;
+
+use app\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Tenants\Role;
+use App\Models\Tenants\[[class_name]];
+use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+
+
 /**
- * Controller for {{class_name}}
+ * Controller for [[element]]
  * 
- * @author flub78
- * @category web application framework
- * @package webapp
- * @license MIT https://en.wikipedia.org/wiki/MIT_License
- * @link https://github.com/flub78/webapp
  * 
- */
-
-/**
- * This file is a template generated file filed from metadata extracted from the data model.
- * If modifications are required, it is important to consider if they should be done in the template
- * or in the generated file, in which case caution must be exerced to avoid overwritting.
- */
-
-namespace App\Http\Controllers;
-
-use App\{{class_name}};
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\{{class_name}}Request;
-use Illuminate\Support\Facades\Log;
-
-/**
- * {{class_name}} CRUD controller
+ * @author frederic
  *
  */
-class {{class_name}}Controller extends Controller
+class [[class_name]]Controller extends Controller
 {
-
-    // name of the table
-    private $name = "{{table}}";
-
-    /**
-     * Create a new controller instance.
-     */
-    public function __construct() {
-        // by default, the user must be loged in to access the pages
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -48,9 +27,8 @@ class {{class_name}}Controller extends Controller
      */
     public function index()
     {
-    	Log::debug('{{class_name}}Controller.index');
-    	${{table}} = {{class_name}}::all();
-        return view('{{element}}/index', compact('{{table}}'));
+    	$[[table]] = [[class_name]]::all();
+    	return view ( 'tenants/[[element]]/index', compact ( '[[table]]' ) );
     }
 
     /**
@@ -60,111 +38,79 @@ class {{class_name}}Controller extends Controller
      */
     public function create()
     {
-        Log::debug('{{class_name}}Controller.create');
-        return view('{{element}}/create');
+    	$user_list = User::selector();
+    	$role_list = Role::selector();
+    	return view ('tenants/[[element]]/create')
+    		->with('role_list', $role_list)
+    		->with('user_list', $user_list);   		;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request storage request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store({{class_name}}Request $request)
+    public function store(Request $request)
     {
-        Log::debug('{{class_name}}Controller.store');
-                
-     	$validatedData = $request->validate();
-               
-        // TODO: make the following code generic or better include it into a validation rule
-        $name = "";
-        if ($request->hasfile('filename')) {
-            $file = $request->file('filename');
-            $name = time() . $file->getClientOriginalName();
-            $file->move(public_path() . '/images/', $name);
-            $validatedData['filename'] = $name;
+        $user_id = $request->user_id;
+        $role_id = $request->role_id;
+        try {
+        	$id = [[class_name]]::create(['user_id' => $user_id, 'role_id' => $role_id]);
+        	return redirect ( '/[[element]]' )->with ( 'success',  __('[[table]].created', ['user' => $id->user_name, 'role'=> $id->role_name]));
+        } catch (QueryException $e) {
+        	// very likely a duplicate
+        	return redirect ( '/[[element]]' );
         }
-        
-        ${{element}} = {{class_name}}::create($validatedData);
-        ${{element}}->save();
-
-        Log::debug('{{class_name}}Controller.store: ' . var_export(${{element}}, true));
-        
-        return redirect('{{table}}')->with('success', 'Information has been added');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id of item to display
+     * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        Log::debug("{{class_name}}Controller.show/$id");
-        return $this->name . ".show";
-    }
 
+    public function show([[class_name]] $[[element]])
+    {
+        //
+    }
+     */
+    
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id of the item to edit
+     * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        Log::debug("{{class_name}}Controller.edit/$id");
-        ${{element}} = {{class_name}}::find($id);
-        return view('{{element}}/edit', compact('{{element}}', 'id'));
-    }
 
+    public function edit([[class_name]] $[[element]])
+    {
+        //
+    }
+     */
+    
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request to update
-     * @param int $id of the item to update
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
-     */
-    public function update({{class_name}}Request $request, $id)
+
+    public function update(Request $request, [[class_name]] $[[element]])
     {
-        Log::debug("{{class_name}}Controller.update/$id");
         //
-        ${{element}} = {{class_name}}::find($id);
-        ${{element}}->name = $request->get('name');
-        ${{element}}->email = $request->get('email');
-        ${{element}}->number = $request->get('number');
-        ${{element}}->date = $request->get('date');
-        ${{element}}->office = $request->get('office');
-
-        $name = "";
-        if ($request->hasfile('filename')) {
-        	$file = $request->file('filename');
-        	$name = time() . $file->getClientOriginalName();
-        	$file->move(public_path() . '/images/', $name);
-        	
-        	${{element}}->filename = $name;
-        }
-        
-        ${{element}}->save();
-
-        Log::debug('{{class_name}}Controller.update: ' . var_export(${{element}}, true));
-        
-        return redirect('{{table}}');
     }
-
+     */
+    
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id of the item to delete
+     * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy([[class_name]] $[[element]])
     {
-        //
-        Log::debug("{{class_name}}Controller.destroy/$id");
-
-        ${{element}} = {{element}}::find($id);
-        ${{element}}->delete();
-        return redirect('{{table}}')->with('success', 'Information has been  deleted');
+    	$full_name = $[[element]]->full_name;
+    	$[[element]]->delete();
+    	return redirect ( '[[element]]' )->with ( 'success', __('general.deletion_success', ['elt' => $full_name]));
     }
 }

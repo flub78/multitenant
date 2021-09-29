@@ -62,6 +62,8 @@ class MustacheGenerate extends Command {
 	 */
 	protected function process_file(string $table, string $template_file, string $result_file) {
 		$verbose = $this->option('verbose');
+		$compare = $this->option('compare');
+		$install = $this->option('install');
 		if ($verbose)
 			echo "\nprocessing $table\n" . "template=$template_file\n" . "result=$result_file\n";
 
@@ -76,7 +78,7 @@ class MustacheGenerate extends Command {
 		$template = file_get_contents($template_file);
 
 		$rendered = $mustache->render($template, MustacheHelper::metadata($table));
-		if ($verbose)
+		if ($verbose && !($compare || $install) )
 			echo $rendered;
 		$this->write_file($rendered, $result_file);
 	}
@@ -101,10 +103,10 @@ class MustacheGenerate extends Command {
 
 		try {
 			if ($template == "all") {
-				foreach ($this->templates as $template) {
-					$template_file = MustacheHelper::template_file($table, $template);
-					$result_file = MustacheHelper::result_file($table, $template);
-					$this->process_file($table, $template_file, $result_file);
+				foreach ($this->templates as $tpl) {
+					$tpl_file = MustacheHelper::template_file($table, $tpl);
+					$result_file = MustacheHelper::result_file($table, $tpl);
+					$this->process_file($table, $tpl_file, $result_file);
 				}
 			} else {
 				$template_file = MustacheHelper::template_file($table, $template);
@@ -119,9 +121,9 @@ class MustacheGenerate extends Command {
 		if ($compare) {
 			$comparator = "WinMergeU";
 			if ($template == "all") {
-				foreach ($this->templates as $template) {
-					$result_file = MustacheHelper::result_file($table, $template);
-					$install_file = MustacheHelper::result_file($table, $template, $install=true);
+				foreach ($this->templates as $tpl) {
+					$result_file = MustacheHelper::result_file($table, $tpl);
+					$install_file = MustacheHelper::result_file($table, $tpl, $install=true);
 					$cmd = "$comparator $result_file $install_file";
 					if ($verbose) echo "\ncmd = $cmd";
 					
@@ -142,7 +144,27 @@ class MustacheGenerate extends Command {
 		}
 
 		if ($install) {
-			echo "\ninstalling ...\n";
+			if ($template == "all") {
+				foreach ($this->templates as $tpl) {
+					$result_file = MustacheHelper::result_file($table, $tpl);
+					$install_file = MustacheHelper::result_file($table, $tpl, $install=true);
+					$cmd = "copy $result_file $install_file";
+					if ($verbose) echo "\ncmd = $cmd";
+					
+					$returnVar = NULL;
+					$output = NULL;
+					if (!$pretend) copy($result_file, $install_file);
+				}
+			} else {
+				$result_file = MustacheHelper::result_file($table, $template);
+				$install_file = MustacheHelper::result_file($table, $template, $install=true);
+				$cmd = "copy $result_file $install_file";
+				if ($verbose) echo "\ncmd = $cmd";
+				
+				$returnVar = NULL;
+				$output = NULL;
+				if (!$pretend) copy ($result_file,  $install_file);
+			}
 		}
 		
 		return 0;

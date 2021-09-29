@@ -1,15 +1,13 @@
+{{=[[ ]]=}}
 <?php
-/**
- * This file is a template generated file filed from metadata extracted from the data model.
- * If modifications are required, it is important to consider if they should be done in the template
- * or in the generated file, in which case caution must be exerced to avoid overwritting.
- */
- 
-namespace App\Http\Requests;
+
+namespace App\Http\Requests\Tenants;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
-class {{class_name}}Request extends FormRequest
+class [[class_name]]Request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,40 +21,37 @@ class {{class_name}}Request extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * 
-     * How to have specific rules during update
-     * https://laracasts.com/discuss/channels/requests/laravel-5-validation-request-how-to-handle-validation-on-update
      *
      * @return array
      */
-    public function rules()
-    {
-        switch($this->method())
-        {
-        	case 'GET':
-        	case 'DELETE':
-        		{
-        			return [];
-        		}
-        	case 'POST':
-        		{
-        			return [
-        			{{#fillable}}
-        			    '{{{name}}}' => '{{{field_create_rules}}}',
-        			{{/fillable}}
-        			];
-        		}
-        	case 'PUT':
-        	case 'PATCH':
-        		{
-        			return [
-        			    {{#fillable}}
-        			        '{{{name}}}' => '{{{field_edit_rules}}}',
-        			    {{/fillable}}
-        			];
-        		}
-        	default:
-        	    break;
-        }
+    public function rules() {
+    	
+    	switch($this->method()) {
+    		case 'GET':
+    		case 'DELETE': {
+    			return [];
+    		}
+    		case 'POST': {
+    			return [
+                    'name' => ['required', 'max:191', 'unique:[[table]]'], 
+                    'description' => 'required|max:191',
+    			 [[# field_list ]]
+    			    '[[name]]' => [[create_rule]],
+                 [[/ field_list ]]
+   			];
+    		}
+    		case 'PUT':
+    		case 'PATCH': {
+    			return [
+    				'name' => ['required', 'max:191', Rule::unique('[[table]]')->ignore(request('[[element]]'))],
+    				'description' => 'required|max:191',
+                 [[# field_list ]]
+                    '[[name]]' => [[edit_rule]],
+                 [[/ field_list ]]
+    			];
+    		}
+    		default:
+    			break;	
+     	}
     }
 }
