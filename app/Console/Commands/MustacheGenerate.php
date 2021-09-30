@@ -123,7 +123,7 @@ class MustacheGenerate extends Command {
 			if ($template == "all") {
 				foreach ($this->templates as $tpl) {
 					$result_file = MustacheHelper::result_file($table, $tpl);
-					$install_file = MustacheHelper::result_file($table, $tpl, $install=true);
+					$install_file = MustacheHelper::result_file($table, $tpl, true);
 					$cmd = "$comparator $result_file $install_file";
 					if ($verbose) echo "\ncmd = $cmd";
 					
@@ -133,7 +133,7 @@ class MustacheGenerate extends Command {
 				}
 			} else {
 				$result_file = MustacheHelper::result_file($table, $template);
-				$install_file = MustacheHelper::result_file($table, $template, $install=true);
+				$install_file = MustacheHelper::result_file($table, $template, true);
 				$cmd = "$comparator $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
 				
@@ -147,7 +147,7 @@ class MustacheGenerate extends Command {
 			if ($template == "all") {
 				foreach ($this->templates as $tpl) {
 					$result_file = MustacheHelper::result_file($table, $tpl);
-					$install_file = MustacheHelper::result_file($table, $tpl, $install=true);
+					$install_file = MustacheHelper::result_file($table, $tpl, true);
 					$cmd = "copy $result_file $install_file";
 					if ($verbose) echo "\ncmd = $cmd";
 					
@@ -157,7 +157,7 @@ class MustacheGenerate extends Command {
 				}
 			} else {
 				$result_file = MustacheHelper::result_file($table, $template);
-				$install_file = MustacheHelper::result_file($table, $template, $install=true);
+				$install_file = MustacheHelper::result_file($table, $template, true);
 				$cmd = "copy $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
 				
