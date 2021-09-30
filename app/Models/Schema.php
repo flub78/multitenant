@@ -93,9 +93,18 @@ class Schema extends ModelWithLogs {
     }
 
     public static function unique(string $table, string $field) {
-    	$col_info = self::columnInformation($table, $field);
-    	// TODO real implementation
-		return ($field == 'name') ? true : false;    	
+    	// $col_info = self::columnInformation($table, $field);
+    	// $fk = self::foreignKey($table, $field);
+    	
+    	$info = self::indexInfo($table, $field);
+    	// var_dump($info);
+    	
+    	if (!$info) return false;
+    	
+    	if ($info->Index_type == "BTREE") 
+    		return true;
+    	else 
+    		return false;
     }
     
     /**

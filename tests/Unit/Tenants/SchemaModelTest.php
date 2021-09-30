@@ -204,4 +204,13 @@ class SchemaModelTest extends TestCase
     	$this->assertNull(Schema::foreignKeyReferencedTable('user_roles', 'unknown_column'));
     	$this->assertNull(Schema::foreignKeyReferencedColumn('user_roles', 'unknown_column'));  	
     }
+    
+    public function test_unique () {
+    	$this->assertFalse(Schema::unique('users', 'name'));
+    	$this->assertTrue(Schema::unique('users', 'email'));
+    	
+    	// below it is the key + value which is unique
+    	$this->assertTrue(Schema::unique('configurations', 'key'));
+    	$this->assertFalse(Schema::unique('configurations', 'value'));
+    }
 }
