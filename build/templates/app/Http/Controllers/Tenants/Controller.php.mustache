@@ -1,19 +1,18 @@
 {{=[[ ]]=}}
 <?php
-
+/*
+ * Code generated from a template, if modifications are required, carefully consider if they should be done
+ * in the generated code or in the template.
+ */
 namespace App\Http\Controllers\Tenants;
 
-use app\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Tenants\Role;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Tenants\[[class_name]]Request;
 use App\Models\Tenants\[[class_name]];
-use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-
 
 /**
  * Controller for [[element]]
- * 
  * 
  * @author frederic
  *
@@ -25,8 +24,7 @@ class [[class_name]]Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
     	$[[table]] = [[class_name]]::all();
     	return view ( 'tenants/[[element]]/index', compact ( '[[table]]' ) );
     }
@@ -36,57 +34,44 @@ class [[class_name]]Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-    	$user_list = User::selector();
-    	$role_list = Role::selector();
-    	return view ('tenants/[[element]]/create')
-    		->with('role_list', $role_list)
-    		->with('user_list', $user_list);   		;
+    public function create() {
+    	return view ('tenants/[[element]]/create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\[[class_name]]Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $user_id = $request->user_id;
-        $role_id = $request->role_id;
-        try {
-        	$id = [[class_name]]::create(['user_id' => $user_id, 'role_id' => $role_id]);
-        	return redirect ( '/[[element]]' )->with ( 'success',  __('[[table]].created', ['user' => $id->user_name, 'role'=> $id->role_name]));
-        } catch (QueryException $e) {
-        	// very likely a duplicate
-        	return redirect ( '/[[element]]' );
-        }
-    }
+    public function store([[class_name]]Request $request) {
+        $validatedData = $request->validated(); // Only retrieve the data, the validation is done
+        [[class_name]]::create($validatedData);
+
+        return redirect('/[[element]]')->with('success', __('general.creation_success', [ 'elt' => $validatedData ['name']]));
+     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
-
-    public function show([[class_name]] $[[element]])
-    {
+     */
+    public function show([[class_name]] $[[element]]) {
         //
     }
-     */
+
     
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
-
-    public function edit([[class_name]] $[[element]])
-    {
-        //
-    }
      */
+    public function edit([[class_name]] $[[element]]) {
+        return view('tenants/[[element]]/edit')->with(compact('[[element]]'));
+    }
+
     
     /**
      * Update the specified resource in storage.
@@ -94,12 +79,16 @@ class [[class_name]]Controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
-
-    public function update(Request $request, [[class_name]] $[[element]])
-    {
-        //
-    }
      */
+    public function update([[class_name]]Request $request, $id) {
+        $validatedData = $request->validated();
+
+        [[class_name]]::where([ 'id' => $id])->update($validatedData);
+
+        return redirect('/[[element]]')->with('success', __('general.modification_success', [ 'elt' => $validatedData ['name']
+        ]));
+    }
+
     
     /**
      * Remove the specified resource from storage.
@@ -107,8 +96,7 @@ class [[class_name]]Controller extends Controller
      * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
      */
-    public function destroy([[class_name]] $[[element]])
-    {
+    public function destroy([[class_name]] $[[element]]) {
     	$full_name = $[[element]]->full_name;
     	$[[element]]->delete();
     	return redirect ( '[[element]]' )->with ( 'success', __('general.deletion_success', ['elt' => $full_name]));
