@@ -23,30 +23,6 @@ class  BladeHelper {
 
 	public static  $indent = '    ';
 	
-	/**
-	 * @param String $for
-	 * @param String $label
-	 * @return string
-	 */
-	static public function label(String $for, String $label, $indent = 0) {
-		// <label for="user_id">{{__('user_roles.user_id')}}</label>
-		return str_repeat(self::$indent, $indent) 
-			. '<label for=' . $for . '>' . $label . '</label>';
-	}
-	
-	static public function input_create(String $type, String $name, $value) {
-		return '<input type="' . $type . '" class="form-control" name="' 
-				. $name . '" value="' . $value . '"/>';	
-	}
-	
-	static public function text_create(String $name, $value) {
-		return self::input_create("text", $name, $value);
-	}
-	
-	static public function email_create(String $name, $value) {
-		return self::input_create("email", $name, $value);
-	}
-	
 
 	/**
 	 * returns an HTML select from a list of [string, id]
@@ -87,17 +63,5 @@ class  BladeHelper {
 				$attributes = array_merge($attrs, ["class" => "form-select", 'name' => $id, 'id' => $id]);
 				return HH::selector($values, true, $selected, $attributes);
 	}
-	
-	/**
-	 * @param bool $checked
-	 * @return string
-	 */
-	static public function checkbox (bool $checked) {
-		// <input type="checkbox" {{($user->admin) ? 'checked' : ''}} onclick="return false;" />
-		$res = '<input type="checkbox" ';
-		if ($checked) $res .= 'checked';
-		$res .= ' onclick="return false;" />';
-		return $res;
-	}
-	
+		
 }

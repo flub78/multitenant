@@ -112,6 +112,11 @@ class MetadataHelper {
 	static public function field_input_edit (String $table, String $field) {
 		$type = "text";
 		$element = self::element($table);
+		$subtype = Meta::subtype($table, $field);
+		
+		if ($subtype == "checkbox") {
+			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "', $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
+		}
 		
 		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
 	}
@@ -119,6 +124,11 @@ class MetadataHelper {
 	static public function field_input_create (String $table, String $field) {
 		$type = "text";
 		$element = self::element($table);
+		$subtype = Meta::subtype($table, $field);
+		
+		if ($subtype == "checkbox") {
+			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "') ? 'checked' : ''}}/>";
+		}
 		
 		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '") }}"/>';
 	}
