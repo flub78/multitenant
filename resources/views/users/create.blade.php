@@ -30,17 +30,17 @@ use App\Helpers\BladeHelper as Blade;
     
       <form method="post" action="{{ route('user.store') }}">
           @csrf
-         
-          <div class="form-group">              
-              {!! Blade::label($for="name", $label=__('user.name')) !!}
-              {!! Blade::text_create("name", old('name'))!!}
-          </div>
-          
-          <div class="form-group">
-              {!! Blade::label($for="email", $label=__('user.email')) !!}
-              {!! Blade::email_create("email", old('email'))!!}
-          </div>
-          
+                   
+           <div class="form-group">
+             <label for="name">{{__("user.name")}}</label>
+             <input type="text" class="form-control" name="name" value="{{ old("name") }}"/>
+           </div>
+           
+           <div class="form-group">
+             <label for="email">{{__("user.email")}}</label>
+             <input type="text" class="form-control" name="email" value="{{ old("email") }}"/>
+           </div>
+
            <div class="form-group">
               <label for="cases">{{__('user.admin')}}</label>
               <input type="checkbox" class="form-control" name="admin" value="1"  {{old('admin') ? 'checked' : ''}}/>
