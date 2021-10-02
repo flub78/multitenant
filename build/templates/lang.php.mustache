@@ -5,24 +5,22 @@
  * or in the generated file, in which case caution must be exerced to avoid overwritting.
  */
 
+
+/*
+|--------------------------------------------------------------------------
+| {{class_name}} Localized strings ({{language}} version)
+|--------------------------------------------------------------------------
+|
+| This file provides translation for the {{element}} Laravel CRUD.
+|
+*/
+    
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | {{class_name}} Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | This file provides translation for the {{element}} Laravel CRUD.
-    |
-    */
-
 	'create_title' => "{{class_name}} creation.",
 	'edit_title' => "{{class_name}} modification.",
 	'list_title' => "{{class_name}} list.",
-	{{#fillable}}
-	'{{name}}' => "{{label}}",	
-	{{/fillable}}
-    {{#lang}}'{{key}}' => "{{value}}",
-    {{/lang}}
+	{{#field_list}}
+	'{{name}}' => "{{name}}",	
+	{{/field_list}}
 ];
 

@@ -62,7 +62,6 @@ class MustacheGenerate extends Command {
 	 */
 	protected function process_file(string $table, string $template_file, string $result_file) {
 		$verbose = $this->option('verbose');
-		$compare = $this->option('compare');
 		$install = $this->option('install');
 		if ($verbose)
 			echo "\nprocessing $table\n" . "template=$template_file\n" . "result=$result_file\n";
@@ -77,8 +76,12 @@ class MustacheGenerate extends Command {
 		}
 		$template = file_get_contents($template_file);
 
-		$rendered = $mustache->render($template, MustacheHelper::metadata($table));
-		if ($verbose && !($compare || $install) )
+		$metadata = MustacheHelper::metadata($table);
+		if ($this->argument('template') == "english") $metadata['language'] = "English";
+		if ($this->argument('template') == "french") $metadata['language'] = "French";
+		
+		$rendered = $mustache->render($template, $metadata);
+		if ($verbose && !($this->option('compare') || $install) )
 			echo $rendered;
 		$this->write_file($rendered, $result_file);
 	}
@@ -91,7 +94,6 @@ class MustacheGenerate extends Command {
 	public function handle() {
 		$table = $this->argument('table');
 		$template = $this->argument('template');
-		$compare = $this->option('compare');
 		$install = $this->option('install');
 		$verbose = $this->option('verbose');
 		$pretend = $this->option('pretend');
@@ -102,15 +104,15 @@ class MustacheGenerate extends Command {
 		}
 
 		try {
-			if ($template == "all") {
+			if ($this->argument('template') == "all") {
 				foreach ($this->templates as $tpl) {
 					$tpl_file = MustacheHelper::template_file($table, $tpl);
 					$result_file = MustacheHelper::result_file($table, $tpl);
 					$this->process_file($table, $tpl_file, $result_file);
 				}
 			} else {
-				$template_file = MustacheHelper::template_file($table, $template);
-				$result_file = MustacheHelper::result_file($table, $template);
+				$template_file = MustacheHelper::template_file($table, $this->argument('template'));
+				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
 				$this->process_file($table, $template_file, $result_file);
 			}
 		} catch (Exception $e) {
@@ -118,9 +120,9 @@ class MustacheGenerate extends Command {
 			return 1;
 		}
 		
-		if ($compare) {
+		if ($this->option('compare')) {
 			$comparator = "WinMergeU";
-			if ($template == "all") {
+			if ($this->argument('template') == "all") {
 				foreach ($this->templates as $tpl) {
 					$result_file = MustacheHelper::result_file($table, $tpl);
 					$install_file = MustacheHelper::result_file($table, $tpl, true);
@@ -132,8 +134,8 @@ class MustacheGenerate extends Command {
 					if (!$pretend) exec ( $cmd, $output, $returnVar );
 				}
 			} else {
-				$result_file = MustacheHelper::result_file($table, $template);
-				$install_file = MustacheHelper::result_file($table, $template, true);
+				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
+				$install_file = MustacheHelper::result_file($table, $this->argument('template'), true);
 				$cmd = "$comparator $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
 				
@@ -144,7 +146,7 @@ class MustacheGenerate extends Command {
 		}
 
 		if ($install) {
-			if ($template == "all") {
+			if ($this->argument('template') == "all") {
 				foreach ($this->templates as $tpl) {
 					$result_file = MustacheHelper::result_file($table, $tpl);
 					$install_file = MustacheHelper::result_file($table, $tpl, true);
@@ -156,8 +158,8 @@ class MustacheGenerate extends Command {
 					if (!$pretend) copy($result_file, $install_file);
 				}
 			} else {
-				$result_file = MustacheHelper::result_file($table, $template);
-				$install_file = MustacheHelper::result_file($table, $template, true);
+				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
+				$install_file = MustacheHelper::result_file($table, $this->argument('template'), true);
 				$cmd = "copy $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
 				
