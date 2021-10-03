@@ -49,5 +49,11 @@ getters and setters are in lowerCamelCase getStartTime.
 
 By convention route to access resources use the element name (singular of the database table name). 
 
+## Naming convention for string translations
+
+The files for string translation are store in the resources/lang directory in a file with the element name.
+
+Ex:  resources/lanf/user.php
+
 ## Naming convention for PHP
 

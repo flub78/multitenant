@@ -65,7 +65,7 @@ class UserRoleControllerTest extends TenantTestCase {
 	public function test_user_roles_index_view() {
 				
 		$this->get_tenant_url($this->user, 'user_role',
-				[__('user_roles.title'), __('user_roles.user_id'), __('user_roles.role_id'), __('user_roles.add'), __('navbar.tenant'), tenant('id')]);
+				[__('user_role.title'), __('user_role.user_id'), __('user_role.role_id'), __('user_role.add'), __('navbar.tenant'), tenant('id')]);
 	}
 
 	/**
@@ -75,7 +75,7 @@ class UserRoleControllerTest extends TenantTestCase {
 	 */
 	public function test_user_role_create_view() {
 		$this->get_tenant_url($this->user, 'user_role/create',
-				[__('user_roles.new'), __('user_roles.user_id'), __('user_roles.role_id'), __('navbar.tenant'), tenant('id')]);
+				[__('user_role.new'), __('user_role.user_id'), __('user_role.role_id'), __('navbar.tenant'), tenant('id')]);
 	}
 	
 		

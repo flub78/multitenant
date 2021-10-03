@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Tenants;
 
 use app\Http\Controllers\Controller;
+use App\Http\Requests\Tenants\UserRoleRequest;
 use App\Models\User;
 use App\Models\Tenants\Role;
 use App\Models\Tenants\UserRole;
-use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
 
@@ -24,8 +24,7 @@ class UserRoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
     	$user_roles = UserRole::all();
     	return view ( 'tenants/user_role/index', compact ( 'user_roles' ) );
     }
@@ -35,8 +34,7 @@ class UserRoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
     	$user_list = User::selector();
     	$role_list = Role::selector();
     	return view ('tenants/user_role/create')
@@ -50,8 +48,7 @@ class UserRoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(UserRoleRequest $request) {
         $user_id = $request->user_id;
         $role_id = $request->role_id;
         try {
@@ -69,8 +66,7 @@ class UserRoleController extends Controller
      * @param  \App\Models\Tenants\UserRole  $userRole
      * @return \Illuminate\Http\Response
 
-    public function show(UserRole $userRole)
-    {
+    public function show(UserRole $userRole) {
         //
     }
      */
@@ -80,12 +76,16 @@ class UserRoleController extends Controller
      *
      * @param  \App\Models\Tenants\UserRole  $userRole
      * @return \Illuminate\Http\Response
-
-    public function edit(UserRole $userRole)
-    {
-        //
-    }
      */
+    public function edit(UserRole $user_role) {
+    	$user_list = User::selector();
+    	$role_list = Role::selector();
+    	return view('tenants/user_role/edit')
+    	->with('role_list', $role_list)
+    	->with('user_list', $user_list)
+    	->with(compact('user_role'));
+    }
+
     
     /**
      * Update the specified resource in storage.
@@ -93,12 +93,17 @@ class UserRoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Tenants\UserRole  $userRole
      * @return \Illuminate\Http\Response
-
-    public function update(Request $request, UserRole $userRole)
-    {
-        //
-    }
      */
+    public function update(UserRoleRequest $request, $id) {
+    	$validatedData = $request->validated();
+    	
+    	$user_role = UserRole::where([ 'id' => $id])->first();
+    	$user_role->update($validatedData);
+    	
+    	return redirect('/user_role')->with('success', __('general.modification_success', [ 'elt' => $user_role->full_name
+    	]));
+    }
+
     
     /**
      * Remove the specified resource from storage.
@@ -106,8 +111,7 @@ class UserRoleController extends Controller
      * @param  \App\Models\Tenants\UserRole  $userRole
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UserRole $userRole)
-    {
+    public function destroy(UserRole $userRole) {
     	$full_name = $userRole->full_name;
     	$userRole->delete();
     	return redirect ( 'user_role' )->with ( 'success', __('general.deletion_success', ['elt' => $full_name]));

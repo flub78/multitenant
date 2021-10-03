@@ -12,11 +12,11 @@
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">
-    <caption>{{__('user_roles.title')}}</caption>
+    <caption>{{__('user_role.title')}}</caption>
     <thead>
         <tr>
-          <td>{{__('user_roles.user_id')}}</td>
-          <td>{{__('user_roles.role_id')}}</td>
+          <td>{{__('user_role.user_id')}}</td>
+          <td>{{__('user_role.role_id')}}</td>
           <td >{{__('general.edit')}}</td>
           <td >{{__('general.delete')}}</td>
         </tr>
@@ -43,7 +43,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('user_role')}}/create"><button type="submit" class="btn btn-primary" >@lang('user_roles.add')</button></a> 
+    <a href="{{url('user_role')}}/create"><button type="submit" class="btn btn-primary" >@lang('user_role.add')</button></a> 
 </div>  
 @endsection
 

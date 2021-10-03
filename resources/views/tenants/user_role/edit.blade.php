@@ -1,5 +1,9 @@
-<!-- Users edit.blade.php -->
-<!-- Todo not completed -->
+<!-- UserRole edit.blade.php -->
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -12,7 +16,7 @@
 
 <div class="card uper">
   <div class="card-header">
-    {{__('general.edit')}} {{__('role.elt')}}
+    {{__('general.edit')}} {{__('user_role.elt')}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -25,20 +29,22 @@
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('role.update', $role->id ) }}">
+      <form method="post" action="{{ route('user_role.update', $user_role->id ) }}">
           <div class="form-group">
               @csrf
               @method('PATCH')
               
-              <label for="key">{{__('role.name')}}</label>
-              <input type="text" class="form-control" name="name" value="{{ old('name', $role->name) }}"/>
-          </div>
-          
-          <div class="form-group">
-              <label for="value">{{__('role.description')}}</label>
-              <input type="text" class="form-control" name="description" value="{{ old('description', $role->description) }}"/>
-          </div>
-
+             <div class="form-group">
+               <label for="user_id">{{__("user_role.user_id")}}</label>
+               {!! Blade::selector("user_id", $user_list, $user_role->user_id) !!}
+             </div>
+           
+             <div class="form-group">
+               <label for="role_id">{{__("user_role.role_id")}}</label>
+               {!! Blade::selector("role_id", $role_list, $user_role->role_id) !!}
+             </div>
+           
+             
           <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
       </form>
   </div>

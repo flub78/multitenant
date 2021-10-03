@@ -118,6 +118,13 @@ class MetadataHelper {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "', $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
 		}
 		
+		$fkt = Schema::foreignKeyReferencedTable($table, $field);
+		if ($fkt) {
+			// the field is a foreign key
+			$target_element = self::element($fkt);
+			return '{!! Blade::selector("' . $field . '", $' . $target_element . '_list, $' . $element  . '->' . $field .') !!}';
+		}
+		
 		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
 	}
 	
@@ -128,6 +135,13 @@ class MetadataHelper {
 		
 		if ($subtype == "checkbox") {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "') ? 'checked' : ''}}/>";
+		}
+		
+		$fkt = Schema::foreignKeyReferencedTable($table, $field);
+		if ($fkt) {
+			// the field is a foreign key
+			$target_element = self::element($fkt);
+			return '{!! Blade::selector("' . $field . '", $' . $target_element . '_list, "") !!}';
 		}
 		
 		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '") }}"/>';
@@ -167,12 +181,18 @@ class MetadataHelper {
 			$rules[] = "'max:$size'";
 		}
 		
-		if (Schema::unique($table, $field)) {
-			$rules[] = "Rule::unique('$table')->ignore(request('$element'))";
-		}
-		
 		if ($subtype == 'email') {
 			$rules[] = "'email'";
+		}
+		
+		$fkt = Schema::foreignKeyReferencedTable($table, $field);
+		if ($fkt) {
+			// the field is a foreign key
+			$fkc = Schema::foreignKeyReferencedColumn($table, $field);
+			$rules[] = "'exists:$fkt,$fkc'";
+
+		} elseif (Schema::unique($table, $field)) {
+			$rules[] = "'unique:$table'";
 		}
 		
 		return  '[' . implode(', ', $rules) . ']';
@@ -190,13 +210,18 @@ class MetadataHelper {
 			$rules[] = "'max:$size'";
 		}
 		
-		if (Schema::unique($table, $field)) {
-			$rules[] = "'unique:$table'";
-		}
-		
 		if ($subtype == 'email') {
 			$rules[] = "'email'";
 		}
+		
+		$fkt = Schema::foreignKeyReferencedTable($table, $field);
+		if ($fkt) {
+			// the field is a foreign key
+			$fkc = Schema::foreignKeyReferencedColumn($table, $field);
+			$rules[] = "'exists:$fkt,$fkc'";
+		} elseif (Schema::unique($table, $field)) {
+			$rules[] = "'unique:$table'";
+		}			
 		
 		return  '[' . implode(', ', $rules) . ']';
 	}

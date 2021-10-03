@@ -16,7 +16,7 @@ use App\Helpers\BladeHelper as Blade;
 
 <div class="card uper">
   <div class="card-header">
-    {{__('user_roles.new')}}
+    {{__('user_role.new')}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -33,10 +33,10 @@ use App\Helpers\BladeHelper as Blade;
           <div class="form-group">
               @csrf
               
-              @label("user_id", {{__('user_roles.user_id')}})
+              @label("user_id", {{__('user_role.user_id')}})
               {!! Blade::selector("user_id", $user_list, "") !!}
 
-              @label("role_id", {{__('user_roles.role_id')}})
+              @label("role_id", {{__('user_role.role_id')}})
               {!! Blade::selector("role_id", $role_list, "") !!}
           </div>
           
