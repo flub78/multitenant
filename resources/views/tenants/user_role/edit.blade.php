@@ -45,7 +45,8 @@ use App\Helpers\BladeHelper as Blade;
              </div>
            
              
-          <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
+             @button_submit({{__('general.update')}})
+
       </form>
   </div>
 </div>

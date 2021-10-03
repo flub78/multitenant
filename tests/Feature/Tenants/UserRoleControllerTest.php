@@ -128,6 +128,30 @@ class UserRoleControllerTest extends TenantTestCase {
 	}
 	
 	/**
+	 * Test element storage
+	 */
+	public function test_user_role_store_values() {
+		
+		// to avoid the error: 419 = Authentication timeout
+		$this->withoutMiddleware();
+		
+		$initial_count = UserRole::count();
+		
+		// create a few roles and users
+		$this->user1 = User::factory()->create();
+		$this->role1 = Role::factory()->create(['name' => 'redactor']);
+		
+		UserRole::factory()->make(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
+		$this->assertTrue(UserRole::count() == $initial_count, "Make does not store anything");
+		
+		$elt = array('user_id' => $this->user1->id, 'role_id' => $this->role1->id + 1000000000);
+		$response = $this->post('/user_role', $elt);
+		
+		$this->assertTrue(UserRole::count() == $initial_count, "nothing added on erroneous request");
+	}
+	
+	
+	/**
 	 * 
 	 */
 	public function test_user_role_delete() {
@@ -143,5 +167,40 @@ class UserRoleControllerTest extends TenantTestCase {
 		$this->delete_tenant_url($this->user, $sub_url);
 		$this->assertEquals(0, UserRole::count(), "Element deleted ($sub_url)"); 
 	}
+
+	/**
+	 * Test element storage
+	 */
+	public function test_user_role_edit_page() {
 		
+		$initial_count = UserRole::count();
+		
+		// create a few roles and users
+		$this->user1 = User::factory()->create();
+		$this->role1 = Role::factory()->create(['name' => 'redactor']);
+		
+		$user_role = UserRole::factory()->make(['user_id' => $this->user1->id, 'role_id' => $this->role1->id]);
+		$id = $user_role->save();
+					
+		$this->get_tenant_url($this->user, 'user_role/' . $id . '/edit', []);
+	}
+	
+	public function test_update() {
+		
+		// create a few roles and users
+		$this->user1 = User::factory()->create();
+		$this->role1 = Role::factory()->create(['name' => 'redactor']);
+		$this->role2 = Role::factory()->create(['name' => 'killer']);
+		
+		$elt = ['user_id' => $this->user1->id, 'role_id' => $this->role1->id];
+		$user_role = UserRole::factory()->make($elt);
+		$id = $user_role->save();
+		
+		$elt['role_id'] = $this->role2->id;
+		$url = 'user_role/' . $id;
+		
+		$this->patch_tenant_url($this->user, 'user_role/' . $id , $elt);
+	}
+	
+	
 }

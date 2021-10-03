@@ -1,6 +1,10 @@
 {{=[[ ]]=}}
 <!-- [[class_name]] create.blade.php -->
 
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -37,7 +41,8 @@
            
            [[/ field_list ]]
            
-           <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
+           @button_submit()
+
       </form>
   </div>
 </div>

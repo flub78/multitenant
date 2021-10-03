@@ -1,4 +1,4 @@
-<!-- Users create.blade.php -->
+<!-- UserRole create.blade.php -->
 
 @php
 use App\Helpers\BladeHelper as Blade;
@@ -30,17 +30,21 @@ use App\Helpers\BladeHelper as Blade;
     @endif
     
       <form method="post" action="{{ route('user_role.store') }}">
-          <div class="form-group">
-              @csrf
-              
-              @label("user_id", {{__('user_role.user_id')}})
-              {!! Blade::selector("user_id", $user_list, "") !!}
+           @csrf
+           
+           <div class="form-group">
+             <label for="user_id">{{__("user_role.user_id")}}</label>
+             {!! Blade::selector("user_id", $user_list, "") !!}
+           </div>
+           
+           <div class="form-group">
+             <label for="role_id">{{__("user_role.role_id")}}</label>
+             {!! Blade::selector("role_id", $role_list, "") !!}
+           </div>
+           
+           
+           @button_submit()
 
-              @label("role_id", {{__('user_role.role_id')}})
-              {!! Blade::selector("role_id", $role_list, "") !!}
-          </div>
-          
-          @button_submit()
       </form>
   </div>
 </div>
