@@ -81,7 +81,8 @@ class MetadataHelper {
 	 * @return string
 	 */
 	static public function dusk(String $table, String $element, String $type="edit") {
-		$dusk_field = ($table == "users") ? "name" : "id";
+		
+		$dusk_field = ($table == "users") ? "name" : Schema::primaryIndex($table);
 		if ($type == "edit") {
 			return 'edit_{{ $' . $element . '->' . $dusk_field . ' }}';
 		} else {
@@ -150,8 +151,11 @@ class MetadataHelper {
 	static public function button_delete (String $table) {
 		$element = self::element($table);
 		$dusk = self::dusk($table, $element, "delete");
+		$primary_index = Schema::primaryIndex($table);
 		
-		$res = '<form action="{{ route("' . $element . '.destroy", $' . $element . '->id)}}" method="post">' . "\n";
+		
+		$res = '<form action="{{ route("' . $element . '.destroy", $' . $element . '->' 
+				. $primary_index . ')}}" method="post">' . "\n";
 		$res .= "                   @csrf\n";
 		$res .= "                   @method('DELETE')\n";
 		$res .= "                   <button class=\"btn btn-danger\" type=\"submit\" dusk=\"$dusk\">{{__('general.delete')}}</button>\n";
@@ -160,8 +164,9 @@ class MetadataHelper {
 	}
 	
 	static public function button_edit (String $table) {
+		$primary_index = Schema::primaryIndex($table);
 		$element = self::element($table);
-		$id = $element . '->id';
+		$id = $element . '->' . $primary_index;
 		$dusk = self::dusk($table, $element, "edit");		
 		$route = "{{ route('$element.edit', \$$id) }}";
 		$label = "{{ __('general.edit') }}";
@@ -171,6 +176,7 @@ class MetadataHelper {
 	static public function field_rule_edit (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
 		$element = self::element($table);
+		$primary_index = Schema::primaryIndex($table);
 		
 		$rules = [];
 		if (Schema::required($table, $field))  {
@@ -192,7 +198,8 @@ class MetadataHelper {
 			$rules[] = "'exists:$fkt,$fkc'";
 
 		} elseif (Schema::unique($table, $field)) {
-			$rules[] = "Rule::unique('$table')->ignore(request('$element'))";
+			$id = ($primary_index == "id") ? "" : ", '$primary_index'";
+			$rules[] = "Rule::unique('$table')->ignore(request('$element')$id)";
 		}
 		
 		return  '[' . implode(', ', $rules) . ']';

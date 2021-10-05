@@ -28,7 +28,7 @@ class ConfigurationRequest extends FormRequest
     	$valid_configs = [
     	  'app.locale', 'app.timezone'
     	];
-    	
+    	    	
     	switch($this->method()) {
     		case 'GET':
     		case 'DELETE': {
@@ -36,7 +36,8 @@ class ConfigurationRequest extends FormRequest
     		}
     		case 'POST': {
     			return [
-    				'key' => ['required', 'max:191', 
+    				'key' => ['required', 'max:191',
+    					'unique:configurations',
     					'regex:/\w+\.\w+(\.\w+)*/',
     					Rule::in($valid_configs)
     				],
@@ -48,6 +49,7 @@ class ConfigurationRequest extends FormRequest
     			return [
     				'key' => ['required', 'max:191', 
     					'regex:/\w+\.\w+(\.\w+)*/',
+    					Rule::unique('configurations')->ignore(request('configuration'), 'key'),
     					Rule::in($valid_configs)
     				],	
     				'value' => 'required|max:191',

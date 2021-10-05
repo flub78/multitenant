@@ -1,4 +1,8 @@
-<!-- Users create.blade.php -->
+<!-- Configuration create.blade.php -->
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
 
 @extends('layouts.app')
 
@@ -26,19 +30,21 @@
     @endif
     
       <form method="post" action="{{ route('configuration.store') }}">
-          <div class="form-group">
-              @csrf
-              
-              <label for="key">{{__('configuration.key')}}</label>
-              <input type="text" class="form-control" name="key" value="{{ old('key') }}"/>
-          </div>
-          
-          <div class="form-group">
-              <label for="value">{{__('configuration.value')}}</label>
-              <input type="text" class="form-control" name="value" value="{{ old('value') }}"/>
-          </div>
-          
-          <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
+           @csrf
+           
+           <div class="form-group">
+             <label for="key">{{__("configuration.key")}}</label>
+             <input type="text" class="form-control" name="key" value="{{ old("key") }}"/>
+           </div>
+           
+           <div class="form-group">
+             <label for="value">{{__("configuration.value")}}</label>
+             <input type="text" class="form-control" name="value" value="{{ old("value") }}"/>
+           </div>
+           
+           
+           @button_submit()
+
       </form>
   </div>
 </div>

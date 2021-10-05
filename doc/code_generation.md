@@ -242,7 +242,7 @@ roles
     
 
 configurations
-    php artisan mustache:generate --compare configurations edit     pb with resources with primary key not named id 
+    php artisan mustache:generate --compare configurations edit     OK
     
 roles
 users
