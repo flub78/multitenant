@@ -68,6 +68,7 @@ Ex;
 ### List of replaced patterns
 
 This is an outdated example, the source code in MetadataHelper is the reference.
+
 * {{class_name}}        Camel case class name (model)
 * {{fillable_names}}    List of fields
 * 
@@ -209,15 +210,15 @@ The whole mechanism is available through a few php artisan commands:
 
     php artisan mustache:generate users controller
     
-    php artisan mustache:compare table model
-    php artisan mustache:install table edit
+    php artisan mustache:generate --compare table model
+    php artisan mustache:generate --install table edit
     php artisan mustache:info table
     
     table is a database table name
      
     mustache:generate process a template or a set of templates
-    mustache:compare and display the differences between the generated files and the one of the application
-    mustache:install copy the generated files into the application
+    The compare option compares and displays the differences between the generated files and the one of the application
+    the install options copies the generated files into the application
     mustache:info just dump the metadata about one table
      
 # The mustache documentation
@@ -227,4 +228,24 @@ The whole mechanism is available through a few php artisan commands:
     https://faun.pub/dynamic-content-in-your-mails-using-mustache-9f3a660462ad
     https://github.com/bobthecow/mustache.php/wiki    
     
+# Progress
+
+## Resources 
+
+roles
+    php artisan mustache:generate --compare roles controller        OK
+    php artisan mustache:generate --compare roles request           OK
+    php artisan mustache:generate --compare roles model             To do
+    php artisan mustache:generate --compare roles index             OK
+    php artisan mustache:generate --compare roles create            OK
+    php artisan mustache:generate --compare roles edit              OK
+    
+
+configurations
+    php artisan mustache:generate --compare configurations edit     pb with resources with primary key not named id 
+    
+roles
+users
+user_roles
+calendar_event
     

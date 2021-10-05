@@ -32,15 +32,15 @@ class RoleRequest extends FormRequest
     		}
     		case 'POST': {
     			return [
-    				'name' => ['required', 'max:191', 'unique:roles'], 
-    				'description' => 'required|max:191',
-    			];
+    			    'name' => ['required', 'max:255', 'unique:roles'],
+    			    'description' => ['max:255'],
+   			];
     		}
     		case 'PUT':
     		case 'PATCH': {
     			return [
-    				'name' => ['required', 'max:191', Rule::unique('roles')->ignore(request('role'))],
-    				'description' => 'required|max:191',
+                    'name' => ['required', 'max:255', Rule::unique('roles')->ignore(request('role'))],
+                    'description' => ['max:255'],
     			];
     		}
     		default:

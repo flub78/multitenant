@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Tenants;
 
 use App\Models\Tenants\Configuration;
-use App\Http\Requests\Tenants\ConfigRequest;
+use App\Http\Requests\Tenants\ConfigurationRequest;
 use app\Http\Controllers\Controller;
 
 /**
@@ -47,7 +47,7 @@ class ConfigurationController extends Controller {
 	 * @param \Illuminate\Http\Request $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(ConfigRequest $request) {
+	public function store(ConfigurationRequest $request) {
 		$validatedData = $request->validated (); // Only retrieve the data, the validation is done
 		Configuration::create ( $validatedData );
 		
@@ -81,7 +81,7 @@ class ConfigurationController extends Controller {
 	 * @param \App\Models\Tenants\Configuration $configuration
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(ConfigRequest $request, $id) {
+	public function update(ConfigurationRequest $request, $id) {
 		
 		$validatedData = $request->validated ();
 		

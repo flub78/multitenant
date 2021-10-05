@@ -192,7 +192,7 @@ class MetadataHelper {
 			$rules[] = "'exists:$fkt,$fkc'";
 
 		} elseif (Schema::unique($table, $field)) {
-			$rules[] = "'unique:$table'";
+			$rules[] = "Rule::unique('$table')->ignore(request('$element'))";
 		}
 		
 		return  '[' . implode(', ', $rules) . ']';
@@ -219,6 +219,7 @@ class MetadataHelper {
 			// the field is a foreign key
 			$fkc = Schema::foreignKeyReferencedColumn($table, $field);
 			$rules[] = "'exists:$fkt,$fkc'";
+			
 		} elseif (Schema::unique($table, $field)) {
 			$rules[] = "'unique:$table'";
 		}			
@@ -295,6 +296,7 @@ class MetadataHelper {
 				'field_list' => self::field_list($table),
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),
+				'primary_index' => Schema::primaryIndex($table),
 		);
 	}
 }

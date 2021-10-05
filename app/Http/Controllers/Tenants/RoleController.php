@@ -16,8 +16,8 @@ use Illuminate\Database\QueryException;
  * @author frederic
  *
  */
-class RoleController extends Controller
-{
+class RoleController extends Controller {
+
     /**
      * Display a listing of the resource.
      *

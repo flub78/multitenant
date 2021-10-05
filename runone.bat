@@ -50,8 +50,8 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
 
     @rem APIs
