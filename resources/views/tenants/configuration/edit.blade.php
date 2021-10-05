@@ -1,4 +1,8 @@
-<!-- Users edit.blade.php -->
+<!-- Configuration edit.blade.php -->
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
 
 @extends('layouts.app')
 
@@ -30,16 +34,19 @@
               @csrf
               @method('PATCH')
               
-              <label for="key">{{__('configuration.key')}}</label>
-              <input type="text" class="form-control" name="key" value="{{ old('id', $configuration->key) }}"/>
-          </div>
-          
-          <div class="form-group">
-              <label for="value">{{__('configuration.value')}}</label>
-              <input type="text" class="form-control" name="value" value="{{ old('value', $configuration->value) }}"/>
-          </div>
+             <div class="form-group">
+               <label for="key">{{__("configuration.key")}}</label>
+               <input type="text" class="form-control" name="key" value="{{ old("key", $configuration->key) }}"/>
+             </div>
+           
+             <div class="form-group">
+               <label for="value">{{__("configuration.value")}}</label>
+               <input type="text" class="form-control" name="value" value="{{ old("value", $configuration->value) }}"/>
+             </div>
+           
+             
+             @button_submit({{__('general.update')}})
 
-          <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
       </form>
   </div>
 </div>
