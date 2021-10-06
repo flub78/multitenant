@@ -44,7 +44,7 @@ class ConfigurationController extends Controller {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
+     * @param App\Http\Requests\Tenants\ConfigurationRequest;
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(ConfigurationRequest $request) {
@@ -77,8 +77,8 @@ class ConfigurationController extends Controller {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param \App\Models\Tenants\Configuration $configuration
+     * @param App\Http\Requests\Tenants\ConfigurationRequest;
+     * @param String $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(ConfigurationRequest $request, $id) {

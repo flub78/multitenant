@@ -41,14 +41,14 @@ class [[class_name]]Controller extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\[[class_name]]Request  $request
+     * @param App\Http\Requests\Tenants\[[class_name]]Request;
      * @return \Illuminate\Http\Response
      */
     public function store([[class_name]]Request $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
         [[class_name]]::create($validatedData);
 
-        return redirect('/[[element]]')->with('success', __('general.creation_success', [ 'elt' => $validatedData ['name']]));
+        return redirect('/[[element]]')->with('success', __('general.creation_success', [ 'elt' => $validatedData ['[[primary_index]]']]));
      }
 
     /**
@@ -76,17 +76,16 @@ class [[class_name]]Controller extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
+     * @param App\Http\Requests\Tenants\[[class_name]]Request;
+     * @param String $id
      * @return \Illuminate\Http\Response
      */
     public function update([[class_name]]Request $request, $id) {
         $validatedData = $request->validated();
 
-        [[class_name]]::where([ 'id' => $id])->update($validatedData);
+        [[class_name]]::where([ '[[primary_index]]' => $id])->update($validatedData);
 
-        return redirect('/[[element]]')->with('success', __('general.modification_success', [ 'elt' => $validatedData ['name']
-        ]));
+        return redirect('/[[element]]')->with('success', __('general.modification_success', [ 'elt' => $validatedData ['[[primary_index]]'] ]));
     }
 
     

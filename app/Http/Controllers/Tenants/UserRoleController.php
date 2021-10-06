@@ -1,8 +1,11 @@
 <?php
-
+/*
+ * Code generated from a template, if modifications are required, carefully consider if they should be done
+ * in the generated code or in the template.
+ */
 namespace App\Http\Controllers\Tenants;
 
-use app\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\UserRoleRequest;
 use App\Models\User;
 use App\Models\Tenants\Role;
@@ -11,14 +14,13 @@ use Illuminate\Database\QueryException;
 
 
 /**
- * Controller to assign a role to a user
- * 
+ * Controller for user_role
  * 
  * @author frederic
  *
  */
-class UserRoleController extends Controller
-{
+class UserRoleController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +47,7 @@ class UserRoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param App\Http\Requests\Tenants\UserRoleRequest;
      * @return \Illuminate\Http\Response
      */
     public function store(UserRoleRequest $request) {
@@ -63,10 +65,10 @@ class UserRoleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tenants\UserRole  $userRole
+     * @param  \App\Models\Tenants\UserRole  $user_role
      * @return \Illuminate\Http\Response
 
-    public function show(UserRole $userRole) {
+    public function show(UserRole $user_role) {
         //
     }
      */
@@ -74,7 +76,7 @@ class UserRoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Tenants\UserRole  $userRole
+     * @param  \App\Models\Tenants\UserRole  $user_role
      * @return \Illuminate\Http\Response
      */
     public function edit(UserRole $user_role) {
@@ -90,8 +92,8 @@ class UserRoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tenants\UserRole  $userRole
+     * @param App\Http\Requests\Tenants\UserRoleRequest;
+     * @param String $id
      * @return \Illuminate\Http\Response
      */
     public function update(UserRoleRequest $request, $id) {
@@ -108,12 +110,12 @@ class UserRoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Tenants\UserRole  $userRole
+     * @param  \App\Models\Tenants\UserRole  $user_role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UserRole $userRole) {
-    	$full_name = $userRole->full_name;
-    	$userRole->delete();
+    public function destroy(UserRole $user_role) {
+    	$full_name = $user_role->full_name;
+    	$user_role->delete();
     	return redirect ( 'user_role' )->with ( 'success', __('general.deletion_success', ['elt' => $full_name]));
     }
 }

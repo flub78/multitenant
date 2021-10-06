@@ -233,6 +233,7 @@ The whole mechanism is available through a few php artisan commands:
 ## Resources 
 
 roles
+
     php artisan mustache:generate --compare roles controller        OK
     php artisan mustache:generate --compare roles request           OK
     php artisan mustache:generate --compare roles model             To do
@@ -242,10 +243,41 @@ roles
     
 
 configurations
-    php artisan mustache:generate --compare configurations edit     OK
+
+    php artisan mustache:generate --compare configurations controller       OK
+
+    php artisan mustache:generate --compare roles request                   OK
+        missing support for regexpr
+        missing support for short list
     
-roles
+    php artisan mustache:generate --compare configurations edit             OK
+    php artisan mustache:generate --compare configurations create           OK
+    php artisan mustache:generate --compare configurations index            OK
+    
 users
+
+    php artisan mustache:generate --compare users controller
+    php artisan mustache:generate --compare users request
+    php artisan mustache:generate --compare users model
+    php artisan mustache:generate --compare users index                     OK
+    php artisan mustache:generate --compare users create            password and password_confirmation missing
+    php artisan mustache:generate --compare users edit
+
 user_roles
+
+    php artisan mustache:generate --compare user_roles controller       missing support for user_list and role_list
+    php artisan mustache:generate --compare user_roles request              OK
+    php artisan mustache:generate --compare user_roles model
+    php artisan mustache:generate --compare user_roles index        user_name and role_name support missing
+    php artisan mustache:generate --compare user_roles create               OK
+    php artisan mustache:generate --compare user_roles edit                 OK
+
 calendar_event
+
+    php artisan mustache:generate --compare calendar_events controller      views not in the correct directory regarding naming convention. Support for dateFormat missing
+    php artisan mustache:generate --compare calendar_events request
+    php artisan mustache:generate --compare calendar_events model
+    php artisan mustache:generate --compare calendar_events index
+    php artisan mustache:generate --compare calendar_events create
+    php artisan mustache:generate --compare calendar_events edit
     

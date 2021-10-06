@@ -42,12 +42,12 @@ use App\Helpers\BladeHelper as Blade;
            </div>
 
            <div class="form-group">
-              <label for="cases">{{__('user.admin')}}</label>
+             <label for="admin">{{__("user.admin")}}</label>
               <input type="checkbox" class="form-control" name="admin" value="1"  {{old('admin') ? 'checked' : ''}}/>
           </div>
           
            <div class="form-group">
-              <label for="cases">{{__('user.active')}}</label>
+             <label for="active">{{__("user.active")}}</label>
               <input type="checkbox" class="form-control" name="active" value="1"  {{old('active') ? 'checked' : ''}}/>
           </div>
           
