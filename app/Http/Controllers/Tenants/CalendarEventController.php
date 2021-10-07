@@ -31,7 +31,7 @@ class CalendarEventController extends Controller {
 	public function index() {
 		$events = CalendarEvent::all ();
 		// var_dump($events);exit;
-		return view ( 'tenants.calendar.index', compact ( 'events' ) );
+		return view ( 'tenants.calendar_event.index', compact ( 'events' ) );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class CalendarEventController extends Controller {
 	 */
 	public function fullcalendar() {
 		$events = CalendarEvent::all ();
-		return view ( 'tenants.calendar.calendar', compact ( 'events' ) );
+		return view ( 'tenants.calendar_event.calendar', compact ( 'events' ) );
 	}
 
 	/*
@@ -73,7 +73,7 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view ( 'tenants.calendar.create' );
+		return view ( 'tenants.calendar_event.create' );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class CalendarEventController extends Controller {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
 		// var_dump($calendarEvent);
 		// exit;
-		return view ( 'tenants.calendar.edit' )->with ( 'calendarEvent', $calendarEvent );
+		return view ( 'tenants.calendar_event.edit' )->with ( 'calendarEvent', $calendarEvent );
 	}
 
 	/**

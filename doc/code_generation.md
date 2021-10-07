@@ -275,7 +275,7 @@ user_roles
 calendar_event
 
     php artisan mustache:generate --compare calendar_events controller      views not in the correct directory regarding naming convention. Support for dateFormat missing
-    php artisan mustache:generate --compare calendar_events request
+    php artisan mustache:generate --compare calendar_events request         missing date_format and regexp
     php artisan mustache:generate --compare calendar_events model
     php artisan mustache:generate --compare calendar_events index
     php artisan mustache:generate --compare calendar_events create
