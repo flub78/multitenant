@@ -12,16 +12,16 @@
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">
-    <caption>{{__('calendar.title')}}</caption>
+    <caption>{{__('calendar_event.title')}}</caption>
     <thead>
         <tr>
-          <td>{{__('calendar.event_title')}}</td>
-          <td>{{__('calendar.description')}}</td>
-          <td>{{__('calendar.start_date')}}</td>
-          <td>{{__('calendar.start_time')}}</td>
-          <td>{{__('calendar.allday')}}</td>
-          <td>{{__('calendar.end_date')}}</td>
-          <td>{{__('calendar.end_time')}}</td>
+          <td>{{__('calendar_event.event_title')}}</td>
+          <td>{{__('calendar_event.description')}}</td>
+          <td>{{__('calendar_event.start_date')}}</td>
+          <td>{{__('calendar_event.start_time')}}</td>
+          <td>{{__('calendar_event.allday')}}</td>
+          <td>{{__('calendar_event.end_date')}}</td>
+          <td>{{__('calendar_event.end_time')}}</td>
           <td >{{__('general.edit')}}</td>
           <td >{{__('general.delete')}}</td>
         </tr>
@@ -53,7 +53,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('calendar')}}/create"><button type="submit" class="btn btn-primary" >{{__('calendar.add')}}</button></a> 
+    <a href="{{url('calendar')}}/create"><button type="submit" class="btn btn-primary" >{{__('calendar_event.add')}}</button></a> 
 </div>  
 @endsection
 

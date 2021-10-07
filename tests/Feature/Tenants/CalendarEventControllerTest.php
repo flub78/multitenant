@@ -32,12 +32,12 @@ class CalendarEventControllerTest extends TenantTestCase {
 	public function test_calendar_event_list() {
 		
 		$this->get_tenant_url($this->user, 'calendar', 
-				[__('calendar.add'), __('calendar.description'), __('calendar.event_title'), __('calendar.allday')]);	
+				[__('calendar_event.add'), __('calendar_event.description'), __('calendar_event.event_title'), __('calendar_event.allday')]);	
 	}
 
 	public function test_calendar_event_fullcalendar() {
 		$this->get_tenant_url($this->user, 'calendar/fullcalendar',
-				[__('calendar.title')]);
+				[__('calendar_event.title')]);
 	}
 	
 	public function test_calendar_event_create() {
@@ -117,7 +117,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
 		
-		$this->get_tenant_url($this->user, 'calendar/' . $id . '/edit', [__('calendar.edit')]);		
+		$this->get_tenant_url($this->user, 'calendar/' . $id . '/edit', [__('calendar_event.edit')]);		
 	}
 	
 	public function test_update() {
