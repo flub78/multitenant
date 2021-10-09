@@ -43,7 +43,7 @@ use App\Helpers\BladeHelper as Blade;
            </div>
            
            
-           @button_submit({{__('general.create')}})
+           @button_submit({{__('general.submit')}})
 
       </form>
   </div>
