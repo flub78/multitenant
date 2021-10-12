@@ -70,10 +70,10 @@ class CalendarTest extends DuskTestCase {
 			->assertSee('test')
 			->assertSee(__('general.edit'))
 			->assertSee(__('general.delete'))
-			->assertSee(__('calendar.add'))
-			->assertSee(__('calendar.start_date'))
-			->assertSee(__('calendar.start_time'))
-			->assertSee(__('calendar.allday'))
+			->assertSee(__('calendar_event.add'))
+			->assertSee(__('calendar_event.start_date'))
+			->assertSee(__('calendar_event.start_time'))
+			->assertSee(__('calendar_event.allday'))
 			;
 			
 			$browser->storeSource('Tenants/calendar_list.html');
@@ -86,10 +86,10 @@ class CalendarTest extends DuskTestCase {
 			$browser->visit ( '/calendar/create' )
 			->assertSee('Multi')
 			->assertSee('test')
-			->assertSee(__('calendar.new'))
-			->assertSee(__('calendar.start_date'))
-			->assertSee(__('calendar.start_time'))
-			->assertSee(__('calendar.allday'))
+			->assertSee(__('calendar_event.new'))
+			->assertSee(__('calendar_event.start_date'))
+			->assertSee(__('calendar_event.start_time'))
+			->assertSee(__('calendar_event.allday'))
 			;
 			
 			$browser->storeSource('Tenants/calendar_create.html');
