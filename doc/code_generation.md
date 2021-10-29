@@ -230,8 +230,6 @@ The whole mechanism is available through a few php artisan commands:
     
 # Progress
 
-## Resources 
-
 roles
 
     php artisan mustache:generate --compare roles controller        OK
@@ -274,8 +272,12 @@ user_roles
 
 calendar_event
 
-    php artisan mustache:generate --compare calendar_events controller     Support for dateFormat missing
-    php artisan mustache:generate --compare calendar_events request        missing date_format and regexp
+    php artisan mustache:generate --compare calendar_events controller
+        Support for dateFormat missing
+    
+    php artisan mustache:generate --compare calendar_events request
+        missing date_format and regexp
+        
     php artisan mustache:generate --compare calendar_events model
     php artisan mustache:generate --compare calendar_events index
     php artisan mustache:generate --compare calendar_events create

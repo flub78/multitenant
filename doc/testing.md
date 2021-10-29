@@ -2,17 +2,40 @@
 
 ## Types of test
 
-* Unit tests for models and simple classes.
+### Unit tests
 
-* Feature tests both for central application and tenant application. Test coverage is measured using xdebug both for unit and feature tests.
+Unit tests for models and simple classes.
 
-* Dusk tests (browser controlled tests) for end to end testing
+### Feature tests
 
-* Deployment tests, (todo) the application is automatically installed from scratch and tested
+Feature tests both for central application and tenant application. Test coverage is measured using xdebug both for unit and feature tests.
 
-* Performance test (todo). Significant performance indicator should be automatically collected and it should be possible to compare the performance level of every build.
+They use phpunit integrated in the Laravel Framework.
 
-* Robustness tests. (todo) These test check the behavior of the system under heavy load and should provide a way to size the servers against the expected load.
+To follow redirection use:
+
+        $response = $this->followingRedirects()->get ( '/login' );
+
+
+
+### Dusks tests
+
+Brownser controlled tests for end to end testing.
+
+Two kinds:
+
+1. Integration end to end tests. They have access to the database and can create items of chack the database status.
+
+1. Deployment tests. They are deployed on an external server. The test environment has the same access than a regular user (no access to the database). They can be used to check installation before production.
+
+
+### Performance test (todo). 
+
+Significant performance indicator should be automatically collected and it should be possible to compare the performance level of every build.
+
+### Robustness tests. (todo)
+
+These test check the behavior of the system under heavy load and should provide a way to size the servers against the expected load.
 
 A discussion on how to chose between unit test and BDD (given-when-then) tests. https://specflow.org/challenges/bdd-vs-unit-tests/
 
