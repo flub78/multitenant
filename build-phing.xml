@@ -81,7 +81,7 @@
     </target>
     
     <target name="phpcb">
-        <exec logoutput="true" command="phpcb --log '${project.basedir}/build/logs' --source '${project.basedir}/application/controllers' --source '${project.basedir}/application/helpers' --source '${project.basedir}/application/libraries' --source '${project.basedir}/application/models' --source '${project.basedir}/application/views' --output '${project.basedir}/build/code-browser'" escape="false" />
+        <exec logoutput="true" command="phpcb --log '${project.basedir}/build/logs' --source '${project.basedir}/app' --output '${project.basedir}/build/code-browser'" escape="false" />
     </target>
     
 </project>
