@@ -100,8 +100,13 @@ class SchemaModelTest extends TestCase
     	$this->assertEquals('timestamp', Schema::columnType('users', 'created_at'));
     	$this->assertEquals('tinyint(1)', Schema::columnType('users', 'active'));
     	$this->assertEquals('varchar(255)', Schema::columnType('users', 'email'));
-    
-    	$this->assertEquals('bigint(20) unsigned', Schema::columnType('user_roles', 'user_id'));
+        
+    	/*
+    	 * With some versions of MySql field sizes are no lonqer included in the DATA_TYPE or COLUMN_TYPE
+    	 * max size of the field is in NUMERIC_PRECISION or CHARACTER_MAXIMUM_LENGTH
+    	 */
+    	$type = Schema::columnType('user_roles', 'user_id');
+    	$this->assertTrue('bigint(20) unsigned' == $type ||  'bigint unsigned' == $type);
     	
     	$this->assertEquals(1, Schema::columnSize('users', 'active'));
     	$this->assertEquals(255, Schema::columnSize('users', 'email'));
