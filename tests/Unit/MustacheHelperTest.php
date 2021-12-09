@@ -43,7 +43,6 @@ class MustacheHelperTest extends TestCase {
 			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\app\Http\Controllers\Tenants\RoleController.php';
 		} else {
 			$this->assertTrue(true);
-			$this->assertTrue(true);
 			return;  // Curently code generation is not supported on Linux
 			$expected = '/var/www/html/multi_phpunit/build/results/app\Http\Controllers\Tenants\RoleController.php';
 		}
