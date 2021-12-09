@@ -226,6 +226,13 @@ class Schema extends ModelWithLogs {
     		// var_dump($matches);
     		return $matches[1];
     	}
+    	
+    	// column size is not included in the data type (some new MySql versions)
+    	// It must be extracted from others fields
+    	
+    	$info = Schema::columnInformation($table, $field);
+    	var_dump($info);
+    	
     	return 0;
     }
     
