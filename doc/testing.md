@@ -4,13 +4,13 @@
 
 ### Unit tests
 
-Unit tests for models and simple classes.
+Unit tests for models and simple classes. They are stored in tests/Unit.
 
 ### Feature tests
 
-Feature tests both for central application and tenant application. Test coverage is measured using xdebug both for unit and feature tests.
+Feature tests both for central application and tenant application. Test coverage is measured using xdebug both for unit and feature tests. Feature tests require the collaboration of several classes and they are executed in an environment closed to real Laravel execution. Laravel instance, database and tenant environments are available in this context. They are slightly slower than Unit tests. 
 
-They use phpunit integrated in the Laravel Framework.
+They use phpunit integrated in the Laravel Framework. They are stored in tests/Feature.
 
 To follow redirection use:
 
@@ -28,6 +28,8 @@ Two kinds:
 
 1. Deployment tests. They are deployed on an external server. The test environment has the same access than a regular user (no access to the database). They can be used to check installation before production.
 
+
+They are stored in tests/Browser/Central and tests/Browser/Tenants.
 
 ### Performance test (todo). 
 
@@ -56,15 +58,15 @@ In other words BDD, and end to end tests are black box and loosely coupled with 
 
 Note also that efforts to keep a high percentage of lines covered by unit testing is also a white box approach.
 
-The suggestion to only test private method indirectly looks biased to me. If you have to design your input test to cover the internal private method you are already doing implementation dependent testing.
+The suggestion to only test private method indirectly looks biased to me. If you have to design your input test to cover the internal private method you are already doing implementation dependent testing. In others words, if you do that, you alrady have a detailled knowledge of the implementation.
 
 Note also that the importance of a strict encapsulation, which makes all the methods which are not strictly part of the API private, depends on the audience of the software. It is critical for a large open source project used by thousands of developers. It is less important of a private project or something used by a small team. 
 
-And also note that I am aware of the weakness of the previous paragraph. A lot of software bugs have happens exactly because the developers did not expect their software to be used in a wider context (year 2000 bug, Ariane 5, etc). So breaking encapsulation of private methods by making them public just for testing may be a bad idea.
+I am aware of the relative weakness of the previous sentences. A lot of software bugs have happens exactly because the developers did not expect their software to be used in a wider context (year 2000 bug, Ariane 5, etc). So breaking encapsulation of private methods by making them public just for testing may be a bad idea.
 
-Conclusion: it may be a good idea to spend some time to experiment on the reflexive methods giving assess to private methods for testing. 
+Conclusion: it may be a good idea to spend some time to experiment on the reflexive methods giving assess to private methods for testing. It may also be a good idea to think that it is a low priority task.
 
-And last remarks, if you can use reflexivity to get access to private methods, it means that the private, protected, public classification is more a convention than a security mechanism. In this case the python approach of making things private by convention may be good enough and I should not care too much about keeping public for testing some methods that should logically be private.
+And last remarks, if you can use reflexivity to get access to private methods, it means that the private, protected, public classification is more a convention than a security mechanism. In this case the python approach of making things private by convention may be good enough and I should not care too much about keeping public only for testing some methods that should logically be private.
 
 ## TDD Test Driven Development
 
@@ -128,9 +130,9 @@ Drawbacks pf a BDD framework
 
 ### Current decision:
 
-It is recommended to describe tests using BDD syntax in feature test comments. We will see later if the hassle to install and understand a BDD framework worth the effort.
+A best effort will be done to describe tests using BDD syntax in feature test comments. We will see later if the hassle to install and understand a BDD framework worth the effort.
 
-Second step could be to organize all test routines to call subroutines starting by
+A second step could be to organize all test routines to call subroutines starting by
 
     given_, and_, when_ and then_
     

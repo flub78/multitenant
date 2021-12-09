@@ -20,7 +20,7 @@ phpunit tests can be executed with:
 * runtest.bat to run all of them
 
 phpunit tests use the same domains but a specific database
-phpunit tests uses the mysql_test database connection
+phpunit tests use the mysql_test database connection
 
 All tests cases use the .env.testing environment file, which defines a master database user with the capacity
 of creating databases and users.
@@ -58,7 +58,7 @@ Both of them contains at least a default user to login.
 
 
 
-## phpunit tests on Jenkins
+## phpunit tests on Jenkins on a Linux server
 
 As all unit and feature tests they use the mysql_test connection.
 
@@ -76,7 +76,13 @@ default test tenant database = tenanttest
 Note that the TenantsController test try to create and delete two tenants, named autotest and autotest2.
 
 When tests are running on the jenkins server itself, I am not really keen on giving the jenkins user root privileges. The clean way of doing it would implies deploying containers or VM on which jenkins has full control.
-For the moment, the Apache server is statically configured with two virtual hosts on tenants.com and test.tenants.com.
+For the moment, the Apache server is statically configured with two virtual hosts on tenants.com and test.tenants.com or any other domain and subdomain. 
+
+Note that the tests should depend on some environment variable to define
+
+CENTRAL_APPLICATION_DOMAIN
+TEST_TENANT_APPLICATION_DOMAIN
+
 
 ## End to End tests on deployment
 
