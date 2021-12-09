@@ -227,11 +227,8 @@ class Schema extends ModelWithLogs {
     		return $matches[1];
     	}
     	
-    	// column size is not included in the data type (some new MySql versions)
+    	// column size is not included in the data type for bigint (some new MySql versions)
     	// It must be extracted from others fields
-    	
-    	$info = Schema::columnInformation($table, $field);
-    	var_dump($info);
     	
     	return 0;
     }

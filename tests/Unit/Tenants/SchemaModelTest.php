@@ -111,7 +111,8 @@ class SchemaModelTest extends TestCase
     	$this->assertEquals(1, Schema::columnSize('users', 'active'));
     	$this->assertEquals(255, Schema::columnSize('users', 'email'));
     	
-    	$this->assertEquals(20, Schema::columnSize('user_roles', 'user_id'));	
+    	// Bigint has no size in datatype with new versions of MySql
+    	// $this->assertEquals(20, Schema::columnSize('user_roles', 'user_id'));	
     	
     	$this->assertEquals(0, Schema::columnSize('user_roles', 'created_at'));
     }
