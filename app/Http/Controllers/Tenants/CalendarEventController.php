@@ -84,6 +84,20 @@ class CalendarEventController extends Controller {
 	 */
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();
+		
+		/**
+		var_dump($validatedData); exit;
+array (size=9)
+  'title' => string 'Titre' (length=5)
+  'description' => string 'Description' (length=11)
+  'start' => string '14/12/2021' (length=10)
+  'start_time' => string '10:20' (length=5)
+  'end' => string '15/12/2021' (length=10)
+  'end_time' => string '10:30' (length=5)
+  'allDay' => string '1' (length=1)
+  'backgroundColor' => string '#990000' (length=7)
+  'textColor' => string '#38761d' (length=7)
+*/
 
 		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
 			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );

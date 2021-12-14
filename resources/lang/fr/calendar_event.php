@@ -11,6 +11,7 @@ return [
     */
 
 	'feature' => "Calendrier",
+	'title' => "Titre",
 	'list' => "Liste",	
 	'new' => "Nouvel événement",
 	'add' => "Ajout Evenement",
