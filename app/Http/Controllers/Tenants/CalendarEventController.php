@@ -105,8 +105,6 @@ array (size=9)
 		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
 			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
 		}
-		$validatedData ['allDay'] = $request->has ( 'allDay' );
-
 		CalendarEvent::create ( $validatedData );
 
 		return redirect ( 'calendar' )->with ( 'success', __ ( 'general.creation_success', [ 

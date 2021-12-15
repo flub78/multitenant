@@ -59,6 +59,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		$initial_count = CalendarEvent::count ();
 		
+		// minimal event
 		//prepare an element
 		$title = "Event $initial_count";
 		$description = "description $initial_count";
@@ -75,12 +76,82 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$expected = $initial_count + 1;
 		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
 		
-		// and it can be retrieved
-		$search = ['title' => $title, 'description' => $description];
-		
-		$event = CalendarEvent::where($search)->first();
+		// and it can be retrieved		
+		$event = CalendarEvent::where('title', $title)->first();
+		/*
+		var_dump($event);
+  array(14) {
+    'id' =>
+    int(1)
+    'title' =>
+    string(7) "Event 0"
+    'description' =>
+    string(13) "description 0"
+    'allDay' =>
+    int(1)
+    'start' =>
+    string(19) "2021-07-31 10:00:00"
+    'end' =>
+    NULL
+    'editable' =>
+    int(1)
+    'startEditable' =>
+    int(1)
+    'durationEditable' =>
+    int(1)
+    'backgroundColor' =>
+    NULL
+    'borderColor' =>
+    NULL
+    'textColor' =>
+    NULL
+    'created_at' =>
+    string(19) "2021-12-14 14:51:15"
+    'updated_at' =>
+    string(19) "2021-12-14 14:51:15"
+  }
+		 */
 		$this->assertNotNull($event);
-		$this->assertEquals($event->allDay, 1);
+		$this->assertEquals($event->allDay, 1);  
+		$this->assertEquals($event->title, $title);
+		$this->assertEquals($event->description, $description);
+		$this->assertEquals($event->description, $description);
+		$this->assertEquals('2021-07-31 10:00:00', $event->start);
+		
+		/* #################################################################################### */
+		
+		// full event
+		//prepare an element
+		$title = "Event $new_count";
+		$description = "description $new_count";
+		$start = "08-01-2021";
+		$end = "08-02-2021";
+		$elt = ['title' => $title, 
+				'description' => $description, 
+				'start' => $start, 
+				'start_time' => '10:00',
+				'allDay' => false,
+				'end' => $end,
+				'end_time' => '12:00',
+		];
+		
+		// call the post method to create it
+		$this->post_tenant_url($this->user, 'calendar', ['created'], $elt);
+		
+		// check that an element has been created
+		$new_count = CalendarEvent::count ();
+		$expected = $initial_count + 2;
+		$this->assertEquals ( $expected, $new_count, "second event created, actual=$new_count, expected=$expected" );
+		
+		// and it can be retrieved
+		
+		$event2 = CalendarEvent::where('title', $title)->first();
+		$this->assertNotNull($event2);
+		$this->assertEquals($event2->allDay, 0);
+		$this->assertEquals($event2->title, $title);
+		$this->assertEquals($event2->description, $description);
+		$this->assertEquals('2021-08-01 10:00:00', $event2->start);
+		$this->assertEquals('2021-08-02 12:00:00', $event2->end);	
 	}
 	
 	public function test_calendar_event_store_incorrect_value() {		

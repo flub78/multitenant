@@ -33,6 +33,9 @@ abstract class TenantTestCase extends BaseTestCase
 			// delete the test tenant database		
 			$db_name = "tenant" . $this->tenant_id;;
 			$sql = "DROP DATABASE IF EXISTS `$db_name`;";
+			
+			// Logically the database can be destroyed after test execution
+			// However for forensic it is better to delete it before tes if it exists
 			// DB::statement($sql);	
 			
 			DirHelper::rrmdir($this->storage);

@@ -5,7 +5,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/BladeHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
 
@@ -45,7 +45,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 
     @rem Controllers
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupControllerTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
