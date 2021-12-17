@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var locale = document.documentElement.lang;
     
     // TODO organize localization with one file per language
-
     var buttonText = {
         today:    'today',
         month:    'month',
@@ -38,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     var calendarEl = document.getElementById('calendar');
+    
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: locale,             // change day and month names, but not the buttons (but it should)

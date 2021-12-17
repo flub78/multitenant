@@ -8,7 +8,7 @@ A calendar is a basic feature for Web applications.
 It is base for extensions with the possibility to add new types of events and business logic.
 For example it will be possible to create a reservation system with several type of resources (for example a classroom, a teacher and a limited number of student, etc.).
 
-## Database ERD
+## Database ERD (Entity Relation Diagram)
 
     Event
         title           String
@@ -114,4 +114,21 @@ The calendar can get the events from an URL providing a json events description.
 ## Datetime picker
 
     https://www.solodev.com/blog/web-design/adding-a-datetime-picker-to-your-forms.stml
+    
+## Fullcalendar view
+
+    inside resources/views/tenants/calendar.blade.php
+    extends resources/views/layouts/app.blade.php
+    
+    In the view
+        <div id='calendar'></div>
+    
+    javascript in
+    public/tenancy/assets/js/calendar_setting.js
+    
+    included by views/layouts/header.blade.php
+    
+    the data source is 
+        http://abbeville.tenants.com/api/calendar
+
     

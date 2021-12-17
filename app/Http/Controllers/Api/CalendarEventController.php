@@ -76,7 +76,25 @@ class CalendarEventController extends Controller {
 			}
 			
 		}
-		return $query->paginate ($per_page);
+		
+		$json =  [
+		[
+			"title" => "Event 1",
+			"start" => "2021-12-05T09:00:00",
+			"end" => "2021-12-05T18:00:00"
+		],
+		[
+			"title" => "Event 2",
+			"start" => "2021-12-08",
+			"end" => "2021-12-10"
+		]
+		];
+		
+		return $json;
+		
+		// I do not really want this query to paginate, rather to have a filter on month to display
+		// to only extract useful values
+		// return $query->paginate ($per_page);
 	}
 
 	/**
