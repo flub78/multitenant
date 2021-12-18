@@ -130,5 +130,8 @@ The calendar can get the events from an URL providing a json events description.
     
     the data source is 
         http://abbeville.tenants.com/api/calendar
+        http://abbeville.tenants.com/api/calendar/fullcalendar
+        
+    Note API routes for tenants are defined in routes/tenants.php, not api.php
 
     

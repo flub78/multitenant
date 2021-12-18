@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         eventSources: [
             // your event source
             {
-                url: '/api/calendar', // use the `url` property
+                url: '/api/calendar/fullcalendar', // use the `url` property
                 color: 'yellow',    // an option!
                 textColor: 'black'  // an option!
             }

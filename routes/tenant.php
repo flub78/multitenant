@@ -39,12 +39,14 @@ Route::middleware([
 	/*
 	 * Warning: routes are parsed in order of declaration and resource matches all the sub urls
 	 */
+	// Special entry for the fullcalendar monthly view
 	Route::get('/calendar/fullcalendar', [App\Http\Controllers\Tenants\CalendarEventController::class, 'fullcalendar'])
 	->name('calendar.fullcalendar')->middleware('auth');
 	
 	Route::get('/calendar/json', [App\Http\Controllers\Tenants\CalendarEventController::class, 'json'])
 	  ->name('calendar.json')->middleware('auth');
 	
+	// Classic ressource
 	Route::resource('calendar', App\Http\Controllers\Tenants\CalendarEventController::class)->middleware('auth');
 	
 	// admin routes
@@ -72,5 +74,8 @@ Route::middleware([
 			InitializeTenancyByDomain::class,
 			PreventAccessFromCentralDomains::class,
 	])->group(function () {
+		Route::get('/api/calendar/fullcalendar', [App\Http\Controllers\Api\CalendarEventController::class, 'fullcalendar'])->name('calendar.fullcalendar');
 		Route::resource('api/calendar', App\Http\Controllers\Api\CalendarEventController::class, ['as' => 'api']);
 	});
+	
+		

@@ -45,7 +45,7 @@
 
     @rem Controllers
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
@@ -55,5 +55,5 @@ php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventController
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
 
     @rem APIs
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
 

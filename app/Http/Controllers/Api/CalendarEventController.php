@@ -76,27 +76,82 @@ class CalendarEventController extends Controller {
 			}
 			
 		}
-		
+		/*
 		$json =  [
-		[
-			"title" => "Event 1",
-			"start" => "2021-12-05T09:00:00",
-			"end" => "2021-12-05T18:00:00"
-		],
-		[
-			"title" => "Event 2",
-			"start" => "2021-12-08",
-			"end" => "2021-12-10"
-		]
+				[
+						"title" => "Event 1",
+						"start" => "2021-12-05T09:00:00",
+						"end" => "2021-12-05T18:00:00"
+				],
+				[
+						"title" => "Event 2",
+						"start" => "2021-12-08",
+						"end" => "2021-12-10"
+				]
 		];
 		
 		return $json;
+		*/ 
 		
-		// I do not really want this query to paginate, rather to have a filter on month to display
-		// to only extract useful values
-		// return $query->paginate ($per_page);
+		return $query->paginate ($per_page);
 	}
 
+	/**
+	 * Special entry to for Ajax fullcalendar interface
+	 *
+	 */
+	public function fullcalendar(Request $request) {
+		// Laravel default is 15
+		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
+		
+		$query = CalendarEvent::query();
+		if ($request->has ('sort')) {
+			
+			$sorts = explode(',', $request->input ('sort'));
+			
+			foreach($sorts as $sortCol) {
+				$sortDir = Str::startsWith( $sortCol, '-') ? 'desc' : 'asc';
+				$sortCol = ltrim( $sortCol, '-');
+				$query->orderBy($sortCol, $sortDir);
+			}
+		}
+		
+		if ($request->has ('filter')) {
+			$filters = explode(',', $request->input ('filter'));
+			
+			foreach ($filters as $filter) {
+				list($criteria, $value) = explode(':', $filter, 2);
+				
+				$operator_found = false;
+				foreach (['<=', '>=', '<', '>'] as $op) {
+					if (Str::startsWith($value, $op)) {
+						$value = ltrim($value, $op);
+						$query->where($criteria, $op, $value);
+						$operator_found = true;
+						break;
+					}
+				}
+				if (!$operator_found) $query->where($criteria, $value);
+			}
+			
+		}
+		
+		$json =  [
+				[
+						"title" => "Event 1",
+						"start" => "2021-12-05T09:00:00",
+						"end" => "2021-12-05T18:00:00"
+				],
+				[
+						"title" => "Event 2",
+						"start" => "2021-12-08",
+						"end" => "2021-12-10"
+				]
+		];
+		
+		return $json;		
+	}
+	
 	/**
 	 * Store a newly created resource in storage.
 	 *

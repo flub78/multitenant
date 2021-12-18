@@ -33,10 +33,8 @@ It makes the upgrade of the central database complicated as there is no way if y
 
 ### Investigations
 
-1. Let's try to create a tenant using a pre-existing database.
+1. In case of share hosting the capacity to create a tenant using a pre-existing database could be useful.
 1. Some things can be changed by extending classes (e.g. the Tenant model),
-
-1. Let's use TenantFeatureExampleTest.php to experiment about tenants:
 
 1. A tenant implements a contract (an interface)
     \vendor\stancl\tenancy\src\Contracts\Tenant.php
@@ -53,3 +51,6 @@ C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\vendor\stancl\tenancy\src\Dat
 C
 
 
+#### Logging
+
+Should logs be tenant specific ???
