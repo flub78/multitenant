@@ -74,7 +74,7 @@ Route::middleware([
 			InitializeTenancyByDomain::class,
 			PreventAccessFromCentralDomains::class,
 	])->group(function () {
-		Route::get('/api/calendar/fullcalendar', [App\Http\Controllers\Api\CalendarEventController::class, 'fullcalendar'])->name('calendar.fullcalendar');
+		Route::get('/api/calendar/fullcalendar', [App\Http\Controllers\Api\CalendarEventController::class, 'fullcalendar'])->name('calendar.api.fullcalendar');
 		Route::resource('api/calendar', App\Http\Controllers\Api\CalendarEventController::class, ['as' => 'api']);
 	});
 	

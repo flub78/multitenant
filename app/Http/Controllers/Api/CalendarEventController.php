@@ -9,6 +9,8 @@ use App\Http\Requests\Tenants\CalendarEventRequest;
 use App\Helpers\DateFormat;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * REST API for Calendar Events
@@ -76,22 +78,6 @@ class CalendarEventController extends Controller {
 			}
 			
 		}
-		/*
-		$json =  [
-				[
-						"title" => "Event 1",
-						"start" => "2021-12-05T09:00:00",
-						"end" => "2021-12-05T18:00:00"
-				],
-				[
-						"title" => "Event 2",
-						"start" => "2021-12-08",
-						"end" => "2021-12-10"
-				]
-		];
-		
-		return $json;
-		*/ 
 		
 		return $query->paginate ($per_page);
 	}
@@ -101,40 +87,21 @@ class CalendarEventController extends Controller {
 	 *
 	 */
 	public function fullcalendar(Request $request) {
+		
+		Log::Debug("AJAX API fullcalendar");
+		Log::Debug("start = " . $request->start);
+		Log::Debug("end = " . $request->end);
+		
+		// [2021-12-19 15:22:44] local.DEBUG: start = 2021-11-29T00:00:00+01:00
+		// [2021-12-19 15:23:53] local.DEBUG: end = 2022-01-10T00:00:00+01:00  
+		
 		// Laravel default is 15
 		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
 		
-		$query = CalendarEvent::query();
-		if ($request->has ('sort')) {
-			
-			$sorts = explode(',', $request->input ('sort'));
-			
-			foreach($sorts as $sortCol) {
-				$sortDir = Str::startsWith( $sortCol, '-') ? 'desc' : 'asc';
-				$sortCol = ltrim( $sortCol, '-');
-				$query->orderBy($sortCol, $sortDir);
-			}
-		}
 		
-		if ($request->has ('filter')) {
-			$filters = explode(',', $request->input ('filter'));
-			
-			foreach ($filters as $filter) {
-				list($criteria, $value) = explode(':', $filter, 2);
-				
-				$operator_found = false;
-				foreach (['<=', '>=', '<', '>'] as $op) {
-					if (Str::startsWith($value, $op)) {
-						$value = ltrim($value, $op);
-						$query->where($criteria, $op, $value);
-						$operator_found = true;
-						break;
-					}
-				}
-				if (!$operator_found) $query->where($criteria, $value);
-			}
-			
-		}
+		$query = CalendarEvent::query();
+		
+		$events = CalendarEvent::all();
 		
 		$json =  [
 				[
@@ -149,6 +116,14 @@ class CalendarEventController extends Controller {
 				]
 		];
 		
+		foreach ($events as $event) {
+			$json[] = ["title" =>  $event->title,
+					"start" => $event->start,
+					"end" => $event->end
+			];
+		}
+		
+		// echo "coucou";exit;
 		return $json;		
 	}
 	
