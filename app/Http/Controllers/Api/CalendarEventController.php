@@ -89,41 +89,61 @@ class CalendarEventController extends Controller {
 	public function fullcalendar(Request $request) {
 		
 		Log::Debug("AJAX API fullcalendar");
-		Log::Debug("start = " . $request->start);
-		Log::Debug("end = " . $request->end);
+		$start = $request->start;
+		$end = $request->end;
+		Log::Debug("start = " . $start);
+		Log::Debug("end = " . $end);
 		
 		// [2021-12-19 15:22:44] local.DEBUG: start = 2021-11-29T00:00:00+01:00
 		// [2021-12-19 15:23:53] local.DEBUG: end = 2022-01-10T00:00:00+01:00  
+				
+		$events = CalendarEvent::all()->where("start", ">=", $start)->where("start", "<=", $end);
 		
-		// Laravel default is 15
-		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
-		
-		
-		$query = CalendarEvent::query();
-		
-		$events = CalendarEvent::all();
+		$json = [];
+		/*
+		 * When start or end contains a time the event is displayed
+		 * with a colored dot followed by the starting time on a white background.
+		 * 
+		 * When there is no specified time, the event is displayed with a colored background.
+		 * 
+		 * https://fullcalendar.io/docs/event-source-object#options
+    	 */
 		
 		$json =  [
 				[
 						"title" => "Event 1",
 						"start" => "2021-12-05T09:00:00",
-						"end" => "2021-12-05T18:00:00"
+						"end" => "2021-12-05T18:00:00",
+						"color" => "green",
+						"textColor" => "yellow"				
 				],
 				[
 						"title" => "Event 2",
 						"start" => "2021-12-08",
-						"end" => "2021-12-10"
+						"end" => "2021-12-08",
+						"color" => "pink",
+						"textColor" => "orange"				
 				]
 		];
+	
 		
 		foreach ($events as $event) {
-			$json[] = ["title" =>  $event->title,
+			$evt = ["title" =>  $event->title,
 					"start" => $event->start,
 					"end" => $event->end
 			];
+			if ($event->backgroundColor) {
+				$evt['backgroundColor'] = $event->backgroundColor;
+			}
+			if ($event->textColor) {
+				$evt['textColor'] = $event->textColor;
+			}
+			if ($event->borderColor) {
+				$evt['borderColor'] = $event->borderColor;
+			}
+			$json[] = $evt;
 		}
 		
-		// echo "coucou";exit;
 		return $json;		
 	}
 	
