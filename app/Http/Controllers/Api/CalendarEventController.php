@@ -10,6 +10,7 @@ use App\Helpers\DateFormat;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 
 /**
@@ -82,6 +83,16 @@ class CalendarEventController extends Controller {
 		return $query->paginate ($per_page);
 	}
 
+	/*
+	 * Returns the date part of a date time
+	 * dateOf("2021-11-29T00:00:00+01:00") => "2021-11-29"
+	 * dateOf("2022-01-10") => "2022-01-10"
+	 */
+	function dateOf(String $dateTime) {
+		$carbon  = new Carbon($dateTime);
+		return $carbon->toDateString();
+	}
+	
 	/**
 	 * Special entry to for Ajax fullcalendar interface
 	 *
@@ -136,10 +147,14 @@ class CalendarEventController extends Controller {
 				$evt['backgroundColor'] = $event->backgroundColor;
 			}
 			if ($event->textColor) {
-				$evt['textColor'] = $event->textColor;
+				$evt['color'] = $event->textColor;
 			}
 			if ($event->borderColor) {
 				$evt['borderColor'] = $event->borderColor;
+			}
+			if ($event->allDay) {
+				$evt['start'] = $this->dateOf($event->start);
+				$evt['end'] = $this->dateOf($event->end);
 			}
 			$json[] = $evt;
 		}

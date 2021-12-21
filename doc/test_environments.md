@@ -86,4 +86,8 @@ TEST_TENANT_APPLICATION_DOMAIN
 
 ## End to End tests on deployment
 
-By default these tests should be able to run on any deployment. The CD pipeline install a test environment on one public server and then run the tests.
+By default these tests should be able to run on any deployment. The CD pipeline install a test environment on one public server and then run the tests. These tests have no direct access to the database nor any internal data. They are pure black box tests.
+
+There are two kinds of deployment End to End tests
+* After installation, the database is empty, no user is registered
+* Tests on deployment, these test makes no assumption on the state of the database, they can run on any deployed environment and only rely on an existing admin user. On success, they delete all created data and create only very unlikely data that should not conflict with existing one. May be that prefixing all data names by "tests_on_deployment_" could avoid conflicts. 

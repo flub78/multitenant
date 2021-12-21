@@ -202,4 +202,21 @@ class CarbonTest extends TenantTestCase
     		echo "\n" . $date->toDateTimeString();
     	}    	
     }
+    
+    function dateOf(string $dateTime) {
+    	$carbon  = new Carbon($dateTime);
+    	return $carbon->toDateString();
+    }
+    
+    public function test_dateOf() {
+    	$this->assertTrue(true);
+
+    	$start = "2021-12-05T09:00:00";
+    	$end = "2021-12-05T18:00:00";
+    	
+    	$this->assertEquals("2021-12-05", $this->dateOf($start));
+    	$this->assertEquals("2021-12-05", $this->dateOf("2021-12-05"));
+    	$this->assertEquals("2021-12-05", $this->dateOf($end));
+    	
+    }
 }
