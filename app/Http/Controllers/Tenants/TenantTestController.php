@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Config;
 use App\Helpers\HtmlHelper;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Just a controller to trigger test code used during development. It should be disabled before deployment.
@@ -46,7 +47,8 @@ class TenantTestController extends Controller
     	$msg .= "Local from Config:: =" . Config::config('app.locale'). " \n";
     	$msg .= "Local =" . App::getLocale() . " \n";
     	$route = route('calendar.index');
-    	$msg .= "route('calendar.index') = $route"; 
+    	$msg .= "route('calendar.index') = $route";
+    	$msg .= " url=" . URL::to('/');
     	echo $msg;
     	// return $msg;
     	// return view('test');

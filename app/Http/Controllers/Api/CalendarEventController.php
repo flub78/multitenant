@@ -10,6 +10,8 @@ use App\Helpers\DateFormat;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
+
 use Carbon\Carbon;
 
 
@@ -142,7 +144,9 @@ class CalendarEventController extends Controller {
 		foreach ($events as $event) {
 			$evt = ["title" =>  $event->title,
 					"start" => $event->start,
-					"end" => $event->end
+					"end" => $event->end,
+					"id" => $event->id,
+					"url" => URL::to('/calendar') . "/" . $event->id . "/edit"
 			];
 			if ($event->backgroundColor) {
 				$evt['backgroundColor'] = $event->backgroundColor;

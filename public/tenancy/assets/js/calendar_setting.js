@@ -3,7 +3,8 @@ function day_clicked() {
 }
 
 function event_clicked(info) {
-    alert('event ' + info.event.title + ' has been clicked!');
+    // alert('event ' + info.event.url + ' has been clicked!');
+    // Nothing to do to be redirected to the url specified in the event
 }
 
 function event_dragged() {
