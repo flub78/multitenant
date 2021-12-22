@@ -30,7 +30,7 @@
     <tbody>
         @foreach($events as $event)
         <tr>
-            <td>{{$event->title}}</td>
+            <td><div style="color:{{$event->textColor}};background-color:{{$event->backgroundColor}}">{{$event->title}}</div></td>
             <td>{{$event->description}}</td>
             <td>{{$event->getStartDate()}}</td>
             <td>{{$event->getStartTime()}}</td>

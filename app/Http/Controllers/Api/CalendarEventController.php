@@ -88,7 +88,8 @@ class CalendarEventController extends Controller {
 	 * dateOf("2021-11-29T00:00:00+01:00") => "2021-11-29"
 	 * dateOf("2022-01-10") => "2022-01-10"
 	 */
-	function dateOf(String $dateTime) {
+	function dateOf($dateTime) {
+		if (! $dateTime) return "";
 		$carbon  = new Carbon($dateTime);
 		return $carbon->toDateString();
 	}
@@ -118,7 +119,7 @@ class CalendarEventController extends Controller {
 		 * When there is no specified time, the event is displayed with a colored background.
 		 * 
 		 * https://fullcalendar.io/docs/event-source-object#options
-    	 */
+
 		
 		$json =  [
 				[
@@ -136,7 +137,7 @@ class CalendarEventController extends Controller {
 						"textColor" => "orange"				
 				]
 		];
-	
+    	 */	
 		
 		foreach ($events as $event) {
 			$evt = ["title" =>  $event->title,

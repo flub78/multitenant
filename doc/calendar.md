@@ -89,9 +89,9 @@ Previous version of this project have used Google calendar as their only data so
 
 It as deterred several potential users due to the complexity of obtaining an API key and configuring full calendar to use it. As this application is multitenant at least one calendar per tenant is needed. 
 
-This version will use the database as default data source. If proposed the synchronization with Google calendar will only be optional.
+This version will use the database as default data source. If it becomes available the synchronization with Google calendar will only be optional.
 
-Note also that Google Calendar handles very generic events. It could be more convenient to develop a specific data model to handle more specific cases. The main reason of using Google calendar with the previous versions was to provide a public access to the calendar to unregistered users. That also can easily be handled with a specific read-only route and view.
+Note also that Google Calendar handles very generic events. It could be convenient to develop a specific data model to handle more specific cases. The main reason of using Google calendar with the previous versions was to provide a public access to the calendar to unregistered users. That also can easily be handled with a specific read-only route and view.
 
 
 ### JSON feeds
