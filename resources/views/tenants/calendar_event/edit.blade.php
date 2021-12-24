@@ -77,6 +77,12 @@
           </div>
           
           <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
+          
+          <form action="{{ route('calendar.destroy', $calendarEvent->id)}}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
+          </form>
       </form>
   </div>
 </div>

@@ -9,6 +9,7 @@ namespace tests\Feature\Tenant;
 use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\CalendarEvent;
+use Carbon\Carbon;
 
 class CalendarEventControllerTest extends TenantTestCase {
 	
@@ -188,7 +189,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
 		
-		$this->get_tenant_url($this->user, 'calendar/' . $id . '/edit', [__('calendar_event.edit')]);		
+		$this->get_tenant_url($this->user, 'calendar/' . $id . '/edit', [__('calendar_event.edit'), __('general.delete')]);		
 	}
 	
 	public function test_update() {
@@ -221,4 +222,20 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals ( $new_count, $initial_count, "Count does not change on update, actual=$initial_count, expected=$new_count" );
 	}
 	
+	/*
+	 * Fullcalendar is a javascript module, it has to be tested with dust
+	 */
+	public function ttest_fullcalendar_displays_existing_events() {
+		// Create an event for today
+		$today = Carbon::now();
+		$event = CalendarEvent::factory()->make(['start' => $today->toDateTimeString()]);
+		$id = $event->save();
+		
+		$event = CalendarEvent::find($id);
+		// echo "start = " . $event->start . "\n";
+		// echo "title = " . $event->title . "\n";
+		
+		// Check that the event is visible on the fullcalendar page
+		$this->get_tenant_url($this->user, 'calendar/fullcalendar', [$event->title]);		
+	}
 }
