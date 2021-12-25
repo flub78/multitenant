@@ -4,11 +4,11 @@
 
 ### Unit tests
 
-Unit tests for models and simple classes. They are stored in tests/Unit.
+Unit tests for models and simple classes. They are stored in tests/Unit. They involve only one class and tests its methods. Test jobs measure the line coverage.
 
 ### Feature tests
 
-Feature tests both for central application and tenant application. Test coverage is measured using xdebug both for unit and feature tests. Feature tests require the collaboration of several classes and they are executed in an environment closed to real Laravel execution. Laravel instance, database and tenant environments are available in this context. They are slightly slower than Unit tests. 
+Feature tests for central application and tenant applications. Test coverage is measured using xdebug. Feature tests require the collaboration of several classes and they are executed in an environment closed to real Laravel execution. Laravel instance, database and tenant environments are available in this context. They are slower than Unit tests. 
 
 They use phpunit integrated in the Laravel Framework. They are stored in tests/Feature.
 
@@ -24,12 +24,11 @@ Brownser controlled tests for end to end testing.
 
 Two kinds:
 
-1. Integration end to end tests. They have access to the database and can create items of chack the database status.
+1. Integration end to end tests. They have access to the database and can check the database status after action. They are stored in tests/Browser/Central and tests/Browser/Tenants.
 
-1. Deployment tests. They are deployed on an external server. The test environment has the same access than a regular user (no access to the database). They can be used to check installation before production.
+1. Deployment tests. They are deployed on an external server. The test environment has the same access than a regular user (no access to the database). They can be used to check installation before production. They are stored in tests/Browser/Deployment.
 
-
-They are stored in tests/Browser/Central and tests/Browser/Tenants.
+Avoiding duplication. Things that require the database or local storage access should be tested as integration End to End tests. Things that do not are black box tests. The goal of the tests is to warn the developers that something wrong is happening. We want these warning to happen as soon as possible. So we have unit tests to be able to test classes before that all of them are available. We have feature tests that we can run before the application is deployed. 
 
 ### Performance test (todo). 
 
