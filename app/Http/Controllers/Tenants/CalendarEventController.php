@@ -5,6 +5,7 @@ namespace app\Http\Controllers\Tenants;
 use app\Http\Controllers\Controller;
 use App\Models\Tenants\CalendarEvent;
 use App\Http\Requests\Tenants\CalendarEventRequest;
+use Illuminate\Http\Request;
 use App\Helpers\DateFormat;
 
 /**
@@ -72,8 +73,16 @@ class CalendarEventController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create() {
-		return view ( 'tenants.calendar_event.create' );
+	public function create(Request $request) {
+		
+		$data = ['action' => $request->get ('action')];
+		if ($request->get ('start')) {
+			$data['start'] = DateFormat::datetime_to_db ($request->get ('start'));
+		} else {
+			$data['start'] = "";
+		}
+		$data['start'] = "";
+		return view ( 'tenants.calendar_event.create', $data );
 	}
 
 	/**

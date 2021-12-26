@@ -41,7 +41,7 @@ class DateFormat {
 	 *        	optional tz timezone
 	 * @return string yyyy-mm-dd
 	 */
-	static public function datetime_to_db($local_date, $time, $tz = "") {
+	static public function datetime_to_db($local_date, $time = "", $tz = "") {
 		// $time = 9:05
 		if (! $time) {
 			$time = '00:00';

@@ -223,19 +223,12 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	/*
-	 * Fullcalendar is a javascript module, it has to be tested with dust
+	 * Fullcalendar is a javascript module, events are not available in the HTML page before the DOM
+	 * is extended by the javascript. It cannot be tested with phpunit (use Dusk instead).
 	 */
-	public function ttest_fullcalendar_displays_existing_events() {
-		// Create an event for today
-		$today = Carbon::now();
-		$event = CalendarEvent::factory()->make(['start' => $today->toDateTimeString()]);
-		$id = $event->save();
-		
-		$event = CalendarEvent::find($id);
-		// echo "start = " . $event->start . "\n";
-		// echo "title = " . $event->title . "\n";
-		
-		// Check that the event is visible on the fullcalendar page
-		$this->get_tenant_url($this->user, 'calendar/fullcalendar', [$event->title]);		
+	
+	public function test_calendar_event_create_parameters() {
+		$this->get_tenant_url($this->user, 'calendar/create', ['Add Event']);
 	}
+	
 }
