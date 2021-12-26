@@ -5,6 +5,8 @@ namespace Tests\Browser\Tenants;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Helpers\BackupHelper;
+use Carbon\Carbon;
+
 
 /**
  * Dusk test for the Calendar feature 
@@ -58,8 +60,7 @@ class CalendarTest extends DuskTestCase {
 			$browser->visit ( '/calendar/fullcalendar' )
 			->assertSee('Multi')
 			->assertSee('test');
-		} );
-			
+		} );	
 	}
 	
 	public function test_calendar () {
@@ -104,5 +105,61 @@ class CalendarTest extends DuskTestCase {
 			// sleep(10);
 		} );
 	}
+	
+	public function test_fullcalendar_create () {
+		
+		$today =  Carbon::now();
+		$time = $today->toDateTimeString();
+		
+		$event_title = "event_" . str_shuffle("abcdefghijklmnopqrstuvwxyz");
+		
+		echo "dateTime = " . $time . "\n";
+		echo "date = " . $today->toDateString() . "\n";
+		echo "date = " . $today->toDateString() . "\n";
+		echo "title = " . $event_title . "\n";
+		
+		$this->browse ( function (Browser $browser) {
+			$browser->visit ( '/calendar/fullcalendar' )
+			->assertSee('Multi')
+			->assertSee('test');
+			
+			/** To click on a date
+			 * <td class="fc-daygrid-day fc-day fc-day-wed fc-day-past" data-date="2021-12-22">
+			 *     <div class="fc-daygrid-day-frame fc-scrollgrid-sync-inner">
+			 *         <div class="fc-daygrid-day-top">
+			 *             <a class="fc-daygrid-day-number">22</a>
+			 *         </div>
+			 *         <div class="fc-daygrid-day-events">
+			 *             <div class="fc-daygrid-day-bottom" style="margin-top: 24px;">
+			 *             </div>
+			 *             </div><div class="fc-daygrid-day-bg"></div></div></td>
+			 */
+			
+			/*
+			$browser->click('@start');
+			$browser->assertSee ( 'Su' );
+			*/
+			
+			/**
+			 * To click on an event
+			 * <div class="fc-daygrid-day-top">
+			 *     <a class="fc-daygrid-day-number">21</a>
+			 * </div>
+			 * <div class="fc-daygrid-day-events">
+			 *     <div class="fc-daygrid-event-harness fc-daygrid-event-harness-abs" style="top: 0px; left: 0px; right: -202.267px;">
+			 *         <a class="fc-daygrid-event fc-daygrid-block-event fc-h-event fc-event fc-event-draggable fc-event-resizable fc-event-start fc-event-end fc-event-past" style="border-color: rgb(238, 238, 238); background-color: rgb(204, 0, 0);" href="http://abbeville.tenants.com/calendar/3/edit">
+			 *            <div class="fc-event-main" style="color: black;">
+			 *                <div class="fc-event-main-frame">
+			 *                    <div class="fc-event-title-container">
+			 *                        <div class="fc-event-title fc-sticky">Test event</div>
+			 *                    </div>
+			 *                </div>
+			 *            </div>
+			 *            <div class="fc-event-resizer fc-event-resizer-end"></div>
+			 *        </a></div><div class="fc-daygrid-day-bottom" style="margin-top: 24px;"></div></div><div class="fc-daygrid-day-bg"></div>
+			 */
+		} );
+	}
+	
 	
 }

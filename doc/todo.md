@@ -1,0 +1,40 @@
+# Todo list
+
+
+## DevOps
+
+* Deployment end to end tests
+* Installation end to end tests
+* Automatic deployment
+
+## Development
+
+* Calendar Event
+    * Complete drag and extend events
+    * Find a way to test that
+    
+    FullCalendar Test plan (Currently I do not know how to automate that)
+        * Create an event by clicking a date
+            check that it exists in database
+            check that we are returned to fullcalendar view
+        
+        * Modify an event by clicking on it
+            check that the event has been updated in database
+            check that we are returned to fullcalendar view
+        
+        * Delete an event by clicking on it
+            check that it has been deleted in database
+            
+        * Drag an all day event
+            check that both start date has been updated
+            
+        * Drag an event with an end time
+             check that both start date and end date have been updated
+             
+        * Extend an all day event
+            check that the start date has not moved
+            check that the end date has been updated
+            
+        * extend an event with an end time
+            check that the start date has not moved
+            check that the end date has been updated
