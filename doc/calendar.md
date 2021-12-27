@@ -133,5 +133,16 @@ The calendar can get the events from an URL providing a json events description.
         http://abbeville.tenants.com/api/calendar/fullcalendar
         
     Note API routes for tenants are defined in routes/tenants.php, not api.php
+    
+### Fullcalendar actions
+
+* Click on a date   -> open the create event form
+* Click on an event -> open the edit form (with a delete button)
+* Drag an event -> call drag_event function of the controller
+* Resize an event -> call the resize_event function of the controller
+
+start parameter is handled by the javascript layer as an English date in local time (all user facing date and time are in local time and are converted in UTC time before to be stored).
+
+
 
     

@@ -7,6 +7,8 @@ use App\Models\Tenants\CalendarEvent;
 use App\Http\Requests\Tenants\CalendarEventRequest;
 use Illuminate\Http\Request;
 use App\Helpers\DateFormat;
+use Carbon\Carbon;
+
 
 /**
  * Calendar Events Controllers
@@ -77,11 +79,10 @@ class CalendarEventController extends Controller {
 		
 		$data = ['action' => $request->get ('action')];
 		if ($request->get ('start')) {
-			$data['start'] = DateFormat::datetime_to_db ($request->get ('start'));
+			$data['start'] = Carbon::createFromFormat('Y-m-d', $request->get ('start'))->format(__('general.date_format'));
 		} else {
 			$data['start'] = "";
 		}
-		$data['start'] = "";
 		return view ( 'tenants.calendar_event.create', $data );
 	}
 

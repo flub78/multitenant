@@ -219,4 +219,13 @@ class CarbonTest extends TenantTestCase
     	$this->assertEquals("2021-12-05", $this->dateOf($end));
     	
     }
+    
+    public function test_eng_to_local_date() {
+    	// convert 2021-12-25 into 25/12/2021 
+    	
+    	$date = '1975-05-21';    	
+    	
+    	$this->assertEquals("05-21-1975", Carbon::createFromFormat('Y-m-d', $date)->format("m-d-Y"));
+    	$this->assertEquals("21/05/1975", Carbon::createFromFormat('Y-m-d', $date)->format("d/m/Y"));
+    }
 }
