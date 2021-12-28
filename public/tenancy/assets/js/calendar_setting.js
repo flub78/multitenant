@@ -1,19 +1,46 @@
-function day_clicked() {
-    alert('a day has been clicked!');
-}
+function day_clicked(info) {
+    // alert('a day has been clicked: ' + info.dateStr);
+    
+    var url = '/calendar/create?start=' + info.dateStr + '&action=fullcalendar';    
+    window.location = url;
+ }
 
-function event_clicked(info) {
+function event_clicked(calEvent) {
     // alert('event ' + info.event.url + ' has been clicked!');
     // Nothing to do to be redirected to the url specified in the event
 }
 
-function event_dragged() {
-    alert('an event has been dragged!');    
+function event_dragged(calEvent) {
+    var str = 'event ' + calEvent.event.title + ' has been dragged!' + "\n";
+    for (var i in calEvent) {
+        str += i + ": " + calEvent[i] + "\n";
+    }
+    alert(str)  ;    
+        alert('start after dragging = ' + calEvent.event.start);    
+        alert('end = ' + calEvent.event.end);    
+
+    var url = '/calendar/dragged';
+    
+        $.ajax({
+            url : url,
+            type : 'GET',
+            success : function(code_html, statut) {
+                alert('Ajax dragged success');
+            },
+
+            error : function(resultat, statut, erreur) {
+                alert("Ajax dragged error");
+            },
+
+            complete : function(resultat, statut) {
+                alert('Ajax dragged complete');
+            }
+        });
 }
 
-function event_resized(info) {
-    alert('event ' + info.event.title + ' has been resized!');
-    alert('end = ' + info.event.end);    
+function event_resized(calEvent) {
+    alert('event ' + calEvent.event.title + ' has been resized!');
+    alert('end = ' + calEvent.event.end);    
 }
 
 document.addEventListener('DOMContentLoaded', function() {

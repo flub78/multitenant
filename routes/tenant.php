@@ -43,6 +43,12 @@ Route::middleware([
 	Route::get('/calendar/fullcalendar', [App\Http\Controllers\Tenants\CalendarEventController::class, 'fullcalendar'])
 	->name('calendar.fullcalendar')->middleware('auth');
 	
+	Route::get('/calendar/dragged', [App\Http\Controllers\Tenants\CalendarEventController::class, 'dragged'])
+	->name('calendar.dragged')->middleware('auth');
+	
+	Route::get('/calendar/resized', [App\Http\Controllers\Tenants\CalendarEventController::class, 'resized'])
+	->name('calendar.resized')->middleware('auth');
+	
 	Route::get('/calendar/json', [App\Http\Controllers\Tenants\CalendarEventController::class, 'json'])
 	  ->name('calendar.json')->middleware('auth');
 	

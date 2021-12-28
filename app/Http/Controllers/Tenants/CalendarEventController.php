@@ -8,6 +8,7 @@ use App\Http\Requests\Tenants\CalendarEventRequest;
 use Illuminate\Http\Request;
 use App\Helpers\DateFormat;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -43,6 +44,8 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function fullcalendar() {
+		Log::Debug("fullcalendar display");
+		
 		$events = CalendarEvent::all ();
 		return view ( 'tenants.calendar_event.calendar', compact ( 'events' ) );
 	}
@@ -193,4 +196,14 @@ array (size=9)
 		return redirect ( 'calendar' )->with ( 'success', __('general.deletion_success', ['elt' => $title]));		
 	}
 
+	public function dragged (Request $request) {
+		
+		Log::Debug("An event has been draggged");
+	}
+	
+	public function resized (Request $request) {
+		
+		Log::Debug("An event has been resized");
+	}
+	
 }
