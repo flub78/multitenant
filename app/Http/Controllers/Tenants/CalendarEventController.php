@@ -198,7 +198,11 @@ array (size=9)
 
 	public function dragged (Request $request) {
 		
-		Log::Debug("An event has been draggged");
+		$id = $request->get ('id');
+		$title = $request->get ('title');
+		$start = $request->get ('start');
+		
+		Log::Debug("Event $id, title=$title, has been draggged to $start");
 	}
 	
 	public function resized (Request $request) {

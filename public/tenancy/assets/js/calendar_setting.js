@@ -15,17 +15,22 @@ function event_dragged(calEvent) {
     for (var i in calEvent) {
         str += i + ": " + calEvent[i] + "\n";
     }
-    alert(str)  ;    
-        alert('start after dragging = ' + calEvent.event.start);    
-        alert('end = ' + calEvent.event.end);    
+    alert(str)  ; 
+    alert('delta = ' + calEvent.delta);   
+    // alert('start after dragging = ' + calEvent.event.start);    
+    // alert('end = ' + calEvent.event.end);    
 
-    var url = '/calendar/dragged';
+    var title = calEvent.event.title;
+    var id = calEvent.event.id;
+    var start = calEvent.event.start;
+    
+    var url = '/calendar/dragged?id=' + id + '&title=' + title + '&start=' + start;
     
         $.ajax({
             url : url,
             type : 'GET',
             success : function(code_html, statut) {
-                alert('Ajax dragged success');
+                // alert('Ajax dragged success');
             },
 
             error : function(resultat, statut, erreur) {
@@ -33,14 +38,34 @@ function event_dragged(calEvent) {
             },
 
             complete : function(resultat, statut) {
-                alert('Ajax dragged complete');
+                // alert('Ajax dragged complete');
             }
         });
 }
 
 function event_resized(calEvent) {
     alert('event ' + calEvent.event.title + ' has been resized!');
+    alert('id = ' + calEvent.event.id);
     alert('end = ' + calEvent.event.end);    
+    
+    var url = '/calendar/resized';
+    
+        $.ajax({
+            url : url,
+            type : 'GET',
+            success : function(code_html, statut) {
+                alert('Ajax resized success');
+            },
+
+            error : function(resultat, statut, erreur) {
+                alert("Ajax resized error");
+            },
+
+            complete : function(resultat, statut) {
+                alert('Ajax resized complete');
+            }
+        });
+    
 }
 
 document.addEventListener('DOMContentLoaded', function() {
