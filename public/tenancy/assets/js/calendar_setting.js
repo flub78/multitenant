@@ -1,3 +1,6 @@
+/**
+ * Callback when a day is clicked (create a new event)
+ */
 function day_clicked(info) {
     // alert('a day has been clicked: ' + info.dateStr);
     
@@ -5,67 +8,100 @@ function day_clicked(info) {
     window.location = url;
  }
 
-function event_clicked(calEvent) {
+/*
+ * Callback when an event is clicked
+ */
+function event_clicked(info) {
     // alert('event ' + info.event.url + ' has been clicked!');
     // Nothing to do to be redirected to the url specified in the event
 }
 
-function event_dragged(calEvent) {
-    var str = 'event ' + calEvent.event.title + ' has been dragged!' + "\n";
-    for (var i in calEvent) {
-        str += i + ": " + calEvent[i] + "\n";
-    }
-    alert(str)  ; 
-    alert('delta = ' + calEvent.delta);   
-    // alert('start after dragging = ' + calEvent.event.start);    
-    // alert('end = ' + calEvent.event.end);    
+/*
+ * Callback when an event is dragged
+ */
+function event_dragged(info) {
+    var str = 'event ' + info.event.title + ' has been dragged!' + "\n";
+    // alert(str)  ; 
 
-    var title = calEvent.event.title;
-    var id = calEvent.event.id;
-    var start = calEvent.event.start;
+    // get information from the event
+    var title = info.event.title;
+    var id = info.event.id;
+    var start = info.event.start;
+    var end = info.event.end;
+    var allDay = info.event.allDay;    
     
-    var url = '/calendar/dragged?id=' + id + '&title=' + title + '&start=' + start;
+    // Build the URL to call
+    var url = '/calendar/dragged?id=' + id + '&title=' + title + '&start=' + start;   
+    url += '&end=' + end;
+    url += '&allDay=' + allDay;
     
-        $.ajax({
-            url : url,
-            type : 'GET',
-            success : function(code_html, statut) {
-                // alert('Ajax dragged success');
-            },
-
-            error : function(resultat, statut, erreur) {
-                alert("Ajax dragged error");
-            },
-
-            complete : function(resultat, statut) {
-                // alert('Ajax dragged complete');
+    // Call the URL 
+    $.ajax({
+        url : url,
+        type : 'GET',
+        success : function(code_html, statut) {
+            var reply = JSON.parse(code_html);
+            if (reply.status != "OK") {
+                // Error returned by the PHP layer (the server has replied)
+                alert("Error returned by PHP function dragged" + reply.error.message);
+                info.revert();
+            } else {
+                // alert("PHP dragged success");
             }
-        });
+        },
+
+        error : function(resultat, statut, erreur) {
+            // Error returned by the Ajax call, the server has not been reached
+            // alert("Ajax error");
+        },
+
+        complete : function(resultat, statut) {
+            //alert('Ajax dragged complete');
+        }
+    });
 }
 
-function event_resized(calEvent) {
-    alert('event ' + calEvent.event.title + ' has been resized!');
-    alert('id = ' + calEvent.event.id);
-    alert('end = ' + calEvent.event.end);    
+/**
+ * Callback when an event is resized
+ */
+function event_resized(info) {
+    // alert('event ' + info.event.title + ' has been resized!');
     
-    var url = '/calendar/resized';
+    // get the event information
+    var title = info.event.title;
+    var id = info.event.id;
+    var start = info.event.start;
+    var end = info.event.end;
+    var allDay = info.event.allDay;
     
-        $.ajax({
-            url : url,
-            type : 'GET',
-            success : function(code_html, statut) {
-                alert('Ajax resized success');
-            },
-
-            error : function(resultat, statut, erreur) {
-                alert("Ajax resized error");
-            },
-
-            complete : function(resultat, statut) {
-                alert('Ajax resized complete');
+    // prepare the URL to call    
+    var url = '/calendar/resized?id=' + id + '&title=' + title + '&start=' + start;
+    url += '&end=' + end;
+    url += '&allDay=' + allDay;
+    
+    // call the URL and analyze the return
+    $.ajax({
+        url : url,
+        type : 'GET',
+        success : function(code_html, statut) {
+            var reply = JSON.parse(code_html);
+            if (reply.status != "OK") {
+                // Error returned by the PHP layer (the server has replied)
+                alert("Error returned by PHP function resized" + reply.error.message);
+                info.revert();
+            } else {
+                // alert("PHP resized success");
             }
-        });
-    
+        },
+
+        error : function(resultat, statut, erreur) {
+            alert("Ajax error");
+        },
+
+        complete : function(resultat, statut) {
+            // alert('Ajax resized complete');
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {

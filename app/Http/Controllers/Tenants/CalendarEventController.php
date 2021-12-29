@@ -196,18 +196,36 @@ array (size=9)
 		return redirect ( 'calendar' )->with ( 'success', __('general.deletion_success', ['elt' => $title]));		
 	}
 
+	/**
+	 * Called by fullcalendar when an event is dragged
+	 * 
+	 * @param Request $request
+	 * @return json status => 'OK' or ['error' => ['message' => 'error message', 'code' => 1234]];
+	 */
 	public function dragged (Request $request) {
 		
 		$id = $request->get ('id');
 		$title = $request->get ('title');
 		$start = $request->get ('start');
+		$end = $request->get ('end');
+		$allDay = $request->get ('allDay');
 		
-		Log::Debug("Event $id, title=$title, has been draggged to $start");
+		Log::Debug("Event $id, title=$title, has been draggged to $start end=$end, allDay=$allDay");
+		
+		$success = ['error' => ['message' => 'error message', 'code' => 1234]];
+		$success = ['status' => 'OK'];
+		$output = $success;
+		echo json_encode($output);
 	}
 	
 	public function resized (Request $request) {
+		$id = $request->get ('id');
+		$title = $request->get ('title');
+		$start = $request->get ('start');
+		$end = $request->get ('end');
+		$allDay = $request->get ('allDay');
 		
-		Log::Debug("An event has been resized");
+		Log::Debug("Event $id, title=$title, has been resized to $start end=$end, allDay=$allDay");
 	}
 	
 }
