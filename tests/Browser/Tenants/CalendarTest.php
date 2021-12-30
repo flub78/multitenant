@@ -108,22 +108,15 @@ class CalendarTest extends DuskTestCase {
 	
 	public function test_fullcalendar_create () {
 		
-		$today =  Carbon::now();
-		$time = $today->toDateTimeString();
-		
-		$event_title = "event_" . str_shuffle("abcdefghijklmnopqrstuvwxyz");
-		
-		echo "dateTime = " . $time . "\n";
-		echo "date = " . $today->toDateString() . "\n";
-		echo "date = " . $today->toDateString() . "\n";
-		echo "title = " . $event_title . "\n";
 		
 		$this->browse ( function (Browser $browser) {
+			
+			// display fullcalendar
 			$browser->visit ( '/calendar/fullcalendar' )
 			->assertSee('Multi')
 			->assertSee('test');
 			
-			/** To click on a date
+			/** To click on today date
 			 * <td class="fc-daygrid-day fc-day fc-day-wed fc-day-past" data-date="2021-12-22">
 			 *     <div class="fc-daygrid-day-frame fc-scrollgrid-sync-inner">
 			 *         <div class="fc-daygrid-day-top">
@@ -135,10 +128,98 @@ class CalendarTest extends DuskTestCase {
 			 *             </div><div class="fc-daygrid-day-bg"></div></div></td>
 			 */
 			
+		
+			$today =  Carbon::now();
+			$time = $today->toDateTimeString();
+			
+			$event_title = "event_" . str_shuffle("abcdefghijklmnopqrstuvwxyz");
+			$date = $today->toDateString();
+			$day = $today->day;
+			$selector = "[data-date='$date']";
+			
 			/*
-			$browser->click('@start');
-			$browser->assertSee ( 'Su' );
+			echo "dateTime = " . $time . "\n";
+			echo "date = $date\n";
+			echo "day = $day\n";
+			echo "title = " . $event_title . "\n";
+			echo "selector = $selector\n";
 			*/
+			
+			$browser->click($selector);
+			$browser->assertSee (__('calendar_event.new'))			
+			->assertSee(__('calendar_event.start_date'))
+			->assertSee(__('calendar_event.start_time'))
+			->assertSee(__('calendar_event.allday'));
+			
+			// check we are on the create view
+			$browser->screenshot('Tenants/after_day_clicked');
+			
+			$browser->type ( 'title', $event_title)
+			->type('start', $today->format('m-d-Y'))
+			->check('allDay')
+			->type('start_time', $today->format('H:i'))
+			->press ( 'Add Event' )
+			->assertDontSee('The start does not match the format m-d-Y')
+			->assertSee($event_title);
+			
+			$browser->screenshot('Tenants/after_fullcalendar_create');
+			
+		} );
+	}
+	
+	public function test_fullcalendar_click_event () {
+			
+		$this->browse ( function (Browser $browser) {
+			
+			$today =  Carbon::now();
+			$time = $today->toDateTimeString();
+			
+			$event_title = "event_" . str_shuffle("abcdefghijklmnopqrstuvwxyz");
+			$date = $today->toDateString();
+			$day = $today->day;			
+
+			 echo "dateTime = " . $time . "\n";
+			 echo "date = $date\n";
+			 echo "day = $day\n";
+			 echo "title = " . $event_title . "\n";
+
+			
+			// create an event
+			$browser->visit ( '/calendar/create' )
+			->assertSee('Multi')
+			->assertSee('test')
+			->assertSee(__('calendar_event.new'))
+			->assertSee(__('calendar_event.start_date'))
+			->assertSee(__('calendar_event.start_time'))
+			->assertSee(__('calendar_event.allday'))
+			;
+						
+			$browser->type ( 'title', $event_title)
+			->type('start', $today->format('m-d-Y'))
+			->check('allDay')
+			->type('start_time', $today->format('H:i'))
+			->press ( 'Add Event' )
+			->assertDontSee('The start does not match the format m-d-Y')
+			->assertSee($event_title);
+			
+			// display fullcalendar
+			$browser->visit ( '/calendar/fullcalendar' )
+			->assertSee('Multi')
+			->assertSee('test')
+			->assertSee($event_title);
+			
+			$browser->screenshot('Tenants/fullcalendar_after_create');
+			
+			// click on the event
+			$browser->clickLink($event_title);
+			$browser->assertSee (__('calendar_event.edit'))
+			->assertSee(__('calendar_event.start_date'))
+			->assertSee(__('calendar_event.start_time'))
+			->assertSee(__('calendar_event.allday'));
+			
+			$input_title = $browser->inputValue('title');
+			$this->assertEquals($input_title, $event_title);
+			
 			
 			/**
 			 * To click on an event
@@ -160,6 +241,4 @@ class CalendarTest extends DuskTestCase {
 			 */
 		} );
 	}
-	
-	
 }

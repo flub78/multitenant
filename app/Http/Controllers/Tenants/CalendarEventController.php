@@ -212,12 +212,27 @@ array (size=9)
 		
 		Log::Debug("Event $id, title=$title, has been draggged to $start end=$end, allDay=$allDay");
 		
+		// Fetch the event
+		// compute the difference between initial and last position (in seconds)
+		// apply the delta to start dateTime
+		
+		// If all day delete the end dateTime
+		// if not apply the delta to end dateTime
+		
+		// update the event
+		
 		$success = ['error' => ['message' => 'error message', 'code' => 1234]];
 		$success = ['status' => 'OK'];
 		$output = $success;
 		echo json_encode($output);
 	}
 	
+	/**
+	 * Called by fullcalendar when an event is dragged
+	 *
+	 * @param Request $request
+	 * @return json status => 'OK' or ['error' => ['message' => 'error message', 'code' => 1234]];
+	 */
 	public function resized (Request $request) {
 		$id = $request->get ('id');
 		$title = $request->get ('title');
@@ -226,6 +241,14 @@ array (size=9)
 		$allDay = $request->get ('allDay');
 		
 		Log::Debug("Event $id, title=$title, has been resized to $start end=$end, allDay=$allDay");
+		
+		// Fetch the event
+		// Check that the start dateTime has not changed
+		
+		// compute the difference between initial and last end position (in seconds)
+		// apply the delta to end dateTime
+		
+		// update the event
 	}
 	
 }

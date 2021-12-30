@@ -15,7 +15,8 @@
     
     * Update calendar controller to prefill the form and return to fullcalendar view
     
-    FullCalendar Test plan (Currently I do not know how to automate that)
+    FullCalendar Test plan (Currently I do not know yet how to automate that)
+    
         * Create an event by clicking a date
             check that it exists in database
             check that we are returned to fullcalendar view
@@ -37,6 +38,21 @@
             check that the start date has not moved
             check that the end date has been updated
             
-        * extend an event with an end time
+        * Extend an event with an end time
             check that the start date has not moved
             check that the end date has been updated
+            
+        * Test dragging from allDay to specific time and vice versa
+        
+        * Tests on week view
+            - dragging
+            - resizing
+            
+        * Test on day view
+            - dragging
+            - resizing
+                
+        * Negative tests by calling the controller with bad parameters
+            - non existing id
+            - incorrectly formatted start, end
+             

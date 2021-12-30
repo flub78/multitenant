@@ -43,7 +43,7 @@ Note that the connection does not matter.
     php artisan tenants:seed --tenants=abbeville --class="Database\Seeders\RoleSeeder"
     
 Note that dusk tests restore a test database before execution. So when the test tenant database is migrated the backup
-for testing must be regenerated.
+for testing must be regenerated. 
 
 1. migrate php artisan tenants:migrate-fresh --tenants=test
 1. register the test user
