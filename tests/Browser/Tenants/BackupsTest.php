@@ -50,7 +50,7 @@ class BackupsTest extends DuskTestCase {
 	// TODO: test disabled because env is not correctly setup for tenant controllers
 	public function test_backup() {
 		
-		$this->markTestSkipped('Skipped env is not correctly setup for tenant controllers'); 
+		// $this->markTestSkipped('Skipped env is not correctly setup for tenant controllers'); 
 		
 		$this->browse ( function (Browser $browser) {
 			
