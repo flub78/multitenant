@@ -217,15 +217,14 @@ array (size=9)
 			return response()->json($output);
 		}
 		
+		// Fetch the event
 		$event = CalendarEvent::find ($id);	
-		/*
+		
 		if (! $event) {
 			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 2]];
 			return response()->json($output);
 		}
-		*/
 		
-		// Fetch the event
 		// compute the difference between initial and last position (in seconds)
 		// apply the delta to start dateTime
 		

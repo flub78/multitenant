@@ -234,6 +234,19 @@ class CalendarEventControllerTest extends TenantTestCase {
 	public function test_fullcalendar_dragged() {
 		$this->be ( $this->user );
 		
+		// Create an event
+		$today =  Carbon::now();
+		$time = $today->toDateTimeString();
+		$event_title = "event_" . str_shuffle("abcdefghijklmnopqrstuvwxyz");
+		
+		$event = CalendarEvent::factory ()->make ( [
+				'start' => $time,
+				'description' => $event_title
+		] );
+		$event->save ();
+		
+		$id = $event->id;
+				
 		// Missing ID
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged' ;
 		$response = $this->getJson($url);
@@ -242,7 +255,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertNotNull($response['error']);
 		$response->assertSessionHasNoErrors();
 		
-		/*
 		// Unknown ID
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=1000000000' ;
 		$response = $this->getJson($url);
@@ -250,10 +262,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 2]]);
 		$this->assertNotNull($response['error']);
 		$response->assertSessionHasNoErrors();
-		*/
 				
 		// Correct answer
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=2' ;
+		$url = 'http://' . tenant('id'). ".tenants.com/calendar/dragged?id=$id" ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertExactJson(['status' => 'OK']);
