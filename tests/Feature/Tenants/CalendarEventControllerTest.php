@@ -231,4 +231,48 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->get_tenant_url($this->user, 'calendar/create', ['Add Event']);
 	}
 	
+	public function test_fullcalendar_dragged() {
+		$this->be ( $this->user );
+		
+		// Missing ID
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged' ;
+		$response = $this->getJson($url);
+		$response->assertStatus ( 200 );
+		$response->assertJson(['error' => ['message' => 'Missing calendar event ID', 'code' => 1]]);
+		$this->assertNotNull($response['error']);
+		$response->assertSessionHasNoErrors();
+		
+		/*
+		// Unknown ID
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=1000000000' ;
+		$response = $this->getJson($url);
+		$response->assertStatus ( 200 );
+		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 2]]);
+		$this->assertNotNull($response['error']);
+		$response->assertSessionHasNoErrors();
+		*/
+				
+		// Correct answer
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=2' ;
+		$response = $this->getJson($url);
+		$response->assertStatus ( 200 );
+		$response->assertExactJson(['status' => 'OK']);
+		$response->assertSessionHasNoErrors();
+		$this->assertArrayNotHasKey('error', $response);
+		
+		// $response->dumpHeaders();
+		// $response->dump();
+	}
+	
+	public function test_fullcalendar_resized() {
+		$this->be ( $this->user );
+		
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged' ;
+		$response = $this->get ( $url);
+		$response->assertStatus ( 200 );
+		// $response->dump();
+		// $response->dumpHeaders();
+		$response->assertSessionHasNoErrors();
+	}
+	
 }

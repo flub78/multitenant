@@ -193,7 +193,8 @@ class CalendarTest extends DuskTestCase {
 			->assertSee(__('calendar_event.start_time'))
 			->assertSee(__('calendar_event.allday'))
 			;
-						
+				
+			// Fill the form and validate
 			$browser->type ( 'title', $event_title)
 			->type('start', $today->format('m-d-Y'))
 			->check('allDay')

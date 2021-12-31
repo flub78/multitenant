@@ -212,6 +212,19 @@ array (size=9)
 		
 		Log::Debug("Event $id, title=$title, has been draggged to $start end=$end, allDay=$allDay");
 		
+		if (! $id) {
+			$output = ['error' => ['message' => 'Missing calendar event ID', 'code' => 1]];
+			return response()->json($output);
+		}
+		
+		$event = CalendarEvent::find ($id);	
+		/*
+		if (! $event) {
+			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 2]];
+			return response()->json($output);
+		}
+		*/
+		
 		// Fetch the event
 		// compute the difference between initial and last position (in seconds)
 		// apply the delta to start dateTime
@@ -221,10 +234,9 @@ array (size=9)
 		
 		// update the event
 		
-		$success = ['error' => ['message' => 'error message', 'code' => 1234]];
 		$success = ['status' => 'OK'];
 		$output = $success;
-		echo json_encode($output);
+		return response()->json($output);
 	}
 	
 	/**
