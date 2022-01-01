@@ -259,7 +259,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=1000000000' ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
-		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 2]]);
+		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 3]]);
 		$this->assertNotNull($response['error']);
 		$response->assertSessionHasNoErrors();
 				

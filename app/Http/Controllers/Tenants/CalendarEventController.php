@@ -118,6 +118,16 @@ array (size=9)
 		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
 			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
 		}
+		if (!array_key_exists ( 'backgroundColor', $validatedData )) {
+			$validatedData ['backgroundColor'] = '#FFFFFF';
+		}
+		if (!array_key_exists ( 'textColor', $validatedData )) {
+			$validatedData ['textColor'] = '#000000';
+		}
+		if ($validatedData ['backgroundColor'] == $validatedData ['textColor'] ) {
+			$validatedData ['backgroundColor'] = '#FFFFFF';
+			$validatedData ['textColor'] = '#000000';
+		}
 		CalendarEvent::create ( $validatedData );
 
 		return redirect ( 'calendar' )->with ( 'success', __ ( 'general.creation_success', [ 
@@ -217,11 +227,16 @@ array (size=9)
 			return response()->json($output);
 		}
 		
+		if (! $id) {
+			$output = ['error' => ['message' => 'Missing calendar event start', 'code' => 2]];
+			return response()->json($output);
+		}
+		
 		// Fetch the event
 		$event = CalendarEvent::find ($id);	
 		
 		if (! $event) {
-			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 2]];
+			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 3]];
 			return response()->json($output);
 		}
 		

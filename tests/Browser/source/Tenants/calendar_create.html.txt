@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="AZMqTYG2TfWaS6CdkiOxTCpbEug6kKdf1qBvt90b">
+    <meta name="csrf-token" content="xqBuHu8iOlL4FPap8vILBymdKAbCzQPWXiecpbaj">
 
     <title>Multi</title>
     
@@ -151,7 +151,7 @@
 
 									
                                     <form id="logout-form" action="http://test.tenants.com/logout" method="POST" class="d-none">
-                                        <input type="hidden" name="_token" value="AZMqTYG2TfWaS6CdkiOxTCpbEug6kKdf1qBvt90b">                                    </form>
+                                        <input type="hidden" name="_token" value="xqBuHu8iOlL4FPap8vILBymdKAbCzQPWXiecpbaj">                                    </form>
                                 </div>
                             </li>
                                             </ul>
@@ -175,7 +175,7 @@
         
       <form method="post" action="http://test.tenants.com/calendar">
           <div class="form-group">
-              <input type="hidden" name="_token" value="AZMqTYG2TfWaS6CdkiOxTCpbEug6kKdf1qBvt90b">              
+              <input type="hidden" name="_token" value="xqBuHu8iOlL4FPap8vILBymdKAbCzQPWXiecpbaj">              
               <label for="title"> Title</label>
               <input type="text" class="form-control" name="title" value="">
           </div>
@@ -192,14 +192,14 @@
           
            <div class="form-group">
               <label for="start"> Date</label>
-              <input type="text" class="form-control datepicker hasDatepicker" name="start" value="" dusk="start" id="dp1640935319987">
+              <input type="text" class="form-control datepicker hasDatepicker" name="start" value="" dusk="start" id="dp1641070816149">
               <label for="start_time"> Time</label>
               <input type="text" class="form-control timepicker" name="start_time" value="">
           </div>
 
            <div class="form-group">
               <label for="end"> End Date</label>
-              <input type="text" class="form-control datepicker hasDatepicker" name="end" value="" dusk="end" id="dp1640935319988">
+              <input type="text" class="form-control datepicker hasDatepicker" name="end" value="" dusk="end" id="dp1641070816150">
               <label for="end_time"> End time</label>
               <input type="text" class="form-control timepicker" name="end_time" value="">
           </div>

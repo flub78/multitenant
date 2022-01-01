@@ -167,6 +167,65 @@ class CalendarTest extends DuskTestCase {
 		} );
 	}
 	
+	public function test_calendar_edit () {
+		
+		
+		$this->browse ( function (Browser $browser) {
+			
+			$today =  Carbon::now();
+			$time = $today->toDateTimeString();
+			
+			$event_title = "event_" . str_shuffle("abcdefghijklmnopqrstuvwxyz");
+			$description = "Description before editing";
+			$date = $today->toDateString();
+			$day = $today->day;
+			$selector = "[data-date='$date']";
+			
+			/*
+			 echo "dateTime = " . $time . "\n";
+			 echo "date = $date\n";
+			 echo "day = $day\n";
+			 echo "title = " . $event_title . "\n";
+			 echo "selector = $selector\n";
+			 */
+			
+			$browser->visit ( '/calendar/create' )
+			->assertSee('Multi')
+			->assertSee('test')
+			->assertSee(__('calendar_event.new'))
+			->assertSee(__('calendar_event.start_date'))
+			->assertSee(__('calendar_event.start_time'))
+			->assertSee(__('calendar_event.allday'))
+			;
+				
+			$browser->type ( 'title', $event_title)
+			->type('description', $description)
+			->type('start', $today->format('m-d-Y'))
+			->check('allDay')
+			->type('start_time', '10:15')
+			//->type('backgroundColor', '#ffd966')
+			// >type('textColor', '#cc0000')
+			->press ( 'Add Event' )
+			->assertDontSee('The start does not match the format m-d-Y');
+			
+			
+			$browser
+			// ->visit ( '/calendar' )
+			->click ( '@edit_' . $event_title )
+			->assertSee (__('calendar_event.edit'));
+			$this->assertEquals($event_title, $browser->inputValue('title'));
+			// ->assertSee ($event_title);
+			
+			$modified_description = "Modified description";
+			$browser->type('description', $modified_description)
+			->press (__('general.update'))
+			->assertDontSee('deleted', 'Event modified, not deleted (previous bug)');
+
+			$browser->screenshot('Tenants/after_update');
+			
+		} );
+	}
+	
 	public function test_fullcalendar_click_event () {
 			
 		$this->browse ( function (Browser $browser) {
@@ -178,11 +237,12 @@ class CalendarTest extends DuskTestCase {
 			$date = $today->toDateString();
 			$day = $today->day;			
 
+			/*
 			 echo "dateTime = " . $time . "\n";
 			 echo "date = $date\n";
 			 echo "day = $day\n";
 			 echo "title = " . $event_title . "\n";
-
+			*/
 			
 			// create an event
 			$browser->visit ( '/calendar/create' )
