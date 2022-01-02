@@ -26,8 +26,8 @@ function event_dragged(info) {
     // get information from the event
     var title = info.event.title;
     var id = info.event.id;
-    var start = info.event.start;
-    var end = info.event.end;
+    var start = info.event.startStr;
+    var end = info.event.endStr;
     var allDay = info.event.allDay;    
     
     // Build the URL to call

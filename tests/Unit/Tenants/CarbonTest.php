@@ -9,6 +9,7 @@ use App;
 use App\Models\Tenants\CalendarEvent;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Carbon\Exceptions\InvalidFormatException;
 
 
 /**
@@ -227,5 +228,17 @@ class CarbonTest extends TenantTestCase
     	
     	$this->assertEquals("05-21-1975", Carbon::createFromFormat('Y-m-d', $date)->format("m-d-Y"));
     	$this->assertEquals("21/05/1975", Carbon::createFromFormat('Y-m-d', $date)->format("d/m/Y"));
+    }
+    
+    public function test_carbon_create() {
+    	// $date = Carbon::parse('Fri Jan 07 2022 00:00:00 GMT 0100 (heure normale d’Europe centrale)');
+    	$date = Carbon::parse('2022-01-07');
+    	echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
+    	
+    	$date = Carbon::parse('2021-12-30T09:00:00'); //  01:00');
+    	echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
+    	
+    	$this->expectException(InvalidFormatException::class);
+    	$date = Carbon::parse('zorglub');
     }
 }

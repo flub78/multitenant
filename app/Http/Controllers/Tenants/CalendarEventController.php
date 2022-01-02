@@ -216,18 +216,18 @@ array (size=9)
 		
 		$id = $request->get ('id');
 		$title = $request->get ('title');
-		$start = $request->get ('start');
+		$new_start = $request->get ('start');
 		$end = $request->get ('end');
 		$allDay = $request->get ('allDay');
 		
-		Log::Debug("Event $id, title=$title, has been draggged to $start end=$end, allDay=$allDay");
+		Log::Debug("Event $id, title=$title, has been draggged to $new_start end=$end, allDay=$allDay");
 		
 		if (! $id) {
 			$output = ['error' => ['message' => 'Missing calendar event ID', 'code' => 1]];
 			return response()->json($output);
 		}
 		
-		if (! $id) {
+		if (! $new_start) {
 			$output = ['error' => ['message' => 'Missing calendar event start', 'code' => 2]];
 			return response()->json($output);
 		}

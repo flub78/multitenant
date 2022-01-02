@@ -17,6 +17,8 @@ class CalendarEventRequest extends FormRequest {
 
 	/**
 	 * Get the validation rules that apply to the request.
+	 * 
+	 * TODO: Checks that the end date is after the start date
 	 *
 	 * @return array
 	 */

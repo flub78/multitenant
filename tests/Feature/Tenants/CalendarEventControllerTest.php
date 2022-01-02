@@ -256,7 +256,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Unknown ID
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=1000000000' ;
+		$start='Fri Jan 07 2022 00:00:00 GMT 0100 (heure normale d’Europe centrale)';
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=1000000000&start=' . $start ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 3]]);
@@ -264,7 +265,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 				
 		// Correct answer
-		$url = 'http://' . tenant('id'). ".tenants.com/calendar/dragged?id=$id" ;
+		$url = 'http://' . tenant('id'). ".tenants.com/calendar/dragged?id=$id&start=" . $start;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertExactJson(['status' => 'OK']);

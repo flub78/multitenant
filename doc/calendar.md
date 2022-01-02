@@ -40,7 +40,7 @@ There are a lot of ways to represent calendar events in database
 * Timestamp for start of event and integer for duration  
 * Separate fields for date and time
 
-When the event represents some period of activity, the option timestamp plus duration may be convenient. The choice likely depends on how often events are created or changed, compared to the number of time addition of duration has to be done.
+When the event represents some period of activity, the option timestamp plus duration may be convenient. The choice likely depends on how often events are created or changed, compared to the number of time addition of duration has to be done. Start time plus duration are more convenient for appointments, meetings, etc. When you record a flight duration, start and end time are more convenient as you do not know the duration without calculation. 
 
 Note that whatever the choice for database storage it may be convenient to develop the accessors to get the other points of view.
 
@@ -54,6 +54,14 @@ In MySQL the dates have a range from '1000-01-01' to '9999-12-31', while the tim
 
 In 2021, 2038 is almost tomorrow (17 years away), let's avoid a new year 2000 bug :-).
 The project that this one is supposed to replaced has already been deployed 11 years ago.
+
+### Validation
+
+Invalid input: 
+- event where end < start
+- allDay and specified times
+
+
      
 ## Rendering
 
