@@ -113,6 +113,8 @@ array (size=9)
   'textColor' => string '#38761d' (length=7)
 */
 
+		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
+		
 		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
 			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
 		}

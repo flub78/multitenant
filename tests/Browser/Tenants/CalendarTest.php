@@ -95,14 +95,42 @@ class CalendarTest extends DuskTestCase {
 			
 			$browser->storeSource('Tenants/calendar_create.html');
 			
-			$browser->type ( 'title', 'dentist')
+			$event_title = 'dentist';
+			$browser->type ( 'title', $event_title)
+			->type('start', '07-13-2021')
+			->uncheck('allDay')
+			->type('start_time', '10:15')
+			->press ( 'Add Event' )
+			->assertDontSee('The start does not match the format m-d-Y');
+
+			// sleep(10);
+			
+			// Check the result
+			$browser
+			->click ( '@edit_' . $event_title )
+			->assertSee (__('calendar_event.edit'))
+			->assertNotChecked('allDay');
+			$this->assertEquals($event_title, $browser->inputValue('title'));
+			
+			$browser->visit ( '/calendar' )
+			->click ( '@delete_' . $event_title )
+			->assertSee('deleted');
+			
+			$browser->visit ( '/calendar/create' )
+			->type ( 'title', $event_title)
 			->type('start', '07-13-2021')
 			->check('allDay')
 			->type('start_time', '10:15')
 			->press ( 'Add Event' )
 			->assertDontSee('The start does not match the format m-d-Y');
 
-			// sleep(10);
+			// Check the result
+			$browser
+			->click ( '@edit_' . $event_title )
+			->assertSee (__('calendar_event.edit'))
+			->assertChecked('allDay');
+			$this->assertEquals($event_title, $browser->inputValue('title'));
+			
 		} );
 	}
 	
@@ -210,7 +238,6 @@ class CalendarTest extends DuskTestCase {
 			
 			
 			$browser
-			// ->visit ( '/calendar' )
 			->click ( '@edit_' . $event_title )
 			->assertSee (__('calendar_event.edit'));
 			$this->assertEquals($event_title, $browser->inputValue('title'));
