@@ -120,11 +120,11 @@ class CalendarTest extends DuskTestCase {
 			->assertNotChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
 
-			/*
+			$selector = '@delete_' . $event_title ;
 			$browser->visit ( '/calendar' )
-			->click ( '@delete_' . $event_title )
-			->assertSee('deleted');
-			*/			
+			->waitFor($selector)
+			->click ( $selector)
+			->assertSee('deleted');			
 		} );
 	}
 
@@ -158,6 +158,7 @@ class CalendarTest extends DuskTestCase {
 			$this->assertEquals($event_title, $browser->inputValue('title'));
 			
 			$browser->visit ( '/calendar' )
+			->pause(1000)
 			->click ( '@delete_' . $event_title )
 			->assertSee('deleted');
 			
@@ -177,12 +178,13 @@ class CalendarTest extends DuskTestCase {
 			$end_time = '12:15';
 			
 			$browser->visit ( '/calendar/create' )
-			->type ( 'title', $event_title)
-			->type('start', $start)
-			->type('start_time', $start_time)
 			->type('end', $end)
 			->type('end_time', $end_time)
+			->type('start', $start)
+			->type('start_time', $start_time)
 			->uncheck('allDay')
+			->type ( 'title', $event_title)
+			->type('description', 'description')    // important to close the end date dialog
 			->press ( 'Add Event' )
 			->assertDontSee('The start does not match the format m-d-Y');
 			
@@ -190,10 +192,10 @@ class CalendarTest extends DuskTestCase {
 			$browser
 			->click ( '@edit_' . $event_title )
 			->assertSee (__('calendar_event.edit'))
-			->assertInputValue('start', $start)
-			->assertInputValue('start_time', $start_time)
 			->assertInputValue('end', $end)
 			->assertInputValue('end_time', $end_time)
+			->assertInputValue('start', $start)
+			->assertInputValue('start_time', $start_time)
 			->assertNotChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
 			
