@@ -81,8 +81,11 @@ class CalendarTest extends DuskTestCase {
 		} );		
 	}
 
-	public function test_calendar_create () {
+	public function test_calendar_create_default () {
 		
+		/*
+		 * Default event test case, no allDay, no end date, no end time
+		 */
 		$this->browse ( function (Browser $browser) {
 			$browser->visit ( '/calendar/create' )
 			->assertSee('Multi')
@@ -95,17 +98,16 @@ class CalendarTest extends DuskTestCase {
 			
 			$browser->storeSource('Tenants/calendar_create.html');
 			
-			$event_title = 'dentist';
+			$event_title = 'dentist_' . str_shuffle("abcdefghijklmnopqrstuvwxyz");
 			$start = '07-13-2021';
 			$start_time = '10:15';
+			
 			$browser->type ( 'title', $event_title)
 			->type('start', $start)
 			->uncheck('allDay')
 			->type('start_time', $start_time)
 			->press ( 'Add Event' )
 			->assertDontSee('The start does not match the format m-d-Y');
-
-			// sleep(10);
 			
 			// Check the result
 			$browser
@@ -117,36 +119,91 @@ class CalendarTest extends DuskTestCase {
 			->assertInputValue('end_time', '')
 			->assertNotChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
-			
+
+			/*
 			$browser->visit ( '/calendar' )
 			->click ( '@delete_' . $event_title )
 			->assertSee('deleted');
-			
-			/* ==================================================================================
-			 * Another test case
-			 */
+			*/			
+		} );
+	}
+
+	public function test_calendar_create_allday () {
+		/* ==================================================================================
+		 * Another test case, allDay is checked, no start time, no end date
+		 */
+		$this->browse ( function (Browser $browser) {
+						
+			$event_title = 'dentist_' . str_shuffle("abcdefghijklmnopqrstuvwxyz");
+			$start = '07-13-2021';
+			$start_time = '10:15';
 			
 			$browser->visit ( '/calendar/create' )
 			->type ( 'title', $event_title)
 			->type('start', $start)
 			->check('allDay')
-			->type('start_time', $start_time)
+			// ->type('start_time', $start_time)
 			->press ( 'Add Event' )
 			->assertDontSee('The start does not match the format m-d-Y');
-
+			
+			// Check the result
+			$browser
+			->click ( '@edit_' . $event_title )
+			->assertSee (__('calendar_event.edit'))
+			->assertInputValue('start', $start)
+			->assertInputValue('start_time', '00:00')
+			->assertInputValue('end', '')
+			->assertInputValue('end_time', '')
+			->assertChecked('allDay');
+			$this->assertEquals($event_title, $browser->inputValue('title'));
+			
+			$browser->visit ( '/calendar' )
+			->click ( '@delete_' . $event_title )
+			->assertSee('deleted');
+			
+		} );		
+	}
+	
+	public function test_calendar_create_with_end () {
+		/* ==================================================================================
+		 * Another test case, allDay is checked, no start time, no end date
+		 */
+		$this->browse ( function (Browser $browser) {
+			
+			$event_title = 'dentist_' . str_shuffle("abcdefghijklmnopqrstuvwxyz");
+			$start = '07-13-2021';
+			$start_time = '10:15';
+			$end = '07-13-2021';
+			$end_time = '12:15';
+			
+			$browser->visit ( '/calendar/create' )
+			->type ( 'title', $event_title)
+			->type('start', $start)
+			->type('start_time', $start_time)
+			->type('end', $end)
+			->type('end_time', $end_time)
+			->uncheck('allDay')
+			->press ( 'Add Event' )
+			->assertDontSee('The start does not match the format m-d-Y');
+			
 			// Check the result
 			$browser
 			->click ( '@edit_' . $event_title )
 			->assertSee (__('calendar_event.edit'))
 			->assertInputValue('start', $start)
 			->assertInputValue('start_time', $start_time)
-			->assertInputValue('end', '')
-			->assertInputValue('end_time', '')
-			->assertChecked('allDay');
+			->assertInputValue('end', $end)
+			->assertInputValue('end_time', $end_time)
+			->assertNotChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
+			
+			$browser->visit ( '/calendar' )
+			->click ( '@delete_' . $event_title )
+			->assertSee('deleted');
 			
 		} );
 	}
+	
 	
 	public function test_fullcalendar_create () {
 		
