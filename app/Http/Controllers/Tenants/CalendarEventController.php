@@ -8,6 +8,7 @@ use App\Http\Requests\Tenants\CalendarEventRequest;
 use Illuminate\Http\Request;
 use App\Helpers\DateFormat;
 use Carbon\Carbon;
+use Carbon\Exceptions\Exception;
 use Illuminate\Support\Facades\Log;
 
 
@@ -224,29 +225,58 @@ array (size=9)
 		
 		if (! $id) {
 			$output = ['error' => ['message' => 'Missing calendar event ID', 'code' => 1]];
+			Log::Debug('Missing calendar event ID');
 			return response()->json($output);
 		}
 		
+		$start_datetime = null;
 		if (! $new_start) {
 			$output = ['error' => ['message' => 'Missing calendar event start', 'code' => 2]];
+			Log::Debug('Missing calendar event start');
+			
 			return response()->json($output);
+		} else {
+			try {
+				$new_start = explode(' ', $new_start)[0];
+				$start_datetime = Carbon::parse($new_start);
+			} catch ( Exception $e ) {
+				// echo 'Exception reçue : ', $e->getMessage(), "\n";
+				$output = ['error' => ['message' => 'Incorrect event start format', 'code' => 3]];
+				Log::Debug('Incorrect event start format: ' . $new_start);
+				return response()->json($output);
+			}
 		}
 		
 		// Fetch the event
 		$event = CalendarEvent::find ($id);	
 		
 		if (! $event) {
-			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 3]];
+			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]];
+			Log::Debug('Unknown calendar event ID');
 			return response()->json($output);
 		}
 		
-		// compute the difference between initial and last position (in seconds)
+		// compute the difference between initial and last position
+		$initial_start = Carbon::parse($event['start']);
+		$delta = $initial_start->diff($start_datetime);
+		
 		// apply the delta to start dateTime
+		$data = [];
+		$data ['start'] = $start_datetime->format("Y-m-d H:i");
+		$data ['allDay'] = $allDay ? 1 : 0;
 		
 		// If all day delete the end dateTime
 		// if not apply the delta to end dateTime
+		//if (property_exists($event, 'end')) {
+		if (isset($event['end'])) {
+			$end_datetime = Carbon::parse($event['end']);
+			$end_datetime = $end_datetime->add($delta);
+			$data['end'] = $end_datetime->format("Y-m-d H:i");
+		}
 		
+		Log::Debug('Updating event: ' . var_export($event, true) . " with " . var_export($data, true));
 		// update the event
+		CalendarEvent::whereId ( $id )->update ( $data );
 		
 		$success = ['status' => 'OK'];
 		$output = $success;

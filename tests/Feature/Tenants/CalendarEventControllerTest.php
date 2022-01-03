@@ -256,11 +256,11 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Unknown ID
-		$start='Fri Jan 07 2022 00:00:00 GMT 0100 (heure normale d’Europe centrale)';
+		$start='2022-01-07';
 		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=1000000000&start=' . $start ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
-		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 3]]);
+		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]]);
 		$this->assertNotNull($response['error']);
 		$response->assertSessionHasNoErrors();
 				
