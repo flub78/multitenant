@@ -83,6 +83,10 @@ class CalendarEventController extends Controller {
 		
 		$data = ['action' => $request->get ('action')];
 		if ($request->get ('start')) {
+			
+			// TODO when called from week or day view a time is specified
+			// Currently it generates a crash ...
+			
 			$data['start'] = Carbon::createFromFormat('Y-m-d', $request->get ('start'))->format(__('general.date_format'));
 		} else {
 			$data['start'] = "";
@@ -237,6 +241,7 @@ array (size=9)
 			Log::Debug('Missing calendar event start');
 			
 			return response()->json($output);
+			
 		} else {
 			try {
 				$new_start = explode(' ', $new_start)[0];
@@ -265,7 +270,7 @@ array (size=9)
 		// apply the delta to start dateTime
 		$data = [];
 		$data ['start'] = $start_datetime->format("Y-m-d H:i");
-		$data ['allDay'] = $allDay ? 1 : 0;
+		$data ['allDay'] = ($allDay != "false") ? 1 : 0;
 		
 		// If all day delete the end dateTime
 		// if not apply the delta to end dateTime
@@ -276,7 +281,7 @@ array (size=9)
 			$data['end'] = $end_datetime->format("Y-m-d H:i");
 		}
 		
-		Log::Debug('Updating event: ' . var_export($event, true) . " with " . var_export($data, true));
+		// Log::Debug('Updating event: ' . var_export($event, true) . " with " . var_export($data, true));
 		// update the event
 		CalendarEvent::whereId ( $id )->update ( $data );
 		
@@ -295,18 +300,59 @@ array (size=9)
 		$id = $request->get ('id');
 		$title = $request->get ('title');
 		$start = $request->get ('start');
-		$end = $request->get ('end');
+		$new_end = $request->get ('end');
 		$allDay = $request->get ('allDay');
 		
-		Log::Debug("Event $id, title=$title, has been resized to $start end=$end, allDay=$allDay");
+		Log::Debug("Event $id, title=$title, has been resized to $start end=$new_end, allDay=$allDay");
+		
+		if (! $id) {
+			$output = ['error' => ['message' => 'Missing calendar event ID', 'code' => 1]];
+			Log::Debug('Missing calendar event ID');
+			return response()->json($output);
+		}
+		
+		$end_datetime = null;
+		if (! $new_end) {
+			$output = ['error' => ['message' => 'Missing calendar event end', 'code' => 2]];
+			Log::Debug('Missing calendar event end');
+			
+			return response()->json($output);
+			
+		} else {
+			try {
+				$new_end = explode(' ', $new_end)[0];
+				$end_datetime = Carbon::parse($new_end);
+			} catch ( Exception $e ) {
+				// echo 'Exception reçue : ', $e->getMessage(), "\n";
+				$output = ['error' => ['message' => 'Incorrect event end format', 'code' => 3]];
+				Log::Debug('Incorrect event end format: ' . $new_start);
+				return response()->json($output);
+			}
+		}
 		
 		// Fetch the event
+		$event = CalendarEvent::find ($id);	
+
+		if (! $event) {
+			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]];
+			Log::Debug('Unknown calendar event ID');
+			return response()->json($output);
+		}
+		
 		// Check that the start dateTime has not changed
 		
 		// compute the difference between initial and last end position (in seconds)
 		// apply the delta to end dateTime
 		
 		// update the event
+		$data = [];
+		$data ['end'] = $end_datetime->format("Y-m-d H:i");
+		
+		CalendarEvent::whereId ( $id )->update ( $data );
+		
+		$success = ['status' => 'OK'];
+		$output = $success;
+		return response()->json($output);
 	}
 	
 }
