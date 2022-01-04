@@ -157,9 +157,9 @@ array (size=9)
 	 *
 	 * @param \App\Models\Tenants\CalendarEvent $calendarEvent
 	 * @return \Illuminate\Http\Response
-	 */
 	public function show(CalendarEvent $calendarEvent) {
 	}
+	 */
 
 	/**
 	 * Show the form for editing the specified resource.

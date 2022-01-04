@@ -44,6 +44,11 @@ class CalendarEventControllerTest extends TenantTestCase {
 	public function test_calendar_event_create() {
 		$this->get_tenant_url($this->user, 'calendar/create', ['Add Event']);		
 	}
+	
+	public function test_calendar_event_create_with_start() {
+		$this->get_tenant_url($this->user, 'calendar/create?action=fullcalendar&start=2022-01-05T11:00:00', ['Add Event']);
+	}
+	
 
 	public function test_calendar_json() {
 		$this->be ( $this->user );
@@ -66,7 +71,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$description = "description $initial_count";
 		$start = "07-31-2021";
 		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 'start_time' => '10:00',
-				'allDay' => 1
+				'allDay' => 1, 'backgroundColor' => '#000000', 'textColor' => '#000000'
 		];
 				
 		// call the post method to create it
@@ -235,12 +240,13 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->be ( $this->user );
 		
 		// Create an event
-		$today =  Carbon::now();
-		$time = $today->toDateTimeString();
+		$now =  Carbon::now();
+		$time = $now->toDateTimeString();
 		$event_title = "event_" . str_shuffle("abcdefghijklmnopqrstuvwxyz");
 		
 		$event = CalendarEvent::factory ()->make ( [
 				'start' => $time,
+				'end' => $now->addHours(2)->toDateTimeString(),
 				'description' => $event_title
 		] );
 		$event->save ();
@@ -263,7 +269,28 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]]);
 		$this->assertNotNull($response['error']);
 		$response->assertSessionHasNoErrors();
-				
+		
+		// Missing start
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged?id=1000000000' ;
+		$response = $this->getJson($url);
+		$response->assertStatus ( 200 );
+		$response->assertJson(['error' => ['message' => 'Missing calendar event start', 'code' => 2]]);
+		$this->assertNotNull($response['error']);
+		$response->assertSessionHasNoErrors();
+		
+		// Incorrect start date
+		/*
+		 * not able to trigger an error with parse ....
+		$start='111111111111111111111';
+		$url = 'http://' . tenant('id'). ".tenants.com/calendar/dragged?id=$id&start=$start" ;
+		echo "url=$url\n";
+		$response = $this->getJson($url);
+		$response->assertStatus ( 200 );
+		$response->assertJson(['error' => ['message' => 'Incorrect event start format', 'code' => 3]]);
+		$this->assertNotNull($response['error']);
+		$response->assertSessionHasNoErrors();
+		*/
+		
 		// Correct answer
 		$url = 'http://' . tenant('id'). ".tenants.com/calendar/dragged?id=$id&start=" . $start;
 		$response = $this->getJson($url);
@@ -276,15 +303,64 @@ class CalendarEventControllerTest extends TenantTestCase {
 		// $response->dump();
 	}
 	
-	public function test_fullcalendar_resized() {
+	public function test_fullcalendar_resized() {		
+		
 		$this->be ( $this->user );
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/dragged' ;
-		$response = $this->get ( $url);
+		// Create an event
+		$now =  Carbon::now();
+		$in_one_hour = $now->addHours(1);
+		$in_two_hours = $now->addHours(2);
+		$new_end = $in_two_hours->toDateTimeString();
+		
+		$time = $now->toDateTimeString();
+		$event_title = "event_" . str_shuffle("abcdefghijklmnopqrstuvwxyz");
+		
+		$event = CalendarEvent::factory ()->make ( [
+				'start' => $time,
+				'end' => $in_one_hour->toDateTimeString(),
+				'description' => $event_title
+		] );
+		$event->save ();
+		
+		$id = $event->id;
+		
+		// Missing ID
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/resized' ;
+		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
-		// $response->dump();
-		// $response->dumpHeaders();
+		$response->assertJson(['error' => ['message' => 'Missing calendar event ID', 'code' => 1]]);
+		$this->assertNotNull($response['error']);
 		$response->assertSessionHasNoErrors();
+		
+		// Unknown ID
+		$url = 'http://' . tenant('id'). '.tenants.com/calendar/resized?id=1000000000&end=' . $new_end ;
+		$response = $this->getJson($url);
+		$response->assertStatus ( 200 );
+		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]]);
+		$this->assertNotNull($response['error']);
+		$response->assertSessionHasNoErrors();
+		
+		// Missing end
+		$url = 'http://' . tenant('id'). ".tenants.com/calendar/resized?id=$id";
+		$response = $this->getJson($url);
+		$response->assertStatus ( 200 );
+		$response->assertJson(['error' => ['message' => 'Missing calendar event end', 'code' => 2]]);
+		$this->assertNotNull($response['error']);
+		$response->assertSessionHasNoErrors();
+		
+		// Correct answer
+		$url = 'http://' . tenant('id'). ".tenants.com/calendar/resized?id=$id&end=" . $new_end;
+		$response = $this->getJson($url);
+		$response->assertStatus ( 200 );
+		$response->assertExactJson(['status' => 'OK']);
+		$response->assertSessionHasNoErrors();
+		$this->assertArrayNotHasKey('error', $response);
+		
+		// $response->dumpHeaders();
+		// $response->dump();
+		
+		
 	}
 	
 }
