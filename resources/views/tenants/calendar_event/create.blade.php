@@ -49,7 +49,8 @@
                   value="{{ old('start') ? old('start') : $start }}" 
                   dusk="start"/>
               <label for="start_time"> {{__('calendar_event.start_time')}}</label>
-              <input type="text" class="form-control timepicker" name="start_time" value="{{ old('start_time') }}"/>
+              <input type="text" class="form-control timepicker" name="start_time" 
+              value="{{ old('start_time') ?  old('start_time') : $start_time}}"/>
           </div>
 
            <div class="form-group">

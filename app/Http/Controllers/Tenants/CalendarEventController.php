@@ -81,15 +81,25 @@ class CalendarEventController extends Controller {
 	 */
 	public function create(Request $request) {
 		
+		Log::debug("CalendarEventController.create, action=" . $request->get ('action') .
+				", start=" . $request->get ('start'));
+		
 		$data = ['action' => $request->get ('action')];
 		if ($request->get ('start')) {
 			
-			// TODO when called from week or day view a time is specified
-			// Currently it generates a crash ...
-			
-			$data['start'] = Carbon::createFromFormat('Y-m-d', $request->get ('start'))->format(__('general.date_format'));
+			$start = explode(' ', $request->get ('start'))[0];
+			$cstart = Carbon::parse($start);
+			$data['start'] = $cstart->format(__('general.date_format'));
+			$start_time = $cstart->format(__('general.time_format'));
+			if (strlen($start) > 12) {
+				// a time was specified.
+				$data['start_time'] = $start_time;
+			} else {
+				$data['start_time'] = "";
+			}
 		} else {
 			$data['start'] = "";
+			$data['start_time'] = "";
 		}
 		return view ( 'tenants.calendar_event.create', $data );
 	}
