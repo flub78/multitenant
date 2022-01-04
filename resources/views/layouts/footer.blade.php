@@ -108,8 +108,13 @@ $.datepicker.regional['fr'] = {
 	});
 
     $(".colorpicker").spectrum({
+     	color: "#000"
+    });
+    	 
+    $(".BackgroundColorpicker").spectrum({
+     	color: "#fFA"
     });	 
-    
+
     $(".namedcolorpicker").spectrum({
     	preferredFormat: "name",
     	showPaletteOnly: true,

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
  * Calendar Events Controllers
  *
  * Calendar events are items contained in a Calendar. They have a date, start time, end time, etc.
- * To some extend this class is inspired form the Google and others calendar.
+ * To some extend this class is inspired form Google and others calendar.
  *
  * Calendar is a tenant only feature. Central application is really limited to the tenant management.
  *
@@ -35,7 +35,6 @@ class CalendarEventController extends Controller {
 	 */
 	public function index() {
 		$events = CalendarEvent::all ();
-		// var_dump($events);exit;
 		return view ( 'tenants.calendar_event.index', compact ( 'events' ) );
 	}
 
@@ -45,34 +44,12 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function fullcalendar() {
-		Log::Debug("fullcalendar display");
+		Log::Debug("CalendarEventController.fullcalendar display");
 		
 		$events = CalendarEvent::all ();
 		return view ( 'tenants.calendar_event.calendar', compact ( 'events' ) );
 	}
 
-	/*
-	 * TODO cleanup once there is an API controller for the same model
-	 *
-	 */
-	public function json() {
-		return '[
-	 		{
-	 			"title": "Event 1",
-		 		"start": "2021-06-22T09:00:00",
-				 "end": "2021-06-22T18:00:00",
-	 "startEditable": true
-	 },
-	 {
-	 "title": "Event 2",
-	 "start": "2021-06-22",
-	 "end": "2021-06-22",
-	 "startEditable": true,
-	 "durationEditable": true,
-	 "backgroundColor": "lightBlue"
-	 }
-	 ]';
-	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -85,6 +62,7 @@ class CalendarEventController extends Controller {
 				", start=" . $request->get ('start'));
 		
 		$data = ['action' => $request->get ('action')];
+		
 		if ($request->get ('start')) {
 			
 			$start = explode(' ', $request->get ('start'))[0];
@@ -141,10 +119,7 @@ array (size=9)
 		if (!array_key_exists ( 'textColor', $validatedData )) {
 			$validatedData ['textColor'] = '#000000';
 		}
-		if ($validatedData ['backgroundColor'] == $validatedData ['textColor'] ) {
-			$validatedData ['backgroundColor'] = '#FFFFFF';
-			$validatedData ['textColor'] = '#000000';
-		}
+
 		CalendarEvent::create ( $validatedData );
 
 		return redirect ( 'calendar' )->with ( 'success', __ ( 'general.creation_success', [ 

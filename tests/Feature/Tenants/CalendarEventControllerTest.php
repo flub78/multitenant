@@ -20,6 +20,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 
 		// required to be able to use the factory inside the constructor
 		$this->createApplication ();
+		
 		// $this->user = factory(User::class)->create();
 		$this->user = User::factory ()->make ();
 		$this->user->admin = true;
@@ -49,17 +50,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->get_tenant_url($this->user, 'calendar/create?action=fullcalendar&start=2022-01-05T11:00:00', ['Add Event']);
 	}
 	
-
-	public function test_calendar_json() {
-		$this->be ( $this->user );
-			
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar/json' ;
-		$response = $this->get ( $url);
-		$response->assertStatus ( 200 );
-		// $response->dump();
-		// $response->dumpHeaders();
-		$response->assertSessionHasNoErrors();
-	}
 
 	public function test_calendar_event_store() {
 		
@@ -230,8 +220,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	/*
 	 * Fullcalendar is a javascript module, events are not available in the HTML page before the DOM
 	 * is extended by the javascript. It cannot be tested with phpunit (use Dusk instead).
-	 */
-	
+	 */	
 	public function test_calendar_event_create_parameters() {
 		$this->get_tenant_url($this->user, 'calendar/create', ['Add Event']);
 	}
@@ -281,7 +270,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 		// Incorrect start date
 		/*
 		 * not able to trigger an error with parse ....
-		$start='111111111111111111111';
+
+		$start='15/25/2022';
 		$url = 'http://' . tenant('id'). ".tenants.com/calendar/dragged?id=$id&start=$start" ;
 		echo "url=$url\n";
 		$response = $this->getJson($url);
@@ -359,8 +349,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		// $response->dumpHeaders();
 		// $response->dump();
-		
-		
 	}
 	
 }

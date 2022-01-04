@@ -62,7 +62,7 @@
 
            <div class="form-group">
               <label for="backgroundColor"> {{__('calendar_event.background_color')}}</label>
-              <input type="color" class="form-control colorpicker" name="backgroundColor" value="{{ old('backgroundColor') }}"/>
+              <input type="color" class="form-control Colorpicker BackgroundColorpicker" name="backgroundColor" value="{{ old('backgroundColor') }}"/>
           </div>
 
            <div class="form-group">
