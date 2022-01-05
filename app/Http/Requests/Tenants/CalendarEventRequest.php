@@ -39,8 +39,8 @@ class CalendarEventRequest extends FormRequest {
 							'end' => 'nullable|date_format:' . __ ( 'general.date_format' ) . '',
 							'end_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
 							'allDay' => '',
-							'backgroundColor' => 'nullable|max:16',
-							'textColor' => ''
+							'backgroundColor' => 'starts_with:#',
+							'textColor' => 'starts_with:#'
 					];
 				}
 			case 'PUT' :
@@ -54,8 +54,8 @@ class CalendarEventRequest extends FormRequest {
 							'end' => 'nullable|date_format:' . __ ( 'general.date_format' ) . '',
 							'end_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
 							'allDay' => '',
-							'backgroundColor' => 'nullable|max:16',
-							'textColor' => ''
+							'backgroundColor' => 'nullable',
+							'textColor' => 'nullable'
 					];
 				}
 			default :

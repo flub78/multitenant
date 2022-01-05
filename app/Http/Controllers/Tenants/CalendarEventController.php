@@ -44,7 +44,7 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function fullcalendar() {
-		Log::Debug("CalendarEventController.fullcalendar display");
+		Log::Debug("CalendarEventController.fullcalendar");
 		
 		$events = CalendarEvent::all ();
 		return view ( 'tenants.calendar_event.calendar', compact ( 'events' ) );
@@ -79,6 +79,9 @@ class CalendarEventController extends Controller {
 			$data['start'] = "";
 			$data['start_time'] = "";
 		}
+		$data['defaultBackgroundColor'] = "#00FFFF";
+		$data['defaultTextColor'] = "#808080";
+		
 		return view ( 'tenants.calendar_event.create', $data );
 	}
 
@@ -105,6 +108,8 @@ array (size=9)
   'textColor' => string '#38761d' (length=7)
 */
 
+		Log::Debug("CalendarEventController.stored: validated=" . var_export($validatedData, true));
+		
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 		
 		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
@@ -162,6 +167,8 @@ array (size=9)
 	public function update(CalendarEventRequest $request, $id) {
 		$validatedData = $request->validated ();
 
+		Log::Debug("CalendarEventController.update: id=$id, validated=" . var_export($validatedData, true));
+		
 		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
 			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
 		}

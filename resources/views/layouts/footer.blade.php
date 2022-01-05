@@ -107,33 +107,12 @@ $.datepicker.regional['fr'] = {
     	scrollbar: true
 	});
 
-    $(".colorpicker").spectrum({
-     	color: "#000"
+    $(".colorpicker").colorpicker({
     });
-    	 
-    $(".BackgroundColorpicker").spectrum({
-     	color: "#fFA"
-    });	 
 
-    $(".namedcolorpicker").spectrum({
-    	preferredFormat: "name",
-    	showPaletteOnly: true,
-    	showPalette:true,
-    	hideAfterPaletteSelect:true,
-    	/*   
-		change: function(color) {
-        	printColor(color);
-    	},
-    	*/
-    	palette:["black", "white", "red", "green", "blue", "yellow", "orange", "cyan", "magenta", "lightgreen", "lightblue", "pink", "brown"],
-	});
 });
 
-function printColor(color) {
-	alert(color.toName());
-   //var text = "You chose... " + color.toHexString();    
-   //$(".label").text(text);    
-}	 
+
 	//-->
 	</script>
 

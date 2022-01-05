@@ -1,14 +1,15 @@
-# Configuration
+# Configuration per tenant
 
 The application uses the [Laravel configuration](https://laravel.com/docs/8.x/configuration) for global configuration (when all tenants are configured the same way).
 
     $value = config('app.timezone');    // "UTC", "Europe/Paris"
     $value = config('app.locale');      // "fr", "en"
-    
-But it is quite obvious that configuration should be possible per tenant.
 
-However basic configuration usually implies access to the configuration files on the file system. So implementing a file based configuration per tenant would imply to provide access to the file system and would require security mechanisms to insure that a tenant cannot access the configuration of another tenant.
 
-It is possible to put this kind of solution in place (a special controller to edit configuration files, ftp access, etc.) but most of these solutions are likely more complicated than to store the configuration of each tenant in its own database.
+A helper has been designed to support tenant specific configuration. It is mainly a key value mechanism different for each tenant.
 
-Conclusion:  a Configuration controller and model, just a basic key value implementation.
+    use App\Helpers\Config;
+
+    Config::config($key)       get a configuration value
+     
+    Config::set('app.timezone', $timezone);    set a configuration value
