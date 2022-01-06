@@ -238,7 +238,11 @@ class CarbonTest extends TenantTestCase
     	$date = Carbon::parse('2021-12-30T09:00:00'); //  01:00');
     	echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
     	
+    	$date = Carbon::parse('31-07-2021 10:00');        // '07-31-2021 10:00' raises an exception
+    	echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
+    	
     	$this->expectException(InvalidFormatException::class);
     	$date = Carbon::parse('zorglub');
+    	
     }
 }

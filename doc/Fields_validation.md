@@ -12,4 +12,4 @@ see examples in app/Http/Requests
 
 Sometimes a field can only be validated in relation with others ones. FOr example an end date must be after a start date.
 
-In this case ...
+In this case create a new rule in app/Rules

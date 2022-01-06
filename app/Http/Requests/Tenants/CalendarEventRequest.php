@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Tenants;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\IsAfter;
+
 
 class CalendarEventRequest extends FormRequest {
 
@@ -19,6 +21,7 @@ class CalendarEventRequest extends FormRequest {
 	 * Get the validation rules that apply to the request.
 	 * 
 	 * TODO: Checks that the end date is after the start date
+	 * 'target_field' => ['max:191', new IsField(request('table'))],
 	 *
 	 * @return array
 	 */
@@ -36,7 +39,8 @@ class CalendarEventRequest extends FormRequest {
 							'description' => 'max:191',
 							'start' => 'required|date_format:' . __ ( 'general.date_format' ) . '',
 							'start_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
-							'end' => 'nullable|date_format:' . __ ( 'general.date_format' ) . '',
+							'end' => ['nullable', 'date_format:' . __ ( 'general.date_format' ), 
+									new IsAfter(request('start'), request('start_time'), request('end_time')) ],
 							'end_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
 							'allDay' => '',
 							'backgroundColor' => 'starts_with:#',
@@ -51,7 +55,8 @@ class CalendarEventRequest extends FormRequest {
 							'description' => 'max:191',
 							'start' => 'required|date_format:' . __ ( 'general.date_format' ) . '',
 							'start_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
-							'end' => 'nullable|date_format:' . __ ( 'general.date_format' ) . '',
+							'end' => ['nullable', 'date_format:' . __ ( 'general.date_format' ),
+									new IsAfter(request('start'), request('start_time'), request('end_time')) ],
 							'end_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
 							'allDay' => '',
 							'backgroundColor' => 'nullable',
