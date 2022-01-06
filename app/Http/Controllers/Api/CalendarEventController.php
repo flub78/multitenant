@@ -172,6 +172,8 @@ class CalendarEventController extends Controller {
 	 *
 	 * @param \Illuminate\Http\Request $request
 	 * @return \Illuminate\Http\Response
+	 * 
+	 * 
 	 */
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();

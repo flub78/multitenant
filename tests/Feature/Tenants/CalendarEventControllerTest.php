@@ -164,6 +164,23 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$new_count = CalendarEvent::count ();
 		$this->assertEquals ( $initial_count, $new_count, "event created, actual=$new_count, expected=$initial_count" );
 	}
+	
+	public function test_calendar_event_store_end_before_start() {
+		$initial_count = CalendarEvent::count ();
+		
+		$title = "Event $initial_count";
+		$description = "description $initial_count";
+		$start = "08-31-2021";
+		$end = "07-31-2021";
+		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 'start_time' => '99:99', 'end' => $end];
+		
+		$this->post_tenant_url( $this->user, 'calendar', [], $elt, $errors_expected = true);
+		
+		// Check that nothing has been created
+		$new_count = CalendarEvent::count ();
+		$this->assertEquals ( $initial_count, $new_count, "event created, actual=$new_count, expected=$initial_count" );
+	}
+	
 
 	public function test_delete() {
 		
@@ -208,7 +225,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->patch_tenant_url( $this->user, 'calendar/' . $id, $elt);
 		
 		$stored = CalendarEvent::findOrFail($id);
-		$this->assertEquals($new_title, $stored->title);
+		$this->assertEquals($new_title, $stored->title);						// ****************
+		
         $this->assertEquals("2021-06-24 06:30:00", $stored->start);
         $this->assertEquals($stored->allDay, 0); 
         $this->assertEquals(3600 * 1.25, $stored->durationInSeconds());
