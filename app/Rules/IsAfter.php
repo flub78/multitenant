@@ -74,7 +74,7 @@ class IsAfter implements Rule {
 		
 		// Compare them
 		if (!$cend->greaterThanOrEqualTo($cstart)) {
-			$this->error_msg = "end time should be after start time";
+			$this->error_msg = __('calendar_event.end_before_start');
 			Log::debug("IsAfter: " . $this->error_msg);
 			return false;
 		}

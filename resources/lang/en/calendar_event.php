@@ -26,4 +26,6 @@ return [
 		'duration' => 'Duration',
 		'background_color' => 'Background Color',
 		'text_color' => 'Texte Color',
+		
+		'end_before_start' => "Event end time should be before start time"
 ];

@@ -80,6 +80,35 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	/**
+	 *
+	 */
+	public function test_fullcalendar() {
+		$this->be ( $this->user );
+		
+		$evt1 = CalendarEvent::factory ()->create ( [
+				'start' => '2021-06-30 12:00:00',
+				'end' => '2021-06-30 12:35:00',
+				'allDay' => 0,
+				'textColor' => '#FF0000',
+				'borderColor' => '#FFFF00',
+				'backgroundColor' => '#FFFFFF'
+				
+		] ); // UTC
+		$evt2 = CalendarEvent::factory ()->create ( [
+				'start' => '2021-06-30 13:30:00',
+				'allDay' => 1
+		] ); // UTC
+		
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api/' . 'calendar/fullcalendar' .
+				'?start=2021-06-01T00:00:00+01:00&end=2021-06-30T23:59:00+01:00');
+		$response->assertStatus(200);
+		$json = $response->json();
+		//$this->assertEquals('event 1', $json['title']);
+		// var_dump($json);
+	}
+	
+	
+	/**
 	 * 
 	 */
 	public function test_calendar_event_store() {

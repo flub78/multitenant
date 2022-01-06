@@ -27,5 +27,8 @@ return [
 	'duration' => 'Durée',
 	'background_color' => 'Couleur de fond',
 	'text_color' => 'Couleur du texte',
+		
+	'end_before_start' => "La fin doit être après le début."
+		
 
 ];
