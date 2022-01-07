@@ -70,8 +70,8 @@ function event_resized(info) {
     // get the event information
     var title = info.event.title;
     var id = info.event.id;
-    var start = info.event.start;
-    var end = info.event.end;
+    var start = info.event.startStr;
+    var end = info.event.endStr;
     var allDay = info.event.allDay;
     
     // prepare the URL to call    
