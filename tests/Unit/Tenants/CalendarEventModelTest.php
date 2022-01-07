@@ -45,11 +45,14 @@ class CalendarEventModelTest extends TenantTestCase
 		$this->assertNotNull ( $event );
 
 		$this->assertEquals ( '30/06/2021', $event->getStartDate () );
-
+		$this->assertEquals ( $event->start_date, $event->getStartDate () );
+		
 		$this->assertEquals ( '14:00', $event->getStartTime () );
-
+		$this->assertEquals ( $event->start_time, $event->getStartTime () );
+		
 		$this->assertEquals ( '', $event->getEndDate () );
-
+		$this->assertEquals ( $event->end_date, $event->getEndDate () );
+		
 		$this->assertEquals ( '', $event->getEndTime () );
 
 		$event = CalendarEvent::factory ()->create ( [ 
@@ -58,7 +61,9 @@ class CalendarEventModelTest extends TenantTestCase
 		] ); // UTC
 
 		$this->assertEquals ( '30/06/2021', $event->getEndDate () );
+		$this->assertEquals ( $event->end_date, $event->getEndDate () );
 		$this->assertEquals ( '14:35', $event->getEndTime () );
+		$this->assertEquals ( $event->end_time, $event->getEndTime () );
 	}
 
 	/**
