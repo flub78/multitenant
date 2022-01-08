@@ -61,6 +61,13 @@ Invalid input:
 - event where end < start
 - allDay and specified times
 
+### Timezones
+
+Dates and datetimes are stored in the database in UTC. Initially the conversion was done in PHP on the server according the the locale.timezone configuration value. It could be a better idea to let each user set its own time zone through the web browser localization.
+
+It could also be better to send times in UTC to the client and do all the conversions in javascript.
+
+https://stackoverflow.com/questions/39555702/how-to-autodetect-timezone-with-php-or-use-external-website
 
      
 ## Rendering

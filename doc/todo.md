@@ -10,12 +10,11 @@
 ## Development
 
 * Calendar Event
-    * Complete drag and extend events
-    * Find a way to test that
+    * Find a way to test drag and extend events
     
     * Update calendar controller to prefill the form and return to fullcalendar view
     
-    FullCalendar Test plan (Currently I do not know yet how to automate that)
+    FullCalendar Test plan (Currently I do not know yet how to automate)
     
         * Create an event by clicking a date
             check that it exists in database

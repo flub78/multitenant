@@ -306,7 +306,7 @@ array (size=9)
 	public function resized (Request $request) {
 		$id = $request->get ('id');
 		$title = $request->get ('title');
-		$start = $request->get ('start');
+		$start = $request->get ('start');		// should I care about start ?
 		$new_end = $request->get ('end');
 		$allDay = $request->get ('allDay');
 		
@@ -327,13 +327,13 @@ array (size=9)
 			
 		} else {
 			try {
-				$new_end = explode(' ', $new_end)[0];
-				$end_datetime = Carbon::parse($new_end)->tz(Config::config('app.timezone'));
+				$exploded = explode(' ', $new_end);
+				$end_datetime = Carbon::parse($exploded[0], Config::config('app.timezone'));
 				
 			} catch ( Exception $e ) {
 				// echo 'Exception reçue : ', $e->getMessage(), "\n";
 				$output = ['error' => ['message' => 'Incorrect event end format', 'code' => 3]];
-				Log::Debug('Incorrect event end format: ' . $new_start);
+				Log::Debug('Incorrect event end format: ' . $new_end);
 				return response()->json($output);
 			}
 		}
@@ -348,11 +348,13 @@ array (size=9)
 		}
 		
 		// Check that the start dateTime has not changed
-		
-		// compute the difference between initial and last end position (in seconds)
-		// apply the delta to end dateTime
+				
+		Log::debug("initial end = " . $event->end);
+		Log::debug("new end     = " . $end_datetime->format('Y-m-d H:i e'));
 		
 		// update the event
+		$end_datetime->setTimezone('UTC');
+		
 		$data = [];
 		$data ['end'] = $end_datetime->format("Y-m-d H:i");
 		
