@@ -29,4 +29,10 @@ A backlog should only contains elements for which the decision to do them has be
     * or accepted for immediate fix
     * or a story is created for later fix
     * ideas and suggestions are recorded
-    
+
+# When to do code reviews
+
+* By pair programming
+* When code is commited
+* When a file has never been reviewed (allocate some time for catching up)
+     

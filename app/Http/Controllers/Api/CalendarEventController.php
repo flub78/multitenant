@@ -19,7 +19,7 @@ use Carbon\Carbon;
  * REST API for Calendar Events
  *
  * @author frederic
- *         reviewed on 2021/08/01
+ * @reviewed on 2021/08/01
  *        
  */
 class CalendarEventController extends Controller {
@@ -79,7 +79,6 @@ class CalendarEventController extends Controller {
 				}
 				if (!$operator_found) $query->where($criteria, $value);
 			}
-			
 		}
 		
 		return $query->paginate ($per_page);
@@ -145,7 +144,6 @@ class CalendarEventController extends Controller {
 		
 		foreach ($events as $event) {
 			$evt = ["title" =>  $event->title,
-					// "start" => $event->start,
 					"start" => $event->getFullcalendarStart(),
 					"end" => $event->getFullcalendarEnd(),
 					"id" => $event->id,
@@ -179,7 +177,6 @@ class CalendarEventController extends Controller {
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();
 
-		// CalendarEvent::create( $request-> all());
 		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
 			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
 		}
@@ -209,8 +206,6 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(CalendarEventRequest $request, $id) {
-		// $event = CalendarEvent::findOrFail($id);
-		// return $event->update($request);
 		$validatedData = $request->validated ();
 
 		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {

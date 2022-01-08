@@ -6,6 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\IsAfter;
 
 
+/**
+ * A Request to validate calendar events
+ * @author frederic
+ * @reviewed 08/01/2022
+ */
 class CalendarEventRequest extends FormRequest {
 
 	/**

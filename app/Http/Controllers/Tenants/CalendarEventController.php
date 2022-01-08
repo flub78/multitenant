@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Carbon\Exceptions\Exception;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\Config;
+use BaconQrCode\Common\FormatInformation;
 
 
 /**
@@ -22,6 +23,7 @@ use App\Helpers\Config;
  * Calendar is a tenant only feature. Central application is really limited to the tenant management.
  *
  * @author frederic
+ * @reviewed 08/01/2022
  *        
  */
 class CalendarEventController extends Controller {
@@ -54,6 +56,9 @@ class CalendarEventController extends Controller {
 
 	/**
 	 * Show the form for creating a new resource.
+	 * 
+	 * @param start (optional) a value to prefill the Form
+	 * @param action (optional) set to fullcalendar when called from fullcalendar
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
@@ -133,14 +138,6 @@ array (size=9)
 		] ) );
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param \App\Models\Tenants\CalendarEvent $calendarEvent
-	 * @return \Illuminate\Http\Response
-	public function show(CalendarEvent $calendarEvent) {
-	}
-	 */
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -152,8 +149,6 @@ array (size=9)
 	 */
 	public function edit($id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
-		// var_dump($calendarEvent);
-		// exit;
 		return view ( 'tenants.calendar_event.edit' )->with ( 'calendarEvent', $calendarEvent );
 	}
 
@@ -181,8 +176,6 @@ array (size=9)
 		unset ( $validatedData ['start_time'] );
 		unset ( $validatedData ['end_time'] );
 
-		// var_dump($validatedData); exit;
-
 		CalendarEvent::whereId ( $id )->update ( $validatedData );
 
 		return redirect ( 'calendar' )->with ( 'success', __ ( 'general.modification_success', [ 
@@ -198,7 +191,6 @@ array (size=9)
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy(string $id) {
-		// CalendarEvent $calendarEvent
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
 		$title = $calendarEvent->title;
 		$calendarEvent->delete ();
@@ -245,7 +237,6 @@ array (size=9)
 				$exploded = explode(' ', $new_start);
 				$start_datetime = Carbon::parse($exploded[0], Config::config('app.timezone'));		
 			} catch ( Exception $e ) {
-				// echo 'Exception reçue : ', $e->getMessage(), "\n";
 				$output = ['error' => ['message' => 'Incorrect event start format', 'code' => 3]];
 				Log::Debug('Incorrect event start format: ' . $new_start);
 				return response()->json($output);
@@ -281,7 +272,6 @@ array (size=9)
 		
 		// If all day delete the end dateTime
 		// if not apply the delta to end dateTime
-		//if (property_exists($event, 'end')) {
 		if (isset($event['end'])) {
 			$end_datetime = Carbon::parse($event['end']);
 			$end_datetime = $end_datetime->add($delta);
@@ -306,11 +296,10 @@ array (size=9)
 	public function resized (Request $request) {
 		$id = $request->get ('id');
 		$title = $request->get ('title');
-		$start = $request->get ('start');		// should I care about start ?
 		$new_end = $request->get ('end');
 		$allDay = $request->get ('allDay');
 		
-		Log::Debug("Event $id, title=$title, has been resized to $start end=$new_end, allDay=$allDay");
+		Log::Debug("Event $id, title=$title, has been resized to end=$new_end, allDay=$allDay");
 		
 		if (! $id) {
 			$output = ['error' => ['message' => 'Missing calendar event ID', 'code' => 1]];
@@ -331,7 +320,6 @@ array (size=9)
 				$end_datetime = Carbon::parse($exploded[0], Config::config('app.timezone'));
 				
 			} catch ( Exception $e ) {
-				// echo 'Exception reçue : ', $e->getMessage(), "\n";
 				$output = ['error' => ['message' => 'Incorrect event end format', 'code' => 3]];
 				Log::Debug('Incorrect event end format: ' . $new_end);
 				return response()->json($output);

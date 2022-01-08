@@ -7,6 +7,12 @@ use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * A rule used to validate calendar events
+ * @author frederic
+ * @reviewed 01/08/2022
+ *
+ */
 class IsAfter implements Rule {
 
 	/**
