@@ -10,6 +10,7 @@ use App\Helpers\DateFormat;
 use Carbon\Carbon;
 use Carbon\Exceptions\Exception;
 use Illuminate\Support\Facades\Log;
+use App\Helpers\Config;
 
 
 /**
@@ -220,6 +221,11 @@ array (size=9)
 		$allDay = $request->get ('allDay');
 		
 		Log::Debug("Event $id, title=$title, has been draggged to $new_start end=$end, allDay=$allDay");
+		/*
+		 * Event 12, title=Docteur, has been draggged to 2022-01-05T09:00:00Z end=2022-01-05T13:00:00Z, allDay=false 
+		 * 
+		 * fullcalendar sends date in local time
+		 */
 		
 		if (! $id) {
 			$output = ['error' => ['message' => 'Missing calendar event ID', 'code' => 1]];
@@ -236,8 +242,8 @@ array (size=9)
 			
 		} else {
 			try {
-				$new_start = explode(' ', $new_start)[0];
-				$start_datetime = Carbon::parse($new_start);
+				$exploded = explode(' ', $new_start);
+				$start_datetime = Carbon::parse($exploded[0], Config::config('app.timezone'));		
 			} catch ( Exception $e ) {
 				// echo 'Exception reçue : ', $e->getMessage(), "\n";
 				$output = ['error' => ['message' => 'Incorrect event start format', 'code' => 3]];
@@ -257,9 +263,18 @@ array (size=9)
 		
 		// compute the difference between initial and last position
 		$initial_start = Carbon::parse($event['start']);
+		$initial_start->tz(Config::config('app.timezone'));
+		
 		$delta = $initial_start->diff($start_datetime);
 		
+		Log::debug("initial start = " . $initial_start->format('Y-m-d H:i e'));
+		Log::debug("new start     = " . $start_datetime->format('Y-m-d H:i e'));
+		Log::debug('delta = ' . $delta->format("%a days %H:%I:%S"));
+		Log::debug('diffInHours = ' . $initial_start->diffInHours($start_datetime) );
+		
 		// apply the delta to start dateTime
+		$start_datetime->setTimezone('UTC');
+		
 		$data = [];
 		$data ['start'] = $start_datetime->format("Y-m-d H:i");
 		$data ['allDay'] = ($allDay != "false") ? 1 : 0;
@@ -313,7 +328,8 @@ array (size=9)
 		} else {
 			try {
 				$new_end = explode(' ', $new_end)[0];
-				$end_datetime = Carbon::parse($new_end);
+				$end_datetime = Carbon::parse($new_end)->tz(Config::config('app.timezone'));
+				
 			} catch ( Exception $e ) {
 				// echo 'Exception reçue : ', $e->getMessage(), "\n";
 				$output = ['error' => ['message' => 'Incorrect event end format', 'code' => 3]];

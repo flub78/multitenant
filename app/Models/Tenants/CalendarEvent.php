@@ -8,6 +8,8 @@ use Exception;
 use Carbon\Carbon;
 use App\Helpers\Config;
 use App;
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * Calendar event model
@@ -189,5 +191,44 @@ class CalendarEvent extends ModelWithLogs
     	$end = Carbon::createFromFormat('Y-m-d H:i:s', $this->end);
     	return $end->diffInSeconds($start);
     }
-        
+    
+    /**
+     * return a local start date time in format "2022-01-30" or "2022-01-24 09:15:00"
+     */
+    public function getFullcalendarStart() {
+    	
+    	if (strlen($this->start) > 16) {
+    		$date = Carbon::createFromFormat('Y-m-d H:i:s', $this->start);
+    	} else {
+    		$date = Carbon::createFromFormat('Y-m-d', $this->start);
+    	}
+    	$date->tz(Config::config('app.timezone'));
+    	
+    	if ($this->allDay) {
+    		return $date->format('Y-m-d');
+    	} else {
+    		return $date->format('Y-m-d H:i:s');
+    	}
+    }
+
+    /**
+     * return a local end date time in format "2022-01-30" or "2022-01-24 09:15:00"
+     */
+    public function getFullcalendarEnd() {
+    	if (! $this->end) return "";
+    	Log::debug('getFullcalendarEnd ' . $this->end);
+    	if (strlen($this->end) > 16) {
+    		$date = Carbon::createFromFormat('Y-m-d H:i:s', $this->end);
+    	} else {
+    		$date = Carbon::createFromFormat('Y-m-d', $this->end);
+    	}
+    	$date->tz(Config::config('app.timezone'));
+    	
+    	if ($this->allDay) {
+    		return $date->format('Y-m-d');
+    	} else {
+    		return $date->format('Y-m-d H:i:s');
+    	}
+    }
+    
 }

@@ -85,16 +85,6 @@ class CalendarEventController extends Controller {
 		return $query->paginate ($per_page);
 	}
 
-	/*
-	 * Returns the date part of a date time
-	 * dateOf("2021-11-29T00:00:00+01:00") => "2021-11-29"
-	 * dateOf("2022-01-10") => "2022-01-10"
-	 */
-	function dateOf($dateTime) {
-		if (! $dateTime) return "";
-		$carbon  = new Carbon($dateTime);
-		return $carbon->toDateString();
-	}
 	
 	/**
 	 * Special entry to for Ajax fullcalendar interface
@@ -121,33 +111,48 @@ class CalendarEventController extends Controller {
 		 * When there is no specified time, the event is displayed with a colored background.
 		 * 
 		 * https://fullcalendar.io/docs/event-source-object#options
+		 * 
+		 * http://abbeville.tenants.com/api/calendar/fullcalendar?start=2021-12-27T00:00:00+01:00&end=2022-02-07T00:00:00+01:00
+		 * 
+		 * Times must be returned as they are displayed according to timezone.local configuration value.
 
+		Example:	
+	
+		title	"Docteur"
+		start	"2022-01-05 08:00:00"
+		end	"2022-01-05 00:00:00"
+		id	12
+		url	"http://abbeville.tenants.com/calendar/12/edit"
+		backgroundColor	"#cc0000"
+		color	"#ffff66"
 		
-		$json =  [
-				[
-						"title" => "Event 1",
-						"start" => "2021-12-05T09:00:00",
-						"end" => "2021-12-05T18:00:00",
-						"color" => "green",
-						"textColor" => "yellow"				
-				],
-				[
-						"title" => "Event 2",
-						"start" => "2021-12-08",
-						"end" => "2021-12-08",
-						"color" => "pink",
-						"textColor" => "orange"				
-				]
-		];
+		title	"dentist"
+		start	"2022-01-03 09:15:00"
+		end	"2022-01-03 14:00:00"
+		id	18
+		url	"http://abbeville.tenants.com/calendar/18/edit"
+		backgroundColor	"#ffffff"
+		color	"#000000"
+		
+		title	"RENDEZ VOUS"
+		start	"2022-01-06"
+		end	"2022-01-09"
+		id	42
+		url	"http://abbeville.tenants.com/calendar/42/edit"
+		backgroundColor	"#ff0000"
+		color	"#808080"
     	 */	
 		
 		foreach ($events as $event) {
 			$evt = ["title" =>  $event->title,
-					"start" => $event->start,
-					"end" => $event->end,
+					// "start" => $event->start,
+					"start" => $event->getFullcalendarStart(),
+					"end" => $event->getFullcalendarEnd(),
 					"id" => $event->id,
 					"url" => URL::to('/calendar') . "/" . $event->id . "/edit"
 			];
+			Log::debug(var_export($evt, true));
+			
 			if ($event->backgroundColor) {
 				$evt['backgroundColor'] = $event->backgroundColor;
 			}
@@ -156,10 +161,6 @@ class CalendarEventController extends Controller {
 			}
 			if ($event->borderColor) {
 				$evt['borderColor'] = $event->borderColor;
-			}
-			if ($event->allDay) {
-				$evt['start'] = $this->dateOf($event->start);
-				$evt['end'] = $this->dateOf($event->end);
 			}
 			$json[] = $evt;
 		}

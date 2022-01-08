@@ -130,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: locale,             // change day and month names, but not the buttons (but it should)
+        // timeZone: 'UTC',
         buttonText: buttonText,
         editable: true,
         headerToolbar: {
