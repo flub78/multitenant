@@ -41,7 +41,7 @@
 
            <div class="form-group">
               <label for="allDay"> {{__('calendar_event.allday')}}</label>
-              <input type="checkbox" class="form-control" name="allDay" value="1"  {{old('allDay', $calendarEvent->allDay) ? 'checked' : ''}}/>
+              <input type="checkbox" class="form-control" name="allDay"  id="allDay" value="1"  {{old('allDay', $calendarEvent->allDay) ? 'checked' : ''}}/>
           </div>
           
            <div class="form-group">
@@ -52,7 +52,7 @@
            <div class="form-group">
               <label for="start_time"> {{__('calendar_event.start_time')}}</label>
     		  <!--  {{ old('start_time',$calendarEvent->getStartTime())               }} -->
-              <input type="text" class="form-control timepicker" name="start_time" value="{{ old('start_time', $calendarEvent->getStartTime()) }}"/>
+              <input type="text" class="form-control timepicker" name="start_time" id="start_time" value="{{ old('start_time', $calendarEvent->getStartTime()) }}"/>
           </div>
 
            <div class="form-group">
@@ -63,7 +63,7 @@
            <div class="form-group">
               <label for="end_time"> {{__('calendar_event.end_time')}}</label>
     		  <!--  {{ old('end_time',$calendarEvent->getEndTime())               }} -->
-              <input type="text" class="form-control timepicker" name="end_time" value="{{ old('end_time', $calendarEvent->getEndTime()) }}"/>
+              <input type="text" class="form-control timepicker" name="end_time" id="end_time" value="{{ old('end_time', $calendarEvent->getEndTime()) }}"/>
           </div>
 
            <div class="form-group">

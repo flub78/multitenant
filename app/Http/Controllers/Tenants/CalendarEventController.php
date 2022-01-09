@@ -119,9 +119,15 @@ array (size=9)
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 		
 		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
+			if (! array_key_exists ( 'start_time', $validatedData )) {
+				$validatedData ['start_time'] = '';
+			}
 			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
 		}
 		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
+			if (! array_key_exists ( 'end_time', $validatedData )) {
+				$validatedData ['end_time'] = '';
+			}
 			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
 		}
 		if (!array_key_exists ( 'backgroundColor', $validatedData )) {

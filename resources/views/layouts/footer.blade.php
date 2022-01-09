@@ -106,10 +106,19 @@ $.datepicker.regional['fr'] = {
     	dropdown: true,
     	scrollbar: true
 	});
+	
+	$("#allDay").change(function() {
+		if($(this).is(":checked")) {
+			all_day_set();
+        	return;
+    	} else {
+    		all_day_unset();
+    	}
+	});
 
     $(".colorpicker").colorpicker({
     });
-
+	
 });
 
 

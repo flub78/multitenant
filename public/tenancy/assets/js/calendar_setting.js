@@ -104,6 +104,19 @@ function event_resized(info) {
     });
 }
 
+function all_day_set() {
+    // alert('all_day_set');
+    $( "#start_time" ).prop( "disabled", true );
+    $( "#end_time" ).prop( "disabled", true );
+}
+
+function all_day_unset() {
+    // alert('all_day_unset');
+    $( "#start_time" ).prop( "disabled", false );
+    $( "#end_time" ).prop( "disabled", false );
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
 
     var locale = document.documentElement.lang;

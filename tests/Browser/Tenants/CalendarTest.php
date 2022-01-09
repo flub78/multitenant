@@ -258,7 +258,7 @@ class CalendarTest extends DuskTestCase {
 			$browser->type ( 'title', $event_title)
 			->type('start', $today->format('m-d-Y'))
 			->check('allDay')
-			->type('start_time', $today->format('H:i'))
+			// ->type('start_time', $today->format('H:i'))      start_time is disabled when allDay is checked
 			->press ( 'Add Event' )
 			->assertDontSee('The start does not match the format m-d-Y')
 			->assertSee($event_title);
@@ -303,7 +303,7 @@ class CalendarTest extends DuskTestCase {
 			->type('description', $description)
 			->type('start', $today->format('m-d-Y'))
 			->check('allDay')
-			->type('start_time', '10:15')
+			// ->type('start_time', '10:15')			start_time is disabled when allDay is checked
 			//->type('backgroundColor', '#ffd966')
 			// >type('textColor', '#cc0000')
 			->press ( 'Add Event' )
@@ -358,7 +358,7 @@ class CalendarTest extends DuskTestCase {
 			$browser->type ( 'title', $event_title)
 			->type('start', $today->format('m-d-Y'))
 			->check('allDay')
-			->type('start_time', $today->format('H:i'))
+			// ->type('start_time', $today->format('H:i'))			start_time is disabled when allDay is checked
 			->press ( 'Add Event' )
 			->assertDontSee('The start does not match the format m-d-Y')
 			->assertSee($event_title);
