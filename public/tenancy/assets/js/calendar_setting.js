@@ -104,16 +104,34 @@ function event_resized(info) {
     });
 }
 
+/*
+ * Callback when allDay checkbox is checked
+ */ 
 function all_day_set() {
     // alert('all_day_set');
     $( "#start_time" ).prop( "disabled", true );
     $( "#end_time" ).prop( "disabled", true );
 }
 
+/*
+ * Callback when allDay checkbox is unchecked
+ */ 
 function all_day_unset() {
     // alert('all_day_unset');
     $( "#start_time" ).prop( "disabled", false );
     $( "#end_time" ).prop( "disabled", false );
+}
+
+/*
+ * Callback when allDay checkbox is made visible. edit, 
+ * form redisplay after validation failure, etc.
+ */ 
+function all_day_visible() {
+    if($("#allDay").is(":checked")) {
+        all_day_set();
+    } else {
+        all_day_unset();
+    }
 }
 
 

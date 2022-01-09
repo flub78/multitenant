@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="avxr6gEirvepTqg7eo69rZXNdX4umFethRXO9OX9">
+    <meta name="csrf-token" content="nh4QKtQ3f5YKgpfIcQfSaJwBKGr5araXfIbXlQVe">
 
     <title>Multi</title>
     
@@ -151,7 +151,7 @@
 
 									
                                     <form id="logout-form" action="http://test.tenants.com/logout" method="POST" class="d-none">
-                                        <input type="hidden" name="_token" value="avxr6gEirvepTqg7eo69rZXNdX4umFethRXO9OX9">                                    </form>
+                                        <input type="hidden" name="_token" value="nh4QKtQ3f5YKgpfIcQfSaJwBKGr5araXfIbXlQVe">                                    </form>
                                 </div>
                             </li>
                                             </ul>
@@ -291,11 +291,12 @@ $.datepicker.regional['fr'] = {
 	$("#allDay").change(function() {
 		if($(this).is(":checked")) {
 			all_day_set();
-        	return;
     	} else {
     		all_day_unset();
     	}
 	});
+	
+	all_day_visible();
 
     $(".colorpicker").colorpicker({
     });

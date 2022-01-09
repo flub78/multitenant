@@ -110,11 +110,12 @@ $.datepicker.regional['fr'] = {
 	$("#allDay").change(function() {
 		if($(this).is(":checked")) {
 			all_day_set();
-        	return;
     	} else {
     		all_day_unset();
     	}
 	});
+	
+	all_day_visible();
 
     $(".colorpicker").colorpicker({
     });
