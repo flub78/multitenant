@@ -1,3 +1,4 @@
+{{=[[ ]]=}}
 <?php
 /**
  * This file is a template generated file filed from metadata extracted from the data model.
@@ -9,17 +10,17 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App;
-use App\{{class_name}};
+use App\[[class_name]];
 use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Log;
 
 /**
- * Functional test for the {{class_name}} CRUD 
+ * Functional test for the [[class_name]] CRUD 
  * 
  * It is a functional test which tests
  *   - the routes
- *   - the {{table}}Controller class
+ *   - the [[table]]Controller class
  *   - the views
  *   - and the model
  *   
@@ -33,13 +34,13 @@ use Log;
 +--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
 | Domain | Method    | URI                           | Name              | Action                                                  | Middleware   |
 +--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
-|        | GET|HEAD  | {{table}}                     | {{table}}.index   | App\Http\Controllers\{{table}}Controller@index          | web          |
-|        | POST      | {{table}}                     | {{table}}.store   | App\Http\Controllers\{{table}}Controller@store          | web          |
-|        | GET|HEAD  | {{table}}/create              | {{table}}.create  | App\Http\Controllers\{{table}}Controller@create         | web          |
-|        | PUT|PATCH | {{table}}/{task}              | {{table}}.update  | App\Http\Controllers\{{table}}Controller@update         | web          |
-|        | GET|HEAD  | {{table}}/{task}              | {{table}}.show    | App\Http\Controllers\{{table}}Controller@show           | web          |
-|        | DELETE    | {{table}}/{task}              | {{table}}.destroy | App\Http\Controllers\{{table}}Controller@destroy        | web          |
-|        | GET|HEAD  | {{table}}/{task}/edit         | {{table}}.edit    | App\Http\Controllers\{{table}}Controller@edit           | web          |
+|        | GET|HEAD  | [[table]]                     | [[table]].index   | App\Http\Controllers\[[table]]Controller@index          | web          |
+|        | POST      | [[table]]                     | [[table]].store   | App\Http\Controllers\[[table]]Controller@store          | web          |
+|        | GET|HEAD  | [[table]]/create              | [[table]].create  | App\Http\Controllers\[[table]]Controller@create         | web          |
+|        | PUT|PATCH | [[table]]/{task}              | [[table]].update  | App\Http\Controllers\[[table]]Controller@update         | web          |
+|        | GET|HEAD  | [[table]]/{task}              | [[table]].show    | App\Http\Controllers\[[table]]Controller@show           | web          |
+|        | DELETE    | [[table]]/{task}              | [[table]].destroy | App\Http\Controllers\[[table]]Controller@destroy        | web          |
+|        | GET|HEAD  | [[table]]/{task}/edit         | [[table]].edit    | App\Http\Controllers\[[table]]Controller@edit           | web          |
 +--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
 
  * 
@@ -48,7 +49,7 @@ use Log;
  */
 class ControllerTest extends TestCase
 {
-	protected $basename = "{{table}}";	
+	protected $basename = "[[table]]";	
 	
 	function __construct() {
 		parent::__construct();
@@ -81,7 +82,7 @@ class ControllerTest extends TestCase
 	 * @return int
 	 */
 	protected function eltCount() {
-		return {{model_name}}::count(); 
+		return [[model_name]]::count(); 
 	}
     
     /**
@@ -100,9 +101,9 @@ class ControllerTest extends TestCase
     	$response = $this->get($this->base_url());
     	
     	$response->assertStatus(200); // 302 is redirection
-        $response->assertSeeText( __('{{element}}.name'));
-        $response->assertSeeText(__('{{element}}.office'));
-        $response->assertDontSee('{{table}}.create');
+        $response->assertSeeText( __('[[element]].name'));
+        $response->assertSeeText(__('[[element]].office'));
+        $response->assertDontSee('[[table]].create');
         
         $count = $this->eltCount();
         
@@ -127,7 +128,7 @@ class ControllerTest extends TestCase
         $url = $this->base_url('create');        
         $response = $this->get($url);
         $response->assertStatus(200);
-    	$response->assertSeeText(trans('{{element}}.create_title'));
+    	$response->assertSeeText(trans('[[element]].create_title'));
     }
     
     /**
@@ -148,10 +149,10 @@ class ControllerTest extends TestCase
         // to avoid the error: 419 = Authentication timeout
         $this->withoutMiddleware();
 
-        // Currently disabled, the factory creates a {{element}} object
+        // Currently disabled, the factory creates a [[element]] object
         // and some errors are raised...
         // The difference here is that a hash is required, not an object.
-        // $elt = factory({{element}}::class)->create();
+        // $elt = factory([[element]]::class)->create();
         // var_dump($elt);
 
         $elt = [
@@ -162,7 +163,7 @@ class ControllerTest extends TestCase
         		"office" => "Bangalore",
         		'_token' => csrf_token()
         ];
-        $response = $this->post('/{{table}}', $elt);
+        $response = $this->post('/[[table]]', $elt);
          
         $this->assertFalse($response->getContent() == "", 
             "Content empty, default when store is not implemented in the controller");
@@ -202,7 +203,7 @@ class ControllerTest extends TestCase
     			'_token' => csrf_token()
     	];
     	
-    	$response = $this->post('/{{table}}', $elt);
+    	$response = $this->post('/[[table]]', $elt);
     	
     	$response->assertStatus(302, "Check redirection");
     	
@@ -245,14 +246,14 @@ class ControllerTest extends TestCase
     	$this->be($this->user);
     	
     	// get an existing element
-    	${{element}} = {{model_name}}::latest()->first();
-    	$id = ${{element}}->id;t
+    	$[[element]] = [[model_name]]::latest()->first();
+    	$id = $[[element]]->id;t
     	
     	// create the edit request
     	$response = $this->get($this->base_url($id .'/edit'));
     	$response->assertStatus(200);
     	
-    	$response->assertSeeText(__('{{element}}.edit_title'));
+    	$response->assertSeeText(__('[[element]].edit_title'));
     }
 
     /**
@@ -276,23 +277,23 @@ class ControllerTest extends TestCase
         }
         
         // get an existing element
-        ${{element}} = {{model_name}}::latest()->first();
-        $id = ${{element}}->id;
-        $number = ${{element}}->number;
+        $[[element]] = [[model_name]]::latest()->first();
+        $id = $[[element]]->id;
+        $number = $[[element]]->number;
                 
         // create a request to modify it
-        $url = "/{{table}}/" . $id;
+        $url = "/[[table]]/" . $id;
         $new_value = $number + 1;
         
         $trace = "\ntrying to update: url = $url, initial value=$number, new value=$new_value\n";
         $this->log($trace);
         $data = [
-            "id" => ${{element}}->id,
-            "name" => ${{element}}->name,
-            "email" => ${{element}}->email,
+            "id" => $[[element]]->id,
+            "name" => $[[element]]->name,
+            "email" => $[[element]]->email,
             "number" => $new_value,
-            "date" => ${{element}}->date,
-            "office" => ${{element}}->office,
+            "date" => $[[element]]->date,
+            "office" => $[[element]]->office,
             '_token' => csrf_token()
         ];
                 
@@ -300,7 +301,7 @@ class ControllerTest extends TestCase
         
         $response->assertStatus(302, "update $id OK"); // 302 = redirection
         
-        $updated = {{class_name}}::find($id);
+        $updated = [[class_name]]::find($id);
         $this->assertEquals($updated->number, $new_value, "Modified value stored in DB = " . $updated->number);
                 
     }
@@ -322,16 +323,16 @@ class ControllerTest extends TestCase
     	}
     	
     	// get an existing element
-    	${{element}} = {{class_name}}::latest()->first();
-    	$id = ${{element}}->id;
+    	$[[element]] = [[class_name]]::latest()->first();
+    	$id = $[[element]]->id;
     	
     	$this->be($this->user);
     	
-    	$response = $this->get("/{{table}}/$id");
+    	$response = $this->get("/[[table]]/$id");
         $response->assertStatus(200);
 
         // Not implemented yet in the controller
-        $response->assertSeeText('{{table}}.show');
+        $response->assertSeeText('[[table]].show');
     }
     
     /**
@@ -350,14 +351,14 @@ class ControllerTest extends TestCase
     	}
     	
     	// get an existing element
-    	${{element}} = {{class_name}}::latest()->first();
-    	$id = ${{element}}->id;
+    	$[[element]] = [[class_name]]::latest()->first();
+    	$id = $[[element]]->id;
     	
     	$this->withoutMiddleware();
     	
     	$count = $this->eltCount();
     	
-    	$response = $this->delete("/{{table}}/$id");
+    	$response = $this->delete("/[[table]]/$id");
     	
         $response->assertStatus(302, "Redirected");	
     	
@@ -397,7 +398,7 @@ class ControllerTest extends TestCase
         $this->log(__METHOD__);
         
         /**
-         * Scenario: {{class_name}} testLocale fr
+         * Scenario: [[class_name]] testLocale fr
          * Given the local is set to fr
          * When calling URLs
          * Then views are displayed in French
@@ -413,7 +414,7 @@ class ControllerTest extends TestCase
     	$response->assertSeeText("Création d'un nouveau Passeport");
     	
     	/**
-    	 * Scenario: {{class_name}} testLocale en
+    	 * Scenario: [[class_name]] testLocale en
     	 * Given the local is set to en
     	 * When calling URLs
     	 * Then views are displayed in English
@@ -422,7 +423,7 @@ class ControllerTest extends TestCase
     	App::setLocale('en');
     	$response = $this->get($this->base_url('create'));
     	$response->assertStatus(200);
-    	$response->assertSeeText('{{class_name}} Appointment System');
+    	$response->assertSeeText('[[class_name]] Appointment System');
     	
     	App::setLocale($locale);
     	$new_locale = App::getLocale();

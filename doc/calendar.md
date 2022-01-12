@@ -5,7 +5,7 @@ A calendar is a basic feature for Web applications.
 * Calendar views per month/week/day
 * events CRUD, callable from the calendar view.
 
-It is base for extensions with the possibility to add new types of events and business logic.
+It is a base for extensions with the possibility to add new types of events and business logic.
 For example it will be possible to create a reservation system with several type of resources (for example a classroom, a teacher and a limited number of student, etc.).
 
 ## Database ERD (Entity Relation Diagram)
@@ -17,15 +17,7 @@ For example it will be possible to create a reservation system with several type
         start           datetime
         end             datetime
         color           string
-        
-    Repetition
-        event
-        every day|week|month|year
-        repeat_on Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday
-        End_Type    never|at_date|after_number
-        end_date
-        number_of
-        
+                
     Notification
         event
         type    application|email|SMS
@@ -159,5 +151,105 @@ The calendar can get the events from an URL providing a json events description.
 start parameter is handled by the javascript layer as an English date in local time (all user facing date and time are in local time and are converted in UTC time before to be stored).
 
 
+## Events repetitions
+
+Let's have a look to Google calendar, Google supports:
+
+    - Choose time (button)
+        - allday (checkbox)
+            - allday not set
+            timezone (button)
+            same timezone for start and end (checkbox)
+            timezone
+            end timezone (greyed out when same timezone is set)
+            
+        - repeat menu
+            - only once
+            - every day
+            - every week day
+            - every week on Wednesday
+            - every month the second Wednesday of the month
+            - every year
+            - user defined
+                repeat every (exclusive)
+                    n days
+                    n weeks
+                        on Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday (checkboxes)
+                    n months
+                        - every 12
+                        - every second Wednesday of the month
+                    n years on the day and month
+                    
+            - ends (exclusive)
+                never
+                after end date
+                after n occurrences
+                
+### Event repetition use cases
+
+    As a calendar user I want to be able to
+    repeat an event
+    in order to see it several times n the calendar
+    
+    As a calendar user I want to be able to
+    change only one event or change all of them or change from this one
+    in order to see it several times n the calendar
+    
+    change a repetition from the calendar event form.
+    
+    As a user I want to delete
+    one event from a serie, all remaining events, all events
+                                        
+### Design:
+
+* Repetition occurrences - calendar event one to many relationship
+
+* timezone settings belong to repetition occurrences
+
+* I need to be able to generate all (others) calendar events from a repetition. What when there is no end ???
+Should they be computed dynamically when events are selected between two dates ? It would implies to look at all existing repetitions.
+
+Or the end date of a repetition should be computed at creation time and used for event select.
+
+Repetition should contains the date until when events have been generated
+
+Simplification: no end = end in 10 years. Or no support of the no end option... Maybe it is the best option. It would force the user to make a choice. Without that I have to implement the most complicated case or take the risk of a poor implementation. Only the user knows if no ends means until next year, all my life, etc. In most of the cases, no end means I do net exactly know but I can find an upper boundary. 
+
+* Calendar events having the same repetition look to share several attributes
+    - start time
+    - end time
+    - all day
+In fact they do not share them, they are only copied when events are generated and they can all be updated at the same time or individually.  
+
+On modification, it is usual to ask if the modification only applies to the current occurrence or all the repetitions, or only one events and all its followers.
+What about previous exception ? On Google calendar they are overwritten.
+
+
+### Database schema (ERD)
+
+        Repetition
+            
+            same_timezone   boolean
+            timezone        string start or general timezone
+            end_timezone    string 
+            
+            repetition_type enumerate none, every_day, every_week, every_month, every_year
+            
+            every_n         integer
+            
+            days_of_the_week: monday, tuesday, wednesday, thursday, friday, saturday, sunday        booleans
+            day_in_month    for every_month
+            week_of_the_month: first, second,third and fourth boolean
+            month_of_the_year: january, february, .....
+
+            end_after_n     integer
+            end_after_date  date
+            
+            (no need for start_date or start event, they will be extarted from the ordered list of events attached to this repetition)
+
+                         
+            
+            
+                
 
     

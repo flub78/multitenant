@@ -208,11 +208,11 @@ It is where the generated files are copied when the generation is over
 
 The whole mechanism is available through a few php artisan commands:
 
-    php artisan mustache:generate users controller
+    php artisan mustache:generate users controller -v
     
     php artisan mustache:generate --compare table model
     php artisan mustache:generate --install table edit
-    php artisan mustache:info table
+    php artisan mustache:info calendar_events
     
     table is a database table name
      
@@ -230,7 +230,7 @@ The whole mechanism is available through a few php artisan commands:
     
 # Progress
 
-roles
+## roles table
 
     php artisan mustache:generate --compare roles controller        OK
     php artisan mustache:generate --compare roles request           OK
@@ -240,7 +240,7 @@ roles
     php artisan mustache:generate --compare roles edit              OK
     
 
-configurations
+## configurations table
 
     php artisan mustache:generate --compare configurations controller       OK
 
@@ -252,25 +252,28 @@ configurations
     php artisan mustache:generate --compare configurations create           OK
     php artisan mustache:generate --compare configurations index            OK
     
-users
+## users table
 
     php artisan mustache:generate --compare users controller
     php artisan mustache:generate --compare users request
     php artisan mustache:generate --compare users model
     php artisan mustache:generate --compare users index                     OK
-    php artisan mustache:generate --compare users create            password and password_confirmation missing
+    php artisan mustache:generate --compare users create            
+        password and password_confirmation missing
     php artisan mustache:generate --compare users edit
 
-user_roles
+## user_roles table
 
-    php artisan mustache:generate --compare user_roles controller       missing support for user_list and role_list
+    php artisan mustache:generate --compare user_roles controller       
+        missing support for user_list and role_list
     php artisan mustache:generate --compare user_roles request              OK
     php artisan mustache:generate --compare user_roles model
-    php artisan mustache:generate --compare user_roles index        user_name and role_name support missing
+    php artisan mustache:generate --compare user_roles index        
+        user_name and role_name support missing
     php artisan mustache:generate --compare user_roles create               OK
     php artisan mustache:generate --compare user_roles edit                 OK
 
-calendar_event
+## calendar_events table
 
     php artisan mustache:generate --compare calendar_events controller
         Support for dateFormat missing
