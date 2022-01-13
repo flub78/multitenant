@@ -6,17 +6,21 @@ It is not only possible to generate templates with a given name, but also to ada
 
 Instead of developing code for every data, developers only have to develop code for every data type. Inside an application the quantity of information may be big but the number of data types is usually much smaller. I hope to get back the time spent on putting the infrastructure in place and even to gain in productivity. (knowing perfectly that it is a big investment and sometimes the time spent in the initial effort is not compensated if the thing is not used at a sufficiently large scale).
 
-The goal of the templating mechanism is to be able to generate quickly a working application to manage the database resources. Of course complex resources will need tuning and adaptations to make the user experience more friendly but it should work out of the box. In this context an resource may be a database table but also the result of a complex select stored as a view in the database.
+The goal of the template mechanism is to generate quickly a working application to manage the database resources. Of course complex resources will need tuning and adaptations but it should work out of the box. In this context an resource may be a database table but also the result of a complex select stored as a view in the database.
      
 ## Use cases
 
 Depending on the size of the application we can expect between twenty and a few hundred resources.
 
-As developer I want to be able to generate one file from one template for one table. I want to be able to generate all files from one table. I want to be able to compare the generated result with the current version. I want to be able to replace a current version with the generated file.
+As developer 
+- I want to generate one file from one template for one table. 
+- I want to generate all files from one table. 
+- I want to be able to compare the generated result with the current version. 
+- I want to be able to replace a current version with the generated file.
 
 As the code generation will rarely be fully automatic there are limited needs to generate and install all files of the application.
 
-For each resource I may have to generate:
+For each resource I may generate:
 * a controller
 * a model
 * a request
@@ -45,7 +49,9 @@ The information from the schema are really useful but not sufficient to define a
 
 The information fetched from the database schema is complemented by metadata information stored in the database itself in a table named metadata.
 
-This mechanism will be more likely used to generate code to manage resources for the tenants as the central application has only one feature: to manage the tenants. So it is more useful to extract the schema information from the tenant database and so more logical to also store the metadata in the same database.
+Or should the metadata be json encoded in the comment field of each column? This approach makes it more evident that the full data model is made from the schema plus additional metadata. Developers have to care about the two concepts at the same time. The only drawbacks of the storage in the comment column are, first the comment column may be used for real comments and second it may be inconvenient if the quantity and type of metadata become big. It may look like a trick but it is more convenient to store everything related to the data model in the same place.
+
+This mechanism will be more likely used to generate code to manage resources for the tenants as the central application has only one feature: tenants management. So it is more useful to extract the schema information from the tenant database and so more logical to also store the metadata in the same database.
 
 ## Templating mechanism
 

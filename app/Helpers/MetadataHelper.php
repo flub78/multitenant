@@ -50,15 +50,40 @@ class MetadataHelper {
 	}
 
 	/**
+	 * Returns a list of field to display in the GUI from a column name in the database. This mechanism gives the possibility
+	 * to hide some fields by returning and empty list or to generate several fields from one column like password and password confirm from 
+	 * a single password column.
+	 * 
+	 * @param String $table
+	 * @param String $field
+	 * @return \App\Helpers\String[]
+	 */
+	static public function derived_fields(String $table, String $field) {
+		if (in_array($field, ["id", "created_at", "updated_at"])) {
+			return [];
+		}
+		return [$field];
+	}
+	
+	/**
 	 * Returns a list with fillable fields
 	 * @param String $table
 	 * @return array
 	 */
 	static public function fillable_fields(String $table) {
 		$list = Schema::fieldList($table);
-		$list = array_diff($list, ["id", "created_at", "updated_at"]);  // remove some values
-		$list = array_values($list); // re-index
-		return $list;
+		// $list = array_diff($list, ["id", "created_at", "updated_at"]);  // remove some values
+		// $list = array_values($list); // re-index
+		
+		$full_list = []; 
+		foreach ($list as $field) {
+			$derived_flds = self::derived_fields($table, $field);
+			foreach ($derived_flds as $new_field) {
+				$full_list[] = $new_field;
+			}
+			//$full_list = array_merge($full_list, );
+		}
+		return $full_list;
 	}
 	
 	/**
@@ -277,7 +302,7 @@ class MetadataHelper {
 	static public function field_list (String $table) {
 		$res = [];
 		$list = self::fillable_fields($table);
-		if ($table == "users") {
+		if ($table == "users2") {
 			// Todo store this information in database
 			$list = ["name", "email", "admin", "active"];
 		}

@@ -30,9 +30,9 @@ use App\Helpers\BladeHelper as Blade;
     @endif
     
       <form method="post" action="{{ route('calendar_event.store') }}">
-          <div class="form-group">
-              @csrf
-              
+          @csrf
+          
+          <div class="form-group">    
               <label for="title"> {{__('calendar_event.title')}}</label>
               <input type="text" class="form-control" name="title" value="{{ old('title') }}"/>
           </div>
