@@ -33,6 +33,8 @@ class CalendarEventController extends Controller {
 
 	// name of the table
 	private $name = "calendar_events";
+	private $base_view = 'tenants.calendar_event.';
+	private $base_url = 'calendar_event';
 
 	/**
 	 * Display a listing of the resource.
@@ -41,7 +43,7 @@ class CalendarEventController extends Controller {
 	 */
 	public function index() {
 		$events = CalendarEvent::all ();
-		return view ( 'tenants.calendar_event.index', compact ( 'events' ) );
+		return view ( $this->base_view . 'index', compact ( 'events' ) );
 	}
 
 	/**
@@ -53,7 +55,7 @@ class CalendarEventController extends Controller {
 		Log::Debug("CalendarEventController.fullcalendar");
 		
 		$events = CalendarEvent::all ();
-		return view ( 'tenants.calendar_event.calendar', compact ( 'events' ) );
+		return view ( $this->base_view . 'calendar', compact ( 'events' ) );
 	}
 
 
@@ -91,7 +93,7 @@ class CalendarEventController extends Controller {
 		$data['defaultBackgroundColor'] = "#00FFFF";
 		$data['defaultTextColor'] = "#808080";
 		
-		return view ( 'tenants.calendar_event.create', $data );
+		return view ( $this->base_view . 'create', $data );
 	}
 
 	/**
@@ -142,7 +144,7 @@ array (size=9)
 
 		CalendarEvent::create ( $validatedData );
 
-		return redirect ( 'calendar_event' )->with ( 'success', __ ( 'general.creation_success', [ 
+		return redirect ( $this->base_url )->with ( 'success', __ ( 'general.creation_success', [ 
 				'elt' => $validatedData ['title']
 		] ) );
 	}
@@ -158,7 +160,7 @@ array (size=9)
 	 */
 	public function edit($id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
-		return view ( 'tenants.calendar_event.edit' )->with ( 'calendarEvent', $calendarEvent );
+		return view ( $this->base_view . 'edit' )->with ( 'calendarEvent', $calendarEvent );
 	}
 
 	/**
@@ -187,7 +189,7 @@ array (size=9)
 
 		CalendarEvent::whereId ( $id )->update ( $validatedData );
 
-		return redirect ( 'calendar_event' )->with ( 'success', __ ( 'general.modification_success', [ 
+		return redirect ( $this->base_url )->with ( 'success', __ ( 'general.modification_success', [ 
 				'elt' => $validatedData ['title']
 		] ) );
 	}
@@ -204,7 +206,7 @@ array (size=9)
 		$title = $calendarEvent->title;
 		$calendarEvent->delete ();
 
-		return redirect ( 'calendar_event' )->with ( 'success', __('general.deletion_success', ['elt' => $title]));		
+		return redirect ( $this->base_url )->with ( 'success', __('general.deletion_success', ['elt' => $title]));		
 	}
 
 	/**

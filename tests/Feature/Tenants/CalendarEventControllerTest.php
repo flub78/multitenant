@@ -40,16 +40,16 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 
 	public function test_calendar_event_fullcalendar() {
-		$this->get_tenant_url($this->user, 'calendar_event/fullcalendar',
+		$this->get_tenant_url($this->user, $this->base_url . '/fullcalendar',
 				[__('calendar_event.title')]);
 	}
 	
 	public function test_calendar_event_create() {
-		$this->get_tenant_url($this->user, 'calendar_event/create', ['Add Event']);		
+		$this->get_tenant_url($this->user,  $this->base_url .  '/create', ['Add Event']);		
 	}
 	
 	public function test_calendar_event_create_with_start() {
-		$this->get_tenant_url($this->user, 'calendar_event/create?action=fullcalendar&start=2022-01-05T11:00:00', ['Add Event']);
+		$this->get_tenant_url($this->user,  $this->base_url .  '/create?action=fullcalendar&start=2022-01-05T11:00:00', ['Add Event']);
 	}
 	
 
@@ -190,7 +190,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$id = $event->save();
 		$initial_count = CalendarEvent::count ();
 		
-		$this->delete_tenant_url($this->user, 'calendar_event/' . $id, ['deleted']);
+		$this->delete_tenant_url($this->user,  $this->base_url . '/' . $id, ['deleted']);
 				
 		$new_count = CalendarEvent::count ();
 		$expected = $initial_count - 1;
@@ -203,7 +203,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
 		
-		$this->get_tenant_url($this->user, 'calendar_event/' . $id . '/edit', [__('general.edit'), __('general.delete'), __('calendar_event.elt')]);		
+		$this->get_tenant_url($this->user,  $this->base_url . '/' . $id . '/edit', [__('general.edit'), __('general.delete'), __('calendar_event.elt')]);		
 	}
 	
 	public function test_update() {
@@ -224,7 +224,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 				'start_time' => '06:30', 'end_time' => '07:45', 
 				'allDay' => false, '_token' => csrf_token()];
 						
-		$this->patch_tenant_url( $this->user, 'calendar_event/' . $id, $elt);
+		$this->patch_tenant_url( $this->user,  $this->base_url . '/' . $id, $elt);
 		
 		$stored = CalendarEvent::findOrFail($id);
 		$this->assertEquals($new_title, $stored->title);						// ****************
@@ -242,7 +242,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	 * is extended by the javascript. It cannot be tested with phpunit (use Dusk instead).
 	 */	
 	public function test_calendar_event_create_parameters() {
-		$this->get_tenant_url($this->user, 'calendar_event/create', ['Add Event']);
+		$this->get_tenant_url($this->user,  $this->base_url . '/create', ['Add Event']);
 	}
 	
 	public function test_fullcalendar_dragged() {
@@ -263,7 +263,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$id = $event->id;
 				
 		// Missing ID
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar_event/dragged' ;
+		$url = 'http://' . tenant('id'). '.tenants.com/' .  $this->base_url . '/dragged' ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Missing calendar event ID', 'code' => 1]]);
@@ -272,7 +272,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		// Unknown ID
 		$start='2022-01-07';
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar_event/dragged?id=1000000000&start=' . $start ;
+		$url = 'http://' . tenant('id'). '.tenants.com/' .  $this->base_url . '/dragged?id=1000000000&start=' . $start ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]]);
@@ -280,7 +280,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Missing start
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar_event/dragged?id=1000000000' ;
+		$url = 'http://' . tenant('id'). '.tenants.com/' . $this->base_url . '/dragged?id=1000000000' ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Missing calendar event start', 'code' => 2]]);
@@ -292,7 +292,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		 * not able to trigger an error with parse ....
 
 		$start='15/25/2022';
-		$url = 'http://' . tenant('id'). ".tenants.com/calendar_event/dragged?id=$id&start=$start" ;
+		$url = 'http://' . tenant('id'). ".tenants.com/" .  $this->base_url . "/dragged?id=$id&start=$start" ;
 		echo "url=$url\n";
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
@@ -302,7 +302,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		*/
 		
 		// Correct answer
-		$url = 'http://' . tenant('id'). ".tenants.com/calendar_event/dragged?id=$id&start=" . $start;
+		$url = 'http://' . tenant('id'). ".tenants.com/" . $this->base_url . "/dragged?id=$id&start=" . $start;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertExactJson(['status' => 'OK']);
@@ -336,7 +336,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$id = $event->id;
 		
 		// Missing ID
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar_event/resized' ;
+		$url = 'http://' . tenant('id'). '.tenants.com/' .  $this->base_url . '/resized' ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Missing calendar event ID', 'code' => 1]]);
@@ -344,7 +344,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Unknown ID
-		$url = 'http://' . tenant('id'). '.tenants.com/calendar_event/resized?id=1000000000&end=' . $new_end ;
+		$url = 'http://' . tenant('id'). '.tenants.com/' .  $this->base_url . '/resized?id=1000000000&end=' . $new_end ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]]);
@@ -352,7 +352,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Missing end
-		$url = 'http://' . tenant('id'). ".tenants.com/calendar_event/resized?id=$id";
+		$url = 'http://' . tenant('id'). ".tenants.com/" .  $this->base_url . "/resized?id=$id";
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Missing calendar event end', 'code' => 2]]);
@@ -360,7 +360,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Correct answer
-		$url = 'http://' . tenant('id'). ".tenants.com/calendar_event/resized?id=$id&end=" . $new_end;
+		$url = 'http://' . tenant('id'). ".tenants.com/" .  $this->base_url . "/resized?id=$id&end=" . $new_end;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertExactJson(['status' => 'OK']);
