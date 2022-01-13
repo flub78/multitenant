@@ -147,7 +147,7 @@ class CalendarEventController extends Controller {
 					"start" => $event->getFullcalendarStart(),
 					"end" => $event->getFullcalendarEnd(),
 					"id" => $event->id,
-					"url" => URL::to('/calendar') . "/" . $event->id . "/edit"
+					"url" => URL::to('/calendar_event') . "/" . $event->id . "/edit"
 			];
 			Log::debug(var_export($evt, true));
 			

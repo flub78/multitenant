@@ -53,7 +53,7 @@ class TenantHelperTest extends TenantTestCase
     }
     
     public function test_routes() {    	
-    	$this->assertEquals('http://tenants.com/calendar', route('calendar.index'));
-    	$this->assertEquals('http://tenants.com/api/calendar', route('api.calendar.index'));
+    	$this->assertEquals('http://tenants.com/calendar_event', route('calendar_event.index'));
+    	$this->assertEquals('http://tenants.com/api/calendar_event', route('api.calendar_event.index'));
     }
 }

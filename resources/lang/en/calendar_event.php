@@ -15,6 +15,7 @@ return [
 		'new' => "New Event",
 		'add' => "Add Event",
 		'edit' => "Event Modification",
+		'elt'  => "event",
 		'fullcalendar' => 'Full Calendar',
 		'event_title' => 'Event',
 		'description' => 'Description',

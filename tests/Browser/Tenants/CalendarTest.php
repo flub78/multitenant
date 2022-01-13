@@ -33,6 +33,8 @@ class CalendarTest extends DuskTestCase {
 		$filename = storage_path () . '/app/tests/tenant_nominal.gz';
 		$this->assertFileExists($filename, "tenant_nominal test backup found");
 		BackupHelper::restore($filename, $database, false);		
+		
+		$this->base_url = '/calendar_event';
 	}
 
 	public function tearDown(): void {
@@ -57,7 +59,7 @@ class CalendarTest extends DuskTestCase {
 	public function test_fullcalendar () {
 		
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/calendar/fullcalendar' )
+			$browser->visit ( $this->base_url . '/fullcalendar' )
 			->assertSee('Multi')
 			->assertSee('test');
 		} );	
@@ -66,7 +68,7 @@ class CalendarTest extends DuskTestCase {
 	public function test_calendar () {
 		
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/calendar' )
+			$browser->visit ( $this->base_url )
 			->assertSee('Multi')
 			->assertSee('test')
 			->assertSee(__('general.edit'))
@@ -87,7 +89,7 @@ class CalendarTest extends DuskTestCase {
 		 * Default event test case, no allDay, no end date, no end time
 		 */
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/calendar/create' )
+			$browser->visit ( $this->base_url . '/create' )
 			->assertSee('Multi')
 			->assertSee('test')
 			->assertSee(__('calendar_event.new'))
@@ -112,7 +114,7 @@ class CalendarTest extends DuskTestCase {
 			// Check the result
 			$browser
 			->click ( '@edit_' . $event_title )
-			->assertSee (__('calendar_event.edit'))
+			->assertSee (__('general.edit'))
 			->assertInputValue('start', $start)
 			->assertInputValue('start_time', $start_time)
 			->assertInputValue('end', '')
@@ -121,7 +123,7 @@ class CalendarTest extends DuskTestCase {
 			$this->assertEquals($event_title, $browser->inputValue('title'));
 
 			$selector = '@delete_' . $event_title ;
-			$browser->visit ( '/calendar' )
+			$browser->visit ( $this->base_url )
 			->waitFor($selector)
 			->click ( $selector)
 			->assertSee('deleted');			
@@ -138,7 +140,7 @@ class CalendarTest extends DuskTestCase {
 			$start = '07-13-2021';
 			$start_time = '10:15';
 			
-			$browser->visit ( '/calendar/create' )
+			$browser->visit ( $this->base_url . '/create' )
 			->type ( 'title', $event_title)
 			->type('start', $start)
 			->check('allDay')
@@ -149,7 +151,7 @@ class CalendarTest extends DuskTestCase {
 			// Check the result
 			$browser
 			->click ( '@edit_' . $event_title )
-			->assertSee (__('calendar_event.edit'))
+			->assertSee (__('general.edit'))
 			->assertInputValue('start', $start)
 			->assertInputValue('start_time', '00:00')
 			->assertInputValue('end', '')
@@ -157,7 +159,7 @@ class CalendarTest extends DuskTestCase {
 			->assertChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
 			
-			$browser->visit ( '/calendar' )
+			$browser->visit ( $this->base_url )
 			->pause(1000)
 			->click ( '@delete_' . $event_title )
 			->assertSee('deleted');
@@ -177,7 +179,7 @@ class CalendarTest extends DuskTestCase {
 			$end = '07-13-2021';
 			$end_time = '12:15';
 			
-			$browser->visit ( '/calendar/create' )
+			$browser->visit ( $this->base_url . '/create' )
 			->type('end', $end)
 			->type('end_time', $end_time)
 			->type('start', $start)
@@ -191,7 +193,7 @@ class CalendarTest extends DuskTestCase {
 			// Check the result
 			$browser
 			->click ( '@edit_' . $event_title )
-			->assertSee (__('calendar_event.edit'))
+			->assertSee (__('general.edit'))
 			->assertInputValue('end', $end)
 			->assertInputValue('end_time', $end_time)
 			->assertInputValue('start', $start)
@@ -199,7 +201,7 @@ class CalendarTest extends DuskTestCase {
 			->assertNotChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
 			
-			$browser->visit ( '/calendar' )
+			$browser->visit ( $this->base_url )
 			->click ( '@delete_' . $event_title )
 			->assertSee('deleted');
 			
@@ -213,7 +215,7 @@ class CalendarTest extends DuskTestCase {
 		$this->browse ( function (Browser $browser) {
 			
 			// display fullcalendar
-			$browser->visit ( '/calendar/fullcalendar' )
+			$browser->visit ( $this->base_url . '/fullcalendar' )
 			->assertSee('Multi')
 			->assertSee('test');
 			
@@ -290,7 +292,7 @@ class CalendarTest extends DuskTestCase {
 			 echo "selector = $selector\n";
 			 */
 			
-			$browser->visit ( '/calendar/create' )
+			$browser->visit ( $this->base_url . '/create' )
 			->assertSee('Multi')
 			->assertSee('test')
 			->assertSee(__('calendar_event.new'))
@@ -312,7 +314,7 @@ class CalendarTest extends DuskTestCase {
 			
 			$browser
 			->click ( '@edit_' . $event_title )
-			->assertSee (__('calendar_event.edit'));
+			->assertSee (__('general.edit'));
 			$this->assertEquals($event_title, $browser->inputValue('title'));
 			// ->assertSee ($event_title);
 			
@@ -345,7 +347,7 @@ class CalendarTest extends DuskTestCase {
 			*/
 			
 			// create an event
-			$browser->visit ( '/calendar/create' )
+			$browser->visit ( $this->base_url . '/create' )
 			->assertSee('Multi')
 			->assertSee('test')
 			->assertSee(__('calendar_event.new'))
@@ -364,7 +366,7 @@ class CalendarTest extends DuskTestCase {
 			->assertSee($event_title);
 			
 			// display fullcalendar
-			$browser->visit ( '/calendar/fullcalendar' )
+			$browser->visit ( $this->base_url . '/fullcalendar' )
 			->assertSee('Multi')
 			->assertSee('test')
 			->assertSee($event_title);
@@ -373,7 +375,7 @@ class CalendarTest extends DuskTestCase {
 			
 			// click on the event
 			$browser->clickLink($event_title);
-			$browser->assertSee (__('calendar_event.edit'))
+			$browser->assertSee (__('general.edit'))
 			->assertSee(__('calendar_event.start_date'))
 			->assertSee(__('calendar_event.start_time'))
 			->assertSee(__('calendar_event.allday'));
@@ -389,7 +391,7 @@ class CalendarTest extends DuskTestCase {
 			 * </div>
 			 * <div class="fc-daygrid-day-events">
 			 *     <div class="fc-daygrid-event-harness fc-daygrid-event-harness-abs" style="top: 0px; left: 0px; right: -202.267px;">
-			 *         <a class="fc-daygrid-event fc-daygrid-block-event fc-h-event fc-event fc-event-draggable fc-event-resizable fc-event-start fc-event-end fc-event-past" style="border-color: rgb(238, 238, 238); background-color: rgb(204, 0, 0);" href="http://abbeville.tenants.com/calendar/3/edit">
+			 *         <a class="fc-daygrid-event fc-daygrid-block-event fc-h-event fc-event fc-event-draggable fc-event-resizable fc-event-start fc-event-end fc-event-past" style="border-color: rgb(238, 238, 238); background-color: rgb(204, 0, 0);" href="http://abbeville.tenants.com/calendar_event/3/edit">
 			 *            <div class="fc-event-main" style="color: black;">
 			 *                <div class="fc-event-main-frame">
 			 *                    <div class="fc-event-title-container">

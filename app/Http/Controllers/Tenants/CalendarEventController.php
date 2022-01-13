@@ -1,6 +1,9 @@
 <?php
-
-namespace app\Http\Controllers\Tenants;
+/*
+ * Code generated from a template, if modifications are required, carefully consider if they should be done
+ * in the generated code or in the template.
+ */
+namespace App\Http\Controllers\Tenants;
 
 use app\Http\Controllers\Controller;
 use App\Models\Tenants\CalendarEvent;
@@ -139,7 +142,7 @@ array (size=9)
 
 		CalendarEvent::create ( $validatedData );
 
-		return redirect ( 'calendar' )->with ( 'success', __ ( 'general.creation_success', [ 
+		return redirect ( 'calendar_event' )->with ( 'success', __ ( 'general.creation_success', [ 
 				'elt' => $validatedData ['title']
 		] ) );
 	}
@@ -184,7 +187,7 @@ array (size=9)
 
 		CalendarEvent::whereId ( $id )->update ( $validatedData );
 
-		return redirect ( 'calendar' )->with ( 'success', __ ( 'general.modification_success', [ 
+		return redirect ( 'calendar_event' )->with ( 'success', __ ( 'general.modification_success', [ 
 				'elt' => $validatedData ['title']
 		] ) );
 	}
@@ -201,7 +204,7 @@ array (size=9)
 		$title = $calendarEvent->title;
 		$calendarEvent->delete ();
 
-		return redirect ( 'calendar' )->with ( 'success', __('general.deletion_success', ['elt' => $title]));		
+		return redirect ( 'calendar_event' )->with ( 'success', __('general.deletion_success', ['elt' => $title]));		
 	}
 
 	/**

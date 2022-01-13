@@ -38,6 +38,8 @@ class LocalizationTest extends DuskTestCase {
 		$filename = storage_path () . '/app/tests/tenant_nominal.gz';
 		$this->assertFileExists($filename, "tenant_nominal test backup found");
 		BackupHelper::restore($filename, $database, false);		
+		
+		$this->calendar_url = '/calendar_event';
 	}
 
 	public function tearDown(): void {
@@ -141,7 +143,7 @@ class LocalizationTest extends DuskTestCase {
 
 	public function test_fullcalendar_localization() {
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/calendar/fullcalendar' );
+			$browser->visit ( $this->calendar_url . '/fullcalendar' );
 			
 			$browser->assertSee ( 'today' )
 			->assertSee ( 'month' )
@@ -165,7 +167,7 @@ class LocalizationTest extends DuskTestCase {
 			->type ( 'value', 'fr')
 			->press ( 'Submit' );
 			
-			$browser->visit ( '/calendar/fullcalendar' )
+			$browser->visit ( $this->calendar_url . '/fullcalendar' )
 			->assertSee ( 'Calendrier' );
 			
 			$browser->assertSee ( 'Aujourdhui' )
@@ -193,7 +195,7 @@ class LocalizationTest extends DuskTestCase {
 	public function test_datepicker_localization() {
 		
 		$this->browse ( function (Browser $browser) {
-			$browser->visit ( '/calendar/create' )
+			$browser->visit ( $this->calendar_url . '/create' )
 			->assertSee ( 'New Event' );
 			
 			$browser->click('@start');
@@ -215,7 +217,7 @@ class LocalizationTest extends DuskTestCase {
 			->press ( 'Submit' );
 			
 			// Check datepicker in French
-			$browser->visit ( '/calendar/create' )
+			$browser->visit ( $this->calendar_url . '/create' )
 			->assertSee ( 'Nouvel événement' )
 			->click('@start');
 			

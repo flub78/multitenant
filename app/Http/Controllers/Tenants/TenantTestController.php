@@ -46,8 +46,8 @@ class TenantTestController extends Controller
     	$msg .= "Tenant=" . tenant('id') . " \n";
     	$msg .= "Local from Config:: =" . Config::config('app.locale'). " \n";
     	$msg .= "Local =" . App::getLocale() . " \n";
-    	$route = route('calendar.index');
-    	$msg .= "route('calendar.index') = $route";
+    	$route = route('calendar_event.index');
+    	$msg .= "route('calendar_event.index') = $route";
     	$msg .= " url=" . URL::to('/');
     	echo $msg;
     	// return $msg;

@@ -39,10 +39,10 @@
             </td>
             <td>{{$event->getEndDate()}}</td>
             <td>{{$event->getEndTime()}}</td>
-            <td><a href="{{ route('calendar.edit', $event->id)}}" class="btn btn-primary" dusk="edit_{{$event->title}}">{{__('general.edit')}}</a></td>
+            <td><a href="{{ route('calendar_event.edit', $event->id)}}" class="btn btn-primary" dusk="edit_{{$event->title}}">{{__('general.edit')}}</a></td>
             
             <td>
-                <form action="{{ route('calendar.destroy', $event->id)}}" method="post">
+                <form action="{{ route('calendar_event.destroy', $event->id)}}" method="post">
                   @csrf
                   @method('DELETE')
                   <button class="btn btn-danger" type="submit" dusk="delete_{{$event->title}}">{{__('general.delete')}}</button>
@@ -53,7 +53,7 @@
     </tbody>
   </table>
   
-    <a href="{{url('calendar')}}/create"><button type="submit" class="btn btn-primary" >{{__('calendar_event.add')}}</button></a> 
+    <a href="{{url('calendar_event')}}/create"><button type="submit" class="btn btn-primary" >{{__('calendar_event.add')}}</button></a> 
 </div>  
 @endsection
 

@@ -9,6 +9,7 @@ use App\Helpers\DirHelper;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tenants\Configuration;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 
 abstract class TenantTestCase extends BaseTestCase
 {

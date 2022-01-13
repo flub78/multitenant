@@ -4,7 +4,7 @@
 function day_clicked(info) {
     // alert('a day has been clicked: ' + info.dateStr);
     
-    var url = '/calendar/create?start=' + info.dateStr + '&action=fullcalendar';    
+    var url = '/calendar_event/create?start=' + info.dateStr + '&action=fullcalendar';    
     window.location = url;
  }
 
@@ -31,7 +31,7 @@ function event_dragged(info) {
     var allDay = info.event.allDay;    
     
     // Build the URL to call
-    var url = '/calendar/dragged?id=' + id + '&title=' + title + '&start=' + start;   
+    var url = '/calendar_event/dragged?id=' + id + '&title=' + title + '&start=' + start;   
     url += '&end=' + end;
     url += '&allDay=' + allDay;
     
@@ -75,7 +75,7 @@ function event_resized(info) {
     var allDay = info.event.allDay;
     
     // prepare the URL to call    
-    var url = '/calendar/resized?id=' + id + '&title=' + title + '&start=' + start;
+    var url = '/calendar_event/resized?id=' + id + '&title=' + title + '&start=' + start;
     url += '&end=' + end;
     url += '&allDay=' + allDay;
     
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         eventSources: [
             // your event source
             {
-                url: '/api/calendar/fullcalendar', // use the `url` property
+                url: '/api/calendar_event/fullcalendar', // use the `url` property
                 color: 'yellow',    // an option!
                 textColor: 'black'  // an option!
             }

@@ -1,4 +1,8 @@
-<!-- Calendar event edit.blade.php -->
+<!-- CalendarEvent edit.blade.php -->
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
 
 @extends('layouts.app')
 
@@ -12,7 +16,7 @@
 
 <div class="card uper">
   <div class="card-header">
-     {{__('calendar_event.edit')}}
+    {{__('general.edit')}} {{__('calendar_event.elt')}}
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -25,7 +29,7 @@
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('calendar.update', $calendarEvent->id ) }}">
+      <form method="post" action="{{ route('calendar_event.update', $calendarEvent->id ) }}">
           <div class="form-group">
               @csrf
               @method('PATCH')
@@ -78,7 +82,7 @@
           
           <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
        </form>          
-       <form action="{{ route('calendar.destroy', $calendarEvent->id)}}" method="post">
+       <form action="{{ route('calendar_event.destroy', $calendarEvent->id)}}" method="post">
            @csrf
            @method('DELETE')
            <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>

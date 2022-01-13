@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="nh4QKtQ3f5YKgpfIcQfSaJwBKGr5araXfIbXlQVe">
+    <meta name="csrf-token" content="eS3s3C6wKk19PHZpwemTWviEbGH5jNXDMf8ln4xP">
 
     <title>Multi</title>
     
@@ -121,9 +121,9 @@
       						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">Calendar</a>
       						
       						<div class="dropdown-menu">
-        						<a class="dropdown-item" href="http://test.tenants.com/calendar/fullcalendar">Full Calendar</a>
-        						<a class="dropdown-item" href="http://test.tenants.com/calendar">Event list</a>
-        						<a class="dropdown-item" href="http://test.tenants.com/calendar/create">Add Event</a>
+        						<a class="dropdown-item" href="http://test.tenants.com/calendar_event/fullcalendar">Full Calendar</a>
+        						<a class="dropdown-item" href="http://test.tenants.com/calendar_event">Event list</a>
+        						<a class="dropdown-item" href="http://test.tenants.com/calendar_event/create">Add Event</a>
       						</div>
     					</li>
 
@@ -151,7 +151,7 @@
 
 									
                                     <form id="logout-form" action="http://test.tenants.com/logout" method="POST" class="d-none">
-                                        <input type="hidden" name="_token" value="nh4QKtQ3f5YKgpfIcQfSaJwBKGr5araXfIbXlQVe">                                    </form>
+                                        <input type="hidden" name="_token" value="eS3s3C6wKk19PHZpwemTWviEbGH5jNXDMf8ln4xP">                                    </form>
                                 </div>
                             </li>
                                             </ul>
@@ -173,7 +173,7 @@
             <tr class="odd"><td valign="top" colspan="9" class="dataTables_empty">No matching records found</td></tr></tbody>
   </table><div class="dataTables_info" id="maintable_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div><div class="dataTables_paginate paging_simple_numbers" id="maintable_paginate"><a class="paginate_button previous disabled" aria-controls="maintable" data-dt-idx="0" tabindex="-1" id="maintable_previous">Previous</a><span></span><a class="paginate_button next disabled" aria-controls="maintable" data-dt-idx="1" tabindex="-1" id="maintable_next">Next</a></div></div>
   
-    <a href="http://test.tenants.com/calendar/create"><button type="submit" class="btn btn-primary">Add Event</button></a> 
+    <a href="http://test.tenants.com/calendar_event/create"><button type="submit" class="btn btn-primary">Add Event</button></a> 
 </div>  
         </main>
     </div>

@@ -1,4 +1,8 @@
-<!-- Calendar event create.blade.php -->
+<!-- CalendarEvent create.blade.php -->
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
 
 @extends('layouts.app')
 
@@ -25,7 +29,7 @@
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('calendar.store') }}">
+      <form method="post" action="{{ route('calendar_event.store') }}">
           <div class="form-group">
               @csrf
               

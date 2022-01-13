@@ -88,9 +88,9 @@
       						<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">{{__('calendar_event.feature')}}</a>
       						
       						<div class="dropdown-menu">
-        						<a class="dropdown-item" href="{{ route('calendar.fullcalendar') }}">{{__('calendar_event.fullcalendar')}}</a>
-        						<a class="dropdown-item" href="{{ route('calendar.index') }}">{{__('calendar_event.list')}}</a>
-        						<a class="dropdown-item" href="{{ route('calendar.create') }}">{{__('calendar_event.add')}}</a>
+        						<a class="dropdown-item" href="{{ route('calendar_event.fullcalendar') }}">{{__('calendar_event.fullcalendar')}}</a>
+        						<a class="dropdown-item" href="{{ route('calendar_event.index') }}">{{__('calendar_event.list')}}</a>
+        						<a class="dropdown-item" href="{{ route('calendar_event.create') }}">{{__('calendar_event.add')}}</a>
       						</div>
     					</li>
 

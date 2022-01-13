@@ -16,6 +16,7 @@ return [
 	'new' => "Nouvel événement",
 	'add' => "Ajout Evenement",
 	'edit' => "Modification Evenement",
+	'elt'  => "un événement",
 	'fullcalendar' => 'Mensuel',
 	'event_title' => 'Evénement',
 	'description' => 'Description',

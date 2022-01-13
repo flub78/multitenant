@@ -40,20 +40,20 @@ Route::middleware([
 	 * Warning: routes are parsed in order of declaration and resource matches all the sub urls
 	 */
 	// Special entry for the fullcalendar monthly view
-	Route::get('/calendar/fullcalendar', [App\Http\Controllers\Tenants\CalendarEventController::class, 'fullcalendar'])
-	->name('calendar.fullcalendar')->middleware('auth');
+	Route::get('/calendar_event/fullcalendar', [App\Http\Controllers\Tenants\CalendarEventController::class, 'fullcalendar'])
+	->name('calendar_event.fullcalendar')->middleware('auth');
 	
-	Route::get('/calendar/dragged', [App\Http\Controllers\Tenants\CalendarEventController::class, 'dragged'])
-	->name('calendar.dragged')->middleware('auth');
+	Route::get('/calendar_event/dragged', [App\Http\Controllers\Tenants\CalendarEventController::class, 'dragged'])
+	->name('calendar_event.dragged')->middleware('auth');
 	
-	Route::get('/calendar/resized', [App\Http\Controllers\Tenants\CalendarEventController::class, 'resized'])
-	->name('calendar.resized')->middleware('auth');
+	Route::get('/calendar_event/resized', [App\Http\Controllers\Tenants\CalendarEventController::class, 'resized'])
+	->name('calendar_event.resized')->middleware('auth');
 	
-	Route::get('/calendar/json', [App\Http\Controllers\Tenants\CalendarEventController::class, 'json'])
-	  ->name('calendar.json')->middleware('auth');
+	Route::get('/calendar_event/json', [App\Http\Controllers\Tenants\CalendarEventController::class, 'json'])
+	  ->name('calendar_event.json')->middleware('auth');
 	
 	// Classic ressource
-	Route::resource('calendar', App\Http\Controllers\Tenants\CalendarEventController::class)->middleware('auth');
+	Route::resource('calendar_event', App\Http\Controllers\Tenants\CalendarEventController::class)->middleware('auth');
 	
 	// admin routes
 	Route::group(['middleware' => ['admin']], function () {
@@ -80,8 +80,8 @@ Route::middleware([
 			InitializeTenancyByDomain::class,
 			PreventAccessFromCentralDomains::class,
 	])->group(function () {
-		Route::get('/api/calendar/fullcalendar', [App\Http\Controllers\Api\CalendarEventController::class, 'fullcalendar'])->name('calendar.api.fullcalendar');
-		Route::resource('api/calendar', App\Http\Controllers\Api\CalendarEventController::class, ['as' => 'api']);
+		Route::get('/api/calendar_event/fullcalendar', [App\Http\Controllers\Api\CalendarEventController::class, 'fullcalendar'])->name('calendar_event.api.fullcalendar');
+		Route::resource('api/calendar_event', App\Http\Controllers\Api\CalendarEventController::class, ['as' => 'api']);
 	});
 	
 		
