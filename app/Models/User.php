@@ -24,6 +24,10 @@ class User extends Authenticatable
      * However it is important to protect all URLs that modify users with the admin middleware.
      * Forgetting to do that could allow users to gain unauthorizes access.
      * 
+     * If it is required to let users modify their own email and password it must be done 
+     * with a special controller wich does not use the admin middleware and a special
+     * model where email and password are mass assignable but not admin.
+     * 
      * @var array
      */
     protected $fillable = [

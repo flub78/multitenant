@@ -19,7 +19,8 @@ const SCHEMA = "schema";
 class Schema extends ModelWithLogs {
 	
     /**
-     * Returns a list of string containing the list of database table
+     * Returns a list of string containing the list of database tables
+     * 
      * @return NULL[]|array
      */
     public static function tableList() {
@@ -40,6 +41,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * Return true when a table exists in the database
+     * 
      * @param string $table
      * @return boolean
      */
@@ -55,7 +57,7 @@ class Schema extends ModelWithLogs {
      */
     public static function tableInformation ($table) {
     	try {
-    		$select = DB::connection(SCHEMA)->select("SHOW COLUMNS FROM $table");
+    		$select = DB::connection(SCHEMA)->select("SHOW FULL COLUMNS FROM $table");
     		return $select;
     	} catch (QueryException $e) {
     		return null;
@@ -64,7 +66,8 @@ class Schema extends ModelWithLogs {
     
     /**
      * Returns an object containing column information
-     *    Attributes are Field, Type, Null, Key, Default and Extra
+     *    Attributes are Field, Type, Null, Key, Default, Extra and Comment
+     *    
      * @param string $table
      * @param string $field
      * @return NULL| the info object
@@ -82,6 +85,13 @@ class Schema extends ModelWithLogs {
     	return null;
     }
     
+    /**
+     * Returns true when a column is required in a database table
+     * 
+     * @param string $table
+     * @param string $field
+     * @return boolean
+     */
     public static function required (string $table, string $field) {
     	$col_info = self::columnInformation($table, $field);
     	
@@ -92,6 +102,13 @@ class Schema extends ModelWithLogs {
     	}
     }
 
+    /**
+     * True when a table field element cannot be duplicated
+     * 
+     * @param string $table
+     * @param string $field
+     * @return boolean
+     */
     public static function unique(string $table, string $field) {
     	// $col_info = self::columnInformation($table, $field);
     	// $fk = self::foreignKey($table, $field);
@@ -109,6 +126,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * Returns the list of fields of a table
+     * 
      * @param string $table
      * @return NULL| and array of string containing the field names
      */
@@ -126,6 +144,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * Returns true if a field exists in a table
+     * 
      * @param string $table
      * @param string $field
      * @return boolean
@@ -138,6 +157,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * returns a list of string with the existing types used in the database
+     * 
      * @return string []
      */
     public static function existingTypes () {
@@ -156,6 +176,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * returns the database type of a field
+     * 
      * @param string $table
      * @param string $field
      * @return string
@@ -165,6 +186,34 @@ class Schema extends ModelWithLogs {
     }
     
     /**
+     * returns the comment of a field
+     * 
+     * @param string $table
+     * @param string $field
+     * @return unknown
+     */
+    public static function columnComment (string $table, string $field) {
+    	$info = Schema::columnInformation($table, $field);
+    	if ($info) return $info->Comment;
+    	return "";
+    }
+    
+    /**
+     * returns a json array from a field comment
+     *
+     * @param string $table
+     * @param string $field
+     * @return unknown
+     */
+    public static function columnMetadata (string $table, string $field) {
+    	$comment = Schema::columnComment($table, $field);
+    	return json_decode($comment, true);
+    }
+    
+    
+    /**
+     * Returns the basic type of a field
+     * 
      * @param string $table
      * @param string $field
      * @return unknown|string
@@ -180,6 +229,8 @@ class Schema extends ModelWithLogs {
     }
     
     /**
+     * True when a field is an integer
+     * 
      * @param string $table
      * @param string $field
      * @return boolean
@@ -194,6 +245,8 @@ class Schema extends ModelWithLogs {
     }
     
     /**
+     * True when a field is unsigned
+     * 
      * @param string $table
      * @param string $field
      * @return boolean
@@ -214,6 +267,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * Returns the size of a field or 0 when undefined
+     * 
      * @param string $table
      * @param string $field
      * @return 0|number
@@ -235,6 +289,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * Returns the list of indexes of a table
+     * 
      * @param string $table
      * @return array
      */
@@ -245,6 +300,7 @@ class Schema extends ModelWithLogs {
 
     /**
      * Returns information about one index
+     * 
      * @param string $table
      * @return array
      */
@@ -259,6 +315,7 @@ class Schema extends ModelWithLogs {
     
     /**
      * Returns the primary index of a table
+     * 
      * @param String $table
      * @return unknown|string
      */
@@ -270,6 +327,14 @@ class Schema extends ModelWithLogs {
     	return "";
     }
     
+    /**
+     * If a field is a foreign key returns information about it
+     * else returns null
+     * 
+     * @param string $table
+     * @param string $field
+     * @return unknown|NULL
+     */
     public static function foreignKey (string $table, string $field) {
     	$database = ENV('DB_SCHEMA', 'tenanttest');
     	$sql = "SELECT CONSTRAINT_SCHEMA, CONSTRAINT_NAME, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME 
@@ -283,11 +348,25 @@ class Schema extends ModelWithLogs {
     	return null;
     }
 
+    /**
+     * Returns the table referenced by a foreign key
+     * 
+     * @param string $table
+     * @param string $field
+     * @return NULL
+     */
     public static function foreignKeyReferencedTable (string $table, string $field) {
     	$fk = self::foreignKey($table, $field);
     	return ($fk) ? $fk->REFERENCED_TABLE_NAME : null;
     }
 
+    /**
+     * Returns the column referenced by a foreign key
+     * 
+     * @param string $table
+     * @param string $field
+     * @return NULL
+     */
     public static function foreignKeyReferencedColumn (string $table, string $field) {
     	$fk = self::foreignKey($table, $field);
     	return ($fk) ? $fk->REFERENCED_COLUMN_NAME : null;

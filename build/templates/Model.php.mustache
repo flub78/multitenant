@@ -20,15 +20,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class [[class_name]] extends Model
 {
+    protected $table = '[[table]]';
+    
+    // protected $primaryKey = '[[primary_index]]';
+
     //
-	protected $fillable = [[& fillable_names]];
+	protected $fillable = [[& fillable_names]];	
 	
 	// TODO generate accessors depending on the metadata subtypes
     /**
      * Translate the date in the format into a display format
      */
-    public function getDateAttribute($value)
-    {
+    public function getDateAttribute($value) {
         return db_to_date($value);
     }
 
@@ -37,8 +40,7 @@ class [[class_name]] extends Model
      * 
      * $value: date in localized format for example dd/mm/yy
      */
-    public function setDateAttribute($value)
-    {
+    public function setDateAttribute($value) {
          $this->attributes['date'] = date_to_db($value);
     }
 
