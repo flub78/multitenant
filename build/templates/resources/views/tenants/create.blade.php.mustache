@@ -33,13 +33,13 @@ use App\Helpers\BladeHelper as Blade;
       <form method="post" action="{{ route('[[element]].store') }}">
            @csrf
            
-           [[# field_list ]]
+           [[# form_field_list ]]
            <div class="form-group">
              [[&label]]
              [[&input_create]]
            </div>
            
-           [[/ field_list ]]
+           [[/ form_field_list ]]
            
            @button_submit({{__('general.submit')}})
 

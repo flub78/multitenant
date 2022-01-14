@@ -62,6 +62,14 @@ class MetadataHelper {
 		if (in_array($field, ["id", "created_at", "updated_at"])) {
 			return [];
 		}
+		
+		$subtype = Meta::subtype($table, $field);
+		
+		if ($subtype == "password_with_confirmation") {
+			// return [$field, $field . "_confirm"];
+		} else if ($subtype == "datetime_with_date_and_time") {
+			return [$field . "_date", $field . "_time"];
+		} 
 		return [$field];
 	}
 	
@@ -72,8 +80,6 @@ class MetadataHelper {
 	 */
 	static public function fillable_fields(String $table) {
 		$list = Schema::fieldList($table);
-		// $list = array_diff($list, ["id", "created_at", "updated_at"]);  // remove some values
-		// $list = array_values($list); // re-index
 		
 		$full_list = []; 
 		foreach ($list as $field) {
@@ -281,7 +287,7 @@ class MetadataHelper {
 	 * @param String $table
 	 * @return string[][]
 	 */
-	static public function table_list (String $table) {
+	static public function table_field_list (String $table) {
 		$res = [];
 		$list = self::fillable_fields($table);
 		if ($table == "users") {
@@ -299,7 +305,7 @@ class MetadataHelper {
 	 * @param String $table
 	 * @return string[][]
 	 */
-	static public function field_list (String $table) {
+	static public function form_field_list (String $table) {
 		$res = [];
 		$list = self::fillable_fields($table);
 		if ($table == "users2") {
@@ -324,8 +330,8 @@ class MetadataHelper {
 				'class_name' => self::class_name($table),
 				'fillable_names' => self::fillable_names($table),
 				'element' => self::element($table),
-				'table_list' => self::table_list($table),
-				'field_list' => self::field_list($table),
+				'table_field_list' => self::table_field_list($table),
+				'form_field_list' => self::form_field_list($table),
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),
 				'primary_index' => Schema::primaryIndex($table),

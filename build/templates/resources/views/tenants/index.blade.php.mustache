@@ -15,9 +15,9 @@
     <caption>{{__('[[element]].title')}}</caption>
     <thead>
         <tr>
-		  [[# table_list ]]
+		  [[# table_field_list ]]
           <td> {{__('[[element]].[[name]]')}} </td>
-		  [[/ table_list ]]
+		  [[/ table_field_list ]]
 		  
           <td> {{__('general.edit')}}   </td>
           <td> {{__('general.delete')}} </td>
@@ -27,9 +27,9 @@
     <tbody>
         @foreach($[[table]] as $[[element]])
         <tr>
-		  [[# table_list ]]
+		  [[# table_field_list ]]
           <td> [[&display]]</td>
-		  [[/ table_list ]]
+		  [[/ table_field_list ]]
 		              
           <td> [[& button_edit ]]  </td>
           <td> [[& button_delete ]] </td>
