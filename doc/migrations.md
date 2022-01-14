@@ -46,7 +46,8 @@ Note that dusk tests restore a test database before execution. So when the test 
 for testing must be regenerated. 
 
 1. migrate php artisan tenants:migrate-fresh --tenants=test
-1. register the test user
+1. register the test user (me by default)
+1. login and create a backup
 1. cp storage\tenanttest\app\backup\backup-2021-12-29_205112.gz tests\data\tenant_nominal.gz
 1. cp tests\data\tenant_nominal.gz storage\app\tests
     

@@ -58,8 +58,47 @@ class SchemaModelTest extends TestCase
     	
     	$this->assertTrue(Schema::required('configurations', 'key'));
     	$this->assertFalse(Schema::required('roles', 'description'));
+    	
+    	$info = Schema::columnInformation("users", "password");
+    	
+    	// return; // disabling the following lines until these comments are setup by the migrations
+    	$comment_str = '{"subtype": "password_with_confirmation", "fillable":"yes", "inTable":"no", "inForm":"yes"}';
+    	$this->assertEquals($info->Comment, $comment_str);
+    	
+    	$comment = Schema::columnComment("users", "password");
+    	$this->assertEquals($comment, $comment_str);
     }
 
+    public function test_column_metadata() {
+    	$meta = Schema::columnMetadata("users", "password");
+    	$this->assertNotNull($meta);
+    	$this->assertEquals('password_with_confirmation', $meta['subtype']);
+    	$this->assertEquals('no', $meta['inTable']);
+    	
+    	$meta = Schema::columnMetadata("users", "email");
+    	$this->assertEquals('email', $meta['subtype']);
+    	
+    	$meta = Schema::columnMetadata("users", "active");
+    	$this->assertEquals('checkbox', $meta['subtype']);
+    	
+    	// empty comment
+    	$meta = Schema::columnMetadata("users", "name");
+    	$this->assertNull($meta);
+
+    	// unknown table
+    	$meta = Schema::columnMetadata("unknow_table", "name");
+    	$this->assertNull($meta);
+    	
+    	// unknown field
+    	$meta = Schema::columnMetadata("users", "unknown_field");
+    	$this->assertNull($meta);
+    	
+    	// field with non json comment "Name for the role"
+    	$meta = Schema::columnMetadata("roles", "name");
+    	$this->assertNull($meta);
+    	
+    }
+    
     public function test_column_information_unknown_table() {
     	$info = Schema::columnInformation("unknown_table", "key");
     	$this->assertNull($info);
@@ -86,7 +125,7 @@ class SchemaModelTest extends TestCase
     		foreach ($fields as $field) {
     			$txt .= "\t$field :\n";
     			$info = Schema::columnInformation($table, $field);
-    			foreach (['Field', 'Type', 'Null', 'Key', 'Default', 'Extra'] as $attr) {
+    			foreach (['Field', 'Type', 'Null', 'Key', 'Default', 'Extra', 'Comment'] as $attr) {
     				$txt .= "\t\t$attr=" . $info->$attr . "\n";
     				$cnt++;
     			}    	

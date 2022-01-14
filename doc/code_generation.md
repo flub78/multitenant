@@ -1,10 +1,12 @@
 # Code Generation
 
-This project extends on the Laravel idea to use php artisan to generate migrations, controllers, models, ect.
+This project extends on the Laravel idea to use php artisan to generate migrations, controllers, models, etc.
 
-It is not only possible to generate templates with a given name, but also to adapt the template and the code inside them according to the database schema and additional metadata.
+Usually code templates are just files with a simple example of controller, model, htlm form to create or edit an element, and so on.
 
-Instead of developing code for every data, developers only have to develop code for every data type. Inside an application the quantity of information may be big but the number of data types is usually much smaller. I hope to get back the time spent on putting the infrastructure in place and even to gain in productivity. (knowing perfectly that it is a big investment and sometimes the time spent in the initial effort is not compensated if the thing is not used at a sufficiently large scale).
+In this project the idea is to use data extracted from the database schema to fill templates which are already adapted to the data defined in the database. We want to generate forms that already contains one field fo every database column, to generate a list view already able to display a table of elements, etc.
+
+Once the framework in place, developers will only have to develop code for every data type instead of code for every data. Inside an application the quantity of information may be big but the number of data types is usually much smaller. In a previous similar project the ratio was 37 and I expect it to grow with the size of the application. I hope to get back the time spent on putting the infrastructure in place and to be more productive. (knowing perfectly that it is a big investment and sometimes the time spent in the initial effort is not compensated if the result is not used at a sufficiently large scale).
 
 The goal of the template mechanism is to generate quickly a working application to manage the database resources. Of course complex resources will need tuning and adaptations but it should work out of the box. In this context an resource may be a database table but also the result of a complex select stored as a view in the database.
      
@@ -20,7 +22,7 @@ As developer
 
 As the code generation will rarely be fully automatic there are limited needs to generate and install all files of the application.
 
-For each resource I may generate:
+For each resource or database table I may generate:
 * a controller
 * a model
 * a request
@@ -29,8 +31,8 @@ For each resource I may generate:
 * an edit form
 * a model unit test
 * a controller test
-* an English language file
-* a template for French language
+* an English language file (there is no need to generate several template files as English can perfectly be the template for others languages and automated translation is currently out of scope) Note that if this project is used one day at large scale if could be an convenient to prepare the translation files with Google translate. 
+
 and may be some others ones ...
     
 ## Implementation
@@ -47,7 +49,7 @@ Another example, the field size must be exact in the database if the developer i
 
 The information from the schema are really useful but not sufficient to define all treatments to data types. For example a VARCHAR can be used to store a postal address, an email address or a name and in each case must be handled differently. 
 
-The information fetched from the database schema is complemented by metadata information stored in the database itself in a table named metadata.
+The information fetched from the database schema is complemented by metadata information stored in the database itself. in a table named metadata.
 
 Or should the metadata be json encoded in the comment field of each column? This approach makes it more evident that the full data model is made from the schema plus additional metadata. Developers have to care about the two concepts at the same time. The only drawbacks of the storage in the comment column are, first the comment column may be used for real comments and second it may be inconvenient if the quantity and type of metadata become big. It may look like a trick but it is more convenient to store everything related to the data model in the same place.
 
@@ -67,17 +69,21 @@ When the template parameter is a directory, it is parsed recursively and all the
 In this case the result parameter contains template values.
 
 Ex;
-* {{filename}}              use the template basename minus the .mustache extension
-* {{class}}{{filename}}     concatenation of the class name and the basename
-* {{table}}/{{filename}}    result in a subdirectory named with the table name
+
+Note it is possible to change the tag delimiters used by mustache and replace the double curly braces by something else. As these double curly braces are ambiguous in a blade templating context, we will use double square braces everywhere.
+
+* [[filename]]              use the template basename minus the .mustache extension
+* [[class]][[filename]]     concatenation of the class name and the basename
+* [[table]]/[[filename]]    result in a subdirectory named with the table name
 
 ### List of replaced patterns
 
 This is an outdated example, the source code in MetadataHelper is the reference.
 
-* {{class_name}}        Camel case class name (model)
-* {{fillable_names}}    List of fields
+* [[class_name]]        Camel case class name (model)
+* [[fillable_names]]    List of fields
 * 
+
 {'class_name': 'User',
  'element': 'user',
  'field_names': ['id',
@@ -88,108 +94,108 @@ This is an outdated example, the source code in MetadataHelper is the reference.
                  'created_at',
                  'updated_at'],
  'fillable_names': ['name', 'email', 'password', 'remember_token'],
- 'fields': [{'field_display': "{{$user['id']}}",
+ 'fields': [{'field_display': "[[$user['id']]]",
              'field_edit': '<input type="text" class="form-control" name="id" '
-                           'id="id" value="{{ old("id") ? old("id") : '
-                           '$user->id }}">',
+                           'id="id" value="[[ old("id") ? old("id") : '
+                           '$user->id ]]">',
              'field_input': '<input type="text" class="form-control" name="id" '
-                            'id="id" value="{{ old("id") }}">',
+                            'id="id" value="[[ old("id") ]]">',
              'label': 'Id',
              'name': 'id'},
-            {'field_display': "{{$user['name']}}",
+            {'field_display': "[[$user['name']]]",
              'field_edit': '<input type="text" class="form-control" '
-                           'name="name" id="name" value="{{ old("name") ? '
-                           'old("name") : $user->name }}">',
+                           'name="name" id="name" value="[[ old("name") ? '
+                           'old("name") : $user->name ]]">',
              'field_input': '<input type="text" class="form-control" '
-                            'name="name" id="name" value="{{ old("name") }}">',
+                            'name="name" id="name" value="[[ old("name") ]]">',
              'label': 'Name',
              'name': 'name'},
-            {'field_display': "{{$user['email']}}",
+            {'field_display': "[[$user['email']]]",
              'field_edit': '<input type="text" class="form-control" '
-                           'name="email" id="email" value="{{ old("email") ? '
-                           'old("email") : $user->email }}">',
+                           'name="email" id="email" value="[[ old("email") ? '
+                           'old("email") : $user->email ]]">',
              'field_input': '<input type="text" class="form-control" '
-                            'name="email" id="email" value="{{ old("email") '
-                            '}}">',
+                            'name="email" id="email" value="[[ old("email") '
+                            ']]">',
              'label': 'Email',
              'name': 'email'},
-            {'field_display': "{{$user['password']}}",
+            {'field_display': "[[$user['password']]]",
              'field_edit': '<input type="password" class="form-control" '
-                           'name="password" id="password" value="{{ '
+                           'name="password" id="password" value="[[ '
                            'old("password") ? old("password") : '
-                           '$user->password }}">',
+                           '$user->password ]]">',
              'field_input': '<input type="password" class="form-control" '
-                            'name="password" id="password" value="{{ '
-                            'old("password") }}">',
+                            'name="password" id="password" value="[[ '
+                            'old("password") ]]">',
              'label': 'Password',
              'name': 'password'},
-            {'field_display': "{{$user['remember_token']}}",
+            {'field_display': "[[$user['remember_token']]]",
              'field_edit': '<input type="password" class="form-control" '
                            'name="remember_token" id="remember_token" '
-                           'value="{{ old("remember_token") ? '
-                           'old("remember_token") : $user->remember_token }}">',
+                           'value="[[ old("remember_token") ? '
+                           'old("remember_token") : $user->remember_token ]]">',
              'field_input': '<input type="password" class="form-control" '
                             'name="remember_token" id="remember_token" '
-                            'value="{{ old("remember_token") }}">',
+                            'value="[[ old("remember_token") ]]">',
              'label': 'Remember_token',
              'name': 'remember_token'},
-            {'field_display': "{{$user['created_at']}}",
+            {'field_display': "[[$user['created_at']]]",
              'field_edit': '<input type="text" class="form-control" '
-                           'name="created_at" id="created_at" value="{{ '
+                           'name="created_at" id="created_at" value="[[ '
                            'old("created_at") ? old("created_at") : '
-                           '$user->created_at }}">',
+                           '$user->created_at ]]">',
              'field_input': '<input type="text" class="form-control" '
-                            'name="created_at" id="created_at" value="{{ '
-                            'old("created_at") }}">',
+                            'name="created_at" id="created_at" value="[[ '
+                            'old("created_at") ]]">',
              'label': 'Created_at',
              'name': 'created_at'},
-            {'field_display': "{{$user['updated_at']}}",
+            {'field_display': "[[$user['updated_at']]]",
              'field_edit': '<input type="text" class="form-control" '
-                           'name="updated_at" id="updated_at" value="{{ '
+                           'name="updated_at" id="updated_at" value="[[ '
                            'old("updated_at") ? old("updated_at") : '
-                           '$user->updated_at }}">',
+                           '$user->updated_at ]]">',
              'field_input': '<input type="text" class="form-control" '
-                            'name="updated_at" id="updated_at" value="{{ '
-                            'old("updated_at") }}">',
+                            'name="updated_at" id="updated_at" value="[[ '
+                            'old("updated_at") ]]">',
              'label': 'Updated_at',
              'name': 'updated_at'}],
- 'fillable': [{'field_display': "{{$user['name']}}",
+ 'fillable': [{'field_display': "[[$user['name']]]",
                'field_edit': '<input type="text" class="form-control" '
-                             'name="name" id="name" value="{{ old("name") ? '
-                             'old("name") : $user->name }}">',
+                             'name="name" id="name" value="[[ old("name") ? '
+                             'old("name") : $user->name ]]">',
                'field_input': '<input type="text" class="form-control" '
-                              'name="name" id="name" value="{{ old("name") '
-                              '}}">',
+                              'name="name" id="name" value="[[ old("name") '
+                              ']]">',
                'label': 'Name',
                'name': 'name'},
-              {'field_display': "{{$user['email']}}",
+              {'field_display': "[[$user['email']]]",
                'field_edit': '<input type="text" class="form-control" '
-                             'name="email" id="email" value="{{ old("email") ? '
-                             'old("email") : $user->email }}">',
+                             'name="email" id="email" value="[[ old("email") ? '
+                             'old("email") : $user->email ]]">',
                'field_input': '<input type="text" class="form-control" '
-                              'name="email" id="email" value="{{ old("email") '
-                              '}}">',
+                              'name="email" id="email" value="[[ old("email") '
+                              ']]">',
                'label': 'Email',
                'name': 'email'},
-              {'field_display': "{{$user['password']}}",
+              {'field_display': "[[$user['password']]]",
                'field_edit': '<input type="password" class="form-control" '
-                             'name="password" id="password" value="{{ '
+                             'name="password" id="password" value="[[ '
                              'old("password") ? old("password") : '
-                             '$user->password }}">',
+                             '$user->password ]]">',
                'field_input': '<input type="password" class="form-control" '
-                              'name="password" id="password" value="{{ '
-                              'old("password") }}">',
+                              'name="password" id="password" value="[[ '
+                              'old("password") ]]">',
                'label': 'Password',
                'name': 'password'},
-              {'field_display': "{{$user['remember_token']}}",
+              {'field_display': "[[$user['remember_token']]]",
                'field_edit': '<input type="password" class="form-control" '
                              'name="remember_token" id="remember_token" '
-                             'value="{{ old("remember_token") ? '
+                             'value="[[ old("remember_token") ? '
                              'old("remember_token") : $user->remember_token '
-                             '}}">',
+                             ']]">',
                'field_input': '<input type="password" class="form-control" '
                               'name="remember_token" id="remember_token" '
-                              'value="{{ old("remember_token") }}">',
+                              'value="[[ old("remember_token") ]]">',
                'label': 'Remember_token',
                'name': 'remember_token'}],
  'lang': [],
@@ -207,7 +213,7 @@ Contains the files after that the templates have been processed.
 
 ### The application directory
 
-It is where the generated files are copied when the generation is over
+It is where the generated files are copied once the generated code is acceptable. The install option replace the existing version by the one generated by the code generator.
 
 
 ## The php artisan command
@@ -220,16 +226,17 @@ The whole mechanism is available through a few php artisan commands:
     php artisan mustache:generate --install table edit
     php artisan mustache:info calendar_events
     
-    table is a database table name
+table is a database table name
      
     mustache:generate process a template or a set of templates
+
     The compare option compares and displays the differences between the generated files and the one of the application
+
     the install options copies the generated files into the application
+
     mustache:info just dump the metadata about one table
      
 # The mustache documentation
-
-# References
 
     https://faun.pub/dynamic-content-in-your-mails-using-mustache-9f3a660462ad
     https://github.com/bobthecow/mustache.php/wiki    
