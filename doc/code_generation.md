@@ -10,7 +10,7 @@ With this framework, developers only have to develop code for every data type in
 
 It is a bet that the time spent to develop the infrastructure will be compensated by more productivity during the development of the application. It is a bet, it will be only won if the framework is used at a sufficiently large scale.
 
-The goal of the template mechanism is to generate quickly a working application to manage the database resources. Of course complex resources will need tuning and adaptations but a basic version should work out of the box. In this context a resource may be a database table but also the result of a jointure stored as a view in the database. It is the generalization of the idea of automated CRUD generator to complex views result of select implicating several tables.
+The goal of the template mechanism is to generate quickly a working application to manage the database resources. Of course complex resources will need tuning and adaptations but a basic version should work out of the box. In this context a resource may be a database table but also the result of a joint stored as a view in the database. It is the generalization of the idea of automated CRUD generator to complex views result of select implicating several tables.
      
 ## Use cases
 
