@@ -4,11 +4,13 @@ This project extends on the Laravel idea to use php artisan to generate migratio
 
 Usually code templates are just files with a simple example of controller, model, htlm form to create or edit an element, and so on.
 
-In this project the idea is to use data extracted from the database schema to fill templates which are already adapted to the data defined in the database. We want to generate forms that already contains one field fo every database column, to generate a list view already able to display a table of elements, etc.
+Here the idea is to use data extracted from the database schema to fill templates so they can be finely tuned to real data. For example create and edit forms already contains code to input every field.
 
-Once the framework in place, developers will only have to develop code for every data type instead of code for every data. Inside an application the quantity of information may be big but the number of data types is usually much smaller. In a previous similar project the ratio was 37 and I expect it to grow with the size of the application. I hope to get back the time spent on putting the infrastructure in place and to be more productive. (knowing perfectly that it is a big investment and sometimes the time spent in the initial effort is not compensated if the result is not used at a sufficiently large scale).
+With this framework, developers only have to develop code for every data type instead of code for every data. Inside an application the quantity of information may be big but the number of data types is usually much smaller. In a previous similar project the ratio was 37 to 1 and I expect it to grow with the size of the application. 
 
-The goal of the template mechanism is to generate quickly a working application to manage the database resources. Of course complex resources will need tuning and adaptations but it should work out of the box. In this context an resource may be a database table but also the result of a complex select stored as a view in the database.
+It is a bet that the time spent to develop the infrastructure will be compensated by more productivity during the development of the application. It is a bet, it will be only won if the framework is used at a sufficiently large scale.
+
+The goal of the template mechanism is to generate quickly a working application to manage the database resources. Of course complex resources will need tuning and adaptations but a basic version should work out of the box. In this context a resource may be a database table but also the result of a jointure stored as a view in the database. It is the generalization of the idea of automated CRUD generator to complex views result of select implicating several tables.
      
 ## Use cases
 
