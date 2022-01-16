@@ -22,7 +22,9 @@ class CreateTenantUsersTable extends Migration
             	->unique()
             	->comment('{"subtype": "email"}');
             
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable()
+	            ->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
+            
             $table->string('password')
             	->comment('{"subtype": "password_with_confirmation", "fillable":"yes", "inTable":"no", "inForm":"yes"}');
             

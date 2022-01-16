@@ -15,6 +15,13 @@ class MetadataHelperTest extends TestCase {
 		$table = "users";
 		$this->assertEquals("User", Meta::class_name($table));		
 		$this->assertEquals("UserRole", Meta::class_name("user_roles"));
+		
+		// class_name is just a string conversion no control
+		$this->assertEquals("UnknowTable", Meta::class_name('unknow_table'));		
+		
+		$table = '[/$?]';
+		$this->assertEquals($table, Meta::class_name($table));
+		
 	}
 	
 	public function test_case_conversion() {
