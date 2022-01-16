@@ -50,6 +50,78 @@ class MetadataHelper {
 	}
 
 	/**
+	 * True if fillable in metadata field comments
+	 * 
+	 * @param unknown $table
+	 * @param unknown $field
+	 * @return boolean
+	 */
+	static function fillable($table, $field) {
+		$meta = Schema::columnMetadata($table, $field);
+		
+		if (! $meta) return true;
+		if (! array_key_exists('fillable', $meta)) return true;
+		return ($meta['fillable'] == "yes");
+	}
+	
+	/**
+	 * True if the field must be displayed in the table list view
+	 *
+	 * @param unknown $table
+	 * @param unknown $field
+	 * @return boolean
+	 */
+	static function inTable($table, $field) {
+		$meta = Schema::columnMetadata($table, $field);
+		
+		if (! $meta) return true;
+		if (! array_key_exists('inTable', $meta)) return true;
+		return ($meta['inTable'] == "yes");
+	}
+	
+	/**
+	 * True if the field must be displayed in the form views
+	 *
+	 * @param unknown $table
+	 * @param unknown $field
+	 * @return boolean
+	 */
+	static function inForm($table, $field) {
+		$meta = Schema::columnMetadata($table, $field);
+		
+		if (! $meta) return true;
+		if (! array_key_exists('inForm', $meta)) return true;
+		return ($meta['inForm'] == "yes");
+	}
+	
+	/**
+	 * Return a subtype for a field. The information is looked for either in the json encoded
+	 * comment of a field or in the metadata table.
+	 * @param unknown $table
+	 * @param unknown $field
+	 * @return string
+	 */
+	static public function subtype($table, $field) {
+		// look in the field comment
+		$meta = Schema::columnMetadata($table, $field);
+		if ($meta && array_key_exists('subtype', $meta)) return $meta['subtype'];
+		
+		// else look in the metadata table
+		return Meta::subtype($table, $field);
+	}
+	
+	/**
+	 * Return a type for a field. 
+	 * @param unknown $table
+	 * @param unknown $field
+	 * @return string
+	 */
+	static public function type($table, $field) {
+		// toto remove the size
+		return Schema::columnType($table, $field);
+	}
+	
+	/**
 	 * Returns a list of field to display in the GUI from a column name in the database. This mechanism gives the possibility
 	 * to hide some fields by returning and empty list or to generate several fields from one column like password and password confirm from 
 	 * a single password column.
@@ -63,10 +135,10 @@ class MetadataHelper {
 			return [];
 		}
 		
-		$subtype = Meta::subtype($table, $field);
+		$subtype = self::subtype($table, $field);
 		
 		if ($subtype == "password_with_confirmation") {
-			// return [$field, $field . "_confirm"];
+			return [$field, $field . "_confirm"];
 		} else if ($subtype == "datetime_with_date_and_time") {
 			return [$field . "_date", $field . "_time"];
 		} 
@@ -80,14 +152,13 @@ class MetadataHelper {
 	 */
 	static public function fillable_fields(String $table) {
 		$list = Schema::fieldList($table);
-		
 		$full_list = []; 
 		foreach ($list as $field) {
+			if (! self::fillable($table, $field)) continue;
 			$derived_flds = self::derived_fields($table, $field);
 			foreach ($derived_flds as $new_field) {
 				$full_list[] = $new_field;
 			}
-			//$full_list = array_merge($full_list, );
 		}
 		return $full_list;
 	}
@@ -124,7 +195,7 @@ class MetadataHelper {
 	// ###############################################################################################################
 	
 	static public function field_display (String $table, String $field) {
-		$subtype = Meta::subtype($table, $field);
+		$subtype = self::subtype($table, $field);
 		$element = self::element($table);
 		
 		if ($subtype == "email") {
@@ -144,7 +215,7 @@ class MetadataHelper {
 	static public function field_input_edit (String $table, String $field) {
 		$type = "text";
 		$element = self::element($table);
-		$subtype = Meta::subtype($table, $field);
+		$subtype = self::subtype($table, $field);
 		
 		if ($subtype == "checkbox") {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "', $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
@@ -163,7 +234,7 @@ class MetadataHelper {
 	static public function field_input_create (String $table, String $field) {
 		$type = "text";
 		$element = self::element($table);
-		$subtype = Meta::subtype($table, $field);
+		$subtype = self::subtype($table, $field);
 		
 		if ($subtype == "checkbox") {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "') ? 'checked' : ''}}/>";
@@ -205,7 +276,7 @@ class MetadataHelper {
 	}
 	
 	static public function field_rule_edit (String $table, String $field) {
-		$subtype = Meta::subtype($table, $field);
+		$subtype = self::subtype($table, $field);
 		$element = self::element($table);
 		$primary_index = Schema::primaryIndex($table);
 		
@@ -237,7 +308,7 @@ class MetadataHelper {
 	}
 	
 	static public function field_rule_create (String $table, String $field) {
-		$subtype = Meta::subtype($table, $field);
+		$subtype = self::subtype($table, $field);
 		
 		$rules = [];
 		if (Schema::required($table, $field))  {
@@ -308,10 +379,6 @@ class MetadataHelper {
 	static public function form_field_list (String $table) {
 		$res = [];
 		$list = self::fillable_fields($table);
-		if ($table == "users2") {
-			// Todo store this information in database
-			$list = ["name", "email", "admin", "active"];
-		}
 		foreach ($list as $field) {
 			$res[] = self::field_metadata($table, $field);
 		}

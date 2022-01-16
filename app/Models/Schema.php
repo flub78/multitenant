@@ -273,7 +273,9 @@ class Schema extends ModelWithLogs {
      * @return 0|number
      */
     public static function columnSize (string $table, string $field) {
-    	$type = Schema::columnInformation($table, $field)->Type;
+    	$info = Schema::columnInformation($table, $field);
+    	if (! $info) return 0;
+    	$type = $info->Type;
     	
     	$pattern = '/^.*?(\d+).*$/i';
     	if (preg_match($pattern, $type, $matches)) {
