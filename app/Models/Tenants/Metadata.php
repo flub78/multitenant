@@ -89,6 +89,6 @@ class Metadata extends Model
     
     public static function subtype($table, $field) {
     	$meta = self::where(['table' => $table, "field" => $field])->first();
-    	return ($meta) ? $meta->subtype : 'unknown subtype';
+    	return ($meta) ? $meta->subtype : '';
     }
  }

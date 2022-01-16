@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Tenants\Metadata as Meta;
 use App\Models\Schema;
-
+use Illuminate\Support\Facades\Log;
 
 /**
  * Metadata interface
@@ -74,6 +74,7 @@ class MetadataHelper {
 	static function inTable($table, $field) {
 		$meta = Schema::columnMetadata($table, $field);
 		
+		if ($field == "id") return false;
 		if (! $meta) return true;
 		if (! array_key_exists('inTable', $meta)) return true;
 		return ($meta['inTable'] == "yes");
@@ -88,7 +89,7 @@ class MetadataHelper {
 	 */
 	static function inForm($table, $field) {
 		$meta = Schema::columnMetadata($table, $field);
-		
+		if ($field == "id") return false;
 		if (! $meta) return true;
 		if (! array_key_exists('inForm', $meta)) return true;
 		return ($meta['inForm'] == "yes");
@@ -106,6 +107,12 @@ class MetadataHelper {
 		$meta = Schema::columnMetadata($table, $field);
 		if ($meta && array_key_exists('subtype', $meta)) return $meta['subtype'];
 		
+		// Not found, maybe it's a derived field, look for root field
+		if (preg_match('/.$(\_confirm)/', $field, $matches)) {
+			$root = $matches[1];
+			var_dump($root); exit;
+		}
+		
 		// else look in the metadata table
 		return Meta::subtype($table, $field);
 	}
@@ -117,8 +124,17 @@ class MetadataHelper {
 	 * @return string
 	 */
 	static public function type($table, $field) {
-		// toto remove the size
-		return Schema::columnType($table, $field);
+		$full_type = Schema::columnType($table, $field);
+		
+		Log::debug("MetadataHelper.type($table, $field): $full_type");
+		$first = explode(' ', $full_type)[0];
+		
+		$pattern = '/(.*)(\(\d*\)*)/';
+		if (preg_match($pattern, $first, $matches)) {
+			// var_dump($matches);
+			return $matches[1];
+		}
+		return $first;
 	}
 	
 	/**
@@ -152,6 +168,7 @@ class MetadataHelper {
 	 */
 	static public function fillable_fields(String $table) {
 		$list = Schema::fieldList($table);
+		if (! $list) return "";
 		$full_list = []; 
 		foreach ($list as $field) {
 			if (! self::fillable($table, $field)) continue;
@@ -170,6 +187,7 @@ class MetadataHelper {
 	 */
 	static public function fillable_names (String $table) {
 		$list = self::fillable_fields($table);
+		if (! $list) return "";
 		array_walk($list, function(&$x) {$x = "\"$x\"";}); // put double quotes around each element
 		$res = implode(', ', $list); // transform into string
 		return $res;
@@ -193,7 +211,16 @@ class MetadataHelper {
 	}
 	
 	// ###############################################################################################################
+	// Code Generation
+	// ###############################################################################################################
 	
+	/**
+	 * Generate code to display an element in a table list view
+	 * 
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
 	static public function field_display (String $table, String $field) {
 		$subtype = self::subtype($table, $field);
 		$element = self::element($table);
@@ -207,11 +234,25 @@ class MetadataHelper {
 		return '{{$' . $element . '->'. $field. '}}';
 	}
 	
+	/**
+	 * Generate code for a GUI form label
+	 * 
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
 	static public function field_label (String $table, String $field) {
 		$element = self::element($table);
 		return '<label for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
 	}
 	
+	/**
+	 * Generate code for input in an edit form
+	 * 
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
 	static public function field_input_edit (String $table, String $field) {
 		$type = "text";
 		$element = self::element($table);
@@ -231,6 +272,13 @@ class MetadataHelper {
 		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
 	}
 	
+	/**
+	 * Generate code for input in an create form
+	 * 
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
 	static public function field_input_create (String $table, String $field) {
 		$type = "text";
 		$element = self::element($table);
@@ -250,6 +298,12 @@ class MetadataHelper {
 		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '") }}"/>';
 	}
 	
+	/**
+	 * Generate a delete button for a table
+	 * 
+	 * @param String $table
+	 * @return string
+	 */
 	static public function button_delete (String $table) {
 		$element = self::element($table);
 		$dusk = self::dusk($table, $element, "delete");
@@ -265,6 +319,12 @@ class MetadataHelper {
 		return $res;
 	}
 	
+	/**
+	 * Generate an edit button for a table
+	 * 
+	 * @param String $table
+	 * @return string
+	 */
 	static public function button_edit (String $table) {
 		$primary_index = Schema::primaryIndex($table);
 		$element = self::element($table);
@@ -275,6 +335,13 @@ class MetadataHelper {
 		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';
 	}
 	
+	/**
+	 * Generate a validation rule for an edit input field
+	 * 
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
 	static public function field_rule_edit (String $table, String $field) {
 		$subtype = self::subtype($table, $field);
 		$element = self::element($table);
@@ -307,6 +374,13 @@ class MetadataHelper {
 		return  '[' . implode(', ', $rules) . ']';
 	}
 	
+	/**
+	 * Generate a validation rule for a create input field
+	 * 
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
 	static public function field_rule_create (String $table, String $field) {
 		$subtype = self::subtype($table, $field);
 		
@@ -337,7 +411,8 @@ class MetadataHelper {
 	}
 	
 	/**
-	 * Metadata for an individual field
+	 * Metadata all metadata for an individual field
+	 * 
 	 * @param String $table
 	 * @param String $field
 	 * @return Array[]
@@ -361,10 +436,12 @@ class MetadataHelper {
 	static public function table_field_list (String $table) {
 		$res = [];
 		$list = self::fillable_fields($table);
+		
 		if ($table == "users") {
 			// Todo store this information in database
 			$list = ["name", "email", "admin", "active"];
 		}
+		
 		foreach ($list as $field) {
 			$res[] = self::field_metadata($table, $field);
 		}

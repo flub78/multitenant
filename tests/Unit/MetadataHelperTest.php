@@ -59,8 +59,7 @@ class MetadataHelperTest extends TestCase {
 	
 	public function test_metadata() {
 		$meta = Meta::metadata("users");
-		// var_dump($meta);
-		
+		// var_dump($meta);	
 		$this->assertTrue(true);  // todo remove
 	}
 	
@@ -69,7 +68,7 @@ class MetadataHelperTest extends TestCase {
 		
 		$this->assertTrue(Meta::inForm('users', 'password'));
 		
-		// $this->assertFalse(Meta::inForm('users', 'id'));		// it should be
+		$this->assertFalse(Meta::inForm('users', 'id'));
 		$this->assertFalse(Meta::inForm('users', 'email_verified_at'));
 		$this->assertFalse(Meta::inForm('users', 'created_at'));
 		
@@ -78,12 +77,12 @@ class MetadataHelperTest extends TestCase {
 	}
 	
 	public function test_inTable() {
-		// $this->assertTrue(Meta::inTable('users', 'name'));    // it should be ...
+		$this->assertTrue(Meta::inTable('users', 'name'));   
 		
 		$this->assertFalse(Meta::inTable('users', 'password'));
 		// $this->assertFalse(Meta::inTable('users', 'password_confirm'));		todo make it pass ...
 		
-		// $this->assertFalse(Meta::inTable('users', 'id'));          // it should be
+		$this->assertFalse(Meta::inTable('users', 'id'));      
 		$this->assertFalse(Meta::inTable('users', 'email_verified_at'));
 		$this->assertFalse(Meta::inTable('users', 'created_at'));
 		
@@ -99,18 +98,27 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals("checkbox", Meta::subtype('users', 'active'));
 		$this->assertEquals("checkbox", Meta::subtype('users', 'admin'));
 
-		// $this->assertEquals("checkbox", Meta::subtype('users', 'name'));
+		$this->assertEquals("", Meta::subtype('users', 'name'));  // unknown subtype
+		
+		return;
+		$this->assertEquals("password_confirmation", Meta::subtype('users', 'password_confirm'));
+		
+		$this->assertEquals("datetime_date", Meta::subtype('calendar_events', 'start_date'));
+		$this->assertEquals("datetime_time", Meta::subtype('calendar_events', 'start_time'));
 	}
 	
 	public function test_type() {
 		
-		$this->assertEquals("varchar(255)", Meta::type('users', 'password'));
+		$this->assertEquals("varchar", Meta::type('users', 'password'));
 		
-		$this->assertEquals("varchar(255)", Meta::type('users', 'email'));
-		$this->assertEquals("tinyint(1)", Meta::type('users', 'active'));
-		$this->assertEquals("tinyint(1)", Meta::type('users', 'admin'));
+		$this->assertEquals("varchar", Meta::type('users', 'email'));
+		$this->assertEquals("tinyint", Meta::type('users', 'active'));
+		$this->assertEquals("tinyint", Meta::type('users', 'admin'));
 		
-		$this->assertEquals("varchar(255)", Meta::type('users', 'name'));
+		$this->assertEquals("varchar", Meta::type('users', 'name'));
+		
+		$this->assertEquals("datetime", Meta::type('calendar_events', 'start'));
+		$this->assertEquals("datetime", Meta::type('calendar_events', 'end'));
 	}
 	
 	public function test_fillable_fields() {
@@ -122,4 +130,16 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals(["name", "email", "password", "password_confirm", "admin", "active"], $fillable);
 	}
 	
+	public function test_fillable_names() {
+		$fillable_names = Meta::fillable_names('users');
+		$this->assertEquals('"name", "email", "password", "password_confirm", "admin", "active"', $fillable_names);
+		
+		$fillable_names = Meta::fillable_names('unknow_table');
+		$this->assertEquals('', $fillable_names);
+	}
+	
+	public function test_dusk() {
+		$dusk = Meta::dusk('users', 'users');
+		$this->assertEquals('edit_{{ $users->name }}', $dusk);
+	}
 }
