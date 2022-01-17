@@ -1,4 +1,8 @@
-<!-- Users edit.blade.php -->
+<!-- User edit.blade.php -->
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
 
 @extends('layouts.app')
 
@@ -30,36 +34,39 @@
               @csrf
               @method('PATCH')
               
-              <label for="country_name">{{__('user.name')}}</label>
-              <input type="text" class="form-control" name="name" value="{{ old('name', $user->name) }}"/>
-          </div>
-          
-          <div class="form-group">
-              <label for="cases">{{__('user.email')}}</label>
-              <input type="text" class="form-control" name="email" value="{{ old('email', $user->email) }}"/>
-          </div>
+             <div class="form-group">
+               <label for="name">{{__("user.name")}}</label>
+               <input type="text" class="form-control" name="name" value="{{ old("name", $user->name) }}"/>
+             </div>
+           
+             <div class="form-group">
+               <label for="email">{{__("user.email")}}</label>
+               <input type="text" class="form-control" name="email" value="{{ old("email", $user->email) }}"/>
+             </div>
+           
+             <div class="form-group">
+               <label for="password">{{__("user.password")}}</label>
+               <input type="password" class="form-control" name="password" value="{{ old("password") }}"/>
+             </div>
+           
+             <div class="form-group">
+               <label for="password_confirmation">{{__("user.password_confirmation")}}</label>
+               <input type="password" class="form-control" name="password_confirmation" value="{{ old("password_confirmation") }}"/>
+             </div>
+           
+             <div class="form-group">
+               <label for="admin">{{__("user.admin")}}</label>
+               <input type="checkbox" class="form-control" name="admin" value="1"  {{old('admin', $user->admin) ? 'checked' : ''}}/>
+             </div>
+           
+             <div class="form-group">
+               <label for="active">{{__("user.active")}}</label>
+               <input type="checkbox" class="form-control" name="active" value="1"  {{old('active', $user->active) ? 'checked' : ''}}/>
+             </div>
+           
+             
+             @button_submit({{__('general.update')}})
 
-           <div class="form-group">
-              <label for="cases">{{__('user.admin')}}</label>
-              <input type="checkbox" class="form-control" name="admin" value="1"  {{old('admin', $user->admin) ? 'checked' : ''}}/>
-          </div>
-          
-           <div class="form-group">
-              <label for="cases">{{__('user.active')}}</label>
-              <input type="checkbox" class="form-control" name="active" value="1"  {{old('active', $user->active) ? 'checked' : ''}}/>
-          </div>
-          
-          <div class="form-group">
-              <label for="cases">{{__('user.password')}}</label>
-              <input type="password" class="form-control" name="password" value="{{ old('password') }}"/>
-          </div>
-
-          <div class="form-group">
-              <label for="password_confirmation">{{__('user.password_confirmation')}}</label>
-              <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}"/>
-          </div>
-
-          <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
       </form>
   </div>
 </div>

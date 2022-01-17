@@ -305,6 +305,7 @@ class MetadataHelper {
 		
 		if ($subtype == "password_with_confirmation" || $subtype == "password_confirmation") {
 			$type = "password";
+			return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '") }}"/>';
 		}
 		
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);

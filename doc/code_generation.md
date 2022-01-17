@@ -271,11 +271,10 @@ table is a database table name
 
     php artisan mustache:generate --compare users controller
     php artisan mustache:generate --compare users request
-    php artisan mustache:generate --compare users model
+    php artisan mustache:generate --compare users model                     not exactly
     php artisan mustache:generate --compare users index                     OK
-    php artisan mustache:generate --compare users create            
-        password and password_confirmation missing
-    php artisan mustache:generate --compare users edit
+    php artisan mustache:generate --compare users create                    OK
+    php artisan mustache:generate --compare users edit                      OK
 
 ## user_roles table
 

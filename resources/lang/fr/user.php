@@ -20,7 +20,7 @@ return [
 	'admin' => 'Admin',
 	'active' => 'Actif',
 	'password' => 'Mot de passe',
-	'password_confirmation' => 'Confirmation Mot de passe',
+	'password_confirmation' => 'Confirmation du mot de passe',
 	'change_password' => 'Changer le mot de passe',
 	'current_password' => 'Mot de passe actuel',
 	'new_password' => 'Nouveau mot de passe',

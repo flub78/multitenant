@@ -1,4 +1,5 @@
-<!-- Users create.blade.php -->
+<!-- User create.blade.php -->
+
 @php
 use App\Helpers\BladeHelper as Blade;
 @endphp
@@ -29,8 +30,8 @@ use App\Helpers\BladeHelper as Blade;
     @endif
     
       <form method="post" action="{{ route('user.store') }}">
-          @csrf
-                   
+           @csrf
+           
            <div class="form-group">
              <label for="name">{{__("user.name")}}</label>
              <input type="text" class="form-control" name="name" value="{{ old("name") }}"/>
@@ -40,28 +41,30 @@ use App\Helpers\BladeHelper as Blade;
              <label for="email">{{__("user.email")}}</label>
              <input type="text" class="form-control" name="email" value="{{ old("email") }}"/>
            </div>
-
+           
+           <div class="form-group">
+             <label for="password">{{__("user.password")}}</label>
+             <input type="password" class="form-control" name="password" value="{{ old("password") }}"/>
+           </div>
+           
+           <div class="form-group">
+             <label for="password_confirmation">{{__("user.password_confirmation")}}</label>
+             <input type="password" class="form-control" name="password_confirmation" value="{{ old("password_confirmation") }}"/>
+           </div>
+           
            <div class="form-group">
              <label for="admin">{{__("user.admin")}}</label>
-              <input type="checkbox" class="form-control" name="admin" value="1"  {{old('admin') ? 'checked' : ''}}/>
-          </div>
-          
+             <input type="checkbox" class="form-control" name="admin" value="1"  {{old('admin') ? 'checked' : ''}}/>
+           </div>
+           
            <div class="form-group">
              <label for="active">{{__("user.active")}}</label>
-              <input type="checkbox" class="form-control" name="active" value="1"  {{old('active') ? 'checked' : ''}}/>
-          </div>
-          
-          <div class="form-group">
-              <label for="password">{{__('user.password')}}</label>
-              <input type="password" class="form-control" name="password" value="{{ old('password') }}"/>
-          </div>
+             <input type="checkbox" class="form-control" name="active" value="1"  {{old('active') ? 'checked' : ''}}/>
+           </div>
+           
+           
+           @button_submit({{__('general.submit')}})
 
-          <div class="form-group">
-              <label for="password_confirmation">{{__('user.password_confirmation')}}</label>
-              <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}"/>
-          </div>
-
-          <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
       </form>
   </div>
 </div>
