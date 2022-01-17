@@ -100,11 +100,10 @@ class MetadataHelperTest extends TestCase {
 
 		$this->assertEquals("", Meta::subtype('users', 'name'));  // unknown subtype
 		
-		return;
-		$this->assertEquals("password_confirmation", Meta::subtype('users', 'password_confirm'));
+		$this->assertEquals("password_confirm", Meta::subtype('users', 'password_confirm'));
 		
 		$this->assertEquals("datetime_date", Meta::subtype('calendar_events', 'start_date'));
-		$this->assertEquals("datetime_time", Meta::subtype('calendar_events', 'start_time'));
+		$this->assertEquals("datetime_time", Meta::subtype('calendar_events', 'end_time'));
 	}
 	
 	public function test_type() {
@@ -119,6 +118,11 @@ class MetadataHelperTest extends TestCase {
 		
 		$this->assertEquals("datetime", Meta::type('calendar_events', 'start'));
 		$this->assertEquals("datetime", Meta::type('calendar_events', 'end'));
+
+		// types of derived fields
+		$this->assertEquals("varchar", Meta::type('users', 'password_confirm'));
+		$this->assertEquals("date", Meta::type('calendar_events', 'start_date'));
+		$this->assertEquals("time", Meta::type('calendar_events', 'end_time'));
 	}
 	
 	public function test_fillable_fields() {

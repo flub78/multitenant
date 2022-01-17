@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 use App\Models\ModelWithLogs;
 use Illuminate\Database\QueryException;
+use Exception;
 
 const SCHEMA = "schema";
 
@@ -182,7 +183,9 @@ class Schema extends ModelWithLogs {
      * @return string
      */
     public static function columnType (string $table, string $field) {
-    	return Schema::columnInformation($table, $field)->Type;
+    	$info = Schema::columnInformation($table, $field);
+    	if (! $info) return "";
+    	return $info->Type;
     }
     
     /**
@@ -297,7 +300,11 @@ class Schema extends ModelWithLogs {
      */
     public static function indexList (string $table) {
     	$database = ENV('DB_SCHEMA', 'tenanttest');
-    	return DB::connection(SCHEMA)->select("SHOW INDEX FROM $table FROM $database");
+    	try {
+    		return DB::connection(SCHEMA)->select("SHOW INDEX FROM $table FROM $database");
+    	} catch (QueryException $e) {
+    		return null;
+    	}
     }
 
     /**
@@ -308,6 +315,8 @@ class Schema extends ModelWithLogs {
      */
     public static function indexInfo (string $table, string $field) {
     	$indexes = self::indexList($table);
+    	
+    	if (! $indexes) return null;
     	
     	foreach ($indexes as $i) {
     		if ($i->Column_name == $field) return $i;
@@ -323,6 +332,7 @@ class Schema extends ModelWithLogs {
      */
     public static function primaryIndex(String $table) {
     	$indexes = self::indexList($table);
+    	if (! $indexes) return "";
     	foreach ($indexes as $i) {
     		if ($i->Key_name ==  "PRIMARY") return $i->Column_name;
     	}

@@ -16,6 +16,7 @@ class SchemaModelTest extends TestCase
     	$result = Schema::tableList();
     	$this->assertTrue(count($result) > 0);
     	$this->assertTrue(in_array('users', $result));
+    	$this->assertTrue(in_array('roles', $result));
     }
     
     public function test_table_exists () {
@@ -26,7 +27,8 @@ class SchemaModelTest extends TestCase
     
     public function test_table_information() {    	
     	$result = Schema::tableInformation("configurations");
-     	$this->assertTrue(count($result) > 0);
+     	$this->assertTrue(count($result) > 3);
+     	$this->assertEquals("key", $result[0]->Field);
     }
     
     public function test_table_unknow_table() {
@@ -58,15 +60,22 @@ class SchemaModelTest extends TestCase
     	
     	$this->assertTrue(Schema::required('configurations', 'key'));
     	$this->assertFalse(Schema::required('roles', 'description'));
-    	
+    	$required = Schema::required('configurations', 'unknown');
+    	$this->assertFalse($required); // non existing are not required
+    	    	
     	$info = Schema::columnInformation("users", "password");
     	
-    	// return; // disabling the following lines until these comments are setup by the migrations
     	$comment_str = '{"subtype": "password_with_confirmation", "fillable":"yes", "inTable":"no", "inForm":"yes"}';
     	$this->assertEquals($info->Comment, $comment_str);
     	
     	$comment = Schema::columnComment("users", "password");
     	$this->assertEquals($comment, $comment_str);
+    	
+    	$info = Schema::columnInformation("configurations", "unknown_key");
+    	$this->assertNull($info);
+    	
+    	$comment = Schema::columnComment("users", "unknown_field");
+    	$this->assertEquals('', $comment);
     }
 
     public function test_column_metadata() {
@@ -111,8 +120,8 @@ class SchemaModelTest extends TestCase
     
     public function test_existing_types() {
     	$types = Schema::existingTypes();
-    	// echo "\n" . implode("\n", $types);
     	$this->assertTrue(count($types) > 5);
+    	$this->assertContains('varchar(255)', $types);
     }
     
     public function test_all() {
@@ -154,6 +163,16 @@ class SchemaModelTest extends TestCase
     	// $this->assertEquals(20, Schema::columnSize('user_roles', 'user_id'));	
     	
     	$this->assertEquals(0, Schema::columnSize('user_roles', 'created_at'));
+    	
+    	$type = Schema::columnType('unknown_table', 'email');
+    	$this->assertEquals('', $type);
+
+    	$type = Schema::columnType('users', 'unknown_field');
+    	$this->assertEquals('', $type);
+
+    	$this->assertEquals(0, Schema::columnSize('user_roles', 'unknown'));
+    	$this->assertEquals(0, Schema::columnSize('unknown', 'unknown'));
+    	
     }
     
 
@@ -176,6 +195,9 @@ class SchemaModelTest extends TestCase
     	// echo "\nindexes : \n$txt";
     	$txt = $this->dumpIndex(Schema::indexList('configurations'));
     	$this->assertNotEquals("", $txt);
+    	
+    	$il = Schema::indexList('unknown');
+    	$this->assertNull($il);
     }
     
     public function test_basic_type() {
@@ -187,6 +209,10 @@ class SchemaModelTest extends TestCase
     	
     	// bigint(20) unsigned
     	$this->assertEquals('bigint', Schema::basicType('user_roles', 'user_id'));
+
+    	$this->assertEquals('', Schema::basicType('user_roles', 'unknown_field'));
+    	$this->assertEquals('', Schema::basicType('unknown_table', 'unknown_field'));
+    	
     }
 
     public function test_integer_type() {
@@ -198,6 +224,10 @@ class SchemaModelTest extends TestCase
     	
     	// bigint(20) unsigned
     	$this->assertTrue(Schema::integerType('user_roles', 'user_id'));
+    	
+    	$this->assertFalse(Schema::integerType('unknown', 'email'));
+    	$this->assertFalse(Schema::integerType('users', 'unknown'));
+    	
     }
 
     public function test_unsigned_type() {
@@ -209,6 +239,9 @@ class SchemaModelTest extends TestCase
     	
     	// bigint(20) unsigned
     	$this->assertTrue(Schema::unsignedType('user_roles', 'user_id'));
+    
+    	$this->assertFalse(Schema::unsignedType('users', 'unknown'));
+    	$this->assertFalse(Schema::unsignedType('unknown', 'unknown'));
     }
     
     public function test_primary_index() {
@@ -216,7 +249,7 @@ class SchemaModelTest extends TestCase
     	$this->assertEquals('id', Schema::primaryIndex('user_roles'));
     	$this->assertEquals('key', Schema::primaryIndex('configurations'));
     	
-    	$this->expectException(QueryException::class);
+    	// $this->expectException(QueryException::class);
     	$this->assertEquals('', Schema::primaryIndex('non_existing_table'));
     }
     
@@ -230,6 +263,12 @@ class SchemaModelTest extends TestCase
     	// var_dump(Schema::indexInfo('user_roles', 'user_id'));
     	
     	$ii2 = Schema::indexInfo('roles', 'name');
+
+    	$ii = Schema::indexInfo('roles', 'unknown');
+    	$this->assertNull($ii);
+    	
+    	$ii = Schema::indexInfo('unknown', 'unknown');
+    	$this->assertNull($ii);
     }
     
     public function test_foreign_key() {
@@ -257,5 +296,7 @@ class SchemaModelTest extends TestCase
     	// below it is the key + value which is unique
     	$this->assertTrue(Schema::unique('configurations', 'key'));
     	$this->assertFalse(Schema::unique('configurations', 'value'));
+    	
+    	$this->assertFalse(Schema::unique('configurations', 'unknownfield'));
     }
 }

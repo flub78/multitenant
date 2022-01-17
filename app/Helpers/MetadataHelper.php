@@ -106,11 +106,36 @@ class MetadataHelper {
 		// look in the field comment
 		$meta = Schema::columnMetadata($table, $field);
 		if ($meta && array_key_exists('subtype', $meta)) return $meta['subtype'];
-		
+			
 		// Not found, maybe it's a derived field, look for root field
-		if (preg_match('/.$(\_confirm)/', $field, $matches)) {
+		if (preg_match('/(.*)(\_confirm)/', $field, $matches)) {
 			$root = $matches[1];
-			var_dump($root); exit;
+			
+			// root field metadata
+			$meta_root = Schema::columnMetadata($table, $root);
+			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "password_with_confirmation")) {
+				return "password_confirm";
+			}
+		}
+		
+		if (preg_match('/(.*)(\_date)/', $field, $matches)) {
+			$root = $matches[1];
+						
+			// root field metadata
+			$meta_root = Schema::columnMetadata($table, $root);
+			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "datetime_with_date_and_time")) {
+				return "datetime_date";
+			}
+		}
+
+		if (preg_match('/(.*)(\_time)/', $field, $matches)) {
+			$root = $matches[1];
+						
+			// root field metadata
+			$meta_root = Schema::columnMetadata($table, $root);
+			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "datetime_with_date_and_time")) {
+				return "datetime_time";
+			}
 		}
 		
 		// else look in the metadata table
@@ -125,8 +150,17 @@ class MetadataHelper {
 	 */
 	static public function type($table, $field) {
 		$full_type = Schema::columnType($table, $field);
-		
-		Log::debug("MetadataHelper.type($table, $field): $full_type");
+				
+		if (! $full_type) {
+			$subtype = self::subtype($table, $field);
+			if ($subtype == "password_confirm") {
+				return "varchar";
+			} else if ($subtype == "datetime_date") {
+				return "date";
+			} else if ($subtype == "datetime_time") {
+				return "time";
+			}
+		}
 		$first = explode(' ', $full_type)[0];
 		
 		$pattern = '/(.*)(\(\d*\)*)/';
