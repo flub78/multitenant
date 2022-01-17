@@ -52,12 +52,12 @@ use App\Helpers\BladeHelper as Blade;
           </div>
           
           <div class="form-group">
-              <label for="cases">{{__('user.password')}}</label>
+              <label for="password">{{__('user.password')}}</label>
               <input type="password" class="form-control" name="password" value="{{ old('password') }}"/>
           </div>
 
           <div class="form-group">
-              <label for="cases">{{__('user.confirm')}}</label>
+              <label for="password_confirmation">{{__('user.password_confirmation')}}</label>
               <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}"/>
           </div>
 

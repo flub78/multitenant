@@ -8,7 +8,13 @@ use Illuminate\Validation\Rule;
 
 class ConfigurationRequest extends FormRequest
 {
-    /**
+	function __construct() {
+		$this->valid_configs = [
+				'app.locale', 'app.timezone'
+		];
+	}
+	
+	/**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -25,9 +31,6 @@ class ConfigurationRequest extends FormRequest
      */
     public function rules() {
     	
-    	$valid_configs = [
-    	  'app.locale', 'app.timezone'
-    	];
     	    	
     	switch($this->method()) {
     		case 'GET':
@@ -39,7 +42,7 @@ class ConfigurationRequest extends FormRequest
     				'key' => ['required', 'max:191',
     					'unique:configurations',
     					'regex:/\w+\.\w+(\.\w+)*/',
-    					Rule::in($valid_configs)
+    					Rule::in($this->valid_configs)
     				],
     				'value' => 'required|max:191',
     			];
@@ -50,7 +53,7 @@ class ConfigurationRequest extends FormRequest
     				'key' => ['required', 'max:191', 
     					'regex:/\w+\.\w+(\.\w+)*/',
     					Rule::unique('configurations')->ignore(request('configuration'), 'key'),
-    					Rule::in($valid_configs)
+    					Rule::in($this->valid_configs)
     				],	
     				'value' => 'required|max:191',
     			];
@@ -58,5 +61,12 @@ class ConfigurationRequest extends FormRequest
     		default:
     			break;	
      	}
+    }
+    
+    public function messages()
+    {
+    	return [
+    			'key.in' => __('configuration.key_values') . implode (' | ', $this->valid_configs)
+    	];
     }
 }

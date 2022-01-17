@@ -11,6 +11,9 @@ return [
     | the validator class. Some of these rules have multiple versions such
     | as the size rules. Feel free to tweak each of these messages here.
     |
+    | Todo: complete the translation
+    | Todo: mixed translation Le champ value est obligatoire.
+    |
     */
 
 		'accepted'             => ':attribute doit être accepté.',
@@ -97,7 +100,7 @@ return [
     'password' => 'The password is incorrect.',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
-    'required' => 'The :attribute field is required.',
+    'required' => 'Le champ :attribute est obligatoire.',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',

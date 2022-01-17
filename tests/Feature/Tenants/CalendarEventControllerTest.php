@@ -207,7 +207,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	public function test_update() {
-		// TODO test allDay attributes
 		
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();

@@ -72,8 +72,11 @@ class MetadataHelper {
 	 * @return boolean
 	 */
 	static function inTable($table, $field) {
-		$meta = Schema::columnMetadata($table, $field);
+		$subtype = self::subtype($table, $field);
 		
+		if (in_array($subtype, ['password_with_confirmation', 'password_confirmation'])) return false;
+		$meta = Schema::columnMetadata($table, $field);
+				
 		if ($field == "id") return false;
 		if (! $meta) return true;
 		if (! array_key_exists('inTable', $meta)) return true;
@@ -88,6 +91,8 @@ class MetadataHelper {
 	 * @return boolean
 	 */
 	static function inForm($table, $field) {
+		$subtype = self::subtype($table, $field);
+		
 		$meta = Schema::columnMetadata($table, $field);
 		if ($field == "id") return false;
 		if (! $meta) return true;
@@ -108,13 +113,13 @@ class MetadataHelper {
 		if ($meta && array_key_exists('subtype', $meta)) return $meta['subtype'];
 			
 		// Not found, maybe it's a derived field, look for root field
-		if (preg_match('/(.*)(\_confirm)/', $field, $matches)) {
+		if (preg_match('/(.*)(\_confirmation)/', $field, $matches)) {
 			$root = $matches[1];
 			
 			// root field metadata
 			$meta_root = Schema::columnMetadata($table, $root);
 			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "password_with_confirmation")) {
-				return "password_confirm";
+				return "password_confirmation";
 			}
 		}
 		
@@ -153,8 +158,10 @@ class MetadataHelper {
 				
 		if (! $full_type) {
 			$subtype = self::subtype($table, $field);
-			if ($subtype == "password_confirm") {
-				return "varchar";
+			if ($subtype == "password_confirmation") {
+				return "password";
+			} else if ($subtype == "password_with_confirmation") {
+				return "password";
 			} else if ($subtype == "datetime_date") {
 				return "date";
 			} else if ($subtype == "datetime_time") {
@@ -188,7 +195,7 @@ class MetadataHelper {
 		$subtype = self::subtype($table, $field);
 		
 		if ($subtype == "password_with_confirmation") {
-			return [$field, $field . "_confirm"];
+			return [$field, $field . "_confirmation"];
 		} else if ($subtype == "datetime_with_date_and_time") {
 			return [$field . "_date", $field . "_time"];
 		} 
@@ -296,6 +303,10 @@ class MetadataHelper {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "', $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
 		}
 		
+		if ($subtype == "password_with_confirmation" || $subtype == "password_confirmation") {
+			$type = "password";
+		}
+		
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);
 		if ($fkt) {
 			// the field is a foreign key
@@ -320,6 +331,10 @@ class MetadataHelper {
 		
 		if ($subtype == "checkbox") {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "') ? 'checked' : ''}}/>";
+		}
+		
+		if ($subtype == "password_with_confirmation" || $subtype == "password_confirmation") {
+			$type = "password";
 		}
 		
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);
@@ -491,6 +506,8 @@ class MetadataHelper {
 		$res = [];
 		$list = self::fillable_fields($table);
 		foreach ($list as $field) {
+			if (! self::inForm($table, $field)) continue;
+			// echo "adding $table $field to form\n";
 			$res[] = self::field_metadata($table, $field);
 		}
 		return $res;

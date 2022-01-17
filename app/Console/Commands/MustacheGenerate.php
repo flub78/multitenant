@@ -63,10 +63,10 @@ class MustacheGenerate extends Command {
 	protected function process_file(string $table, string $template_file, string $result_file) {
 		$verbose = $this->option('verbose');
 		$install = $this->option('install');
-		if ($verbose)
+		if ($verbose) {
 			echo "\nprocessing $table\n" . "template=$template_file\n" . "result=$result_file\n";
-
-		// if ($verbose) echo "schema=" . env("DB_SCHEMA") . "\n";
+			echo "Metadata schema=" . env("DB_SCHEMA") . "\n";
+		}
 
 		if ($verbose) {
 			$mustache = new \Mustache_Engine([ 'logger' => Log::channel('stderr')

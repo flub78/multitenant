@@ -20,7 +20,7 @@ return [
 	'admin' => 'Admin',
 	'active' => 'Active',
 	'password' => 'Password',
-	'confirm' => 'Confirm Password',
+	'password_confirmation' => 'Confirm Password',
 	'change_password' => 'Change password',
 	'current_password' => 'Current password',
 	'new_password' => 'New password',

@@ -47,7 +47,7 @@
           </div>
 
           <div class="form-group">
-              <label for="cases">{{__('user.confirm_new')}}</label>
+              <label for="cases">{{__('user.password_confirm_new')}}</label>
               <input type="password" class="form-control" name="new_password_confirmation" value="{{ old('new_password_confirmation') }}"/>
           </div>
 

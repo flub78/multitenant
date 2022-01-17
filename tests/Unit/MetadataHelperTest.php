@@ -49,7 +49,7 @@ class MetadataHelperTest extends TestCase {
 		
 		$fields = Meta::derived_fields("users", "password");
 		$this->assertEquals(2, count($fields));
-		$this->assertEquals(["password", "password_confirm"], $fields);
+		$this->assertEquals(["password", "password_confirmation"], $fields);
 		
 		$fields = Meta::derived_fields("unknow_table", "password");
 		
@@ -80,7 +80,7 @@ class MetadataHelperTest extends TestCase {
 		$this->assertTrue(Meta::inTable('users', 'name'));   
 		
 		$this->assertFalse(Meta::inTable('users', 'password'));
-		// $this->assertFalse(Meta::inTable('users', 'password_confirm'));		todo make it pass ...
+		$this->assertFalse(Meta::inTable('users', 'password_confirmation'));	
 		
 		$this->assertFalse(Meta::inTable('users', 'id'));      
 		$this->assertFalse(Meta::inTable('users', 'email_verified_at'));
@@ -100,7 +100,7 @@ class MetadataHelperTest extends TestCase {
 
 		$this->assertEquals("", Meta::subtype('users', 'name'));  // unknown subtype
 		
-		$this->assertEquals("password_confirm", Meta::subtype('users', 'password_confirm'));
+		$this->assertEquals("password_confirmation", Meta::subtype('users', 'password_confirmation'));
 		
 		$this->assertEquals("datetime_date", Meta::subtype('calendar_events', 'start_date'));
 		$this->assertEquals("datetime_time", Meta::subtype('calendar_events', 'end_time'));
@@ -120,7 +120,7 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals("datetime", Meta::type('calendar_events', 'end'));
 
 		// types of derived fields
-		$this->assertEquals("varchar", Meta::type('users', 'password_confirm'));
+		$this->assertEquals("password", Meta::type('users', 'password_confirmation'));
 		$this->assertEquals("date", Meta::type('calendar_events', 'start_date'));
 		$this->assertEquals("time", Meta::type('calendar_events', 'end_time'));
 	}
@@ -131,12 +131,12 @@ class MetadataHelperTest extends TestCase {
 		
 		// var_dump($fillable); exit;
 		
-		$this->assertEquals(["name", "email", "password", "password_confirm", "admin", "active"], $fillable);
+		$this->assertEquals(["name", "email", "password", "password_confirmation", "admin", "active"], $fillable);
 	}
 	
 	public function test_fillable_names() {
 		$fillable_names = Meta::fillable_names('users');
-		$this->assertEquals('"name", "email", "password", "password_confirm", "admin", "active"', $fillable_names);
+		$this->assertEquals('"name", "email", "password", "password_confirmation", "admin", "active"', $fillable_names);
 		
 		$fillable_names = Meta::fillable_names('unknow_table');
 		$this->assertEquals('', $fillable_names);

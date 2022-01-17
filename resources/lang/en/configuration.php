@@ -16,5 +16,6 @@ return [
 	'new' => "New Configuration",
 	'add' => "Add Configuration",
     'key' => "Key",
-	'value' => "Value"
+	'value' => "Value",
+	'key_values' => 'Valid configuration keys are: '
 ];
