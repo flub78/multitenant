@@ -1,10 +1,13 @@
 <?php
-
+/*
+ * Code generated from a template, if modifications are required, carefully consider if they should be done
+ * in the generated code or in the template.
+ */
 namespace App\Http\Controllers\Tenants;
 
-use App\Models\Tenants\Configuration;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\ConfigurationRequest;
-use app\Http\Controllers\Controller;
+use App\Models\Tenants\Configuration;
 
 /**
  * A controller for tenant configuration
@@ -44,7 +47,7 @@ class ConfigurationController extends Controller {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-     * @param App\Http\Requests\Tenants\ConfigurationRequest;
+     * @param App\Http\Requests\Tenants\ConfigurationRequest
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(ConfigurationRequest $request) {
@@ -59,10 +62,11 @@ class ConfigurationController extends Controller {
 	 *
 	 * @param \App\Models\Tenants\Configuration $configuration
 	 * @return \Illuminate\Http\Response
-	 */
+     */
 	public function show(Configuration $configuration) {
-		echo "ConfigurationController.show";
+        // echo "Configuration.show";
 	}
+
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -97,7 +101,6 @@ class ConfigurationController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy(Configuration $configuration) {
-		// var_dump($configuration); exit;
 		$key = $configuration->key;
 		$configuration->delete ();
 		return redirect ( 'configuration' )->with ( 'success', __('general.deletion_success', ['elt' => $key]));

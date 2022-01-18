@@ -9,7 +9,6 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\[[class_name]]Request;
 use App\Models\Tenants\[[class_name]];
-use Illuminate\Database\QueryException;
 
 /**
  * Controller for [[element]]
@@ -56,11 +55,11 @@ class [[class_name]]Controller extends Controller {
      *
      * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
      * @return \Illuminate\Http\Response
-
-    public function show([[class_name]] $[[element]]) {
-        //
-    }
      */
+    public function show([[class_name]] $[[element]]) {
+        // echo "[[class_name]].show\n";
+    }
+
     
     /**
      * Show the form for editing the specified resource.
@@ -96,8 +95,8 @@ class [[class_name]]Controller extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy([[class_name]] $[[element]]) {
-    	$full_name = $[[element]]->full_name;
+    	$[[primary_index]] = $[[element]]->[[primary_index]];
     	$[[element]]->delete();
-    	return redirect ( '[[element]]' )->with ( 'success', __('general.deletion_success', ['elt' => $full_name]));
+    	return redirect ( '[[element]]' )->with ( 'success', __('general.deletion_success', ['elt' => $[[primary_index]]]));
     }
 }

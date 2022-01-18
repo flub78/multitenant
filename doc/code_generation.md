@@ -257,7 +257,7 @@ table is a database table name
 
 ## configurations table
 
-    php artisan mustache:generate --compare configurations controller       OK
+    php artisan mustache:generate --compare configurations controller       OK, 100 %
 
     php artisan mustache:generate --compare roles request                   OK
         missing support for regexpr
