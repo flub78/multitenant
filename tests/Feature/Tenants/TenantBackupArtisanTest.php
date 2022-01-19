@@ -109,4 +109,10 @@ class TenantBackupArtisanTest extends TenantTestCase {
 		$this->assertEquals($exitCode, 0, "No error on backup:create --all");
 	}
 	
+	public function test_test_install() {
+		$tenant = tenant('id');
+		$exitCode = Artisan::call("backup:test_install --pretend --tenant=$tenant");
+		$this->assertEquals($exitCode, 0, "Error on backup:test_install");
+	}
+	
 }

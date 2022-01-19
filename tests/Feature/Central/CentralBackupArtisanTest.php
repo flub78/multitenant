@@ -126,4 +126,9 @@ class CentralBackupArtisanTest extends TestCase {
 		$exitCode = Artisan::call("backup:restore --force 999999999");
 		$this->assertEquals($exitCode, 1, "Error on backup:restore");
 	}
+	
+	public function test_test_install() {
+		$exitCode = Artisan::call("backup:test_install --pretend");
+		$this->assertEquals($exitCode, 0, "Error on backup:test_install");
+	}
 }
