@@ -55,6 +55,8 @@ class MetadataHelper {
 	 * @param unknown $table
 	 * @param unknown $field
 	 * @return boolean
+	 * 
+	 * TODO search metadata table with higher priority
 	 */
 	static function fillable($table, $field) {
 		$meta = Schema::columnMetadata($table, $field);
@@ -89,6 +91,8 @@ class MetadataHelper {
 	 * @param unknown $table
 	 * @param unknown $field
 	 * @return boolean
+	 * 
+	 * TODO search metadata table with higher priority
 	 */
 	static function inForm($table, $field) {
 		$subtype = self::subtype($table, $field);
@@ -106,6 +110,8 @@ class MetadataHelper {
 	 * @param unknown $table
 	 * @param unknown $field
 	 * @return string
+	 * 
+	 * TODO search metadata table with higher priority
 	 */
 	static public function subtype($table, $field) {
 		// look in the field comment

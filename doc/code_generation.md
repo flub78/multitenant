@@ -36,6 +36,26 @@ For each resource or database table I may generate:
 * an English language file (there is no need to generate several template files as English can perfectly be the template for others languages and automated translation is currently out of scope) Note that if this project is used one day at large scale if could be an convenient to prepare the translation files with Google translate. 
 
 and may be some others ones ...
+
+## Note on usage and implementation. 
+
+There is a tradeoff between making the code generator more and more complex to handle the maximum number of cases and keeping it simple at the cost of forcing
+the user to manually edit and complete the generated code. Note that the code is likely to be generated several times and if manual editions are required they will have to be perform several time. The previous sentence would push for a more complex code generator but there are limits.
+
+Note that reaching a level where most of the code does not require manual edition worth some efforts. In this case there is no more constraints on the number of time the code is generated and re-generated. In case of manual edition it is another story and better to strictly avoid useless generations.
+
+A field in a form can potentially use any of the validation methods supported by Laravel plus user defined validation routines.
+
+There is relatively little added value to support has many cases in the metadata. 
+
+To support that in a half flexible way it is possible to defined a few metadata attributes like
+rules_to_add, rules_to_replace, create_rules_to_add, create_rules_to_replace, edit_rules_to_add and
+edit_rules_to_replace. With these attributes it is possible to generate a request that would not require manual edition in most of the cases.
+
+There is another tradeoff between the facility to manually edit a simple PHP request file and modifying the database schema. Modifying the schema is usually harder as it implies to migrate the various databases used in development and to regenerate the databases used for testing, not taking into account the time to debug if a schema migration has been forgotten. At the minimum these operations should be fully automated, but even automated this process will have to be maintained.
+
+In other words, if the Request are not generated too often, it is easier to heave the code in PHP than into the schema.
+ 
     
 ## Implementation
 
@@ -51,12 +71,48 @@ Another example, the field size must be exact in the database if the developer i
 
 The information from the schema are really useful but not sufficient to define all treatments to data types. For example a VARCHAR can be used to store a postal address, an email address or a name and in each case must be handled differently. 
 
-The information fetched from the database schema is complemented by metadata information stored in the database itself. in a table named metadata.
+The information fetched from the database schema is complemented by metadata information stored in the database itself, in a table named metadata, or json encoded inside the MySql fields comments.
 
-Or should the metadata be json encoded in the comment field of each column? This approach makes it more evident that the full data model is made from the schema plus additional metadata. Developers have to care about the two concepts at the same time. The only drawbacks of the storage in the comment column are, first the comment column may be used for real comments and second it may be inconvenient if the quantity and type of metadata become big. It may look like a trick but it is more convenient to store everything related to the data model in the same place.
+Keeping it inside the comments makes it more evident that the full data model is made from the schema plus additional metadata. Developers have to care about the two concepts at the same time. The only drawbacks of the storage in the comment column are, first the comment column may be used for real comments and second it may be inconvenient if the quantity and type of metadata become big. It may look like a trick but it is more convenient to store everything related to the data model in the same place. The metadata table is a little more flexible as it does not imply to migrate the database. 
 
 This mechanism will be more likely used to generate code to manage resources for the tenants as the central application has only one feature: tenants management. So it is more useful to extract the schema information from the tenant database and so more logical to also store the metadata in the same database.
 
+### List of recognized metadata
+
+* subtype
+    * email
+    * checkbox
+    * password_with_confirmation
+    * datetime_with_date_and_time
+    * enumerate
+    * bitfield
+    * picture
+    * file
+    * color
+    * currency
+    * text
+    
+    
+* fillable
+    * yes | no
+    
+* inTable
+    * yes | no
+    
+* inForm
+    * yes | no
+    
+* comment
+
+* rules_to_add, rules_to_replace, create_rules_to_add, create_rules_to_replace, edit_rules_to_add and edit_rules_to_replace
+    * list of rules to replace existing ones or be merged with the existing ones
+
+* enumerate
+    * list of possible values for the field, either a flat list, or an associative array to specify displayed values and encoding.
+    
+* attrs
+    * a way to generate HTML attributes
+    
 ## Templating mechanism
 
 The information fetched from the database is used to tune and adapt templates. Templates 
@@ -259,7 +315,7 @@ table is a database table name
 
     php artisan mustache:generate --compare configurations controller       OK, 100 %
 
-    php artisan mustache:generate --compare roles request                   OK
+    php artisan mustache:generate --compare configurations request                   OK
         missing support for regexpr
         missing support for short list
     
