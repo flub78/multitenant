@@ -33,13 +33,13 @@ use App\Helpers\BladeHelper as Blade;
           @csrf
           
           <div class="form-group">    
-              <label for="title"> {{__('calendar_event.title')}}</label>
-              <input type="text" class="form-control" name="title" value="{{ old('title') }}"/>
+             <label for="title">{{__("calendar_event.title")}}</label>
+             <input type="text" class="form-control" name="title" value="{{ old("title") }}"/>
           </div>
           
           <div class="form-group">
-              <label for="description"> {{__('calendar_event.description')}}</label>
-              <input type="text" class="form-control" name="description" value="{{ old('description') }}"/>
+             <label for="description">{{__("calendar_event.description")}}</label>
+             <input type="text" class="form-control" name="description" value="{{ old("description") }}"/>
           </div>
           
            <div class="form-group">
@@ -52,6 +52,9 @@ use App\Helpers\BladeHelper as Blade;
               <input type="text" class="form-control datepicker" name="start" 
                   value="{{ old('start') ? old('start') : $start }}" 
                   dusk="start"/>
+           </div>
+               
+           <div class="form-group">   
               <label for="start_time"> {{__('calendar_event.start_time')}}</label>
               <input type="text" class="form-control timepicker" name="start_time" id="start_time"
               		value="{{ old('start_time') ?  old('start_time') : $start_time}}"/>

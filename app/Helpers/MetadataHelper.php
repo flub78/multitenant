@@ -337,7 +337,7 @@ class MetadataHelper {
 		$subtype = self::subtype($table, $field);
 		
 		if ($subtype == "checkbox") {
-			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old('" . $field . "') ? 'checked' : ''}}/>";
+			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" id=\"" . $field . "\" value=\"1\"  {{old('" . $field . "') ? 'checked' : ''}}/>";
 		}
 		
 		if ($subtype == "password_with_confirmation" || $subtype == "password_confirmation") {

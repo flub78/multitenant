@@ -313,9 +313,9 @@ table is a database table name
 
 ## configurations table
 
-    php artisan mustache:generate --compare configurations controller       OK, 100 %
+    php artisan mustache:generate --compare configurations controller       OK
 
-    php artisan mustache:generate --compare configurations request                   OK
+    php artisan mustache:generate --compare configurations request          Almost
         missing support for regexpr
         missing support for short list
     
