@@ -78,7 +78,7 @@ class CalendarEventController extends Controller {
 			
 			$start = explode(' ', $request->get ('start'))[0];
 			$cstart = Carbon::parse($start);
-			$data['start'] = $cstart->format(__('general.date_format'));
+			$data['start_date'] = $cstart->format(__('general.date_format'));
 			$start_time = $cstart->format(__('general.time_format'));
 			if (strlen($start) > 12) {
 				// a time was specified.
@@ -87,7 +87,7 @@ class CalendarEventController extends Controller {
 				$data['start_time'] = "";
 			}
 		} else {
-			$data['start'] = "";
+			$data['start_date'] = "";
 			$data['start_time'] = "";
 		}
 		$data['defaultBackgroundColor'] = "#00FFFF";
@@ -110,7 +110,7 @@ class CalendarEventController extends Controller {
 array (size=9)
   'title' => string 'Titre' (length=5)
   'description' => string 'Description' (length=11)
-  'start' => string '14/12/2021' (length=10)
+  'start_date' => string '14/12/2021' (length=10)
   'start_time' => string '10:20' (length=5)
   'end' => string '15/12/2021' (length=10)
   'end_time' => string '10:30' (length=5)
@@ -123,17 +123,17 @@ array (size=9)
 		
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 		
-		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
+		if (array_key_exists ( 'start_date', $validatedData ) && $validatedData ['start_date']) {
 			if (! array_key_exists ( 'start_time', $validatedData )) {
 				$validatedData ['start_time'] = '';
 			}
-			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
+			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start_date'], $validatedData ['start_time'] );
 		}
-		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
+		if (array_key_exists ( 'end_date', $validatedData ) && $validatedData ['end_date']) {
 			if (! array_key_exists ( 'end_time', $validatedData )) {
 				$validatedData ['end_time'] = '';
 			}
-			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
+			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end_date'], $validatedData ['end_time'] );
 		}
 		if (!array_key_exists ( 'backgroundColor', $validatedData )) {
 			$validatedData ['backgroundColor'] = '#FFFFFF';
@@ -142,6 +142,11 @@ array (size=9)
 			$validatedData ['textColor'] = '#000000';
 		}
 
+		unset ( $validatedData ['start_date'] );
+		unset ( $validatedData ['end_date'] );
+		unset ( $validatedData ['start_time'] );
+		unset ( $validatedData ['end_time'] );
+		
 		CalendarEvent::create ( $validatedData );
 
 		return redirect ( $this->base_url )->with ( 'success', __ ( 'general.creation_success', [ 
@@ -176,14 +181,22 @@ array (size=9)
 
 		Log::Debug("CalendarEventController.update: id=$id, validated=" . var_export($validatedData, true));
 		
-		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
-			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
+		if (array_key_exists ( 'start_date', $validatedData ) && $validatedData ['start_date']) {
+			if (! array_key_exists ( 'start_time', $validatedData )) {
+				$validatedData ['start_time'] = '';
+			}
+			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start_date'], $validatedData ['start_time'] );
 		}
-		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
-			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
+		if (array_key_exists ( 'end_date', $validatedData ) && $validatedData ['end_date']) {
+			if (! array_key_exists ( 'end_time', $validatedData )) {
+				$validatedData ['end_time'] = '';
+			}
+			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end_date'], $validatedData ['end_time'] );
 		}
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 
+		unset ( $validatedData ['start_date'] );
+		unset ( $validatedData ['end_date'] );
 		unset ( $validatedData ['start_time'] );
 		unset ( $validatedData ['end_time'] );
 

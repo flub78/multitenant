@@ -177,11 +177,11 @@ class CalendarEventController extends Controller {
 	public function store(CalendarEventRequest $request) {
 		$validatedData = $request->validated ();
 
-		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
-			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
+		if (array_key_exists ( 'start_date', $validatedData ) && $validatedData ['start_date']) {
+			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start_date'], $validatedData ['start_time'] );
 		}
-		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
-			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
+		if (array_key_exists ( 'end_date', $validatedData ) && $validatedData ['end_date']) {
+			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end_date'], $validatedData ['end_time'] );
 		}
 		$validatedData ['allDay'] = $request->has ( 'allDay' );
 
@@ -208,14 +208,16 @@ class CalendarEventController extends Controller {
 	public function update(CalendarEventRequest $request, $id) {
 		$validatedData = $request->validated ();
 
-		if (array_key_exists ( 'start', $validatedData ) && $validatedData ['start']) {
-			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start'], $validatedData ['start_time'] );
+		if (array_key_exists ( 'start_date', $validatedData ) && $validatedData ['start_date']) {
+			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start_date'], $validatedData ['start_time'] );
 		}
-		if (array_key_exists ( 'end', $validatedData ) && $validatedData ['end']) {
-			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end'], $validatedData ['end_time'] );
+		if (array_key_exists ( 'end_date', $validatedData ) && $validatedData ['end_date']) {
+			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end_date'], $validatedData ['end_time'] );
 		}
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 
+		unset ( $validatedData ['start_date'] );
+		unset ( $validatedData ['end_date'] );
 		unset ( $validatedData ['start_time'] );
 		unset ( $validatedData ['end_time'] );
 

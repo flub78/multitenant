@@ -26,13 +26,13 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/TenantControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralHomeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/AdminAccessTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralBackupArtisanTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralBackupArtisanTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/UserControllerTest.php
 
 
 @rem Tenant application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantFeatureExampleTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/LocalizationTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ArtisanMustacheTest.php
 
@@ -56,5 +56,5 @@ php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
 
     @rem APIs
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
 

@@ -198,7 +198,7 @@ class LocalizationTest extends DuskTestCase {
 			$browser->visit ( $this->calendar_url . '/create' )
 			->assertSee ( 'New Event' );
 			
-			$browser->click('@start');
+			$browser->click('@start_date');
 						
 			$browser->assertSee ( 'Su' )
 			->assertSee ( 'Mo' )
@@ -219,7 +219,7 @@ class LocalizationTest extends DuskTestCase {
 			// Check datepicker in French
 			$browser->visit ( $this->calendar_url . '/create' )
 			->assertSee ( 'Nouvel événement' )
-			->click('@start');
+			->click('@start_date');
 			
 			$browser->assertSee ( 'L' )
 			->assertSee ( 'M' )

@@ -48,10 +48,10 @@ use App\Helpers\BladeHelper as Blade;
           </div>
           
            <div class="form-group">
-              <label for="start"> {{__('calendar_event.start_date')}}</label>
-              <input type="text" class="form-control datepicker" name="start" 
-                  value="{{ old('start') ? old('start') : $start }}" 
-                  dusk="start"/>
+              <label for="start_date"> {{__('calendar_event.start_date')}}</label>
+              <input type="text" class="form-control datepicker" name="start_date" 
+                  value="{{ old('start_date') ? old('start_date') : $start_date }}" 
+                  dusk="start_date"/>
            </div>
                
            <div class="form-group">   
@@ -61,8 +61,8 @@ use App\Helpers\BladeHelper as Blade;
           </div>
 
            <div class="form-group">
-              <label for="end"> {{__('calendar_event.end_date')}}</label>
-              <input type="text" class="form-control datepicker" name="end" value="{{ old('end') }}" dusk="end"/>
+              <label for="end_date"> {{__('calendar_event.end_date')}}</label>
+              <input type="text" class="form-control datepicker" name="end_date" value="{{ old('end_date') }}" dusk="end_date"/>
               <label for="end_time"> {{__('calendar_event.end_time')}}</label>
               <input type="text" class="form-control timepicker" name="end_time" id="end_time"
               		value="{{ old('end_time') }}"/>

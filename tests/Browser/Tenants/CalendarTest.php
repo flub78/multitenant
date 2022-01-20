@@ -105,19 +105,19 @@ class CalendarTest extends DuskTestCase {
 			$start_time = '10:15';
 			
 			$browser->type ( 'title', $event_title)
-			->type('start', $start)
+			->type('start_date', $start)
 			->uncheck('allDay')
 			->type('start_time', $start_time)
 			->press ( 'Add Event' )
-			->assertDontSee('The start does not match the format m-d-Y');
+			->assertDontSee('The start date does not match the format m-d-Y');
 			
 			// Check the result
 			$browser
 			->click ( '@edit_' . $event_title )
 			->assertSee (__('general.edit'))
-			->assertInputValue('start', $start)
+			->assertInputValue('start_date', $start)
 			->assertInputValue('start_time', $start_time)
-			->assertInputValue('end', '')
+			->assertInputValue('end_date', '')
 			->assertInputValue('end_time', '')
 			->assertNotChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
@@ -142,7 +142,7 @@ class CalendarTest extends DuskTestCase {
 			
 			$browser->visit ( $this->base_url . '/create' )
 			->type ( 'title', $event_title)
-			->type('start', $start)
+			->type('start_date', $start)
 			->check('allDay')
 			// ->type('start_time', $start_time)
 			->press ( 'Add Event' )
@@ -152,9 +152,9 @@ class CalendarTest extends DuskTestCase {
 			$browser
 			->click ( '@edit_' . $event_title )
 			->assertSee (__('general.edit'))
-			->assertInputValue('start', $start)
+			->assertInputValue('start_date', $start)
 			->assertInputValue('start_time', '00:00')
-			->assertInputValue('end', '')
+			->assertInputValue('end_date', '')
 			->assertInputValue('end_time', '')
 			->assertChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
@@ -180,23 +180,23 @@ class CalendarTest extends DuskTestCase {
 			$end_time = '12:15';
 			
 			$browser->visit ( $this->base_url . '/create' )
-			->type('end', $end)
+			->type('end_date', $end)
 			->type('end_time', $end_time)
-			->type('start', $start)
+			->type('start_date', $start)
 			->type('start_time', $start_time)
 			->uncheck('allDay')
 			->type ( 'title', $event_title)
 			->type('description', 'description')    // important to close the end date dialog
 			->press ( 'Add Event' )
-			->assertDontSee('The start does not match the format m-d-Y');
+			->assertDontSee('The start date does not match the format m-d-Y');
 			
 			// Check the result
 			$browser
 			->click ( '@edit_' . $event_title )
 			->assertSee (__('general.edit'))
-			->assertInputValue('end', $end)
+			->assertInputValue('end_date', $end)
 			->assertInputValue('end_time', $end_time)
-			->assertInputValue('start', $start)
+			->assertInputValue('start_date', $start)
 			->assertInputValue('start_time', $start_time)
 			->assertNotChecked('allDay');
 			$this->assertEquals($event_title, $browser->inputValue('title'));
@@ -258,11 +258,11 @@ class CalendarTest extends DuskTestCase {
 			$browser->screenshot('Tenants/after_day_clicked');
 			
 			$browser->type ( 'title', $event_title)
-			->type('start', $today->format('m-d-Y'))
+			->type('start_date', $today->format('m-d-Y'))
 			->check('allDay')
 			// ->type('start_time', $today->format('H:i'))      start_time is disabled when allDay is checked
 			->press ( 'Add Event' )
-			->assertDontSee('The start does not match the format m-d-Y')
+			->assertDontSee('The start date does not match the format m-d-Y')
 			->assertSee($event_title);
 			
 			$browser->screenshot('Tenants/after_fullcalendar_create');
@@ -303,13 +303,13 @@ class CalendarTest extends DuskTestCase {
 				
 			$browser->type ( 'title', $event_title)
 			->type('description', $description)
-			->type('start', $today->format('m-d-Y'))
+			->type('start_date', $today->format('m-d-Y'))
 			->check('allDay')
 			// ->type('start_time', '10:15')			start_time is disabled when allDay is checked
 			//->type('backgroundColor', '#ffd966')
 			// >type('textColor', '#cc0000')
 			->press ( 'Add Event' )
-			->assertDontSee('The start does not match the format m-d-Y');
+			->assertDontSee('The start date does not match the format m-d-Y');
 			
 			
 			$browser
@@ -358,11 +358,11 @@ class CalendarTest extends DuskTestCase {
 				
 			// Fill the form and validate
 			$browser->type ( 'title', $event_title)
-			->type('start', $today->format('m-d-Y'))
+			->type('start_date', $today->format('m-d-Y'))
 			->check('allDay')
 			// ->type('start_time', $today->format('H:i'))			start_time is disabled when allDay is checked
 			->press ( 'Add Event' )
-			->assertDontSee('The start does not match the format m-d-Y')
+			->assertDontSee('The start date does not match the format m-d-Y')
 			->assertSee($event_title);
 			
 			// display fullcalendar

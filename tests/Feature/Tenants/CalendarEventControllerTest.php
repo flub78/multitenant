@@ -62,7 +62,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$title = "Event $initial_count";
 		$description = "description $initial_count";
 		$start = "07-31-2021";
-		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 'start_time' => '10:00',
+		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start, 'start_time' => '10:00',
 				'allDay' => 1, 'backgroundColor' => '#000000', 'textColor' => '#000000'
 		];
 				
@@ -126,10 +126,10 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$end = "08-02-2021";
 		$elt = ['title' => $title, 
 				'description' => $description, 
-				'start' => $start, 
+				'start_date' => $start, 
 				'start_time' => '10:00',
 				'allDay' => false,
-				'end' => $end,
+				'end_date' => $end,
 				'end_time' => '12:00',
 		];
 		
@@ -158,7 +158,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$title = "Event $initial_count";
 		$description = "description $initial_count";
 		$start = "start";
-		$elt = ['title' => $title, 'description' => $description, 'start' => $start];
+		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start];
 		
 		$this->post_tenant_url( $this->user, $this->base_url, [], $elt, $errors_expected = true);
 		
@@ -174,7 +174,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$description = "description $initial_count";
 		$start = "08-31-2021";
 		$end = "07-31-2021";
-		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 'start_time' => '99:99', 'end' => $end];
+		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start, 'start_time' => '99:99', 'end_date' => $end];
 		
 		$this->post_tenant_url( $this->user, $this->base_url, [], $elt, $errors_expected = true);
 		
@@ -219,7 +219,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$new_title = "new title";
 		$new_start = '06-24-2021';
 		$elt = ["id" => $event->id, "title" => $new_title,
-				'start' => $new_start, 'end' => $new_start,
+				'start_date' => $new_start, 'end_date' => $new_start,
 				'start_time' => '06:30', 'end_time' => '07:45', 
 				'allDay' => false, '_token' => csrf_token()];
 						

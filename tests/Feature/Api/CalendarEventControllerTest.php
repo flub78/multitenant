@@ -121,8 +121,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$title = "Event $initial_count";
 		$description = "Description $initial_count";
 		$start = "07-31-2021";
-		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 'start_time' => '10:00',
-				'allDay' => 0, 'end' => $start, 'end_time' => '12:00'
+		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start, 'start_time' => '10:00',
+				'allDay' => 0, 'end_date' => $start, 'end_time' => '12:00'
 		];
 				
 		// call the post method to create it
@@ -157,12 +157,12 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$title = "Event $initial_count";
 		$description = "description $initial_count";
 		$start = "start";
-		$elt = ['title' => $title, 'description' => $description, 'start' => $start];
+		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start];
 		
 		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $elt);
 		$json = $response->json();
 		$this->assertEquals('The given data was invalid.', $json['message']);
-		$this->assertEquals('The start does not match the format m-d-Y.', $json['errors']['start'][0]);
+		$this->assertEquals('The start date does not match the format m-d-Y.', $json['errors']['start_date'][0]);
 		
 		// Check that nothing has been created
 		$new_count = CalendarEvent::count ();
@@ -227,7 +227,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$new_title = "new title";
 		$new_start = '06-24-2021';
 		$elt = ["id" => $event->id, "title" => $new_title,
-				'start' => $new_start, 'end' => $new_start,
+				'start_date' => $new_start, 'end_date' => $new_start,
 				'start_time' => '06:30', 'end_time' => '07:45', 
 				'allDay' => false, '_token' => csrf_token()];
 						
