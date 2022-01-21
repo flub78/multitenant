@@ -165,7 +165,7 @@ array (size=9)
 	 */
 	public function edit($id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
-		return view ( $this->base_view . 'edit' )->with ( 'calendarEvent', $calendarEvent );
+		return view ( $this->base_view . 'edit' )->with ( 'calendar_event', $calendarEvent );
 	}
 
 	/**

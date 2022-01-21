@@ -83,9 +83,7 @@ use App\Helpers\BladeHelper as Blade;
                             value="{{ old('textColor') ?  old('textColor') : $defaultTextColor}}"/>              
           </div>
           
-           
-           @button_submit({{__('general.submit')}})
-
+          <button type="submit" class="btn btn-primary"> {{__('calendar_event.add')}}</button>
       </form>
   </div>
 </div>

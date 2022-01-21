@@ -303,6 +303,7 @@ class MetadataHelper {
 	static public function field_input_edit (String $table, String $field) {
 		$type = "text";
 		$element = self::element($table);
+		$field_type = self::type($table, $field);
 		$subtype = self::subtype($table, $field);
 		
 		if ($subtype == "checkbox") {
@@ -321,7 +322,24 @@ class MetadataHelper {
 			return '{!! Blade::selector("' . $field . '", $' . $target_element . '_list, $' . $element  . '->' . $field .') !!}';
 		}
 		
-		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
+		$class = 'form-control';
+		
+		if ($field_type == "date") {
+			$class .= ' datepicker';
+		}
+		
+		if ($field_type == "time") {
+			$class .= ' timepicker';
+		}
+
+		if ($subtype == "color") {
+			$class .= ' colorpicker';
+			$type = 'color';
+		}
+		
+		return '<input type="' . $type 
+			. '" class="' . $class .'" name="' 
+			. $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
 	}
 	
 	/**
@@ -334,6 +352,7 @@ class MetadataHelper {
 	static public function field_input_create (String $table, String $field) {
 		$type = "text";
 		$element = self::element($table);
+		$field_type = self::type($table, $field);
 		$subtype = self::subtype($table, $field);
 		
 		if ($subtype == "checkbox") {
@@ -351,7 +370,24 @@ class MetadataHelper {
 			return '{!! Blade::selector("' . $field . '", $' . $target_element . '_list, "") !!}';
 		}
 		
-		return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '") }}"/>';
+		$class = 'form-control';
+		
+		if ($field_type == "date") {
+			$class .= ' datepicker';
+		}
+		
+		if ($field_type == "time") {
+			$class .= ' timepicker';
+		}
+		
+		if ($subtype == "color") {
+			$class .= ' colorpicker';
+			$type = 'color';
+		}
+		
+		return '<input type="' . $type 
+			. '" class="' . $class . '" name="' 
+			. $field . '" value="{{ old("' . $field . '") }}"/>';
 	}
 	
 	/**

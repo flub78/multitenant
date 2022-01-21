@@ -104,6 +104,9 @@ class MetadataHelperTest extends TestCase {
 		
 		$this->assertEquals("datetime_date", Meta::subtype('calendar_events', 'start_date'));
 		$this->assertEquals("datetime_time", Meta::subtype('calendar_events', 'end_time'));
+		
+		$this->assertEquals("color", Meta::subtype('calendar_events', 'textColor'));
+		
 	}
 	
 	public function test_type() {
@@ -123,6 +126,8 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals("password", Meta::type('users', 'password_confirmation'));
 		$this->assertEquals("date", Meta::type('calendar_events', 'start_date'));
 		$this->assertEquals("time", Meta::type('calendar_events', 'end_time'));
+
+		$this->assertEquals("varchar", Meta::type('calendar_events', 'textColor'));
 	}
 	
 	public function test_fillable_fields() {
@@ -145,5 +150,16 @@ class MetadataHelperTest extends TestCase {
 	public function test_dusk() {
 		$dusk = Meta::dusk('users', 'users');
 		$this->assertEquals('edit_{{ $users->name }}', $dusk);
+	}
+	
+	public function test_field_label() {
+		$label = Meta::field_label("calendar_events", "start_date");
+		$this->assertEquals('<label for="start_date">{{__("calendar_event.start_date")}}</label>', $label);
+	}
+	
+	public function test_field_input_create() {
+		$input = Meta::field_input_create("calendar_events", "start_date");
+		echo $input;
+		$this->assertNotEquals('', $input);
 	}
 }
