@@ -19,7 +19,7 @@
           <td>{{__('calendar_event.description')}}</td>
           <td>{{__('calendar_event.start_date')}}</td>
           <td>{{__('calendar_event.start_time')}}</td>
-          <td>{{__('calendar_event.allday')}}</td>
+          <td>{{__('calendar_event.allDay')}}</td>
           <td>{{__('calendar_event.end_date')}}</td>
           <td>{{__('calendar_event.end_time')}}</td>
           <td >{{__('general.edit')}}</td>

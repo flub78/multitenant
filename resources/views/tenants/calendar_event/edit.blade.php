@@ -44,7 +44,7 @@ use App\Helpers\BladeHelper as Blade;
           </div>
 
            <div class="form-group">
-              <label for="allDay"> {{__('calendar_event.allday')}}</label>
+              <label for="allDay"> {{__('calendar_event.allDay')}}</label>
               <input type="checkbox" class="form-control" name="allDay"  id="allDay" value="1"  {{old('allDay', $calendarEvent->allDay) ? 'checked' : ''}}/>
           </div>
           

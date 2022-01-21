@@ -36,7 +36,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	public function test_calendar_event_list() {
 		
 		$this->get_tenant_url($this->user, $this->base_url, 
-				[__('calendar_event.add'), __('calendar_event.description'), __('calendar_event.event_title'), __('calendar_event.allday')]);	
+				[__('calendar_event.add'), __('calendar_event.description'), __('calendar_event.event_title'), __('calendar_event.allDay')]);	
 	}
 
 	public function test_calendar_event_fullcalendar() {

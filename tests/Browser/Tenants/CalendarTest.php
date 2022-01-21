@@ -76,7 +76,7 @@ class CalendarTest extends DuskTestCase {
 			->assertSee(__('calendar_event.add'))
 			->assertSee(__('calendar_event.start_date'))
 			->assertSee(__('calendar_event.start_time'))
-			->assertSee(__('calendar_event.allday'))
+			->assertSee(__('calendar_event.allDay'))
 			;
 			
 			$browser->storeSource('Tenants/calendar_list.html');
@@ -95,7 +95,7 @@ class CalendarTest extends DuskTestCase {
 			->assertSee(__('calendar_event.new'))
 			->assertSee(__('calendar_event.start_date'))
 			->assertSee(__('calendar_event.start_time'))
-			->assertSee(__('calendar_event.allday'))
+			->assertSee(__('calendar_event.allDay'))
 			;
 			
 			$browser->storeSource('Tenants/calendar_create.html');
@@ -252,7 +252,7 @@ class CalendarTest extends DuskTestCase {
 			$browser->assertSee (__('calendar_event.new'))			
 			->assertSee(__('calendar_event.start_date'))
 			->assertSee(__('calendar_event.start_time'))
-			->assertSee(__('calendar_event.allday'));
+			->assertSee(__('calendar_event.allDay'));
 			
 			// check we are on the create view
 			$browser->screenshot('Tenants/after_day_clicked');
@@ -298,7 +298,7 @@ class CalendarTest extends DuskTestCase {
 			->assertSee(__('calendar_event.new'))
 			->assertSee(__('calendar_event.start_date'))
 			->assertSee(__('calendar_event.start_time'))
-			->assertSee(__('calendar_event.allday'))
+			->assertSee(__('calendar_event.allDay'))
 			;
 				
 			$browser->type ( 'title', $event_title)
@@ -353,7 +353,7 @@ class CalendarTest extends DuskTestCase {
 			->assertSee(__('calendar_event.new'))
 			->assertSee(__('calendar_event.start_date'))
 			->assertSee(__('calendar_event.start_time'))
-			->assertSee(__('calendar_event.allday'))
+			->assertSee(__('calendar_event.allDay'))
 			;
 				
 			// Fill the form and validate
@@ -378,7 +378,7 @@ class CalendarTest extends DuskTestCase {
 			$browser->assertSee (__('general.edit'))
 			->assertSee(__('calendar_event.start_date'))
 			->assertSee(__('calendar_event.start_time'))
-			->assertSee(__('calendar_event.allday'));
+			->assertSee(__('calendar_event.allDay'));
 			
 			$input_title = $browser->inputValue('title');
 			$this->assertEquals($input_title, $event_title);

@@ -19,7 +19,7 @@ return [
 		'fullcalendar' => 'Full Calendar',
 		'event_title' => 'Event',
 		'description' => 'Description',
-		'allday' => 'All Day',
+		'allDay' => 'All Day',
 		'start_date' => 'Date',
 		'end_date' => 'End Date',
 		'start_time' => 'Time',

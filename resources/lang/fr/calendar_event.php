@@ -20,7 +20,7 @@ return [
 	'fullcalendar' => 'Mensuel',
 	'event_title' => 'Evénement',
 	'description' => 'Description',
-	'allday' => 'Toute la journée',
+	'allDay' => 'Toute la journée',
 	'start_date' => 'Date',
 	'end_date' => 'Date de fin',
 	'start_time' => 'Heure',
