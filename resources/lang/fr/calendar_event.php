@@ -26,8 +26,8 @@ return [
 	'start_time' => 'Heure',
 	'end_time' => 'Heure de fin',
 	'duration' => 'Durée',
-	'background_color' => 'Couleur de fond',
-	'text_color' => 'Couleur du texte',
+	'backgroundColor' => 'Couleur de fond',
+	'textColor' => 'Couleur du texte',
 		
 	'end_before_start' => "La fin doit être après le début."
 		

@@ -31,9 +31,8 @@ use App\Helpers\BladeHelper as Blade;
     @endif
     
       <form method="post" action="{{ route('[[element]].update', $[[element]]->[[primary_index]] ) }}">
-          <div class="form-group">
-              @csrf
-              @method('PATCH')
+             @csrf
+             @method('PATCH')
               
              [[# form_field_list ]]
              <div class="form-group">

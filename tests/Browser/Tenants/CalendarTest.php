@@ -108,7 +108,7 @@ class CalendarTest extends DuskTestCase {
 			->type('start_date', $start)
 			->uncheck('allDay')
 			->type('start_time', $start_time)
-			->press ( 'Add Event' )
+			->press ( __('general.submit'))
 			->assertDontSee('The start date does not match the format m-d-Y');
 			
 			// Check the result
@@ -145,7 +145,7 @@ class CalendarTest extends DuskTestCase {
 			->type('start_date', $start)
 			->check('allDay')
 			// ->type('start_time', $start_time)
-			->press ( 'Add Event' )
+			->press ( __('general.submit'))
 			->assertDontSee('The start does not match the format m-d-Y');
 			
 			// Check the result
@@ -187,7 +187,7 @@ class CalendarTest extends DuskTestCase {
 			->uncheck('allDay')
 			->type ( 'title', $event_title)
 			->type('description', 'description')    // important to close the end date dialog
-			->press ( 'Add Event' )
+			->press ( __('general.submit'))
 			->assertDontSee('The start date does not match the format m-d-Y');
 			
 			// Check the result
@@ -261,7 +261,7 @@ class CalendarTest extends DuskTestCase {
 			->type('start_date', $today->format('m-d-Y'))
 			->check('allDay')
 			// ->type('start_time', $today->format('H:i'))      start_time is disabled when allDay is checked
-			->press ( 'Add Event' )
+			->press ( __('general.submit'))
 			->assertDontSee('The start date does not match the format m-d-Y')
 			->assertSee($event_title);
 			
@@ -308,7 +308,7 @@ class CalendarTest extends DuskTestCase {
 			// ->type('start_time', '10:15')			start_time is disabled when allDay is checked
 			//->type('backgroundColor', '#ffd966')
 			// >type('textColor', '#cc0000')
-			->press ( 'Add Event' )
+			->press ( __('general.submit'))
 			->assertDontSee('The start date does not match the format m-d-Y');
 			
 			
@@ -361,7 +361,7 @@ class CalendarTest extends DuskTestCase {
 			->type('start_date', $today->format('m-d-Y'))
 			->check('allDay')
 			// ->type('start_time', $today->format('H:i'))			start_time is disabled when allDay is checked
-			->press ( 'Add Event' )
+			->press ( __('general.submit'))
 			->assertDontSee('The start date does not match the format m-d-Y')
 			->assertSee($event_title);
 			

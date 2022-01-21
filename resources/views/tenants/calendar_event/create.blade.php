@@ -44,43 +44,43 @@ use App\Helpers\BladeHelper as Blade;
           
            <div class="form-group">
              <label for="allDay">{{__("calendar_event.allDay")}}</label>
-              <input type="checkbox" class="form-control" name="allDay" id="allDay" value="1"  {{old('allDay') ? 'checked' : ''}}/>
+              <input type="checkbox" class="form-control" name="allDay" id="allDay" value="1"  {{old("allDay") ? 'checked' : ''}}/>
           </div>
           
            <div class="form-group">
-              <label for="start_date"> {{__('calendar_event.start_date')}}</label>
+              <label for="start_date"> {{__("calendar_event.start_date")}}</label>
               <input type="text" class="form-control datepicker" name="start_date" 
-                  value="{{ old('start_date') ? old('start_date') : $start_date }}" 
+                  value="{{ old("start_date") ? old("start_date") : $start_date }}" 
                   dusk="start_date"/>
            </div>
                
            <div class="form-group">   
-              <label for="start_time"> {{__('calendar_event.start_time')}}</label>
+              <label for="start_time"> {{__("calendar_event.start_time")}}</label>
               <input type="text" class="form-control timepicker" name="start_time" id="start_time"
-              		value="{{ old('start_time') ?  old('start_time') : $start_time}}"/>
+              		value="{{ old("start_time") ?  old("start_time") : $start_time}}"/>
           </div>
 
            <div class="form-group">
-              <label for="end_date"> {{__('calendar_event.end_date')}}</label>
-              <input type="text" class="form-control datepicker" name="end_date" value="{{ old('end_date') }}" dusk="end_date"/>
+              <label for="end_date"> {{__("calendar_event.end_date")}}</label>
+              <input type="text" class="form-control datepicker" name="end_date" value="{{ old("end_date") }}" dusk="end_date"/>
            </div>
           
            <div class="form-group">
-              <label for="end_time"> {{__('calendar_event.end_time')}}</label>
+              <label for="end_time"> {{__("calendar_event.end_time")}}</label>
               <input type="text" class="form-control timepicker" name="end_time" id="end_time"
-              		value="{{ old('end_time') }}"/>
+              		value="{{ old("end_time") }}"/>
           </div>
 
            <div class="form-group">
-              <label for="backgroundColor"> {{__('calendar_event.background_color')}}</label>
+              <label for="backgroundColor"> {{__("calendar_event.backgroundColor")}}</label>
               <input type="color" class="form-control colorpicker " name="backgroundColor" 
-                            value="{{ old('backgroundColor') ?  old('backgroundColor') : $defaultBackgroundColor}}"/>              
+                            value="{{ old("backgroundColor") ?  old("backgroundColor") : $defaultBackgroundColor}}"/>              
           </div>
 
            <div class="form-group">
-              <label for="textColor"> {{__('calendar_event.text_color')}}</label>
+              <label for="textColor"> {{__("calendar_event.textColor")}}</label>
               <input type="color" class="form-control colorpicker" name="textColor" 
-                            value="{{ old('textColor') ?  old('textColor') : $defaultTextColor}}"/>              
+                            value="{{ old("textColor") ?  old("textColor") : $defaultTextColor}}"/>              
           </div>
           
            
