@@ -49,9 +49,9 @@ class MustacheTest extends TestCase {
 		$installation = getcwd();
 		$templates =  getcwd() . $ds . 'build' . $ds . 'templates';
 		$results =  getcwd() . $ds . 'build' . $ds . 'results';
-		echo "\nGEN_TEMPLATES = $templates";
+		// echo "\nGEN_TEMPLATES = $templates";
 		
-		print_r($this->getDirContents($templates));
+		// print_r($this->getDirContents($templates));
 		$this->assertTrue(true);
 	}
 }

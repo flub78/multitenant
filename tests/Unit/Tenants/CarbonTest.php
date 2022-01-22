@@ -200,7 +200,7 @@ class CarbonTest extends TenantTestCase
     	$date = Carbon::now();
     	for ($i = 0; $i < 100; $i++) {
     		$date->add(2, 'hour');
-    		echo "\n" . $date->toDateTimeString();
+    		// echo "\n" . $date->toDateTimeString();
     	}    	
     }
     
@@ -233,13 +233,13 @@ class CarbonTest extends TenantTestCase
     public function test_carbon_create() {
     	// $date = Carbon::parse('Fri Jan 07 2022 00:00:00 GMT 0100 (heure normale d’Europe centrale)');
     	$date = Carbon::parse('2022-01-07');
-    	echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
+    	// echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
     	
     	$date = Carbon::parse('2021-12-30T09:00:00'); //  01:00');
-    	echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
+    	// echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
     	
     	$date = Carbon::parse('31-07-2021 10:00');        // '07-31-2021 10:00' raises an exception
-    	echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
+    	// echo "\ndate == " . $date->format('Y-m-d h:i:s A') ;
     	
     	$this->expectException(InvalidFormatException::class);
     	$date = Carbon::parse('zorglub');

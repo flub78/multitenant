@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Helpers\MetadataHelper as Meta;
+use App\Helpers\CodeGenerator as CG;
 use Exception;
 
 /**

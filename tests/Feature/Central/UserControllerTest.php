@@ -180,7 +180,7 @@ class UserControllerTest extends TestCase {
 		$stored = User::where('name', 'Turlututu')->first();
 		$this->assertEquals( $stored->email, $new_email, "value updated");
 		// $this->assertEquals(1, $stored->isAdmin());
-		echo "admin = " . $stored->admin;
+		// echo "admin = " . $stored->admin;
 		
 		$url = "/user/" . $stored->id;
 		$this->delete($url);

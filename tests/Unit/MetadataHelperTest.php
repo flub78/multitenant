@@ -162,4 +162,37 @@ class MetadataHelperTest extends TestCase {
 		echo $input;
 		$this->assertNotEquals('', $input);
 	}
+
+	public function test_metada_from_table_overwrite_comments () {
+		
+		// Let's use a field for which metadata are defined in comments
+		$this->assertEquals("password_with_confirmation", Meta::subtype('users', 'password'));
+		
+		// create an entry in the metadata table
+		$metadata = Metadata::factory()->make(['table' => "users", 'field' => "password", "subtype" => "zorglub"]);
+		$metadata->save();   // set $role to null
+		
+		// check that it is overwriting
+		$this->assertEquals("zorglub", Meta::subtype('users', 'password'));
+		
+		// delete the metadata table element
+		$metadata->delete();
+		
+		// Check that we are back to comment value
+		$this->assertEquals("password_with_confirmation", Meta::subtype('users', 'password'));
+	}
+	
+	public function test_metadata_enumerate() {
+		$this->assertEquals("", Meta::subtype('configurations', 'key'));
+		
+		$elt = ['table' => "configurations", 'field' => "key", "subtype" => "enumerate",
+				"options" => '{"values":["app.locale", "app.timezone", "browser.locale"]}'];
+		$metadata = Metadata::factory()->make($elt);
+		$metadata->save();   // set $role to null
+		
+		$this->assertEquals("enumerate", Meta::subtype('configurations', 'key'));
+		
+		$metadata->delete();
+	}
+	
 }

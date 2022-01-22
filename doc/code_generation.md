@@ -353,6 +353,8 @@ table is a database table name
         
     php artisan mustache:generate --compare calendar_events model
     php artisan mustache:generate --compare calendar_events index
-    php artisan mustache:generate --compare calendar_events create
-    php artisan mustache:generate --compare calendar_events edit
+    php artisan mustache:generate --compare calendar_events create          Almost
+        support for default missing
+    php artisan mustache:generate --compare calendar_events edit            Almost
+        a few ids missing plus no usage of the computed attributes
     

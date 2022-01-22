@@ -138,4 +138,9 @@ class MetadataModelTest extends TenantTestCase
     	$this->assertEquals($field,  $meta->field);
     	$this->assertEquals($subtype,  $meta->subtype);
     }
+    
+    public function test_fetching_non_existing_metadata () {
+    	$meta = Metadata::where(['table' => "users", "id" => "email"])->first();
+    	$this->assertNull($meta);
+    }
 }

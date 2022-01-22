@@ -114,6 +114,13 @@ class MetadataHelper {
 	 * TODO search metadata table with higher priority
 	 */
 	static public function subtype($table, $field) {
+		
+		// value from metadatatable takes precedence
+		$subtype = Meta::subtype($table, $field);
+		if ($subtype != "") {
+			return $subtype;
+		}
+
 		// look in the field comment
 		$meta = Schema::columnMetadata($table, $field);
 		if ($meta && array_key_exists('subtype', $meta)) return $meta['subtype'];
@@ -149,8 +156,8 @@ class MetadataHelper {
 			}
 		}
 		
-		// else look in the metadata table
-		return Meta::subtype($table, $field);
+		// not found anywhere
+		return "";
 	}
 	
 	/**

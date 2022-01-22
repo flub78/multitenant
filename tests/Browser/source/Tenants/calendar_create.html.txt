@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="xYIfxDpQaQUYOR6Id8UeU74Ej98WZMQjxvPYigbD">
+    <meta name="csrf-token" content="cjFa71aBiSAQjPZn5CQfi0Lmm4vPnrSdGp8kXpn8">
 
     <title>Multi</title>
     
@@ -151,7 +151,7 @@
 
 									
                                     <form id="logout-form" action="http://test.tenants.com/logout" method="POST" class="d-none">
-                                        <input type="hidden" name="_token" value="xYIfxDpQaQUYOR6Id8UeU74Ej98WZMQjxvPYigbD">                                    </form>
+                                        <input type="hidden" name="_token" value="cjFa71aBiSAQjPZn5CQfi0Lmm4vPnrSdGp8kXpn8">                                    </form>
                                 </div>
                             </li>
                                             </ul>
@@ -174,7 +174,7 @@
   <div class="card-body">
         
       <form method="post" action="http://test.tenants.com/calendar_event">
-          <input type="hidden" name="_token" value="xYIfxDpQaQUYOR6Id8UeU74Ej98WZMQjxvPYigbD">          
+          <input type="hidden" name="_token" value="cjFa71aBiSAQjPZn5CQfi0Lmm4vPnrSdGp8kXpn8">          
           <div class="form-group">    
              <label for="title">Title</label>
              <input type="text" class="form-control" name="title" value="">
@@ -186,13 +186,13 @@
           </div>
           
            <div class="form-group">
-              <label for="allDay"> All Day</label>
+             <label for="allDay">All Day</label>
               <input type="checkbox" class="form-control" name="allDay" id="allDay" value="1">
           </div>
           
            <div class="form-group">
               <label for="start_date"> Date</label>
-              <input type="text" class="form-control datepicker hasDatepicker" name="start_date" value="" dusk="start_date" id="dp1642714980328">
+              <input type="text" class="form-control datepicker hasDatepicker" name="start_date" value="" dusk="start_date" id="dp1642834059321">
            </div>
                
            <div class="form-group">   
@@ -202,7 +202,10 @@
 
            <div class="form-group">
               <label for="end_date"> End Date</label>
-              <input type="text" class="form-control datepicker hasDatepicker" name="end_date" value="" dusk="end_date" id="dp1642714980329">
+              <input type="text" class="form-control datepicker hasDatepicker" name="end_date" value="" dusk="end_date" id="dp1642834059322">
+           </div>
+          
+           <div class="form-group">
               <label for="end_time"> End time</label>
               <input type="text" class="form-control timepicker" name="end_time" id="end_time" value="">
           </div>
@@ -217,7 +220,9 @@
               <input type="color" class="form-control colorpicker" name="textColor" value="#808080">              
           </div>
           
-          <button type="submit" class="btn btn-primary"> Add Event</button>
+           
+           <button type="submit" class="btn btn-primary">Submit</button>
+
       </form>
   </div>
 </div>

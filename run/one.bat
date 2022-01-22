@@ -8,6 +8,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
 php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
 
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ConfigurationModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php

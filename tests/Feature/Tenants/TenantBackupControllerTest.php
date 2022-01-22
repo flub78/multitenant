@@ -158,7 +158,7 @@ class TenantBackupControllerTest extends TenantTestCase {
 		// Upload a backup
 		$this->assertTrue(true);
 		
-		echo "pwd = " . getcwd();
+		// echo "pwd = " . getcwd();
 		
 		// delete it
 		//$response = $this->delete ( "/backup/$id" );
