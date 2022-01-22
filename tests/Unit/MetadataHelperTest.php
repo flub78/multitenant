@@ -57,12 +57,6 @@ class MetadataHelperTest extends TestCase {
 		
 	}
 	
-	public function test_metadata() {
-		$meta = Meta::metadata("users");
-		// var_dump($meta);	
-		$this->assertTrue(true);  // todo remove
-	}
-	
 	public function test_inForm() {
 		$this->assertTrue(Meta::inForm('users', 'name'));  
 		
@@ -152,17 +146,6 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals('edit_{{ $users->name }}', $dusk);
 	}
 	
-	public function test_field_label() {
-		$label = Meta::field_label("calendar_events", "start_date");
-		$this->assertEquals('<label for="start_date">{{__("calendar_event.start_date")}}</label>', $label);
-	}
-	
-	public function test_field_input_create() {
-		$input = Meta::field_input_create("calendar_events", "start_date");
-		echo $input;
-		$this->assertNotEquals('', $input);
-	}
-
 	public function test_metada_from_table_overwrite_comments () {
 		
 		// Let's use a field for which metadata are defined in comments

@@ -181,6 +181,6 @@ class MustacheHelper {
 	 * @return string[]
 	 */
 	public static function metadata(String $table) {
-		return Meta::metadata($table);
+		return CG::metadata($table);
 	}
 }
