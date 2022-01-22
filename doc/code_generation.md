@@ -79,18 +79,26 @@ This mechanism will be more likely used to generate code to manage resources for
 
 ### List of recognized metadata
 
+* types
+    * varchar
+    * integers
+    * float
+    * date
+    * time
+    
 * subtype
     * email
     * checkbox
+    * foreign keys
     * password_with_confirmation
     * datetime_with_date_and_time
+    * color
     * enumerate
     * bitfield
     * picture
     * file
-    * color
     * currency
-    * text
+    * text (multilines)
     
     
 * fillable
@@ -112,6 +120,8 @@ This mechanism will be more likely used to generate code to manage resources for
     
 * attrs
     * a way to generate HTML attributes
+    
+* default
     
 ## Templating mechanism
 

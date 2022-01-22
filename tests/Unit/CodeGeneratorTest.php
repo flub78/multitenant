@@ -5,6 +5,8 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Helpers\CodeGenerator as CG;
+use App\Models\Tenants\Metadata;
+
 
 
 class CodeGeneratorTest extends TestCase {
@@ -32,4 +34,22 @@ class CodeGeneratorTest extends TestCase {
 		$this->assertEquals("user", $meta['element']);
 	}
 	
+	public function test_enumerate () {
+		$table = "configurations";
+		$field = "key";
+		$elt = ['table' => $table, 'field' => $field, "subtype" => "enumerate",
+				"options" => '{"values":["app.locale", "app.timezone", "browser.locale"]}'];
+		$metadata = Metadata::factory()->make($elt);
+		$metadata->save();
+		
+		$input = CG::field_input_create($table, $field);
+		$this->assertNotEquals('', $input);
+		var_dump($input);
+		
+		$rules = CG::field_rule_create($table, $field);
+		var_dump($rules);
+		
+		$metadata->delete();
+		
+	}
 }

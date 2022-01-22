@@ -38,7 +38,8 @@ class  HtmlHelper {
 	}
 	
 	/**
-	 * returns an HTML select from a list of [string, id]
+	 * returns an HTML select from a list of ['name' => 'xyz', 'id' => 'x']
+	 * 
 	 * @param array $values list of name, id pairs
 	 * @param boolean $with_null
 	 * @param string $selected

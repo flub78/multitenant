@@ -119,6 +119,10 @@ class CodeGenerator {
 				. $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
 	}
 	
+	static function isAssoc($array) {
+		return ($array !== array_values($array));
+	}
+	
 	/**
 	 * Generate code for input in an create form
 	 *
@@ -140,6 +144,26 @@ class CodeGenerator {
 			$type = "password";
 		}
 		
+		if ($subtype == "enumerate") {
+			$options = Meta::field_metadata($table, $field);
+			$tab = str_repeat("\t", 3);
+			$res = $tab . "<select>\n";
+			
+			if (array_key_exists("values", $options)) {				
+				if (self::isAssoc($options['values'])) {
+					foreach ($options['values'] as $key => $val) {
+						$res .= "$tab\t<option value=\"$key\">$val</option>\n";
+					}
+				} else {
+					foreach ($options['values'] as $val) {
+						$res .= "$tab\t<option value=\"$val\">$val</option>\n";
+					}
+				}				
+			}
+			$res .= $tab . "</select>\n";
+			return $res;
+		}
+	
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);
 		if ($fkt) {
 			// the field is a foreign key
