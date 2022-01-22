@@ -143,4 +143,25 @@ class MetadataModelTest extends TenantTestCase
     	$meta = Metadata::where(['table' => "users", "id" => "email"])->first();
     	$this->assertNull($meta);
     }
+    
+    public function test_options () {
+    	$elt = ['table' => "configurations", 'field' => "key", "subtype" => "enumerate",
+    			"options" => '{"values":["app.locale", "app.timezone", "browser.locale"]}'];
+    	
+    	$meta = Metadata::create($elt);
+    	$options = Metadata::options("configurations", "key");
+    	
+    	$this->assertTrue(array_key_exists("values", $options));
+    	$this->assertEquals('app.locale', $options['values'][0]);
+    	
+    	
+    	$options = Metadata::options("configurations", "unknow_field");
+    	$this->assertEquals([], $options);
+    	
+    	$options = Metadata::options("unknown_table", "unknow_field");
+    	$this->assertEquals([], $options);
+    	
+		$meta->delete();
+     }
+    
 }

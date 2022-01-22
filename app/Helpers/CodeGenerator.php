@@ -22,6 +22,23 @@ class CodeGenerator {
 	// ###############################################################################################################
 	
 	/**
+	 * Generate a dusk anchor
+	 * @param String $table
+	 * @param String $element
+	 * @param String $type
+	 * @return string
+	 */
+	static public function dusk(String $table, String $element, String $type="edit") {
+		
+		$dusk_field = ($table == "users") ? "name" : Schema::primaryIndex($table);
+		if ($type == "edit") {
+			return 'edit_{{ $' . $element . '->' . $dusk_field . ' }}';
+		} else {
+			return 'delete_{{ $' . $element . '->' . $dusk_field . ' }}';
+		}
+	}
+	
+	/**
 	 * Generate code to display an element in a table list view
 	 *
 	 * @param String $table
@@ -158,7 +175,7 @@ class CodeGenerator {
 	 */
 	static public function button_delete (String $table) {
 		$element = Meta::element($table);
-		$dusk = Meta::dusk($table, $element, "delete");
+		$dusk = self::dusk($table, $element, "delete");
 		$primary_index = Schema::primaryIndex($table);
 		
 		
@@ -181,7 +198,7 @@ class CodeGenerator {
 		$primary_index = Schema::primaryIndex($table);
 		$element = Meta::element($table);
 		$id = $element . '->' . $primary_index;
-		$dusk = Meta::dusk($table, $element, "edit");
+		$dusk = self::dusk($table, $element, "edit");
 		$route = "{{ route('$element.edit', \$$id) }}";
 		$label = "{{ __('general.edit') }}";
 		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';
@@ -318,7 +335,7 @@ class CodeGenerator {
 	}
 	
 	/**
-	 * All the metadata for a table
+	 * All the information for mustache engine
 	 *
 	 * @param String $table
 	 * @return array[]

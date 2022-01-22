@@ -134,7 +134,7 @@ class MetadataControllerTest extends TenantTestCase {
 	
 	public function test_update() {
 		
-		$metadata = Metadata::factory()->make(['table' => 'users', 'field' => 'email', 'subtype' => 'email']);
+		$metadata = Metadata::factory()->make(['table' => 'users', 'field' => 'email', 'subtype' => 'email', 'options' => '']);
 		$subtype = $metadata->subtype;
 		$options =  $metadata->options;
 		$new_subtype = "phone";

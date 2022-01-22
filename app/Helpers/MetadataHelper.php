@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Tenants\Metadata as Meta;
+use App\Models\Tenants\Metadata as MetaModel;
 use App\Models\Schema;
 use Illuminate\Support\Facades\Log;
 
@@ -116,7 +116,7 @@ class MetadataHelper {
 	static public function subtype($table, $field) {
 		
 		// value from metadatatable takes precedence
-		$subtype = Meta::subtype($table, $field);
+		$subtype = MetaModel::subtype($table, $field);
 		if ($subtype != "") {
 			return $subtype;
 		}
@@ -191,6 +191,18 @@ class MetadataHelper {
 		return $first;
 	}
 	
+	static public function field_metadata ($table, $field) {
+		// look for options in metadata
+		$options = MetaModel::options($table, $field);
+		
+		if ($options) return $options;
+		
+		// not found in metadata table, look in comments
+		$meta = Schema::columnMetadata($table, $field);
+
+		return $meta;
+	}
+	
 	/**
 	 * Returns a list of field to display in the GUI from a column name in the database. This mechanism gives the possibility
 	 * to hide some fields by returning and empty list or to generate several fields from one column like password and password confirm from 
@@ -247,21 +259,4 @@ class MetadataHelper {
 		return $res;
 	}
 	
-	/**
-	 * Generate a dusk anchor
-	 * @param String $table
-	 * @param String $element
-	 * @param String $type
-	 * @return string
-	 */
-	static public function dusk(String $table, String $element, String $type="edit") {
-		
-		$dusk_field = ($table == "users") ? "name" : Schema::primaryIndex($table);
-		if ($type == "edit") {
-			return 'edit_{{ $' . $element . '->' . $dusk_field . ' }}';
-		} else {
-			return 'delete_{{ $' . $element . '->' . $dusk_field . ' }}';
-		}
-	}
-		
 }

@@ -14,9 +14,14 @@ class CodeGeneratorTest extends TestCase {
 		$this->assertEquals('<label for="start_date">{{__("calendar_event.start_date")}}</label>', $label);
 	}
 	
+	public function test_dusk() {
+		$dusk = CG::dusk('users', 'users');
+		$this->assertEquals('edit_{{ $users->name }}', $dusk);
+	}
+	
 	public function test_field_input_create() {
 		$input = CG::field_input_create("calendar_events", "start_date");
-		echo $input;
+		// echo $input;
 		$this->assertNotEquals('', $input);
 	}
 	

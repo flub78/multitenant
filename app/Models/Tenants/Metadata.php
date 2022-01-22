@@ -91,4 +91,11 @@ class Metadata extends Model
     	$meta = self::where(['table' => $table, "field" => $field])->first();
     	return ($meta) ? $meta->subtype : '';
     }
+    
+    public static function options($table, $field) {
+    	$meta = self::where(['table' => $table, "field" => $field])->first();
+    	return ($meta) ? json_decode($meta->options, true) : [];
+    }
+    
+    
  }

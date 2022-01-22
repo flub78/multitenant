@@ -141,11 +141,7 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals('', $fillable_names);
 	}
 	
-	public function test_dusk() {
-		$dusk = Meta::dusk('users', 'users');
-		$this->assertEquals('edit_{{ $users->name }}', $dusk);
-	}
-	
+
 	public function test_metada_from_table_overwrite_comments () {
 		
 		// Let's use a field for which metadata are defined in comments
@@ -153,7 +149,7 @@ class MetadataHelperTest extends TestCase {
 		
 		// create an entry in the metadata table
 		$metadata = Metadata::factory()->make(['table' => "users", 'field' => "password", "subtype" => "zorglub"]);
-		$metadata->save();   // set $role to null
+		$metadata->save();   
 		
 		// check that it is overwriting
 		$this->assertEquals("zorglub", Meta::subtype('users', 'password'));
@@ -171,9 +167,23 @@ class MetadataHelperTest extends TestCase {
 		$elt = ['table' => "configurations", 'field' => "key", "subtype" => "enumerate",
 				"options" => '{"values":["app.locale", "app.timezone", "browser.locale"]}'];
 		$metadata = Metadata::factory()->make($elt);
-		$metadata->save();   // set $role to null
+		$metadata->save();
 		
 		$this->assertEquals("enumerate", Meta::subtype('configurations', 'key'));
+		
+		$metadata->delete();
+		
+		$options = Meta::field_metadata("calendar_events", "allDay");
+		$this->assertEquals('checkbox', $options['subtype']);
+		
+		$elt = ['table' => "calendar_events", 'field' => "allDay", "subtype" => "enumerate",
+				"options" => '{"values":["app.locale", "app.timezone", "browser.locale"]}'];
+		$metadata = Metadata::factory()->make($elt);
+		$metadata->save();
+		
+		$options = Meta::field_metadata("calendar_events", "allDay");
+		$this->assertEquals("enumerate", Meta::subtype('calendar_events', 'allDay'));
+		$this->assertEquals('app.locale', $options['values'][0]);
 		
 		$metadata->delete();
 	}
