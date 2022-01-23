@@ -24,6 +24,8 @@ This project is a framework for Web applications. It provides several core featu
 
 * Shared calendar
 
+* Code generation - Models, views, controllers, requests, validation rules and tests can be automatically generated. The code generator scans the database schema and uses additional metadata stored in database fields comments to feed a template engine. The template engine is mustache. It is possible to generate the code, to compare it with or replace the current code.
+
 ## Future features
 
 * Email and sort text message notifications

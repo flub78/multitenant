@@ -67,6 +67,10 @@ class  HtmlHelper {
 			$res .= '    <option value=""></option>' . "\n";
 		}
 		foreach ($values as $elt) {
+			if (is_string($elt)) {
+				// better to thrown an exception than return something that could be unnoticed
+				throw new Exception("HtmlHelper.selector incorrect format for values");
+			}
 			$res .= "    <option value=\"" . $elt['id'] .'"';
 			if ($selected == $elt['id']) {
 				$res .= ' selected="selected"';
@@ -76,4 +80,67 @@ class  HtmlHelper {
 		$res .= "</select>";
 		return $res;
 	}
+	
+	static function isAssoc($array) {
+		return ($array !== array_values($array));
+	}
+	
+	/**
+	 * returns an HTML select from a PHP array, associative or sequential
+	 *
+	 * @param array $values
+	 * @param boolean $with_null
+	 * @param string $selected
+	 * @param array $attrs HTML attributes
+	 *
+	 */
+	static public function select(
+			$values = [],
+			$with_null = false,
+			$selected = "",
+			$attrs = []) {
+				$tab = str_repeat("\t", 3);
+				
+				$res = $tab . '<select';
+				foreach ($attrs as $key => $value) {
+					$res .= " $key=\"$value\"";
+				}
+				$res .= ">\n";
+				if ($with_null) {
+					$res .= $tab . '    <option value=""></option>' . "\n";
+				}
+				if (self::isAssoc($values)) {
+					foreach ($values as $key => $val) {
+						
+						$res .= $tab .  "    <option value=\"" . $key .'"';
+						if ($selected == $key) {
+							$res .= ' selected="selected"';
+						}
+						$res .= ">" . $val . "</option>\n";
+					}
+				} else {
+					foreach ($values as $val) {
+						
+						$res .= $tab . "    <option value=\"" . $val .'"';
+						if ($selected == $val) {
+							$res .= ' selected="selected"';
+						}
+						$res .= ">" . $val . "</option>\n";
+					}
+				}
+				
+				$res .= "</select>\n";
+				return $res;
+	}
+	
+	static public function input(
+			$type,
+			$class,
+			$field,
+			$attrs = []) {
+		return '<input type="' . $type
+			. '" class="' . $class . '" name="'
+			. $field . '" value="{{ old("' . $field . '") }}"/>';
+	}
+	
 }

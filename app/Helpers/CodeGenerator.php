@@ -6,6 +6,8 @@ use App\Helpers\MetadataHelper as Meta;
 
 use App\Models\Schema;
 use Illuminate\Support\Facades\Log;
+use App\Helpers\HtmlHelper as HH;
+
 
 /**
  * Metadata interface
@@ -186,9 +188,7 @@ class CodeGenerator {
 			$type = 'color';
 		}
 		
-		return '<input type="' . $type
-		. '" class="' . $class . '" name="'
-				. $field . '" value="{{ old("' . $field . '") }}"/>';
+		return HH::input($type, $class, $field);
 	}
 	
 	/**

@@ -56,5 +56,51 @@ class HtmlHelperTest extends TestCase {
 		
 		$s4 = HH::selector($l2, $with_null=true, $selected="F-CGKS", $attrs=$attrs);
 		// echo "\n$s4   \n";
+		
+		// array with an incorrect format
+		$this->expectException(Exception::class);
+		
+		$l3 = ["app.locale", "app.timezone", "app.currency"];
+		$s3 = HH::selector($l3);
 	}
+	
+	public function testSelect() {
+		
+		$l1 = [];
+		
+		$l2 = [
+				"F-CDYO" => "ASK13 - F-CDYO - (CJ)",
+				"F-CJRG" => "Ask21 - F-CJRG - (RG)",
+				"F-CERP" => "Asw20 - F-CERP - (UP)",
+				"F-CGKS" => "Asw20 - F-CGKS - (WE)",
+				"F-CFXR" => "xPégase - F-CFXR - (B114)",
+		];
+		
+		$l3 = ["app.locale", "app.timezone", "app.currency"];
+		
+		$s1 = HH::select();
+		$this->assertMatchesRegularExpression("/select/", $s1);
+		$this->assertDoesNotMatchRegularExpression("/option/", $s1);
+						
+		$attrs = ['name' => 'vpmacid', 'id' => 'vpmacid'];		
+		$s2 = HH::select($l1, $with_null=false, $selected="",  $attrs=$attrs);
+		
+		$this->assertMatchesRegularExpression('/name="vpmacid"/', $s2);
+		$this->assertMatchesRegularExpression('/id="vpmacid"/', $s2);
+				
+		$s3 = HH::select($l2, $with_null=false, $selected="F-CGKS", $attrs=$attrs);
+		$this->assertMatchesRegularExpression("/select/", $s3);
+		$this->assertMatchesRegularExpression("/option/", $s3);
+		$this->assertMatchesRegularExpression('/selected="selected"/', $s3);
+		$this->assertMatchesRegularExpression('/Asw20 - F-CERP - \(UP\)/', $s3);
+		
+		$s4 = HH::select($l3, $with_null=true, $selected="app.timezone", $attrs=$attrs);
+		$this->assertMatchesRegularExpression("/select/", $s4);
+		$this->assertMatchesRegularExpression("/option/", $s4);
+		$this->assertMatchesRegularExpression('/selected="selected"/', $s4);
+		$this->assertMatchesRegularExpression('/<option value=""><\/option>/', $s4);
+		$this->assertMatchesRegularExpression('/<option value="app.currency">app.currency<\/option>/', $s4);
+		$this->assertMatchesRegularExpression('/<option value="app.timezone" selected="selected">app.timezone<\/option>/', $s4);
+	}
+	
 }
