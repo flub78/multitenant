@@ -60,7 +60,8 @@ class ConfigurationTest extends DuskTestCase {
 			->assertPathIs('/configuration/create');
 			
 			// app.locale	fr
-			$browser->type ( 'key', 'app.timezone')
+			$browser
+			->select ( 'key', 'app.timezone')
 			->type ( 'value', 'Europe/Paris')
 			->press ( 'Submit' )
 			->assertPathIs('/configuration')

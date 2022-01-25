@@ -75,7 +75,8 @@ class LocalizationTest extends DuskTestCase {
 			$browser->press ( 'Add Configuration' );
 			
 			// app.locale	fr
-			$browser->type ( 'key', 'app.locale')
+			$browser
+			->select ( 'key', 'app.locale')
 			->type ( 'value', 'fr')
 			->press ( 'Submit' )
 			->assertPathIs('/configuration')
@@ -125,7 +126,8 @@ class LocalizationTest extends DuskTestCase {
 			$browser->press ( 'Add Configuration' );
 			
 			// app.locale	fr
-			$browser->type ( 'key', 'app.locale')
+			$browser
+			->select ( 'key', 'app.locale')
 			->type ( 'value', 'fr')
 			->press ( 'Submit' )
 			->assertPathIs('/configuration')
@@ -163,7 +165,8 @@ class LocalizationTest extends DuskTestCase {
 			$browser->visit ( '/configuration/create' );
 			
 			// app.locale	fr
-			$browser->type ( 'key', 'app.locale')
+			$browser
+			->select ( 'key', 'app.locale')
 			->type ( 'value', 'fr')
 			->press ( 'Submit' );
 			
@@ -212,7 +215,8 @@ class LocalizationTest extends DuskTestCase {
 			$browser->visit ( '/configuration/create' );
 			
 			// app.locale	fr
-			$browser->type ( 'key', 'app.locale')
+			$browser
+			->select ( 'key', 'app.locale')
 			->type ( 'value', 'fr')
 			->press ( 'Submit' );
 			
@@ -249,7 +253,7 @@ class LocalizationTest extends DuskTestCase {
 			
 			// app.locale	fr
 			$browser->visit('/configuration/create')
-			->type ( 'key', 'app.locale')
+			->select ( 'key', 'app.locale')
 			->type ( 'value', 'fr')
 			->press ( 'Submit' );
 			

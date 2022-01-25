@@ -147,23 +147,9 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "enumerate") {
+			$attrs = ['class' => "form-control", "name" => $field];
 			$options = Meta::field_metadata($table, $field);
-			$tab = str_repeat("\t", 3);
-			$res = $tab . "<select>\n";
-			
-			if (array_key_exists("values", $options)) {				
-				if (self::isAssoc($options['values'])) {
-					foreach ($options['values'] as $key => $val) {
-						$res .= "$tab\t<option value=\"$key\">$val</option>\n";
-					}
-				} else {
-					foreach ($options['values'] as $val) {
-						$res .= "$tab\t<option value=\"$val\">$val</option>\n";
-					}
-				}				
-			}
-			$res .= $tab . "</select>\n";
-			return $res;
+			return HH::select($options['values'], false, '', $attrs);
 		}
 	
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);

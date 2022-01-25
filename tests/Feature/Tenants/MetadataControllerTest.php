@@ -134,11 +134,11 @@ class MetadataControllerTest extends TenantTestCase {
 	
 	public function test_update() {
 		
-		$metadata = Metadata::factory()->make(['table' => 'users', 'field' => 'email', 'subtype' => 'email', 'options' => '']);
+		$metadata = Metadata::factory()->make(['table' => 'users', 'field' => 'email', 'subtype' => 'email', 'options' => '{}']);
 		$subtype = $metadata->subtype;
 		$options =  $metadata->options;
 		$new_subtype = "phone";
-		$new_options = "options";
+		$new_options = '{"comment": "This is a comment"}';
 		
 		$this->assertNotEquals($subtype, $new_subtype);
 		$this->assertNotEquals($options, $new_options);

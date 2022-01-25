@@ -101,7 +101,7 @@ class  HtmlHelper {
 			$attrs = []) {
 				$tab = str_repeat("\t", 3);
 				
-				$res = $tab . '<select';
+				$res = '<select';
 				foreach ($attrs as $key => $value) {
 					$res .= " $key=\"$value\"";
 				}
@@ -129,7 +129,7 @@ class  HtmlHelper {
 					}
 				}
 				
-				$res .= "</select>\n";
+				$res .= "$tab</select>\n";
 				return $res;
 	}
 	

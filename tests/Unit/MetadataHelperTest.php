@@ -188,4 +188,56 @@ class MetadataHelperTest extends TestCase {
 		$metadata->delete();
 	}
 	
+	/**
+	 * Just trying to figure out the json_encode/decode limitations and constraints
+	 */
+	public function test_json_decode() {
+		$str = '';
+		$json = json_decode($str, true);
+		$this->assertNull($json, "json_decode of an empty string returns null");
+
+		$str = '{"values":["app.locale", "app.timezone", "browser.locale"]}';
+		$json = json_decode($str, true);
+		$this->assertTrue(array_key_exists('values', $json));
+		$this->assertEquals('app.timezone', $json['values'][1]);
+		
+		$str = '{"values":["app.locale", "app.timezone", "browser.locale"],"rules_to_add":["regex:/\w+\.\w+(\.\w+)*/", "Rule::in($this->valid_configs)"]}';
+		$str = '{"values":["app.locale", "app.timezone", "browser.locale"]';
+		$str .= ', "rules_to_add": "rules"';
+		$str .= '}';
+		$json = json_decode($str, true);
+		$this->assertNotNull($json, "json_decode($str) not null");
+				
+		$str = '{"values":["app.locale", "app.timezone", "browser.locale"]';
+		$str .= ', "rules_to_add": ["rule1", "rule2"]';
+		$str .= '}';
+		$json = json_decode($str, true);
+		$this->assertNotNull($json, "json_decode($str) not null");
+
+		$str = '{"values":["app.locale", "app.timezone", "browser.locale"]';
+		$str .= ', "rules_to_add": ["rule1", "Rule::in($this->valid_configs)"]';
+		$str .= '}';
+		$json = json_decode($str, true);
+		// var_dump($str);
+		// var_dump($json);
+		$this->assertNotNull($json, "json_decode($str) not null");
+
+		$j = [
+				"values" => ["app.locale", "app.timezone", "browser.locale"],
+				"rules_to_add" => ["rule1", "rule2"]
+		];
+		$str = json_encode($j);
+		// var_dump($str);
+	
+		$j = [
+				"values" => ["app.locale", "app.timezone", "browser.locale"],
+				"rules_to_add" => ['regex:/\w+\.\w+(\.\w+)*/', 'Rule::in($this->valid_configs)']
+		];
+		$str = json_encode($j);
+		// var_dump($str);
+		$json = json_decode($str, true);
+		// var_dump($json);
+		$this->assertNotNull($json, "json_decode($str) not null");
+		
+	}
 }
