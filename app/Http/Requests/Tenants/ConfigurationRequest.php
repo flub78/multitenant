@@ -11,15 +11,15 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ConfigurationRequest extends FormRequest
-{
-	function __construct() {
-		$this->valid_configs = [
-				'app.locale', 'app.timezone'
-		];
-	}
-	
-	/**
+/**
+ * A Request to validate configuration
+ * 
+ * @author frederic
+ *
+ */
+ class ConfigurationRequest extends FormRequest {
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -35,7 +35,6 @@ class ConfigurationRequest extends FormRequest
      */
     public function rules() {
     	
-    	    	
     	switch($this->method()) {
     		case 'GET':
     		case 'DELETE': {
@@ -43,34 +42,29 @@ class ConfigurationRequest extends FormRequest
     		}
     		case 'POST': {
     			return [
-    				'key' => ['required', 'max:191',
-    					'unique:configurations',
-    					'regex:/\w+\.\w+(\.\w+)*/',
-    					Rule::in($this->valid_configs)
-    				],
-    				'value' => 'required|max:191',
-    			];
+    			    'key' => ['required',
+						'max:255',
+						'unique:configurations',
+						Rule::in(["app.locale","app.timezone","browser.locale"]),
+						'regex:/\w+\.\w+(\.\w+)*/'],
+    			    'value' => ['required',
+						'max:255'],
+   			];
     		}
     		case 'PUT':
     		case 'PATCH': {
     			return [
-    				'key' => ['required', 'max:191', 
-    					'regex:/\w+\.\w+(\.\w+)*/',
-    					Rule::unique('configurations')->ignore(request('configuration'), 'key'),
-    					Rule::in($this->valid_configs)
-    				],	
-    				'value' => 'required|max:191',
+                    'key' => ['required',
+						'max:255',
+						Rule::unique('configurations')->ignore(request('configuration'), 'key'),
+						Rule::in(["app.locale","app.timezone","browser.locale"]),
+						'regex:/\w+\.\w+(\.\w+)*/'],
+                    'value' => ['required',
+						'max:255'],
     			];
     		}
     		default:
     			break;	
      	}
-    }
-    
-    public function messages()
-    {
-    	return [
-    			'key.in' => __('configuration.key_values') . implode (' | ', $this->valid_configs)
-    	];
     }
 }

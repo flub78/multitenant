@@ -256,7 +256,21 @@ class CodeGenerator {
 			$rules[] = "Rule::unique('$table')->ignore(request('$element')$id)";
 		}
 		
-		return  '[' . implode(', ', $rules) . ']';
+		if ($subtype == "enumerate") {
+			$options = Meta::field_metadata($table, $field);
+			// var_dump($options);
+			$list = '';
+			if (array_key_exists("values", $options)) {
+				$list = '"'.implode('","', $options['values']) . '"';
+				$rules[] = "Rule::in([$list])";
+			}
+			if (array_key_exists("rules_to_add", $options)) {
+				$rules = array_merge($rules, $options['rules_to_add']);
+			}
+		}
+		
+		$tab = str_repeat("\t", 6);
+		return  '[' . implode(",\n$tab", $rules) . ']';
 	}
 	
 	/**
@@ -291,8 +305,22 @@ class CodeGenerator {
 		} elseif (Schema::unique($table, $field)) {
 			$rules[] = "'unique:$table'";
 		}
+
+		if ($subtype == "enumerate") {
+			$options = Meta::field_metadata($table, $field);
+			// var_dump($options);
+			$list = '';
+			if (array_key_exists("values", $options)) {
+				$list = '"'.implode('","', $options['values']) . '"';
+				$rules[] = "Rule::in([$list])";
+			}
+			if (array_key_exists("rules_to_add", $options)) {
+				$rules = array_merge($rules, $options['rules_to_add']);
+			}
+		}
 		
-		return  '[' . implode(', ', $rules) . ']';
+		$tab = str_repeat("\t", 6);
+		return  '[' . implode(",\n$tab", $rules) . ']';
 	}
 	
 	
@@ -351,6 +379,41 @@ class CodeGenerator {
 	}
 	
 	/**
+	 * Information to generate the selectors
+	 * a list of hash table with selector and with keys
+	 *	$res[] = ['selector' => '$key_list = ["app.locale", "app.timezone"];',
+	 *			'with' => '->with ("key_list", $key_list)'
+	 *	];
+	 * @param String $table
+	 * @return string[]
+	 */
+	static public function select_list (String $table) {
+		$res = [];
+		$list = Meta::fillable_fields($table);
+		foreach ($list as $field) {
+			$subtype = Meta::subtype($table, $field);
+			$element = Meta::element($table);
+			
+			if ($subtype == "enumerate") {
+				$options = Meta::field_metadata($table, $field);
+				//var_dump($options);
+				$list = '';
+				if (array_key_exists("values", $options)) {
+					$list = '"'.implode('","', $options['values']).'"';
+				}
+				$list = '$' . $field . '_list = [' . $list . '];';
+				$elt['selector'] = $list;
+				$with = '->with("' . $field . '_list", $' . $field .'_list)';
+				$elt['with'] = $with;
+				// echo "field = $field, subtype=$subtype, element=$element, list = $list\n";
+				// var_dump($elt);
+				$res[] = $elt;
+			}
+		}
+		return $res;
+	}
+	
+	/**
 	 * All the information for mustache engine
 	 *
 	 * @param String $table
@@ -367,6 +430,7 @@ class CodeGenerator {
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),
 				'primary_index' => Schema::primaryIndex($table),
+				'select_list' => self::select_list($table)
 		);
 	}
 }

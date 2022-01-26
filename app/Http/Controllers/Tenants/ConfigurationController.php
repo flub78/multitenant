@@ -64,7 +64,7 @@ class ConfigurationController extends Controller {
 	 * @return \Illuminate\Http\Response
      */
 	public function show(Configuration $configuration) {
-        // echo "Configuration.show";
+        // echo "Configuration.show\n";
 	}
 
 
@@ -75,10 +75,11 @@ class ConfigurationController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(Configuration $configuration) {
-		$key_list = ['app.locale', 'app.timezone'];
+        $key_list = ["app.locale", "app.timezone"];
 		return view ( 'tenants/configuration/edit' )
 			->with ( compact ( 'configuration' ) )
-			->with ('key_list', $key_list) ;
+            ->with ("key_list", $key_list)
+            ;
 	}
 
 	/**
