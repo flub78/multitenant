@@ -64,4 +64,13 @@ class  BladeHelper {
 				return HH::selector($values, true, $selected, $attributes);
 	}
 		
+	static public function select(
+			$id,
+			$values = [],
+			$with_null = false,
+			$selected = "",
+			$attrs = []) {
+				return HH::select($values, $with_null, $selected, array_merge($attrs, ["class" => "form-select", 'name' => $id, 'id' => $id]));
+	}
+
 }

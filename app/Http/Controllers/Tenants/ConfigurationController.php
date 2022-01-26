@@ -75,7 +75,10 @@ class ConfigurationController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(Configuration $configuration) {
-		return view ( 'tenants/configuration/edit' )->with ( compact ( 'configuration' ) );
+		$key_list = ['app.locale', 'app.timezone'];
+		return view ( 'tenants/configuration/edit' )
+			->with ( compact ( 'configuration' ) )
+			->with ('key_list', $key_list) ;
 	}
 
 	/**

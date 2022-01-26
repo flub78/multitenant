@@ -7,6 +7,7 @@ use App\Helpers\MetadataHelper as Meta;
 use App\Models\Schema;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\HtmlHelper as HH;
+use App\Helpers\BladeHelper as Blade;
 
 
 /**
@@ -116,6 +117,12 @@ class CodeGenerator {
 			$type = 'color';
 		}
 		
+		if ($subtype == "enumerate") {
+			$options = Meta::field_metadata($table, $field);
+			// return Blade::select($field, $options['values'], false, '', []);
+			return '{!! Blade::select("' . $field . '", $' . $field . '_list, false, $' . $element  . '->' . $field .') !!}';
+		}
+		
 		return '<input type="' . $type
 		. '" class="' . $class .'" name="'
 				. $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
@@ -147,9 +154,8 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "enumerate") {
-			$attrs = ['class' => "form-control", "name" => $field];
 			$options = Meta::field_metadata($table, $field);
-			return HH::select($options['values'], false, '', $attrs);
+			return Blade::select($field, $options['values'], false, '', []);
 		}
 	
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);

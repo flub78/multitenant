@@ -34,7 +34,7 @@ use App\Helpers\BladeHelper as Blade;
            
            <div class="form-group">
              <label for="key">{{__("configuration.key")}}</label>
-             <select class="form-control" name="key">
+             <select class="form-select" name="key" id="key">
 			    <option value="app.locale">app.locale</option>
 			    <option value="app.timezone">app.timezone</option>
 			    <option value="browser.locale">browser.locale</option>
