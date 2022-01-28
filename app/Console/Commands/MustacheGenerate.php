@@ -12,6 +12,10 @@ class MustacheGenerate extends Command {
 	protected $templates = [ "controller","model","request","index","create","edit","english","french"
 	];
 
+	/*
+	 * "test_model","test_controller","test_dusk"
+	 */
+	
 	/**
 	 * The name and signature of the console command.
 	 *
@@ -22,7 +26,7 @@ class MustacheGenerate extends Command {
 			. ' {--install : compare generated files with current version}' 
 			. ' {--pretend : simulation, no actions}' 
 			. ' {table : database table}' 
-			. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|french|test_model|test_controller}' 
+			. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|french|test_model|test_controller|test_dusk}' 
 			. '';
 
 	/**

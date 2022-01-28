@@ -143,11 +143,12 @@ abstract class TenantTestCase extends BaseTestCase
 	 * @param boolean $errors_expected
 	 * @param string $method = post or put
 	 */
-	public function post_tenant_url ($user, $sub_url, $see_list = [], $elt = [], $errors_expected = false, $method='post') {
+	public function post_tenant_url ($user, $sub_url, $see_list = [], $elt = [], $errors_expected = false, $method='post', $errors = []) {
 		$this->be ( $user );
 		$this->withoutMiddleware();
 		
 		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
+		// echo "url = $url\n";
 		
 		$response = $this->followingRedirects()->$method ( $url, $elt);
 		$response->assertStatus ( 200 );
@@ -159,7 +160,7 @@ abstract class TenantTestCase extends BaseTestCase
 		*/
 		
 		if ($errors_expected) {
-			$response->assertSessionHasErrors();
+			$response->assertSessionHasErrors($errors);
 		} else {
 			$response->assertSessionHasNoErrors();
 		}

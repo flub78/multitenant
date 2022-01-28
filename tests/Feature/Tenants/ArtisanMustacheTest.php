@@ -89,7 +89,7 @@ class ArtisanMustacheTest extends TenantTestCase {
 	public function test_mustache_generate_users() {
 		$exitCode = Artisan::call("mustache:generate users model");
 		$this->assertEquals($exitCode, 0, "No errors");
-		$exitCode = Artisan::call("mustache:generate users all");
+		$exitCode = Artisan::call("mustache:generate configurations all");
 		$this->assertEquals($exitCode, 0, "No errors");
 	}
 	

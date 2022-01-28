@@ -33,6 +33,8 @@ class MustacheHelper {
 	
 	
 	/**
+	 * Returns the filename of a template.
+	 * 
 	 * @param string $template
 	 * @return string|string|\App\Helpers\string
 	 */
@@ -44,7 +46,7 @@ class MustacheHelper {
 		}
 		$filename = str_ends_with($file, '.mustache') ? $file : $file . '.mustache';
 		
-		if (!file_exists($filename)) return "";
+		if (!file_exists($filename)) throw new Exception("template $filename not found");
 		return $filename;
 	}
 	
@@ -89,6 +91,8 @@ class MustacheHelper {
 			
 		} elseif ($template == "test_controller") {
 			$file =  'test_controller.php.mustache';
+		} else {
+			throw new Exception("unsupported template: $template");
 		}
 		return self::template_filename($file);
 	}

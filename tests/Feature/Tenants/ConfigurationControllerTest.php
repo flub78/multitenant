@@ -68,7 +68,7 @@ class ConfigurationControllerTest extends TenantTestCase {
 			
 	public function test_store_incorrect_value() {
 		// Post a creation request
-		$bad_key = "app.bad_key";
+		$bad_key = "app_bad_key";
 		$configuration = Configuration::factory()->make(['key' => $bad_key, 'value' => 'en']);
 		$value = $configuration->value;
 		
@@ -78,8 +78,36 @@ class ConfigurationControllerTest extends TenantTestCase {
 		$elt = ["key" => $bad_key, "value" => $value, '_token' => csrf_token()];
 
 		// 'The key format is invalid'
-		$this->post_tenant_url( $this->user, 'configuration', [], $elt, $errors_expected = true);
+		$this->post_tenant_url( $this->user, 'configuration', [], $elt, $errors_expected = true, 'post',
+				['key' => 'The key format is invalid.']);
 		
+		/* 
+		$errors = session('errors');
+		// var_dump($errors);
+		$array_errors = (array) $errors->default;
+		var_dump($array_errors);
+		*/
+		
+		$new_count = Configuration::count ();
+		$expected = $initial_count;
+		$this->assertEquals ( $expected, $new_count, "configuration not created, actual=$new_count, expected=$expected" );
+	}
+	
+	public function test_store_another_incorrect_value() {
+		// Post a creation request
+		$bad_key = "app.bad_key";
+		$configuration = Configuration::factory()->make(['key' => $bad_key, 'value' => 'en']);
+		$value = $configuration->value;
+		
+		$initial_count = Configuration::count ();
+		
+		// $url = 'http://' . tenant('id'). '.tenants.com/configuration' ;
+		$elt = ["key" => $bad_key, "value" => $value, '_token' => csrf_token()];
+		
+		// 'The key format is invalid'
+		$this->post_tenant_url( $this->user, 'configuration', [], $elt, $errors_expected = true, 'post',
+				['key' => 'The selected key is invalid.']);
+				
 		$new_count = Configuration::count ();
 		$expected = $initial_count;
 		$this->assertEquals ( $expected, $new_count, "configuration not created, actual=$new_count, expected=$expected" );

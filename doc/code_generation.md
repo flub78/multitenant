@@ -338,14 +338,15 @@ table is a database table name
 ## configurations table
 
     php artisan mustache:generate --compare configurations controller       OK
-
-    php artisan mustache:generate --compare configurations request          Almost
-        missing support for regexpr
-        missing support for short list
-    
+    php artisan mustache:generate --compare configurations request          OK
     php artisan mustache:generate --compare configurations edit             OK
     php artisan mustache:generate --compare configurations create           OK
     php artisan mustache:generate --compare configurations index            OK
+    php artisan mustache:generate --compare configurations model
+    php artisan mustache:generate --compare configurations english
+    php artisan mustache:generate --compare configurations test_model
+    php artisan mustache:generate --compare configurations test_controller
+    php artisan mustache:generate --compare configurations test_dusk
     
 ## users table
 
