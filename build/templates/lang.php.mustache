@@ -6,6 +6,7 @@
  * or in the generated file, in which case caution must be exerced to avoid overwritting.
  */
 
+use App\Helpers\BladeHelper as Blade;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,14 @@
 */
     
 return [
-	'create_title' => "[[class_name]] creation.",
-	'edit_title' => "[[class_name]] modification.",
-	'list_title' => "[[class_name]] list.",
-	[[#field_list]]
-	'[[name]]' => "[[name]]",	
-	[[/field_list]]
+	'title' => "[[class_name]]",
+	'list' => "[[class_name]] list.",
+	'elt' => "[[element]]",
+    'new' => "New [[element]]",
+    'add' => "Add a [[element]]",	
+	[[#form_field_list]]
+	'[[name]]' => "[[name]]",
+	'[[name]]' => [!! Blade::translate("[[name]]", "French", true) !!],	
+	[[/form_field_list]]
 ];
 
