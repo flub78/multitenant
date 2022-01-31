@@ -137,31 +137,17 @@ class MustacheTranslate extends Command {
 			$returnVar = NULL;
 			$output = NULL;
 			if (!$pretend) exec ( $cmd, $output, $returnVar );
-			
 		}
 
 		if ($install) {
-			if ($this->argument('template') == "all") {
-				foreach ($this->templates as $tpl) {
-					$result_file = MustacheHelper::result_file($table, $tpl);
-					$install_file = MustacheHelper::result_file($table, $tpl, true);
-					$cmd = "copy $result_file $install_file";
-					if ($verbose) echo "\ncmd = $cmd";
-					
-					$returnVar = NULL;
-					$output = NULL;
-					if (!$pretend) copy($result_file, $install_file);
-				}
-			} else {
-				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
-				$install_file = MustacheHelper::result_file($table, $this->argument('template'), true);
-				$cmd = "copy $result_file $install_file";
-				if ($verbose) echo "\ncmd = $cmd";
+			$result_file = MustacheHelper::translation_result_file($file, $lang);
+			$install_file = MustacheHelper::translation_result_file($file, $lang, true);
+			$cmd = "copy $result_file $install_file";
+			if ($verbose) echo "\ncmd = $cmd";
 				
-				$returnVar = NULL;
-				$output = NULL;
-				if (!$pretend) copy ($result_file,  $install_file);
-			}
+			$returnVar = NULL;
+			$output = NULL;
+			if (!$pretend) copy ($result_file,  $install_file);	
 		}
 		
 		return 0;
