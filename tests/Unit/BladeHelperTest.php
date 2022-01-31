@@ -35,17 +35,5 @@ class BladeHelperTest extends TestCase {
 		
 		$s4 = Blade::selector_with_null('vpmacid', $l2, $selected="F-CGKS");
 		// echo "\n$s4   \n";
-	}
-	
-	public function testTranslate() {
-		$this->assertEquals('', Blade::translate(''));
-		$this->assertEquals('key', Blade::translate('key'));
-		$this->assertEquals('Key', Blade::translate('key', "English", true));
-
-		$this->assertEquals('Clé', Blade::translate('key', "French", true));
-		
-		echo Blade::translate('The :attribute must be between :min and :max.', "French", true);
-		echo Blade::translate('The :attribute must be a string.', "French", true);
-		
-	}
+	}	
 }

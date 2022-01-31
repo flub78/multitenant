@@ -7,6 +7,15 @@ use App\Models\Schema;
 use App\Helpers\MustacheHelper;
 use App\Models\Tenants\Metadata;
 
+/**
+ * php artisan mustache:info
+ * 
+ * Display schema and metadata associated to a table.
+ * This command is used to debug the code generator.
+ * 
+ * @author frederic
+ *
+ */
 class MustacheInfo extends Command {
 	
 	/**

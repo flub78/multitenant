@@ -29,6 +29,7 @@
     db_username: "{{lookup('env','DB_USERNAME')}}"
     db_password: "{{lookup('env','DB_PASSWORD')}}"
     db_database: "{{lookup('env','DB_DATABASE')}}"
+    translate_api_key: "{{lookup('env','TRANSLATE_API_KEY')}}"
 
   roles:
     - env

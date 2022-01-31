@@ -43,6 +43,15 @@
       with_items:
         - '{{env_file}}'
 
+    # setup translate_api_key in .env
+    - name:  setup translate_api_key in .env
+      lineinfile:
+         dest:  '{{item}}'
+         regexp: '^TRANSLATE_API_KEY='
+         line: "TRANSLATE_API_KEY={{translate_api_key}}"
+      with_items:
+        - '{{env_file}}'
+
     # setup APP_URL in .env
     # phpunit tests do not run with a domain ???
     - name:  setup APP_URL in .env

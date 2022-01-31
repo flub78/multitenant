@@ -9,15 +9,12 @@ use Illuminate\Support\Facades\Log;
 use Exception;
 
 /**
- * php artisan mustache:generate
- *
- * Generate, compare or install code file generated from a mustache template and fed by database
- * schema and metadata.
- *
+ * Translate language files from English to another language (French by default).
+ * 
  * @author frederic
  *
  */
-class MustacheGenerate extends Command {
+class MustacheTranslate extends Command {
 	protected $templates = [ "controller","model","request","index","create","edit","english","french"
 	];
 
@@ -30,7 +27,7 @@ class MustacheGenerate extends Command {
 	 *
 	 * @var string
 	 */
-	protected $signature = 'mustache:generate' 
+	protected $signature = 'mustache:translate' 
 			. ' {--compare : compare generated files with current version}' 
 			. ' {--install : compare generated files with current version}' 
 			. ' {--pretend : simulation, no actions}' 
