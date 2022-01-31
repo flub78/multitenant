@@ -91,6 +91,10 @@ class MustacheHelper {
 			
 		} elseif ($template == "test_controller") {
 			$file =  'test_controller.php.mustache';
+			
+		} elseif ($template == "translation") {
+			$file =  'translation.php.mustache';
+
 		} else {
 			throw new Exception("unsupported template: $template");
 		}
@@ -180,7 +184,30 @@ class MustacheHelper {
 	}
 	
 	/**
+	 * Convention for the generated file name
+	 *
+	 * @param String $file
+	 * @param String $template
+	 * @param String $result_file  (by default)
+	 */
+	public static function translation_result_file(String $file, String $lang = 'fr', bool $installation = false) {
+		
+		$file = implode(DIRECTORY_SEPARATOR, ['resources', 'lang', $lang, "$file.php"]);
+		return self::result_filename($file, $installation);
+	}
+	
+	/**
+	 * Return the name of the English language file containing the associative array to translate
+	 * 
+	 * @param String $elt
+	 */
+	public static function source_language_file (String $elt) {
+		return implode(DIRECTORY_SEPARATOR, ['resources', 'lang', 'en', "$elt.php"]);	
+	}
+	
+	/**
 	 * Returns all metadata associated to a table
+	 * 
 	 * @param String $table
 	 * @return string[]
 	 */

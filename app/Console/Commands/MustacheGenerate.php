@@ -32,7 +32,7 @@ class MustacheGenerate extends Command {
 	 */
 	protected $signature = 'mustache:generate' 
 			. ' {--compare : compare generated files with current version}' 
-			. ' {--install : compare generated files with current version}' 
+			. ' {--install : install generated files from current version}' 
 			. ' {--pretend : simulation, no actions}' 
 			. ' {table : database table}' 
 			. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|french|test_model|test_controller|test_dusk}' 

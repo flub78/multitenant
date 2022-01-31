@@ -21,6 +21,7 @@ class MustacheHelperTest extends TestCase {
 
 	const temp1 = "app\Http\Controllers\Tenants\Controller.php";
 	const temp2 = "app\Http\Controllers\Tenants\Controller.php.mustache";
+	const temp3 = 'translation.php';
 	
 	public function test_template_filename() {
 
@@ -28,6 +29,9 @@ class MustacheHelperTest extends TestCase {
 			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
 			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp1));
 			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp2));
+						
+			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\translation.php.mustache';
+			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp3));
 			
 			$this->expectException(Exception::class);
 			$this->assertEquals($expected, MustacheHelper::template_filename("zorglub"));
@@ -63,7 +67,7 @@ class MustacheHelperTest extends TestCase {
 	}
 	
 	public function test_template_file () {
-		$templates = [ "controller","model","request","index","create","edit","english","french"];
+		$templates = [ "controller","model","request","index","create","edit","english","french", "translation"];
 		foreach ($templates as $template) {
 			$str = MustacheHelper::template_file('roles', $template);
 			// echo "\ntemplate $template = $str";
@@ -77,6 +81,39 @@ class MustacheHelperTest extends TestCase {
 			$str = MustacheHelper::result_file('roles', $template);
 			// echo "\nresult $template = $str";
 			$this->assertNotEquals("", $str);
+		}
+	}
+	
+	public function test_translation_result_file () {
+
+		if (PHP_OS == "WINNT") {
+			$template = MustacheHelper::translation_result_file('role', 'fr');
+			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\resources\lang\fr\role.php';
+			$this->assertEquals($expected, $template);
+			
+			$template = MustacheHelper::translation_result_file('configuration', 'en');
+			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\resources\lang\en\configuration.php';
+			$this->assertEquals($expected, $template);
+			
+			
+			$template = MustacheHelper::translation_result_file('role', 'fr', true);
+			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\resources\lang\fr\role.php';
+			$this->assertEquals($expected, $template);
+			
+		} else {
+			// code generation not supported on Linux
+			$this->assertTrue(true);
+		}
+	}
+	
+	public function test_source_language_file () {
+		if (PHP_OS == "WINNT") {
+			$source = MustacheHelper::source_language_file("configuration");
+			$expected = 'resources\lang\en\configuration.php';
+			$this->assertEquals($expected, $source);
+		} else {
+			// code generation not supported on Linux
+			$this->assertTrue(true);
 		}
 	}
 	

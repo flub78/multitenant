@@ -15,8 +15,7 @@ use Exception;
  *
  */
 class MustacheTranslate extends Command {
-	protected $templates = [ "controller","model","request","index","create","edit","english","french"
-	];
+	protected $templates = [ "lang"];
 
 	/*
 	 * "test_model","test_controller","test_dusk"
@@ -29,10 +28,11 @@ class MustacheTranslate extends Command {
 	 */
 	protected $signature = 'mustache:translate' 
 			. ' {--compare : compare generated files with current version}' 
-			. ' {--install : compare generated files with current version}' 
+			. ' {--install : install generated files from current version}' 
 			. ' {--pretend : simulation, no actions}' 
-			. ' {table : database table}' 
-			. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|french|test_model|test_controller|test_dusk}' 
+			. ' {--lang=fr : target language}' 
+			. ' {file : database table}' 
+			. ' {template=lang :  mustache template}' 
 			. '';
 
 	/**
@@ -40,7 +40,7 @@ class MustacheTranslate extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Generate code with a mustache template';
+	protected $description = 'Translate an English language file into another language';
 
 	/**
 	 * Create a new command instance.
@@ -102,29 +102,19 @@ class MustacheTranslate extends Command {
 	 * @return int
 	 */
 	public function handle() {
-		$table = $this->argument('table');
+		$file = $this->argument('file');
+		$lang = $this->option ( 'lang' );
 		$template = $this->argument('template');
 		$install = $this->option('install');
 		$verbose = $this->option('verbose');
 		$pretend = $this->option('pretend');
 		
-		if (!Schema::tableExists($table)) {
-			$this->error("Unknow table $table in tenant database");
-			return 1;
-		}
 
 		try {
-			if ($this->argument('template') == "all") {
-				foreach ($this->templates as $tpl) {
-					$tpl_file = MustacheHelper::template_file($table, $tpl);
-					$result_file = MustacheHelper::result_file($table, $tpl);
-					$this->process_file($table, $tpl_file, $result_file);
-				}
-			} else {
-				$template_file = MustacheHelper::template_file($table, $this->argument('template'));
-				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
-				$this->process_file($table, $template_file, $result_file);
-			}
+			$template_file = MustacheHelper::template_file($table, $template);
+			$result_file = MustacheHelper::lang_file($file, $lang);
+			$this->process_file($table, $template_file, $result_file);
+			
 		} catch (Exception $e) {
 			echo "Error: " . $e->getMessage();
 			return 1;
