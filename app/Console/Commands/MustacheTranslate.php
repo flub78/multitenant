@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Schema;
 use App\Helpers\MustacheHelper;
+use App\Helpers\TranslationHelper as Translate;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
@@ -32,7 +32,7 @@ class MustacheTranslate extends Command {
 			. ' {--pretend : simulation, no actions}' 
 			. ' {--lang=fr : target language}' 
 			. ' {file : database table}' 
-			. ' {template=lang :  mustache template}' 
+			. ' {template=translation :  mustache template}' 
 			. '';
 
 	/**
@@ -64,18 +64,18 @@ class MustacheTranslate extends Command {
 	}
 
 	/**
-	 * c
-	 * Apply action on one template
+	 * Translate one file
 	 *
-	 * @param string $table
-	 * @param string $template
+	 * @param string $lang
+	 * @param string $source_file
+	 * @param string $template_file
+	 * @param string $result_file
 	 */
-	protected function process_file(string $table, string $template_file, string $result_file) {
+	protected function translate_file(string $lang, string $source_file, string $template_file, string $result_file, $data = []) {
 		$verbose = $this->option('verbose');
 		$install = $this->option('install');
 		if ($verbose) {
-			echo "\nprocessing $table\n" . "template=$template_file\n" . "result=$result_file\n";
-			echo "Metadata schema=" . env("DB_SCHEMA") . "\n";
+			echo "\ntranslating source=$source_file\n" . "template=$template_file\n" . "result=$result_file\n" . "lang=$lang\n";
 		}
 
 		if ($verbose) {
@@ -85,12 +85,17 @@ class MustacheTranslate extends Command {
 			$mustache = new \Mustache_Engine();
 		}
 		$template = file_get_contents($template_file);
-
-		$metadata = MustacheHelper::metadata($table);
-		if ($this->argument('template') == "english") $metadata['language'] = "English";
-		if ($this->argument('template') == "french") $metadata['language'] = "French";
+		$source = file_get_contents($source_file);
+		$source = str_replace('<?php', '', $source);
 		
-		$rendered = $mustache->render($template, $metadata);
+		$data['language'] = $lang;
+		
+		$hash = eval($source);
+		$translated_hash = Translate::translate_array($hash, $lang);
+		
+		$data['translated'] = Translate::pretty_print($translated_hash, 1);
+ 		
+		$rendered = $mustache->render($template, $data);
 		if ($verbose && !($this->option('compare') || $install) )
 			echo $rendered;
 		$this->write_file($rendered, $result_file);
@@ -111,9 +116,10 @@ class MustacheTranslate extends Command {
 		
 
 		try {
-			$template_file = MustacheHelper::template_file($table, $template);
-			$result_file = MustacheHelper::lang_file($file, $lang);
-			$this->process_file($table, $template_file, $result_file);
+			$template_file = MustacheHelper::template_file($file . 's', $template);
+			$result_file = MustacheHelper::translation_result_file($file, $lang);
+			$source_file = MustacheHelper::source_language_file($file);
+			$this->translate_file($lang, $source_file, $template_file, $result_file, ['file' => $file]);
 			
 		} catch (Exception $e) {
 			echo "Error: " . $e->getMessage();
@@ -122,27 +128,16 @@ class MustacheTranslate extends Command {
 		
 		if ($this->option('compare')) {
 			$comparator = "WinMergeU";
-			if ($this->argument('template') == "all") {
-				foreach ($this->templates as $tpl) {
-					$result_file = MustacheHelper::result_file($table, $tpl);
-					$install_file = MustacheHelper::result_file($table, $tpl, true);
-					$cmd = "$comparator $result_file $install_file";
-					if ($verbose) echo "\ncmd = $cmd";
-					
-					$returnVar = NULL;
-					$output = NULL;										
-					if (!$pretend) exec ( $cmd, $output, $returnVar );
-				}
-			} else {
-				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
-				$install_file = MustacheHelper::result_file($table, $this->argument('template'), true);
-				$cmd = "$comparator $result_file $install_file";
-				if ($verbose) echo "\ncmd = $cmd";
+
+			$result_file = MustacheHelper::translation_result_file($file, $lang);
+			$install_file = MustacheHelper::translation_result_file($file, $lang, true);
+			$cmd = "$comparator $result_file $install_file";
+			if ($verbose) echo "\ncmd = $cmd";
 				
-				$returnVar = NULL;
-				$output = NULL;
-				if (!$pretend) exec ( $cmd, $output, $returnVar );
-			}
+			$returnVar = NULL;
+			$output = NULL;
+			if (!$pretend) exec ( $cmd, $output, $returnVar );
+			
 		}
 
 		if ($install) {
