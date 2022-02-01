@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\TenantRequest;
+
 use Stancl\Tenancy\Database\Models\Domain;
 use App\Models\Tenant;
 use App\Helpers\DirHelper;
@@ -12,41 +13,13 @@ use Illuminate\Validation\Rule;
 
 class TenantController extends Controller
 {
-	// TODO create a request for tenants
-	protected $create_rules = [
-			'id' => [
-					'required',
-					'string',
-					'max:255',
-					'unique:tenants'
-			],
-
-			'email' => [
-					'string', 'nullable',
-					'email',
-					'max:255',
-					'unique:tenants'
-			],
-			'domain' => [
-					'required',
-					'string',
-					'min:4'
-			],
-			'db_name' => [
-					'string', 'nullable',
-					'max:255',
-					'unique:tenants'
-			],
-	];
-	
 	
 	/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
     	$tenants = Tenant::all();
     	
     	return view ( 'tenants_management.index', compact ( 'tenants' ) );
@@ -57,27 +30,23 @@ class TenantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
     	return view ( 'tenants_management.create' );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\TenantRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-    	$validatedData = $request->validate ( $this->create_rules );
-    	
+    public function store(TenantRequest $request) {
+    	$validatedData = $request->validated ();
+    	 	
     	$tenant_id =  $validatedData ['id'];
     	        	
-    	// $tenant = Tenant::create(['id' => $validatedData['id'], 'email' => $validatedData['email']]);
     	$tenant = Tenant::create($validatedData);
-    	
-    	    	
+    	    	    	
     	$tenant->domains()->create(['domain' => $validatedData['domain']]);
     	
     	// create local storage for the tenant
@@ -94,8 +63,7 @@ class TenantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -105,8 +73,7 @@ class TenantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
     	$tenant = Tenant::findOrFail ( $id );
     	return view ( 'tenants_management.edit' )->with ( compact ( 'tenant' ) );
     }
@@ -114,33 +81,15 @@ class TenantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\TenantRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(TenantRequest $request, $id) {
     	$db = request('db_name');
-    	$edit_rules = [
-    			'id' => ['required', 'string', 'max:255', Rule::unique('tenants')->ignore($id)],
-    			
-    			'email' => [
-    					'string', 'nullable',
-    					'email',
-    					'max:255', Rule::unique('tenants')->ignore($id)
-    			],
-    			'domain' => [
-    					'required',
-    					'string',
-    					'min:4'
-    			],
-    			'db_name' => [
-    					'string', 'nullable',
-    					'max:255', Rule::unique('tenants')->ignore($id)
-    			],
-    	];
     	
-    	$validatedData = $request->validate ( $edit_rules );
+    	$validatedData = $request->validated ();
+    	    	
     	$domain = $validatedData ['domain'];
     	unset($validatedData ['domain']);
     	
@@ -150,8 +99,7 @@ class TenantController extends Controller
     	// $tenant->domains()->update(['domain' => $domain]);
     	
     	$tenant_name = $validatedData ['id'];
-    	return redirect ( '/tenants' )->with ( 'success', "Tenant $tenant_name has been updated" );
-    	
+    	return redirect ( '/tenants' )->with ( 'success', "Tenant $tenant_name has been updated" );    	
     }
 
     /**
@@ -160,8 +108,7 @@ class TenantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
     	$tenant = Tenant::findOrFail ( $id );
     	$id = $tenant->id;
     	$tenant->delete ();
