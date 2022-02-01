@@ -8,7 +8,7 @@ This project is a framework for Web applications. It provides several core featu
 
 * The project is multi-tenant with one database per tenant. By default tenants are identified by their sub-domain.
 
-* Localization and GUI in several languages. Automating generation of language files with Google translate. Of course it requires human reviewing, but sometimes it is not so bad and it is fast to generate.
+* Localization and GUI in several languages. Automated generation of language files with Google translate. Of course it requires human reviewing, but sometimes it is not so bad and it is fast to generate.
 
 * The central application provide a tenant management interface. It is possible to create, modify or delete tenants.
 

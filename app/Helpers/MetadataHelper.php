@@ -55,10 +55,16 @@ class MetadataHelper {
 	 * @param unknown $table
 	 * @param unknown $field
 	 * @return boolean
-	 * 
-	 * TODO search metadata table with higher priority
 	 */
 	static function fillable($table, $field) {
+		// look for options in metadata table
+		$options = MetaModel::options($table, $field);
+		
+		if ($options && array_key_exists('fillable', $options)) {
+			return ($options['fillable'] == "true");
+		}
+		
+		// Nothing in metadadata table look in comments
 		$meta = Schema::columnMetadata($table, $field);
 		
 		if (! $meta) return true;
@@ -91,10 +97,16 @@ class MetadataHelper {
 	 * @param unknown $table
 	 * @param unknown $field
 	 * @return boolean
-	 * 
-	 * TODO search metadata table with higher priority
 	 */
 	static function inForm($table, $field) {
+		// look for options in metadata table
+		$options = MetaModel::options($table, $field);
+		
+		if ($options && array_key_exists('inForm', $options)) {
+			return ($options['inForm'] == "true");
+		}
+		
+		// Nothing in metadadata table look in comments
 		$subtype = self::subtype($table, $field);
 		
 		$meta = Schema::columnMetadata($table, $field);
@@ -110,8 +122,6 @@ class MetadataHelper {
 	 * @param unknown $table
 	 * @param unknown $field
 	 * @return string
-	 * 
-	 * TODO search metadata table with higher priority
 	 */
 	static public function subtype($table, $field) {
 		
