@@ -26,6 +26,13 @@ class MustacheHelper {
 		return 	getcwd() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $template;
 	}
 	
+	/**
+	 * True when a path is absolute (starts from root device)
+	 * 
+	 * @param unknown $path
+	 * @throws Exception
+	 * @return boolean
+	 */
 	public static function is_absolute_path($path) {
 		if($path === null || $path === '') throw new Exception("Empty path");
 		return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i',$path) > 0;
@@ -33,7 +40,7 @@ class MustacheHelper {
 	
 	
 	/**
-	 * Returns the filename of a template.
+	 * Returns the absolute filename of a template.
 	 * 
 	 * @param string $template
 	 * @return string|string|\App\Helpers\string
@@ -51,7 +58,7 @@ class MustacheHelper {
 	}
 	
 	/**
-	 * Convention for the template name
+	 * Template name relative to templates directory
 	 *
 	 * @param String $table
 	 * @param String $template
@@ -87,14 +94,20 @@ class MustacheHelper {
 			$file =  'lang.php.mustache';
 			
 		} elseif ($template == "test_model") {
-			$file =  'test_model.php.mustache';
+			$file =  'tests/Unit/Tenants/test_model.php.mustache';
 			
 		} elseif ($template == "test_controller") {
-			$file =  'test_controller.php.mustache';
+			$file =  'tests/Feature/Tenants/test_controller.php.mustache';
+			
+		} elseif ($template == "test_dusk") {
+			$file =  'tests/Browser/Tenants/test_dusk.php.mustache';
 			
 		} elseif ($template == "translation") {
 			$file =  'translation.php.mustache';
 
+		} elseif ($template == "factory") {
+			$file =  'factory.php.mustache';
+			
 		} else {
 			throw new Exception("unsupported template: $template");
 		}
@@ -102,7 +115,7 @@ class MustacheHelper {
 	}
 
 	/**
-	 * Convention for the generated file name
+	 * Generated file name relative to results directory
 	 *
 	 * @param String $table
 	 * @param String $template
@@ -151,15 +164,23 @@ class MustacheHelper {
 			$file = implode(DIRECTORY_SEPARATOR, ['resources', 'lang', 'fr', $element . '.php']);
 			
 		} elseif ($template == "test_model") {
-			$file = implode(DIRECTORY_SEPARATOR, ['test', 'Unit', 'Tenants', $class_name . 'ModelTest.php']);			
+			$file = implode(DIRECTORY_SEPARATOR, ['tests', 'Unit', 'Tenants', $class_name . 'ModelTest.php']);			
 			
 		} elseif ($template == "test_controller") {
-			$file = implode(DIRECTORY_SEPARATOR, ['test', 'Feature', 'Tenants', $class_name . 'ControllerTest.php']);
+			$file = implode(DIRECTORY_SEPARATOR, ['tests', 'Feature', 'Tenants', $class_name . 'ControllerTest.php']);
+		
+		} elseif ($template == "test_dusk") {
+			$file = implode(DIRECTORY_SEPARATOR, ['tests', 'Browser', 'Tenants', $class_name . 'Test.php']);
+			
+		} elseif ($template == "factory") {
+			$file = implode(DIRECTORY_SEPARATOR, ['database', 'factories', 'Tenants', $class_name . 'Factory.php']);
 		}
+	
 		return self::result_filename($file, $installation);
 	}
 	
 	/**
+	 * Absolute path of a result file, either in the result directory or in installation directory
 	 * @param string $result
 	 * @return string
 	 */
@@ -184,7 +205,7 @@ class MustacheHelper {
 	}
 	
 	/**
-	 * Convention for the generated file name
+	 * Translation file, result or installation file
 	 *
 	 * @param String $file
 	 * @param String $template

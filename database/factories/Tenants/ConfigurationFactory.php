@@ -6,7 +6,8 @@ use App\Models\Tenants\Configuration;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class ConfigurationFactory extends Factory {
+class ConfigurationFactory extends Factory
+{
 	/**
 	 * The name of the factory's corresponding model.
 	 *

@@ -1,0 +1,35 @@
+{{=[[ ]]=}}
+<?php
+
+namespace Database\Factories\Tenants;
+
+use App\Models\Tenants\[[class_name]];
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
+class [[class_name]]Factory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = [[class_name]]::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition() {
+        // $count = [[class_name]]::count ();
+        // $next = $count + 1;
+        // $random_str = Str::random ( 6 );
+        
+        return [
+            [[#form_field_list]]
+            '[[name]]' => "[[name]]",
+            [[/form_field_list]]
+        ];
+    }
+}

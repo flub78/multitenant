@@ -1,0 +1,80 @@
+{{=[[ ]]=}}
+<?php
+
+namespace tests\Unit\Tenants;
+
+use Tests\TenantTestCase;
+
+use App\Models\Tenants\[[class_name]];
+
+class [[class_name]]ModelTest extends TenantTestCase
+
+{
+    // Clean up the database
+    // not for tenants
+    // use RefreshDatabase;
+        
+    /**
+     * Test element creation, read, update and delete
+     * Given the database server is on
+     * Given the schema exists in database
+     * When creating an element
+     * Then it is stored in database, it can be read, updated and deleted
+     */
+    public function testCRUD () {
+    	        
+        $initial_count = [[class_name]]::count();
+        
+        // Create
+        $[[element]] = [[class_name]]::factory()->make();
+        $key = $[[element]]->key;
+        $value = $[[element]]->value;
+        $[[element]]->save();   // set $[[element]] to null
+        
+        // and a second
+        $config2 = [[class_name]]::factory()->make();
+        $config2->save();
+        
+        $this->assertTrue([[class_name]]::count() == $initial_count + 2, "Two new elements in the table");
+        $this->assertDatabaseCount('[[table]]',  $initial_count + 2);
+                        
+        # Read
+        $stored = [[class_name]]::where(['key' => $key])->first();
+        
+        $this->assertNotNull($stored, "It is possible to retrieve the [[element]]");
+        
+        $this->assertEquals($key, $stored->key, "Checks the element fetched from the database");
+        $this->assertEquals($value, $stored->value, "Checks the element fetched from the database");
+        
+        // Update
+        $new_value = "updated value";
+        $stored->value = $new_value;
+        
+        $stored->update();
+        
+        $back = [[class_name]]::where('key', $key)->first();
+        $this->assertEquals($back->value, $new_value, "After update");
+        $this->assertDatabaseHas('[[table]]', [
+            'value' => $new_value,
+        ]);
+        
+        // Delete
+        $stored->delete();   
+        $this->assertDeleted($stored);
+        $this->assertTrue([[class_name]]::count() == $initial_count + 1, "One less elements in the table");
+        $this->assertDatabaseMissing('[[table]]', [
+            'value' => $new_value,
+        ]);
+    }
+    
+    
+    public function test_deleting_non_existing_element () {
+    	$initial_count = [[class_name]]::count();
+    	
+    	$[[element]] = [[class_name]]::factory()->make();
+    	$[[element]]->key = "999999999";
+    	$[[element]]->delete();
+    	
+    	$this->assertTrue([[class_name]]::count() == $initial_count, "No changes in database");
+    }
+}

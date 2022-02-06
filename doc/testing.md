@@ -16,19 +16,32 @@ To follow redirection use:
 
         $response = $this->followingRedirects()->get ( '/login' );
 
+### Integration end to end tests
 
+They are browser controlled end to end dusk tests.
 
-### Dusks tests
+They have access to the database and can check the database status after action. They are stored in tests/Browser/Central and tests/Browser/Tenants.
 
-Brownser controlled tests for end to end testing.
+### Installation or deployment tests. 
 
-Two kinds:
+They are browser controlled end to end dusk tests.
 
-1. Integration end to end tests. They have access to the database and can check the database status after action. They are stored in tests/Browser/Central and tests/Browser/Tenants.
+They are deployed on an external server. The test environment has the same access than a regular user (no access to the database). Some of the tests are installation or deployment tests, they check that the system can be installed or deployed smoothly. 
+They are stored in tests/Browser/Deployment.
 
-1. Deployment tests. They are deployed on an external server. The test environment has the same access than a regular user (no access to the database). They can be used to check installation before production. They are stored in tests/Browser/Deployment.
+### Live system tests. 
 
-Avoiding duplication. Things that require the database or local storage access should be tested as integration End to End tests. Things that do not are black box tests. The goal of the tests is to warn the developers that something wrong is happening. We want these warning to happen as soon as possible. So we have unit tests to be able to test classes before that all of them are available. We have feature tests that we can run before the application is deployed. 
+They are browser controlled end to end dusk tests.
+
+They can be executed on a live system that contains production data. The production data are not modified by the tests and the data created by the tests are deleted when the tests are over. They are full black box tests. There only accepted impact on the production system is the impact on performance as they can generate more load on the system.
+
+Avoid duplication. Integration tests are not fully black box because they can access the database directly to check the result of a test action. It makes the tests simpler but most of this information can also be extracted from the API REST interfaces and from the GUI. For example extracting the number of element in a table can usually be extracted from the GUI.
+
+It is appealing to develop a test library to extract these information and move most of the testing from integration to live system tests. The pre-production tests test exactly the same thing, they are just a little more fragile and complex because they rely on additional library layers to extract information. They may also be slower.
+
+It is relatively obvious that end to end integration test can be considered as a development step of pre-deployment tests. Should they remain as entities of their own ? or should they be transformed into fully black box pre-production tests ?
+
+If the speed difference is low, it makes sense to avoid duplication. If end to end integration tests are much faster than fully black box tests, it makes sense to keep them as preliminary tests. In this case it could also be convenient to develop a test layer to access the database and implement it either with direct database accesses or through more complex GUI or API interactions. In this case it would be possible to run the exact same tests scenarios on the two contexts.
 
 ### Performance test (todo). 
 
@@ -40,7 +53,9 @@ These test check the behavior of the system under heavy load and should provide 
 
 A discussion on how to chose between unit test and BDD (given-when-then) tests. https://specflow.org/challenges/bdd-vs-unit-tests/
 
-## Unit testing
+## Testing philosophies
+
+### Considerations on Unit testing
 
 The goal of unit testing is to test a simple class without implying other classes. It is usually relatively easy for simple classes that render a service of their own and do not call others classes.
 
@@ -67,13 +82,13 @@ Conclusion: it may be a good idea to spend some time to experiment on the reflex
 
 And last remarks, if you can use reflexivity to get access to private methods, it means that the private, protected, public classification is more a convention than a security mechanism. In this case the python approach of making things private by convention may be good enough and I should not care too much about keeping public only for testing some methods that should logically be private.
 
-## TDD Test Driven Development
+### TDD Test Driven Development
 
 Test driven development. It implies the tests to be developed before the code. 
 
 A line of code should not be written without a pre-existing red test to make green.
 
-## BDD Behavior Driven Development
+### BDD Behavior Driven Development
 
 BDD can be considered as an extension of TDD. Its Objective is to directly test the code at the specification level. First a requirement is written, then this requirement is directly transformed into a test.
 
@@ -127,7 +142,7 @@ Drawbacks pf a BDD framework
 * In case of implementation change the cost to adapt the test drivers can be significant but no more than the cost of adapting implementation dependent tests 
 
 
-### Current decision:
+#### Current decision:
 
 A best effort will be done to describe tests using BDD syntax in feature test comments. We will see later if the hassle to install and understand a BDD framework worth the effort.
 
@@ -142,11 +157,11 @@ Even if it is easy to extract features specifications and test scenarios it does
     https://fr.slideshare.net/marcusamoore/behavior-driven-development-and-laravel        
     https://code.tutsplus.com/fr/tutorials/laravel-bdd-and-you-lets-get-started--cms-22155
 
-## Multi-tenant testing
+## Adaptation of testing to multitenancy
 
     https://tenancyforlaravel.com/docs/v3/testing
     
-### phpunit fo central application
+### phpunit for central application
 
 To test your central app, just write normal Laravel tests.
 
@@ -165,7 +180,7 @@ Test tenants domains must be declared in C:\Windows\System32\drivers\etc\hosts.
     
 Unfortunately, it is not trivial under windows to use wildcard for subdomains. So the tenant "test" and the subdomain "test.tenants.com" will be used for testing.
 
-## Test databases
+### Test databases
 
 The mysql connection defined in config/database.php is used for manual testing.
 

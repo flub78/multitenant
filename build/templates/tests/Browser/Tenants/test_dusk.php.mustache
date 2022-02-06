@@ -1,0 +1,104 @@
+{{=[[ ]]=}}
+<?php
+
+namespace Tests\Browser\Tenants;
+
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
+use App\Helpers\BackupHelper;
+
+/**
+ * [[class_name]] CRUD
+ *  
+ * @author frederic
+ *
+ */
+class [[class_name]]Test extends DuskTestCase {
+
+
+	public function setUp(): void {
+		parent::setUp ();
+		
+		$database = "tenanttest";
+		
+		// Restore a test database
+		$filename = storage_path () . '/app/tests/tenant_nominal.gz';
+		$this->assertFileExists($filename, "tenant_nominal test backup found");
+		BackupHelper::restore($filename, $database, false);		
+	}
+
+	public function tearDown(): void {
+		parent::tearDown ();
+	}
+
+	/**
+	 * A basic browser test example.
+	 *
+	 * @return void
+	 */
+	public function test_login() {
+
+		$this->browse ( function ($browser)  {
+			$this->login($browser);
+			
+			$browser->screenshot('Tenants/after_login');
+		} );
+	}
+	
+	public function test_[[element]]_CRUD() {
+		$this->browse ( function (Browser $browser) {
+			$browser->visit ( '/[[element]]' )
+			->assertSee ( 'Tenant [[element]]' );
+			
+			$browser->screenshot('Tenants/[[element]]');
+			
+			$browser->assertSee ( 'Search' )
+			->assertSee ( 'Previous' )
+			->assertSee ( 'Next' )
+			->assertSee ( 'Showing 0 to 0 of 0 entries' );
+			
+			$browser->press ( 'Add [[class_name]]' )
+			->assertPathIs('/[[element]]/create');
+			
+			// app.locale	fr
+			$browser
+			->select ( 'key', 'app.timezone')
+			->type ( 'value', 'Europe/Paris')
+			->press ( 'Submit' )
+			->assertPathIs('/[[element]]')
+			->assertSee ( 'Paris' )
+			->assertSee ( "Showing 1 to 1 of 1 entries" );
+			
+			// Back to English
+			$browser->visit ( '/[[element]]/app.timezone/edit' )
+			->assertSee ( 'Edit [[element]]' )
+			->type ( 'value', 'Europe/London')
+			->press ( 'Update' )
+			->assertPathIs('/[[element]]')
+			->assertSee ( 'app.timezone updated' )
+			->assertSee ( 'London' )
+			->assertSee ( 'Showing 1 to 1 of 1 entries' );
+			
+			// delete
+			$browser->press('Delete')
+			->assertPathIs('/[[element]]')
+			->assertSee ( 'app.timezone deleted' )
+			->assertSee ( 'Showing 0 to 0 of 0 entries' );
+		} );
+	}
+	
+	/**
+	 * Test that the user can log out
+	 *
+	 * @return void
+	 */
+	public function test_logout() {
+		
+		$this->browse ( function ($browser)  {
+			$this->logout($browser);
+			
+			$browser->screenshot('Tenants/after_logout');
+		} );
+	}
+	
+}

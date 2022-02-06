@@ -6,42 +6,31 @@
  * or in the generated file, in which case caution must be exerced to avoid overwritting.
  */
 
-namespace App;
+namespace App\Models\Tenants;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ModelWithLogs;
+
 
 /**
  * [[class_name]] model
  *
- * Acces to the percistency layer and business rules checks
+ * Acces to the percistency layer
  *
- * @author frede
+ * @author fred
  *
  */
-class [[class_name]] extends Model
-{
+class [[class_name]] extends ModelWithLogs {
+
+    use HasFactory;
+
+    // The associated database table (only if different from the convention)
     protected $table = '[[table]]';
     
-    // protected $primaryKey = '[[primary_index]]';
+    // The primary key associated with the table. (only if different from id)
+    protected $primaryKey = '[[primary_index]]';
 
-    //
+[[id_data_type]]
+    // The attributes that are mass assignable.
 	protected $fillable = [[& fillable_names]];	
-	
-	// TODO generate accessors depending on the metadata subtypes
-    /**
-     * Translate the date in the format into a display format
-     */
-    public function getDateAttribute($value) {
-        return db_to_date($value);
-    }
-
-    /**
-     * Translate the date in the display format into the storage format
-     * 
-     * $value: date in localized format for example dd/mm/yy
-     */
-    public function setDateAttribute($value) {
-         $this->attributes['date'] = date_to_db($value);
-    }
-
 }

@@ -342,11 +342,12 @@ table is a database table name
     php artisan mustache:generate --compare configurations edit             OK
     php artisan mustache:generate --compare configurations create           OK
     php artisan mustache:generate --compare configurations index            OK
-    php artisan mustache:generate --compare configurations model
-    php artisan mustache:generate --compare configurations english
-    php artisan mustache:generate --compare configurations test_model
-    php artisan mustache:generate --compare configurations test_controller
-    php artisan mustache:generate --compare configurations test_dusk
+    php artisan mustache:generate --compare configurations model            almost, missing $KeyTpe = 'string'
+    php artisan mustache:generate --compare configurations factory          OK
+    php artisan mustache:generate --compare configurations english          OK
+    php artisan mustache:generate --compare configurations test_model       generates something
+    php artisan mustache:generate --compare configurations test_controller  generates something
+    php artisan mustache:generate --compare configurations test_dusk        generates something
     
 ## users table
 
