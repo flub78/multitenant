@@ -18,9 +18,9 @@ class AddComments extends Migration
      * Run the migrations.
      *
      * @return void
+     * @SuppressWarnings("PMD.ShortVariable")
      */
-    public function up()
-    {
+	public function up() {
     	// to add a comment to a table :
     	DB::select("ALTER TABLE users COMMENT = 'This a comment for the users table'");
     	

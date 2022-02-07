@@ -15,9 +15,9 @@ class CreateUserRolesTable extends Migration
      * Run the migrations.
      *
      * @return void
+     * @SuppressWarnings("PMD.ShortVariable")
      */
-    public function up()
-    {
+	public function up() {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');            

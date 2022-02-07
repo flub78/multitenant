@@ -9,6 +9,7 @@ class CreateConfigurationsTable extends Migration {
 	 * Run the migrations.
 	 *
 	 * @return void
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function up() {
 		

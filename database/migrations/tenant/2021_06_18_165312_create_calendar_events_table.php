@@ -10,9 +10,9 @@ class CreateCalendarEventsTable extends Migration
      * Run the migrations.
      *
      * @return void
+     * @SuppressWarnings("PMD.ShortVariable")
      */
-    public function up()
-    {
+	public function up() {
     	// See https://fullcalendar.io/docs/event-object
         Schema::create('calendar_events', function (Blueprint $table) {
             $table->id();

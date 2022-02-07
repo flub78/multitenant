@@ -10,9 +10,9 @@ class CreateTenantUsersTable extends Migration
      * Run the migrations.
      *
      * @return void
+     * @SuppressWarnings("PMD.ShortVariable")
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             
