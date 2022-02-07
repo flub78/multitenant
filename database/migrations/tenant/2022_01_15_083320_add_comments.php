@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\DB;
  * 
  * @author frederic
  *
+ * @SuppressWarnings("PMD.ShortMethodName")
  */
-class AddComments extends Migration
-{
+class AddComments extends Migration {
+	
     /**
      * Run the migrations.
      *
      * @return void
-     * @SuppressWarnings("PMD.ShortVariable")
      */
 	public function up() {
     	// to add a comment to a table :

@@ -4,13 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTenantsPasswordResetsTable extends Migration
-{
+/**
+ * @author frederic
+ *
+ * @SuppressWarnings("PMD.ShortMethodName")
+ */
+class CreateTenantsPasswordResetsTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
-     * @SuppressWarnings("PMD.ShortVariable")
      */
 	public function up() {
         Schema::create('password_resets', function (Blueprint $table) {
@@ -25,8 +28,7 @@ class CreateTenantsPasswordResetsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('password_resets');
     }
 }

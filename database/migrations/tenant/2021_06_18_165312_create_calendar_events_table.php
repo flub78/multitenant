@@ -4,8 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCalendarEventsTable extends Migration
-{
+/**
+ * @author frederic
+ *
+ * @SuppressWarnings("PMD.ShortMethodName")
+ */
+class CreateCalendarEventsTable extends Migration {
     /**
      * Run the migrations.
      *
@@ -49,8 +53,7 @@ class CreateCalendarEventsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('calendar_events');
     }
 }

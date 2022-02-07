@@ -4,16 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRolesTable extends Migration
-{
+/**
+ * @author frederic
+ *
+ * @SuppressWarnings("PMD.ShortMethodName")
+ */
+class CreateRolesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      * @SuppressWarnings("PMD.ShortVariable")
      */
-	public function up()
-    {
+	public function up() {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique()->comment("Name for the role");
@@ -27,8 +30,7 @@ class CreateRolesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('roles');
     }
 }

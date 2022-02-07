@@ -4,13 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTenantUsersTable extends Migration
-{
+/**
+ * @author frederic
+ *
+ * @SuppressWarnings("PMD.ShortMethodName")
+ */
+class CreateTenantUsersTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
-     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function up() {
         Schema::create('users', function (Blueprint $table) {
@@ -51,8 +54,7 @@ class CreateTenantUsersTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('users');
     }
 }

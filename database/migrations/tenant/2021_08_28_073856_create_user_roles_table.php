@@ -9,13 +9,12 @@ use Illuminate\Support\Facades\Schema;
  * @author frederic
  *
  */
-class CreateUserRolesTable extends Migration
-{
+class CreateUserRolesTable extends Migration {
+	
     /**
      * Run the migrations.
      *
      * @return void
-     * @SuppressWarnings("PMD.ShortVariable")
      */
 	public function up() {
         Schema::create('user_roles', function (Blueprint $table) {
@@ -44,8 +43,7 @@ class CreateUserRolesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('user_roles');
     }
 }

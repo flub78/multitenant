@@ -124,17 +124,16 @@ class MustacheGenerate extends Command {
 			return 1;
 		}
 
+		if ($template == "all") {
+			$template_list = $this->templates;
+		} else {
+			$template_list = [$template];
+		}
 		try {
-			if ($this->argument('template') == "all") {
-				foreach ($this->templates as $tpl) {
-					$tpl_file = MustacheHelper::template_file($table, $tpl);
-					$result_file = MustacheHelper::result_file($table, $tpl);
-					$this->process_file($table, $tpl_file, $result_file);
-				}
-			} else {
-				$template_file = MustacheHelper::template_file($table, $this->argument('template'));
-				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
-				$this->process_file($table, $template_file, $result_file);
+			foreach ($template_list as $tpl) {
+				$tpl_file = MustacheHelper::template_file($table, $tpl);
+				$result_file = MustacheHelper::result_file($table, $tpl);
+				$this->process_file($table, $tpl_file, $result_file);
 			}
 		} catch (Exception $e) {
 			echo "Error: " . $e->getMessage();
@@ -143,50 +142,28 @@ class MustacheGenerate extends Command {
 		
 		if ($this->option('compare')) {
 			$comparator = "WinMergeU";
-			if ($this->argument('template') == "all") {
-				foreach ($this->templates as $tpl) {
-					$result_file = MustacheHelper::result_file($table, $tpl);
-					$install_file = MustacheHelper::result_file($table, $tpl, true);
-					$cmd = "$comparator $result_file $install_file";
-					if ($verbose) echo "\ncmd = $cmd";
-					
-					$returnVar = NULL;
-					$output = NULL;										
-					if (!$pretend) exec ( $cmd, $output, $returnVar );
-				}
-			} else {
-				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
-				$install_file = MustacheHelper::result_file($table, $this->argument('template'), true);
+			foreach ($template_list as $tpl) {
+				$result_file = MustacheHelper::result_file($table, $tpl);
+				$install_file = MustacheHelper::result_file($table, $tpl, true);
 				$cmd = "$comparator $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
-				
+					
 				$returnVar = NULL;
-				$output = NULL;
+				$output = NULL;										
 				if (!$pretend) exec ( $cmd, $output, $returnVar );
 			}
 		}
 
 		if ($install) {
-			if ($this->argument('template') == "all") {
-				foreach ($this->templates as $tpl) {
-					$result_file = MustacheHelper::result_file($table, $tpl);
-					$install_file = MustacheHelper::result_file($table, $tpl, true);
-					$cmd = "copy $result_file $install_file";
-					if ($verbose) echo "\ncmd = $cmd";
-					
-					$returnVar = NULL;
-					$output = NULL;
-					if (!$pretend) copy($result_file, $install_file);
-				}
-			} else {
-				$result_file = MustacheHelper::result_file($table, $this->argument('template'));
-				$install_file = MustacheHelper::result_file($table, $this->argument('template'), true);
+			foreach ($template_list as $tpl) {
+				$result_file = MustacheHelper::result_file($table, $tpl);
+				$install_file = MustacheHelper::result_file($table, $tpl, true);
 				$cmd = "copy $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
-				
+					
 				$returnVar = NULL;
 				$output = NULL;
-				if (!$pretend) copy ($result_file,  $install_file);
+				if (!$pretend) copy($result_file, $install_file);
 			}
 		}
 		
