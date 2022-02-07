@@ -36,7 +36,7 @@ class DirHelper {
 					rmdir($dir);
 					break;
 				} catch (Exception $e) {
-					$msg = $e->getMessage();
+					// $msg = $e->getMessage();
 					$next = 100 * $i;
 					// echo "\n>>>>>>>>> Exception $msg, next attempt in $next usec\n";
 					usleep($next);

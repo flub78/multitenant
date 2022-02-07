@@ -118,8 +118,6 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "enumerate") {
-			$options = Meta::field_metadata($table, $field);
-			// return Blade::select($field, $options['values'], false, '', []);
 			return '{!! Blade::select("' . $field . '", $' . $field . '_list, false, $' . $element  . '->' . $field .') !!}';
 		}
 		
@@ -141,7 +139,6 @@ class CodeGenerator {
 	 */
 	static public function field_input_create (String $table, String $field) {
 		$type = "text";
-		$element = Meta::element($table);
 		$field_type = Meta::type($table, $field);
 		$subtype = Meta::subtype($table, $field);
 		
@@ -396,7 +393,6 @@ class CodeGenerator {
 		$list = Meta::fillable_fields($table);
 		foreach ($list as $field) {
 			$subtype = Meta::subtype($table, $field);
-			$element = Meta::element($table);
 			
 			if ($subtype == "enumerate") {
 				$options = Meta::field_metadata($table, $field);
@@ -409,7 +405,7 @@ class CodeGenerator {
 				$elt['selector'] = $list;
 				$with = '->with("' . $field . '_list", $' . $field .'_list)';
 				$elt['with'] = $with;
-				// echo "field = $field, subtype=$subtype, element=$element, list = $list\n";
+				// echo "field = $field, subtype=$subtype, list = $list\n";
 				// var_dump($elt);
 				$res[] = $elt;
 			}

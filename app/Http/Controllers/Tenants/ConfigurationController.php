@@ -62,6 +62,7 @@ class ConfigurationController extends Controller {
 	 *
 	 * @param \App\Models\Tenants\Configuration $configuration
 	 * @return \Illuminate\Http\Response
+	 * @SuppressWarnings("PMD.UnusedFormalParameter")
      */
 	public function show(Configuration $configuration) {
         // echo "Configuration.show\n";

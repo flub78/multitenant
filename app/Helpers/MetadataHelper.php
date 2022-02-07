@@ -107,7 +107,6 @@ class MetadataHelper {
 		}
 		
 		// Nothing in metadadata table look in comments
-		$subtype = self::subtype($table, $field);
 		
 		$meta = Schema::columnMetadata($table, $field);
 		if ($field == "id") return false;

@@ -32,7 +32,6 @@ use BaconQrCode\Common\FormatInformation;
 class CalendarEventController extends Controller {
 
 	// name of the table
-	private $name = "calendar_events";
 	private $base_view = 'tenants.calendar_event.';
 	private $base_url = 'calendar_event';
 

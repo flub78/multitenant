@@ -65,8 +65,6 @@ class MustacheHelper {
 	 * @param String $template_file (by default)
 	 */
 	public static function template_file(String $table, String $template, String $template_file = "") {
-		$class_name = Meta::class_name($table);
-		$element = Meta::element($table);
 		
 		$file = $template_file;
 		if ($template == "controller") {
