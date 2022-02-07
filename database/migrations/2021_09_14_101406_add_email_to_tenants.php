@@ -11,7 +11,7 @@ class AddEmailToTenants extends Migration
      *
      * @return void
      */
-    public function up()
+	public function up() // NOPMD
     {
         Schema::table('tenants', function (Blueprint $table) {
         	$table->string('email')->unique()->nullable();

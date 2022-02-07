@@ -13,7 +13,7 @@ class CreateTenantsTable extends Migration
      *
      * @return void
      */
-    public function up(): void
+	public function up(): void	// NOPMD
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->string('id')->primary();

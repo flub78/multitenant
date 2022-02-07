@@ -13,7 +13,7 @@ class CreateDomainsTable extends Migration
      *
      * @return void
      */
-    public function up(): void
+	public function up(): void // NOPMD
     {
         Schema::create('domains', function (Blueprint $table) {
             $table->increments('id');
