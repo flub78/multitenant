@@ -193,6 +193,8 @@ class CalendarEventController extends Controller {
 	 *
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function show($id) {
 		return CalendarEvent::findOrFail ( $id );
@@ -204,6 +206,8 @@ class CalendarEventController extends Controller {
 	 * @param \Illuminate\Http\Request $request
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function update(CalendarEventRequest $request, $id) {
 		$validatedData = $request->validated ();
@@ -229,6 +233,8 @@ class CalendarEventController extends Controller {
 	 *
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function destroy($id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );

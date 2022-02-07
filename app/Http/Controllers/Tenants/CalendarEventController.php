@@ -162,6 +162,8 @@ array (size=9)
 	 *        	the calendar event to edit
 	 *        	the event
 	 * @return \Illuminate\Http\Response
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function edit($id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
@@ -175,6 +177,8 @@ array (size=9)
 	 * @param
 	 *        	id of the event
 	 * @return \Illuminate\Http\Response
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function update(CalendarEventRequest $request, $id) {
 		$validatedData = $request->validated ();
@@ -213,6 +217,8 @@ array (size=9)
 	 * @param $id of
 	 *        	the event
 	 * @return \Illuminate\Http\Response
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function destroy(string $id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );

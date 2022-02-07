@@ -88,6 +88,8 @@ class ConfigurationController extends Controller {
      * @param App\Http\Requests\Tenants\ConfigurationRequest;
      * @param String $id
 	 * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function update(ConfigurationRequest $request, $id) {
 		

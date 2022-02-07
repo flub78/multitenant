@@ -209,6 +209,8 @@ class CodeGenerator {
 	 *
 	 * @param String $table
 	 * @return string
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function button_edit (String $table) {
 		$primary_index = Schema::primaryIndex($table);
@@ -226,6 +228,8 @@ class CodeGenerator {
 	 * @param String $table
 	 * @param String $field
 	 * @return string
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function field_rule_edit (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);

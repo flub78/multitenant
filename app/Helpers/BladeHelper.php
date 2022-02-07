@@ -38,6 +38,8 @@ class BladeHelper {
 	 *        	<option value="F-CGKS">Asw20 - F-CGKS - (WE)</option>
 	 *        	<option value="F-CFXR">xPégase - F-CFXR - (B114)</option>
 	 *        	</select>
+	 *        
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function selector($id = "", $values = [ ], $selected = "", $attrs = [ ]) {
 		$attributes = array_merge($attrs, [ "class" => "form-select",'name' => $id,'id' => $id
@@ -53,6 +55,8 @@ class BladeHelper {
 	 * @param string $selected
 	 * @param array $attrs
 	 * @return string
+	 * 
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function selector_with_null(string $id = "", array $values = [ ], string $selected = "", array $attrs = [ ]) {
 		$attributes = array_merge($attrs, [ "class" => "form-select",'name' => $id,'id' => $id
@@ -69,6 +73,8 @@ class BladeHelper {
 	 * @param string $selected
 	 * @param array $attrs
 	 * @return string
+	 * 
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function select($id, $values = [ ], $with_null = false, $selected = "", $attrs = [ ]) {
 		return HH::select($values, $with_null, $selected, array_merge($attrs, [ "class" => "form-select",'name' => $id,'id' => $id

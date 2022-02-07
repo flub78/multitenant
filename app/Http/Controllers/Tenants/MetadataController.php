@@ -73,6 +73,8 @@ class MetadataController extends Controller {
 	 * @param \Illuminate\Http\Request $request
 	 * @param \App\Models\Tenants\Metadata $metadata
 	 * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function update(MetadataRequest $request, $id) {
 		$validatedData = $request->validated();

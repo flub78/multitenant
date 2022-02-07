@@ -102,6 +102,8 @@ class CalendarEvent extends ModelWithLogs
      * $this->start:      string value in UTC "2021-07-14 12:30:00"
      * $this->start_date: cached string value for local date
      * $this->start_time: cached string for local time
+
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     protected function setStartDateAndTime() {
     	if (isset($this->start)) {

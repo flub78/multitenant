@@ -366,6 +366,8 @@ class Schema extends ModelWithLogs {
      * @param string $table
      * @param string $field
      * @return NULL
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public static function foreignKeyReferencedTable (string $table, string $field) {
     	$fk = self::foreignKey($table, $field);
@@ -378,6 +380,8 @@ class Schema extends ModelWithLogs {
      * @param string $table
      * @param string $field
      * @return NULL
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public static function foreignKeyReferencedColumn (string $table, string $field) {
     	$fk = self::foreignKey($table, $field);

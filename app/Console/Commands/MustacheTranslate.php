@@ -51,6 +51,14 @@ class MustacheTranslate extends Command {
 		parent::__construct();
 	}
 
+	/**
+	 * write a string as a file on the file system
+	 * 
+	 * @param string $content
+	 * @param string $filename
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
+	 */
 	protected function write_file(string $content, string $filename) {
 		$dirname = dirname($filename);
 		if (!is_dir($dirname)) {

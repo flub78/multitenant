@@ -28,6 +28,8 @@ class ModelWithLogs extends Model
      * who performs the action.
      * 
      * @param string $msg
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     protected function logit(string $msg = '') {
         

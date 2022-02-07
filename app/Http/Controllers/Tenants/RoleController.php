@@ -78,6 +78,8 @@ class RoleController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Tenants\Role  $role
      * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function update(RoleRequest $request, $id) {
         $validatedData = $request->validated();

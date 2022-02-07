@@ -22,6 +22,7 @@ class BackupController extends Controller
 	 * Find a backup, return a storage related filename
 	 * @param integer $id
 	 * @return mixed|NULL
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	private function filename_from_index ($id, $fullpath = false) {
 		$backup_list = Storage::files('backup');
@@ -81,6 +82,7 @@ class BackupController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function restore($id)
     {
@@ -109,6 +111,7 @@ class BackupController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function destroy($id)
     {
@@ -125,6 +128,7 @@ class BackupController extends Controller
     /**
      * Download a backup
      * @param unknown $id
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function download($id) {
     	

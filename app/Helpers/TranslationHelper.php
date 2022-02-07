@@ -23,6 +23,8 @@ class TranslationHelper {
 	 *        	target language en | fr, ...
 	 * @param boolean $uppercase
 	 * @return String
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function translate(String $str, String $to = "en", Bool $uppercase = false) {
 		$res = $str;
@@ -62,6 +64,8 @@ class TranslationHelper {
 	 * 
 	 * @param array $values
 	 * @param String $to
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function translate_array (array $values = [], String $to = "en") {
 

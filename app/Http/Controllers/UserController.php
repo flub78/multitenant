@@ -63,6 +63,8 @@ class UserController extends Controller {
 	 *
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function edit($id) {
 		$user = User::findOrFail ( $id );
@@ -75,6 +77,8 @@ class UserController extends Controller {
 	 * @param \Illuminate\Http\Request $request
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function update(UserRequest $request, $id) {
 		$validatedData = $request->validated ();
@@ -103,6 +107,8 @@ class UserController extends Controller {
 	 *
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function destroy($id) {
 		$user = User::findOrFail ( $id );

@@ -23,6 +23,8 @@ class DateFormat {
 	 * @param
 	 *        	optional tz timezone
 	 * @return string yyyy-mm-dd
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function date_to_db($local_date, $tz = "") {
 		if (! $tz) {

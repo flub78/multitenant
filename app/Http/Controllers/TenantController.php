@@ -62,6 +62,8 @@ class TenantController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function show($id) {
         //
@@ -72,6 +74,8 @@ class TenantController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function edit($id) {
     	$tenant = Tenant::findOrFail ( $id );
@@ -84,6 +88,8 @@ class TenantController extends Controller
      * @param  App\Http\Requests\TenantRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function update(TenantRequest $request, $id) {
     	$db = request('db_name');
@@ -107,6 +113,8 @@ class TenantController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function destroy($id) {
     	$tenant = Tenant::findOrFail ( $id );

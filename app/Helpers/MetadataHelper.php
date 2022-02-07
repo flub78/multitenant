@@ -260,6 +260,8 @@ class MetadataHelper {
 	 * List of fillable fields into a comma separated string
 	 * @param String $table
 	 * @return string
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function fillable_names (String $table) {
 		$list = self::fillable_fields($table);
