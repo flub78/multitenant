@@ -232,6 +232,7 @@ array (size=9)
 	 * 
 	 * @param Request $request
 	 * @return json status => 'OK' or ['error' => ['message' => 'error message', 'code' => 1234]];
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function dragged (Request $request) {
 		
@@ -321,6 +322,8 @@ array (size=9)
 	 *
 	 * @param Request $request
 	 * @return json status => 'OK' or ['error' => ['message' => 'error message', 'code' => 1234]];
+	 * 
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function resized (Request $request) {
 		$id = $request->get ('id');

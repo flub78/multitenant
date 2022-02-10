@@ -156,7 +156,7 @@ class TranslationHelper {
 					if ($cnt + 1 < $total) $res .= $sep;
 					
 				} elseif (is_array($val)) {
-					$res .= self::translate_array($val, $to);
+					$res .= self::pretty_print($val, $level + 1);
 					
 				} else {
 					throw new Exception("unsupported value type " . var_export($val, true));

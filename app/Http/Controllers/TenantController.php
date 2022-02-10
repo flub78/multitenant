@@ -92,11 +92,11 @@ class TenantController extends Controller
      * @SuppressWarnings("PMD.ShortVariable")
      */
     public function update(TenantRequest $request, $id) {
-    	$db = request('db_name');
+    	// $db = request('db_name');
     	
     	$validatedData = $request->validated ();
     	    	
-    	$domain = $validatedData ['domain'];
+    	// $domain = $validatedData ['domain'];
     	unset($validatedData ['domain']);
     	
     	$tenant = Tenant::whereId ( $id );
