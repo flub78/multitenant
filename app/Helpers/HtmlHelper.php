@@ -13,15 +13,28 @@ use Exception;
  */
 class  HtmlHelper {
 
+	/**
+	 * Generate a generic HTML marker
+	 * 
+	 * @param string $markup
+	 * @param string $body
+	 * @param array $attrs
+	 * @return string
+	 */
 	static public function html(string $markup, string $body, $attrs = [] ) {
 		$res = "";
-		$res = '<' . $markup . '>' . $body . '</' . $markup . '>';
+		$res = '<' . $markup;
+		foreach ($attrs as $key => $value) {
+			$res .= " $key=\"$value\"";
+		}
+		$res .= '>' . $body . '</' . $markup . '>';
 		return $res;
 	}
 	
 	/**
 	 * H1
 	 * @return string
+	 * @SuppressWarnings("PMD.ShortMethodName")
 	 */
 	static public function h1(string $body) {
 		// https://stackoverflow.com/questions/151969/when-to-use-self-over-this
@@ -32,6 +45,7 @@ class  HtmlHelper {
 	/**
 	 * p
 	 * @return string
+	 * @SuppressWarnings("PMD.ShortMethodName")
 	 */
 	static public function p(string $body) {
 		return static::html("p", $body);
@@ -138,9 +152,19 @@ class  HtmlHelper {
 			$class,
 			$field,
 			$attrs = []) {
-		return '<input type="' . $type
-			. '" class="' . $class . '" name="'
-			. $field . '" value="{{ old("' . $field . '") }}"/>';
+		
+		$attrs['type'] = $type;
+		$attrs['class'] = $class;
+		$attrs['name'] = $field;
+		$attrs['value'] = '{{ old("' . $field . '") }}';
+
+		$res = '<input';
+		foreach ($attrs as $key => $value) {
+			$res .= " $key=\"$value\"";
+		}
+		
+		$res .= '/>';
+		return $res;
 	}
 	
 }

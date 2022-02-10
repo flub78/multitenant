@@ -12,6 +12,21 @@ use Exception;
 
 class HtmlHelperTest extends TestCase {
 
+	public function test_html() {
+		$res = HH::html("div", "");
+		$expected = '<div></div>';
+		$this->assertEquals($expected, $res);
+		
+		$res = HH::html("div", "Hello World!");
+		$expected = '<div>Hello World!</div>';
+		$this->assertEquals($expected, $res);
+		
+		$attrs = ['class' => 'button', 'id' => 'exit_button'];
+		
+		$res = HH::html("div", "Hello World!", $attrs);
+		$expected = '<div class="button" id="exit_button">Hello World!</div>';
+		$this->assertEquals($expected, $res);
+	}
 	
 	/**
 	 * h1
@@ -24,10 +39,20 @@ class HtmlHelperTest extends TestCase {
 		# $res = h1($str);
 		$this->assertEquals("<H1>Hello world</H1>", $res);
 	}
+	
 	public function testP() {
 		$str = "Hello";
 		$res = HH::p($str);
 		$this->assertEquals("<p>Hello</p>", $res);
+	}
+	
+	public function test_input() {
+		$type = "text";
+		$class = "input-class";
+		$field = "date_input";
+		$res = HH::input($type, $class, $field);
+		$expected = '<input type="text" class="input-class" name="date_input" value="{{ old("date_input") }}"/>';
+		$this->assertEquals($expected, $res);	
 	}
 	
 	public function testSelector() {

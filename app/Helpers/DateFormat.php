@@ -42,6 +42,7 @@ class DateFormat {
 	 * @param
 	 *        	optional tz timezone
 	 * @return string yyyy-mm-dd
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function datetime_to_db($local_date, $time = "", $tz = "") {
 		// $time = 9:05
