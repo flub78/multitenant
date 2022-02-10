@@ -19,13 +19,13 @@ class MetadataHelper {
 	/**
 	 * Transform a string into CamelCase
 	 * @param unknown $string
-	 * @param boolean $capitalizeFirstCharacter
+	 * @param boolean $capitalizeFirst
 	 * @return mixed
 	 */
-	static public function underscoreToCamelCase($string, $capitalizeFirstCharacter = false) {
+	static public function underscoreToCamelCase($string, $capitalizeFirst = false) {
 		$str = str_replace('_', '', ucwords($string, '_'));
 
-		if (!$capitalizeFirstCharacter) {
+		if (!$capitalizeFirst) {
 			$str = lcfirst($str);
 		}
 		return $str;

@@ -73,13 +73,13 @@ class User extends Authenticatable
     
     /**
      * Check it two users are equals (mainly for testing)
-     * @param User $x
+     * @param User $user
      * @return boolean
      */
-    public function equals(User $x) {
+    public function equals(User $user) {
     	foreach ($this->fillable as $attr) {
-    		if ($this->$attr != $x->$attr) {
-    			// echo "$attr : " . ($this->$attr) . " != " . ($x->$attr);
+    		if ($this->$attr != $user->$attr) {
+    			// echo "$attr : " . ($this->$attr) . " != " . ($user->$attr);
     			return false;
     		}
     	}

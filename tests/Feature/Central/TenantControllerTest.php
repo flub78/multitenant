@@ -87,26 +87,6 @@ class TenantControllerTest extends TenantTestCase {
 		
 		$this->destroy_tenant("autotest");
 	}
-
-	/**
-	 * Edit view
-	 *
-	 * @return void
-	 */
-	public function test_tenant_show() {
-		$this->be ( $this->user );
-		
-		$this->create_tenant ("autotest", "autotest.tenants.com");
-		
-		$tnt = Tenant::first();
-		$this->assertNotNull($tnt);
-		
-		$id = $tnt->id;
-		$response = $this->get ( "/tenants/$id" );
-		$response->assertStatus ( 200 );
-		
-		$this->destroy_tenant("autotest");
-	}
 	
 	protected function destroy_tenant ($id) {
 		$tenant = Tenant::findOrFail ( $id );

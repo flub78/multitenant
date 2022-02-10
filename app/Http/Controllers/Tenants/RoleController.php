@@ -55,11 +55,11 @@ class RoleController extends Controller {
      *
      * @param  \App\Models\Tenants\Role  $role
      * @return \Illuminate\Http\Response
-     */
+     * 
     public function show(Role $role) {
         //
     }
-
+    */
     
     /**
      * Show the form for editing the specified resource.

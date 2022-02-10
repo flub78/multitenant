@@ -64,15 +64,16 @@ class UserRole extends Model
      * @param User $user
      * @param string $role
      * @return boolean
+     * 
      */
     public static function hasRole($user, $role) {
-    	$r = Role::where(['name' => $role])->first();
+    	$db_role = Role::where(['name' => $role])->first();
     	
-    	if (!$r) return false;
+    	if (!$db_role) return false;
     	
-    	$ur = UserRole::where(['user_id' => $user->id, 'role_id' => $r->id])->first();
+    	$user_role = UserRole::where(['user_id' => $user->id, 'role_id' => $db_role->id])->first();
     	
-    	if ($ur) 
+    	if ($user_role) 
     		return true; 
     	else 
     		return false;
