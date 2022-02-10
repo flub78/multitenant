@@ -54,8 +54,8 @@ class UserRoleController extends Controller {
         $user_id = $request->user_id;
         $role_id = $request->role_id;
         try {
-        	$id = UserRole::create(['user_id' => $user_id, 'role_id' => $role_id]);
-        	return redirect ( '/user_role' )->with ( 'success',  __('user_roles.created', ['user' => $id->user_name, 'role'=> $id->role_name]));
+        	$ur_id = UserRole::create(['user_id' => $user_id, 'role_id' => $role_id]);
+        	return redirect ( '/user_role' )->with ( 'success',  __('user_roles.created', ['user' => $ur_id->user_name, 'role'=> $ur_id->role_name]));
         } catch (QueryException $e) {
         	// very likely a duplicate
         	return redirect ( '/user_role' );
@@ -95,6 +95,8 @@ class UserRoleController extends Controller {
      * @param App\Http\Requests\Tenants\UserRoleRequest;
      * @param String $id
      * @return \Illuminate\Http\Response
+     * 
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function update(UserRoleRequest $request, $id) {
     	$validatedData = $request->validated();
