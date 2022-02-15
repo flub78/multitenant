@@ -414,6 +414,28 @@ class CodeGenerator {
 	}
 	
 	/**
+	 * Generate code for model when the key type is not integer
+	 * @param String $table
+	 */
+	static public function id_data_type (String $table) {
+		
+		$type = "string";
+		$primary = Schema::primaryIndex($table);
+		$primary_type = Meta::type($table, $primary); 
+				
+		if ($primary_type == "varchar") {
+			return "    /**
+     * The data type of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected \$keyType = '$type';
+";
+		}
+		return "";
+	}
+	
+	/**
 	 * All the information for mustache engine
 	 *
 	 * @param String $table
@@ -430,7 +452,8 @@ class CodeGenerator {
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),
 				'primary_index' => Schema::primaryIndex($table),
-				'select_list' => self::select_list($table)
+				'select_list' => self::select_list($table),
+				'id_data_type' => self::id_data_type($table)
 		);
 	}
 }

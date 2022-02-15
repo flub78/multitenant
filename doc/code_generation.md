@@ -321,7 +321,7 @@ table is a database table name
     php artisan mustache:generate --compare configurations edit             OK
     php artisan mustache:generate --compare configurations create           OK
     php artisan mustache:generate --compare configurations index            OK
-    php artisan mustache:generate --compare configurations model            almost, missing $KeyTpe = 'string'
+    php artisan mustache:generate --compare configurations model            OK
     php artisan mustache:generate --compare configurations factory          OK
     php artisan mustache:generate --compare configurations english          OK
     php artisan mustache:generate --compare configurations test_model       generates something

@@ -1,4 +1,3 @@
-{{=[[ ]]=}}
 <?php
 /**
  * This file is a template generated file filed from metadata extracted from the data model.
@@ -13,24 +12,34 @@ use App\Models\ModelWithLogs;
 
 
 /**
- * [[class_name]] model
+ * {{class_name}} model
  *
  * Acces to the percistency layer
  *
  * @author fred
  *
  */
-class [[class_name]] extends ModelWithLogs {
+class {{class_name}} extends ModelWithLogs {
 
     use HasFactory;
 
-    // The associated database table (only if different from the convention)
-    protected $table = '[[table]]';
+    /**
+     * The associated database table
+     */
+    protected $table = '{{table}}';
     
-    // The primary key associated with the table. (only if different from id)
-    protected $primaryKey = '[[primary_index]]';
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = '{{primary_index}}';
 
-[[id_data_type]]
-    // The attributes that are mass assignable.
-	protected $fillable = [[& fillable_names]];	
+{{id_data_type}}
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+	protected $fillable = [{{& fillable_names}}];	
 }
