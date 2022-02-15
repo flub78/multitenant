@@ -388,4 +388,24 @@ class Schema extends ModelWithLogs {
     	return ($fk) ? $fk->REFERENCED_COLUMN_NAME : null;
     }
     
+    /**
+     * True if this table is referenced in another table. In which case there
+     * is a foreign key in the other table which points to this table.
+     * 
+     * @param string $target_table
+     */
+    public static function isReferenced(string $target_table) {
+    	$tables = self::tableList();
+    	foreach ($tables as $table) {
+    		$fields = self::fieldList($table);
+    		foreach ($fields as $field) {
+    			$rt = self::foreignKeyReferencedTable($table, $field);
+    			if ($rt == $target_table) {
+    				return true;	
+    			}
+    		}
+    	}
+    	return false;
+    }
+    
 }

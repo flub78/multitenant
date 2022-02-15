@@ -453,7 +453,8 @@ class CodeGenerator {
 				'button_delete' => self::button_delete($table),
 				'primary_index' => Schema::primaryIndex($table),
 				'select_list' => self::select_list($table),
-				'id_data_type' => self::id_data_type($table)
+				'id_data_type' => self::id_data_type($table),
+				'is_referenced' => Schema::isReferenced($table) ? "true" : ""
 		);
 	}
 }

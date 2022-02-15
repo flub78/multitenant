@@ -299,4 +299,11 @@ class SchemaModelTest extends TestCase
     	
     	$this->assertFalse(Schema::unique('configurations', 'unknownfield'));
     }
+    
+    public function test_all_foreign_keys() {
+    	$this->assertTrue(Schema::isReferenced("users"));
+    	$this->assertTrue(Schema::isReferenced("roles"));
+    	$this->assertFalse(Schema::isReferenced("user_roles"));
+    	$this->assertFalse(Schema::isReferenced("metadata"));
+    }
 }
