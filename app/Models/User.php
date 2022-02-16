@@ -94,15 +94,6 @@ class User extends Authenticatable
     public function getFullNameAttribute() {
     	return $this->name;
     }
-
-    
-    /**
-     * short_name attribute
-     * @return string
-     */
-    public function getShortNameAttribute() {
-    	return $this->name;
-    }
     
     /**
      * Return a list of name and id to be used to generate HTML selectors

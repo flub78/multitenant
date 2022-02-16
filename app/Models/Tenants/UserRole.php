@@ -32,14 +32,6 @@ class UserRole extends Model
     }
     
     /**
-     * short_name attribute
-     * @return string
-     */
-    public function getShortNameAttribute() {
-    	return $this->getFullNameAttribute();
-    }
-    
-    /**
      * user_name attribute
      *
      * @return string

@@ -111,14 +111,7 @@ class MetadataModelTest extends TenantTestCase
     	$stored->field = "name";
     	$stored->update();   	
      }
-    
-    public function test_full_name () {
-    	$meta1 = Metadata::create(['table' => "users", 'field' => "email", "subtype" => "email"]);
-    	
-    	$this->assertEquals('metadata users.email',  $meta1->full_name);
-    	$this->assertEquals('metadata users.email',  $meta1->short_name);
-    }
-    
+        
     public function test_attributes () {
     	$table = "users";
     	$field = "email";

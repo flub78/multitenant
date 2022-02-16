@@ -43,20 +43,22 @@ class {{class_name}} extends ModelWithLogs {
      */
 	protected $fillable = [{{& fillable_names}}];
 {{#is_referenced}}
-    // As names are unique, just create aliases
-    public function getFullNameAttribute() {
-        return $this->name;
+
+    /**
+     * Return a human readable unique string
+     */
+    public function image() {
+        return "{{element}}_" . $this->{{primary_index}};
     }
     
-    public function getShortNameAttribute() {
-        return $this->name;
-    }
-    
+    /**
+     * Return a selector to select one element
+     */
     public static function selector($where = []) {
-        $users = Role::where($where)->get();
+        ${{table}} = {{class_name}}::where($where)->get();
         $res = [];
-        foreach ($users as $user) {
-            $res[] = ['name' => $user->full_name, 'id' => $user->id];
+        foreach (${{table}} as ${{element}}) {
+            $res[] = ['name' => ${{element}}->image(), 'id' => ${{element}}->{{primary_index}}];
         }
         return $res;
     }

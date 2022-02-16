@@ -80,7 +80,6 @@ class UsersModelTest extends TestCase
     	$user2 = User::factory()->create();
     	
     	$this->assertEquals($user->name, $user->full_name, "full_name");
-    	$this->assertEquals($user->name, $user->short_name, "short_name");
     	
     	$selector = User::selector();
     	$this->assertEquals(2, count($selector));

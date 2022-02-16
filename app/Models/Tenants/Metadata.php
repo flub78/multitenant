@@ -68,25 +68,7 @@ class Metadata extends Model
      	
     	return parent::update($attributes, $options);
     }
-    
-    /**
-     * full_name attribute
-     * As names are unique, just create aliases
-     * @return string
-     */
-    public function getFullNameAttribute() {
-    	return "metadata " . $this->attributes['table'] . '.' . $this->field;
-    }
-    
-    
-    /**
-     * short_name attribute
-     * @return string
-     */
-    public function getShortNameAttribute() {
-    	return $this->full_name;
-    }
-    
+        
     public static function subtype($table, $field) {
     	$meta = self::where(['table' => $table, "field" => $field])->first();
     	return ($meta) ? $meta->subtype : '';
@@ -96,6 +78,5 @@ class Metadata extends Model
     	$meta = self::where(['table' => $table, "field" => $field])->first();
     	return ($meta) ? json_decode($meta->options, true) : [];
     }
-    
-    
+
  }
