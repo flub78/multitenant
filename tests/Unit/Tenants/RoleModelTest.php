@@ -98,4 +98,12 @@ class RoleModelTest extends TenantTestCase
     	$this->assertEquals(1, count($selector2));
     }
     
+    public function test_factory() {
+    	$role = Role::factory()->make();
+    	$this->assertNotEquals('', $role->name);
+    	$this->assertNotEquals('', $role->description);
+    	
+    	echo "\nrole=" . $role->name . ", description=" . $role->description . "\n";
+    }
+    
 }

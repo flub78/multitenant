@@ -26,6 +26,7 @@ class ConfigurationModelTest extends TenantTestCase
         
         // Create
         $configuration = Configuration::factory()->make();
+        var_dump($configuration);
         $key = $configuration->key;
         $value = $configuration->value;
         $configuration->save();   // set $configuration to null

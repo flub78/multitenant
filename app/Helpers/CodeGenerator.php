@@ -326,6 +326,41 @@ class CodeGenerator {
 	
 	
 	/**
+	 * Faker are used to create random elements for testing
+	 *
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
+	static public function field_faker (String $table, String $field) {
+		$subtype = Meta::subtype($table, $field);
+		$type = Meta::type($table, $field);
+		
+		$res = '"faker type=' . $type . ", subtype=" . $subtype . '"';
+		
+		if ('varchar' == $type) {
+			$res =  "\"$field" . '_" . $next . "_" . ' . 'Str::random()';
+		} elseif ('date' == $type) {
+			$res = '$this->faker->date(__("general.date_format"))';
+		} elseif ('time' == $type) {
+			$res = '$this->faker->time(__("general.time_format"))';
+		}
+		
+		if ('email' == $subtype) {
+			$res = '$this->faker->unique()->safeEmail()';
+		} elseif ('checkbox' == $subtype) {
+			$res = '$this->faker->boolean()';
+		} elseif ('enumerate' == $subtype) {
+			$values = Meta::field_metadata($table, $field)["values"];
+			$list = '["'.implode('","', $values) . '"]';
+			$res = '$this->faker->randomElement(' . $list .')';
+		} elseif ('color' == $subtype) {
+			$res = '$this->faker->hexcolor()';
+		}
+		return $res;
+	}
+		
+	/**
 	 * Metadata all metadata for an individual field
 	 *
 	 * @param String $table
@@ -340,6 +375,7 @@ class CodeGenerator {
 				'input_create' => self::field_input_create($table, $field),
 				'rule_edit' => self::field_rule_edit($table, $field),
 				'rule_create' => self::field_rule_create($table, $field),
+				'faker' => self::field_faker($table, $field)
 		];
 	}
 	

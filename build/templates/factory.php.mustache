@@ -22,13 +22,12 @@ class [[class_name]]Factory extends Factory
      * @return array
      */
     public function definition() {
-        // $count = [[class_name]]::count ();
-        // $next = $count + 1;
-        // $random_str = Str::random ( 6 );
+        $count = [[class_name]]::count ();
+        $next = $count + 1;
         
         return [
             [[#form_field_list]]
-            '[[name]]' => "[[name]]",
+            '[[name]]' => [[&faker]],
             [[/form_field_list]]
         ];
     }

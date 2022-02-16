@@ -23,11 +23,10 @@ class ConfigurationFactory extends Factory
 	public function definition() {
 		$count = Configuration::count ();
 		$next = $count + 1;
-		$random_str = Str::random ( 6 );
 
 		return [ 
-				'key' => "key." . $next . '.' . $random_str,
-				'value' => "value " . $next . '.' . $random_str
+            'key' => $this->faker->randomElement(["app.locale","app.timezone","browser.locale"]),
+            'value' => "value_" . $next . "_" . Str::random(),
 		];
 	}
 

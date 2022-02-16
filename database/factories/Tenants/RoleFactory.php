@@ -4,6 +4,7 @@ namespace Database\Factories\Tenants;
 
 use App\Models\Tenants\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class RoleFactory extends Factory
 {
@@ -19,10 +20,13 @@ class RoleFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
+    public function definition() {
+        $count = Role::count ();
+        $next = $count + 1;
+        
         return [
-            //
+            'name' => "name_" . $next . "_" . Str::random(),
+            'description' => "description_" . $next . "_" . Str::random(),
         ];
     }
 }
