@@ -1,5 +1,10 @@
 {{=[[ ]]=}}
 <?php
+/**
+ * This file is generated from a template with metadata extracted from the data model.
+ * If modifications are required, it is important to consider if they should be done in the template
+ * or in the generated file, in which case caution must be exerced to avoid overwritting.
+ */
 
 namespace tests\Unit\Tenants;
 
@@ -8,11 +13,8 @@ use Tests\TenantTestCase;
 use App\Models\Tenants\[[class_name]];
 
 /**
- * To adapt to another Model
- * rename the class
- * Replace the class name Role:: per ...
- * Replace the element name role per
- * replace the field names name and description per ...
+ * Unit test for [[class_name]] model
+ 
  * @author frederic
  *
  */
@@ -29,46 +31,55 @@ class [[class_name]]ModelTest extends TenantTestCase {
     	        
         $initial_count = [[class_name]]::count();
         
-        // Create
-        $[[element]] = [[class_name]]::factory()->make();
-        $key = $[[element]]->key;
-        $value = $[[element]]->value;
-        $[[element]]->save();   // set $[[element]] to null
+        // Create an element
+        $[[element]]1 = [[class_name]]::factory()->create();
+         $this->assertNotNull($[[element]]1);
+        $[[primary_index]] = $[[element]]1->[[primary_index]];
         
         // and a second
-        $config2 = [[class_name]]::factory()->make();
-        $config2->save();
+        [[class_name]]::factory()->create();
         
+         // a third to generate values for updates
+        $[[element]]3 = [[class_name]]::factory()->make();
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $this->assertNotEquals($[[element]]1->$field, $[[element]]3->$field);
+        }
+ 
         $this->assertTrue([[class_name]]::count() == $initial_count + 2, "Two new elements in the table");
         $this->assertDatabaseCount('[[table]]',  $initial_count + 2);
                         
         # Read
-        $stored = [[class_name]]::where(['key' => $key])->first();
+        $stored = [[class_name]]::where(['[[primary_index]]' => $[[primary_index]]])->first();
         
         $this->assertNotNull($stored, "It is possible to retrieve the [[element]]");
         
-        $this->assertEquals($key, $stored->key, "Checks the element fetched from the database");
-        $this->assertEquals($value, $stored->value, "Checks the element fetched from the database");
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $this->assertEquals($[[element]]1->$field, $stored->$field, "Checks the element $field fetched from the database");
+        }
         
         // Update
-        $new_value = "updated value";
-        $stored->value = $new_value;
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $stored->$field = $[[element]]3->$field;
+        }
         
         $stored->update();
         
-        $back = [[class_name]]::where('key', $key)->first();
-        $this->assertEquals($back->value, $new_value, "After update");
-        $this->assertDatabaseHas('[[table]]', [
-            'value' => $new_value,
-        ]);
+        // get it back
+        $back = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $this->assertEquals($back->$field, $[[element]]3->$field, "$field after update");
+            $this->assertDatabaseHas('[[table]]', [
+                $field => $[[element]]3->$field,
+            ]);
+        }
         
         // Delete
         $stored->delete();   
         $this->assertDeleted($stored);
         $this->assertTrue([[class_name]]::count() == $initial_count + 1, "One less elements in the table");
-        $this->assertDatabaseMissing('[[table]]', [
-            'value' => $new_value,
-        ]);
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $this->assertDatabaseMissing('[[table]]', [$field => $[[element]]3->$field]);
+        }
     }
     
     
@@ -76,9 +87,25 @@ class [[class_name]]ModelTest extends TenantTestCase {
     	$initial_count = [[class_name]]::count();
     	
     	$[[element]] = [[class_name]]::factory()->make();
-    	$[[element]]->key = "999999999";
+    	$[[element]]->[[primary_index]] = "999999999";
     	$[[element]]->delete();
     	
     	$this->assertTrue([[class_name]]::count() == $initial_count, "No changes in database");
     }
+    
+    public function test_computed_attributes() {
+        $[[element]] = [[class_name]]::factory()->create();
+        $[[element]]2 = [[class_name]]::factory()->create();
+        
+        $this->assertNotEquals('', $[[element]]->image(), "image");
+        
+        $selector = [[class_name]]::selector();
+        $this->assertEquals(2, count($selector));
+        $this->assertEquals($[[element]]->[[primary_index]], $selector[0]['[[primary_index]]']);
+        $this->assertEquals($[[element]]2->image(), $selector[1]['name']);
+        
+        $selector2 = [[class_name]]::selector(['[[primary_index]]' => $[[element]]2->[[primary_index]]]);
+        $this->assertEquals(1, count($selector2));
+    }    
+
 }

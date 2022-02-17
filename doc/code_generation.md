@@ -313,7 +313,7 @@ table is a database table name
     php artisan mustache:generate --compare roles create            OK
     php artisan mustache:generate --compare roles edit              OK
     php artisan mustache:generate --compare roles factory           OK
-    php artisan mustache:generate --compare roles test_model
+    php artisan mustache:generate --compare roles test_model        
 
 ## configurations table
 
