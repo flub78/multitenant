@@ -96,6 +96,15 @@ class User extends Authenticatable
     }
     
     /**
+     * Unique string to display a user
+     * 
+     * @return string
+     */
+    public function image() {
+    	return $this->name;
+    }
+    
+    /**
      * Return a list of name and id to be used to generate HTML selectors
      * @param array $where
      * @return a list of ['name' => xxx, 'id' => yyy]
@@ -104,6 +113,7 @@ class User extends Authenticatable
     	$users = User::where($where)->get();
     	$res = [];
     	foreach ($users as $user) {
+    		// Todo replace full_name per image
     		$res[] = ['name' => $user->full_name, 'id' => $user->id];
     	}
     	return $res;

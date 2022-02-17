@@ -48,7 +48,7 @@ class Role extends ModelWithLogs {
      */
     public function image() {
     	return $this->name;						// code generator version
-        // return "role_" . $this->id;			manually replace
+        // return "role_" . $this->id;			manually replaced
     }
     
     /**

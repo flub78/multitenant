@@ -38,7 +38,7 @@ class UserRole extends Model
      */
     public function getUserNameAttribute() {
     	$user = User::findOrFail ( $this->user_id );    	
-    	return $user->full_name;
+    	return $user->image();
     }
 
     /**
@@ -48,7 +48,7 @@ class UserRole extends Model
      */
     public function getRoleNameAttribute() {
     	$role = Role::findOrFail ( $this->role_id );
-    	return $role->full_name;
+    	return $role->image();
     }
     
     /**

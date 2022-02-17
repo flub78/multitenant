@@ -102,12 +102,12 @@ class UserRoleModelTest extends TenantTestCase
     	$this->assertEquals($user_role->role_id, $this->role1->id);
     	
     	$user1_name = $this->user1->full_name;
-    	$role1_name = $this->role1->full_name;
+    	$role1_image = $this->role1->image();
     	$this->assertEquals($user_role->user_name, $user1_name);
-    	$this->assertEquals($user_role->role_name, $role1_name);
+    	$this->assertEquals($user_role->role_name, $role1_image);
     	
     	$fullname = $user_role->full_name;
-    	$this->assertEquals(__('user_roles.fullname', ['role' => $role1_name, 'user' => $user1_name]), $fullname);    	
+    	$this->assertEquals(__('user_roles.fullname', ['role' => $role1_image, 'user' => $user1_name]), $fullname);    	
     }
     
     public function test_cascade () {

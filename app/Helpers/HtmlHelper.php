@@ -89,6 +89,7 @@ class  HtmlHelper {
 			if ($selected == $elt['id']) {
 				$res .= ' selected="selected"';
 			}
+			// Todo replace name per image
 			$res .= ">" . $elt['name'] . "</option>\n";
 		}
 		$res .= "</select>";
