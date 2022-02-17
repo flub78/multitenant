@@ -133,7 +133,7 @@ class MetadataHelper {
 		// look in the field comment
 		$meta = Schema::columnMetadata($table, $field);
 		if ($meta && array_key_exists('subtype', $meta)) return $meta['subtype'];
-			
+					
 		// Not found, maybe it's a derived field, look for root field
 		if (preg_match('/(.*)(\_confirmation)/', $field, $matches)) {
 			$root = $matches[1];
@@ -163,6 +163,12 @@ class MetadataHelper {
 			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "datetime_with_date_and_time")) {
 				return "datetime_time";
 			}
+		}
+				
+		// maybe it's a foreign key
+		$fk = Schema::foreignKey($table, $field);
+		if ($fk) {
+			return "foreign_key";
 		}
 		
 		// not found anywhere

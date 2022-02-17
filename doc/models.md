@@ -59,6 +59,10 @@ Should return a human readable string highlighting the differences between two e
     
     $field = Model::field_by_index(2);
     $elt2->modify($seed, $field);
+
+### Warning
+
+Unit tests should not depend on context (other classes, database states, etc). Creating an element with foreign keys pointing on existing element is definitively to depend on context. The test of the persistence of such elements (the ones with foreign keys) are not unit tests, but integration or feature tests which can rely on a pre-existing state of the test database. Conclusion there is no unit tests for the complex model (and even for simple models, should they exist ?). See UserRolesModelTest.php to understand the issue.
     
 ### Question
 

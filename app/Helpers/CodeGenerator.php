@@ -348,14 +348,21 @@ class CodeGenerator {
 		
 		if ('email' == $subtype) {
 			$res = '$this->faker->unique()->safeEmail()';
+			
 		} elseif ('checkbox' == $subtype) {
 			$res = '$this->faker->boolean()';
+			
 		} elseif ('enumerate' == $subtype) {
 			$values = Meta::field_metadata($table, $field)["values"];
 			$list = '["'.implode('","', $values) . '"]';
 			$res = '$this->faker->randomElement(' . $list .')';
+			
 		} elseif ('color' == $subtype) {
 			$res = '$this->faker->hexcolor()';
+			
+		} elseif ('foreign_key' == $subtype) {
+			$target_table = Schema::foreignKeyReferencedTable ($table, $field);
+			$res = '$this->faker->randomNumber(), // Foreign key to ' . $target_table . ', raises QueryException';
 		}
 		return $res;
 	}

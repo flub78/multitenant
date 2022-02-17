@@ -171,5 +171,5 @@ class UserRoleModelTest extends TenantTestCase
     	$this->assertTrue(UserRole::hasRole($this->user2, "guest"));
     	$this->assertFalse(UserRole::hasRole($this->user2, "redactor"));
     	
-    }
+    }    
 }

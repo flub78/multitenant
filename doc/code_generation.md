@@ -308,11 +308,12 @@ table is a database table name
 
     php artisan mustache:generate --compare roles controller        OK
     php artisan mustache:generate --compare roles request           OK
-    php artisan mustache:generate --compare roles model             To do
+    php artisan mustache:generate --compare roles model             OK
     php artisan mustache:generate --compare roles index             OK
     php artisan mustache:generate --compare roles create            OK
     php artisan mustache:generate --compare roles edit              OK
-    
+    php artisan mustache:generate --compare roles factory           OK
+    php artisan mustache:generate --compare roles test_model
 
 ## configurations table
 

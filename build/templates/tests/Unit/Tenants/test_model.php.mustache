@@ -7,12 +7,16 @@ use Tests\TenantTestCase;
 
 use App\Models\Tenants\[[class_name]];
 
-class [[class_name]]ModelTest extends TenantTestCase
-
-{
-    // Clean up the database
-    // not for tenants
-    // use RefreshDatabase;
+/**
+ * To adapt to another Model
+ * rename the class
+ * Replace the class name Role:: per ...
+ * Replace the element name role per
+ * replace the field names name and description per ...
+ * @author frederic
+ *
+ */
+class [[class_name]]ModelTest extends TenantTestCase {
         
     /**
      * Test element creation, read, update and delete
