@@ -34,7 +34,8 @@ class [[class_name]]ModelTest extends TenantTestCase {
         // Create an element
         $[[element]]1 = [[class_name]]::factory()->create();
         $this->assertNotNull($[[element]]1);
-        $[[primary_index]] = $[[element]]1->[[primary_index]];
+        $latest = [[class_name]]::latest()->first();
+        $[[primary_index]] = $latest->[[primary_index]];
         
         // and a second
         [[class_name]]::factory()->create();

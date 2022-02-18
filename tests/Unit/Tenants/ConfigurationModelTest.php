@@ -31,11 +31,12 @@ class ConfigurationModelTest extends TenantTestCase {
         $initial_count = Configuration::count();
         
         // Create
-        $configuration = Configuration::factory()->make();
-        // var_dump($configuration);
-        $key = $configuration->key;
+        $configuration = Configuration::factory()->create();
+        $latest = Configuration::latest()->first();
+        $key = $latest->key;
+        
         $value = $configuration->value;
-        $configuration->save();   // set $configuration to null
+        // $configuration->save();   // set $configuration to null
         
         // and a second
         $config2 = Configuration::factory()->make();

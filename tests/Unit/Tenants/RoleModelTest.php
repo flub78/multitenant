@@ -33,7 +33,8 @@ class RoleModelTest extends TenantTestCase {
         // Create an element
         $role1 = Role::factory()->create();
         $this->assertNotNull($role1);
-        $id = $role1->id;
+        $latest = Role::latest()->first();
+        $id = $latest->id;
                 
         // and a second
         Role::factory()->create();
