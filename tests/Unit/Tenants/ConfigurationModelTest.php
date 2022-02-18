@@ -1,4 +1,9 @@
 <?php
+/**
+ * This file is generated from a template with metadata extracted from the data model.
+ * If modifications are required, it is important to consider if they should be done in the template
+ * or in the generated file, in which case caution must be exerced to avoid overwritting.
+ */
 
 namespace tests\Unit\Tenants;
 
@@ -6,12 +11,13 @@ use Tests\TenantTestCase;
 
 use App\Models\Tenants\Configuration;
 
-class ConfigurationModelTest extends TenantTestCase
+/**
+ * Unit test for Configuration model
 
-{
-    // Clean up the database
-    // not for tenants
-    // use RefreshDatabase;
+ * @author frederic
+ *
+ */
+class ConfigurationModelTest extends TenantTestCase {
         
     /**
      * Test element creation, read, update and delete
@@ -26,7 +32,7 @@ class ConfigurationModelTest extends TenantTestCase
         
         // Create
         $configuration = Configuration::factory()->make();
-        var_dump($configuration);
+        // var_dump($configuration);
         $key = $configuration->key;
         $value = $configuration->value;
         $configuration->save();   // set $configuration to null

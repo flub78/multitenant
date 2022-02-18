@@ -119,6 +119,7 @@ class Schema extends ModelWithLogs {
     	
     	if (!$info) return false;
     	
+    	// Todo check unique. Foreign keys are BTREE ... 
     	if ($info->Index_type == "BTREE") 
     		return true;
     	else 

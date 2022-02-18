@@ -335,34 +335,36 @@ class CodeGenerator {
 	static public function field_faker (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
 		$type = Meta::type($table, $field);
+		$unique = Schema::unique($table, $field);
+		$faker = ($unique) ? '$this->faker->unique()' : '$this->faker';
 		
 		$res = '"faker type=' . $type . ", subtype=" . $subtype . '"';
 		
 		if ('varchar' == $type) {
 			$res =  "\"$field" . '_" . $next . "_" . ' . 'Str::random()';
 		} elseif ('date' == $type) {
-			$res = '$this->faker->date(__("general.date_format"))';
+			$res = $faker . '->date(__("general.date_format"))';
 		} elseif ('time' == $type) {
-			$res = '$this->faker->time(__("general.time_format"))';
+			$res = $faker . '->time(__("general.time_format"))';
 		}
 		
 		if ('email' == $subtype) {
-			$res = '$this->faker->unique()->safeEmail()';
+			$res = $faker . '->safeEmail()';
 			
 		} elseif ('checkbox' == $subtype) {
-			$res = '$this->faker->boolean()';
+			$res = $faker . '->boolean()';
 			
 		} elseif ('enumerate' == $subtype) {
 			$values = Meta::field_metadata($table, $field)["values"];
 			$list = '["'.implode('","', $values) . '"]';
-			$res = '$this->faker->randomElement(' . $list .')';
+			$res = $faker . '->randomElement(' . $list .')';
 			
 		} elseif ('color' == $subtype) {
-			$res = '$this->faker->hexcolor()';
+			$res = $faker . '->hexcolor()';
 			
 		} elseif ('foreign_key' == $subtype) {
 			$target_table = Schema::foreignKeyReferencedTable ($table, $field);
-			$res = '$this->faker->randomNumber(), // Foreign key to ' . $target_table . ', raises QueryException';
+			$res = $faker . '->randomNumber(), // Foreign key to ' . $target_table . ', raises QueryException';
 		}
 		return $res;
 	}

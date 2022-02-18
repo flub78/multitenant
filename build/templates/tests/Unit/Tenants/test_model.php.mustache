@@ -33,7 +33,7 @@ class [[class_name]]ModelTest extends TenantTestCase {
         
         // Create an element
         $[[element]]1 = [[class_name]]::factory()->create();
-         $this->assertNotNull($[[element]]1);
+        $this->assertNotNull($[[element]]1);
         $[[primary_index]] = $[[element]]1->[[primary_index]];
         
         // and a second
@@ -93,6 +93,7 @@ class [[class_name]]ModelTest extends TenantTestCase {
     	$this->assertTrue([[class_name]]::count() == $initial_count, "No changes in database");
     }
     
+[[#is_referenced]]
     public function test_computed_attributes() {
         $[[element]] = [[class_name]]::factory()->create();
         $[[element]]2 = [[class_name]]::factory()->create();
@@ -107,5 +108,6 @@ class [[class_name]]ModelTest extends TenantTestCase {
         $selector2 = [[class_name]]::selector(['[[primary_index]]' => $[[element]]2->[[primary_index]]]);
         $this->assertEquals(1, count($selector2));
     }    
+[[/is_referenced]]        
 
 }

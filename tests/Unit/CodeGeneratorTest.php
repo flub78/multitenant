@@ -44,10 +44,10 @@ class CodeGeneratorTest extends TestCase {
 		
 		$input = CG::field_input_create($table, $field);
 		$this->assertNotEquals('', $input);
-		var_dump($input);
+		// var_dump($input);
 		
 		$rules = CG::field_rule_create($table, $field);
-		var_dump($rules);
+		// var_dump($rules);
 		
 		$metadata->delete();
 		
