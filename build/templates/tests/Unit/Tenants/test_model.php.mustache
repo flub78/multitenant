@@ -42,36 +42,41 @@ class [[class_name]]ModelTest extends TenantTestCase {
         
          // a third to generate values for updates
         $[[element]]3 = [[class_name]]::factory()->make();
+        $this->assertNotNull($[[element]]3);
         foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertNotEquals($[[element]]1->$field, $[[element]]3->$field);
+            $this->assertNotEquals($latest->$field, $[[element]]3->$field);
         }
  
         $this->assertTrue([[class_name]]::count() == $initial_count + 2, "Two new elements in the table");
         $this->assertDatabaseCount('[[table]]',  $initial_count + 2);
                         
         # Read
-        $stored = [[class_name]]::where(['[[primary_index]]' => $[[primary_index]]])->first();
-        
-        $this->assertNotNull($stored, "It is possible to retrieve the [[element]]");
+        $stored = [[class_name]]::where(['[[primary_index]]' => $[[primary_index]]])->first();      
+        $this->assertNotNull($stored, "It is possible to retrieve the [[element]] after creation");
         
         foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertEquals($[[element]]1->$field, $stored->$field, "Checks the element $field fetched from the database");
+            $this->assertEquals($latest->$field, $stored->$field, "Checks the element $field fetched from the database");
         }
         
         // Update
         foreach ([ [[&fillable_names]] ] as $field) {
-            $stored->$field = $[[element]]3->$field;
+            if ($field != "[[primary_index]]")
+                $stored->$field = $[[element]]3->$field;
         }
         
         $stored->update();
         
         // get it back
         $back = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();
+        $this->assertNotNull($back, "It is possible to retrieve the [[element]] after update");
+
         foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertEquals($back->$field, $[[element]]3->$field, "$field after update");
-            $this->assertDatabaseHas('[[table]]', [
-                $field => $[[element]]3->$field,
-            ]);
+            if ($field != "[[primary_index]]") {
+                $this->assertEquals($back->$field, $[[element]]3->$field, "$field after update");
+                $this->assertDatabaseHas('[[table]]', [
+                    $field => $[[element]]3->$field,
+                ]);
+            }
         }
         
         // Delete
@@ -79,7 +84,8 @@ class [[class_name]]ModelTest extends TenantTestCase {
         $this->assertDeleted($stored);
         $this->assertTrue([[class_name]]::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertDatabaseMissing('[[table]]', [$field => $[[element]]3->$field]);
+            if ($field != "[[primary_index]]")
+                $this->assertDatabaseMissing('[[table]]', [$field => $[[element]]3->$field]);
         }
     }
     

@@ -312,8 +312,9 @@ table is a database table name
     php artisan mustache:generate --compare roles index             OK
     php artisan mustache:generate --compare roles create            OK
     php artisan mustache:generate --compare roles edit              OK
+    php artisan mustache:generate --compare roles english           OK
     php artisan mustache:generate --compare roles factory           OK
-    php artisan mustache:generate --compare roles test_model        
+    php artisan mustache:generate --compare roles test_model        OK
 
 ## configurations table
 
@@ -325,7 +326,7 @@ table is a database table name
     php artisan mustache:generate --compare configurations model            OK
     php artisan mustache:generate --compare configurations factory          OK
     php artisan mustache:generate --compare configurations english          OK
-    php artisan mustache:generate --compare configurations test_model       generates something
+    php artisan mustache:generate --compare configurations test_model       OK
     php artisan mustache:generate --compare configurations test_controller  generates something
     php artisan mustache:generate --compare configurations test_dusk        generates something
     
