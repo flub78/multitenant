@@ -18,6 +18,7 @@ namespace tests\Feature\Tenants;
 use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\Role;
+use Illuminate\Support\Facades\Log;
 
 class RoleControllerTest extends TenantTestCase {
 	
@@ -40,9 +41,22 @@ class RoleControllerTest extends TenantTestCase {
 	}
 
 
+	/**
+	 * Return the number of elements in the table managed by the CRUD controller under test
+	 * @return int
+	 */
+	protected function eltCount() {
+		return Role::count();
+	}
+	
 	public function test_index_page() {
-		$this->get_tenant_url($this->user, 'role',
-			[__('role.title'), __('role.name'), __('role.description'), __('role.add'), __('navbar.tenant'), tenant('id')]);
+		Log::Debug(__METHOD__);
+		
+		$look_for = [__('role.title'), __('role.add'), __('navbar.tenant'), tenant('id')];
+		$look_for[] = __('role.name');
+		$look_for[] = __('role.description');
+		
+		$response = $this->get_tenant_url($this->user, 'role', $look_for);		
 	}
 	
 	public function test_create_page() {

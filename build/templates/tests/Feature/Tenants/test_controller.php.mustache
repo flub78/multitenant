@@ -8,12 +8,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App;
-use App\[[class_name]];
-use App\User;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Log;
+use Tests\TenantTestCase;
+use App\Models\User;
+use App\Models\Tenants\[[class_name]];
+use Illuminate\Support\Facades\Log;
 
 /**
  * Functional test for the [[class_name]] CRUD 
@@ -42,21 +40,24 @@ use Log;
 |        | DELETE    | [[table]]/{task}              | [[table]].destroy | App\Http\Controllers\[[table]]Controller@destroy        | web          |
 |        | GET|HEAD  | [[table]]/{task}/edit         | [[table]].edit    | App\Http\Controllers\[[table]]Controller@edit           | web          |
 +--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
-
  * 
  * @author frede
  *
  */
-class ControllerTest extends TestCase
-{
+class [[class_name]]ControllerTest extends TenantTestCase {
+
+    protected $tenancy = true;
+    
 	protected $basename = "[[table]]";	
 	
 	function __construct() {
 		parent::__construct();
 		
 		// required to be able to use the factory inside the constructor
-		$this->createApplication();		
-		$this->user = factory(User::class)->create();
+		$this->createApplication();
+				
+		$this->user = factory(User::class)->make();
+		$this->user->admin = true;
 	}
 	
 	function __destruct() {
@@ -82,7 +83,7 @@ class ControllerTest extends TestCase
 	 * @return int
 	 */
 	protected function eltCount() {
-		return [[model_name]]::count(); 
+		return [[class_name]]::count(); 
 	}
     
     /**
@@ -93,25 +94,15 @@ class ControllerTest extends TestCase
      * 
      * @return void
      */
-    public function testBaseUrlDisplaysTableView()
-    {   
-        $this->log(__METHOD__);
-    	$this->be($this->user);
-    	
-    	$response = $this->get($this->base_url());
-    	
-    	$response->assertStatus(200); // 302 is redirection
-        $response->assertSeeText( __('[[element]].name'));
-        $response->assertSeeText(__('[[element]].office'));
-        $response->assertDontSee('[[table]].create');
+    public function testBaseUrlDisplaysTableView() {   
+        Log::Debug(__METHOD__);
         
-        $count = $this->eltCount();
-        
-        if ($count > 0) {
-        	$response->assertSeeText('Edit');
-        } else {
-        	$response->assertDontSee('Edit');
-        }        
+        $look_for = [__('role.title'), __('role.add'), __('navbar.tenant'), tenant('id')];
+        [[#form_field_list]]
+        $look_for[] = __('[[element]].[[name]]'); 
+        [[/form_field_list]]
+
+        $this->get_tenant_url($this->user, '[[element]]', $look_for);
     }
 
     /**
@@ -122,7 +113,7 @@ class ControllerTest extends TestCase
      */
     public function testCreateUrlDisplaysCreationForm()
     {   
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         $this->be($this->user);
         
         $url = $this->base_url('create');        
@@ -141,7 +132,7 @@ class ControllerTest extends TestCase
      */
     public function testPostRequestStoresElement()
     {    	        
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         
         $count = $this->eltCount();
         $name = "John Doe_" . $count;
@@ -187,7 +178,7 @@ class ControllerTest extends TestCase
      */
     public function testInvalidPostGeneratesErrors()
     {
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         
         $count = $this->eltCount();
     	
@@ -236,7 +227,7 @@ class ControllerTest extends TestCase
      */
     public function testEditUrlDisplaysPopulatedEditForm()
     {        
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         
         // if the table is empty no way to edit something
     	if ($this->eltCount() == 0) {
@@ -267,7 +258,7 @@ class ControllerTest extends TestCase
      */
     public function testPostRequestUpdatesElement()
     {   
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         
         $this->withoutMiddleware();
         
@@ -317,7 +308,7 @@ class ControllerTest extends TestCase
      */
     public function testGetRequestShowsElement()
     {        
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         if ($this->eltCount() == 0) {
     		return;
     	}
@@ -345,7 +336,7 @@ class ControllerTest extends TestCase
      */
     public function testDeleteRequestsRemovesElement()
     {
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         if ($this->eltCount() == 0) {
     		return;
     	}
@@ -377,7 +368,7 @@ class ControllerTest extends TestCase
      */
     public function testNotFoundUrlReturns404()
     {
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         $response = $this->get('/undefined_url');
         $response->assertStatus(404);
     }
@@ -395,7 +386,7 @@ class ControllerTest extends TestCase
      */
     public function testPagesAreDisplayedAccordingToLocaleLanguage()
     {
-        $this->log(__METHOD__);
+        Log::Debug(__METHOD__);
         
         /**
          * Scenario: [[class_name]] testLocale fr

@@ -315,6 +315,10 @@ table is a database table name
     php artisan mustache:generate --compare roles english           OK
     php artisan mustache:generate --compare roles factory           OK
     php artisan mustache:generate --compare roles test_model        OK
+    php artisan mustache:generate --compare roles test_controller  
+    php artisan mustache:generate --compare roles test_dusk
+    php artisan mustache:generate --compare roles api        
+    php artisan mustache:generate --compare roles test_api
 
 ## configurations table
 
@@ -332,6 +336,7 @@ table is a database table name
     
 ## users table
 
+    (users is not a tenant table)
     php artisan mustache:generate --compare users controller
     php artisan mustache:generate --compare users request
     php artisan mustache:generate --compare users model                     not exactly
@@ -341,14 +346,19 @@ table is a database table name
 
 ## user_roles table
 
-    php artisan mustache:generate --compare user_roles controller       
+    php artisan mustache:generate --compare user_roles controller           to complete 
         missing support for user_list and role_list
+        
     php artisan mustache:generate --compare user_roles request              OK
     php artisan mustache:generate --compare user_roles model
+        requires attributes to access the referenced element image
+        
     php artisan mustache:generate --compare user_roles index        
         user_name and role_name support missing
     php artisan mustache:generate --compare user_roles create               OK
     php artisan mustache:generate --compare user_roles edit                 OK
+    php artisan mustache:generate --compare user_roles test_model           not supported yet
+        requires creation of users and roles
 
 ## calendar_events table
 
@@ -364,4 +374,8 @@ table is a database table name
         support for default missing
     php artisan mustache:generate --compare calendar_events edit            Almost
         a few ids missing plus no usage of the computed attributes
+        
+    php artisan mustache:generate --compare calendar_events factory
+    php artisan mustache:generate --compare calendar_events test_model
+    
     
