@@ -10,6 +10,18 @@ With this framework, developers can develop code for every data type instead of 
 
 It is a bet that the time spent to develop the infrastructure will be compensated by more productivity. It requires however to use the framework at a sufficiently large scale.
 
+Generated code has often several drawbacks.
+* It is usually ugly and difficult to understand
+* It is often difficult to debug because of the reason above and because there is no tools working at the abstration level of the input data of the code generator
+* It is often inefficient
+
+These are the reasons which make the use of a template engine quite efficient.
+* Generated code can be as clean, as well indented and commented than manual code.
+* The goal being to speed up the generation of code that could have been written manually, it is usually not slower
+* And if it is as clean than manual code, it is not more difficult to debug.
+
+To some extends, the goal should be to generate code indistinguishable from manual code.
+
 With this template mechanism it is possible to generate quickly a working application. Of course complex resources will need tuning and adaptations but a basic version should work out of the box. In this context a resource may be a database table but also the result of a joint stored as a view in the database. It is the generalization of the idea of automated CRUD generator to complex views result of select implicating several tables.
 
      

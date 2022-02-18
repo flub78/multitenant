@@ -6,7 +6,7 @@
  * or in the generated file, in which case caution must be exerced to avoid overwritting.
  */
 
-namespace Tests\Feature;
+namespace Tests\Feature\Tenants;
 
 use Tests\TenantTestCase;
 use App\Models\User;
@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Log;
  * the application works. Note that this assertion could be reconsidered because of the datatable
  * library
  * 
+ * From Laravel documentation each test should only test one request to the controller or the behavior is impredictable.
  * 
 +--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
 | Domain | Method    | URI                           | Name              | Action                                                  | Middleware   |
@@ -56,7 +57,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		// required to be able to use the factory inside the constructor
 		$this->createApplication();
 				
-		$this->user = factory(User::class)->make();
+		$this->user = User::factory()->make();
 		$this->user->admin = true;
 	}
 	
@@ -97,7 +98,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {   
         Log::Debug(__METHOD__);
         
-        $look_for = [__('role.title'), __('role.add'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('[[element]].title'), __('[[element]].add'), __('navbar.tenant'), tenant('id')];
         [[#form_field_list]]
         $look_for[] = __('[[element]].[[name]]'); 
         [[/form_field_list]]
@@ -111,16 +112,10 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      * When calling create URL
      * Then the create form is displayed
      */
-    public function testCreateUrlDisplaysCreationForm()
-    {   
+    public function testCreateUrlDisplaysCreationForm() {
         Log::Debug(__METHOD__);
-        $this->be($this->user);
-        
-        $url = $this->base_url('create');        
-        $response = $this->get($url);
-        $response->assertStatus(200);
-    	$response->assertSeeText(trans('[[element]].create_title'));
-    }
+        $this->get_tenant_url($this->user, '[[element]]/create', [__('[[element]].new')]);   
+     }
     
     /**
      * Test a post request
@@ -134,35 +129,21 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     {    	        
         Log::Debug(__METHOD__);
         
-        $count = $this->eltCount();
-        $name = "John Doe_" . $count;
+        // Post a creation request
+        $[[element]] = [[class_name]]::factory()->make();
+        $elt = ['_token' => csrf_token()];
+        [[#form_field_list]]
+        $elt['[[name]]'] = $[[element]]->[[name]]; 
+        [[/form_field_list]]
+
+        $initial_count = [[class_name]]::count ();
         
-        // to avoid the error: 419 = Authentication timeout
-        $this->withoutMiddleware();
-
-        // Currently disabled, the factory creates a [[element]] object
-        // and some errors are raised...
-        // The difference here is that a hash is required, not an object.
-        // $elt = factory([[element]]::class)->create();
-        // var_dump($elt);
-
-        $elt = [
-        		"name" => $name,
-        		"email" => str_replace(' ', '', $name . "@gmail.fr"),
-        		"number" => $count,
-        		"date" => date_format(date_create(), __('general.date_format')),
-        		"office" => "Bangalore",
-        		'_token' => csrf_token()
-        ];
-        $response = $this->post('/[[table]]', $elt);
-         
-        $this->assertFalse($response->getContent() == "", 
-            "Content empty, default when store is not implemented in the controller");
-       
-        $response->assertStatus(302, "Check redirection");  
-
-        $new_count = $this->eltCount();
-        $this->assertTrue($new_count == $count + 1, "One more row in the table");
+        // call the post method to create it
+        $this->post_tenant_url($this->user, '[[element]]', ['created'], $elt);
+        
+        $new_count = [[class_name]]::count ();
+        $expected = $initial_count + 1;
+        $this->assertEquals ( $expected, $new_count, "[[element]] created, actual=$new_count, expected=$expected" );       
     }
     
     /**
@@ -225,26 +206,13 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testEditUrlDisplaysPopulatedEditForm()
-    {        
+    public function testEditUrlDisplaysPopulatedEditForm() {        
         Log::Debug(__METHOD__);
         
-        // if the table is empty no way to edit something
-    	if ($this->eltCount() == 0) {
-    		return;
-    	}
-    	
-    	$this->be($this->user);
-    	
-    	// get an existing element
-    	$[[element]] = [[model_name]]::latest()->first();
-    	$id = $[[element]]->id;t
-    	
-    	// create the edit request
-    	$response = $this->get($this->base_url($id .'/edit'));
-    	$response->assertStatus(200);
-    	
-    	$response->assertSeeText(__('[[element]].edit_title'));
+        $[[element]] = [[class_name]]::factory()->make();
+        $id = $[[element]]->save();
+        
+        $this->get_tenant_url($this->user, '[[element]]/' . $id . '/edit', ['Edit [[element]]']);
     }
 
     /**
@@ -334,28 +302,23 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      * Then the element is removed from the database
      * @return void
      */
-    public function testDeleteRequestsRemovesElement()
-    {
+    public function testDeleteRequestsRemovesElement() {
         Log::Debug(__METHOD__);
-        if ($this->eltCount() == 0) {
-    		return;
-    	}
-    	
-    	// get an existing element
-    	$[[element]] = [[class_name]]::latest()->first();
-    	$id = $[[element]]->id;
-    	
-    	$this->withoutMiddleware();
-    	
-    	$count = $this->eltCount();
-    	
-    	$response = $this->delete("/[[table]]/$id");
-    	
-        $response->assertStatus(302, "Redirected");	
-    	
-        $new_count = $this->eltCount();
-        $this->assertTrue($new_count == $count - 1, "One less row in the table");
         
+        $initial_count = [[class_name]]::count ();
+
+        $[[element]] = [[class_name]]::factory()->make();
+        $id = $[[element]]->save();
+        
+        $new_count = [[class_name]]::count ();
+        $expected = $initial_count + 1;
+        $this->assertEquals ( $expected, $new_count, "one [[element]] created, actual=$new_count, expected=$expected" );
+        
+        $this->delete_tenant_url($this->user, '[[element]]/' . $id, ['deleted']);
+        
+        $count_after_delete = [[class_name]]::count ();
+        $expected = $initial_count;
+        $this->assertEquals ( $expected, $count_after_delete, "[[element]] deleted, actual=$count_after_delete, expected=$expected" );             
     }
     
    
