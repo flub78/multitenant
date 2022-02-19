@@ -116,7 +116,26 @@ class RoleControllerTest extends TenantTestCase {
 		$this->get_tenant_url($this->user, 'role/create', [__('role.new')]);
 	}
 	
-    /**
+	/**
+	 * Test display of one element
+	 * Given the user is logged on
+	 * Given at least one element in the table
+	 * When sending a get request
+	 * Then the element is displayed
+	 *
+	 * @return void
+	 */
+	public function ttestGetRequestShowsElement() {
+		
+		Log::Debug(__METHOD__);
+		
+		$role = Role::factory()->make();
+		$id = $role->save();
+		
+		$this->get_tenant_url($this->user, 'role/' . $id);
+	}
+	
+	/**
      * Test a post request
      * Given the user is logged on
      * When sending a post request
@@ -144,7 +163,20 @@ class RoleControllerTest extends TenantTestCase {
 		$this->assertEquals ( $expected, $new_count, "role created, actual=$new_count, expected=$expected" );		
 	}
 			
-	public function test_store_incorrect_value() {
+	/**
+	 * Test an invalid post request
+	 *
+	 * Given the user is logged on
+	 * When sending a post request with invalid fields
+	 * Then errors messages are generated
+	 *
+	 * TODO check duplicate emails
+	 *
+	 * @return void
+	 */
+	public function testInvalidPostGeneratesErrors() {
+		Log::Debug(__METHOD__);
+		
 		// Post a creation request
 		$bad_name = "Too long............................................................................................................................................................................................................................................................................................................................................................................................................................................";
 		$role = Role::factory()->make(['name' => $bad_name, 'description' => 'too long name']);
@@ -152,7 +184,6 @@ class RoleControllerTest extends TenantTestCase {
 		
 		$initial_count = Role::count ();
 				
-		// $url = 'http://' . tenant('id'). '.tenants.com/role' ;
 		$elt = ["name" => $bad_name, "description" => $description, '_token' => csrf_token()];
 
 		// 'The name format is invalid'
@@ -162,18 +193,8 @@ class RoleControllerTest extends TenantTestCase {
 		$expected = $initial_count;
 		$this->assertEquals ( $expected, $new_count, "role not created, actual=$new_count, expected=$expected" );
 	}
-	
-	public function ttest_show_page() {
-		
-		// show page not implemented yet
-		
-		$role = Role::factory()->make(['name' => "scrum_maser", 'description' => 'Scrum Master']);
-		$name = $role->name;
-		$role->save();
-		
-		$this->get_tenant_url($this->user, 'role/' . $name);
-	}
 
+	
 	/**
 	 * Check that the edit form is correctly displayed
 	 * Given the user is logged on
@@ -202,21 +223,40 @@ class RoleControllerTest extends TenantTestCase {
 	 * @return void
 	 */
 	public function testPostRequestUpdatesElement() {
+		Log::Debug(__METHOD__);
 		
-		$role = Role::factory()->make(['name' => 'product_owner', 'description' => 'Product Owner']);
-		$name = $role->name;
-		$description = $role->description;
-		$new_description = "new description";
-		$elt = ["name" => $name, "description" => $new_description, '_token' => csrf_token()];
+		$role = Role::factory()->make();				// create an element
+		$role2 = Role::factory()->make();				// and a second one
+		$elt = ['_token' => csrf_token()];
+		$elt2 = ['_token' => csrf_token()];
 		
-		$this->assertNotEquals($description, $new_description);
-		$id = $role->save();
+        foreach ([ "name", "description" ] as $field) {
+			if ($field != 'id') {
+				$elt[$field] = $role->$field;
+				$elt2[$field] = $role2->$field;
+			}
+		}
+        
+		$id = $role->save();					      	// save the first element
+		
+		$initial = Role::where('id', $id)->first();		// get it back
+		
+        foreach ([ "name", "description" ] as $field) {
+			if ($field != 'id') {
+				$this->assertEquals($initial->$field, $elt[$field]);
+				$this->assertNotEquals($initial->$field, $role2->$field);
+			}
+		}
 				
-		$this->put_tenant_url($this->user, 'role/' . $id, ['updated'], $elt);
+		$this->put_tenant_url($this->user, 'role/' . $id, ['updated'], $elt2);
 		
-		$back = Role::where('name', $name)->first();		
-		$this->assertEquals($new_description, $back->description);
-		$back->delete();
+		$updated = Role::where('id', $id)->first();		
+        foreach ([ "name", "description" ] as $field) {
+			if ($field != 'id') {
+				$this->assertEquals($updated->$field, $elt2[$field]);
+			}
+		}
+		$updated->delete();
 	}
 	
 	/**
@@ -245,5 +285,17 @@ class RoleControllerTest extends TenantTestCase {
 		$expected = $initial_count;
 		$this->assertEquals ( $expected, $count_after_delete, "role deleted, actual=$count_after_delete, expected=$expected" );		
 	}
-	
+
+	/**
+	 * Test not found URL
+	 * Given the user is logged on
+	 * When calling an unknow URL
+	 * Then an error is returned
+	 * @return void
+	 */
+	public function testUrlNotFoundReturns404() {
+		Log::Debug(__METHOD__);
+		$response = $this->get('/role/undefined_url');
+		$response->assertStatus(404);
+	}	
 }

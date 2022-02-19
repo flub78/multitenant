@@ -118,6 +118,24 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      }
     
     /**
+     * Test display of one element
+     * Given the user is logged on
+     * Given at least one element in the table
+     * When sending a get request
+     * Then the element is displayed
+     * 
+     * @return void
+     */
+    public function testGetRequestShowsElement() {        
+        Log::Debug(__METHOD__);
+        
+        $[[element]] = [[class_name]]::factory()->make();
+        $id = $[[element]]->save();
+        
+        $this->get_tenant_url($this->user, '[[element]]/' . $id);
+    }
+    
+    /**
      * Test a post request
      * Given the user is logged on
      * When sending a post request
@@ -157,8 +175,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testInvalidPostGeneratesErrors()
-    {
+    public function testInvalidPostGeneratesErrors() {
         Log::Debug(__METHOD__);
         
         $count = $this->eltCount();
@@ -224,76 +241,43 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testPostRequestUpdatesElement()
-    {   
+    public function testPostRequestUpdatesElement() {   
         Log::Debug(__METHOD__);
         
-        $this->withoutMiddleware();
+        $[[element]] = [[class_name]]::factory()->make();                // create an element
+        $[[element]]2 = [[class_name]]::factory()->make();               // and a second one
+        $elt = ['_token' => csrf_token()];
+        $elt2 = ['_token' => csrf_token()];
         
-        $elt = $this->eltCount();
-        if ($this->eltCount() == 0) {
-            return;
+        foreach ([ [[&fillable_names]] ] as $field) {
+            if ($field != '[[primary_index]]') {
+                $elt[$field] = $[[element]]->$field;
+                $elt2[$field] = $[[element]]2->$field;
+            }
         }
         
-        // get an existing element
-        $[[element]] = [[model_name]]::latest()->first();
-        $id = $[[element]]->id;
-        $number = $[[element]]->number;
-                
-        // create a request to modify it
-        $url = "/[[table]]/" . $id;
-        $new_value = $number + 1;
+        $[[primary_index]] = $[[element]]->save();                            // save the first element
         
-        $trace = "\ntrying to update: url = $url, initial value=$number, new value=$new_value\n";
-        $this->log($trace);
-        $data = [
-            "id" => $[[element]]->id,
-            "name" => $[[element]]->name,
-            "email" => $[[element]]->email,
-            "number" => $new_value,
-            "date" => $[[element]]->date,
-            "office" => $[[element]]->office,
-            '_token' => csrf_token()
-        ];
-                
-        $response = $this->patch($url, $data);
+        $initial = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();     // get it back
         
-        $response->assertStatus(302, "update $id OK"); // 302 = redirection
-        
-        $updated = [[class_name]]::find($id);
-        $this->assertEquals($updated->number, $new_value, "Modified value stored in DB = " . $updated->number);
+        foreach ([ [[&fillable_names]] ] as $field) {
+            if ($field != '[[primary_index]]') {
+                $this->assertEquals($initial->$field, $elt[$field]);
+                $this->assertNotEquals($initial->$field, $[[element]]2->$field);
+            }
+        }
                 
+        $this->put_tenant_url($this->user, '[[element]]/' . $[[primary_index]], ['updated'], $elt2);
+        
+        $updated = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();     
+        foreach ([ [[&fillable_names]] ] as $field) {
+            if ($field != '[[primary_index]]') {
+                $this->assertEquals($updated->$field, $elt2[$field]);
+            }
+        }
+        $updated->delete();
     }
 
-    /**
-     * Test display of one element
-     * Given the user is logged on
-     * Given at least one element in the table
-     * When sending a get request
-     * Then the element is displayed
-     * 
-     * @return void
-     */
-    public function testGetRequestShowsElement()
-    {        
-        Log::Debug(__METHOD__);
-        if ($this->eltCount() == 0) {
-    		return;
-    	}
-    	
-    	// get an existing element
-    	$[[element]] = [[class_name]]::latest()->first();
-    	$id = $[[element]]->id;
-    	
-    	$this->be($this->user);
-    	
-    	$response = $this->get("/[[table]]/$id");
-        $response->assertStatus(200);
-
-        // Not implemented yet in the controller
-        $response->assertSeeText('[[table]].show');
-    }
-    
     /**
      * Test delete element
      * Given the user is logged on
@@ -329,17 +313,16 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      * Then an error is returned
      * @return void
      */
-    public function testNotFoundUrlReturns404()
-    {
+    public function testUrlNotFoundReturns404() {
         Log::Debug(__METHOD__);
-        $response = $this->get('/undefined_url');
+        $response = $this->get('/[[element]]/undefined_url');
         $response->assertStatus(404);
     }
 
     /**
      * Test locale
      * 
-     * The test should check that every page is displayed according
+     * The test should check that pages are displayed according
      * to locale. If the test relies on the translations from ressources/lang
      * there is no way to detect that some translation have been forgotten
      * either by not using @lang in the views of by missing translation entry.
@@ -347,8 +330,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      * TODO loop around views and keys
      *
      */
-    public function testPagesAreDisplayedAccordingToLocaleLanguage()
-    {
+    public function testPagesAreDisplayedAccordingToLocaleLanguage() {
         Log::Debug(__METHOD__);
         
         /**

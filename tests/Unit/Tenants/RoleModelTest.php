@@ -89,6 +89,13 @@ class RoleModelTest extends TenantTestCase {
     }
     
     
+    /**
+     * Test delete
+     * Given the database server is on
+     * And the schema exists in database
+     * When deleting a non exiting element
+     * Then nothing change in database
+     */
     public function test_deleting_non_existing_element () {
     	$initial_count = Role::count();
     	
