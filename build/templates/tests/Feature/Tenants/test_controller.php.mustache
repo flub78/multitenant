@@ -171,47 +171,28 @@ class [[class_name]]ControllerTest extends TenantTestCase {
      * When sending a post request with invalid fields
      * Then errors messages are generated
      * 
-     * TODO check duplicate emails
-     * 
      * @return void
      */
     public function testInvalidPostGeneratesErrors() {
         Log::Debug(__METHOD__);
+
+        $cnt = 1;
+        foreach ([[class_name]]::factory()->erroneous_cases() as $case) {
+            $initial_count = [[class_name]]::count ();
+                
+            $elt = ['_token' => csrf_token()];
+            $elt = array_merge($elt, $case["fields"]);
         
-        $count = $this->eltCount();
-    	
-    	// to avoid the error: 419 = Authentication timeout
-    	$this->withoutMiddleware();
-    	
-    	$elt = [
-    			"name" => '',
-    			"email" => 'zorglub',
-    			"number" => $count,
-    			"date" => "This is not a date",
-    			"office" => "Bangalore",
-    			'_token' => csrf_token()
-    	];
-    	
-    	$response = $this->post('/[[table]]', $elt);
-    	
-    	$response->assertStatus(302, "Check redirection");
-    	
-    	// It is not possible to test the error messages inside the page
-    	// because in unit testing there is no previous page so the redirection is to the
-    	// home page.
-    	//
-    	// $this->followingRedirects();
-    	// var_dump($response->getContent());exit;
-    	
-    	$response->assertSessionHasErrors([
-    			"name" => 'The name field is required.',
-    			"email" => 'The email must be a valid email address.',
-    			"date" => 'The date does not match the format d/m/Y.'
-    	]);	
-    	
-    	$new_count = $this->eltCount();
-    	$this->assertTrue($new_count == $count, "No element added");
-    	
+            $response = $this->post_tenant_url( $this->user, '[[element]]', [], $elt, $errors_expected = true);
+            // $response->dumpSession();
+        
+            $response->assertSessionHasErrors($case["errors"]);
+        
+            $new_count = [[class_name]]::count ();
+            $this->assertEquals ( $initial_count, $new_count, "error case $cnt: [[element]] not created, actual=$new_count, expected=$initial_count" );
+            $cnt = $cnt + 1;
+        }
+        $this->assertTrue($cnt == 1 + count([[class_name]]::factory()->erroneous_cases()));
     }
     
 

@@ -168,6 +168,7 @@ abstract class TenantTestCase extends BaseTestCase
 		foreach ($see_list as $see) {
 			$response->assertSeeText($see);
 		}
+		return $response;
 	}
 	
 	/**

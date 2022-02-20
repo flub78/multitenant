@@ -34,4 +34,24 @@ class RoleFactory extends Factory
             'description' => "description_" . $next . "_" . Str::random(),
         ];
     }
+    
+    /**
+     * return a list of erroneous fields and associated expected errors 
+     * [
+     * 		["fieds" => [],
+     * 		 "errors" => ["name" => "The name field is required."]
+     * 		],
+     * 		["fields" => ['name' => $too_long_name, 'email' => 'incorrect_email'],
+     * 		 "errors" => ['name' => 'The name must not be greater than 255 characters.', 'email' => 'The email must be a valid email address.']
+     * 		]
+     * ]
+     * @return string[]
+     */
+    public function erroneous_cases () {
+    	$scenarios = [];
+    	$bad_name = "Too long............................................................................................................................................................................................................................................................................................................................................................................................................................................";
+    	$scenarios[] = ["fields" => [], "errors" => ["name" => "The name field is required."]];
+    	$scenarios[] = ["fields" => ["name" => $bad_name], "errors" => ["name" => "The name must not be greater than 255 characters."]];
+    	return $scenarios;
+    }
 }

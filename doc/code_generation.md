@@ -316,6 +316,17 @@ table is a database table name
     
 # Progress status
 
+In the factory template the function errroneous_cases returns an empty list. It is possible to generate
+erroneous cases from the validation rules (or at the same time than validation rules).
+
+But do we need to test all the possible error cases ?
+a validation rule is made of assertions to check separated by |
+For most of the assertions it is possible to generate one error case.
+But trying to be exhaustive there looks a little bit like trying to test the Laravel form validation mechanism.
+
+Is it good enough to just test a few cases ?
+
+
 ## roles table
 
     php artisan mustache:generate --compare roles controller        OK
@@ -327,7 +338,7 @@ table is a database table name
     php artisan mustache:generate --compare roles english           OK
     php artisan mustache:generate --compare roles factory           OK
     php artisan mustache:generate --compare roles test_model        OK
-    php artisan mustache:generate --compare roles test_controller  
+    php artisan mustache:generate --compare roles test_controller   OK
     php artisan mustache:generate --compare roles test_dusk
     php artisan mustache:generate --compare roles api        
     php artisan mustache:generate --compare roles test_api

@@ -170,28 +170,28 @@ class RoleControllerTest extends TenantTestCase {
 	 * When sending a post request with invalid fields
 	 * Then errors messages are generated
 	 *
-	 * TODO check duplicate emails
-	 *
 	 * @return void
 	 */
 	public function testInvalidPostGeneratesErrors() {
 		Log::Debug(__METHOD__);
-		
-		// Post a creation request
-		$bad_name = "Too long............................................................................................................................................................................................................................................................................................................................................................................................................................................";
-		$role = Role::factory()->make(['name' => $bad_name, 'description' => 'too long name']);
-		$description = $role->description;
-		
-		$initial_count = Role::count ();
-				
-		$elt = ["name" => $bad_name, "description" => $description, '_token' => csrf_token()];
 
-		// 'The name format is invalid'
-		$this->post_tenant_url( $this->user, 'role', [], $elt, $errors_expected = true);
+		$cnt = 1;
+		foreach (Role::factory()->erroneous_cases() as $case) {
+			$initial_count = Role::count ();
+				
+			$elt = ['_token' => csrf_token()];
+			$elt = array_merge($elt, $case["fields"]);
 		
-		$new_count = Role::count ();
-		$expected = $initial_count;
-		$this->assertEquals ( $expected, $new_count, "role not created, actual=$new_count, expected=$expected" );
+			$response = $this->post_tenant_url( $this->user, 'role', [], $elt, $errors_expected = true);
+			// $response->dumpSession();
+		
+			$response->assertSessionHasErrors($case["errors"]);
+		
+			$new_count = Role::count ();
+			$this->assertEquals ( $initial_count, $new_count, "error case $cnt: role not created, actual=$new_count, expected=$initial_count" );
+			$cnt = $cnt + 1;
+		}
+		$this->assertTrue($cnt == 1 + count(Role::factory()->erroneous_cases()));
 	}
 
 	
