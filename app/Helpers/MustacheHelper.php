@@ -106,6 +106,12 @@ class MustacheHelper {
 		} elseif ($template == "factory") {
 			$file =  'factory.php.mustache';
 			
+		} elseif ($template == "api") {
+			$file =  'app/Http/Controllers/Api/ApiController.php.mustache';
+			
+		} elseif ($template == "test_api") {
+			$file =  'tests/Feature/Api/test_api.php.mustache';
+			
 		} else {
 			throw new Exception("unsupported template: $template");
 		}
@@ -169,6 +175,12 @@ class MustacheHelper {
 		
 		} elseif ($template == "test_dusk") {
 			$file = implode(DIRECTORY_SEPARATOR, ['tests', 'Browser', 'Tenants', $class_name . 'Test.php']);
+			
+		} elseif ($template == "api") {
+			$file = implode(DIRECTORY_SEPARATOR, ['app', 'Http', 'Controllers', 'Api', $class_name . 'Controller.php']);
+			
+		} elseif ($template == "test_api") {
+			$file = implode(DIRECTORY_SEPARATOR, ['tests', 'Feature', 'Api', $class_name . 'ControllerTest.php']);
 			
 		} elseif ($template == "factory") {
 			$file = implode(DIRECTORY_SEPARATOR, ['database', 'factories', 'Tenants', $class_name . 'Factory.php']);
