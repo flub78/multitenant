@@ -1,4 +1,6 @@
 @rem Unit tests
+@rem ==========
+    @rem helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
@@ -11,15 +13,22 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
 
+    @rem tenants
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
+
+    @rem Tenant models
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ExperimentationOnModelTest.php
+
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ConfigurationModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
 
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/RoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/SchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/MetadataModelTest.php
 
+@rem Feature tests
+@rem =============
 @rem Central application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralFeatureExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/LoginTest.php
@@ -43,13 +52,13 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/BackupHelperTest.php
 
-    @rem Models
+    @rem Central Models
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantModelTest.php
 
     @rem Controllers
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php

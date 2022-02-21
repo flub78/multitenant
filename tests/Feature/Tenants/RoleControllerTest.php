@@ -125,12 +125,13 @@ class RoleControllerTest extends TenantTestCase {
 	 *
 	 * @return void
 	 */
-	public function ttestGetRequestShowsElement() {
+    public function ttestGetRequestShowsElement() {        
+        Log::Debug(__METHOD__);
 		
-		Log::Debug(__METHOD__);
+        Role::factory()->create();
+        $latest = Role::latest()->first();
 		
-		$role = Role::factory()->make();
-		$id = $role->save();
+        $id = $latest->id;
 		
 		$this->get_tenant_url($this->user, 'role/' . $id);
 	}
@@ -207,8 +208,9 @@ class RoleControllerTest extends TenantTestCase {
 		
 		Log::Debug(__METHOD__);
 		
-		$role = Role::factory()->make();
-		$id = $role->save();
+        Role::factory()->create();
+        $latest = Role::latest()->first();
+        $id = $latest->id;
 		
 		$this->get_tenant_url($this->user, 'role/' . $id . '/edit', ['Edit role']);
 	}
@@ -237,7 +239,9 @@ class RoleControllerTest extends TenantTestCase {
 			}
 		}
         
-		$id = $role->save();					      	// save the first element
+        $role->save();                            // save the first element
+        $latest = Role::latest()->first();
+        $id = $latest->id;
 		
 		$initial = Role::where('id', $id)->first();		// get it back
 		
@@ -272,8 +276,9 @@ class RoleControllerTest extends TenantTestCase {
 		
 		$initial_count = Role::count ();
 		
-		$role = Role::factory()->make();
-		$id = $role->save();
+        Role::factory()->create();
+        $latest = Role::latest()->first();
+        $id = $latest->id;
 		
 		$new_count = Role::count ();
 		$expected = $initial_count + 1;

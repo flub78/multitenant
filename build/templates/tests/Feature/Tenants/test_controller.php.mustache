@@ -129,8 +129,10 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     public function testGetRequestShowsElement() {        
         Log::Debug(__METHOD__);
         
-        $[[element]] = [[class_name]]::factory()->make();
-        $id = $[[element]]->save();
+        [[class_name]]::factory()->create();
+        $latest = [[class_name]]::latest()->first();
+        
+        $id = $latest->[[primary_index]];
         
         $this->get_tenant_url($this->user, '[[element]]/' . $id);
     }
@@ -207,8 +209,9 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     public function testEditUrlDisplaysPopulatedEditForm() {        
         Log::Debug(__METHOD__);
         
-        $[[element]] = [[class_name]]::factory()->make();
-        $id = $[[element]]->save();
+        [[class_name]]::factory()->create();
+        $latest = [[class_name]]::latest()->first();
+        $id = $latest->[[primary_index]];
         
         $this->get_tenant_url($this->user, '[[element]]/' . $id . '/edit', ['Edit [[element]]']);
     }
@@ -237,10 +240,15 @@ class [[class_name]]ControllerTest extends TenantTestCase {
             }
         }
         
-        $[[primary_index]] = $[[element]]->save();                            // save the first element
+        $[[element]]->save();                            // save the first element
+        $latest = [[class_name]]::latest()->first();
+        $this->assertNotNull($latest);
+        $[[primary_index]] = $latest->[[primary_index]];
+        $this->assertNotNull($[[primary_index]]);
         
         $initial = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();     // get it back
         
+        // Check that the first saved element has the correct values and is different from the second one
         foreach ([ [[&fillable_names]] ] as $field) {
             if ($field != '[[primary_index]]') {
                 $this->assertEquals($initial->$field, $elt[$field]);
@@ -248,9 +256,11 @@ class [[class_name]]ControllerTest extends TenantTestCase {
             }
         }
                 
+        // Update the values using the second element
         $this->put_tenant_url($this->user, '[[element]]/' . $[[primary_index]], ['updated'], $elt2);
         
-        $updated = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();     
+        $updated = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();
+        $this->assertNotNull($updated);     
         foreach ([ [[&fillable_names]] ] as $field) {
             if ($field != '[[primary_index]]') {
                 $this->assertEquals($updated->$field, $elt2[$field]);
@@ -272,8 +282,9 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         
         $initial_count = [[class_name]]::count ();
 
-        $[[element]] = [[class_name]]::factory()->make();
-        $id = $[[element]]->save();
+        [[class_name]]::factory()->create();
+        $latest = [[class_name]]::latest()->first();
+        $id = $latest->[[primary_index]];
         
         $new_count = [[class_name]]::count ();
         $expected = $initial_count + 1;

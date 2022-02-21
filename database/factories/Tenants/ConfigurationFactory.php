@@ -35,4 +35,22 @@ class ConfigurationFactory extends Factory
 		];
 	}
 
+    /**
+     * return a list of erroneous fields and associated expected errors 
+     * [
+     *      ["fieds" => [],
+     *       "errors" => ["name" => "The name field is required."]
+     *      ],
+     *      ["fields" => ['name' => $too_long_name, 'email' => 'incorrect_email'],
+     *       "errors" => ['name' => 'The name must not be greater than 255 characters.', 'email' => 'The email must be a valid email address.']
+     *      ]
+     * ]
+     * @return string[]
+     */
+    public function erroneous_cases () {
+        $scenarios = [];
+        $scenarios[] = ["fields" => ["key" => "app_bad_key"], "errors" => ["key" => "The key format is invalid."]];
+        $scenarios[] = ["fields" => ["key" => "app.bad_key"], "errors" => ["key" => "The selected key is invalid."]];
+        return $scenarios;       
+    }
 }
