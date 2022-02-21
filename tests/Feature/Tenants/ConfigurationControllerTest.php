@@ -231,10 +231,8 @@ class ConfigurationControllerTest extends TenantTestCase {
         $elt2 = ['_token' => csrf_token()];
         
         foreach ([ "key", "value" ] as $field) {
-            //if ($field != 'key') {
                 $elt[$field] = $configuration->$field;
                 $elt2[$field] = $configuration2->$field;
-            //}
         }
         
         $configuration->save();                            // save the first element
@@ -256,13 +254,10 @@ class ConfigurationControllerTest extends TenantTestCase {
                 
         // Update the values using the second element
         $elt2['key'] = $key;
-        // echo route('configuration.update', $key );
         $this->patch_tenant_url($this->user, 'configuration/' . $key, $elt2);
         
         $updated = Configuration::where('key', $key)->first();
         $this->assertNotNull($updated);
-        // var_dump($updated);
-        // echo "key = $key\n";
         foreach ([ "key", "value" ] as $field) {
             if ($field != 'key') {
                 $this->assertEquals($updated->$field, $elt2[$field]);

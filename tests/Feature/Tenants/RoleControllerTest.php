@@ -233,18 +233,20 @@ class RoleControllerTest extends TenantTestCase {
 		$elt2 = ['_token' => csrf_token()];
 		
         foreach ([ "name", "description" ] as $field) {
-			if ($field != 'id') {
 				$elt[$field] = $role->$field;
 				$elt2[$field] = $role2->$field;
 			}
-		}
         
         $role->save();                            // save the first element
         $latest = Role::latest()->first();
+        $this->assertNotNull($latest);
         $id = $latest->id;
+        $this->assertNotNull($id);
 		
 		$initial = Role::where('id', $id)->first();		// get it back
+        $this->assertNotNull($initial);
 		
+        // Check that the first saved element has the correct values and is different from the second one
         foreach ([ "name", "description" ] as $field) {
 			if ($field != 'id') {
 				$this->assertEquals($initial->$field, $elt[$field]);
@@ -252,9 +254,12 @@ class RoleControllerTest extends TenantTestCase {
 			}
 		}
 				
-		$this->put_tenant_url($this->user, 'role/' . $id, ['updated'], $elt2);
+        // Update the values using the second element
+        $elt2['id'] = $id;
+        $this->patch_tenant_url($this->user, 'role/' . $id, $elt2);
 		
 		$updated = Role::where('id', $id)->first();		
+        $this->assertNotNull($updated);     
         foreach ([ "name", "description" ] as $field) {
 			if ($field != 'id') {
 				$this->assertEquals($updated->$field, $elt2[$field]);

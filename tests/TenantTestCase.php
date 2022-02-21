@@ -149,7 +149,7 @@ abstract class TenantTestCase extends BaseTestCase
 		$this->withoutMiddleware();
 		
 		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
-		echo "url = $url\n";
+		// echo "url = $url\n";
 		
 		$response = $this->followingRedirects()->$method ( $url, $elt);
 		$response->assertStatus ( 200 );

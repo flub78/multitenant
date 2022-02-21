@@ -234,10 +234,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $elt2 = ['_token' => csrf_token()];
         
         foreach ([ [[&fillable_names]] ] as $field) {
-            if ($field != '[[primary_index]]') {
-                $elt[$field] = $[[element]]->$field;
-                $elt2[$field] = $[[element]]2->$field;
-            }
+            $elt[$field] = $[[element]]->$field;
+            $elt2[$field] = $[[element]]2->$field;
         }
         
         $[[element]]->save();                            // save the first element
@@ -247,6 +245,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $this->assertNotNull($[[primary_index]]);
         
         $initial = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();     // get it back
+        $this->assertNotNull($initial);
         
         // Check that the first saved element has the correct values and is different from the second one
         foreach ([ [[&fillable_names]] ] as $field) {
@@ -257,7 +256,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         }
                 
         // Update the values using the second element
-        $this->put_tenant_url($this->user, '[[element]]/' . $[[primary_index]], ['updated'], $elt2);
+        $elt2['[[primary_index]]'] = $[[primary_index]];
+        $this->patch_tenant_url($this->user, '[[element]]/' . $[[primary_index]], $elt2);
         
         $updated = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();
         $this->assertNotNull($updated);     

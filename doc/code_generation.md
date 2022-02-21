@@ -339,7 +339,7 @@ Is it good enough to just test a few cases ?
     php artisan mustache:generate --compare roles factory           OK
     php artisan mustache:generate --compare roles test_model        OK
     php artisan mustache:generate --compare roles test_controller   OK
-    php artisan mustache:generate --compare roles test_dusk
+    php artisan mustache:generate --compare roles test_dusk does not exist
     php artisan mustache:generate --compare roles api        
     php artisan mustache:generate --compare roles test_api
 
@@ -354,7 +354,7 @@ Is it good enough to just test a few cases ?
     php artisan mustache:generate --compare configurations factory          OK
     php artisan mustache:generate --compare configurations english          OK
     php artisan mustache:generate --compare configurations test_model       OK
-    php artisan mustache:generate --compare configurations test_controller  generates something
+    php artisan mustache:generate --compare configurations test_controller  OK
     php artisan mustache:generate --compare configurations test_dusk        generates something
     
 ## users table
