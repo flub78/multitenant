@@ -67,7 +67,7 @@ class ExperimentationOnModelTest extends TenantTestCase {
     	$this->assertTrue($save_return);
     	$this->assertFalse(is_bool("2"));
     	
-    	// var_dump($role1);
+    	// var_dump($role1);		// role1 is still accessible after save
     	$this->assertEquals($role1->id, 1);
     	
     	$save_return2 = $role2->save();
@@ -122,11 +122,10 @@ class ExperimentationOnModelTest extends TenantTestCase {
     	$this->assertTrue(strlen($key_made) > 0);
     	
     	$save_return = $conf1->save();
-    	// var_dump($save_return);
-    	// $this->assertTrue(is_a($save_return, 'Configuration'));
+    	// var_dump($conf1);		// $conf1 is valid except the primary key
     	$this->assertTrue(is_bool($save_return));
     	$this->assertTrue($save_return);
-    	
+
     	$latest = Configuration::latest()->first();
     	$key = $latest->key;
     	$this->assertNotNull($key);

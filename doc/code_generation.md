@@ -51,7 +51,7 @@ Supported templates:
 * test_dusk
 
 to do:
-* api_controlelr
+* api
 * test_api
 
 English language files can be translated in any language supported by Google translate (French by default) using: 

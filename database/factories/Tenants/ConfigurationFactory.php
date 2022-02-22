@@ -47,7 +47,7 @@ class ConfigurationFactory extends Factory
      * ]
      * @return string[]
      */
-    public function erroneous_cases () {
+    public function error_cases () {
         $scenarios = [];
         $scenarios[] = ["fields" => ["key" => "app_bad_key"], "errors" => ["key" => "The key format is invalid."]];
         $scenarios[] = ["fields" => ["key" => "app.bad_key"], "errors" => ["key" => "The selected key is invalid."]];

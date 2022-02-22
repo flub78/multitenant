@@ -176,7 +176,7 @@ class ConfigurationControllerTest extends TenantTestCase {
         Log::Debug(__METHOD__);
 
         $cnt = 1;
-        foreach (Configuration::factory()->erroneous_cases() as $case) {
+        foreach (Configuration::factory()->error_cases() as $case) {
             $initial_count = Configuration::count ();
                 
             $elt = ['_token' => csrf_token()];
@@ -191,7 +191,7 @@ class ConfigurationControllerTest extends TenantTestCase {
             $this->assertEquals ( $initial_count, $new_count, "error case $cnt: configuration not created, actual=$new_count, expected=$initial_count" );
             $cnt = $cnt + 1;
         }
-        $this->assertTrue($cnt == 1 + count(Configuration::factory()->erroneous_cases()));
+        $this->assertTrue($cnt == 1 + count(Configuration::factory()->error_cases()));
     }
     
 

@@ -177,7 +177,7 @@ class RoleControllerTest extends TenantTestCase {
 		Log::Debug(__METHOD__);
 
 		$cnt = 1;
-		foreach (Role::factory()->erroneous_cases() as $case) {
+		foreach (Role::factory()->error_cases() as $case) {
 			$initial_count = Role::count ();
 				
 			$elt = ['_token' => csrf_token()];
@@ -192,7 +192,7 @@ class RoleControllerTest extends TenantTestCase {
 			$this->assertEquals ( $initial_count, $new_count, "error case $cnt: role not created, actual=$new_count, expected=$initial_count" );
 			$cnt = $cnt + 1;
 		}
-		$this->assertTrue($cnt == 1 + count(Role::factory()->erroneous_cases()));
+		$this->assertTrue($cnt == 1 + count(Role::factory()->error_cases()));
 	}
 
 	

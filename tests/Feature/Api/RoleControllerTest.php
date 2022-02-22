@@ -32,21 +32,14 @@ class RoleControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Test that base URL returns a json list of elements
 	 */
 	public function test_role_index_json() {
 		
 		$this->be ( $this->user );
 		
-		$evt1 = Role::factory ()->create ( [
-				'start' => '2021-06-30 12:00:00',
-				'end' => '2021-06-30 12:35:00',
-				'allDay' => 0
-		] ); // UTC
-		$evt2 = Role::factory ()->create ( [
-				'start' => '2021-06-30 13:30:00',
-				'allDay' => 1
-		] ); // UTC
+		$role1 = Role::factory ()->create ();
+		Role::factory ()->create ();
 		
 		// Without page parameter the URL returns a collection
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url);
@@ -55,47 +48,45 @@ class RoleControllerTest extends TenantTestCase {
 		$json = $response->json();
 		// var_dump($json);
 		$this->assertEquals(2, count($json['data']));
-		$this->assertEquals('event 1', $json['data'][0]['title']);
+
+        foreach ([ "name", "description" ] as $field) {
+            if ($field != "id")
+                $this->assertEquals($role1->$field, $json['data'][0][$field]);             
+        }
 	}
 	
 	/**
-	 * 
+	 * Get one element form the API
 	 */
 	public function test_show() {
 		$this->be ( $this->user );
 		
-		$evt1 = Role::factory ()->create ( [
-				'start' => '2021-06-30 12:00:00',
-				'end' => '2021-06-30 12:35:00',
-				'allDay' => 0
-		] ); // UTC
-		$evt2 = Role::factory ()->create ( [
-				'start' => '2021-06-30 13:30:00',
-				'allDay' => 1
-		] ); // UTC
+		$role1 = Role::factory ()->create ();
+		Role::factory ()->create ();
 		
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/1');
 		$response->assertStatus(200);
 		$json = $response->json();
-		$this->assertEquals('event 1', $json['title']);
-		//var_dump($json);
+        foreach ([ "name", "description" ] as $field) {
+            if ($field != "id")
+                $this->assertEquals($role1->$field, $json[$field]);             
+        }
 	}
 	
 	
 	/**
-	 * 
+	 * Create elements from the API
 	 */
 	public function test_role_store() {
 		
-		$initial_count = Role::count ();
+		$initial_count = Role::count();
 		
 		//prepare an element
-		$title = "Event $initial_count";
-		$description = "Description $initial_count";
-		$start = "07-31-2021";
-		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start, 'start_time' => '10:00',
-				'allDay' => 0, 'end_date' => $start, 'end_time' => '12:00'
-		];
+		$role = Role::factory()->make();
+		$elt = [];
+		foreach ([ "name", "description" ] as $field) {
+		    $elt[$field] = $role->$field;
+		}
 				
 		// call the post method to create it
 		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url , $elt);
@@ -105,46 +96,52 @@ class RoleControllerTest extends TenantTestCase {
 		$json = $response->json();
 		
 		// by default the store method returns the created element
-		$this->assertEquals('Event 0', $json['title']);
+        foreach ([ "name", "description" ] as $field) {
+            $this->assertEquals($role->$field, $json[$field]);             
+        }
 		
 		// check that an element has been created
 		$new_count = Role::count ();
 		$expected = $initial_count + 1;
 		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
 		
-		// and it can be retrieved
-		$search = ['title' => $title, 'description' => $description];
-		
-		$event = Role::where($search)->first();
-		$this->assertNotNull($event);
-		$this->assertEquals($event->allDay, 1);
+		// and it can be retrieved		
+		$back = Role::latest()->first();
+		$this->assertNotNull($back);
+        foreach ([ "name", "description" ] as $field) {
+            $this->assertEquals($role->$field, $back->$field);             
+        }
 	}
 	
 	/**
 	 * 
 	 */
 	public function test_role_store_incorrect_value() {		
-		$initial_count = Role::count ();
-						
-		$title = "Event $initial_count";
-		$description = "description $initial_count";
-		$start = "start";
-		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start];
 		
-		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $elt);
-		$json = $response->json();
-		$this->assertEquals('The given data was invalid.', $json['message']);
-		$this->assertEquals('The start date does not match the format m-d-Y.', $json['errors']['start_date'][0]);
-		
-		// Check that nothing has been created
-		$new_count = Role::count ();
-		$this->assertEquals ( $initial_count, $new_count, "event created, actual=$new_count, expected=$initial_count" );
+		$cnt = 1;
+		foreach (Role::factory()->error_cases() as $case) {
+            $initial_count = Role::count ();
+
+            $elt = $case["fields"];
+            
+            $response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $elt);
+            $json = $response->json();
+            var_dump($json);
+            $this->assertEquals('The given data was invalid.', $json['message']);
+            foreach ($case["errors"] as $field => $msg) {
+                $this->assertEquals($msg, $json['errors'][$field][0]);   
+            }
+             
+            $new_count = Role::count ();
+            $this->assertEquals ( $initial_count, $new_count, "error case $cnt: role not created, actual=$new_count, expected=$initial_count" );
+            $cnt = $cnt + 1;
+		}
 	}
 
 	/**
 	 * 
 	 */
-	public function test_delete() {
+	public function ttest_delete() {
 		$this->be ( $this->user );
 		
 		$event = Role::factory()->make();
@@ -165,7 +162,7 @@ class RoleControllerTest extends TenantTestCase {
 	/**
 	 * 
 	 */
-	public function test_delete_inexisting_elt() {
+	public function ttest_delete_inexisting_elt() {
 		$this->be ( $this->user );
 		
 		$id = "123456789";
@@ -186,7 +183,7 @@ class RoleControllerTest extends TenantTestCase {
 	/**
 	 * 
 	 */
-	public function test_update() {
+	public function ttest_update() {
 		
 		$event = Role::factory()->make();
 		$id = $event->save();
@@ -219,19 +216,14 @@ class RoleControllerTest extends TenantTestCase {
 	/**
 	 * 
 	 */
-	public function test_role_pagination() {
+	public function ttest_role_pagination() {
 		$this->be ( $this->user );
 		
 		$date = Carbon::now();
 		for ($i = 0; $i < 100; $i++) {
 			$date->add(2, 'hour');
 			
-			$evt = Role::factory ()->create ( [
-				'title' => "event_$i",
-				'start' => '2021-06-30 12:00:00',
-				'end' => $date->toDateTimeString(),
-				'allDay' => ($i % 2 == 0) ? 0 :1
-			] ); // UTC
+			$role = Role::factory ()->create ();
 		}
 		
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
@@ -250,19 +242,14 @@ class RoleControllerTest extends TenantTestCase {
 		$this->assertEquals('event_80', $json['data'][0]['title']);
 	}
 	
-	public function test_bad_page_number() {
+	public function ttest_bad_page_number() {
 		$this->be ( $this->user );
 		
 		$date = Carbon::now();
 		for ($i = 0; $i < 100; $i++) {
 			$date->add(2, 'hour');
 			
-			$evt = Role::factory ()->create ( [
-					'title' => "event_$i",
-					'start' => '2021-06-30 12:00:00',
-					'end' => $date->toDateTimeString(),
-					'allDay' => ($i % 2 == 0) ? 0 :1
-			] ); // UTC
+			$role = Role::factory ()->create ();
 		}
 		
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=120');
@@ -274,7 +261,7 @@ class RoleControllerTest extends TenantTestCase {
 	}
 	
 	
-	public function test_role_sorting() {
+	public function ttest_role_sorting() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
@@ -286,7 +273,7 @@ class RoleControllerTest extends TenantTestCase {
 					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
 					'end' => $date->add($i, 'day')->toDateTimeString(),
 					'allDay' => ($i % 2 == 0) ? 0 :1
-			] ); // UTC
+			] );
 			$date->add(2, 'hour');
 		}
 		
@@ -306,7 +293,7 @@ class RoleControllerTest extends TenantTestCase {
 		// var_dump($json);
 	}
 	
-	public function test_role_sorting_on_multiple_columns() {
+	public function ttest_role_sorting_on_multiple_columns() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
@@ -318,7 +305,7 @@ class RoleControllerTest extends TenantTestCase {
 					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
 					'end' => $date->add($i, 'day')->toDateTimeString(),
 					'allDay' => ($i % 2 == 0) ? 0 :1
-			] ); // UTC
+			] );
 			$date->add(2, 'hour');
 		}
 		
@@ -350,7 +337,7 @@ class RoleControllerTest extends TenantTestCase {
 		// var_dump($json);
 	}
 
-	public function test_sorting_on_bad_column_name() {
+	public function ttest_sorting_on_bad_column_name() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
@@ -362,7 +349,7 @@ class RoleControllerTest extends TenantTestCase {
 					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
 					'end' => $date->add($i, 'day')->toDateTimeString(),
 					'allDay' => ($i % 2 == 0) ? 0 :1
-			] ); // UTC
+			] );
 			$date->add(2, 'hour');
 		}
 				
@@ -375,7 +362,7 @@ class RoleControllerTest extends TenantTestCase {
 		// var_dump($json);
 	}
 
-	public function test_filtering() {
+	public function ttest_filtering() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
@@ -389,7 +376,7 @@ class RoleControllerTest extends TenantTestCase {
 					'start' => $start->toDateTimeString(),
 					'end' => $end->toDateTimeString(),
 					'allDay' => ($i % 2 == 0) ? 0 :1
-			] ); // UTCs
+			] );
 			$start->sub(2, 'hour');
 			$end->add(2, 'hour');
 		}
@@ -416,5 +403,4 @@ class RoleControllerTest extends TenantTestCase {
 		
 		// var_dump($json);
 	}
-	
 }

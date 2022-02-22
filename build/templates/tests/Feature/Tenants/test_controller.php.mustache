@@ -179,7 +179,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         Log::Debug(__METHOD__);
 
         $cnt = 1;
-        foreach ([[class_name]]::factory()->erroneous_cases() as $case) {
+        foreach ([[class_name]]::factory()->error_cases() as $case) {
             $initial_count = [[class_name]]::count ();
                 
             $elt = ['_token' => csrf_token()];
@@ -194,7 +194,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
             $this->assertEquals ( $initial_count, $new_count, "error case $cnt: [[element]] not created, actual=$new_count, expected=$initial_count" );
             $cnt = $cnt + 1;
         }
-        $this->assertTrue($cnt == 1 + count([[class_name]]::factory()->erroneous_cases()));
+        $this->assertTrue($cnt == 1 + count([[class_name]]::factory()->error_cases()));
     }
     
 

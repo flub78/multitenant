@@ -76,6 +76,7 @@ class RoleController extends Controller {
 						break;
 					}
 				}
+				// Todo check if it is not sensitive to Sql injection
 				if (!$operator_found) $query->where($criteria, $value);
 			}
 		}
