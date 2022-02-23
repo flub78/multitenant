@@ -139,30 +139,31 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	}
 
 	/**
-	 * 
+	 * Delete an element through the API
 	 */
-	public function ttest_delete() {
+	public function test_delete() {
 		$this->be ( $this->user );
 		
-		$event = [[class_name]]::factory()->make();
-		$id = $event->save();
-		$initial_count = [[class_name]]::count ();
+        $initial_count = [[class_name]]::count ();
+		[[class_name]]::factory()->create();
+		$back = [[class_name]]::latest()->first();
+		$[[primary_index]] = $back->[[primary_index]];
 		
-		$response = $this->deleteJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id);
+		$response = $this->deleteJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $[[primary_index]]);
 		
 		// $response->dump();
 		$json = $response->json();
 		$this->assertEquals($json, 1);
 		
 		$new_count = [[class_name]]::count ();
-		$expected = $initial_count - 1;
+		$expected = $initial_count;
 		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );		
 	}
 	
 	/**
-	 * 
+	 * Test deleting a non existing element
 	 */
-	public function ttest_delete_inexisting_elt() {
+	public function test_delete_inexisting_elt() {
 		$this->be ( $this->user );
 		
 		$id = "123456789";
@@ -181,49 +182,51 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Check that an element can be updated through the REST API
 	 */
-	public function ttest_update() {
+	public function test_update() {
 		
-		$event = [[class_name]]::factory()->make();
-		$id = $event->save();
-		
-		$event = [[class_name]]::find($id);
-		$initial_count = [[class_name]]::count ();
-		
-		$this->assertEquals($event->allDay, 1); // by default
-		
-		$new_title = "new title";
-		$new_start = '06-24-2021';
-		$elt = ["id" => $event->id, "title" => $new_title,
-				'start_date' => $new_start, 'end_date' => $new_start,
-				'start_time' => '06:30', 'end_time' => '07:45', 
-				'allDay' => false, '_token' => csrf_token()];
+		[[class_name]]::factory()->create();
+		$back = [[class_name]]::latest()->first();
+		$[[primary_index]] = $back->[[primary_index]];
+				
+        $initial_count = [[class_name]]::count ();
+
+        //prepare another element
+        $[[element]] = [[class_name]]::factory()->make();
+        $elt = [];
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $elt[$field] = $[[element]]->$field;
+        }
+		$elt['_token'] = csrf_token();
 						
-		$response = $this->patchJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id, $elt);
+		$response = $this->patchJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $[[primary_index]], $elt);
 		$this->assertEquals(1, $response->json());		
 
-		$stored = [[class_name]]::findOrFail($id);
-		$this->assertEquals($new_title, $stored->title);
-        $this->assertEquals("2021-06-24 06:30:00", $stored->start);
-        $this->assertEquals($stored->allDay, 0); 
-        $this->assertEquals(3600 * 1.25, $stored->durationInSeconds());
-        
+		$updated = [[class_name]]::findOrFail($[[primary_index]]);
+		
+		foreach ([ [[&fillable_names]] ] as $field) {
+		    if ($field != "[[primary_index]]")
+                $this->assertEquals($elt[$field], $updated->$field);             
+        }
+
 		$new_count = [[class_name]]::count ();
 		$this->assertEquals ( $new_count, $initial_count, "Count does not change on update, actual=$initial_count, expected=$new_count" );
 	}
 
 	/**
-	 * 
+	 * Test pagination
 	 */
-	public function ttest_[[element]]_pagination() {
+	public function test_[[element]]_pagination() {
 		$this->be ( $this->user );
 		
-		$date = Carbon::now();
-		for ($i = 0; $i < 100; $i++) {
-			$date->add(2, 'hour');
-			
-			$[[element]] = [[class_name]]::factory ()->create ();
+        $cnt = 0;		
+		for ($i = 0; $i < 90; $i++) {			
+			[[class_name]]::factory ()->create ();
+            if ($cnt == 19) {
+                $elt20 = [[class_name]]::latest()->first();
+            }
+            $cnt++;			
 		}
 		
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
@@ -231,25 +234,26 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		
 		$json = $response->json();
 		// with a page parameter the API returns the collection in the data field
+        // Check that 20 elements out of 100 have been received
 		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_0', $json['data'][0]['title']);
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $this->assertEquals($elt20->$field, $json['data'][0][$field]);
+        }
 		
 		//echo "last_page_url = " . $json['last_page_url'] . "\n";
 		$response = $this->getJson($json['last_page_url'] . '&per_page=20');
 		$json = $response->json();
-		// var_dump($json);
-		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_80', $json['data'][0]['title']);
+		$this->assertEquals(10, count($json['data']));
 	}
 	
+	/**
+	 * Non existing page number
+	 */
 	public function ttest_bad_page_number() {
 		$this->be ( $this->user );
 		
-		$date = Carbon::now();
-		for ($i = 0; $i < 100; $i++) {
-			$date->add(2, 'hour');
-			
-			$[[element]] = [[class_name]]::factory ()->create ();
+		for ($i = 0; $i < 100; $i++) {			
+			[[class_name]]::factory ()->create ();
 		}
 		
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=120');
@@ -298,15 +302,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		
 		// generate the test data set
 		//
-		$date = Carbon::now();
 		for ($i = 1; $i < 101; $i++) {
-			[[class_name]]::factory ()->create ( [
-					'title' => "event_$i",
-					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
-					'end' => $date->add($i, 'day')->toDateTimeString(),
-					'allDay' => ($i % 2 == 0) ? 0 :1
-			] );
-			$date->add(2, 'hour');
+			[[class_name]]::factory ()->create ();
 		}
 		
 		// First page, non sorted

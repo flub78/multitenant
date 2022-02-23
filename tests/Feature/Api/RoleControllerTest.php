@@ -114,7 +114,7 @@ class RoleControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Test store error cases
 	 */
 	public function test_role_store_incorrect_value() {		
 		
@@ -126,7 +126,6 @@ class RoleControllerTest extends TenantTestCase {
             
             $response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $elt);
             $json = $response->json();
-            var_dump($json);
             $this->assertEquals('The given data was invalid.', $json['message']);
             foreach ($case["errors"] as $field => $msg) {
                 $this->assertEquals($msg, $json['errors'][$field][0]);   
@@ -139,14 +138,15 @@ class RoleControllerTest extends TenantTestCase {
 	}
 
 	/**
-	 * 
+	 * Delete an element through the API
 	 */
-	public function ttest_delete() {
+	public function test_delete() {
 		$this->be ( $this->user );
 		
-		$event = Role::factory()->make();
-		$id = $event->save();
-		$initial_count = Role::count ();
+        $initial_count = Role::count ();
+		Role::factory()->create();
+		$back = Role::latest()->first();
+		$id = $back->id;
 		
 		$response = $this->deleteJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id);
 		
@@ -155,14 +155,14 @@ class RoleControllerTest extends TenantTestCase {
 		$this->assertEquals($json, 1);
 		
 		$new_count = Role::count ();
-		$expected = $initial_count - 1;
+		$expected = $initial_count;
 		$this->assertEquals ( $expected, $new_count, "Event deleted, actual=$new_count, expected=$expected" );		
 	}
 	
 	/**
-	 * 
+	 * Test deleting a non existing element
 	 */
-	public function ttest_delete_inexisting_elt() {
+	public function test_delete_inexisting_elt() {
 		$this->be ( $this->user );
 		
 		$id = "123456789";
@@ -181,34 +181,34 @@ class RoleControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Check that an element can be updated through the REST API
 	 */
-	public function ttest_update() {
+	public function test_update() {
 		
-		$event = Role::factory()->make();
-		$id = $event->save();
-		
-		$event = Role::find($id);
-		$initial_count = Role::count ();
-		
-		$this->assertEquals($event->allDay, 1); // by default
-		
-		$new_title = "new title";
-		$new_start = '06-24-2021';
-		$elt = ["id" => $event->id, "title" => $new_title,
-				'start_date' => $new_start, 'end_date' => $new_start,
-				'start_time' => '06:30', 'end_time' => '07:45', 
-				'allDay' => false, '_token' => csrf_token()];
+		Role::factory()->create();
+		$back = Role::latest()->first();
+		$id = $back->id;
+				
+        $initial_count = Role::count ();
+
+        //prepare another element
+        $role = Role::factory()->make();
+        $elt = [];
+        foreach ([ "name", "description" ] as $field) {
+            $elt[$field] = $role->$field;
+        }
+		$elt['_token'] = csrf_token();
 						
 		$response = $this->patchJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id, $elt);
 		$this->assertEquals(1, $response->json());		
 
-		$stored = Role::findOrFail($id);
-		$this->assertEquals($new_title, $stored->title);
-        $this->assertEquals("2021-06-24 06:30:00", $stored->start);
-        $this->assertEquals($stored->allDay, 0); 
-        $this->assertEquals(3600 * 1.25, $stored->durationInSeconds());
-        
+		$updated = Role::findOrFail($id);
+		
+		foreach ([ "name", "description" ] as $field) {
+		    if ($field != "id")
+                $this->assertEquals($elt[$field], $updated->$field);             
+        }
+
 		$new_count = Role::count ();
 		$this->assertEquals ( $new_count, $initial_count, "Count does not change on update, actual=$initial_count, expected=$new_count" );
 	}
@@ -216,14 +216,16 @@ class RoleControllerTest extends TenantTestCase {
 	/**
 	 * 
 	 */
-	public function ttest_role_pagination() {
+	public function test_role_pagination() {
 		$this->be ( $this->user );
 		
-		$date = Carbon::now();
-		for ($i = 0; $i < 100; $i++) {
-			$date->add(2, 'hour');
-			
-			$role = Role::factory ()->create ();
+		$cnt = 0;
+		for ($i = 0; $i < 90; $i++) {			
+			Role::factory ()->create();
+			if ($cnt == 19) {
+				$elt20 = Role::latest()->first();
+			}
+			$cnt++;
 		}
 		
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
@@ -231,25 +233,23 @@ class RoleControllerTest extends TenantTestCase {
 		
 		$json = $response->json();
 		// with a page parameter the API returns the collection in the data field
-		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_0', $json['data'][0]['title']);
+		// Check that 20 elements out of 100 have been received
+		$this->assertEquals(20, count($json['data']));   
+		foreach ([ "name", "description" ] as $field) {
+			$this->assertEquals($elt20->$field, $json['data'][0][$field]);
+		}
 		
 		//echo "last_page_url = " . $json['last_page_url'] . "\n";
 		$response = $this->getJson($json['last_page_url'] . '&per_page=20');
 		$json = $response->json();
-		// var_dump($json);
-		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_80', $json['data'][0]['title']);
+		$this->assertEquals(10, count($json['data']));
 	}
 	
-	public function ttest_bad_page_number() {
+	public function test_bad_page_number() {
 		$this->be ( $this->user );
 		
-		$date = Carbon::now();
-		for ($i = 0; $i < 100; $i++) {
-			$date->add(2, 'hour');
-			
-			$role = Role::factory ()->create ();
+		for ($i = 0; $i < 100; $i++) {		
+			Role::factory ()->create ();
 		}
 		
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=120');
@@ -298,15 +298,8 @@ class RoleControllerTest extends TenantTestCase {
 		
 		// generate the test data set
 		//
-		$date = Carbon::now();
 		for ($i = 1; $i < 101; $i++) {
-			Role::factory ()->create ( [
-					'title' => "event_$i",
-					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
-					'end' => $date->add($i, 'day')->toDateTimeString(),
-					'allDay' => ($i % 2 == 0) ? 0 :1
-			] );
-			$date->add(2, 'hour');
+			Role::factory ()->create ();
 		}
 		
 		// First page, non sorted
