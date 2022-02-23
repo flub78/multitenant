@@ -225,7 +225,8 @@ class RoleControllerTest extends TenantTestCase {
 			if ($cnt == 19) {
 				$elt20 = Role::latest()->first();
 			}
-			$cnt++;
+			$cnt = $cnt + 1;
+			if ($cnt == 19) sleep(2); // because lastest has a second precision
 		}
 		
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
@@ -236,7 +237,7 @@ class RoleControllerTest extends TenantTestCase {
 		// Check that 20 elements out of 100 have been received
 		$this->assertEquals(20, count($json['data']));   
 		foreach ([ "name", "description" ] as $field) {
-			$this->assertEquals($elt20->$field, $json['data'][0][$field]);
+			$this->assertEquals($elt20->$field, $json['data'][19][$field]);
 		}
 		
 		//echo "last_page_url = " . $json['last_page_url'] . "\n";
@@ -267,7 +268,7 @@ class RoleControllerTest extends TenantTestCase {
 	/**
 	 * Test that pages are correctly sorted
 	 */
-	public function ttest_role_sorting() {
+	public function test_role_sorting() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
@@ -281,6 +282,7 @@ class RoleControllerTest extends TenantTestCase {
                 $elt85 = Role::latest()->first();
             }
             $cnt++;
+            if (($cnt == 19) || ($cnt == 84)) sleep(2);
 		}
 		
 		// Call a page
@@ -291,7 +293,7 @@ class RoleControllerTest extends TenantTestCase {
 		// First call without sorting
 		$this->assertEquals(20, count($json['data']));
         foreach ([ "name", "description" ] as $field) {
-            $this->assertEquals($elt20->$field, $json['data'][0][$field]);
+            $this->assertEquals($elt20->$field, $json['data'][19][$field]);
         }
 		
 		// Sorting on start (reverse order)
@@ -300,7 +302,7 @@ class RoleControllerTest extends TenantTestCase {
 		$json = $response->json();
 		
         foreach ([ "name", "description" ] as $field) {
-            $this->assertEquals($elt85->$field, $json['data'][0][$field]);
+            $this->assertEquals($elt85->$field, $json['data'][6][$field]);
         }
 		// var_dump($json);
 	}
