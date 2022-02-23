@@ -214,7 +214,7 @@ class RoleControllerTest extends TenantTestCase {
 	}
 
 	/**
-	 * 
+	 * Test pagination
 	 */
 	public function test_role_pagination() {
 		$this->be ( $this->user );
@@ -245,6 +245,9 @@ class RoleControllerTest extends TenantTestCase {
 		$this->assertEquals(10, count($json['data']));
 	}
 	
+	/**
+	 * Non existing page number
+	 */
 	public function test_bad_page_number() {
 		$this->be ( $this->user );
 		
@@ -261,20 +264,23 @@ class RoleControllerTest extends TenantTestCase {
 	}
 	
 	
+	/**
+	 * Test that pages are correctly sorted
+	 */
 	public function ttest_role_sorting() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
-		// 
-		$date = Carbon::now();
-		for ($i = 1; $i < 101; $i++) {			
-			Role::factory ()->create ( [
-					'title' => "event_$i",
-					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
-					'end' => $date->add($i, 'day')->toDateTimeString(),
-					'allDay' => ($i % 2 == 0) ? 0 :1
-			] );
-			$date->add(2, 'hour');
+	    $cnt = 0;
+		for ($i = 0; $i < 90; $i++) {			
+			Role::factory ()->create ();
+            if ($cnt == 19) {
+                $elt20 = Role::latest()->first();
+            }
+            if ($cnt == 84) {
+                $elt85 = Role::latest()->first();
+            }
+            $cnt++;
 		}
 		
 		// Call a page
@@ -284,12 +290,18 @@ class RoleControllerTest extends TenantTestCase {
 		$json = $response->json();
 		// First call without sorting
 		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
+        foreach ([ "name", "description" ] as $field) {
+            $this->assertEquals($elt20->$field, $json['data'][0][$field]);
+        }
 		
 		// Sorting on start (reverse order)
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=-start');
+		$first_field = [ "name", "description" ][0];
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=-' . $first_field);
 		$json = $response->json();
-		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
+		
+        foreach ([ "name", "description" ] as $field) {
+            $this->assertEquals($elt85->$field, $json['data'][0][$field]);
+        }
 		// var_dump($json);
 	}
 	

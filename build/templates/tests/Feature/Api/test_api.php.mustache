@@ -249,7 +249,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	/**
 	 * Non existing page number
 	 */
-	public function ttest_bad_page_number() {
+	public function test_bad_page_number() {
 		$this->be ( $this->user );
 		
 		for ($i = 0; $i < 100; $i++) {			
@@ -265,20 +265,23 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	}
 	
 	
-	public function ttest_[[element]]_sorting() {
+	/**
+	 * Test that pages are correctly sorted
+	 */
+	public function test_[[element]]_sorting() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
-		// 
-		$date = Carbon::now();
-		for ($i = 1; $i < 101; $i++) {			
-			[[class_name]]::factory ()->create ( [
-					'title' => "event_$i",
-					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
-					'end' => $date->add($i, 'day')->toDateTimeString(),
-					'allDay' => ($i % 2 == 0) ? 0 :1
-			] );
-			$date->add(2, 'hour');
+	    $cnt = 0;
+		for ($i = 0; $i < 90; $i++) {			
+			[[class_name]]::factory ()->create ();
+            if ($cnt == 19) {
+                $elt20 = [[class_name]]::latest()->first();
+            }
+            if ($cnt == 84) {
+                $elt85 = [[class_name]]::latest()->first();
+            }
+            $cnt++;
 		}
 		
 		// Call a page
@@ -288,12 +291,18 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		$json = $response->json();
 		// First call without sorting
 		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $this->assertEquals($elt20->$field, $json['data'][0][$field]);
+        }
 		
 		// Sorting on start (reverse order)
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=-start');
+		$first_field = [ [[&fillable_names]] ][0];
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=-' . $first_field);
 		$json = $response->json();
-		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
+		
+        foreach ([ [[&fillable_names]] ] as $field) {
+            $this->assertEquals($elt85->$field, $json['data'][0][$field]);
+        }
 		// var_dump($json);
 	}
 	
