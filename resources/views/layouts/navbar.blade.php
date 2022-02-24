@@ -126,6 +126,8 @@
                                 	
                                 	<a class="dropdown-item" href="{{ route('change_password.change_password') }}" dusk="password"> {{__('user.change_password')}}</a>
                                 	
+                                	<a class="dropdown-item" href="{{ route('tokens.create') }}" dusk="password"> {{__('user.generate_token')}}</a>
+                                	
                                     <a class="dropdown-item" href="{{ route('logout') }}" dusk="logout"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -5,6 +5,8 @@ namespace app\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+
 
 class UserController extends Controller {
 	
@@ -117,4 +119,11 @@ class UserController extends Controller {
 
 		return redirect ( '/user' )->with ( 'success', __('user.deleted', ['name' =>  $name] ) );
 	}
+	
+	public function token(Request $request) {
+		
+		$token = $request->user()->createToken("user_token");
+		echo "token=" . $token->plainTextToken;
+	}
+
 }

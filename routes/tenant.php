@@ -57,7 +57,9 @@ Route::middleware([
 	
 	// admin routes
 	Route::group(['middleware' => ['admin']], function () {
+		Route::get('/user/token', [App\Http\Controllers\UserController::class, 'token'])->name('tokens.create')->middleware('auth');
 		Route::resource('user', App\Http\Controllers\UserController::class)->middleware('auth');
+		
 		Route::resource('user_role', App\Http\Controllers\Tenants\UserRoleController::class)->middleware('auth');
 		Route::resource('metadata', App\Http\Controllers\Tenants\MetadataController::class)->middleware('auth');
 		
@@ -71,8 +73,7 @@ Route::middleware([
 		Route::delete('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'destroy'])->name('backup.destroy')->middleware('auth');
 		Route::get('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'download'])->name('backup.download')->middleware('auth');
 		Route::post('/backup', [App\Http\Controllers\BackupController::class, 'upload'])->name('backup.upload')->middleware('auth');
-	});	
-		
+	});			
 });
 
 Route::middleware([

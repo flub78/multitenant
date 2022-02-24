@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Carbon\Carbon;
+
 
 /**
  * A controller for the home page visible once logged in
@@ -30,7 +32,8 @@ class HomeController extends Controller
     {
     	if (tenant('id')) {
     		
-    		$qrcode = QrCode::size(100)->generate("Multi " . tenant('id'));
+    		$date = Carbon::now()->toDateTimeString();
+    		$qrcode = QrCode::size(100)->generate("Multi " . tenant('id') . ", $date");
     		
     		return view('tenants.home', compact('qrcode'));
     	} else {
