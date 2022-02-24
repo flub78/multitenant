@@ -340,8 +340,8 @@ Is it good enough to just test a few cases ?
     php artisan mustache:generate --compare roles test_model        OK
     php artisan mustache:generate --compare roles test_controller   OK
     php artisan mustache:generate --compare roles test_dusk does not exist
-    php artisan mustache:generate --compare roles api        
-    php artisan mustache:generate --compare roles test_api
+    php artisan mustache:generate --compare roles api               OK        
+    php artisan mustache:generate --compare roles test_api          ~OK
 
 ## configurations table
 

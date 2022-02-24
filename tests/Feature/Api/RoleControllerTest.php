@@ -307,12 +307,15 @@ class RoleControllerTest extends TenantTestCase {
 		// var_dump($json);
 	}
 	
+	/**
+	 *
+	 */
 	public function ttest_role_sorting_on_multiple_columns() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
 		//
-		for ($i = 1; $i < 101; $i++) {
+		for ($i = 0; $i < 100; $i++) {
 			Role::factory ()->create ();
 		}
 		
@@ -344,27 +347,22 @@ class RoleControllerTest extends TenantTestCase {
 		// var_dump($json);
 	}
 
-	public function ttest_sorting_on_bad_column_name() {
+	/**
+	 * Sorting on bad column name
+	 */
+	public function test_sorting_on_bad_column_name() {
 		$this->be ( $this->user );
 		
 		// generate the test data set
-		//
-		$date = Carbon::now();
-		for ($i = 1; $i < 101; $i++) {
-			Role::factory ()->create ( [
-					'title' => "event_$i",
-					'start' => $date->add(- $i, 'hour')->toDateTimeString(),
-					'end' => $date->add($i, 'day')->toDateTimeString(),
-					'allDay' => ($i % 2 == 0) ? 0 :1
-			] );
-			$date->add(2, 'hour');
+		for ($i = 0; $i < 100; $i++) {
+			Role::factory ()->create ();
 		}
 				
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=allDate,-startTime');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=Unknown,-ColumnName');
 		$json = $response->json();
 		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
-		$this->assertStringContainsString("Unknown column 'allDate'", $json['message']);
+		$this->assertStringContainsString("Unknown column ", $json['message']);
 		
 		// var_dump($json);
 	}
@@ -373,21 +371,9 @@ class RoleControllerTest extends TenantTestCase {
 		$this->be ( $this->user );
 		
 		// generate the test data set
-		//
-		$date = Carbon::now();
-		$start = Carbon::now();
-		$end = Carbon::now();
-		for ($i = 1; $i < 101; $i++) {
-			Role::factory ()->create ( [
-					'title' => "event_$i",
-					'start' => $start->toDateTimeString(),
-					'end' => $end->toDateTimeString(),
-					'allDay' => ($i % 2 == 0) ? 0 :1
-			] );
-			$start->sub(2, 'hour');
-			$end->add(2, 'hour');
-		}
-		
+		for ($i = 0; $i < 100; $i++) {
+			Role::factory ()->create ();
+		}		
 		
 		// Filtering on multiple columns
 		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?filter=allDay:1');
