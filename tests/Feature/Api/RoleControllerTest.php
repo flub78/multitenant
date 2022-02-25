@@ -9,7 +9,7 @@ namespace tests\Feature\Api;
 use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\Role;
-use Carbon\Carbon;
+use Laravel\Sanctum\Sanctum;
 
 class RoleControllerTest extends TenantTestCase {
 	
@@ -25,6 +25,9 @@ class RoleControllerTest extends TenantTestCase {
 		$this->user->admin = true;
 		
 		$this->base_url = '/role';
+		
+		$this->auth = ["Authorization" => "Bearer 9|QBdK4v4zInDK5oM2nOPGux4NPlG0I7c6OTWUn63u"];
+		
 	}
 
 	function __destruct() {
@@ -36,13 +39,14 @@ class RoleControllerTest extends TenantTestCase {
 	 */
 	public function test_role_index_json() {
 		
-		$this->be ( $this->user );
+		// $this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		$role1 = Role::factory ()->create ();
 		Role::factory ()->create ();
 		
 		// Without page parameter the URL returns a collection
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url);
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $this->auth);
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -59,12 +63,12 @@ class RoleControllerTest extends TenantTestCase {
 	 * Get one element form the API
 	 */
 	public function test_show() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		$role1 = Role::factory ()->create ();
 		Role::factory ()->create ();
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/1');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/1', $this->auth);
 		$response->assertStatus(200);
 		$json = $response->json();
         foreach ([ "name", "description" ] as $field) {
@@ -79,17 +83,20 @@ class RoleControllerTest extends TenantTestCase {
 	 */
 	public function test_role_store() {
 		
+		$this->withoutMiddleware();
+		
 		$initial_count = Role::count();
 		
 		//prepare an element
 		$role = Role::factory()->make();
 		$elt = [];
+		$elt['_token'] = csrf_token();
 		foreach ([ "name", "description" ] as $field) {
 		    $elt[$field] = $role->$field;
 		}
 				
 		// call the post method to create it
-		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url , $elt);
+		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url , $elt, $this->auth);
 		
 		// $response->dump();
 		$response->assertStatus(201);
@@ -118,13 +125,15 @@ class RoleControllerTest extends TenantTestCase {
 	 */
 	public function test_role_store_incorrect_value() {		
 		
+		$this->withoutMiddleware();
+		
 		$cnt = 1;
 		foreach (Role::factory()->error_cases() as $case) {
             $initial_count = Role::count ();
 
             $elt = $case["fields"];
             
-            $response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $elt);
+            $response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $elt, $this->auth);
             $json = $response->json();
             $this->assertEquals('The given data was invalid.', $json['message']);
             foreach ($case["errors"] as $field => $msg) {
@@ -141,7 +150,7 @@ class RoleControllerTest extends TenantTestCase {
 	 * Delete an element through the API
 	 */
 	public function test_delete() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
         $initial_count = Role::count ();
 		Role::factory()->create();
@@ -163,7 +172,7 @@ class RoleControllerTest extends TenantTestCase {
 	 * Test deleting a non existing element
 	 */
 	public function test_delete_inexisting_elt() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		$id = "123456789";
 		$initial_count = Role::count ();
@@ -184,6 +193,8 @@ class RoleControllerTest extends TenantTestCase {
 	 * Check that an element can be updated through the REST API
 	 */
 	public function test_update() {
+		
+		$this->withoutMiddleware();
 		
 		Role::factory()->create();
 		$back = Role::latest()->first();
@@ -217,7 +228,7 @@ class RoleControllerTest extends TenantTestCase {
 	 * Test pagination
 	 */
 	public function test_role_pagination() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		$cnt = 0;
 		for ($i = 0; $i < 90; $i++) {			
@@ -229,7 +240,7 @@ class RoleControllerTest extends TenantTestCase {
 			if ($cnt == 19) sleep(2); // because lastest has a second precision
 		}
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1', $this->auth);
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -241,7 +252,7 @@ class RoleControllerTest extends TenantTestCase {
 		}
 		
 		//echo "last_page_url = " . $json['last_page_url'] . "\n";
-		$response = $this->getJson($json['last_page_url'] . '&per_page=20');
+		$response = $this->getJson($json['last_page_url'] . '&per_page=20', $this->auth);
 		$json = $response->json();
 		$this->assertEquals(10, count($json['data']));
 	}
@@ -250,13 +261,13 @@ class RoleControllerTest extends TenantTestCase {
 	 * Non existing page number
 	 */
 	public function test_bad_page_number() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		for ($i = 0; $i < 100; $i++) {		
 			Role::factory ()->create ();
 		}
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=120');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=120', $this->auth);
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -269,7 +280,7 @@ class RoleControllerTest extends TenantTestCase {
 	 * Test that pages are correctly sorted
 	 */
 	public function test_role_sorting() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		// generate the test data set
 	    $cnt = 0;
@@ -286,7 +297,7 @@ class RoleControllerTest extends TenantTestCase {
 		}
 		
 		// Call a page
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1', $this->auth);
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -298,7 +309,7 @@ class RoleControllerTest extends TenantTestCase {
 		
 		// Sorting on start (reverse order)
 		$first_field = [ "name", "description" ][0];
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=-' . $first_field);
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=-' . $first_field, $this->auth);
 		$json = $response->json();
 		
         foreach ([ "name", "description" ] as $field) {
@@ -311,7 +322,7 @@ class RoleControllerTest extends TenantTestCase {
 	 *
 	 */
 	public function ttest_role_sorting_on_multiple_columns() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		// generate the test data set
 		//
@@ -320,7 +331,7 @@ class RoleControllerTest extends TenantTestCase {
 		}
 		
 		// First page, non sorted
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1', $this->auth);
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -329,7 +340,7 @@ class RoleControllerTest extends TenantTestCase {
 		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
 		
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=allDay,-start');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=allDay,-start', $this->auth);
 		$json = $response->json();
 		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
 		$this->assertEquals('event_98', $json['data'][1]['title']); // reverse order
@@ -351,7 +362,7 @@ class RoleControllerTest extends TenantTestCase {
 	 * Sorting on bad column name
 	 */
 	public function test_sorting_on_bad_column_name() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		// generate the test data set
 		for ($i = 0; $i < 100; $i++) {
@@ -359,7 +370,7 @@ class RoleControllerTest extends TenantTestCase {
 		}
 				
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=Unknown,-ColumnName');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=Unknown,-ColumnName', $this->auth);
 		$json = $response->json();
 		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
 		$this->assertStringContainsString("Unknown column ", $json['message']);
@@ -368,7 +379,7 @@ class RoleControllerTest extends TenantTestCase {
 	}
 
 	public function ttest_filtering() {
-		$this->be ( $this->user );
+		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		// generate the test data set
 		for ($i = 0; $i < 100; $i++) {
@@ -376,7 +387,7 @@ class RoleControllerTest extends TenantTestCase {
 		}		
 		
 		// Filtering on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?filter=allDay:1');
+		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?filter=allDay:1', $this->auth);
 		$json = $response->json();
 		$this->assertEquals(50, count($json['data']));
 		
@@ -384,7 +395,7 @@ class RoleControllerTest extends TenantTestCase {
 		$limit = $date->sub(10, 'hour');
 		$after =  htmlspecialchars(',start:>' . $limit->toDateTimeString());
 		$response = $this->getJson('http://' . tenant('id') . 
-				'.tenants.com/api' . $this->base_url . '?filter=allDay:1' . $after);
+				'.tenants.com/api' . $this->base_url . '?filter=allDay:1' . $after, $this->auth);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));
 

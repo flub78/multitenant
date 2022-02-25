@@ -122,8 +122,13 @@ class UserController extends Controller {
 	
 	public function token(Request $request) {
 		
-		$token = $request->user()->createToken("user_token");
-		echo "token=" . $token->plainTextToken;
+		$token = $request->user()->createToken("user_token", ['api-access']);
+		echo "token=" . $token->plainTextToken . "\n";
+		
+		echo "All tokens:\n";
+		foreach ($request->user()->tokens as $token) {
+			echo "token=" . $token->plainTextToken . "\n";
+		}
 	}
 
 }

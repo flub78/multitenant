@@ -83,7 +83,10 @@ Route::middleware([
 	])->group(function () {
 		Route::get('/api/calendar_event/fullcalendar', [App\Http\Controllers\Api\CalendarEventController::class, 'fullcalendar'])->name('calendar_event.api.fullcalendar');
 		Route::resource('api/calendar_event', App\Http\Controllers\Api\CalendarEventController::class, ['as' => 'api']);
-		Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api']);
+		
+		// Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api'])->middleware(['auth:sanctum']);
+		Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api'])->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+		// Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api']);
 	});
 	
 		
