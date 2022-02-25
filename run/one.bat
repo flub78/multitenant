@@ -29,6 +29,10 @@
 
 @rem Feature tests
 @rem =============
+
+@rem Tools tests
+php vendor/phpunit/phpunit/phpunit tests/Feature/DevStatsArtisanTest.php
+
 @rem Central application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralFeatureExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/LoginTest.php
@@ -68,5 +72,5 @@
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
 
