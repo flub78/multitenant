@@ -401,4 +401,19 @@ Is it good enough to just test a few cases ?
     php artisan mustache:generate --compare calendar_events factory
     php artisan mustache:generate --compare calendar_events test_model
     
+## code_gen_types table
+
+    php artisan mustache:generate --compare code_gen_types controller        
+    php artisan mustache:generate --compare code_gen_types request           
+    php artisan mustache:generate --compare code_gen_types model             
+    php artisan mustache:generate --install code_gen_types index             
+    php artisan mustache:generate --compare code_gen_types create            
+    php artisan mustache:generate --compare code_gen_types edit              
+    php artisan mustache:generate --compare code_gen_types english           
+    php artisan mustache:generate --compare code_gen_types factory           
+    php artisan mustache:generate --compare code_gen_types test_model        
+    php artisan mustache:generate --compare code_gen_types test_controller   
+    php artisan mustache:generate --compare code_gen_types test_dusk
+    php artisan mustache:generate --compare code_gen_types api                       
+    php artisan mustache:generate --compare code_gen_types test_api          ~
     

@@ -158,6 +158,12 @@ class MustacheGenerate extends Command {
 			foreach ($template_list as $tpl) {
 				$result_file = MustacheHelper::result_file($table, $tpl);
 				$install_file = MustacheHelper::result_file($table, $tpl, true);
+				
+				$dir = dirname($install_file);
+				if (!is_dir($dir)) {
+					mkdir($dir, 0777, true);
+				}
+				
 				$cmd = "copy $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
 					

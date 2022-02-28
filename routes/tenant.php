@@ -73,6 +73,9 @@ Route::middleware([
 		Route::delete('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'destroy'])->name('backup.destroy')->middleware('auth');
 		Route::get('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'download'])->name('backup.download')->middleware('auth');
 		Route::post('/backup', [App\Http\Controllers\BackupController::class, 'upload'])->name('backup.upload')->middleware('auth');
+
+		Route::resource('code_gen_type', App\Http\Controllers\Tenants\CodeGenTypeController::class)->middleware('auth');
+		
 	});			
 });
 
@@ -87,6 +90,9 @@ Route::middleware([
 		// Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api'])->middleware(['auth:sanctum']);
 		Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api'])->middleware(['auth:sanctum', 'ability:check-status,api-access']);
 		// Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api']);
+
+		Route::resource('api/code_gen_type', App\Http\Controllers\Api\CodeGenTypeController::class, ['as' => 'api'])->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+		
 	});
 	
 		
