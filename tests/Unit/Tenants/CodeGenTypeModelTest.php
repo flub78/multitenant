@@ -8,9 +8,7 @@
 namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
-
 use App\Models\Tenants\CodeGenType;
-
 /**
  * Unit test for CodeGenType model
  
@@ -18,18 +16,18 @@ use App\Models\Tenants\CodeGenType;
  *
  */
 class CodeGenTypeModelTest extends TenantTestCase {
-        
-    /**
+        	
+	/**
      * Test element creation, read, update and delete
      * Given the database server is on
      * Given the schema exists in database
      * When creating an element
      * Then it is stored in database, it can be read, updated and deleted
      */
-    public function ttestCRUD () {
+    public function testCRUD () {
     	        
         $initial_count = CodeGenType::count();
-        
+       
         // Create an element
         $code_gen_type1 = CodeGenType::factory()->create();
         $this->assertNotNull($code_gen_type1);
@@ -106,5 +104,4 @@ class CodeGenTypeModelTest extends TenantTestCase {
     	$this->assertTrue(CodeGenType::count() == $initial_count, "No changes in database");
     }
     
-
 }

@@ -46,6 +46,7 @@
         						<a class="dropdown-item" href="{{ route('test.email') }}">Email</a>
         						<a class="dropdown-item" href="{{ route('metadata.index') }}">Metadata</a>
         						<a class="dropdown-item"> central database = {{env ( 'DB_DATABASE' )}} </a>
+        						<a class="dropdown-item" href="{{ route('code_gen_type.index') }}">Code Gen Types</a>
       						</div>
     					</li>     					
 @else

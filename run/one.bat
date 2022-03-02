@@ -26,12 +26,13 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/SchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/MetadataModelTest.php
+php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypeModelTest.php
 
 @rem Feature tests
 @rem =============
 
 @rem Tools tests
-php vendor/phpunit/phpunit/phpunit tests/Feature/DevStatsArtisanTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/DevStatsArtisanTest.php
 
 @rem Central application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralFeatureExampleTest.php

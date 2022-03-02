@@ -338,14 +338,24 @@ class CodeGenerator {
 		$unique = Schema::unique($table, $field);
 		$faker = ($unique) ? '$this->faker->unique()' : '$this->faker';
 		
-		$res = '"faker type=' . $type . ", subtype=" . $subtype . '"';
+		$res = "$table.$field faker type=$type, subtype=$subtype\n";
 		
 		if ('varchar' == $type) {
 			$res =  "\"$field" . '_" . $next . "_" . ' . 'Str::random()';
 		} elseif ('date' == $type) {
-			$res = $faker . '->date(__("general.date_format"))';
+			$res = $faker . '->date("Y-m-d")';
 		} elseif ('time' == $type) {
-			$res = $faker . '->time(__("general.time_format"))';
+			$res = $faker . '->time("H:i:s")';
+		} elseif ('text' == $type) {
+			$res = $faker . '->text(200)';
+		} elseif ('year' == $type) {
+			$res = $faker . '->year()';
+		} elseif ('double' == $type) {
+			$res = $faker . '->randomFloat(2, 0.0, 1000.0)';
+		} elseif ('decimal' == $type) {
+			$res = $faker . '->randomFloat(2, 0, 100.0)';
+		} elseif ('bigint' == $type) {
+			$res = $faker . '->randomNumber()';
 		}
 		
 		if ('email' == $subtype) {
