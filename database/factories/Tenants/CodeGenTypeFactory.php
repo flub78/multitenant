@@ -35,7 +35,7 @@ class CodeGenTypeFactory extends Factory
             'description' => $this->faker->text(200),
             'year_of_birth' => $this->faker->year(),
             'weight' => $this->faker->randomFloat(2, 0.0, 1000.0),
-            'birthday' => $this->faker->date("Y-m-d"),
+       		'birthday' => $this->faker->date(__("general.date_format")),
             'tea_time' => $this->faker->time("H:i:s"),
             'price' => $this->faker->randomFloat(2, 0, 100.0),
             'big_price' => $this->faker->randomFloat(2, 0.0, 1000.0),

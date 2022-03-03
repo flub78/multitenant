@@ -104,6 +104,7 @@ abstract class TenantTestCase extends BaseTestCase
 					'value' => $lang
 			] );
 		}
+		
 		/*
 		 *  When LocaleTenancyBootstrapper is executed, it set locale according to the app.locale value in database.
 		 *  But the locale is not set while running the tests

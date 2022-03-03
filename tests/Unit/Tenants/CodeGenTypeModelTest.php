@@ -9,6 +9,7 @@ namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
 use App\Models\Tenants\CodeGenType;
+
 /**
  * Unit test for CodeGenType model
  
@@ -16,6 +17,7 @@ use App\Models\Tenants\CodeGenType;
  *
  */
 class CodeGenTypeModelTest extends TenantTestCase {
+	
         	
 	/**
      * Test element creation, read, update and delete
@@ -41,7 +43,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $code_gen_type3 = CodeGenType::factory()->make();
         $this->assertNotNull($code_gen_type3);
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
-            $this->assertNotEquals($latest->$field, $code_gen_type3->$field);
+            $this->assertNotEquals($latest->$field, $code_gen_type3->$field, "field $field different");
         }
  
         $this->assertTrue(CodeGenType::count() == $initial_count + 2, "Two new elements in the table");
@@ -70,9 +72,6 @@ class CodeGenTypeModelTest extends TenantTestCase {
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             if ($field != "id") {
                 $this->assertEquals($back->$field, $code_gen_type3->$field, "$field after update");
-                $this->assertDatabaseHas('code_gen_types', [
-                    $field => $code_gen_type3->$field,
-                ]);
             }
         }
         
@@ -102,6 +101,22 @@ class CodeGenTypeModelTest extends TenantTestCase {
     	$code_gen_type->delete();
     	
     	$this->assertTrue(CodeGenType::count() == $initial_count, "No changes in database");
+    }
+    
+    public function test_birthday_attribute() {
+    	$cgt = CodeGenType::factory()->create();
+    	
+    	// By default the lang is en
+    	$en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})/i'; 	
+    	$this->assertMatchesRegularExpression($en_date_regexp, $cgt->birthday);
+    	
+    	// switch to French
+    	$this->set_lang("fr");
+
+    	// and check that the dates are now in French format
+    	$fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})/i';
+    	$this->assertMatchesRegularExpression($fr_date_regexp, $cgt->birthday);
+    	  	
     }
     
 }

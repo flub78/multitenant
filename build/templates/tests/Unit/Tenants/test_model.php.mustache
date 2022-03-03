@@ -44,7 +44,7 @@ class [[class_name]]ModelTest extends TenantTestCase {
         $[[element]]3 = [[class_name]]::factory()->make();
         $this->assertNotNull($[[element]]3);
         foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertNotEquals($latest->$field, $[[element]]3->$field);
+            $this->assertNotEquals($latest->$field, $[[element]]3->$field, "different $field between two random element");
         }
  
         $this->assertTrue([[class_name]]::count() == $initial_count + 2, "Two new elements in the table");
@@ -73,9 +73,6 @@ class [[class_name]]ModelTest extends TenantTestCase {
         foreach ([ [[&fillable_names]] ] as $field) {
             if ($field != "[[primary_index]]") {
                 $this->assertEquals($back->$field, $[[element]]3->$field, "$field after update");
-                $this->assertDatabaseHas('[[table]]', [
-                    $field => $[[element]]3->$field,
-                ]);
             }
         }
         

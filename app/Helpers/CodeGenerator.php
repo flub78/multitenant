@@ -343,7 +343,7 @@ class CodeGenerator {
 		if ('varchar' == $type) {
 			$res =  "\"$field" . '_" . $next . "_" . ' . 'Str::random()';
 		} elseif ('date' == $type) {
-			$res = $faker . '->date("Y-m-d")';
+			$res = $faker . '->date(__("general.date_format"))';
 		} elseif ('time' == $type) {
 			$res = $faker . '->time("H:i:s")';
 		} elseif ('text' == $type) {
