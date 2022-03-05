@@ -119,6 +119,24 @@ class [[class_name]]ModelTest extends TenantTestCase {
         $selector2 = [[class_name]]::selector(['[[primary_index]]' => $[[element]]2->[[primary_index]]]);
         $this->assertEquals(1, count($selector2));
     }    
-[[/is_referenced]]        
+[[/is_referenced]]      
+[[#date_mutators]]
+
+    public function test_[[&field]]_mutators() {
+        $cgt = CodeGenType::factory()->create();
+        
+        // By default the lang is en
+        $en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})/i';   
+        $this->assertMatchesRegularExpression($en_date_regexp, $cgt->[[&field]]);
+        
+        // switch to French
+        $this->set_lang("fr");
+
+        // and check that the dates are now in French format
+        $fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})/i';
+        $this->assertMatchesRegularExpression($fr_date_regexp, $cgt->[[&field]]);
+            
+    }
+[[/date_mutators]]  
 
 }

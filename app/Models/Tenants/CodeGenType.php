@@ -9,7 +9,6 @@ namespace App\Models\Tenants;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\ModelWithLogs;
-// use App\Helpers\DateFormat;
 use App\Helpers\Config;
 use Carbon\Carbon;
 
@@ -47,29 +46,25 @@ class CodeGenType extends ModelWithLogs {
 	protected $fillable = ["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment"];
 
 	/**
-	 * Get the user's first name.
+	 * Get the Birthday date
 	 *
-	 * @param  string  $value
-	 * @return string
+	 * @param  string  $value date in MySql format
+	 * @return string the date in local format
 	 */
 	public function getBirthdayAttribute($value) {
 		$date = Carbon::createFromFormat('Y-m-d', $value);
-		$tz = Config::config('app.timezone');
-		$date->tz($tz);
-		$local_value = $date->format(__('general.date_format'));
-		return $local_value;
+		$date->tz(Config::config('app.timezone'));
+		return $date->format(__('general.date_format'));
 	}
 	
 	/**
-	 * Set the user's first name.
+	 * Set the Birthday date
 	 *
-	 * @param  string  $value
-	 * @return void
+	 * @param  string  $value date in local format
 	 */
 	public function setBirthdayAttribute($value) {
 		$date = Carbon::createFromFormat(__('general.date_format'), $value);
-		$db_date = $date->format("Y-m-d");
-		$this->attributes['birthday'] = $db_date;
+		$this->attributes['birthday'] = $date->format("Y-m-d");
 	}
 	
 }

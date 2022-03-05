@@ -9,6 +9,8 @@ namespace App\Models\Tenants;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\ModelWithLogs;
+use App\Helpers\Config;
+use Carbon\Carbon;
 
 
 /**
@@ -63,4 +65,28 @@ class {{class_name}} extends ModelWithLogs {
         return $res;
     }
 {{/is_referenced}}	
+{{#date_mutators}}
+
+    /**
+     * Get the {{&field_name}} date
+     *
+     * @param  string  $value date in MySql format
+     * @return string the date in local format
+     */
+    public function get{{&field_name}}Attribute($value) {
+        $date = Carbon::createFromFormat('Y-m-d', $value);
+        $date->tz(Config::config('app.timezone'));
+        return $date->format(__('general.date_format'));
+    }
+    
+    /**
+     * Set the {{&field_name}} date
+     *
+     * @param  string  $value date in local format
+     */
+    public function set{{&field_name}}Attribute($value) {
+        $date = Carbon::createFromFormat(__('general.date_format'), $value);
+        $this->attributes['{{&field}}'] = $date->format("Y-m-d");
+    }
+{{/date_mutators}}
 }

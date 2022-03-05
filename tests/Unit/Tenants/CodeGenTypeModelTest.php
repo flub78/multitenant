@@ -43,7 +43,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $code_gen_type3 = CodeGenType::factory()->make();
         $this->assertNotNull($code_gen_type3);
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
-            $this->assertNotEquals($latest->$field, $code_gen_type3->$field, "field $field different");
+            $this->assertNotEquals($latest->$field, $code_gen_type3->$field, "different $field between two random element");
         }
  
         $this->assertTrue(CodeGenType::count() == $initial_count + 2, "Two new elements in the table");
@@ -103,7 +103,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
     	$this->assertTrue(CodeGenType::count() == $initial_count, "No changes in database");
     }
     
-    public function test_birthday_attribute() {
+    public function test_birthday_mutators() {
     	$cgt = CodeGenType::factory()->create();
     	
     	// By default the lang is en

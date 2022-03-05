@@ -491,6 +491,23 @@ class CodeGenerator {
 	}
 	
 	/**
+	 * An array of metadata for all fillable fields
+	 * @param String $table
+	 * @return string[][]
+	 */
+	static public function date_mutators (String $table) {
+		$res = [];
+		$list = Meta::fillable_fields($table);
+		foreach ($list as $field) {
+			$type = Meta::type($table, $field);
+			if ($type == "date") {
+				$res[] = ["field" => $field, "field_name" => ucfirst($field)];
+			}
+		}
+		return $res;
+	}
+	
+	/**
 	 * All the information for mustache engine
 	 *
 	 * @param String $table
@@ -509,7 +526,8 @@ class CodeGenerator {
 				'primary_index' => Schema::primaryIndex($table),
 				'select_list' => self::select_list($table),
 				'id_data_type' => self::id_data_type($table),
-				'is_referenced' => Schema::isReferenced($table) ? "true" : ""
+				'is_referenced' => Schema::isReferenced($table) ? "true" : "",
+				'date_mutators' => self::date_mutators($table)
 		);
 	}
 }
