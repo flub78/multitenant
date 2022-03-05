@@ -306,4 +306,21 @@ class SchemaModelTest extends TestCase
     	$this->assertFalse(Schema::isReferenced("user_roles"));
     	$this->assertFalse(Schema::isReferenced("metadata"));
     }
+    
+    public function test_datetime() {
+    	$table = "code_gen_types";
+    	$field = "takeoff";
+    	$this->assertEquals("datetime", Schema::basicType($table, $field));
+    	$this->assertEquals("datetime", Schema::columnType($table, $field));
+    
+    	$table = "code_gen_types";
+    	$field = "birthday";
+    	$this->assertEquals("date", Schema::basicType($table, $field));
+    	$this->assertEquals("date", Schema::columnType($table, $field));
+    	
+    	$table = "code_gen_types";
+    	$field = "tea_time";
+    	$this->assertEquals("time", Schema::basicType($table, $field));
+    	$this->assertEquals("time", Schema::columnType($table, $field));
+    }
 }

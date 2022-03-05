@@ -240,4 +240,19 @@ class MetadataHelperTest extends TestCase {
 		$this->assertNotNull($json, "json_decode($str) not null");
 		
 	}
+	
+	public function test_datetime() {
+		$table = "code_gen_types";
+		$field = "takeoff";
+		$this->assertEquals("datetime", Meta::type($table, $field));
+		
+		$table = "code_gen_types";
+		$field = "birthday";
+		$this->assertEquals("date", Meta::type($table, $field));
+		
+		$table = "code_gen_types";
+		$field = "tea_time";
+		$this->assertEquals("time", Meta::type($table, $field));
+	}
+	
 }

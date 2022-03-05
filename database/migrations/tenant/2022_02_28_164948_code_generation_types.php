@@ -38,6 +38,8 @@ class CodeGenerationTypes extends Migration
 
     		$table->time("tea_time")->default("17:00:00")->comment('{}');
     		
+    		$table->datetime("takeoff")->comment('{"subtype" : "datetime_with_date_and_time"}');
+    		
     		$table ->decimal('price',  $precision = 8, $scale = 2);
     		
     		$table ->double('big_price',  $precision = 11, $scale = 2)->comment('{"subtype" : "currency"}');

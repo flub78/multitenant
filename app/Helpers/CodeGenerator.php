@@ -498,6 +498,12 @@ class CodeGenerator {
 	static public function date_mutators (String $table) {
 		$res = [];
 		$list = Meta::fillable_fields($table);
+		/**
+		 * Warning
+		 * when a subtype is datetime_with_date_and_time, a date and a time fields are derived.
+		 * Do we need a mutator for the derived date ???
+		 * 
+		 */
 		foreach ($list as $field) {
 			$type = Meta::type($table, $field);
 			if ($type == "date") {

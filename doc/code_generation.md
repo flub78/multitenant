@@ -30,10 +30,10 @@ With this template mechanism it is possible to generate quickly a working applic
 Depending on the size of the application we can expect between twenty and a few hundred resources.
 
 As a developer 
-- I want to generate one code file from one template for one table. 
-- I want to generate all code files for one table. 
-- I want to be able to compare the generated result with the current version. 
-- I want to be able to replace a current version with the generated file.
+- I want to apply one table data to one template and generate the associated code 
+- I want to generate all the code for one table
+- I want to compare the generated result with the current version. 
+- I want to replace a current version with the generated file.
 
 As the code generation will rarely be fully automatic there are limited needs to generate and install all files of the application.
 
@@ -49,10 +49,9 @@ Supported templates:
 * test_model
 * test_controller
 * test_dusk
-
-to do:
 * api
 * test_api
+
 
 English language files can be translated in any language supported by Google translate (French by default) using: 
 
@@ -141,130 +140,37 @@ Template and result can be specified as absolute file names or relative to the t
 
 ### List of replaced patterns
 
-This is an outdated example, the source code in MetadataHelper is the reference.
+This list is partial and not necessarily up to date. Look inside the templates and the CodeGenerator helper. 
 
-* [[class_name]]        Camel case class name (model)
-* [[fillable_names]]    List of fields
-* 
+    [[class_name]]              Camel case class name (model)
+    [[fillable_names]]          List of fields
+    [[element]]                 resource element
+    [[table]]                   Database table name
+    [[primary_index]]           Name of the primary index (often id)
+    
+    [[#select_list]]
+        [[&selector]]
+        [[&with]]
+    [[/select_list]]
+    
+    [[# select_with_list ]]     
+    [[/ select_with_list ]]
+    
+    [[# form_field_list ]]      List of fields for a form
+        [[&label]]              with its label
+        [[&input_create]]       create form item
+         [[&input_edit]]        edit form item
+    [[/ form_field_list ]]
+    
+    [[# table_field_list ]]     List of fields for a table
+        [[element]]             
+        [[name]]
+    [[/ table_field_list ]]
+    
+    [[& button_edit ]]          Button to call the edit form
+    [[& button_delete ]]        Button to delete an element
+     
 
-{'class_name': 'User',
- 'element': 'user',
- 'field_names': ['id',
-                 'name',
-                 'email',
-                 'password',
-                 'remember_token',
-                 'created_at',
-                 'updated_at'],
- 'fillable_names': ['name', 'email', 'password', 'remember_token'],
- 'fields': [{'field_display': "[[$user['id']]]",
-             'field_edit': '<input type="text" class="form-control" name="id" '
-                           'id="id" value="[[ old("id") ? old("id") : '
-                           '$user->id ]]">',
-             'field_input': '<input type="text" class="form-control" name="id" '
-                            'id="id" value="[[ old("id") ]]">',
-             'label': 'Id',
-             'name': 'id'},
-            {'field_display': "[[$user['name']]]",
-             'field_edit': '<input type="text" class="form-control" '
-                           'name="name" id="name" value="[[ old("name") ? '
-                           'old("name") : $user->name ]]">',
-             'field_input': '<input type="text" class="form-control" '
-                            'name="name" id="name" value="[[ old("name") ]]">',
-             'label': 'Name',
-             'name': 'name'},
-            {'field_display': "[[$user['email']]]",
-             'field_edit': '<input type="text" class="form-control" '
-                           'name="email" id="email" value="[[ old("email") ? '
-                           'old("email") : $user->email ]]">',
-             'field_input': '<input type="text" class="form-control" '
-                            'name="email" id="email" value="[[ old("email") '
-                            ']]">',
-             'label': 'Email',
-             'name': 'email'},
-            {'field_display': "[[$user['password']]]",
-             'field_edit': '<input type="password" class="form-control" '
-                           'name="password" id="password" value="[[ '
-                           'old("password") ? old("password") : '
-                           '$user->password ]]">',
-             'field_input': '<input type="password" class="form-control" '
-                            'name="password" id="password" value="[[ '
-                            'old("password") ]]">',
-             'label': 'Password',
-             'name': 'password'},
-            {'field_display': "[[$user['remember_token']]]",
-             'field_edit': '<input type="password" class="form-control" '
-                           'name="remember_token" id="remember_token" '
-                           'value="[[ old("remember_token") ? '
-                           'old("remember_token") : $user->remember_token ]]">',
-             'field_input': '<input type="password" class="form-control" '
-                            'name="remember_token" id="remember_token" '
-                            'value="[[ old("remember_token") ]]">',
-             'label': 'Remember_token',
-             'name': 'remember_token'},
-            {'field_display': "[[$user['created_at']]]",
-             'field_edit': '<input type="text" class="form-control" '
-                           'name="created_at" id="created_at" value="[[ '
-                           'old("created_at") ? old("created_at") : '
-                           '$user->created_at ]]">',
-             'field_input': '<input type="text" class="form-control" '
-                            'name="created_at" id="created_at" value="[[ '
-                            'old("created_at") ]]">',
-             'label': 'Created_at',
-             'name': 'created_at'},
-            {'field_display': "[[$user['updated_at']]]",
-             'field_edit': '<input type="text" class="form-control" '
-                           'name="updated_at" id="updated_at" value="[[ '
-                           'old("updated_at") ? old("updated_at") : '
-                           '$user->updated_at ]]">',
-             'field_input': '<input type="text" class="form-control" '
-                            'name="updated_at" id="updated_at" value="[[ '
-                            'old("updated_at") ]]">',
-             'label': 'Updated_at',
-             'name': 'updated_at'}],
- 'fillable': [{'field_display': "[[$user['name']]]",
-               'field_edit': '<input type="text" class="form-control" '
-                             'name="name" id="name" value="[[ old("name") ? '
-                             'old("name") : $user->name ]]">',
-               'field_input': '<input type="text" class="form-control" '
-                              'name="name" id="name" value="[[ old("name") '
-                              ']]">',
-               'label': 'Name',
-               'name': 'name'},
-              {'field_display': "[[$user['email']]]",
-               'field_edit': '<input type="text" class="form-control" '
-                             'name="email" id="email" value="[[ old("email") ? '
-                             'old("email") : $user->email ]]">',
-               'field_input': '<input type="text" class="form-control" '
-                              'name="email" id="email" value="[[ old("email") '
-                              ']]">',
-               'label': 'Email',
-               'name': 'email'},
-              {'field_display': "[[$user['password']]]",
-               'field_edit': '<input type="password" class="form-control" '
-                             'name="password" id="password" value="[[ '
-                             'old("password") ? old("password") : '
-                             '$user->password ]]">',
-               'field_input': '<input type="password" class="form-control" '
-                              'name="password" id="password" value="[[ '
-                              'old("password") ]]">',
-               'label': 'Password',
-               'name': 'password'},
-              {'field_display': "[[$user['remember_token']]]",
-               'field_edit': '<input type="password" class="form-control" '
-                             'name="remember_token" id="remember_token" '
-                             'value="[[ old("remember_token") ? '
-                             'old("remember_token") : $user->remember_token '
-                             ']]">',
-               'field_input': '<input type="password" class="form-control" '
-                              'name="remember_token" id="remember_token" '
-                              'value="[[ old("remember_token") ]]">',
-               'label': 'Remember_token',
-               'name': 'remember_token'}],
- 'lang': [],
- 'list': [],
- 'table': 'users'}
-```
 ### Data flow
 
 1. For each table database schema and metadata are parsed.
@@ -312,19 +218,32 @@ table is a database table name
 # The mustache documentation
 
     https://faun.pub/dynamic-content-in-your-mails-using-mustache-9f3a660462ad
-    https://github.com/bobthecow/mustache.php/wiki    
+    https://github.com/bobthecow/mustache.php/wiki
+    
+# Design notes
+
+## setters and mutators
+
+A resource attribute is an abstract element of a resource object that can be read or set. In a lot of case there is a direct equivalence between the attribute and the way it is stored in database. For example a name is a string resource attribute which is stored directly into a varchar.
+
+In some case it may be convenient to not store exactly what is displayed. Dates for example are stored as "Y-m-d" strings in the database but are displayed or input as date in local format. Mutators and setters are a convenient place to make this translation work. See getBirthdayAttribute and setBirthdayAttribute in CodeGenType for example.
+
+## Derived fields
+
+Sometimes there is no one to one relationship between the fields used to display and input an information and the way it is stored in database. For example datetime_with_date_and_time are displayed with two attributes but are stored as a unique datetime column in database.
+
+In the same way, enumerates and bitfields are stored in a simple column but have several field
+for input and display.
+
+In these case the abstract resource has multiple attributes which are encoded together in a single column. It does not match too well with the concept of metadata, in which additional information is attached to a column to describe the resource attribute. In these cases, on piece of metadata describes multiple attribute.
+
+It is likely not a good idea to reverse the concept and try to associate metadata with resource attribute. Trying to do that could lead to a situation requiring 100 entries to describe a bitfiled with 100 values. It is more efficient to derive the attributes, saying for example that a datetime field describes a _date and _time attribute.
+
+In this case of multiple attribute associated to a single column, the simplest approach is to also use setters and mutators. It could be inefficient. It is better to not update the database 100 times to update a simple bitfield with 100 values.
+
+     
     
 # Progress status
-
-In the factory template the function errroneous_cases returns an empty list. It is possible to generate
-erroneous cases from the validation rules (or at the same time than validation rules).
-
-But do we need to test all the possible error cases ?
-a validation rule is made of assertions to check separated by |
-For most of the assertions it is possible to generate one error case.
-But trying to be exhaustive there looks a little bit like trying to test the Laravel form validation mechanism.
-
-Is it good enough to just test a few cases ?
 
 
 ## roles table
