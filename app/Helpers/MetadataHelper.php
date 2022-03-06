@@ -93,6 +93,10 @@ class MetadataHelper {
 	
 	/**
 	 * True if the field must be displayed in the form views
+	 * 
+	 * Default is true
+	 * InFOrm is a delarative information in metadata
+	 * Information in metadata table overcomes comment in the database schema
 	 *
 	 * @param unknown $table
 	 * @param unknown $field
@@ -109,7 +113,9 @@ class MetadataHelper {
 		// Nothing in metadadata table look in comments
 		
 		$meta = Schema::columnMetadata($table, $field);
-		if ($field == "id") return false;
+		if ($field == "id") return false;		// not exact
+		// should be excluded auto incremented primary keys "id" is not the only case
+		
 		if (! $meta) return true;
 		if (! array_key_exists('inForm', $meta)) return true;
 		return ($meta['inForm'] == "yes");

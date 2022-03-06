@@ -46,7 +46,7 @@ And later
         reference_table name of the table item to which the object is attached
         reference_id
         name visible file name
-        hash internal file name, used in URL and API to doanload, replace, delete
+        hash internal file name, used in URL and API to download, replace, delete
         description
         mime_type
         purpose a string to describe the purpose of this file inside the application ex: user_picture 

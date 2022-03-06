@@ -82,7 +82,9 @@ Keeping it inside the comments makes it more evident that the full data model is
 The central application has much less feature than the tenant application. So this mechanism will be initially developed for tenants only.
 
 
-### List of recognized metadata
+### List of metadata
+
+Here is the list of types, subtypes and metadata annotation supported by the generator.
 
 * types
     * varchar
@@ -90,6 +92,7 @@ The central application has much less feature than the tenant application. So th
     * float
     * date
     * time
+    * datetime
     
 * subtype
     * email
@@ -159,7 +162,9 @@ This list is partial and not necessarily up to date. Look inside the templates a
     [[# form_field_list ]]      List of fields for a form
         [[&label]]              with its label
         [[&input_create]]       create form item
-         [[&input_edit]]        edit form item
+        [[&input_edit]]         edit form item
+        [[name]]
+        [[&faker]]
     [[/ form_field_list ]]
     
     [[# table_field_list ]]     List of fields for a table

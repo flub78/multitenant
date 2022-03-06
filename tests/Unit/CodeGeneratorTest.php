@@ -50,6 +50,30 @@ class CodeGeneratorTest extends TestCase {
 		// var_dump($rules);
 		
 		$metadata->delete();
-		
 	}
+	
+	public function test_form_field_list() {
+		$table = "code_gen_types";
+		$list = CG::form_field_list($table);
+		// var_dump($list);
+		$this->assertTrue(count($list) > 10);
+		$this->assertTrue(count($list) < 20);
+		$this->assertTrue(is_array($list[0]));
+		foreach (["name", "display", "label"] as $key) {
+			$this->assertTrue(array_key_exists($key, $list[0]));
+		}
+	}
+	
+	public function test_factory_field_list() {
+		$table = "code_gen_types";
+		$list = CG::factory_field_list($table);
+		// var_dump($list);
+		$this->assertTrue(count($list) > 10);
+		$this->assertTrue(count($list) < 20);
+		$this->assertTrue(is_array($list[0]));
+		foreach (["name", "display", "label"] as $key) {
+			$this->assertTrue(array_key_exists($key, $list[0]));
+		}
+	}
+	
 }

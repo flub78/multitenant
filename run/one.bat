@@ -10,8 +10,8 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
 
     @rem tenants
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
@@ -26,7 +26,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/SchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/MetadataModelTest.php
-@rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypeModelTest.php
+php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypeModelTest.php
 
 @rem Feature tests
 @rem =============

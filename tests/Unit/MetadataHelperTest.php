@@ -122,6 +122,8 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals("time", Meta::type('calendar_events', 'end_time'));
 
 		$this->assertEquals("varchar", Meta::type('calendar_events', 'textColor'));
+
+		$this->assertEquals("datetime", Meta::type('code_gen_types', 'takeoff'));
 	}
 	
 	public function test_fillable_fields() {

@@ -36,7 +36,13 @@ class CodeGenTypeFactory extends Factory
             'year_of_birth' => $this->faker->year(),
             'weight' => $this->faker->randomFloat(2, 0.0, 1000.0),
        		'birthday' => $this->faker->date(__("general.date_format")),
-            'tea_time' => $this->faker->time("H:i:s"),
+        	'takeoff' => $this->faker->date("Y-m-d H:i:s"),
+        	/**
+        	 * Difference between date and datetime is that there are mutators for dates to convert
+        	 * back and forth between database and local time.
+        	 * I could have to do the same thing for datetime ...
+        	 */
+        	'tea_time' => $this->faker->time("H:i:s"),
             'price' => $this->faker->randomFloat(2, 0, 100.0),
             'big_price' => $this->faker->randomFloat(2, 0.0, 1000.0),
             'qualifications' => $this->faker->randomNumber(),

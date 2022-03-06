@@ -419,7 +419,7 @@ class CodeGenerator {
 	}
 	
 	/**
-	 * An array of metadata for all fillable fields
+	 * An array of metadata for all fields to display in the forms
 	 * @param String $table
 	 * @return string[][]
 	 */
@@ -428,6 +428,23 @@ class CodeGenerator {
 		$list = Meta::fillable_fields($table);
 		foreach ($list as $field) {
 			if (! Meta::inForm($table, $field)) continue;
+			// echo "adding $table $field to form\n";
+			$res[] = self::field_metadata($table, $field);
+		}
+		return $res;
+	}
+	
+	/**
+	 * An array of metadata for all fields relevant to factories
+	 * @param String $table
+	 * @return string[][]
+	 */
+	static public function factory_field_list (String $table) {
+		$res = [];
+		// Todo : it is not fillable_fields
+		$list = Meta::fillable_fields($table);
+		foreach ($list as $field) {
+			// if (! Meta::inForm($table, $field)) continue;
 			// echo "adding $table $field to form\n";
 			$res[] = self::field_metadata($table, $field);
 		}
@@ -527,6 +544,7 @@ class CodeGenerator {
 				'element' => Meta::element($table),
 				'table_field_list' => self::table_field_list($table),
 				'form_field_list' => self::form_field_list($table),
+				'factory_field_list' => self::factory_field_list($table),
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),
 				'primary_index' => Schema::primaryIndex($table),
