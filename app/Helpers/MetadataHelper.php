@@ -189,7 +189,7 @@ class MetadataHelper {
 	 */
 	static public function type($table, $field) {
 		$full_type = Schema::columnType($table, $field);
-				
+						
 		if (! $full_type) {
 			$subtype = self::subtype($table, $field);
 			if ($subtype == "password_confirmation") {

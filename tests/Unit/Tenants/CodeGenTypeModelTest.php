@@ -115,8 +115,23 @@ class CodeGenTypeModelTest extends TenantTestCase {
 
     	// and check that the dates are now in French format
     	$fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})/i';
-    	$this->assertMatchesRegularExpression($fr_date_regexp, $cgt->birthday);
-    	  	
+    	$this->assertMatchesRegularExpression($fr_date_regexp, $cgt->birthday);	  	
     }
+    
+    public function test_takeoff_mutators() {
+    	$cgt = CodeGenType::factory()->create();
+    	    	
+    	// By default the lang is en
+    	$en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})\s(\d{2})\:(\d{2})/i';
+    	$this->assertMatchesRegularExpression($en_date_regexp, $cgt->takeoff);
+    	
+    	// switch to French
+    	$this->set_lang("fr");
+    	
+    	// and check that the dates are now in French format
+    	$fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})\s(\d{2})\:(\d{2})/i';
+    	$this->assertMatchesRegularExpression($fr_date_regexp, $cgt->takeoff);
+    }
+    
     
 }

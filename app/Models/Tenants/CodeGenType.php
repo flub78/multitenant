@@ -43,7 +43,7 @@ class CodeGenType extends ModelWithLogs {
      *
      * @var array
      */
-	protected $fillable = ["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment"];
+	protected $fillable = ["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment"];
 
 	/**
 	 * Get the Birthday date
@@ -52,7 +52,8 @@ class CodeGenType extends ModelWithLogs {
 	 * @return string the date in local format
 	 */
 	public function getBirthdayAttribute($value) {
-		$date = Carbon::createFromFormat('Y-m-d', $value);
+        $db_format = 'Y-m-d';
+        $date = Carbon::createFromFormat($db_format, $value);
 		$date->tz(Config::config('app.timezone'));
 		return $date->format(__('general.date_format'));
 	}
@@ -63,8 +64,32 @@ class CodeGenType extends ModelWithLogs {
 	 * @param  string  $value date in local format
 	 */
 	public function setBirthdayAttribute($value) {
+        $db_format = 'Y-m-d';
 		$date = Carbon::createFromFormat(__('general.date_format'), $value);
-		$this->attributes['birthday'] = $date->format("Y-m-d");
+        $this->attributes['birthday'] = $date->format($db_format);
 	}
 	
+    /**
+     * Get the Takeoff datetime
+     *
+     * @param  string  $value datetime in MySql format
+     * @return string the datetime in local format
+     */
+    public function getTakeoffAttribute($value) {
+        $db_format = 'Y-m-d H:i:s';
+        $datetime = Carbon::createFromFormat($db_format, $value);
+        $datetime->tz(Config::config('app.timezone'));
+        return $datetime->format(__('general.datetime_format'));
+    }
+    
+    /**
+     * Set the Takeoff datetime
+     *
+     * @param  string  $value datetime in local format
+     */
+    public function setTakeoffAttribute($value) {
+        $db_format = 'Y-m-d H:i:s';
+        $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
+        $this->attributes['takeoff'] = $datetime->format($db_format);
+    }
 }

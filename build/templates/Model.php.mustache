@@ -74,7 +74,8 @@ class {{class_name}} extends ModelWithLogs {
      * @return string the date in local format
      */
     public function get{{&field_name}}Attribute($value) {
-        $date = Carbon::createFromFormat('Y-m-d', $value);
+        $db_format = 'Y-m-d';
+        $date = Carbon::createFromFormat($db_format, $value);
         $date->tz(Config::config('app.timezone'));
         return $date->format(__('general.date_format'));
     }
@@ -85,8 +86,35 @@ class {{class_name}} extends ModelWithLogs {
      * @param  string  $value date in local format
      */
     public function set{{&field_name}}Attribute($value) {
+        $db_format = 'Y-m-d';
         $date = Carbon::createFromFormat(__('general.date_format'), $value);
-        $this->attributes['{{&field}}'] = $date->format("Y-m-d");
+        $this->attributes['{{&field}}'] = $date->format($db_format);
     }
 {{/date_mutators}}
+{{#datetime_mutators}}
+
+    /**
+     * Get the {{&field_name}} datetime
+     *
+     * @param  string  $value datetime in MySql format
+     * @return string the datetime in local format
+     */
+    public function get{{&field_name}}Attribute($value) {
+        $db_format = 'Y-m-d H:i:s';
+        $datetime = Carbon::createFromFormat($db_format, $value);
+        $datetime->tz(Config::config('app.timezone'));
+        return $datetime->format(__('general.datetime_format'));
+    }
+    
+    /**
+     * Set the {{&field_name}} datetime
+     *
+     * @param  string  $value datetime in local format
+     */
+    public function set{{&field_name}}Attribute($value) {
+        $db_format = 'Y-m-d H:i:s';
+        $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
+        $this->attributes['{{&field}}'] = $datetime->format($db_format);
+    }
+{{/datetime_mutators}}
 }

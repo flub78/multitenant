@@ -508,22 +508,18 @@ class CodeGenerator {
 	}
 	
 	/**
-	 * An array of metadata for all fillable fields
+	 * An array
 	 * @param String $table
+	 * @param String mutating_type
 	 * @return string[][]
 	 */
-	static public function date_mutators (String $table) {
+	static public function type_mutators (String $table, String $mutating_type) {
 		$res = [];
 		$list = Meta::fillable_fields($table);
-		/**
-		 * Warning
-		 * when a subtype is datetime_with_date_and_time, a date and a time fields are derived.
-		 * Do we need a mutator for the derived date ???
-		 * 
-		 */
+		$list = Schema::fieldList($table);
 		foreach ($list as $field) {
 			$type = Meta::type($table, $field);
-			if ($type == "date") {
+			if ($type == $mutating_type) {
 				$res[] = ["field" => $field, "field_name" => ucfirst($field)];
 			}
 		}
@@ -551,7 +547,8 @@ class CodeGenerator {
 				'select_list' => self::select_list($table),
 				'id_data_type' => self::id_data_type($table),
 				'is_referenced' => Schema::isReferenced($table) ? "true" : "",
-				'date_mutators' => self::date_mutators($table)
+				'date_mutators' => self::type_mutators($table, "date"),
+				'datetime_mutators' => self::type_mutators($table, "datetime")
 		);
 	}
 }
