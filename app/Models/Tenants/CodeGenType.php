@@ -92,4 +92,43 @@ class CodeGenType extends ModelWithLogs {
         $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
         $this->attributes['takeoff'] = $datetime->format($db_format);
     }
+    
+    /**
+     * Get the Takeoff date
+     * 
+     * @param unknown $value
+     * @return string
+     */
+    public function getTakeoffDateAttribute($value) {
+    	return substr($this->takeoff, 0, 10);
+    }
+
+    /**
+     * Get the Takeoff time
+     * 
+     * @param unknown $value
+     * @return string
+     */
+    public function getTakeoffTimeAttribute($value) {
+    	return substr($this->takeoff, 11, 5);
+    }
+    
+    /**
+     *  Set the Takeoff date
+     *  
+     * @param unknown $value
+     */
+    public function setTakeoffDateAttribute($value) {
+    	$this->takeoff =  $value . " " . $this->takeoff_time;
+    }
+    
+    /**
+     * Set the Takeoff time
+     * 
+     * @param unknown $value
+     */
+    public function setTakeoffTimeAttribute($value) {
+    	$this->takeoff = $this->takeoff_date. " " . $value;
+    }
+    
 }

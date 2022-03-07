@@ -133,5 +133,56 @@ class CodeGenTypeModelTest extends TenantTestCase {
     	$this->assertMatchesRegularExpression($fr_date_regexp, $cgt->takeoff);
     }
     
+    public function test_derived_attributes() {
+    	// create an object with a well known takeoff datetime
+    	$date = "07-30-2022";
+    	$time = "13:14";
+    	$datetime = "$date $time";
+    	$cgt = CodeGenType::factory()->create(["takeoff" => $datetime]);
+    	
+    	// check the accessors
+    	$this->assertEquals($datetime, $cgt->takeoff);
+    	$this->assertEquals($date, $cgt->takeoff_date);
+    	$this->assertEquals($time, $cgt->takeoff_time);
+    	
+    	// change the date
+    	$new_date = "07-31-2022";
+    	$cgt->takeoff_date = $new_date;
+    	// check that the date has been changed
+    	$this->assertEquals("$new_date $time", $cgt->takeoff);
+    	$this->assertEquals($new_date, $cgt->takeoff_date);
+    	$this->assertEquals($time, $cgt->takeoff_time);
+    	
+    	// change the time
+    	$new_time = "15:16";
+    	$cgt->takeoff_time = $new_time;
+    	// check that the time has been change
+    	$this->assertEquals("$new_date $new_time", $cgt->takeoff);
+    	$this->assertEquals($new_date, $cgt->takeoff_date);
+    	$this->assertEquals($new_time, $cgt->takeoff_time);
+
+    	// Switch to French
+    	$this->set_lang("fr");
+    	
+    	// the current date in French
+    	$fr_date = "31/07/2022";
+    	
+    	// check that I have the correct values in the correct local
+    	$this->assertEquals("$fr_date $new_time", $cgt->takeoff);
+    	$this->assertEquals($fr_date, $cgt->takeoff_date);
+    	$this->assertEquals($new_time, $cgt->takeoff_time);
+    	
+    	// change the date providing a French date
+    	$new_fr_date = "14/07/2022";
+    	$cgt->takeoff_date = $new_fr_date; 
+    	
+    	$this->assertEquals("$new_fr_date $new_time", $cgt->takeoff);
+    	$this->assertEquals($new_fr_date, $cgt->takeoff_date);
+    	$this->assertEquals($new_time, $cgt->takeoff_time);
+    	
+    	// echo "\ntakeoff = " . $cgt->takeoff . "\n";
+    	// echo "takeoff_date = " . $cgt->takeoff_date . "\n";
+    	// echo "takeoff_time = " . $cgt->takeoff_time . "\n";
+    }
     
 }
