@@ -26,6 +26,8 @@ return [
 	'weight' => "Weight",
 	'birthday' => "Birthday",
 	'tea_time' => "Tea time",
+	'takeoff_date' => "Takeoff date",
+	'takeoff_time' => "Takeoff time",
 	'price' => "Price",
 	'big_price' => "Big price",
 	'qualifications' => "Qualifications",

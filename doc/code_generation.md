@@ -235,6 +235,8 @@ In some case it may be convenient to not store exactly what is displayed. Dates 
 
 ## Derived fields
 
+Setters and Getters are used to change the format of a field having a different representation internally and externally. In case of localization for example, the external format may depend on the current timezone, while the internal does not.
+
 Sometimes there is no one to one relationship between the fields used to display and input an information and the way it is stored in database. For example datetime_with_date_and_time are displayed with two attributes but are stored as a unique datetime column in database.
 
 In the same way, enumerates and bitfields are stored in a simple column but have several field
@@ -246,7 +248,8 @@ It is likely not a good idea to reverse the concept and try to associate metadat
 
 In this case of multiple attribute associated to a single column, the simplest approach is to also use setters and mutators. It could be inefficient. It is better to not update the database 100 times to update a simple bitfield with 100 values.
 
-     
+Should ancestor and derived attributes both have accessors ? ... Or should only the derived attributes, considering that they are the only way to access the internal state ?
+  
     
 # Progress status
 

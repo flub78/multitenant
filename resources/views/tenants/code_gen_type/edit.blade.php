@@ -69,6 +69,16 @@ use App\Helpers\BladeHelper as Blade;
              </div>
            
              <div class="form-group">
+               <label for="takeoff_date">{{__("code_gen_type.takeoff_date")}}</label>
+               <input type="text" class="form-control datepicker" name="takeoff_date" value="{{ old("takeoff_date", $code_gen_type->takeoff_date) }}"/>
+             </div>
+           
+             <div class="form-group">
+               <label for="takeoff_time">{{__("code_gen_type.takeoff_time")}}</label>
+               <input type="text" class="form-control timepicker" name="takeoff_time" value="{{ old("takeoff_time", $code_gen_type->takeoff_time) }}"/>
+             </div>
+           
+             <div class="form-group">
                <label for="price">{{__("code_gen_type.price")}}</label>
                <input type="text" class="form-control" name="price" value="{{ old("price", $code_gen_type->price) }}"/>
              </div>

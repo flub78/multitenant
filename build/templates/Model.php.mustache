@@ -116,5 +116,44 @@ class {{class_name}} extends ModelWithLogs {
         $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
         $this->attributes['{{&field}}'] = $datetime->format($db_format);
     }
+          
+    /**
+     * Get the {{&field_name}} date
+     * 
+     * @param unknown $value
+     * @return string
+     */
+    public function get{{&field_name}}DateAttribute($value) {
+        return substr($this->{{&field}}, 0, 10);
+    }
+
+    /**
+     * Get the {{&field_name}} time
+     * 
+     * @param unknown $value
+     * @return string
+     */
+    public function get{{&field_name}}TimeAttribute($value) {
+        return substr($this->{{&field}}, 11, 5);
+    }
+    
+    /**
+     *  Set the {{&field_name}} date
+     *  
+     * @param unknown $value
+     */
+    public function set{{&field_name}}DateAttribute($value) {
+        $this->{{&field}} =  $value . " " . $this->{{&field}}_time;
+    }
+    
+    /**
+     * Set the {{&field_name}} time
+     * 
+     * @param unknown $value
+     */
+    public function set{{&field_name}}TimeAttribute($value) {
+        $this->{{&field}} = $this->{{&field}}_date. " " . $value;
+    }
+    
 {{/datetime_mutators}}
 }

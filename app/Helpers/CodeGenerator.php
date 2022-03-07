@@ -396,7 +396,8 @@ class CodeGenerator {
 				'input_create' => self::field_input_create($table, $field),
 				'rule_edit' => self::field_rule_edit($table, $field),
 				'rule_create' => self::field_rule_create($table, $field),
-				'faker' => self::field_faker($table, $field)
+				'faker' => self::field_faker($table, $field),
+				'display_name' => ucfirst(str_replace('_', ' ',$field))
 		];
 	}
 	

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\ModelWithLogs;
 use App\Helpers\Config;
 use Carbon\Carbon;
+use Carbon\Exceptions\InvalidFormatException;
 
 
 /**
@@ -43,7 +44,10 @@ class CodeGenType extends ModelWithLogs {
      *
      * @var array
      */
-	protected $fillable = ["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment"];
+	protected $fillable = ["name", "phone", "description", "year_of_birth", 
+			"weight", "birthday", "tea_time", 
+			"takeoff_date", "takeoff_time", 
+			"price", "big_price", "qualifications", "picture", "attachment"];
 
 	/**
 	 * Get the Birthday date
@@ -76,8 +80,15 @@ class CodeGenType extends ModelWithLogs {
      * @return string the datetime in local format
      */
     public function getTakeoffAttribute($value) {
+    	if (! $value) return $value;
         $db_format = 'Y-m-d H:i:s';
-        $datetime = Carbon::createFromFormat($db_format, $value);
+        try {
+        	$datetime = Carbon::createFromFormat($db_format, $value);
+        } catch (InvalidFormatException $e) {
+        	echo "Carbon Exception: " . $e->getMessage();
+        	echo "\$value = \"$value\"\n";
+        	exit;
+        }
         $datetime->tz(Config::config('app.timezone'));
         return $datetime->format(__('general.datetime_format'));
     }

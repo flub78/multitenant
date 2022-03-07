@@ -68,6 +68,12 @@ class MetadataHelperTest extends TestCase {
 		
 		$this->assertTrue(Meta::inForm('unknow_table', 'password'));
 		$this->assertTrue(Meta::inForm('users', 'unknown_field'));
+		
+		$table = "code_gen_types";
+		$field = "takeoff_time";
+		$this->assertTrue(Meta::inForm($table, $field));
+		$field = "takeoff_date";
+		$this->assertTrue(Meta::inForm($table, $field));
 	}
 	
 	public function test_inTable() {
