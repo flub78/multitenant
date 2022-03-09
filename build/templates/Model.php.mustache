@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\ModelWithLogs;
 use App\Helpers\Config;
 use Carbon\Carbon;
-
+use Carbon\Exceptions\InvalidFormatException;
 
 /**
  * {{class_name}} model
@@ -73,11 +73,18 @@ class {{class_name}} extends ModelWithLogs {
      * @param  string  $value date in MySql format
      * @return string the date in local format
      */
-    public function get{{&field_name}}Attribute($value) {
+    public function get{{&field_name}}Attribute(String $value) {
         $db_format = 'Y-m-d';
-        $date = Carbon::createFromFormat($db_format, $value);
+        try {
+            $date = Carbon::createFromFormat($db_format, $value);
+        } catch (InvalidFormatException $e) {
+            echo "get{{&field_name}}Attribute($value) " . $e->getMessage();
+            exit;
+        }
         $date->tz(Config::config('app.timezone'));
-        return $date->format(__('general.date_format'));
+        $result = $date->format(__('general.date_format'));
+        // echo "\nget{{&field_name}}Attribute(String $value) => $result";
+        return $result;
     }
     
     /**
@@ -85,7 +92,7 @@ class {{class_name}} extends ModelWithLogs {
      *
      * @param  string  $value date in local format
      */
-    public function set{{&field_name}}Attribute($value) {
+    public function set{{&field_name}}Attribute(String $value) {
         $db_format = 'Y-m-d';
         $date = Carbon::createFromFormat(__('general.date_format'), $value);
         $this->attributes['{{&field}}'] = $date->format($db_format);
@@ -99,11 +106,19 @@ class {{class_name}} extends ModelWithLogs {
      * @param  string  $value datetime in MySql format
      * @return string the datetime in local format
      */
-    public function get{{&field_name}}Attribute($value) {
+    public function get{{&field_name}}Attribute(String $value) {
+        if (! $value) return $value;
         $db_format = 'Y-m-d H:i:s';
-        $datetime = Carbon::createFromFormat($db_format, $value);
+        try {
+            $datetime = Carbon::createFromFormat($db_format, $value);
+        } catch (InvalidFormatException $e) {
+             echo "get{{&field_name}}Attribute($value) " . $e->getMessage();
+            exit;
+       }
         $datetime->tz(Config::config('app.timezone'));
-        return $datetime->format(__('general.datetime_format'));
+        $result = $datetime->format(__('general.datetime_format'));
+        // echo "\nget{{&field_name}}Attribute($value) => $result\n";
+        return $result;
     }
     
     /**
@@ -111,7 +126,7 @@ class {{class_name}} extends ModelWithLogs {
      *
      * @param  string  $value datetime in local format
      */
-    public function set{{&field_name}}Attribute($value) {
+    public function set{{&field_name}}Attribute(String $value) {
         $db_format = 'Y-m-d H:i:s';
         $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
         $this->attributes['{{&field}}'] = $datetime->format($db_format);
@@ -120,39 +135,47 @@ class {{class_name}} extends ModelWithLogs {
     /**
      * Get the {{&field_name}} date
      * 
-     * @param unknown $value
+     * @param String $value
      * @return string
      */
     public function get{{&field_name}}DateAttribute($value) {
-        return substr($this->{{&field}}, 0, 10);
+        $result = substr($this->{{&field}}, 0, 10);
+        // echo "\nget{{&field_name}}DateAttribute($value) => $result";
+        return $result;
     }
 
     /**
      * Get the {{&field_name}} time
      * 
-     * @param unknown $value
+     * @param String $value
      * @return string
      */
     public function get{{&field_name}}TimeAttribute($value) {
-        return substr($this->{{&field}}, 11, 5);
+        $result = substr($this->{{&field}}, 11, 5);
+        // echo "\nget{{&field_name}}TimeAttribute($value) => $result";
+        return $result;
     }
     
     /**
      *  Set the {{&field_name}} date
      *  
-     * @param unknown $value
+     * @param String $value
      */
-    public function set{{&field_name}}DateAttribute($value) {
-        $this->{{&field}} =  $value . " " . $this->{{&field}}_time;
+    public function set{{&field_name}}DateAttribute(String $value) {
+        $local_datetime = $value . " " . $this->{{&field}}_time;    
+        $this->set{{&field_name}}Attribute($local_datetime);
+        // echo "\nset{{&field_name}}DateAttribute($value) => set{{&field_name}}Attribute($local_datetime)";
     }
     
     /**
      * Set the {{&field_name}} time
      * 
-     * @param unknown $value
+     * @param String $value
      */
-    public function set{{&field_name}}TimeAttribute($value) {
-        $this->{{&field}} = $this->{{&field}}_date. " " . $value;
+    public function set{{&field_name}}TimeAttribute(String $value) {        
+        $local_datetime = $this->{{&field}}_date . " " . $value;
+        $this->set{{&field_name}}Attribute($local_datetime);
+        // echo "\nset{{&field_name}}TimeAttribute($value) => set{{&field_name}}Attribute($local_datetime)";
     }
     
 {{/datetime_mutators}}

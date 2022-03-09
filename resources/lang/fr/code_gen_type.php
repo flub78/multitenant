@@ -2,7 +2,7 @@
 /**
  * This file is a template generated file automatically translated from the English version.
  * If modifications are required, it is important to consider if they should be done in the template,
- * in the English version or in the generated file, in which case caution must be exerced to avoid overwritting.
+ * in the English version or in the generated file, in which case caution must be exerted to avoid overwritting.
  */
 
 /*
