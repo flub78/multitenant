@@ -336,7 +336,9 @@ class CodeGenerator {
 		$subtype = Meta::subtype($table, $field);
 		$type = Meta::type($table, $field);
 		$unique = Schema::unique($table, $field);
-		$faker = ($unique) ? '$this->faker->unique()' : '$this->faker';
+		// $faker = ($unique) ? '$this->faker->unique()' : '$this->faker';
+		// Tests relies on random elements to be different
+		$faker = '$this->faker->unique()';
 		
 		$res = "$table.$field faker type=$type, subtype=$subtype\n";
 		

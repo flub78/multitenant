@@ -2,7 +2,7 @@
 /**
  * This file is generated from a template with metadata extracted from the data model.
  * If modifications are required, it is important to consider if they should be done in the template
- * or in the generated file, in which case caution must be exerced to avoid overwritting.
+ * or in the generated file, in which case caution must be exerted to avoid overwritting.
  */
 
 namespace App\Models\Tenants;
@@ -83,7 +83,7 @@ class CodeGenType extends ModelWithLogs {
      * @param  string  $value datetime in MySql format
      * @return string the datetime in local format
      */
-    public function getTakeoffAttribute(String $value) {
+    public function getTakeoffAttribute($value) {
     	if (! $value) return $value;
         $db_format = 'Y-m-d H:i:s';
         try {
