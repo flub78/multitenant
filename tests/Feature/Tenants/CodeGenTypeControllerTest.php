@@ -105,6 +105,8 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $look_for[] = __('code_gen_type.weight'); 
         $look_for[] = __('code_gen_type.birthday'); 
         $look_for[] = __('code_gen_type.tea_time'); 
+        $look_for[] = __('code_gen_type.takeoff_date'); 
+        $look_for[] = __('code_gen_type.takeoff_time'); 
         $look_for[] = __('code_gen_type.price'); 
         $look_for[] = __('code_gen_type.big_price'); 
         $look_for[] = __('code_gen_type.qualifications'); 
@@ -120,7 +122,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * When calling create URL
      * Then the create form is displayed
      */
-    public function ttestCreateUrlDisplaysCreationForm() {
+    public function testCreateUrlDisplaysCreationForm() {
         Log::Debug(__METHOD__);
         $this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);   
      }
@@ -134,7 +136,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function ttestGetRequestShowsElement() {        
+    public function testGetRequestShowsElement() {        
         Log::Debug(__METHOD__);
         
         CodeGenType::factory()->create();
@@ -167,6 +169,8 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $elt['weight'] = $code_gen_type->weight; 
         $elt['birthday'] = $code_gen_type->birthday; 
         $elt['tea_time'] = $code_gen_type->tea_time; 
+        $elt['takeoff_date'] = $code_gen_type->takeoff_date; 
+        $elt['takeoff_time'] = $code_gen_type->takeoff_time; 
         $elt['price'] = $code_gen_type->price; 
         $elt['big_price'] = $code_gen_type->big_price; 
         $elt['qualifications'] = $code_gen_type->qualifications; 

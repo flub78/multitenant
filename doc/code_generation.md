@@ -333,7 +333,7 @@ Should ancestor and derived attributes both have accessors ? ... Or should only 
     php artisan mustache:generate --compare code_gen_types controller        
     php artisan mustache:generate --compare code_gen_types request           
     php artisan mustache:generate --compare code_gen_types model             
-    php artisan mustache:generate --install code_gen_types index             
+    php artisan mustache:generate --compare code_gen_types index             
     php artisan mustache:generate --compare code_gen_types create            
     php artisan mustache:generate --compare code_gen_types edit              
     php artisan mustache:generate --compare code_gen_types english           

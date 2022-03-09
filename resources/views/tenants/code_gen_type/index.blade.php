@@ -21,6 +21,8 @@
           <td> {{__('code_gen_type.weight')}} </td>
           <td> {{__('code_gen_type.birthday')}} </td>
           <td> {{__('code_gen_type.tea_time')}} </td>
+          <td> {{__('code_gen_type.takeoff_date')}} </td>
+          <td> {{__('code_gen_type.takeoff_time')}} </td>
           <td> {{__('code_gen_type.price')}} </td>
           <td> {{__('code_gen_type.big_price')}} </td>
           <td> {{__('code_gen_type.qualifications')}} </td>
@@ -42,6 +44,8 @@
           <td> {{$code_gen_type->weight}}</td>
           <td> {{$code_gen_type->birthday}}</td>
           <td> {{$code_gen_type->tea_time}}</td>
+          <td> {{$code_gen_type->takeoff_date}}</td>
+          <td> {{$code_gen_type->takeoff_time}}</td>
           <td> {{$code_gen_type->price}}</td>
           <td> {{$code_gen_type->big_price}}</td>
           <td> {{$code_gen_type->qualifications}}</td>

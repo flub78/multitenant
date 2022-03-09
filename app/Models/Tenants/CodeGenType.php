@@ -90,7 +90,9 @@ class CodeGenType extends ModelWithLogs {
         	exit;
         }
         $datetime->tz(Config::config('app.timezone'));
-        return $datetime->format(__('general.datetime_format'));
+        $result = $datetime->format(__('general.datetime_format'));
+        // echo "\ngetTakeoffAttribute($value) => $result";
+        return $result;
     }
     
     /**
@@ -102,6 +104,7 @@ class CodeGenType extends ModelWithLogs {
         $db_format = 'Y-m-d H:i:s';
         $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
         $this->attributes['takeoff'] = $datetime->format($db_format);
+        // echo "\nsetTakeoffAttribute($value) => " . $this->attributes['takeoff'];
     }
     
     /**
@@ -111,7 +114,9 @@ class CodeGenType extends ModelWithLogs {
      * @return string
      */
     public function getTakeoffDateAttribute($value) {
-    	return substr($this->takeoff, 0, 10);
+    	$result = substr($this->takeoff, 0, 10);
+    	// echo "\ngetTakeoffDateAttribute($value) = $result";
+    	return $result;
     }
 
     /**
@@ -121,25 +126,32 @@ class CodeGenType extends ModelWithLogs {
      * @return string
      */
     public function getTakeoffTimeAttribute($value) {
-    	return substr($this->takeoff, 11, 5);
+    	$result = substr($this->takeoff, 11, 5);
+    	// echo "\ngetTakeoffTimeAttribute($value) => $result";
+    	return $result;
     }
     
     /**
      *  Set the Takeoff date
-     *  
-     * @param unknown $value
+	 *
+     * @param String $value localized date
+     * @out_assertion the takeoff attribute in MySql format has been modified
      */
-    public function setTakeoffDateAttribute($value) {
-    	$this->takeoff =  $value . " " . $this->takeoff_time;
+    public function setTakeoffDateAttribute(String $value) {
+    	$local_datetime = $value . " " . $this->takeoff_time;
+    	$this->setTakeoffAttribute($local_datetime);
+    	// echo "\nsetTakeoffDateAttribute(String $value) => setTakeoffAttribute($local_datetime)";
     }
     
     /**
      * Set the Takeoff time
      * 
-     * @param unknown $value
+     * @param String $value
      */
-    public function setTakeoffTimeAttribute($value) {
-    	$this->takeoff = $this->takeoff_date. " " . $value;
+    public function setTakeoffTimeAttribute(String $value) {
+    	$local_datetime = $this->takeoff_date . " " . $value;
+    	$this->setTakeoffAttribute($local_datetime);
+    	// echo "\nsetTakeoffTimeAttribute(String $value) => setTakeoffAttribute($local_datetime)";
     }
     
 }
