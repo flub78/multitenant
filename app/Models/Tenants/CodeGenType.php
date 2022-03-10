@@ -140,7 +140,8 @@ class CodeGenType extends ModelWithLogs {
      * @param String $value
      */
     public function setTakeoffDateAttribute(String $value) {
-    	$local_datetime = $value . " " . $this->takeoff_time;
+    	$time = ($this->takeoff_time) ? $this->takeoff_time : "00:00";
+    	$local_datetime = $value . " " . $time;
     	$this->setTakeoffAttribute($local_datetime);
         // echo "\nsetTakeoffDateAttribute($value) => setTakeoffAttribute($local_datetime)";
     }

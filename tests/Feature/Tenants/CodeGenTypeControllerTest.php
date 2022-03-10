@@ -11,6 +11,8 @@ use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\CodeGenType;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\App;
+
 
 /**
  * Functional test for the CodeGenType CRUD 
@@ -155,7 +157,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function ttestPostRequestStoresElement()
+    public function testPostRequestStoresElement()
     {    	        
         Log::Debug(__METHOD__);
         
@@ -196,7 +198,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function ttestInvalidPostGeneratesErrors() {
+    public function testInvalidPostGeneratesErrors() {
         Log::Debug(__METHOD__);
 
         $cnt = 1;
@@ -227,14 +229,14 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function ttestEditUrlDisplaysPopulatedEditForm() {        
+    public function testEditUrlDisplaysPopulatedEditForm() {        
         Log::Debug(__METHOD__);
         
         CodeGenType::factory()->create();
         $latest = CodeGenType::latest()->first();
         $id = $latest->id;
         
-        $this->get_tenant_url($this->user, 'code_gen_type/' . $id . '/edit', ['Edit code_gen_type']);
+        $this->get_tenant_url($this->user, 'code_gen_type/' . $id . '/edit', ['Edit code generation type']);
     }
 
     /**
@@ -298,7 +300,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * Then the element is removed from the database
      * @return void
      */
-    public function ttestDeleteRequestsRemovesElement() {
+    public function testDeleteRequestsRemovesElement() {
         Log::Debug(__METHOD__);
         
         $initial_count = CodeGenType::count ();

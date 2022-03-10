@@ -44,12 +44,11 @@ class CodeGenTypeController extends Controller {
      */
     public function store(CodeGenTypeRequest $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
-        var_dump($validatedData); 
-        // exit;
-        // $validatedData['takeoff'] = $validatedData['takeoff_date'] . ' ' . $validatedData['takeoff_time'] . ':00';
+        $validatedData['takeoff'] = $validatedData['takeoff_date'] . ' ' . $validatedData['takeoff_time'] . ':00';
+        // var_dump($validatedData); 
         CodeGenType::create($validatedData);
         
-        return redirect('/code_gen_type')->with('success', __('general.creation_success', [ 'elt' => $validatedData ['id']]));
+        return redirect('/code_gen_type')->with('success', __('general.creation_success', [ 'elt' => __("code_gen_type.elt")]));
      }
 
     /**
@@ -85,10 +84,12 @@ class CodeGenTypeController extends Controller {
      */
     public function update(CodeGenTypeRequest $request, $id) {
         $validatedData = $request->validated();
+        
+        var_dump($validatedData);
 
         CodeGenType::where([ 'id' => $id])->update($validatedData);
 
-        return redirect('/code_gen_type')->with('success', __('general.modification_success', [ 'elt' => $validatedData ['id'] ]));
+        return redirect('/code_gen_type')->with('success', __('general.modification_success', [ 'elt' => __("code_gen_type.elt") ]));
     }
 
     
