@@ -8,6 +8,8 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\CodeGenTypeRequest;
 use App\Models\Tenants\CodeGenType;
+use App\Helpers\DateFormat;
+
 
 /**
  * Controller for code_gen_type
@@ -85,7 +87,11 @@ class CodeGenTypeController extends Controller {
     public function update(CodeGenTypeRequest $request, $id) {
         $validatedData = $request->validated();
         
-        var_dump($validatedData);
+        $validatedData ['takeoff'] = DateFormat::datetime_to_db ( $validatedData ['takeoff_date'], $validatedData ['takeoff_time'] );
+        $validatedData ['birthday'] = DateFormat::datetime_to_db ( $validatedData ['birthday']);
+        unset($validatedData['takeoff_date']);
+        unset($validatedData['takeoff_time']);
+        // var_dump($validatedData);
 
         CodeGenType::where([ 'id' => $id])->update($validatedData);
 
