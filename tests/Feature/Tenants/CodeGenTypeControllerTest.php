@@ -248,7 +248,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function ttestPostRequestUpdatesElement() {   
+    public function testPostRequestUpdatesElement() {   
         Log::Debug(__METHOD__);
         
         $code_gen_type = CodeGenType::factory()->make();                // create an element
@@ -256,7 +256,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $elt = ['_token' => csrf_token()];
         $elt2 = ['_token' => csrf_token()];
         
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             $elt[$field] = $code_gen_type->$field;
             $elt2[$field] = $code_gen_type2->$field;
         }
@@ -266,12 +266,12 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $this->assertNotNull($latest);
         $id = $latest->id;
         $this->assertNotNull($id);
-        
+
         $initial = CodeGenType::where('id', $id)->first();     // get it back
         $this->assertNotNull($initial);
         
         // Check that the first saved element has the correct values and is different from the second one
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             if ($field != 'id') {
                 $this->assertEquals($initial->$field, $elt[$field]);
                 $this->assertNotEquals($initial->$field, $code_gen_type2->$field);
@@ -284,7 +284,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         
         $updated = CodeGenType::where('id', $id)->first();
         $this->assertNotNull($updated);     
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             if ($field != 'id') {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }
