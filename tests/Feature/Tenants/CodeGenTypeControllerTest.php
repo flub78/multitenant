@@ -50,7 +50,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 
     protected $tenancy = true;
     
-	protected $basename = "code_gen_types";	
+	protected $basename = "code_gen_type";	
 	
 	function __construct() {
 		parent::__construct();
@@ -236,7 +236,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $latest = CodeGenType::latest()->first();
         $id = $latest->id;
         
-        $this->get_tenant_url($this->user, 'code_gen_type/' . $id . '/edit', ['Edit code generation type']);
+        $this->get_tenant_url($this->user, 'code_gen_type/' . $id . '/edit', [__('general.edit') . " " . __('code_gen_type.elt')]);
     }
 
     /**
@@ -345,7 +345,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * TODO loop around views and keys
      *
      */
-    public function ttestPagesAreDisplayedAccordingToLocaleLanguage() {
+    public function testPagesAreDisplayedAccordingToLocaleLanguage() {
         Log::Debug(__METHOD__);
         
         /**
@@ -360,9 +360,8 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $locale = App::getLocale();
 
     	App::setLocale('fr');
-    	$response = $this->get($this->base_url('create'));
-    	$response->assertStatus(200);
-    	$response->assertSeeText("Création d'un nouveau Passeport");
+    	$this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);    	
+    	$fr_string = __('code_gen_type.new');
     	
     	/**
     	 * Scenario: CodeGenType testLocale en
@@ -372,9 +371,9 @@ class CodeGenTypeControllerTest extends TenantTestCase {
     	 */
     	
     	App::setLocale('en');
-    	$response = $this->get($this->base_url('create'));
-    	$response->assertStatus(200);
-    	$response->assertSeeText('CodeGenType Appointment System');
+    	$this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);    	
+    	$en_string = __('code_gen_type.new');
+    	$this->assertNotEquals($fr_string, $en_string);
     	
     	App::setLocale($locale);
     	$new_locale = App::getLocale();

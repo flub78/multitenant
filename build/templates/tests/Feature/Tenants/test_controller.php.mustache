@@ -12,6 +12,7 @@ use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\[[class_name]];
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\App;
 
 /**
  * Functional test for the [[class_name]] CRUD 
@@ -49,7 +50,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 
     protected $tenancy = true;
     
-	protected $basename = "[[table]]";	
+	protected $basename = "[[element]]";	
 	
 	function __construct() {
 		parent::__construct();
@@ -213,7 +214,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $latest = [[class_name]]::latest()->first();
         $id = $latest->[[primary_index]];
         
-        $this->get_tenant_url($this->user, '[[element]]/' . $id . '/edit', ['Edit [[element]]']);
+        $this->get_tenant_url($this->user, '[[element]]/' . $id . '/edit', [__('general.edit') . " " . __('[[&element]].elt')]);
     }
 
     /**
@@ -337,9 +338,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $locale = App::getLocale();
 
     	App::setLocale('fr');
-    	$response = $this->get($this->base_url('create'));
-    	$response->assertStatus(200);
-    	$response->assertSeeText("Création d'un nouveau Passeport");
+        $this->get_tenant_url($this->user, '[[element]]/create', [__('[[element]].new')]);      
+        $fr_string = __('[[element]].new');
     	
     	/**
     	 * Scenario: [[class_name]] testLocale en
@@ -349,10 +349,10 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     	 */
     	
     	App::setLocale('en');
-    	$response = $this->get($this->base_url('create'));
-    	$response->assertStatus(200);
-    	$response->assertSeeText('[[class_name]] Appointment System');
-    	
+        $this->get_tenant_url($this->user, '[[element]]/create', [__('[[element]].new')]);      
+        $en_string = __('[[element]].new');
+        $this->assertNotEquals($fr_string, $en_string);
+   	
     	App::setLocale($locale);
     	$new_locale = App::getLocale();
     	$this->assertTrue($new_locale == $locale, "Locale back to initial value");	
