@@ -330,17 +330,23 @@ Should ancestor and derived attributes both have accessors ? ... Or should only 
     
 ## code_gen_types table
 
-    php artisan mustache:generate --compare code_gen_types controller        
-    php artisan mustache:generate --compare code_gen_types request           
-    php artisan mustache:generate --compare code_gen_types model             
-    php artisan mustache:generate --compare code_gen_types index             
-    php artisan mustache:generate --compare code_gen_types create            
-    php artisan mustache:generate --compare code_gen_types edit              
-    php artisan mustache:generate --compare code_gen_types english           
-    php artisan mustache:generate --compare code_gen_types factory           
+    php artisan mustache:generate --compare code_gen_types controller
+        Missing setting of ancestor field in store an update        
+    php artisan mustache:generate --compare code_gen_types request              OK          
+    php artisan mustache:generate --compare code_gen_types model                OK      
+    php artisan mustache:generate --compare code_gen_types index                OK
+    php artisan mustache:generate --compare code_gen_types create               OK          
+    php artisan mustache:generate --compare code_gen_types edit                 OK
+    php artisan mustache:generate --compare code_gen_types english              OK   
+    php artisan mustache:generate --compare code_gen_types factory              OK
     php artisan mustache:generate --compare code_gen_types test_model        
-    php artisan mustache:generate --compare code_gen_types test_controller   
+        one line different
+        
+    php artisan mustache:generate --compare code_gen_types test_controller      OK
     php artisan mustache:generate --compare code_gen_types test_dusk
-    php artisan mustache:generate --compare code_gen_types api                       
-    php artisan mustache:generate --compare code_gen_types test_api          ~
+        To be validated
+        
+    php artisan mustache:generate --compare code_gen_types api                  OK              
+    php artisan mustache:generate --compare code_gen_types test_api
+        to validate          ~
     

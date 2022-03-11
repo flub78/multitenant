@@ -107,7 +107,6 @@ class CodeGenType extends ModelWithLogs {
         $db_format = 'Y-m-d H:i:s';
         $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
         $this->attributes['takeoff'] = $datetime->format($db_format);
-        // echo "\nsetTakeoffAttribute($value) => " . $this->attributes['takeoff'];
     }
     
     /**

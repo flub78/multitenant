@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\[[class_name]]Request;
 use App\Models\Tenants\[[class_name]];
+use App\Helpers\DateFormat;
 
 /**
  * Controller for [[element]]
@@ -49,7 +50,7 @@ class [[class_name]]Controller extends Controller {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
         [[class_name]]::create($validatedData);
 
-        return redirect('/[[element]]')->with('success', __('general.creation_success', [ 'elt' => $validatedData ['[[primary_index]]']]));
+        return redirect('/[[element]]')->with('success', __('general.creation_success', [ 'elt' => __("[[element]].elt")]));
      }
 
     /**
@@ -93,7 +94,7 @@ class [[class_name]]Controller extends Controller {
 
         [[class_name]]::where([ '[[primary_index]]' => $id])->update($validatedData);
 
-        return redirect('/[[element]]')->with('success', __('general.modification_success', [ 'elt' => $validatedData ['[[primary_index]]'] ]));
+        return redirect('/[[element]]')->with('success', __('general.modification_success', [ 'elt' => __("[[element]].elt") ]));
     }
 
     
