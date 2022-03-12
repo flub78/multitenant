@@ -40,7 +40,7 @@ use App\Helpers\BladeHelper as Blade;
            
              <div class="form-group">
                <label for="phone">{{__("code_gen_type.phone")}}</label>
-               <input type="text" class="form-control" name="phone" value="{{ old("phone", $code_gen_type->phone) }}"/>
+               <input type="tel" class="form-control" name="phone" value="{{ old("phone", $code_gen_type->phone) }}"/>
              </div>
            
              <div class="form-group">

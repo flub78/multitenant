@@ -46,3 +46,20 @@ alert(color.toName());
     
 }
 </script>
+
+# HTML and data types
+
+## Phone number
+
+* <input type="tel">
+
+### Validation
+
+I am not sure that it is a good idea to be too strict about phone number validation. Doing so would likely prevent the possibility  to have extension, multiple phone numbers, to add comments about when they should be used, ect.
+
+So the tradoff is between a simple string with almost no validation in which everything is possible or a strict schema very limited and getting complex when trying to support more cases.
+
+Note that being to flexible could also limit the capacity of the devices to call the phone number....
+
+
+

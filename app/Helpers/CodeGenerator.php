@@ -112,6 +112,10 @@ class CodeGenerator {
 			$class .= ' timepicker';
 		}
 		
+		if ($subtype == "phone") {
+			$type = 'tel';
+		}		
+		
 		if ($subtype == "color") {
 			$class .= ' colorpicker';
 			$type = 'color';
@@ -170,6 +174,10 @@ class CodeGenerator {
 		
 		if ($field_type == "time") {
 			$class .= ' timepicker';
+		}
+		
+		if ($subtype == "phone") {
+			$type = 'tel';
 		}
 		
 		if ($subtype == "color") {
