@@ -45,7 +45,7 @@ use App\Helpers\BladeHelper as Blade;
            
              <div class="form-group">
                <label for="description">{{__("code_gen_type.description")}}</label>
-               <input type="text" class="form-control" name="description" value="{{ old("description", $code_gen_type->description) }}"/>
+               <textarea rows="5" cols="60" class="form-control" name="description">{{ old("description",  $code_gen_type->description) }}</textarea>
              </div>
            
              <div class="form-group">

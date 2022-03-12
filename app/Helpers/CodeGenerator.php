@@ -125,6 +125,20 @@ class CodeGenerator {
 			return '{!! Blade::select("' . $field . '", $' . $field . '_list, false, $' . $element  . '->' . $field .') !!}';
 		}
 		
+		if ($field_type == "text") {
+			$options = Meta::field_metadata($table, $field);
+			$rows = 4;
+			$cols = 40;
+			if ($options) {
+				if (array_key_exists("rows", $options)) $rows = $options["rows"];
+				if (array_key_exists("cols", $options)) $rows = $options["cols"];
+			}
+			$class = "form-control";
+			$txt = '<textarea rows="'. $rows .'" cols="'. $cols . '" class="'. $class .
+			'" name="'. $field . '">{{ old("'. $field . '",  $' . $element  . '->' . $field . ') }}</textarea>';
+			return $txt;
+		}
+		
 		return '<input type="' . $type
 		. '" class="' . $class .'" name="'
 				. $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
@@ -183,6 +197,21 @@ class CodeGenerator {
 		if ($subtype == "color") {
 			$class .= ' colorpicker';
 			$type = 'color';
+		}
+
+		if ($field_type == "text") {
+			$options = Meta::field_metadata($table, $field);
+			$rows = 4;
+			$cols = 40;
+			if ($options) {
+				if (array_key_exists("rows", $options)) $rows = $options["rows"];
+				if (array_key_exists("cols", $options)) $rows = $options["cols"];
+			}
+			
+			$class = "form-control";
+			$txt = '<textarea rows="'. $rows .'" cols="'. $cols . '" class="'. $class . 
+				'" name="'. $field . '">{{ old("'. $field . '") }}</textarea>';
+			return $txt;
 		}
 		
 		return HH::input($type, $class, $field);
