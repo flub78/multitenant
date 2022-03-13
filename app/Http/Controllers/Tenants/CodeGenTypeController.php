@@ -47,7 +47,15 @@ class CodeGenTypeController extends Controller {
     public function store(CodeGenTypeRequest $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
         $validatedData['takeoff'] = $validatedData['takeoff_date'] . ' ' . $validatedData['takeoff_time'] . ':00';
-        // var_dump($validatedData); 
+        
+        if ($request->file('picture')) {
+        	echo "picture\n";
+        }
+        if ($request->file('attachment')) {
+        	echo "attachment\n";
+        }
+        
+        // var_dump($validatedData); exit; 
         CodeGenType::create($validatedData);
         
         return redirect('/code_gen_type')->with('success', __('general.creation_success', [ 'elt' => __("code_gen_type.elt")]));
