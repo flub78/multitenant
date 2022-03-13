@@ -29,7 +29,7 @@ use App\Helpers\BladeHelper as Blade;
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('code_gen_type.store') }}">
+      <form method="post" action="{{ route('code_gen_type.store') }}" enctype="multipart/form-data">
            @csrf
            
            <div class="form-group">
@@ -94,7 +94,7 @@ use App\Helpers\BladeHelper as Blade;
            
            <div class="form-group">
              <label for="picture">{{__("code_gen_type.picture")}}</label>
-             <input type="file" class="form-control" name="picture" value="{{ old("picture") }}"/>
+             <input type="file" class="form-control" name="picture" />
            </div>
            
            <div class="form-group">

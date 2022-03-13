@@ -29,7 +29,7 @@ use App\Helpers\BladeHelper as Blade;
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('code_gen_type.update', $code_gen_type->id ) }}">
+      <form method="post" action="{{ route('code_gen_type.update', $code_gen_type->id ) }}" enctype="multipart/form-data">
              @csrf
              @method('PATCH')
               
@@ -95,12 +95,12 @@ use App\Helpers\BladeHelper as Blade;
            
              <div class="form-group">
                <label for="picture">{{__("code_gen_type.picture")}}</label>
-               <input type="file" class="form-control" name="picture" value="{{ old("picture", $code_gen_type->picture) }}"/>
+               {{$code_gen_type->picture}}<input type="file" class="form-control" name="picture" value="{{ old("picture", $code_gen_type->picture) }}"/>
              </div>
            
              <div class="form-group">
                <label for="attachment">{{__("code_gen_type.attachment")}}</label>
-               <input type="file" class="form-control" name="attachment" value="{{ old("attachment", $code_gen_type->attachment) }}"/>
+               {{$code_gen_type->attachment}}<input type="file" class="form-control" name="attachment" value="{{ old("attachment", $code_gen_type->attachment) }}"/>
              </div>
            
              

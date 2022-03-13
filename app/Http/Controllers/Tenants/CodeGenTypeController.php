@@ -46,16 +46,23 @@ class CodeGenTypeController extends Controller {
      */
     public function store(CodeGenTypeRequest $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
+        
         $validatedData['takeoff'] = $validatedData['takeoff_date'] . ' ' . $validatedData['takeoff_time'] . ':00';
         
         if ($request->file('picture')) {
-        	echo "picture\n";
+        	$name =  $request->file('picture')->getClientOriginalName();
+        	$request->file('picture')->storeAs('uploads', $name);
+        	$validatedData['picture'] = $name;
         }
-        if ($request->file('attachment')) {
-        	echo "attachment\n";
-        }
+        if (array_key_exists("picture", $validatedData) && !$validatedData['picture']) unset($validatedData['picture']);
         
-        // var_dump($validatedData); exit; 
+        if ($request->file('attachment')) {
+        	$name =  $request->file('attachment')->getClientOriginalName();
+        	$request->file('attachment')->storeAs('uploads', $name);
+        	$validatedData['attachment'] = $name;
+        }
+        if (array_key_exists("attachment", $validatedData) && !$validatedData['attachment']) unset($validatedData['attachment']);
+        
         CodeGenType::create($validatedData);
         
         return redirect('/code_gen_type')->with('success', __('general.creation_success', [ 'elt' => __("code_gen_type.elt")]));
@@ -95,12 +102,27 @@ class CodeGenTypeController extends Controller {
     public function update(CodeGenTypeRequest $request, $id) {
         $validatedData = $request->validated();
         
-        $validatedData ['takeoff'] = DateFormat::datetime_to_db ( $validatedData ['takeoff_date'], $validatedData ['takeoff_time'] );
         $validatedData ['birthday'] = DateFormat::datetime_to_db ( $validatedData ['birthday']);
+        $validatedData ['takeoff'] = DateFormat::datetime_to_db ( $validatedData ['takeoff_date'], $validatedData ['takeoff_time'] );
         unset($validatedData['takeoff_date']);
         unset($validatedData['takeoff_time']);
-        // var_dump($validatedData);
-
+                
+        if ($request->file('picture')) {
+        	$name =  $request->file('picture')->getClientOriginalName();
+        	$request->file('picture')->storeAs('uploads', $name);
+        	$validatedData['picture'] = $name;
+        }
+        if (array_key_exists("picture", $validatedData) && !$validatedData['picture']) unset($validatedData['picture']);
+        
+        if ($request->file('attachment')) {
+        	$name =  $request->file('attachment')->getClientOriginalName();
+        	$request->file('attachment')->storeAs('uploads', $name);
+        	$validatedData['attachment'] = $name;
+        }
+        if (array_key_exists("attachment", $validatedData) && !$validatedData['attachment']) unset($validatedData['attachment']);
+        
+        // var_dump($validatedData); exit;
+        
         CodeGenType::where([ 'id' => $id])->update($validatedData);
 
         return redirect('/code_gen_type')->with('success', __('general.modification_success', [ 'elt' => __("code_gen_type.elt") ]));

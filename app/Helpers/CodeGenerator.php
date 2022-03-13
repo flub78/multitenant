@@ -121,6 +121,7 @@ class CodeGenerator {
 		}
 		
 		$class = 'form-control';
+		$prefix = "";
 		
 		if ($field_type == "date") {
 			$class .= ' datepicker';
@@ -141,9 +142,10 @@ class CodeGenerator {
 		
 		if (($subtype == "picture") || ($subtype == "file")) {
 			$type = 'file';
+			$prefix = '{{$' . $element . '->' . $field . '}}';
 		}
 		
-		return '<input type="' . $type
+		return $prefix . '<input type="' . $type
 		. '" class="' . $class .'" name="'
 				. $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
 	}

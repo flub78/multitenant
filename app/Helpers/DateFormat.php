@@ -45,6 +45,8 @@ class DateFormat {
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function datetime_to_db($local_date, $time = "", $tz = "") {
+		if (!$local_date) return $local_date;
+		
 		// $time = 9:05
 		if (! $time) {
 			$time = '00:00';
