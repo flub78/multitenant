@@ -57,8 +57,8 @@ use Illuminate\Validation\Rule;
     			    'price' => ['max:8'],
     			    'big_price' => ['max:11'],
     			    'qualifications' => ['max:20'],
-    			    'picture' => ['max:255'],
-    			    'attachment' => ['max:255'],
+    			    'picture' => ['max:2000'],
+    			    'attachment' => ['max:2000'],
    			];
     		}
     		case 'PUT':
@@ -79,8 +79,8 @@ use Illuminate\Validation\Rule;
                     'price' => ['max:8'],
                     'big_price' => ['max:11'],
                     'qualifications' => ['max:20'],
-                    'picture' => ['max:255'],
-                    'attachment' => ['max:255'],
+                    'picture' => ['max:2000'],
+                    'attachment' => ['max:2000'],
     			];
     		}
     		default:

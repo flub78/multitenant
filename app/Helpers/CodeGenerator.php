@@ -286,6 +286,9 @@ class CodeGenerator {
 		}
 		
 		if ($size = Schema::columnSize($table, $field)) {
+			if (($subtype == "picture") || ($subtype == "file")) {
+				$size = 2000;
+			}
 			$rules[] = "'max:$size'";
 		}
 		
@@ -337,6 +340,9 @@ class CodeGenerator {
 		}
 		
 		if ($size = Schema::columnSize($table, $field)) {
+			if (($subtype == "picture") || ($subtype == "file")) {
+				$size = 2000;
+			}
 			$rules[] = "'max:$size'";
 		}
 		
