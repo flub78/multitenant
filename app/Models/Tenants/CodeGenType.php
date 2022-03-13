@@ -13,7 +13,6 @@ use App\Helpers\Config;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 
-
 /**
  * CodeGenType model
  *
@@ -46,37 +45,39 @@ class CodeGenType extends ModelWithLogs {
      */
 	protected $fillable = ["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment"];
 
-	/**
-	 * Get the Birthday date
-	 *
-	 * @param  string  $value date in MySql format
-	 * @return string the date in local format
-	 */
-    public function getBirthdayAttribute(String $value) {
+    /**
+     * Get the Birthday date
+     *
+     * @param  string  $value date in MySql format
+     * @return string the date in local format
+     */
+    public function getBirthdayAttribute($value) {
+        if (!$value) return $value;
         $db_format = 'Y-m-d';
         try {
-        $date = Carbon::createFromFormat($db_format, $value);
+            $date = Carbon::createFromFormat($db_format, $value);
         } catch (InvalidFormatException $e) {
             echo "getBirthdayAttribute($value) " . $e->getMessage();
             exit;
         }
-		$date->tz(Config::config('app.timezone'));
+        $date->tz(Config::config('app.timezone'));
         $result = $date->format(__('general.date_format'));
         // echo "\ngetBirthdayAttribute(String $value) => $result";
         return $result;
-	}
-	
-	/**
-	 * Set the Birthday date
-	 *
-	 * @param  string  $value date in local format
-	 */
-    public function setBirthdayAttribute(String $value) {
+    }
+    
+    /**
+     * Set the Birthday date
+     *
+     * @param  string  $value date in local format
+     */
+    public function setBirthdayAttribute($value) {
+        if (!$value) return $value;
         $db_format = 'Y-m-d';
-		$date = Carbon::createFromFormat(__('general.date_format'), $value);
+        $date = Carbon::createFromFormat(__('general.date_format'), $value);
         $this->attributes['birthday'] = $date->format($db_format);
-	}
-	
+    }
+
     /**
      * Get the Takeoff datetime
      *
@@ -84,14 +85,14 @@ class CodeGenType extends ModelWithLogs {
      * @return string the datetime in local format
      */
     public function getTakeoffAttribute($value) {
-    	if (! $value) return $value;
+        if (! $value) return $value;
         $db_format = 'Y-m-d H:i:s';
         try {
-        	$datetime = Carbon::createFromFormat($db_format, $value);
+            $datetime = Carbon::createFromFormat($db_format, $value);
         } catch (InvalidFormatException $e) {
              echo "getTakeoffAttribute($value) " . $e->getMessage();
-        	exit;
-        }
+            exit;
+       }
         $datetime->tz(Config::config('app.timezone'));
         $result = $datetime->format(__('general.datetime_format'));
         // echo "\ngetTakeoffAttribute($value) => $result\n";
@@ -103,12 +104,13 @@ class CodeGenType extends ModelWithLogs {
      *
      * @param  string  $value datetime in local format
      */
-    public function setTakeoffAttribute(String $value) {
+    public function setTakeoffAttribute($value) {
+        if (!$value) return $value;
         $db_format = 'Y-m-d H:i:s';
         $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
         $this->attributes['takeoff'] = $datetime->format($db_format);
     }
-    
+          
     /**
      * Get the Takeoff date
      * 
@@ -116,9 +118,9 @@ class CodeGenType extends ModelWithLogs {
      * @return string
      */
     public function getTakeoffDateAttribute($value) {
-    	$result = substr($this->takeoff, 0, 10);
+        $result = substr($this->takeoff, 0, 10);
         // echo "\ngetTakeoffDateAttribute($value) => $result";
-    	return $result;
+        return $result;
     }
 
     /**
@@ -128,20 +130,21 @@ class CodeGenType extends ModelWithLogs {
      * @return string
      */
     public function getTakeoffTimeAttribute($value) {
-    	$result = substr($this->takeoff, 11, 5);
-    	// echo "\ngetTakeoffTimeAttribute($value) => $result";
-    	return $result;
+        $result = substr($this->takeoff, 11, 5);
+        // echo "\ngetTakeoffTimeAttribute($value) => $result";
+        return $result;
     }
     
     /**
      *  Set the Takeoff date
-	 *
+     *  
      * @param String $value
      */
-    public function setTakeoffDateAttribute(String $value) {
-    	$time = ($this->takeoff_time) ? $this->takeoff_time : "00:00";
-    	$local_datetime = $value . " " . $time;
-    	$this->setTakeoffAttribute($local_datetime);
+    public function setTakeoffDateAttribute($value) {
+        if (!$value) return $value;
+        $time = ($this->takeoff_time) ? $this->takeoff_time : "00:00";
+        $local_datetime = $value . " " . $time;    
+        $this->setTakeoffAttribute($local_datetime);
         // echo "\nsetTakeoffDateAttribute($value) => setTakeoffAttribute($local_datetime)";
     }
     
@@ -150,9 +153,10 @@ class CodeGenType extends ModelWithLogs {
      * 
      * @param String $value
      */
-    public function setTakeoffTimeAttribute(String $value) {
-    	$local_datetime = $this->takeoff_date . " " . $value;
-    	$this->setTakeoffAttribute($local_datetime);
+    public function setTakeoffTimeAttribute($value) {
+        if (!$value) return $value;        
+        $local_datetime = $this->takeoff_date . " " . $value;
+        $this->setTakeoffAttribute($local_datetime);
         // echo "\nsetTakeoffTimeAttribute($value) => setTakeoffAttribute($local_datetime)";
     }
     

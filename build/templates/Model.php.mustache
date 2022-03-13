@@ -73,7 +73,8 @@ class {{class_name}} extends ModelWithLogs {
      * @param  string  $value date in MySql format
      * @return string the date in local format
      */
-    public function get{{&field_name}}Attribute(String $value) {
+    public function get{{&field_name}}Attribute($value) {
+        if (!$value) return $value;
         $db_format = 'Y-m-d';
         try {
             $date = Carbon::createFromFormat($db_format, $value);
@@ -92,7 +93,8 @@ class {{class_name}} extends ModelWithLogs {
      *
      * @param  string  $value date in local format
      */
-    public function set{{&field_name}}Attribute(String $value) {
+    public function set{{&field_name}}Attribute($value) {
+        if (!$value) return $value;
         $db_format = 'Y-m-d';
         $date = Carbon::createFromFormat(__('general.date_format'), $value);
         $this->attributes['{{&field}}'] = $date->format($db_format);
@@ -126,7 +128,8 @@ class {{class_name}} extends ModelWithLogs {
      *
      * @param  string  $value datetime in local format
      */
-    public function set{{&field_name}}Attribute(String $value) {
+    public function set{{&field_name}}Attribute($value) {
+        if (!$value) return $value;
         $db_format = 'Y-m-d H:i:s';
         $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
         $this->attributes['{{&field}}'] = $datetime->format($db_format);
@@ -161,7 +164,8 @@ class {{class_name}} extends ModelWithLogs {
      *  
      * @param String $value
      */
-    public function set{{&field_name}}DateAttribute(String $value) {
+    public function set{{&field_name}}DateAttribute($value) {
+        if (!$value) return $value;
         $time = ($this->{{&field}}_time) ? $this->{{&field}}_time : "00:00";
         $local_datetime = $value . " " . $time;    
         $this->set{{&field_name}}Attribute($local_datetime);
@@ -173,7 +177,8 @@ class {{class_name}} extends ModelWithLogs {
      * 
      * @param String $value
      */
-    public function set{{&field_name}}TimeAttribute(String $value) {        
+    public function set{{&field_name}}TimeAttribute($value) {
+        if (!$value) return $value;        
         $local_datetime = $this->{{&field}}_date . " " . $value;
         $this->set{{&field_name}}Attribute($local_datetime);
         // echo "\nset{{&field_name}}TimeAttribute($value) => set{{&field_name}}Attribute($local_datetime)";

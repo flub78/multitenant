@@ -95,12 +95,12 @@ use App\Helpers\BladeHelper as Blade;
            
              <div class="form-group">
                <label for="picture">{{__("code_gen_type.picture")}}</label>
-               <input type="text" class="form-control" name="picture" value="{{ old("picture", $code_gen_type->picture) }}"/>
+               <input type="file" class="form-control" name="picture" value="{{ old("picture", $code_gen_type->picture) }}"/>
              </div>
            
              <div class="form-group">
                <label for="attachment">{{__("code_gen_type.attachment")}}</label>
-               <input type="text" class="form-control" name="attachment" value="{{ old("attachment", $code_gen_type->attachment) }}"/>
+               <input type="file" class="form-control" name="attachment" value="{{ old("attachment", $code_gen_type->attachment) }}"/>
              </div>
            
              

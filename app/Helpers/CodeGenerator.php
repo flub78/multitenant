@@ -102,6 +102,24 @@ class CodeGenerator {
 			return '{!! Blade::selector("' . $field . '", $' . $target_element . '_list, $' . $element  . '->' . $field .') !!}';
 		}
 		
+		if ($subtype == "enumerate") {
+			return '{!! Blade::select("' . $field . '", $' . $field . '_list, false, $' . $element  . '->' . $field .') !!}';
+		}
+		
+		if ($field_type == "text") {
+			$options = Meta::field_metadata($table, $field);
+			$rows = 4;
+			$cols = 40;
+			if ($options) {
+				if (array_key_exists("rows", $options)) $rows = $options["rows"];
+				if (array_key_exists("cols", $options)) $cols = $options["cols"];
+			}
+			$class = "form-control";
+			$txt = '<textarea rows="'. $rows .'" cols="'. $cols . '" class="'. $class .
+			'" name="'. $field . '">{{ old("'. $field . '",  $' . $element  . '->' . $field . ') }}</textarea>';
+			return $txt;
+		}
+		
 		$class = 'form-control';
 		
 		if ($field_type == "date") {
@@ -121,22 +139,8 @@ class CodeGenerator {
 			$type = 'color';
 		}
 		
-		if ($subtype == "enumerate") {
-			return '{!! Blade::select("' . $field . '", $' . $field . '_list, false, $' . $element  . '->' . $field .') !!}';
-		}
-		
-		if ($field_type == "text") {
-			$options = Meta::field_metadata($table, $field);
-			$rows = 4;
-			$cols = 40;
-			if ($options) {
-				if (array_key_exists("rows", $options)) $rows = $options["rows"];
-				if (array_key_exists("cols", $options)) $rows = $options["cols"];
-			}
-			$class = "form-control";
-			$txt = '<textarea rows="'. $rows .'" cols="'. $cols . '" class="'. $class .
-			'" name="'. $field . '">{{ old("'. $field . '",  $' . $element  . '->' . $field . ') }}</textarea>';
-			return $txt;
+		if (($subtype == "picture") || ($subtype == "file")) {
+			$type = 'file';
 		}
 		
 		return '<input type="' . $type
@@ -164,10 +168,6 @@ class CodeGenerator {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" id=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\") ? 'checked' : ''}}/>";
 		}
 		
-		if ($subtype == "password_with_confirmation" || $subtype == "password_confirmation") {
-			$type = "password";
-		}
-		
 		if ($subtype == "enumerate") {
 			$options = Meta::field_metadata($table, $field);
 			return Blade::select($field, $options['values'], false, '', []);
@@ -178,6 +178,25 @@ class CodeGenerator {
 			// the field is a foreign key
 			$target_element = Meta::element($fkt);
 			return '{!! Blade::selector("' . $field . '", $' . $target_element . '_list, "") !!}';
+		}
+		
+		if ($field_type == "text") {
+			$options = Meta::field_metadata($table, $field);
+			$rows = 4;
+			$cols = 40;
+			if ($options) {
+				if (array_key_exists("rows", $options)) $rows = $options["rows"];
+				if (array_key_exists("cols", $options)) $cols = $options["cols"];
+			}
+			
+			$class = "form-control";
+			$txt = '<textarea rows="'. $rows .'" cols="'. $cols . '" class="'. $class .
+			'" name="'. $field . '">{{ old("'. $field . '") }}</textarea>';
+			return $txt;
+		}
+		
+		if ($subtype == "password_with_confirmation" || $subtype == "password_confirmation") {
+			$type = "password";
 		}
 		
 		$class = 'form-control';
@@ -199,19 +218,8 @@ class CodeGenerator {
 			$type = 'color';
 		}
 
-		if ($field_type == "text") {
-			$options = Meta::field_metadata($table, $field);
-			$rows = 4;
-			$cols = 40;
-			if ($options) {
-				if (array_key_exists("rows", $options)) $rows = $options["rows"];
-				if (array_key_exists("cols", $options)) $rows = $options["cols"];
-			}
-			
-			$class = "form-control";
-			$txt = '<textarea rows="'. $rows .'" cols="'. $cols . '" class="'. $class . 
-				'" name="'. $field . '">{{ old("'. $field . '") }}</textarea>';
-			return $txt;
+		if (($subtype == "picture") || ($subtype == "file")) {
+			$type = 'file';
 		}
 		
 		return HH::input($type, $class, $field);

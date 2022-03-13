@@ -24,33 +24,33 @@ class CodeGenerationTypes extends Migration
     		
     		$table->string('name')->unique()->comment("User name");
     		
-    		$table->string('phone')
+    		$table->string('phone')->nullable()
     			->unique()
     			->comment('{"subtype": "phone"}');
     		
     		$table->text('description')->nullable(true);
     			    		
-    		$table->year("year_of_birth")->comment('{"min": "1900", "max":"2099"}');
+    		$table->year("year_of_birth")->nullable()->comment('{"min": "1900", "max":"2099"}');
     		
-    		$table->float("weight")->comment('{"min": "3.0", "max":"300.0"}');
+    		$table->float("weight")->nullable()->comment('{"min": "3.0", "max":"300.0"}');
 
-    		$table->date("birthday")->comment('{}');
+    		$table->date("birthday")->nullable()->comment('{}');
 
-    		$table->time("tea_time")->default("17:00:00")->comment('{}');
+    		$table->time("tea_time")->nullable()->default("17:00:00")->comment('{}');
     		
-    		$table->datetime("takeoff")->comment('{"subtype" : "datetime_with_date_and_time"}');
+    		$table->datetime("takeoff")->nullable()->comment('{"subtype" : "datetime_with_date_and_time"}');
     		
-    		$table ->decimal('price',  $precision = 8, $scale = 2);
+    		$table ->decimal('price',  $precision = 8, $scale = 2)->nullable();
     		
-    		$table ->double('big_price',  $precision = 11, $scale = 2)->comment('{"subtype" : "currency"}');
+    		$table ->double('big_price',  $precision = 11, $scale = 2)->nullable()->comment('{"subtype" : "currency"}');
     		
-    		$table->bigInteger("qualifications")
+    		$table->bigInteger("qualifications")->nullable()
     		->comment('{"subtype": "bitfield", 
 			"values":["redactor","student","pilot", "instructor", "winch_man", "tow_pilot", "president", "accounter", "secretary", "mechanic"]}');
     		
-    		$table->string('picture')->comment('{"subtype" : "picture"}');
+    		$table->string('picture')->nullable()->comment('{"subtype" : "picture"}');
 
-    		$table->string('attachment')->comment('{"subtype" : "attachement", "file_types" : ["txt", "pdf", "jpg"]}');
+    		$table->string('attachment')->nullable()->comment('{"subtype" : "attachement", "file_types" : ["txt", "pdf", "jpg"]}');
     		
     		$table->timestamps();
     	});
