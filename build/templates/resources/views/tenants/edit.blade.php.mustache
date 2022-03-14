@@ -30,7 +30,7 @@ use App\Helpers\BladeHelper as Blade;
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('[[element]].update', $[[element]]->[[primary_index]] ) }}">
+      <form method="post" action="{{ route('[[element]].update', $[[element]]->[[primary_index]] ) }}" enctype="multipart/form-data">
              @csrf
              @method('PATCH')
               

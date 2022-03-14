@@ -56,6 +56,10 @@ class CodeGenerator {
 			return '<A HREF="mailto:{{$' . $element . '->' . $field . '}}">{{$' . $element . '->' . $field . '}}</A>';
 		} elseif ($subtype == "checkbox") {
 			return '<input type="checkbox" {{ ($' . $element . '->' . $field . ') ? "checked" : "" }}  onclick="return false;" />';
+		} elseif (($subtype == "picture")) {
+			return '{!! Blade::image($' . $element . '->' . $field . ', "' . $element . '") !!}';
+		} elseif (($subtype == "file")) {
+			return '{!! Blade::download($' . $element . '->' . $field . ', "' . $element . '") !!}';
 		}
 		
 		return '{{$' . $element . '->'. $field. '}}';
@@ -140,9 +144,15 @@ class CodeGenerator {
 			$type = 'color';
 		}
 		
-		if (($subtype == "picture") || ($subtype == "file")) {
+		if ($subtype == "file") {
 			$type = 'file';
 			$prefix = '{{$' . $element . '->' . $field . '}}';
+		}
+		
+		if ($subtype == "picture") {
+			$type = 'file';
+			$prefix = '{!! Blade::image($' . $element . '->' . $field . ', "' . $element . '") !!}';
+			$prefix .= '{{$' . $element . '->' . $field . '}}';
 		}
 		
 		return $prefix . '<input type="' . $type
