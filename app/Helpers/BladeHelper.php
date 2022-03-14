@@ -81,4 +81,32 @@ class BladeHelper {
 		]));
 	}
 
+	/**
+	 * Generate an a link to an image from a thumbnail
+	 * @param unknown $img
+	 * @param unknown $elt
+	 * @return string
+	 */
+	static public function image($img, $elt) {
+		if (!$img) return "";
+		$url = route("$elt.image", $img);
+		$res = '<img src="' 
+				. $url . '" ' 
+				. " alt=\"$img\" " 
+				. " title=\"$img\"" 
+				. ' width="50" height="auto">';
+		return "<a href=\"$url\">$res</a>";
+	}
+	
+	/**
+	 * Generate a link to download an uploaded file
+	 * @param unknown $filename
+	 * @param unknown $elt
+	 * @return string
+	 */
+	static public function download($filename, $elt) {
+		if (!$filename) return "";
+		$url = route("$elt.download", $filename);
+		return "<a href=\"$url\">$filename</a>";
+	}
 }

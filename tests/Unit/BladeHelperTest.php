@@ -36,4 +36,15 @@ class BladeHelperTest extends TestCase {
 		$s4 = Blade::selector_with_null('vpmacid', $l2, $selected="F-CGKS");
 		// echo "\n$s4   \n";
 	}	
+	
+	public function test_image() {
+		$this->AssertEquals('', Blade::image('', ''));
+		$this->AssertNotEquals('', Blade::image("img.png", "code_gen_type"));
+	}
+	
+	public function test_download() {
+		$this->AssertEquals('', Blade::download('', ''));
+		$this->AssertNotEquals('', Blade::download("img.pdf", "code_gen_type"));
+	}
+	
 }

@@ -1,5 +1,9 @@
 <!-- index.blade.php -->
 
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -49,8 +53,8 @@
           <td> {{$code_gen_type->price}}</td>
           <td> {{$code_gen_type->big_price}}</td>
           <td> {{$code_gen_type->qualifications}}</td>
-          <td> {{$code_gen_type->picture}}</td>
-          <td> {{$code_gen_type->attachment}}</td>
+          <td> {!! Blade::image($code_gen_type->picture, "code_gen_type") !!} </td>
+          <td> {!! Blade::download($code_gen_type->attachment, "code_gen_type") !!} </td>
 		              
           <td> <a href="{{ route('code_gen_type.edit', $code_gen_type->id) }}" class="btn btn-primary" dusk="edit_{{ $code_gen_type->id }}">{{ __('general.edit') }}</a>  </td>
           <td> <form action="{{ route("code_gen_type.destroy", $code_gen_type->id)}}" method="post">

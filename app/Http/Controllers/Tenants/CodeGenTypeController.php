@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\CodeGenTypeRequest;
 use App\Models\Tenants\CodeGenType;
 use App\Helpers\DateFormat;
+use Illuminate\Support\Facades\Storage;
+use Response;
 
 
 /**
@@ -140,4 +142,26 @@ class CodeGenTypeController extends Controller {
     	$code_gen_type->delete();
     	return redirect ( 'code_gen_type' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
     }
+    
+    /**
+     * Download a file from the uploads storage
+     * @param String $file
+     */
+    public function download($file) {
+   		return Storage::download("uploads/" . $file);
+     }
+    
+     /**
+      * Display an image in a browser
+      * 
+      * @param unknown $filename
+      * @return unknown
+      */
+     public function displayImage($filename) {
+     	$content = Storage::get('uploads/'.$filename);
+     	$mime = Storage::mimeType('uploads/'.$filename);
+     	$response = Response::make($content, 200);
+     	$response->header("Content-Type", $mime);
+     	return $response;
+     }
 }

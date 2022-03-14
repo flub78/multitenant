@@ -5,7 +5,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/BladeHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/BladeHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/TranslationHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
