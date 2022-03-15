@@ -81,6 +81,10 @@ class BladeHelper {
 		]));
 	}
 
+	static public function upload_name($name, $context) {
+		return $context . '_' . $name;
+	}
+	
 	/**
 	 * Generate an a link to an image from a thumbnail
 	 * @param unknown $img
@@ -89,7 +93,7 @@ class BladeHelper {
 	 */
 	static public function image($img, $elt) {
 		if (!$img) return "";
-		$url = route("$elt.image", $img);
+		$url = route("$elt.image", self::upload_name($img, $elt . '_picture'));
 		$res = '<img src="' 
 				. $url . '" ' 
 				. " alt=\"$img\" " 
@@ -106,7 +110,7 @@ class BladeHelper {
 	 */
 	static public function download($filename, $elt) {
 		if (!$filename) return "";
-		$url = route("$elt.download", $filename);
+		$url = route("$elt.download", self::upload_name($filename, $elt . '_file'));
 		return "<a href=\"$url\">$filename</a>";
 	}
 }

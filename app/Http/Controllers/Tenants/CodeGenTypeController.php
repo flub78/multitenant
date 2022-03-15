@@ -10,7 +10,6 @@ use App\Http\Requests\Tenants\CodeGenTypeRequest;
 use App\Models\Tenants\CodeGenType;
 use App\Helpers\DateFormat;
 use Illuminate\Support\Facades\Storage;
-use Response;
 
 
 /**
@@ -53,14 +52,14 @@ class CodeGenTypeController extends Controller {
         
         if ($request->file('picture')) {
         	$name =  $request->file('picture')->getClientOriginalName();
-        	$request->file('picture')->storeAs('uploads', $name);
+        	$request->file('picture')->storeAs('uploads', $this->upload_name($name, "code_gen_type_picture"));
         	$validatedData['picture'] = $name;
         }
         if (array_key_exists("picture", $validatedData) && !$validatedData['picture']) unset($validatedData['picture']);
         
         if ($request->file('attachment')) {
         	$name =  $request->file('attachment')->getClientOriginalName();
-        	$request->file('attachment')->storeAs('uploads', $name);
+        	$request->file('attachment')->storeAs('uploads', $this->upload_name($name, "code_gen_type_file"));
         	$validatedData['attachment'] = $name;
         }
         if (array_key_exists("attachment", $validatedData) && !$validatedData['attachment']) unset($validatedData['attachment']);
@@ -103,6 +102,7 @@ class CodeGenTypeController extends Controller {
      */
     public function update(CodeGenTypeRequest $request, $id) {
         $validatedData = $request->validated();
+        $previous = CodeGenType::find($id);
         
         $validatedData ['birthday'] = DateFormat::datetime_to_db ( $validatedData ['birthday']);
         $validatedData ['takeoff'] = DateFormat::datetime_to_db ( $validatedData ['takeoff_date'], $validatedData ['takeoff_time'] );
@@ -111,14 +111,20 @@ class CodeGenTypeController extends Controller {
                 
         if ($request->file('picture')) {
         	$name =  $request->file('picture')->getClientOriginalName();
-        	$request->file('picture')->storeAs('uploads', $name);
+        	if ($previous->picture && ($previous->picture != $name)) {
+        		Storage::delete('uploads/' . $this->upload_name($previous->picture, "code_gen_type_picture") );
+        	}
+        	$request->file('picture')->storeAs('uploads', $this->upload_name($name, "code_gen_type_picture") );
         	$validatedData['picture'] = $name;
         }
         if (array_key_exists("picture", $validatedData) && !$validatedData['picture']) unset($validatedData['picture']);
         
         if ($request->file('attachment')) {
         	$name =  $request->file('attachment')->getClientOriginalName();
-        	$request->file('attachment')->storeAs('uploads', $name);
+        	if ($previous->attachment && ($previous->attachment != $name)) {
+        		Storage::delete('uploads/' . $this->upload_name($previous->attachment, "code_gen_type_file") );
+        	}
+        	$request->file('attachment')->storeAs('uploads', $this->upload_name($name, "code_gen_type_file") );
         	$validatedData['attachment'] = $name;
         }
         if (array_key_exists("attachment", $validatedData) && !$validatedData['attachment']) unset($validatedData['attachment']);
@@ -139,29 +145,14 @@ class CodeGenTypeController extends Controller {
      */
     public function destroy(CodeGenType $code_gen_type) {
     	$id = $code_gen_type->id;
+    	if ($code_gen_type->picture) {
+    		Storage::delete('uploads/' . $this->upload_name($code_gen_type->picture, "code_gen_type_picture"));
+    	}
+    	if ($code_gen_type->attachment) {
+    		Storage::delete('uploads/' . $this->upload_name($code_gen_type->attachment, "code_gen_type_file"));
+    	}
     	$code_gen_type->delete();
     	return redirect ( 'code_gen_type' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
     }
     
-    /**
-     * Download a file from the uploads storage
-     * @param String $file
-     */
-    public function download($file) {
-   		return Storage::download("uploads/" . $file);
-     }
-    
-     /**
-      * Display an image in a browser
-      * 
-      * @param unknown $filename
-      * @return unknown
-      */
-     public function displayImage($filename) {
-     	$content = Storage::get('uploads/'.$filename);
-     	$mime = Storage::mimeType('uploads/'.$filename);
-     	$response = Response::make($content, 200);
-     	$response->header("Content-Type", $mime);
-     	return $response;
-     }
 }

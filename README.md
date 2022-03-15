@@ -10,11 +10,11 @@ This project is a framework for Web applications. It provides several core featu
 
 * Localization and GUI in several languages. Automated generation of language files with Google translate. Of course it requires human reviewing, but sometimes it is not so bad and it is fast to generate.
 
-* The central application provide a tenant management interface. It is possible to create, modify or delete tenants.
+* The central application provides a tenant management interface. It is possible to create, modify or delete tenants.
 
-* Once a tenant is created it is immediately possible to access its application from the sub-domain.
+* Once a tenant is created it is immediately possible to access the tenant application from the sub-domain.
 
-* User management and admin role. Both central application and tenant application can register, create, modify and delete users. The first user to register is automatically admin. Then this initial admin can delegate or suppress the admin role to other users. Users can be active and inactive and only active users can login.
+* User management and admin role. Both central application and tenant applications can register, create, modify and delete users. The first user to register is automatically admin. Then this initial admin can delegate or suppress the admin role to other users. Users can be active and inactive and only active users can login.
 
 * Backup and restore. There is a php artisan set of command to create, list, delete and restore the backups, both for the central database or for the tenant database. The feature is also available through a web interface and every tenant can backup or restore his/her own database without interfering with other tenants data.
 
