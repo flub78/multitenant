@@ -57,9 +57,9 @@ class CodeGenerator {
 		} elseif ($subtype == "checkbox") {
 			return '<input type="checkbox" {{ ($' . $element . '->' . $field . ') ? "checked" : "" }}  onclick="return false;" />';
 		} elseif (($subtype == "picture")) {
-			return '{!! Blade::image($' . $element . '->' . $field . ', "' . $element . '") !!}';
+			return '{!! Blade::image($' . $element . '->' . $field . ', "' . $element . '", "' . $field . '") !!}';
 		} elseif (($subtype == "file")) {
-			return '{!! Blade::download($' . $element . '->' . $field . ', "' . $element . '") !!}';
+			return '{!! Blade::download($' . $element . '->' . $field . ', "' . $element . '", "' . $field .'") !!}';
 		}
 		
 		return '{{$' . $element . '->'. $field. '}}';
@@ -151,7 +151,7 @@ class CodeGenerator {
 		
 		if ($subtype == "picture") {
 			$type = 'file';
-			$prefix = '{!! Blade::image($' . $element . '->' . $field . ', "' . $element . '") !!}';
+			$prefix = '{!! Blade::image($' . $element . '->' . $field . ', "' . $element . '", "' . $field . '") !!}';
 			$prefix .= '{{$' . $element . '->' . $field . '}}';
 		}
 		

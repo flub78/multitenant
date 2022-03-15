@@ -82,6 +82,9 @@ class BladeHelper {
 	}
 
 	static public function upload_name($name, $table_field) {
+		$ext = pathinfo($name, PATHINFO_EXTENSION);
+		$basename = basename($name, '.' . $ext);
+		// return $table_field . '_' . substr(encrypt($basename), 0, 16) . '.' . $ext ;
 		return $table_field . '_' . $name;
 	}
 	
@@ -91,7 +94,7 @@ class BladeHelper {
 	 * @param unknown $table
 	 * @return string
 	 */
-	static public function image($img, $table, $field='picture') {
+	static public function image($img, $table, $field) {
 		if (!$img) return "";
 		$url = route("$table.image", self::upload_name($img, $table . '_' . $field));
 		$res = '<img src="' 
@@ -108,7 +111,7 @@ class BladeHelper {
 	 * @param unknown $table
 	 * @return string
 	 */
-	static public function download($filename, $table, $field='attachment') {
+	static public function download($filename, $table, $field) {
 		if (!$filename) return "";
 		$url = route("$table.download", self::upload_name($filename, $table . '_' . $field));
 		return "<a href=\"$url\">$filename</a>";

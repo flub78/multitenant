@@ -95,7 +95,7 @@ use App\Helpers\BladeHelper as Blade;
            
              <div class="form-group">
                <label for="picture">{{__("code_gen_type.picture")}}</label>
-               {!! Blade::image($code_gen_type->picture, "code_gen_type") !!} {{$code_gen_type->picture}}<input type="file" class="form-control" name="picture" value="{{ old("picture", $code_gen_type->picture) }}"/>
+               {!! Blade::image($code_gen_type->picture, "code_gen_type", "picture") !!}{{$code_gen_type->picture}}<input type="file" class="form-control" name="picture" value="{{ old("picture", $code_gen_type->picture) }}"/>
              </div>
            
              <div class="form-group">

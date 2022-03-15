@@ -38,13 +38,13 @@ class BladeHelperTest extends TestCase {
 	}	
 	
 	public function test_image() {
-		$this->AssertEquals('', Blade::image('', ''));
-		$this->AssertNotEquals('', Blade::image("img.png", "code_gen_type"));
+		$this->AssertEquals('', Blade::image('', '', ''));
+		$this->AssertNotEquals('', Blade::image("img.png", "code_gen_type", "picture"));
 	}
 	
 	public function test_download() {
-		$this->AssertEquals('', Blade::download('', ''));
-		$this->AssertNotEquals('', Blade::download("img.pdf", "code_gen_type"));
+		$this->AssertEquals('', Blade::download('', '', ''));
+		$this->AssertNotEquals('', Blade::download("img.pdf", "code_gen_type", "attachment"));
 	}
 	
 }
