@@ -8,8 +8,6 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\CodeGenTypeRequest;
 use App\Models\Tenants\CodeGenType;
-use App\Helpers\DateFormat;
-use Illuminate\Support\Facades\Storage;
 
 
 /**
@@ -48,22 +46,10 @@ class CodeGenTypeController extends Controller {
     public function store(CodeGenTypeRequest $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
         
-        $validatedData['takeoff'] = $validatedData['takeoff_date'] . ' ' . $validatedData['takeoff_time'] . ':00';
-        
-        if ($request->file('picture')) {
-        	$name =  $request->file('picture')->getClientOriginalName();
-        	$request->file('picture')->storeAs('uploads', $this->upload_name($name, "code_gen_type_picture"));
-        	$validatedData['picture'] = $name;
-        }
-        if (array_key_exists("picture", $validatedData) && !$validatedData['picture']) unset($validatedData['picture']);
-        
-        if ($request->file('attachment')) {
-        	$name =  $request->file('attachment')->getClientOriginalName();
-        	$request->file('attachment')->storeAs('uploads', $this->upload_name($name, "code_gen_type_file"));
-        	$validatedData['attachment'] = $name;
-        }
-        if (array_key_exists("attachment", $validatedData) && !$validatedData['attachment']) unset($validatedData['attachment']);
-        
+        $this->store_datetime_with_date_and_time($validatedData, 'takeoff');
+        $this->store_picture($validatedData, "picture", $request, "code_gen_type");
+        $this->store_file($validatedData, "attachment", $request, "code_gen_type");
+                
         CodeGenType::create($validatedData);
         
         return redirect('/code_gen_type')->with('success', __('general.creation_success', [ 'elt' => __("code_gen_type.elt")]));
@@ -88,8 +74,7 @@ class CodeGenTypeController extends Controller {
      */
     public function edit(CodeGenType $code_gen_type) {
         return view('tenants/code_gen_type/edit')
-            ->with(compact('code_gen_type'))
-;
+            ->with(compact('code_gen_type'));
     }
 
     
@@ -104,38 +89,15 @@ class CodeGenTypeController extends Controller {
         $validatedData = $request->validated();
         $previous = CodeGenType::find($id);
         
-        $validatedData ['birthday'] = DateFormat::datetime_to_db ( $validatedData ['birthday']);
-        $validatedData ['takeoff'] = DateFormat::datetime_to_db ( $validatedData ['takeoff_date'], $validatedData ['takeoff_time'] );
-        unset($validatedData['takeoff_date']);
-        unset($validatedData['takeoff_time']);
-                
-        if ($request->file('picture')) {
-        	$name =  $request->file('picture')->getClientOriginalName();
-        	if ($previous->picture && ($previous->picture != $name)) {
-        		Storage::delete('uploads/' . $this->upload_name($previous->picture, "code_gen_type_picture") );
-        	}
-        	$request->file('picture')->storeAs('uploads', $this->upload_name($name, "code_gen_type_picture") );
-        	$validatedData['picture'] = $name;
-        }
-        if (array_key_exists("picture", $validatedData) && !$validatedData['picture']) unset($validatedData['picture']);
-        
-        if ($request->file('attachment')) {
-        	$name =  $request->file('attachment')->getClientOriginalName();
-        	if ($previous->attachment && ($previous->attachment != $name)) {
-        		Storage::delete('uploads/' . $this->upload_name($previous->attachment, "code_gen_type_file") );
-        	}
-        	$request->file('attachment')->storeAs('uploads', $this->upload_name($name, "code_gen_type_file") );
-        	$validatedData['attachment'] = $name;
-        }
-        if (array_key_exists("attachment", $validatedData) && !$validatedData['attachment']) unset($validatedData['attachment']);
-        
-        // var_dump($validatedData); exit;
+        $this->update_date($validatedData, 'birthday');
+        $this->update_datetime_with_date_and_time($validatedData, 'takeoff');
+        $this->update_picture($validatedData, "picture", $request, "code_gen_type", $previous);
+        $this->update_file($validatedData, "attachment", $request, "code_gen_type", $previous);
         
         CodeGenType::where([ 'id' => $id])->update($validatedData);
 
         return redirect('/code_gen_type')->with('success', __('general.modification_success', [ 'elt' => __("code_gen_type.elt") ]));
     }
-
     
     /**
      * Remove the specified resource from storage.
@@ -145,12 +107,10 @@ class CodeGenTypeController extends Controller {
      */
     public function destroy(CodeGenType $code_gen_type) {
     	$id = $code_gen_type->id;
-    	if ($code_gen_type->picture) {
-    		Storage::delete('uploads/' . $this->upload_name($code_gen_type->picture, "code_gen_type_picture"));
-    	}
-    	if ($code_gen_type->attachment) {
-    		Storage::delete('uploads/' . $this->upload_name($code_gen_type->attachment, "code_gen_type_file"));
-    	}
+
+    	$this->destroy_file($code_gen_type->picture, "code_gen_type_picture");
+    	$this->destroy_file($code_gen_type->attachment, "code_gen_type_attachment");
+    	
     	$code_gen_type->delete();
     	return redirect ( 'code_gen_type' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
     }

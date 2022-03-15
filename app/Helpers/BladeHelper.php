@@ -81,19 +81,19 @@ class BladeHelper {
 		]));
 	}
 
-	static public function upload_name($name, $context) {
-		return $context . '_' . $name;
+	static public function upload_name($name, $table_field) {
+		return $table_field . '_' . $name;
 	}
 	
 	/**
 	 * Generate an a link to an image from a thumbnail
 	 * @param unknown $img
-	 * @param unknown $elt
+	 * @param unknown $table
 	 * @return string
 	 */
-	static public function image($img, $elt) {
+	static public function image($img, $table, $field='picture') {
 		if (!$img) return "";
-		$url = route("$elt.image", self::upload_name($img, $elt . '_picture'));
+		$url = route("$table.image", self::upload_name($img, $table . '_' . $field));
 		$res = '<img src="' 
 				. $url . '" ' 
 				. " alt=\"$img\" " 
@@ -105,12 +105,12 @@ class BladeHelper {
 	/**
 	 * Generate a link to download an uploaded file
 	 * @param unknown $filename
-	 * @param unknown $elt
+	 * @param unknown $table
 	 * @return string
 	 */
-	static public function download($filename, $elt) {
+	static public function download($filename, $table, $field='attachment') {
 		if (!$filename) return "";
-		$url = route("$elt.download", self::upload_name($filename, $elt . '_file'));
+		$url = route("$table.download", self::upload_name($filename, $table . '_' . $field));
 		return "<a href=\"$url\">$filename</a>";
 	}
 }

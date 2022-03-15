@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Response;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\BladeHelper as Blade;
+use App\Helpers\DateFormat;
 
 
 
@@ -16,8 +17,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
-    protected function upload_name($name, $context) {
-    	return Blade::upload_name($name, $context);
+    /**
+     * Generate the name where an uploaded file is stored
+     * @param unknown $name
+     * @param unknown $table_field defines the context
+     * @return string
+     */
+    protected function upload_name($name, $table_field) {
+    	return Blade::upload_name($name, $table_field);
     }
     
     /**
@@ -42,4 +49,115 @@ class Controller extends BaseController
     	return $response;
     }
     
+    /*
+     * Store functions
+     */
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     */
+    public function store_date(&$validatedData, $field) {
+    	$validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field]);
+    }
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     */
+    public function store_datetime_with_date_and_time(&$validatedData, $field) {
+    	$validatedData[$field] = $validatedData[$field . '_date'] . ' ' . $validatedData[$field . '_time'] . ':00';
+    }
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     * @param unknown $request
+     * @param unknown $table
+     */
+    public function store_picture(&$validatedData, $field, $request, $table) {
+    	$this->store_file($validatedData, $field, $request, $table);
+    }
+
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     * @param unknown $request
+     * @param unknown $table
+     */
+    public function store_file(&$validatedData, $field, $request, $table) {
+    	if ($request->file($field)) {
+    		$name =  $request->file($field)->getClientOriginalName();
+    		$filename = $table . '_' . $field;
+    		$request->file($field)->storeAs('uploads', $this->upload_name($name, $filename));
+    		$validatedData[$field] = $name;
+    	}
+    	if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
+    }
+
+    /*
+     * Update functions
+     */
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     */
+    public function update_date(&$validatedData, $field) {
+    	$validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field]);
+    }
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     */
+    public function update_datetime_with_date_and_time(&$validatedData, $field) {
+    	$validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field . '_date'], $validatedData [$field . '_time'] );
+    	unset($validatedData[$field . '_date']);
+    	unset($validatedData[$field . '_time']);
+    }
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     * @param unknown $request
+     * @param unknown $table
+     * @param unknown $previous
+     */
+    public function update_picture(&$validatedData, $field, $request, $table, $previous) {
+    	$this->update_file($validatedData, $field, $request, $table, $previous);
+    }
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     * @param unknown $request
+     * @param unknown $table
+     * @param unknown $previous
+     */
+    public function update_file(&$validatedData, $field, $request, $table, $previous) {
+    	if ($request->file($field)) {
+    		$name =  $request->file($field)->getClientOriginalName();
+    		if ($previous->$field && ($previous->$field != $name)) {
+    			Storage::delete('uploads/' . $this->upload_name($previous->$field, $table . '_' . $field) );
+    		}
+    		$request->file($field)->storeAs('uploads', $this->upload_name($name, $table . '_' . $field));
+    		$validatedData[$field] = $name;
+    	}
+    	if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
+    }
+
+    /*
+     * Destroy functions
+     */
+    
+    /**
+     * @param unknown $file
+     * @param unknown $context
+     */
+    public function destroy_file($file, $context) {
+    	if ($file) {
+    		Storage::delete('uploads/' . $this->upload_name($file, $context));
+    	}   	
+    }
 }
