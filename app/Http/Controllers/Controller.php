@@ -88,9 +88,9 @@ class Controller extends BaseController
     public function store_file(&$validatedData, $field, $request, $table) {
     	if ($request->file($field)) {
     		$name =  $request->file($field)->getClientOriginalName();
-    		$filename = $table . '_' . $field;
-    		$request->file($field)->storeAs('uploads', $this->upload_name($name, $filename));
-    		$validatedData[$field] = $name;
+    		$filename = $this->upload_name($name, $table . '_' . $field);
+    		$request->file($field)->storeAs('uploads', $filename);
+    		$validatedData[$field] = $filename;
     	}
     	if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
     }
@@ -138,11 +138,12 @@ class Controller extends BaseController
     public function update_file(&$validatedData, $field, $request, $table, $previous) {
     	if ($request->file($field)) {
     		$name =  $request->file($field)->getClientOriginalName();
-    		if ($previous->$field && ($previous->$field != $name)) {
-    			Storage::delete('uploads/' . $this->upload_name($previous->$field, $table . '_' . $field) );
+    		$filename = $this->upload_name($name, $table . '_' . $field);
+    		if ($previous->$field) {
+    			Storage::delete('uploads/' . $previous->$field);
     		}
-    		$request->file($field)->storeAs('uploads', $this->upload_name($name, $table . '_' . $field));
-    		$validatedData[$field] = $name;
+    		$request->file($field)->storeAs('uploads', $filename);
+    		$validatedData[$field] = $filename;
     	}
     	if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
     }
@@ -155,9 +156,9 @@ class Controller extends BaseController
      * @param unknown $file
      * @param unknown $context
      */
-    public function destroy_file($file, $context) {
+    public function destroy_file($file) {
     	if ($file) {
-    		Storage::delete('uploads/' . $this->upload_name($file, $context));
+    		Storage::delete('uploads/' . $file);
     	}   	
     }
 }

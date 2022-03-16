@@ -47,4 +47,8 @@ class BladeHelperTest extends TestCase {
 		$this->AssertNotEquals('', Blade::download("img.pdf", "code_gen_type", "attachment"));
 	}
 	
+	public function test_route() {
+		$this->assertEquals("http://tenants.com/code_gen_type/picture/32/picture", 
+				route("code_gen_type.picture", ['id' => "32", "field" => "picture"]));
+	}
 }

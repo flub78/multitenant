@@ -109,8 +109,8 @@ class CodeGenTypeController extends Controller {
 	public function destroy(CodeGenType $code_gen_type) {
 		$id = $code_gen_type->id;
 		
-		$this->destroy_file($code_gen_type->picture, "code_gen_type_picture");
-		$this->destroy_file($code_gen_type->attachment, "code_gen_type_attachment");
+		$this->destroy_file($code_gen_type->picture);
+		$this->destroy_file($code_gen_type->attachment);
 		
 		$code_gen_type->delete();
 		return redirect ( 'code_gen_type' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
@@ -118,15 +118,13 @@ class CodeGenTypeController extends Controller {
 	
 	public function picture($id, $field) {
 		$cgt = CodeGenType::find($id);
-		$filename = "code_gen_type_picture_" . $cgt->$field;
-		
+		$filename = $cgt->$field;		
 		return $this->displayImage($filename);		
 	}
 	
 	public function download($id, $field) {
 		$cgt = CodeGenType::find($id);
-		$filename = "code_gen_type_picture_" . $cgt->$field;
-
+		$filename = $cgt->$field;
 		return $this->download_file($filename);
 	}
 	

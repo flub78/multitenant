@@ -4,6 +4,8 @@ namespace App\Helpers;
 
 use Exception;
 use App\Helpers\HtmlHelper as HH;
+use Illuminate\Support\Str;
+
 
 /**
  * Like the Html helper this class provides services to write more concise and elegant blade templates
@@ -84,12 +86,13 @@ class BladeHelper {
 	static public function upload_name($name, $table_field) {
 		$ext = pathinfo($name, PATHINFO_EXTENSION);
 		$basename = basename($name, '.' . $ext);
-		// return $table_field . '_' . substr(encrypt($basename), 0, 16) . '.' . $ext ;
-		return $table_field . '_' . $name;
+		return $table_field . Str::random(16) . '.' . $ext;
+		// return $table_field . '_' . $name;
 	}
 	
 	/**
 	 * Generate an a link to an image from a thumbnail
+	 * @deprecated
 	 * @param unknown $img
 	 * @param unknown $table
 	 * @return string
@@ -106,7 +109,27 @@ class BladeHelper {
 	}
 	
 	/**
+	 * Generate an a link to an image from a thumbnail
+	 * @param unknown $route_name
+	 * @param unknown $id
+	 * @param unknown $field
+	 * @param string $filename
+	 * @return string
+	 */
+	static public function picture($route_name, $id, $field, $filename="") {
+		$url = route ($route_name, ['id' => $id, 'field' => $field]);
+		$img = ($filename) ? $filename : $field;
+		$res = '<img src="'
+			. $url . '" '
+			. " alt=\"$img\" "
+			. " title=\"$img\""
+			. ' width="50" height="auto">';
+		return "<a href=\"$url\">$res</a>";
+	}
+	
+	/**
 	 * Generate a link to download an uploaded file
+	 * @deprecated
 	 * @param unknown $filename
 	 * @param unknown $table
 	 * @return string
