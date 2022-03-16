@@ -31,7 +31,7 @@ class Controller extends BaseController
      * Download a file from the uploads storage
      * @param String $file
      */
-    public function download($file) {
+    public function download_file($file) {
     	return Storage::download("uploads/" . $file);
     }
     
