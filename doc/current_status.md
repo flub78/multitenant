@@ -70,7 +70,7 @@
     
     - to do: change behavio according to role
     
-* Calendar support in progress
+* Calendar 
 
 ## Todo
 

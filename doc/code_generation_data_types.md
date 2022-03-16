@@ -52,4 +52,17 @@ To be coherent, I should support 4 types date, time and datetime and periods.
 https://xdsoft.net/jqplugins/datetimepicker/
 
 
+## Files and pictures
 
+Database columns can contains files or pictures. They are just links to files saved in the tenant storage area.
+
+For security reasons, the links to fetch an uploaded resource should not depend on the filename of the stored resource.
+It should only depend on context. Context being, the logged in user, a database table, a database column, and a database primary key. It is the responsibility of the application to check that the active user is entitled for the resource that he fetches.
+
+There is also the issue of file names conflicts. If two users upload the same file named document.pdf, the system must be able to retrieve the two documents without confusion.
+
+Implementation
+    * when a document is uploaded a random string is added to the filename
+    * some context may also be added for house keeping
+    * this filename is stored in the database and used to retrieve the file
+    * actual filename shoud never be seen by the user
