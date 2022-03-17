@@ -14,6 +14,11 @@ use App\Helpers\BladeHelper as Blade;
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  @if(session()->get('error'))
+    <div class="alert alert-warning">
+      {{ session()->get('error') }}  
+    </div><br />
+  @endif
   <table class="table table-striped"  id="maintable">
     <caption>{{__('code_gen_type.title')}}</caption>
     <thead>
@@ -54,7 +59,7 @@ use App\Helpers\BladeHelper as Blade;
           <td> {{$code_gen_type->big_price}}</td>
           <td> {{$code_gen_type->qualifications}}</td>
           <td> {!! Blade::picture("code_gen_type.picture", $code_gen_type->id, "picture", $code_gen_type->picture) !!}</td>
-          <td> {!! Blade::download($code_gen_type->attachment, "code_gen_type", "attachment") !!}</td>
+          <td> {!! Blade::download("code_gen_type.file", $code_gen_type->id, "attachment", $code_gen_type->attachment, "Attachment") !!}</td>
 		              
           <td> <a href="{{ route('code_gen_type.edit', $code_gen_type->id) }}" class="btn btn-primary" dusk="edit_{{ $code_gen_type->id }}">{{ __('general.edit') }}</a>  </td>
           <td> <form action="{{ route("code_gen_type.destroy", $code_gen_type->id)}}" method="post">

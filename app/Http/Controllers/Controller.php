@@ -32,6 +32,8 @@ class Controller extends BaseController
      * @param String $file
      */
     public function download_file($file) {
+    	if (!$file) return redirect ( 'code_gen_type' )->with ( 'error', "File not found");
+    	
     	return Storage::download("uploads/" . $file);
     }
     

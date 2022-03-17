@@ -92,33 +92,16 @@ class BladeHelper {
 	
 	/**
 	 * Generate an a link to an image from a thumbnail
-	 * @deprecated
-	 * @param unknown $img
-	 * @param unknown $table
-	 * @return string
-	 */
-	static public function image($img, $table, $field) {
-		if (!$img) return "";
-		$url = route("$table.image", self::upload_name($img, $table . '_' . $field));
-		$res = '<img src="' 
-				. $url . '" ' 
-				. " alt=\"$img\" " 
-				. " title=\"$img\"" 
-				. ' width="50" height="auto">';
-		return "<a href=\"$url\">$res</a>";
-	}
-	
-	/**
-	 * Generate an a link to an image from a thumbnail
 	 * @param unknown $route_name
 	 * @param unknown $id
 	 * @param unknown $field
-	 * @param string $filename
+	 * @param string $label
 	 * @return string
 	 */
-	static public function picture($route_name, $id, $field, $filename="") {
+	static public function picture($route_name, $id, $field, $filename, $label="") {
+		if (!$filename) return "";
 		$url = route ($route_name, ['id' => $id, 'field' => $field]);
-		$img = ($filename) ? $filename : $field;
+		$img = ($label) ? $label : $field;
 		$res = '<img src="'
 			. $url . '" '
 			. " alt=\"$img\" "
@@ -129,14 +112,16 @@ class BladeHelper {
 	
 	/**
 	 * Generate a link to download an uploaded file
-	 * @deprecated
-	 * @param unknown $filename
-	 * @param unknown $table
+	 * @param unknown $route_name
+	 * @param unknown $id
+	 * @param unknown $field
+	 * @param unknown $label
 	 * @return string
 	 */
-	static public function download($filename, $table, $field) {
+	static public function download($route_name, $id, $field, $filename, $label = "") {
 		if (!$filename) return "";
-		$url = route("$table.download", self::upload_name($filename, $table . '_' . $field));
-		return "<a href=\"$url\">$filename</a>";
+		$url = route($route_name, ['id' => $id, 'field' => $field]);
+		if (!$label) $label = $field;
+		return "<a href=\"$url\">$label</a>";
 	}
 }

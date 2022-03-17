@@ -116,12 +116,26 @@ class CodeGenTypeController extends Controller {
 		return redirect ( 'code_gen_type' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
 	}
 	
+	/**
+	 * Display a picture in the browser
+	 * 
+	 * @param unknown $id
+	 * @param unknown $field
+	 * @return \App\Http\Controllers\unknown
+	 */
 	public function picture($id, $field) {
 		$cgt = CodeGenType::find($id);
 		$filename = $cgt->$field;		
 		return $this->displayImage($filename);		
 	}
 	
+	/**
+	 * Download a previously uploaded file
+	 * 
+	 * @param unknown $id
+	 * @param unknown $field
+	 * @return \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+	 */
 	public function download($id, $field) {
 		$cgt = CodeGenType::find($id);
 		$filename = $cgt->$field;
