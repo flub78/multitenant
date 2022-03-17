@@ -128,8 +128,10 @@ class [[class_name]]Controller extends Controller {
      */
     public function picture($id, $field) {
         $elt = [[class_name]]::find($id);
-        $filename = $elt->$field;       
-        return $this->displayImage($filename);      
+        if ($elt) {
+            $filename = $elt->$field;       
+            return $this->displayImage($filename);
+        }      
     }
 [[/picture_url]]    
 [[#download_url]]
@@ -143,8 +145,10 @@ class [[class_name]]Controller extends Controller {
      */
     public function download($id, $field) {
         $elt = [[class_name]]::find($id);
-        $filename = $elt->$field;
-        return $this->download_file($filename);
+        if ($elt) {
+            $filename = $elt->$field;
+            return $this->download_file($filename);
+        }
     }
 [[/download_url]]    
 }

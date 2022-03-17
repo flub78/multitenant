@@ -42,6 +42,8 @@ class TenantTestController extends Controller
      */
     public function index()
     {
+    	$locale = setlocale(LC_ALL, 'fr_FR');
+    	
     	$msg = HtmlHelper::h1("Tenant Test Controller") . "\n";
     	$msg .= "Tenant=" . tenant('id') . " \n";
     	$msg .= "Local from Config:: =" . Config::config('app.locale'). " \n";
@@ -49,6 +51,7 @@ class TenantTestController extends Controller
     	$route = route('calendar_event.index');
     	$msg .= "route('calendar_event.index') = $route";
     	$msg .= " url=" . URL::to('/');
+    	$msg .= ", locale=$locale";
     	echo $msg;
     	// return $msg;
     	// return view('test');

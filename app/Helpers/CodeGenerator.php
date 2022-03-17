@@ -644,7 +644,7 @@ class CodeGenerator {
 				$line["update"] = "\$this->update_$subtype(\$validatedData, '$field');";
 			} elseif ("picture" == $subtype || "file" == $subtype) {
 				$line["store"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
-				$line["destroy"] = "\$this->destroy_file( \$$element->$field);";
+				$line["destroy"] = "if (\$$element->$field) \$this->destroy_file( \$$element->$field);";
 				$line["update"] = "\$this->update_$subtype(\$validatedData, \"$field\", \$request, \"$element\", \$previous);";
 			}
 			if ($line) $res[] = $line;

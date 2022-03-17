@@ -2,19 +2,17 @@
 
 ## Introduction
 
-This project is a framework for Web applications. It provides several core features, common to a lot of web applications. Specific business logic should be easy and fast to add.
+This project is a framework for Web applications. The idea is to provide a starting point for projects with a lot of common features and DevOps settings already provided. Specific business logic should be fast and easy to add (to the extend that software development can be fast and easy). 
 
 ## Basic features
 
-* The project is multi-tenant with one database per tenant. By default tenants are identified by their sub-domain.
+* The project supports multi-tenancy with one database per tenant. By default tenants are identified by their sub-domain.
 
 * Localization and GUI in several languages. Automated generation of language files with Google translate. Of course it requires human reviewing, but sometimes it is not so bad and it is fast to generate.
 
-* The central application provides a tenant management interface. It is possible to create, modify or delete tenants.
+* The central application provides a tenant management interface. It is possible to create, modify or delete tenants. Once a tenant is created it is immediately possible to access the tenant application from the sub-domain.
 
-* Once a tenant is created it is immediately possible to access the tenant application from the sub-domain.
-
-* User management and admin role. Both central application and tenant applications can register, create, modify and delete users. The first user to register is automatically admin. Then this initial admin can delegate or suppress the admin role to other users. Users can be active and inactive and only active users can login.
+* User management and admin role. Both central application and tenant applications can register, create, modify and delete users. The first user to register is automatically admin. Then this initial admin can delegate or suppress the admin role to other users. Users can be active or inactive and only active users can login.
 
 * Backup and restore. There is a php artisan set of command to create, list, delete and restore the backups, both for the central database or for the tenant database. The feature is also available through a web interface and every tenant can backup or restore his/her own database without interfering with other tenants data.
 
@@ -57,7 +55,7 @@ New feature, they should only be developed on a working, well tested and minimal
 
 ### Documentation
 
-Short design notes are kept in the doc directory as a set of md files. Plantuml is used to support the specification and design documentation.
+Short design notes are kept in the doc directory as a set of md files. Plantuml is used to support the specification and design documentation. Most of the technical notes are under the doc directory as md files. 
 
 ### TDD
 
