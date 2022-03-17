@@ -15,7 +15,7 @@ use App\Helpers\BladeHelper as Blade;
     </div><br />
   @endif
   @if(session()->get('error'))
-    <div class="alert alert-warning">
+    <div class="alert alert-danger">
       {{ session()->get('error') }}  
     </div><br />
   @endif

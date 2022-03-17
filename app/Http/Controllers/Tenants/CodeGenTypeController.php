@@ -8,8 +8,6 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\CodeGenTypeRequest;
 use App\Models\Tenants\CodeGenType;
-use Illuminate\Support\Facades\Storage;
-use Response;
 
 /**
  * Controller for code_gen_type
@@ -74,8 +72,8 @@ class CodeGenTypeController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(CodeGenType $code_gen_type) {
-		return view('tenants/code_gen_type/edit')
-		->with(compact('code_gen_type'));
+        return view('tenants/code_gen_type/edit')->with(compact('code_gen_type'))
+;
 	}
 	
 	

@@ -57,8 +57,16 @@ class CodeGenerator {
 		} elseif ($subtype == "checkbox") {
 			return '<input type="checkbox" {{ ($' . $element . '->' . $field . ') ? "checked" : "" }}  onclick="return false;" />';
 		} elseif (($subtype == "picture")) {
-			return '{!! Blade::image($' . $element . '->' . $field . ', "' . $element . '", "' . $field . '") !!}';
+			$route_name = $element . '.picture';
+			$id = '$' . $element . '->id';
+			$img =  '$' .$element . '->' . $field;
+			return "{!! Blade::picture(\"$route_name\", $id, \"$field\", $img) !!}";
 		} elseif (($subtype == "file")) {
+			$route_name = $element . '.file';
+			$id = '$' . $element . '->id';
+			$file =  '$' .$element . '->' . $field;
+			$label = '"' . __($element . '.' . $field) . '"';
+			return "{!! Blade::download(\"$route_name\", $id, \"$field\", $file, $label) !!}";
 			return '{!! Blade::download($' . $element . '->' . $field . ', "' . $element . '", "' . $field .'") !!}';
 		}
 		
@@ -151,8 +159,7 @@ class CodeGenerator {
 		
 		if ($subtype == "picture") {
 			$type = 'file';
-			$prefix = '{!! Blade::image($' . $element . '->' . $field . ', "' . $element . '", "' . $field . '") !!}';
-			$prefix .= '{{$' . $element . '->' . $field . '}}';
+			$prefix = '{!! Blade::picture("' . $element . '.' . $field . '", $' . $element . '->id' . ', "' . $field . '", $' . $element .  '->'  . $field . ') !!}';
 		}
 		
 		return $prefix . '<input type="' . $type

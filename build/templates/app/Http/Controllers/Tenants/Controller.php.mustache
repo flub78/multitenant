@@ -9,7 +9,6 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\[[class_name]]Request;
 use App\Models\Tenants\[[class_name]];
-use App\Helpers\DateFormat;
 
 /**
  * Controller for [[element]]
@@ -74,8 +73,7 @@ class [[class_name]]Controller extends Controller {
         [[# select_list ]]
         [[&selector]]
         [[/ select_list ]]
-        return view('tenants/[[element]]/edit')
-            ->with(compact('[[element]]'))
+        return view('tenants/[[element]]/edit')->with(compact('[[element]]'))
             [[# select_list ]]
             [[&with]]
             [[/ select_list ]];
@@ -91,6 +89,7 @@ class [[class_name]]Controller extends Controller {
      */
     public function update([[class_name]]Request $request, $id) {
         $validatedData = $request->validated();
+        $previous = [[class_name]]::find($id);
 
         [[class_name]]::where([ '[[primary_index]]' => $id])->update($validatedData);
 
