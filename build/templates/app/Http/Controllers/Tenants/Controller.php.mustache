@@ -47,9 +47,12 @@ class [[class_name]]Controller extends Controller {
      */
     public function store([[class_name]]Request $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
-        [[class_name]]::create($validatedData);
 
-        return redirect('/[[element]]')->with('success', __('general.creation_success', [ 'elt' => __("[[element]].elt")]));
+        [[# controller_list ]]
+        [[&store]]
+        [[/ controller_list ]]
+        [[class_name]]::create($validatedData);
+       return redirect('/[[element]]')->with('success', __('general.creation_success', [ 'elt' => __("[[element]].elt")]));
      }
 
     /**
@@ -91,6 +94,9 @@ class [[class_name]]Controller extends Controller {
         $validatedData = $request->validated();
         $previous = [[class_name]]::find($id);
 
+[[# controller_list ]]
+        [[&update]]
+[[/ controller_list ]]
         [[class_name]]::where([ '[[primary_index]]' => $id])->update($validatedData);
 
         return redirect('/[[element]]')->with('success', __('general.modification_success', [ 'elt' => __("[[element]].elt") ]));
@@ -105,7 +111,40 @@ class [[class_name]]Controller extends Controller {
      */
     public function destroy([[class_name]] $[[element]]) {
     	$[[primary_index]] = $[[element]]->[[primary_index]];
+        [[# controller_list ]]
+        [[&destroy]]
+        [[/ controller_list ]]
     	$[[element]]->delete();
     	return redirect ( '[[element]]' )->with ( 'success', __('general.deletion_success', ['elt' => $[[primary_index]]]));
     }
+[[#picture_url]]
+
+    /**
+     * Display a picture in the browser
+     * 
+     * @param unknown $id
+     * @param unknown $field
+     * @return \App\Http\Controllers\unknown
+     */
+    public function picture($id, $field) {
+        $elt = [[class_name]]::find($id);
+        $filename = $elt->$field;       
+        return $this->displayImage($filename);      
+    }
+[[/picture_url]]    
+[[#download_url]]
+
+    /**
+     * Download a previously uploaded file
+     * 
+     * @param unknown $id
+     * @param unknown $field
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
+    public function download($id, $field) {
+        $elt = [[class_name]]::find($id);
+        $filename = $elt->$field;
+        return $this->download_file($filename);
+    }
+[[/download_url]]    
 }

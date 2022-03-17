@@ -330,8 +330,7 @@ Should ancestor and derived attributes both have accessors ? ... Or should only 
     
 ## code_gen_types table
 
-    php artisan mustache:generate --compare code_gen_types controller
-        Missing setting of ancestor field in store an update        
+    php artisan mustache:generate --compare code_gen_types controller           OL
     php artisan mustache:generate --compare code_gen_types request              OK          
     php artisan mustache:generate --compare code_gen_types model                OK      
     php artisan mustache:generate --compare code_gen_types index                OK

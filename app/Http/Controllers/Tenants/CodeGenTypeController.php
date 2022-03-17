@@ -122,8 +122,8 @@ class CodeGenTypeController extends Controller {
 	 * @return \App\Http\Controllers\unknown
 	 */
 	public function picture($id, $field) {
-		$cgt = CodeGenType::find($id);
-		$filename = $cgt->$field;		
+        $elt = CodeGenType::find($id);
+        $filename = $elt->$field;       
 		return $this->displayImage($filename);		
 	}
 	
@@ -135,8 +135,8 @@ class CodeGenTypeController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
 	 */
 	public function download($id, $field) {
-		$cgt = CodeGenType::find($id);
-		$filename = $cgt->$field;
+        $elt = CodeGenType::find($id);
+        $filename = $elt->$field;
 		return $this->download_file($filename);
 	}
 	

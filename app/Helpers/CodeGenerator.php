@@ -604,6 +604,55 @@ class CodeGenerator {
 	}
 	
 	/**
+	 * Generate the information for the picture and download methods of the controllers
+	 * picture and download methods are only required when there are picture of file fields in a table
+	 * @param unknown $table
+	 * @param unknown $subtype
+	 * @return mixed[][]|string[][]
+	 */
+	static public function picture_file_url($table, $subtype) {
+		$res = [];		
+		$picture = false;
+		foreach (Schema::fieldList($table) as $field) {
+			if ($subtype == Meta::subtype($table, $field)) {
+				$picture = true;
+				break;
+			}
+		}
+		if ($picture) $res[] = ['class_name' => Meta::class_name($table)];
+		return $res;
+	}
+
+	/**
+	 * General information to supplement the store, update and destroy methods of the controller 
+	 * @param unknown $table
+	 * @return string[][]
+	 */
+	static public function controller_list($table) {
+		$res = [];
+		$element = Meta::element($table);
+		foreach (Schema::fieldList($table) as $field) {
+			$subtype = Meta::subtype($table, $field);
+			$field_type = Meta::type($table, $field);
+			
+			$line = [];
+			
+			if ("date" == $field_type) {
+				$line["update"] = "\$this->update_date(\$validatedData, '$field');";
+			} elseif ("datetime_with_date_and_time" == $subtype) {
+				$line["store"] = "\$this->store_$subtype(\$validatedData, '$field');";
+				$line["update"] = "\$this->update_$subtype(\$validatedData, '$field');";
+			} elseif ("picture" == $subtype || "file" == $subtype) {
+				$line["store"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
+				$line["destroy"] = "\$this->destroy_file( \$$element->$field);";
+				$line["update"] = "\$this->update_$subtype(\$validatedData, \"$field\", \$request, \"$element\", \$previous);";
+			}
+			if ($line) $res[] = $line;
+		}
+		return $res;
+	}
+	
+	/**
 	 * All the information for mustache engine
 	 *
 	 * @param String $table
@@ -625,7 +674,10 @@ class CodeGenerator {
 				'id_data_type' => self::id_data_type($table),
 				'is_referenced' => Schema::isReferenced($table) ? "true" : "",
 				'date_mutators' => self::type_mutators($table, "date"),
-				'datetime_mutators' => self::type_mutators($table, "datetime")
+				'datetime_mutators' => self::type_mutators($table, "datetime"),
+				'picture_url'=> self::picture_file_url($table, "picture"),
+				'download_url'=> self::picture_file_url($table, "file"),
+				'controller_list'=> self::controller_list($table)
 		);
 	}
 }
