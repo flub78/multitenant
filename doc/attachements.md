@@ -5,17 +5,17 @@ A file storage mechanism.
 ## Use cases
 
 As a user
-* I want to store a picture of me in my record
+* I want to store a picture of me in my records
 * I want to store the scan of a bill in an accounting application
 * I want to upload a GPS track of a flight
-* I want to be able to download a file that I have uploaded or others files to which I have permission
+* I want to download a file that I have uploaded or others files for which I have permission
 * I want to replace a file that I have uploaded
-* I want to delete them
+* I want to delete a file that I have uploaded
 * I want to see the list of attachments if there are several
 
 As an admin
-* I want to be able to do what the users are allowed to do but for any user.
-* I want to be able to set limits to the total storage of a user
+* I want to be able to do what the users are . to do but for any user.
+* I want to be able to set limits to the total storage for a user
 
 And later
 
@@ -23,11 +23,11 @@ And later
 
 ## Requirements
 
-* Download URL must be secured, which means that it must not possible to guess URL from another file from a legitimate URL. You may be allowed to download your bills, but not the ones of another user.
+* Download URL must be secured, it must not be possible to guess an url to retrieve something.
 
 * It should be possible to attach a file to about anything identified by its table and id. I can attach a file to user 3 or to bill line 3482.
 
-* It must be possible to attach several files to an item or to limit to certain number.
+* It must be possible to attach several files to an item or to limit to a certain number.
 
 * In some cases it will be possible to attach many files to an item in others cases only one file will be allowed for one purpose. For example a user picture, uploading another one will replace the previous one.
 
@@ -43,13 +43,13 @@ And later
     # a model to manage attachments 
     class Attachement {
         id
-        reference_table name of the table item to which the object is attached
-        reference_id
-        name visible file name
-        hash internal file name, used in URL and API to download, replace, delete
+        reference_table     name of the table to which the object is attached
+        reference_id        zreference of the item to which something is attached
+        name                visible name
+        internal_filename   internal file name, used in URL and API to download, replace, delete
         description
         mime_type
-        purpose a string to describe the purpose of this file inside the application ex: user_picture 
+        purpose             a string to describe the purpose of this file inside the application ex: user_picture 
     }
     
     # rules to check that uploads are legitimate
