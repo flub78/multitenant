@@ -119,4 +119,13 @@ class ArtisanMustacheTest extends TenantTestCase {
 		$this->assertEquals($exitCode, 0, "No errors");
 	}
 	
+	public function test_mustache_translate() {
+		$exitCode = Artisan::call("mustache:translate --help");
+		$this->assertEquals($exitCode, 0, "No errors");
+		
+		$exitCode = Artisan::call('mustache:translate --verbose --pretend --compare --install --lang="en" configuration');
+		$this->assertEquals($exitCode, 0, "No errors");
+		
+	}
+	
 }
