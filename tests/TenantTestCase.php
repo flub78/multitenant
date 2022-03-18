@@ -212,6 +212,7 @@ abstract class TenantTestCase extends BaseTestCase
 		
 		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
 		$response = $this->patch ( $url, $elt);
+		$response->assertSessionHasNoErrors();
 		// $response->dumpSession();
 		
 		$response->assertStatus ( 302);

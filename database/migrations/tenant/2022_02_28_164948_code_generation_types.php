@@ -30,7 +30,8 @@ class CodeGenerationTypes extends Migration
     		
     		$table->text('description')->nullable(true);
     			    		
-    		$table->year("year_of_birth")->nullable()->comment('{"min": "1900", "max":"2099"}');
+    		// MySql years are in 1901 .. 2155
+    		$table->year("year_of_birth")->nullable()->comment('{"min": "1901", "max":"2099"}');
     		
     		$table->float("weight")->nullable()->comment('{"min": "3.0", "max":"300.0"}');
 
