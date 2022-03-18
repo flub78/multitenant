@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 use App\Helpers\HtmlHelper as HH;
 use App\Helpers\BladeHelper as Blade;
 
-
 /**
  * Metadata interface
  *
@@ -296,17 +295,35 @@ class CodeGenerator {
 		$subtype = Meta::subtype($table, $field);
 		$element = Meta::element($table);
 		$primary_index = Schema::primaryIndex($table);
+		$options = Meta::field_metadata($table, $field);
+		$field_type = Meta::type($table, $field);
 		
 		$rules = [];
 		if (Schema::required($table, $field))  {
 			$rules[] = "'required'";
+		} else {
+			$rules[] = "'nullable'";
 		}
 		
-		if ($size = Schema::columnSize($table, $field)) {
+		if (in_array($field_type, ['year', 'double', 'decimal', 'bigint', 'int'])) {				
+			$rules[] = "'numeric'";
+		}
+		
+		if ($options && array_key_exists("min", $options)) {
+			$size = $options['min'];
+			$rules[] = "'min:$size'";
+		}
+		
+		if ($options && array_key_exists("max", $options)) {
+			$size = $options['max'];
+			$rules[] = "'max:$size'";
+		} elseif ($size = Schema::columnSize($table, $field)) {
 			if (($subtype == "picture") || ($subtype == "file")) {
 				$size = 2000;
 			}
-			$rules[] = "'max:$size'";
+			if (in_array($field_type, ['varchar', 'text'])) {				
+				$rules[] = "'max:$size'";
+			}
 		}
 		
 		if ($subtype == 'email') {
@@ -325,8 +342,6 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "enumerate") {
-			$options = Meta::field_metadata($table, $field);
-			// var_dump($options);
 			$list = '';
 			if (array_key_exists("values", $options)) {
 				$list = '"'.implode('","', $options['values']) . '"';
@@ -350,17 +365,37 @@ class CodeGenerator {
 	 */
 	static public function field_rule_create (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
+		$options = Meta::field_metadata($table, $field);
+		$field_type = Meta::type($table, $field);
+		
+		// echo "field_rule_create ($table, $field) type=$field_type subtype=$subtype " . var_export($options, true) . "\n"; 
 		
 		$rules = [];
 		if (Schema::required($table, $field))  {
 			$rules[] = "'required'";
+		} else {
+			$rules[] = "'nullable'";
 		}
 		
-		if ($size = Schema::columnSize($table, $field)) {
+		if (in_array($field_type, ['year', 'double', 'decimal', 'bigint', 'int'])) {
+			$rules[] = "'numeric'";
+		}
+		
+		if ($options && array_key_exists("min", $options)) {
+			$size = $options['min'];
+			$rules[] = "'min:$size'";
+		}
+		
+		if ($options && array_key_exists("max", $options)) {
+			$size = $options['max'];
+			$rules[] = "'max:$size'";
+		} elseif ($size = Schema::columnSize($table, $field)) {
 			if (($subtype == "picture") || ($subtype == "file")) {
 				$size = 2000;
 			}
-			$rules[] = "'max:$size'";
+			if (in_array($field_type, ['varchar', 'text'])) {
+				$rules[] = "'max:$size'";
+			}
 		}
 		
 		if ($subtype == 'email') {
@@ -378,7 +413,6 @@ class CodeGenerator {
 		}
 
 		if ($subtype == "enumerate") {
-			$options = Meta::field_metadata($table, $field);
 			// var_dump($options);
 			$list = '';
 			if (array_key_exists("values", $options)) {
@@ -394,6 +428,9 @@ class CodeGenerator {
 		return  '[' . implode(",\n$tab", $rules) . ']';
 	}
 	
+	static public function random_float ($min,$max) {
+		return ($min + lcg_value() * (abs($max - $min)));
+	}
 	
 	/**
 	 * Faker are used to create random elements for testing
@@ -406,6 +443,8 @@ class CodeGenerator {
 		$subtype = Meta::subtype($table, $field);
 		$type = Meta::type($table, $field);
 		$unique = Schema::unique($table, $field);
+		$options = Meta::field_metadata($table, $field);
+		
 		// $faker = ($unique) ? '$this->faker->unique()' : '$this->faker';
 		// Tests relies on random elements to be different
 		$faker = '$this->faker->unique()';
@@ -423,13 +462,21 @@ class CodeGenerator {
 		} elseif ('text' == $type) {
 			$res = $faker . '->text(200)';
 		} elseif ('year' == $type) {
-			$res = $faker . '->year()';
+			$min = ($options && array_key_exists("min", $options)) ? $options['min'] : 1950;
+			$max = ($options && array_key_exists("max", $options)) ? $options['max'] : 2020;			
+			$res = "rand($min, $max)";
 		} elseif ('double' == $type) {
-			$res = $faker . '->randomFloat(2, 0.0, 1000.0)';
+			$min = ($options && array_key_exists("min", $options)) ? $options['min'] : 0.0;
+			$max = ($options && array_key_exists("max", $options)) ? $options['max'] : 10000.0;
+			$res = $faker . "->randomFloat(2, $min, $max)";
 		} elseif ('decimal' == $type) {
-			$res = $faker . '->randomFloat(2, 0, 100.0)';
+			$min = ($options && array_key_exists("min", $options)) ? $options['min'] : 0.0;
+			$max = ($options && array_key_exists("max", $options)) ? $options['max'] : 1000.0;
+			$res = $faker . "->randomFloat(2, $min, $max)";
 		} elseif ('bigint' == $type) {
-			$res = $faker . '->randomNumber()';
+			$min = ($options && array_key_exists("min", $options)) ? $options['min'] : 0;
+			$max = ($options && array_key_exists("max", $options)) ? $options['max'] : 10000;
+			$res = "rand($min, $max)";
 		}
 		
 		if ('email' == $subtype) {
