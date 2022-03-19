@@ -50,23 +50,32 @@ class CodeGenerator {
 	static public function field_display (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
 		$element = Meta::element($table);
+		$field_type = Meta::type($table, $field);
+		
+		// echo "field_display ($table, $field), type=$field_type, subtype=$subtype\n";
 		
 		if ($subtype == "email") {
 			return '<A HREF="mailto:{{$' . $element . '->' . $field . '}}">{{$' . $element . '->' . $field . '}}</A>';
+		
 		} elseif ($subtype == "checkbox") {
 			return '<input type="checkbox" {{ ($' . $element . '->' . $field . ') ? "checked" : "" }}  onclick="return false;" />';
+		
 		} elseif (($subtype == "picture")) {
 			$route_name = $element . '.picture';
 			$id = '$' . $element . '->id';
 			$img =  '$' .$element . '->' . $field;
 			return "{!! Blade::picture(\"$route_name\", $id, \"$field\", $img) !!}";
+		
 		} elseif (($subtype == "file")) {
 			$route_name = $element . '.file';
 			$id = '$' . $element . '->id';
 			$file =  '$' .$element . '->' . $field;
 			$label = '"' . __($element . '.' . $field) . '"';
 			return "{!! Blade::download(\"$route_name\", $id, \"$field\", $file, $label) !!}";
-			return '{!! Blade::download($' . $element . '->' . $field . ', "' . $element . '", "' . $field .'") !!}';
+		
+		} elseif (($subtype == "currency")) {
+			$value = '$' .$element . '->' . $field;
+			return "{!! Blade::currency($value) !!}";
 		}
 		
 		return '{{$' . $element . '->'. $field. '}}';
@@ -643,8 +652,13 @@ class CodeGenerator {
 		$list = Schema::fieldList($table);
 		foreach ($list as $field) {
 			$type = Meta::type($table, $field);
-			if ($type == $mutating_type) {
+			$subtype = Meta::subtype($table, $field);
+			if ($type == $mutating_type || $subtype == $mutating_type) {
 				$res[] = ["field" => $field, "field_name" => ucfirst($field)];
+			} elseif ("float" == $mutating_type && "currency" != $subtype) {
+				if (in_array($type, ['double', 'decimal'])) {
+					$res[] = ["field" => $field, "field_name" => ucfirst($field)];
+				}
 			}
 		}
 		return $res;
@@ -722,6 +736,8 @@ class CodeGenerator {
 				'is_referenced' => Schema::isReferenced($table) ? "true" : "",
 				'date_mutators' => self::type_mutators($table, "date"),
 				'datetime_mutators' => self::type_mutators($table, "datetime"),
+				'currency_mutators' => self::type_mutators($table, "undefined_currency"),
+				'float_mutators' => self::type_mutators($table, "undefined_float"),
 				'picture_url'=> self::picture_file_url($table, "picture"),
 				'download_url'=> self::picture_file_url($table, "file"),
 				'controller_list'=> self::controller_list($table)

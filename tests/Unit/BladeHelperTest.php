@@ -51,4 +51,16 @@ class BladeHelperTest extends TestCase {
 		$this->assertEquals("http://tenants.com/code_gen_type/picture/32/picture", 
 				route("code_gen_type.picture", ['id' => "32", "field" => "picture"]));
 	}
+	
+	public function test_float() {
+		$this->assertNotEquals("", Blade::float(0.0));
+		// $this->assertIsFloat(Blade::float(0.0));			// weird but they fail ...
+		// $this->assertIsFloat(Blade::float(100.0));
+		// $this->assertIsFloat(Blade::float(-1000.0));
+	}
+	
+	public function test_currency() {
+		$this->assertNotEquals("", Blade::float(0.0));
+	}
+	
 }

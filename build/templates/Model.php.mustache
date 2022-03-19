@@ -185,4 +185,34 @@ class {{class_name}} extends ModelWithLogs {
     }
     
 {{/datetime_mutators}}
+{{#currency_mutators}}
+
+    /**
+     * Get the {{&field_name}} currency
+     *
+     * @param  float  $value
+     * @return string the value formatted for local currency
+     */
+    public function get{{&field_name}}Attribute($value) {
+        if (!$value) return $value;
+        $result = $value;
+         // echo "\nget{{&field_name}}Attribute(String $value) => $result";
+        return $result;
+    }
+{{/currency_mutators}}
+{{#float_mutators}}
+
+        /**
+     * Get the {{&field_name}} float
+     *
+     * @param  float  $value
+     * @return the value with the correct number of digit
+     */
+    public function get{{&field_name}}Attribute($value) {
+        if (!$value) return $value;
+        $result = $value;
+         // echo "\nget{{&field_name}}Attribute(String $value) => $result";
+        return $result;
+    }
+{{/float_mutators}}
 }
