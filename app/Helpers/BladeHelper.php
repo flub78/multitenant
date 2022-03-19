@@ -124,4 +124,25 @@ class BladeHelper {
 		if (!$label) $label = $field;
 		return "<a href=\"$url\">$label</a>";
 	}
+	
+	/**
+	 * Display float values according to locale
+	 * 
+	 * @param unknown $value
+	 * @return string
+	 */
+	static public function float ($value) {
+		return number_format($value, 2);
+	}
+	
+	/**
+	 * Display currency values according to locale
+	 * 
+	 * @param unknown $value
+	 * @return string
+	 */
+	static public function currency ($value) {
+		// if ($value == "") return "";
+		return number_format($value, 2) . "&nbsp€";
+	}
 }

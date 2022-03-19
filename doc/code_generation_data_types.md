@@ -66,3 +66,17 @@ Implementation
     * some context may also be added for house keeping
     * this filename is stored in the database and used to retrieve the file
     * actual filename shoud never be seen by the user
+
+## Float and currencies
+
+2 possibilities:
+        
+1. Generate Getters and setters
+    It implies to handle the external format in the forms, for example to be able to input
+    a value with the currency symbol and to transform before storing or updating
+                
+2. Just modify the display_field in the code generator helper. (simpler).
+            
+I also have to deal with decimal separator ...
+
+The first approach is certainly the more complete. It make sense for date and datetime where the internal format can never be used externally and where all the views have to be specially designed for the external format. The second is much simpler, likely good enough for a lot of cases.
