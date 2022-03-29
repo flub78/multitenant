@@ -75,7 +75,11 @@ class CodeGenerator {
 		
 		} elseif (($subtype == "currency")) {
 			$value = '$' .$element . '->' . $field;
-			return "{!! Blade::currency($value) !!}";
+			return '<div align="right">' . "{!! Blade::currency($value) !!}" . '</div>';
+		
+		} elseif (in_array($field_type, ['double', 'decimal'])) {
+			$value = '$' .$element . '->' . $field;
+			return '<div align="right">' . "{!! Blade::float($value) !!}" . '</div>';
 		}
 		
 		return '{{$' . $element . '->'. $field. '}}';

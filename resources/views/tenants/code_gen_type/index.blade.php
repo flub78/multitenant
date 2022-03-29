@@ -50,13 +50,13 @@ use App\Helpers\BladeHelper as Blade;
           <td> {{$code_gen_type->phone}}</td>
           <td> {{$code_gen_type->description}}</td>
           <td> {{$code_gen_type->year_of_birth}}</td>
-          <td> {{$code_gen_type->weight}}</td>
+          <td> <div align="right">{!! Blade::float($code_gen_type->weight) !!}</div></td>
           <td> {{$code_gen_type->birthday}}</td>
           <td> {{$code_gen_type->tea_time}}</td>
           <td> {{$code_gen_type->takeoff_date}}</td>
           <td> {{$code_gen_type->takeoff_time}}</td>
-          <td> {!! Blade::currency($code_gen_type->price) !!}</td>
-          <td> {!! Blade::currency($code_gen_type->big_price) !!}</td>
+          <td> <div align="right">{!! Blade::currency($code_gen_type->price) !!}</div></td>
+          <td> <div align="right">{!! Blade::currency($code_gen_type->big_price) !!}</div></td>
           <td> {{$code_gen_type->qualifications}}</td>
           <td> {!! Blade::picture("code_gen_type.picture", $code_gen_type->id, "picture", $code_gen_type->picture) !!}</td>
           <td> {!! Blade::download("code_gen_type.file", $code_gen_type->id, "attachment", $code_gen_type->attachment, "Attachment") !!}</td>

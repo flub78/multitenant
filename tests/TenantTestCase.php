@@ -11,6 +11,7 @@ use App\Models\Tenants\Configuration;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
+
 abstract class TenantTestCase extends BaseTestCase
 {
 	
@@ -23,6 +24,10 @@ abstract class TenantTestCase extends BaseTestCase
 		if ($this->tenancy) {		
 			$this->initializeTenancy();
 		}
+		$tenant = (tenant('id')) ? tenant('id') : "";
+		$backup_dir = TenantHelper::backup_dirpath($tenant);
+		$backup_msg = is_dir($backup_dir) ? $backup_dir : " no backup dir";
+		echo "test class $tenant = " . get_class($this) . " backup=$backup_msg\n";		
 	}
 	
 	public function tearDown(): void {
