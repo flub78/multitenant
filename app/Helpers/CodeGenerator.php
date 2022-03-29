@@ -75,15 +75,11 @@ class CodeGenerator {
 		
 		} elseif (($subtype == "currency")) {
 			$value = '$' .$element . '->' . $field;
-<<<<<<< HEAD
 			return '<div align="right">' . "{!! Blade::currency($value) !!}" . '</div>';
 		
 		} elseif (in_array($field_type, ['double', 'decimal'])) {
 			$value = '$' .$element . '->' . $field;
 			return '<div align="right">' . "{!! Blade::float($value) !!}" . '</div>';
-=======
-			return "{!! Blade::currency($value) !!}";
->>>>>>> branch 'master' of https://github.com/flub78/multitenant.git
 		}
 		
 		return '{{$' . $element . '->'. $field. '}}';
