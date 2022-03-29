@@ -55,7 +55,7 @@ abstract class TenantTestCase extends BaseTestCase
 		$domain = 'test.tenants.com';
 		
 		// Cleanup tenant from previous execution.
-		// tenant and storage database must not exixt when the test tenant is recreated
+		// tenant and storage database must not exist when the test tenant is recreated
 		
 		// Reset the domain and tenant database
 		DB::statement("SET foreign_key_checks=0");

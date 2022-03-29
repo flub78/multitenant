@@ -4,6 +4,7 @@ namespace App\Helpers;
 use App\Models\Tenant;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
   
 /**
@@ -62,6 +63,9 @@ class BackupHelper {
 		$dirname = dirname($backup_fullname);
 		if (!is_dir($dirname)) {
 			mkdir($dirname, 0777, true);
+			if (!is_dir($dirname)) {
+				throw new Exception("backup dir $dirname not created");
+			}
 		}
 		
 		if ($database && $backup_fullname) {
