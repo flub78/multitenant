@@ -75,7 +75,14 @@ class BackupHelper {
 			$returnVar = NULL;
 			$output = NULL;
 			
-			return exec ( $cmd, $output, $returnVar );		
+			$exec = exec ( $cmd, $output, $returnVar );
+			if ($output) {
+				echo "mysqldump output: $output\n";
+			}
+			if ($returnVar != 0) {
+				echo "mysqldump returns: $returnVar\n";
+			}
+			return $exec;
 		} else {
 			return false;
 		}
