@@ -5,6 +5,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Helpers\BladeHelper as Blade;
+use Illuminate\Support\Facades\URL;
 
 class BladeHelperTest extends TestCase {
 
@@ -48,8 +49,8 @@ class BladeHelperTest extends TestCase {
 	}
 	
 	public function test_route() {
-		$this->assertEquals("http://tenants.com/code_gen_type/picture/32/picture", 
-				route("code_gen_type.picture", ['id' => "32", "field" => "picture"]));
+		$url =  URL::to('/') . '/code_gen_type/picture/32/picture';
+		$this->assertEquals($url, route("code_gen_type.picture", ['id' => "32", "field" => "picture"]));
 	}
 	
 	public function test_float() {

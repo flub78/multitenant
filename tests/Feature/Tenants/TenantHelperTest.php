@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Tests\TenantTestCase;
 use App\Helpers\TenantHelper;
 use App\Helpers\DirHelper;
+use Illuminate\Support\Facades\URL;
+
 
 /**
  * Test TenantHelper in a tenant context
@@ -53,7 +55,7 @@ class TenantHelperTest extends TenantTestCase
     }
     
     public function test_routes() {    	
-    	$this->assertEquals('http://tenants.com/calendar_event', route('calendar_event.index'));
-    	$this->assertEquals('http://tenants.com/api/calendar_event', route('api.calendar_event.index'));
+    	$this->assertEquals(URL::to('/') . '/calendar_event', route('calendar_event.index'));
+    	$this->assertEquals(URL::to('/') . '/api/calendar_event', route('api.calendar_event.index'));
     }
 }

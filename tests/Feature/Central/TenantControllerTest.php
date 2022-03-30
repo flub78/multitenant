@@ -8,7 +8,7 @@ use App\Models\Tenant;
 use App\Helpers\DirHelper;
 use App\Helpers\TenantHelper;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\URL;
 
 /**
  * Test of the tenant controller
@@ -165,7 +165,8 @@ class TenantControllerTest extends TenantTestCase {
 		$this->create_tenant ("autotest", "autotest.tenants.com");
 		
 		// trigger the update entry of the controller
-		$url = 'http://tenants.com/tenants/autotest';
+		$url = URL::to('/') . '/tenants/autotest';
+		
 		$elt = ["id" => "autotest", "domain" => "autotest.newdomain.com", '_token' => csrf_token()];
 		$response = $this->put ( $url, $elt);
 		$response->assertStatus ( 302 );
@@ -189,7 +190,8 @@ class TenantControllerTest extends TenantTestCase {
 		$this->create_tenant ($tenant_id, $domain);
 			
 		// trigger the delete entry of the controller
-		$url = 'http://tenants.com/tenants/' . $tenant_id;
+		$url = URL::to('/') . '/tenants/' . $tenant_id;
+		
 		$response = $this->delete ( $url);
 		// $response->assertStatus ( 302 );
 		
