@@ -9,7 +9,8 @@ use App\Helpers\DirHelper;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tenants\Configuration;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 
 
 abstract class TenantTestCase extends BaseTestCase
@@ -123,6 +124,27 @@ abstract class TenantTestCase extends BaseTestCase
 	}
 	
 	/**
+	 * return an url to access a tenant application
+	 * 
+	 * @param String $sub_url
+	 * @return string
+	 */
+	protected function tenant_url(String $sub_url) {
+		$domain =  URL::to('/') . '/' . $sub_url;
+		$parsed = parse_url($domain);		
+		$tenant = tenant("id");
+		
+		if (str_starts_with($parsed['host'], $tenant . '.')) {
+			$host = $parsed['host'];
+		} else {
+			$host = $tenant . '.' . $parsed['host'];			
+		}
+		$url = $parsed['scheme'] . '://' . $host . $parsed['path'];
+		
+		return $url;
+	}
+	
+	/**
 	 * Check a tenant get URL
 	 * @param unknown $user
 	 * @param unknown $sub_url
@@ -131,7 +153,7 @@ abstract class TenantTestCase extends BaseTestCase
 	public function get_tenant_url($user, $sub_url, $see_list = []) {
 		$this->be ( $user );
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url ;
+		$url = $this->tenant_url($sub_url);
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		
@@ -154,8 +176,7 @@ abstract class TenantTestCase extends BaseTestCase
 		$this->be ( $user );
 		$this->withoutMiddleware();
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
-		// echo "url = $url\n";
+		$url = $this->tenant_url($sub_url);
 		
 		$response = $this->followingRedirects()->$method ( $url, $elt);
 		$response->assertStatus ( 200 );
@@ -196,7 +217,7 @@ abstract class TenantTestCase extends BaseTestCase
 	 */
 	public function delete_tenant_url($user, $sub_url, $see_list = []) {
 		$this->be ( $this->user );
-		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
+		$url = $this->tenant_url($sub_url);
 		
 		$response = $this->followingRedirects()->delete ( $url);
 		$response->assertStatus ( 200 );
@@ -215,7 +236,8 @@ abstract class TenantTestCase extends BaseTestCase
 		$this->be ( $user );
 		$this->withoutMiddleware();
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/' . $sub_url;
+		$url = $this->tenant_url($sub_url);
+		
 		$response = $this->patch ( $url, $elt);
 		$response->assertSessionHasNoErrors();
 		// $response->dumpSession();
