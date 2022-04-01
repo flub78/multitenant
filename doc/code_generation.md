@@ -268,7 +268,7 @@ Should ancestor and derived attributes both have accessors ? ... Or should only 
     php artisan mustache:generate --compare roles test_controller   OK
     php artisan mustache:generate --compare roles test_dusk does not exist
     php artisan mustache:generate --compare roles api               OK        
-    php artisan mustache:generate --compare roles test_api          ~OK
+    php artisan mustache:generate --compare roles test_api          OK
 
 ## configurations table
 
@@ -327,6 +327,7 @@ Should ancestor and derived attributes both have accessors ? ... Or should only 
         
     php artisan mustache:generate --compare calendar_events factory
     php artisan mustache:generate --compare calendar_events test_model
+    php artisan mustache:generate --compare calendar_events test_api          
     
 ## code_gen_types table
 

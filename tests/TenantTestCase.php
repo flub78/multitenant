@@ -13,8 +13,13 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 
 
-abstract class TenantTestCase extends BaseTestCase
-{
+/**
+ * Test for tenants
+ * 
+ * @author frederic
+ *
+ */
+abstract class TenantTestCase extends BaseTestCase {
 	
 	protected $tenancy = true;
 	
@@ -50,10 +55,17 @@ abstract class TenantTestCase extends BaseTestCase
 		parent::tearDown();
 	}
 	
-	public function initializeTenancy()
-	{
+	public function domain($tenant_id = "") {
+		$parsed = parse_url(env('APP_URL'));
+		if ($tenant_id) 
+			return $tenant_id . '.' . $parsed['host'];
+		else
+			return $parsed['host'];
+	}
+	
+	public function initializeTenancy() {
 		$tenant_id = "test";
-		$domain = 'test.tenants.com';
+		$domain = $this->domain($tenant_id);
 		
 		// Cleanup tenant from previous execution.
 		// tenant and storage database must not exist when the test tenant is recreated
@@ -87,8 +99,7 @@ abstract class TenantTestCase extends BaseTestCase
 	
 	// use CreatesApplication;
 	
-	public function createApplication()
-	{
+	public function createApplication() {
 		$app = require __DIR__.'/../bootstrap/app.php';
 		
 		//Load .env.testing environment
@@ -99,6 +110,11 @@ abstract class TenantTestCase extends BaseTestCase
 		return $app;
 	}
 	
+	/**
+	 * Set the current language
+	 * 
+	 * @param String $lang
+	 */
 	public function set_lang(String $lang): void {
 		$cfg = Configuration::where ( 'key', 'app.locale' )->first ();
 		if ($cfg) {
@@ -146,6 +162,7 @@ abstract class TenantTestCase extends BaseTestCase
 	
 	/**
 	 * Check a tenant get URL
+	 * 
 	 * @param unknown $user
 	 * @param unknown $sub_url
 	 * @param array $see_list

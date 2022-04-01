@@ -32,7 +32,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Test that base URL returns a json list of elements
 	 */
 	public function test_calendar_event_index_json() {
 		
@@ -49,7 +49,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		] ); // UTC
 		
 		// Without page parameter the URL returns a collection
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url);
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url);
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -59,7 +59,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Get one element form the API
 	 */
 	public function test_show() {
 		$this->be ( $this->user );
@@ -74,7 +74,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 				'allDay' => 1
 		] ); // UTC
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/1');
 		$response->assertStatus(200);
 		$json = $response->json();
 		$this->assertEquals('event 1', $json['title']);
@@ -101,7 +101,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 				'allDay' => 1
 		] ); // UTC
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/fullcalendar' .
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/fullcalendar' .
 				'?start=2021-06-01T00:00:00+01:00&end=2021-06-30T23:59:00+01:00');
 		$response->assertStatus(200);
 		$json = $response->json();
@@ -111,7 +111,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	
 	
 	/**
-	 * 
+	 * Create elements from the API
 	 */
 	public function test_calendar_event_store() {
 		
@@ -126,7 +126,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		];
 				
 		// call the post method to create it
-		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url , $elt);
+		$response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url , $elt);
 		
 		// $response->dump();
 		$response->assertStatus(201);
@@ -149,7 +149,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Test store error cases
 	 */
 	public function test_calendar_event_store_incorrect_value() {		
 		$initial_count = CalendarEvent::count ();
@@ -159,7 +159,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$start = "start";
 		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start];
 		
-		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $elt);
+		$response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
 		$json = $response->json();
 		$this->assertEquals('The given data was invalid.', $json['message']);
 		$this->assertEquals('The start date does not match the format m-d-Y.', $json['errors']['start_date'][0]);
@@ -170,7 +170,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 
 	/**
-	 * 
+	 * Delete an element through the API
 	 */
 	public function test_delete() {
 		$this->be ( $this->user );
@@ -179,7 +179,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$id = $event->save();
 		$initial_count = CalendarEvent::count ();
 		
-		$response = $this->deleteJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id);
+		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id);
 		
 		// $response->dump();
 		$json = $response->json();
@@ -191,7 +191,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Test deleting a non existing element
 	 */
 	public function test_delete_inexisting_elt() {
 		$this->be ( $this->user );
@@ -199,7 +199,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$id = "123456789";
 		$initial_count = CalendarEvent::count ();
 		
-		$response = $this->deleteJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id);
+		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id);
 		
 		// $response->dump();
 		$json = $response->json();
@@ -212,7 +212,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 * 
+	 * Check that an element can be updated through the REST API
 	 */
 	public function test_update() {
 		
@@ -231,7 +231,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 				'start_time' => '06:30', 'end_time' => '07:45', 
 				'allDay' => false, '_token' => csrf_token()];
 						
-		$response = $this->patchJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id, $elt);
+		$response = $this->patchJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id, $elt);
 		$this->assertEquals(1, $response->json());		
 
 		$stored = CalendarEvent::findOrFail($id);
@@ -245,7 +245,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 
 	/**
-	 * 
+	 * Test pagination
 	 */
 	public function test_calendar_event_pagination() {
 		$this->be ( $this->user );
@@ -262,7 +262,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 			] ); // UTC
 		}
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -278,6 +278,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals('event_80', $json['data'][0]['title']);
 	}
 	
+	/**
+	 * Non existing page number
+	 */
 	public function test_bad_page_number() {
 		$this->be ( $this->user );
 		
@@ -293,7 +296,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 			] ); // UTC
 		}
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=120');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=120');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -302,6 +305,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 	}
 	
 	
+	/**
+	 * Test that pages are correctly sorted
+	 */
 	public function test_calendar_event_sorting() {
 		$this->be ( $this->user );
 		
@@ -319,7 +325,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		}
 		
 		// Call a page
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -328,7 +334,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
 		
 		// Sorting on start (reverse order)
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=-start');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=-start');
 		$json = $response->json();
 		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
 		// var_dump($json);
@@ -351,7 +357,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		}
 		
 		// First page, non sorted
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -360,7 +366,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
 		
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=allDay,-start');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=allDay,-start');
 		$json = $response->json();
 		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
 		$this->assertEquals('event_98', $json['data'][1]['title']); // reverse order
@@ -378,6 +384,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		// var_dump($json);
 	}
 
+	/**
+	 * Sorting on bad column name
+	 */
 	public function test_sorting_on_bad_column_name() {
 		$this->be ( $this->user );
 		
@@ -395,7 +404,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		}
 				
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=allDate,-startTime');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=allDate,-startTime');
 		$json = $response->json();
 		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
 		$this->assertStringContainsString("Unknown column 'allDate'", $json['message']);
@@ -424,20 +433,19 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		
 		// Filtering on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?filter=allDay:1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1');
 		$json = $response->json();
 		$this->assertEquals(50, count($json['data']));
 		
 		// Filtering on multiple columns
 		$limit = $date->sub(10, 'hour');
 		$after =  htmlspecialchars(',start:>' . $limit->toDateTimeString());
-		$response = $this->getJson('http://' . tenant('id') . 
-				'.tenants.com/api' . $this->base_url . '?filter=allDay:1' . $after);
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));
 
 		$after =  htmlspecialchars(',start:>=' . $limit->toDateTimeString());
-		$url = 'http://' . tenant('id') . '.tenants.com/api' . $this->base_url . '?filter=allDay:1' . $after;
+		$url = 'http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after;
 		$response = $this->getJson($url);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));

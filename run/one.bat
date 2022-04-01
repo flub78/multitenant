@@ -48,7 +48,7 @@
 
 @rem Tenant application tests
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantFeatureExampleTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/LocalizationTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ArtisanMustacheTest.php
 
@@ -73,6 +73,6 @@ php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantBackupArtisanTest
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
 
     @rem APIs
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
 
