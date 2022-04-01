@@ -19,7 +19,7 @@ use Carbon\Carbon;
  * REST API for Calendar Events
  *
  * @author frederic
- * @reviewed on 2021/08/01
+ * @reviewed on 2021-08-01
  *        
  */
 class [[class_name]]Controller extends Controller {

@@ -35,4 +35,18 @@ A backlog should only contains elements for which the decision to do them has be
 * By pair programming
 * When code is commited
 * When a file has never been reviewed (allocate some time for catching up)
+
+# Tools to support code reviews
+
+It is possible to use code reviews tools like github pull requests.
+
+A simple convention to keep track of code reviews is just to insert a comment inside the file:
+
+    /**    
+     * @reviewed 2022-01-18
+     */
+
+With that it is easy to check if a file has been reviewed or not and if there is not to much time between the latest changes and the latest review. Ideally the latest review should have the same date than the latest change.
+
+
      

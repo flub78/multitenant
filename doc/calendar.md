@@ -2,11 +2,11 @@
 
 A calendar is a basic feature for Web applications. 
 
-* Calendar views per month/week/day
-* events CRUD, callable from the calendar view.
+* There are calendar views per month/week/day
+* It is possible to interact with the full calendar view to create, read, update and delete events.
 
 It is a base for extensions with the possibility to add new types of events and business logic.
-For example it will be possible to create a reservation system with several type of resources (for example a classroom, a teacher and a limited number of student, etc.).
+For example it will be possible to create a reservation system with several type of resources (a classroom, a teacher and a limited number of student, etc.).
 
 ## Database ERD (Entity Relation Diagram)
 
@@ -57,7 +57,7 @@ Invalid input:
 
 Dates and datetimes are stored in the database in UTC. Initially the conversion was done in PHP on the server according the the locale.timezone configuration value. It could be a better idea to let each user set its own time zone through the web browser localization.
 
-It could also be better to send times in UTC to the client and do all the conversions in javascript.
+It is also possible to send times in UTC to the client and do all the conversions in javascript. (not implemented)
 
 https://stackoverflow.com/questions/39555702/how-to-autodetect-timezone-with-php-or-use-external-website
 
@@ -92,13 +92,15 @@ The javascript is handled in
     
 ### Google calendar
 
-Previous version of this project have used Google calendar as their only data source.
+The previous version of this project used Google calendar as their only data source.
 
-It as deterred several potential users due to the complexity of obtaining an API key and configuring full calendar to use it. As this application is multitenant at least one calendar per tenant is needed. 
+It as deterred several potential users because of the complexity of obtaining an API key and configuring full calendar to use it. Even a good initial documentation did not help as the concpts are not simple and Google tends to change the way to get certificates. I had no time to monitor is and update the documentation.
 
-This version will use the database as default data source. If it becomes available the synchronization with Google calendar will only be optional.
+As this application is multitenant, every tenant should have his own calendar. 
 
-Note also that Google Calendar handles very generic events. It could be convenient to develop a specific data model to handle more specific cases. The main reason of using Google calendar with the previous versions was to provide a public access to the calendar to unregistered users. That also can easily be handled with a specific read-only route and view.
+This version will use the database as default data source. If it becomes available the synchronization with Google calendar will only an option, not a requirement.
+
+Google Calendar handles very generic events. It is possible to develop a specific data model to handle more specific cases. The main reason of using Google calendar with the previous versions was to provide a public access to the calendar to unregistered users and it has never been used. An alternative is to provide a specific read-only route and view.
 
 
 ### JSON feeds

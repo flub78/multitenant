@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
  * User Model for tenant and central application
  * 
  * @author frederic
- * @review 02/09/2021
+ * @reviewed 2021-02-09
  */
 class User extends Authenticatable
 {

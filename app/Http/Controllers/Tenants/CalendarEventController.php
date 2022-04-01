@@ -26,7 +26,7 @@ use BaconQrCode\Common\FormatInformation;
  * Calendar is a tenant only feature. Central application is really limited to the tenant management.
  *
  * @author frederic
- * @reviewed 08/01/2022
+ * @reviewed 2022-01-08
  *        
  */
 class CalendarEventController extends Controller {

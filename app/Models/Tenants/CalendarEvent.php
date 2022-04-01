@@ -56,7 +56,7 @@ use Illuminate\Support\Facades\Log;
  * https://laravel.com/docs/8.x/eloquent-mutators
  * 
  * @author frederic
- * reviewed 08/01/2022
+ * reviewed 2022-01-08
  *
  */
 class CalendarEvent extends ModelWithLogs

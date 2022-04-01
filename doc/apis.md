@@ -11,7 +11,7 @@ generates \app\Http\Controllers\Api\CalendarEventController.php
 
 ## Simplified Workflow to create an API
 
-See other documentation pages to create the database table and migrate it
+The simplest way to create an API in this project is to use the code generator. See other documentation pages to create the database table and migrate it. 
 
 
     php artisan mustache:generate --install roles api 

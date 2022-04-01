@@ -9,7 +9,7 @@ use App\Rules\IsAfter;
 /**
  * A Request to validate calendar events
  * @author frederic
- * @reviewed 08/01/2022
+ * @reviewed 2022-01-08
  */
 class CalendarEventRequest extends FormRequest {
 

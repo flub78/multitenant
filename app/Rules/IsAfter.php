@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * A rule used to validate calendar events
  * @author frederic
- * @reviewed 01/08/2022
+ * @reviewed 2022-08-01
  *
  */
 class IsAfter implements Rule {
