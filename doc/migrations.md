@@ -30,6 +30,19 @@ Migration of the central test database using the test connection
     
     php artisan migrate --database=mysql_test
     
+When the schema of the central application changes, it is important to regenerate the test database:
+
+    # Register the test user interactively
+    
+    # Then save the central database to be used for testing
+    php artisan backup:create
+    backup C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\storage/app/backup\backup-2022-04-01_120903.gz created
+
+    php artisan backup:test_install
+    Local backups:central database
+    copy .../app/backup/backup-2022-04-01_120903.gz tests/data/central_nominal.gz
+    copy .../app/backup/backup-2022-04-01_120903.gz storage/app/tests/central_nominal.gz
+    
 ### Tenant application
     
 migrate the tenant database
@@ -41,12 +54,15 @@ Note that the connection does not matter.
     php artisan tenants:migrate-fresh --tenants=abbeville
     
     php artisan tenants:seed --tenants=abbeville --class="Database\Seeders\RoleSeeder"
+    php artisan tenants:seed --tenants=test --class="Database\Seeders\RoleSeeder"
     
 Note that dusk tests restore a test database before execution. So when the test tenant database is migrated the database for testing must be regenerated. 
 
-1. migrate php artisan tenants:migrate-fresh --tenants=test
-1. register the test user (me by default)
-1. php artisan --tenant=test backup:create
-1. php artisan --tenant=test backup:test_install
+    # migrate
+    php artisan tenants:migrate-fresh --tenants=test
+    # register the test user using the WEB application
+    
+    php artisan --tenant=test backup:create
+    php artisan --tenant=test backup:test_install
 
     

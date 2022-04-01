@@ -154,6 +154,7 @@ abstract class TenantTestCase extends BaseTestCase
 		$this->be ( $user );
 		
 		$url = $this->tenant_url($sub_url);
+		echo "\nget_tenant_url url = $url\n";
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		

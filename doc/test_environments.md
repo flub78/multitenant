@@ -92,3 +92,49 @@ There are two kinds of deployment End to End tests
 * After installation, the database is empty, no user is registered
 * Tests on deployment, these test makes no assumption on the state of the database, they can run on any deployed environment and only rely on an existing admin user. On success, they delete all created data and create only very unlikely data that should not conflict with existing one. May be that prefixing all data names by "tests_on_deployment_" could avoid conflicts. 
 
+# Tests workflow
+
+## Static analysis
+
+no pre-requisites except PHP 8.x
+
+## phpunit
+
+    Fetch the sources from git
+    
+### Definition of some environment variables
+
+    export BASE_URL='http://tenants.com/'
+    export APP_URL='http://tenants.com/'
+    export TENANT_URL='http://test.tenants.com/'
+    export INSTALLATION_PATH='/var/www/html/multi_phpunit'
+    export SERVER_PATH='/var/www/html/tenants.com'
+    export VERBOSE="-v"
+    export TRANSLATE_API_KEY='...'
+
+
+    export DB_HOST='localhost'
+    export DB_USERNAME='root'
+    export DB_PASSWORD='cpasbelo'
+    export DB_DATABASE='multi_jenkins'
+
+### Ansible script
+
+3 roles:
+    - env
+    - directories
+    - laravel
+    
+* Setup environment files from environment variables
+* Setup a predifined user admin able to login
+* Create some directories
+* migrate and seed the database
+* Generate test databases
+
+Currently central_nominal.gz and tenants_nominal.gz are restored before the phpunit tests.
+
+The test database contains test tenants, so is dependent on the domain used for testing. They must be created by the test suite once environment variables are set and not stored on github.
+
+Another option is to replace the domain inside the backups with ansible.
+
+    

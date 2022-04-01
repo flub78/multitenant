@@ -49,6 +49,10 @@ class CodeGenerationTypes extends Migration
     		->comment('{"subtype": "bitfield", 
 			"values":["redactor","student","pilot", "instructor", "winch_man", "tow_pilot", "president", "accounter", "secretary", "mechanic"]}');
     		
+    		$table->string("color_name")->nullable()
+    		->comment('{"subtype": "enumerate",
+			"values":["blue","red","green", "white", "black"]}');
+    		
     		$table->string('picture')->nullable()->comment('{"subtype" : "picture"}');
 
     		$table->string('attachment')->nullable()->comment('{"subtype" : "attachement", "file_types" : ["txt", "pdf", "jpg"]}');

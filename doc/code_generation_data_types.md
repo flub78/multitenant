@@ -15,7 +15,7 @@ Basically for every datatype we must have code to:
 
 Here is a list of the most common data types handled by a WEB application. This list will be completed along the way.
 
-* id, integer table primary key. Experience has demonstrated that it is often a by idea to use an application field as primary key, it is usually a nightmare when you need to change it.
+* id, integer table primary key. Experience has demonstrated that it is often a bad idea to use an application field as primary key, it is usually a nightmare when you need to change it.
 
 * date and date time: birth date, validity date, departure time
 * foreign keys
@@ -27,11 +27,9 @@ Here is a list of the most common data types handled by a WEB application. This 
 * attachments: file, image, pictures
 * enumerates
 
-When enumerates need to be dynamic and can potentially be modified by the user or by an admin user they should be kept in a separate table. When they are static and their modification is liked to code modifications they can be stored as database enumerates inside the schema.
+When enumerates need to be dynamic and can potentially be modified by the user or by an admin user they should be kept in a separate table. When they are static and their modification implies code modifications they can be stored as database enumerates inside the schema.
 
-First case: calendar event types.
-Second case, days of the week.
- 
+
 ## Multiple fields
 
 The current approach works well when one column in the database has only one field in form for input and only one field for display. It does not work as well when a unique field in database generates several fields in the GUI. 
@@ -67,6 +65,17 @@ Implementation
     * this filename is stored in the database and used to retrieve the file
     * actual filename shoud never be seen by the user
 
+## Enumerates
+
+Enumerates are strings with a set of acceptable values. Input of enumerates can be done with a select or a set of radio boxes. Enumerates can be tranlsated into the current language. 
+
+Example:
+
+    {
+        "values":["app.locale","app.timezone","browser.locale"],
+        "rules_to_add":["'regex:\/\\w+\\.\\w+(\\.\\w+)*\/'"]
+    }
+
 ## Float and currencies
 
 2 possibilities:
@@ -80,3 +89,38 @@ Implementation
 I also have to deal with decimal separator ...
 
 The first approach is certainly the more complete. It make sense for date and datetime where the internal format can never be used externally and where all the views have to be specially designed for the external format. The second is much simpler, likely good enough for a lot of cases.
+
+## Bitfields
+
+Bitfields are integers or big integers for which every bit can be set or reset. Every bit has a label which can be localized and translated in the current language.
+Display values can be a comma separated list of values. Input and create are either a set of labels and check-boxes or a non exclusive select.
+
+When values are provided as a sequential list, the first index set the bit 0, etc.
+When they are hash the encoding is specified and keys must be power of 2.
+
+Example:
+
+    code_gen_types.qualifications   
+        {"subtype": "bitfield", 
+         "values": ["redactor","student","pilot", "instructor", "winch_man", "tow_pilot", "president", "accounter", "secretary", "mechanic"]}
+
+Should generate something like:
+
+    <legend>Responsabilités club</legend>
+    <table>
+    <tr>
+        <td align="right">Président     </td>
+        <td align="left"><input type="checkbox" name="mniveau[]" value="2"  />      </td>
+        <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       </td>
+        
+        <td align="left">Vice-Président     </td>
+        <td align="left"><input type="checkbox" name="mniveau[]" value="4"  />      </td>
+        <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       </td>
+        <td align="left">Membre du CA       </td>
+        <td align="left"><input type="checkbox" name="mniveau[]" value="64" checked="checked"  />       </td>
+    </tr>
+    ...
+    
+note that it may be convenient to support input edit and create into a table when there are a lot of values.
+
+
