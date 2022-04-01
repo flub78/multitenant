@@ -48,8 +48,13 @@ class TenantBackupArtisanTest extends TenantTestCase {
 	 * check that the database is back in its initial state
 	 * delete the backup
 	 * check that there is one less backup in the local storage
+	 * 
 	 */
 	public function test_backup_create_delete() {
+		
+		if ("WINNT" != PHP_OS) 
+			$this->markTestSkipped('Unable to fork [/usr/bin/mysqldump ...');
+		
 		$this->be ( $this->user );
 		
 		$tenant = tenant('id');
@@ -105,6 +110,9 @@ class TenantBackupArtisanTest extends TenantTestCase {
 	}
 	
 	public function test_backup_create_all() {
+		if ("WINNT" != PHP_OS)
+			$this->markTestSkipped('Unable to fork [/usr/bin/mysqldump ...');
+			
 		$exitCode = Artisan::call("backup:create --all");
 		$this->assertEquals($exitCode, 0, "No error on backup:create --all");
 	}

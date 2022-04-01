@@ -62,6 +62,10 @@ class TenantBackupControllerTest extends TenantTestCase {
 	 * check that there is one less backup in the local storage
 	 */
 	public function test_backup_create_delete() {
+		
+		if ("WINNT" != PHP_OS)
+			$this->markTestSkipped('Unable to fork [/usr/bin/mysqldump ...');
+			
 		$initial_count = $this->backup_count ();
 		
 		$this->be ( $this->user );
@@ -134,6 +138,10 @@ class TenantBackupControllerTest extends TenantTestCase {
 	}
 	
 	public function test_backup_download () {
+		
+		if ("WINNT" != PHP_OS)
+			$this->markTestSkipped('Unable to fork [/usr/bin/mysqldump ...');
+			
 		// create a backup
 		$initial_count = $this->backup_count ();
 		$this->be ( $this->user );
