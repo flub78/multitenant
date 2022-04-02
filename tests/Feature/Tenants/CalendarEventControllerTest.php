@@ -262,7 +262,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$id = $event->id;
 				
 		// Missing ID
-		$url = 'http://' . tenant('id'). '.tenants.com/' .  $this->base_url . '/dragged' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/' .  $this->base_url . '/dragged' ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Missing calendar event ID', 'code' => 1]]);
@@ -271,7 +271,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		// Unknown ID
 		$start='2022-01-07';
-		$url = 'http://' . tenant('id'). '.tenants.com/' .  $this->base_url . '/dragged?id=1000000000&start=' . $start ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/' .  $this->base_url . '/dragged?id=1000000000&start=' . $start ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]]);
@@ -279,7 +279,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Missing start
-		$url = 'http://' . tenant('id'). '.tenants.com/' . $this->base_url . '/dragged?id=1000000000' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/' . $this->base_url . '/dragged?id=1000000000' ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Missing calendar event start', 'code' => 2]]);
@@ -291,7 +291,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		 * not able to trigger an error with parse ....
 
 		$start='15/25/2022';
-		$url = 'http://' . tenant('id'). ".tenants.com/" .  $this->base_url . "/dragged?id=$id&start=$start" ;
+		$url = 'http://' . $this->domain(tenant("id")) . "/" .  $this->base_url . "/dragged?id=$id&start=$start" ;
 		echo "url=$url\n";
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
@@ -301,7 +301,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		*/
 		
 		// Correct answer
-		$url = 'http://' . tenant('id'). ".tenants.com/" . $this->base_url . "/dragged?id=$id&start=" . $start;
+		$url = 'http://' . $this->domain(tenant("id")) . "/" . $this->base_url . "/dragged?id=$id&start=" . $start;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertExactJson(['status' => 'OK']);
@@ -335,7 +335,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$id = $event->id;
 		
 		// Missing ID
-		$url = 'http://' . tenant('id'). '.tenants.com/' .  $this->base_url . '/resized' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/' .  $this->base_url . '/resized' ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Missing calendar event ID', 'code' => 1]]);
@@ -343,7 +343,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Unknown ID
-		$url = 'http://' . tenant('id'). '.tenants.com/' .  $this->base_url . '/resized?id=1000000000&end=' . $new_end ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/' .  $this->base_url . '/resized?id=1000000000&end=' . $new_end ;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]]);
@@ -351,7 +351,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Missing end
-		$url = 'http://' . tenant('id'). ".tenants.com/" .  $this->base_url . "/resized?id=$id";
+		$url = 'http://' . $this->domain(tenant("id")) . "/" .  $this->base_url . "/resized?id=$id";
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertJson(['error' => ['message' => 'Missing calendar event end', 'code' => 2]]);
@@ -359,7 +359,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertSessionHasNoErrors();
 		
 		// Correct answer
-		$url = 'http://' . tenant('id'). ".tenants.com/" .  $this->base_url . "/resized?id=$id&end=" . $new_end;
+		$url = 'http://' . $this->domain(tenant("id")) . "/" .  $this->base_url . "/resized?id=$id&end=" . $new_end;
 		$response = $this->getJson($url);
 		$response->assertStatus ( 200 );
 		$response->assertExactJson(['status' => 'OK']);

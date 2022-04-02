@@ -85,7 +85,7 @@ class LocalizationTest extends TenantTestCase {
 		
 		$this->set_lang('en');
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/login' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/login' ;
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		
@@ -96,7 +96,7 @@ class LocalizationTest extends TenantTestCase {
 
 		$this->set_lang('fr');
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/login' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/login' ;
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		
@@ -110,7 +110,7 @@ class LocalizationTest extends TenantTestCase {
 		
 		$this->set_lang('en');
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/register' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/register' ;
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		
@@ -120,7 +120,7 @@ class LocalizationTest extends TenantTestCase {
 		}
 		
 		$this->set_lang('fr');
-		$url = 'http://' . tenant('id'). '.tenants.com/register' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/register' ;
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		
@@ -134,7 +134,7 @@ class LocalizationTest extends TenantTestCase {
 		
 		$this->set_lang('en');
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/password/reset' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/password/reset' ;
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		
@@ -144,7 +144,7 @@ class LocalizationTest extends TenantTestCase {
 		}
 		
 		$this->set_lang('fr');
-		$url = 'http://' . tenant('id'). '.tenants.com/password/reset' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/password/reset' ;
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		

@@ -42,7 +42,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		CodeGenType::factory ()->create ();
 		
 		// Without page parameter the URL returns a collection
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url);
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url);
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -64,7 +64,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		$code_gen_type1 = CodeGenType::factory ()->create ();
 		CodeGenType::factory ()->create ();
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/1');
 		$response->assertStatus(200);
 		$json = $response->json();
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
@@ -94,7 +94,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		}
 				
 		// call the post method to create it
-		$response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url , $elt);
+		$response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url , $elt);
 		
 		// $response->dump();
 		$response->assertStatus(201);
@@ -131,7 +131,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 
             $elt = $case["fields"];
             
-            $response = $this->postJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url, $elt);
+            $response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
             $json = $response->json();
             $this->assertEquals('The given data was invalid.', $json['message']);
             foreach ($case["errors"] as $field => $msg) {
@@ -155,7 +155,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		$back = CodeGenType::latest()->first();
 		$id = $back->id;
 		
-		$response = $this->deleteJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id);
+		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id);
 		
 		// $response->dump();
 		$json = $response->json();
@@ -175,7 +175,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		$id = "123456789";
 		$initial_count = CodeGenType::count ();
 		
-		$response = $this->deleteJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id);
+		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id);
 		
 		// $response->dump();
 		$json = $response->json();
@@ -208,7 +208,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         }
 		$elt['_token'] = csrf_token();
 						
-		$response = $this->patchJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '/' . $id, $elt);
+		$response = $this->patchJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id, $elt);
 		$this->assertEquals(1, $response->json());		
 
 		$updated = CodeGenType::findOrFail($id);
@@ -238,7 +238,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
             if ($cnt == 19) sleep(2); // because lastest has a second precision
 		}
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -265,7 +265,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 			CodeGenType::factory ()->create ();
 		}
 		
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=120');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=120');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -295,7 +295,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		}
 		
 		// Call a page
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -306,8 +306,8 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         }
 		
 		// Sorting on start (reverse order)
-		$first_field = [ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ][0];
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=-' . $first_field);
+		$first_field = [ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ][0];
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=-' . $first_field);
 		$json = $response->json();
 		
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
@@ -329,7 +329,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		}
 		
 		// First page, non sorted
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 		
 		$json = $response->json();
@@ -338,7 +338,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
 		
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=allDay,-start');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=allDay,-start');
 		$json = $response->json();
 		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
 		$this->assertEquals('event_98', $json['data'][1]['title']); // reverse order
@@ -368,7 +368,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		}
 				
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?sort=Unknown,-ColumnName');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=Unknown,-ColumnName');
 		$json = $response->json();
 		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
 		$this->assertStringContainsString("Unknown column ", $json['message']);
@@ -385,20 +385,19 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		}		
 		
 		// Filtering on multiple columns
-		$response = $this->getJson('http://' . tenant('id'). '.tenants.com/api' . $this->base_url . '?filter=allDay:1');
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1');
 		$json = $response->json();
 		$this->assertEquals(50, count($json['data']));
 		
 		// Filtering on multiple columns
 		$limit = $date->sub(10, 'hour');
 		$after =  htmlspecialchars(',start:>' . $limit->toDateTimeString());
-		$response = $this->getJson('http://' . tenant('id') . 
-				'.tenants.com/api' . $this->base_url . '?filter=allDay:1' . $after);
+		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));
 
 		$after =  htmlspecialchars(',start:>=' . $limit->toDateTimeString());
-		$url = 'http://' . tenant('id') . '.tenants.com/api' . $this->base_url . '?filter=allDay:1' . $after;
+		$url = 'http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after;
 		$response = $this->getJson($url);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));

@@ -36,7 +36,7 @@ class TenantModelTest extends TenantTestCase {
 		$tnt = Tenant::findOrFail ( $id );		
 		$url = $tnt->url();
 		
-		$this->assertEquals("http://test.tenants.com", $url);
+		$this->assertEquals("http://" . $this->domain("test") , $url);
 	}
 	
 	public function test_domain () {

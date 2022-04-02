@@ -101,7 +101,7 @@ class MetadataControllerTest extends TenantTestCase {
 		$this->be ( $this->user );
 		$this->withoutMiddleware();
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/metadata';
+		$url = 'http://' . $this->domain(tenant('id')) . '/metadata';
 		
 		$response = $this->followingRedirects()->post ( $url, $elt);
 		$response->assertStatus ( 500 );

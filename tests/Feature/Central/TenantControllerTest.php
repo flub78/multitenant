@@ -72,7 +72,7 @@ class TenantControllerTest extends TenantTestCase {
 	public function test_tenant_edit_view_existing_element() {
 		$this->be ( $this->user );
 		
-		$this->create_tenant ("autotest", "autotest.tenants.com");
+		$this->create_tenant ("autotest", $this->domain("autotest"));
 		
 		$count = Tenant::count();
 		$this->assertNotEquals(0, $count, "at least one tenant exist"); 
@@ -128,7 +128,7 @@ class TenantControllerTest extends TenantTestCase {
 		$this->be ( $this->user );
 		
 		$tenant_id = "autotest";
-		$domain = $tenant_id . ".tenants.com";
+		$domain = $this->domain($tenant_id); 
 		$database = "tenant" . $tenant_id;
 		$storage = TenantHelper::storage_dirpath($tenant_id);
 		
@@ -162,7 +162,7 @@ class TenantControllerTest extends TenantTestCase {
 		$this->be ( $this->user );
 		
 		// create a tenant
-		$this->create_tenant ("autotest", "autotest.tenants.com");
+		$this->create_tenant ("autotest", $this->domain("autotest"));
 		
 		// trigger the update entry of the controller
 		$url = URL::to('/') . '/tenants/autotest';
@@ -182,7 +182,7 @@ class TenantControllerTest extends TenantTestCase {
 		$this->be ( $this->user );
 
 		$tenant_id = "autotest2";
-		$domain = $tenant_id . ".tenants.com";
+		$domain = $this->domain($tenant_id);
 		$database = "tenant" . $tenant_id;
 		$storage = TenantHelper::storage_dirpath($tenant_id);
 		

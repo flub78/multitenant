@@ -34,7 +34,7 @@ class TestControllerTest extends TenantTestCase {
 		$this->be ( $this->user );
 		
 		// configuration list
-		$url = 'http://' . tenant('id'). '.tenants.com/test' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/test' ;
 		
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
@@ -45,7 +45,7 @@ class TestControllerTest extends TenantTestCase {
 	public function test_email() {
 		$this->be ( $this->user );
 		
-		$url = 'http://' . tenant('id'). '.tenants.com/test/email' ;
+		$url = 'http://' . $this->domain(tenant('id')) . '/test/email' ;
 		
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
