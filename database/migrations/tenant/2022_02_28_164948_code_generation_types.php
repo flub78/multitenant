@@ -55,7 +55,7 @@ class CodeGenerationTypes extends Migration
     		
     		$table->string('picture')->nullable()->comment('{"subtype" : "picture"}');
 
-    		$table->string('attachment')->nullable()->comment('{"subtype" : "attachement", "file_types" : ["txt", "pdf", "jpg"]}');
+    		$table->string('attachment')->nullable()->comment('{"subtype" : "file", "file_types" : ["txt", "pdf", "jpg"]}');
     		
     		$table->timestamps();
     	});

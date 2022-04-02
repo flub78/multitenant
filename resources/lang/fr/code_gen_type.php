@@ -23,12 +23,20 @@ return 	[
 			"description" => "Description",
 			"year_of_birth" => "Année de naissance",
 			"weight" => "Poids",
-			"birthday" => "Date anniversaire",
-			"tea_time" => "Heure du thé",
+			"birthday" => "Date d'anniversaire",
+			"tea_time" => "L'heure du thé",
+			"takeoff_date" => "Date de décollage",
+			"takeoff_time" => "Heure de décollage",
 			"price" => "Prix",
 			"big_price" => "Grand prix",
 			"qualifications" => "Qualifications",
+			"color_name" => "Nom de couleur",
 			"picture" => "Image",
-			"attachment" => "Attachement"
+			"attachment" => "Attachement",
+			"color_name.blue" => "Bleu",
+			"color_name.red" => "Rouge",
+			"color_name.green" => "Vert",
+			"color_name.white" => "Blanc",
+			"color_name.black" => "Noir"
 	];
 

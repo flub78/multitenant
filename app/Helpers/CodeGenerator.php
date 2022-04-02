@@ -60,6 +60,11 @@ class CodeGenerator {
 		} elseif ($subtype == "checkbox") {
 			return '<input type="checkbox" {{ ($' . $element . '->' . $field . ') ? "checked" : "" }}  onclick="return false;" />';
 		
+		} elseif (($subtype == "enumerate")) {
+			$table_field = $element . '.' . $field;
+			$value = '$' .$element . '->' . $field;
+			return "{!! Blade::enumerate(\"$table_field\", $value) !!}";
+			
 		} elseif (($subtype == "picture")) {
 			$route_name = $element . '.picture';
 			$id = '$' . $element . '->id';
@@ -194,6 +199,7 @@ class CodeGenerator {
 		$type = "text";
 		$field_type = Meta::type($table, $field);
 		$subtype = Meta::subtype($table, $field);
+		$element = Meta::element($table);
 		
 		if ($subtype == "checkbox") {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" id=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\") ? 'checked' : ''}}/>";
@@ -201,7 +207,11 @@ class CodeGenerator {
 		
 		if ($subtype == "enumerate") {
 			$options = Meta::field_metadata($table, $field);
-			return Blade::select($field, $options['values'], false, '', []);
+			$values = [];
+			foreach ($options['values'] as $value) {
+				$values[$value] = '{{__("' . $element . '.' .$field. '.' . $value . '") }}';
+			}
+			return Blade::select($field, $values, false, '', []);
 		}
 	
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);
@@ -718,6 +728,32 @@ class CodeGenerator {
 	}
 	
 	/**
+	 * List of the enumerate for translation
+	 * 
+	 * @param unknown $table
+	 * @return string[][]
+	 */
+	static public function enumerate_list($table) {
+		$res = [];
+		// $element = Meta::element($table);
+		foreach (Schema::fieldList($table) as $field) {
+			$subtype = Meta::subtype($table, $field);
+			// $field_type = Meta::type($table, $field);
+			$options = Meta::field_metadata($table, $field);
+			
+			if ($subtype == "enumerate") {
+				
+				foreach ($options['values'] as $value) {
+					$line = [];
+					$line["name"] = $field . "." . $value;
+					$line["display_name"] = ucfirst(str_replace('_', ' ',$value));
+					if ($line) $res[] = $line;
+				}
+			}
+		}
+		return $res;
+	}
+	/**
 	 * All the information for mustache engine
 	 *
 	 * @param String $table
@@ -744,7 +780,8 @@ class CodeGenerator {
 				'float_mutators' => self::type_mutators($table, "undefined_float"),
 				'picture_url'=> self::picture_file_url($table, "picture"),
 				'download_url'=> self::picture_file_url($table, "file"),
-				'controller_list'=> self::controller_list($table)
+				'controller_list'=> self::controller_list($table),
+				'enumerate_list' => self::enumerate_list($table)
 		);
 	}
 }

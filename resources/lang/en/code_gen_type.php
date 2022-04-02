@@ -31,7 +31,13 @@ return [
 	'price' => "Price",
 	'big_price' => "Big price",
 	'qualifications' => "Qualifications",
+	'color_name' => "Color name",
 	'picture' => "Picture",
 	'attachment' => "Attachment",
+    'color_name.blue' => "Blue",
+    'color_name.red' => "Red",
+    'color_name.green' => "Green",
+    'color_name.white' => "White",
+    'color_name.black' => "Black",
 ];
 

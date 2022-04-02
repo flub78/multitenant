@@ -14,10 +14,8 @@ use Illuminate\Support\Str;
  * The Blade helper enforces project conventions, making the calls more concise
  * but limiting the diversity of generated HTML constructs.
  *
- * An alternative to this helper is the creation of blade directives, however
- * I have difficulties with blade directives with multiple structured parameters.
- *
  * @author frederic
+ * @reviewed 2022-04-02
  *        
  */
 class BladeHelper {
@@ -83,11 +81,17 @@ class BladeHelper {
 		]));
 	}
 
+	/**
+	 * Return a name to store an uploaded file
+	 * There is a random part to avoid conflicts
+	 * 
+	 * @param unknown $name
+	 * @param unknown $table_field
+	 * @return string
+	 */
 	static public function upload_name($name, $table_field) {
 		$ext = pathinfo($name, PATHINFO_EXTENSION);
-		$basename = basename($name, '.' . $ext);
 		return $table_field . Str::random(16) . '.' . $ext;
-		// return $table_field . '_' . $name;
 	}
 	
 	/**
@@ -97,6 +101,8 @@ class BladeHelper {
 	 * @param unknown $field
 	 * @param string $label
 	 * @return string
+	 * 
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function picture($route_name, $id, $field, $filename, $label="") {
 		if (!$filename) return "";
@@ -111,12 +117,26 @@ class BladeHelper {
 	}
 	
 	/**
+	 * Localized display of an enumerate value
+	 * 
+	 * @param String $table_field
+	 * @param String $value
+	 * @return string
+	 */
+	static public function enumerate($table_field, $value) {
+		if (!$value) return "";
+		return __($table_field . '.' . $value);
+	}
+	
+	/**
 	 * Generate a link to download an uploaded file
 	 * @param unknown $route_name
 	 * @param unknown $id
 	 * @param unknown $field
 	 * @param unknown $label
 	 * @return string
+
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function download($route_name, $id, $field, $filename, $label = "") {
 		if (!$filename) return "";

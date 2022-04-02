@@ -44,7 +44,7 @@ use App\Helpers\BladeHelper as Blade;
            
            <div class="form-group">
              <label for="description">{{__("code_gen_type.description")}}</label>
-             <textarea rows="5" cols="60" class="form-control" name="description">{{ old("description") }}</textarea>
+             <textarea rows="4" cols="40" class="form-control" name="description">{{ old("description") }}</textarea>
            </div>
            
            <div class="form-group">
@@ -90,6 +90,18 @@ use App\Helpers\BladeHelper as Blade;
            <div class="form-group">
              <label for="qualifications">{{__("code_gen_type.qualifications")}}</label>
              <input type="text" class="form-control" name="qualifications" value="{{ old("qualifications") }}"/>
+           </div>
+           
+           <div class="form-group">
+             <label for="color_name">{{__("code_gen_type.color_name")}}</label>
+             <select class="form-select" name="color_name" id="color_name">
+			    <option value="blue">{{__("code_gen_type.color_name.blue") }}</option>
+			    <option value="red">{{__("code_gen_type.color_name.red") }}</option>
+			    <option value="green">{{__("code_gen_type.color_name.green") }}</option>
+			    <option value="white">{{__("code_gen_type.color_name.white") }}</option>
+			    <option value="black">{{__("code_gen_type.color_name.black") }}</option>
+			</select>
+
            </div>
            
            <div class="form-group">
