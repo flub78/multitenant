@@ -610,20 +610,31 @@ class CodeGenerator {
 	static public function select_list (String $table) {
 		$res = [];
 		$list = Meta::fillable_fields($table);
+		$element = Meta::element($table);
 		foreach ($list as $field) {
 			$subtype = Meta::subtype($table, $field);
 			
 			if ($subtype == "enumerate") {
 				$options = Meta::field_metadata($table, $field);
-				//var_dump($options);
+
 				$list = '';
 				if (array_key_exists("values", $options)) {
-					$list = '"'.implode('","', $options['values']).'"';
+					$count = count($options['values']);
+					$elt_field = $element . '.' . $field;
+					$cnt = 0;
+					foreach ($options['values'] as $value) {
+						$lang_id = $elt_field . '.' . $value;
+						$list .= "\"$value\" => __(\"$lang_id\")";
+						$cnt++;
+						if ($cnt < $count) $list .= ",\n        		";
+					}
 				}
 				$list = '$' . $field . '_list = [' . $list . '];';
 				$elt['selector'] = $list;
+				
 				$with = '->with("' . $field . '_list", $' . $field .'_list)';
 				$elt['with'] = $with;
+				
 				// echo "field = $field, subtype=$subtype, list = $list\n";
 				// var_dump($elt);
 				$res[] = $elt;
