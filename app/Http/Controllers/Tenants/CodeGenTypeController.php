@@ -72,10 +72,6 @@ class CodeGenTypeController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(CodeGenType $code_gen_type) {
-		/*
-		 * TODO:	generate automatically the following list
-		 */
-		
         $color_name_list = ["blue" => __("code_gen_type.color_name.blue"),
         		"red" => __("code_gen_type.color_name.red"),
         		"green" => __("code_gen_type.color_name.green"),
