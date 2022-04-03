@@ -11,7 +11,8 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/BitsOperationsTest.php
 
     @rem tenants
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php

@@ -5,6 +5,7 @@ namespace App\Helpers;
 use Exception;
 use App\Helpers\HtmlHelper as HH;
 use Illuminate\Support\Str;
+use App\Helpers\MetadataHelper as Meta;
 
 
 /**
@@ -126,6 +127,34 @@ class BladeHelper {
 	static public function enumerate($table_field, $value) {
 		if (!$value) return "";
 		return __($table_field . '.' . $value);
+	}
+	
+	static public function bit_at($bitfield, $index) {
+		return ($bitfield >> $index) & 1;
+	}
+	
+	/**
+	 * Display a bitfield
+	 * @return string
+	 *
+	 * @SuppressWarnings("PMD.ShortVariable")
+	 */
+	static public function bitfield($table, $field, $bitfield) {
+		$options = Meta::field_metadata($table, $field);
+		if (!$options) return $bitfield;
+		if (!array_key_exists("values", $options)) return $bitfield;
+		
+		$cnt = 0;
+		$bin = sprintf('%b', $bitfield);
+		// echo "bin = $bin\n";exit;
+		$res = "";
+		foreach ($options['values'] as $value) {
+			$val = self::bit_at($bitfield, $cnt);
+			$res .= $value .':' . $val . ", ";
+			$cnt++;
+		}
+		$res .= "qualifications = " . $bitfield;
+		return $res;
 	}
 	
 	/**
