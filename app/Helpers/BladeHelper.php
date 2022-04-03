@@ -91,7 +91,7 @@ class BladeHelper {
 	 */
 	static public function upload_name($name, $table_field) {
 		$ext = pathinfo($name, PATHINFO_EXTENSION);
-		return $table_field . Str::random(16) . '.' . $ext;
+		return $table_field . '_' . Str::random(16) . '.' . $ext;
 	}
 	
 	/**

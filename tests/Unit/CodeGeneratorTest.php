@@ -76,4 +76,12 @@ class CodeGeneratorTest extends TestCase {
 		}
 	}
 	
+	public function test_select_list() {
+		$sel = CG::select_list("code_gen_types");
+		$this->assertEquals(1, count($sel));
+	
+		$sel = CG::select_list("roles");
+		$this->assertEquals(0, count($sel));
+	}
+	
 }

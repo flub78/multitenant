@@ -64,4 +64,20 @@ class BladeHelperTest extends TestCase {
 		$this->assertNotEquals("", Blade::float(0.0));
 	}
 	
+	public function test_upload_name() {
+		$un = Blade::upload_name("", "");
+		$this->assertEquals(18, strlen($un));
+	
+		$un = Blade::upload_name("file3.pdf", "roles_name");
+		$this->assertEquals(31, strlen($un));
+	}
+	
+	public function test_enumerate() {
+		$en = Blade::enumerate("roles_name", "");
+		$this->assertEquals("", $en);
+
+		$en = Blade::enumerate("roles_name", "red");
+		$this->assertEquals("roles_name.red", $en);		
+	}
+	
 }
