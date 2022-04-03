@@ -6,7 +6,7 @@ use Exception;
 use App\Helpers\HtmlHelper as HH;
 use Illuminate\Support\Str;
 use App\Helpers\MetadataHelper as Meta;
-
+use App\Helpers\BitsOperationsHelper as BO;
 
 /**
  * Like the Html helper this class provides services to write more concise and elegant blade templates
@@ -141,19 +141,21 @@ class BladeHelper {
 	 */
 	static public function bitfield($table, $field, $bitfield) {
 		$options = Meta::field_metadata($table, $field);
+		$element = Meta::element($table);
 		if (!$options) return $bitfield;
 		if (!array_key_exists("values", $options)) return $bitfield;
 		
 		$cnt = 0;
-		$bin = sprintf('%b', $bitfield);
-		// echo "bin = $bin\n";exit;
 		$res = "";
 		foreach ($options['values'] as $value) {
-			$val = self::bit_at($bitfield, $cnt);
-			$res .= $value .':' . $val . ", ";
+			if (BO::bit_at($bitfield, $cnt)) {
+				if ($res) $res .= ", ";
+				$lang_key = $element . '.'  . $field . '.' . $value;
+				$val = (__($lang_key) == $lang_key) ? $value : __($lang_key);
+				$res .= $val;
+			}
 			$cnt++;
 		}
-		$res .= "qualifications = " . $bitfield;
 		return $res;
 	}
 	

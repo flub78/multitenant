@@ -5,7 +5,6 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Helpers\BitsOperationsHelper as BO;
-use Illuminate\Support\Facades\URL;
 
 class BitsOperationsTest extends TestCase {
 

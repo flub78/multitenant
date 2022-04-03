@@ -752,7 +752,7 @@ class CodeGenerator {
 			// $field_type = Meta::type($table, $field);
 			$options = Meta::field_metadata($table, $field);
 			
-			if ($subtype == "enumerate") {
+			if ($subtype == "enumerate" || $subtype == "bitfield" ) {
 				
 				foreach ($options['values'] as $value) {
 					$line = [];
