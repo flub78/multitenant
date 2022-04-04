@@ -100,6 +100,7 @@ class CodeGenTypeController extends Controller {
 		$this->update_datetime_with_date_and_time($validatedData, 'takeoff');
 		$this->update_picture($validatedData, "picture", $request, "code_gen_type", $previous);
 		$this->update_file($validatedData, "attachment", $request, "code_gen_type", $previous);
+		$this->update_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		
 		CodeGenType::where([ 'id' => $id])->update($validatedData);
 		

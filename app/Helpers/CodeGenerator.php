@@ -135,6 +135,13 @@ class CodeGenerator {
 			return '{!! Blade::select("' . $field . '", $' . $field . '_list, false, $' . $element  . '->' . $field .') !!}';
 		}
 		
+		if ($subtype == "bitfield") {
+			$options = Meta::field_metadata($table, $field);
+			
+			return '{!! Blade::bitfield_input("' . $table . '", "' . $field . '", $' . $element  . '->' . $field .') !!}';
+			
+		}
+		
 		if ($field_type == "text") {
 			$options = Meta::field_metadata($table, $field);
 			$rows = 4;
@@ -220,7 +227,7 @@ class CodeGenerator {
 			foreach ($options['values'] as $value) {
 				$values[$value] = '{{__("' . $element . '.' .$field. '.' . $value . '") }}';
 			}
-			return Blade::radioboxes($field, $values, false, '', []);
+			return Blade::radioboxes($table, $field, $values, false, '', []);
 		}
 		
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);

@@ -246,6 +246,8 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * When sending a put request
      * Then the element is modified in the database
      * 
+     * TODO: test also with files, pictures and bitfields
+     * 
      * @return void
      */
     public function testPostRequestUpdatesElement() {   
@@ -285,7 +287,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $updated = CodeGenType::where('id', $id)->first();
         $this->assertNotNull($updated);     
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
-            if ($field != 'id') {
+        	if ($field != 'id' && $field != 'qualifications') {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }
         }

@@ -175,15 +175,7 @@ class Controller extends BaseController
      * @param unknown $table
      */
     public function update_bitfield(&$validatedData, $field, $request, $table) {
-    	$boxes = $field . '_boxes';
-    	if (array_key_exists($boxes, $validatedData)) {
-    		$bitfield = 0;
-    		foreach ($validatedData[$boxes] as $bit) {
-    			BO::set($bitfield, $bit);
-    		}
-    		unset($validatedData[$boxes]);
-    		$validatedData[$field] = $bitfield;
-    	}
+    	$this->store_bitfield($validatedData, $field, $request, $table);
     }
     
     /*

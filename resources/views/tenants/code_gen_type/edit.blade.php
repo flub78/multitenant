@@ -90,7 +90,7 @@ use App\Helpers\BladeHelper as Blade;
            
              <div class="form-group">
                <label for="qualifications">{{__("code_gen_type.qualifications")}}</label>
-               <input type="text" class="form-control" name="qualifications" value="{{ old("qualifications", $code_gen_type->qualifications) }}"/>
+               {!! Blade::bitfield_input("code_gen_types", "qualifications", $code_gen_type->qualifications) !!}
              </div>
            
              <div class="form-group">

@@ -12,7 +12,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/BitsOperationsTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/BitsOperationsTest.php
 
     @rem tenants
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
@@ -71,7 +71,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/BitsOperationsTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

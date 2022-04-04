@@ -135,6 +135,7 @@ class BladeHelper {
 	
 	/**
 	 * Display a bitfield
+	 * 
 	 * @return string
 	 *
 	 * @SuppressWarnings("PMD.ShortVariable")
@@ -156,6 +157,24 @@ class BladeHelper {
 			}
 			$cnt++;
 		}
+		return $res;
+	}
+	
+	/**
+	 * Display a bitfield
+	 *
+	 * @return string
+	 *
+	 * @SuppressWarnings("PMD.ShortVariable")
+	 */
+	static public function bitfield_input($table, $field, $bitfield) {
+		$default = '<input type="text" class="form-control" name="qualifications" value="' . $bitfield . '"/>';
+		$options = Meta::field_metadata($table, $field);
+		$element = Meta::element($table);
+		if (!$options) return $default;
+		if (!array_key_exists("values", $options)) return $default;
+				
+		$res = self::radioboxes($table, $field, $options['values'], $bitfield);
 		return $res;
 	}
 	
@@ -202,30 +221,33 @@ class BladeHelper {
 	 *
 	 * @param unknown $field
 	 * @param array $values
-	 * @param boolean $with_null
 	 * @param string $selected
 	 * @param array $attrs
 	 * @return string
 	 *
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function radioboxes($field, $values = [ ], $with_null = false, $selected = "", $attrs = [ ]) {
+	static public function radioboxes($table, $field, $values = [ ], $bitfield = 0, $attrs = [ ]) {
 		$res = "<table>\n";
 		$cnt = 0;
+		$element = Meta::element($table);
 		foreach ($values as $value) {
-			// $power = (1 << $cnt) >> 1;
+			$lang_key = $element . '.'  . $field . '.' . $value;
+			
 			$res .= "               <tr>";
 			$res .= "<td>";
-			$res .= $value;
+			// $res .= '{{ __("' . $lang_key . '") }}';
+			$res .= (__($lang_key) == $lang_key) ? $value : __($lang_key);
 			$res .= "</td>\n";
 			$res .= "               <td>&nbsp</td>\n";
-			$res .= '               <td align="left"><input type="checkbox" name="' . $field .'_boxes[]" value="' . $cnt .'"  />		</td>';
+			$res .= '               <td align="left"><input type="checkbox" name="' . $field .'_boxes[]" value="' . $cnt .'"';
+			if (BO::bit_at($bitfield, $cnt)) $res .= ' checked="checked"'; 
+			$res .= ' />		</td>';
 			$res .= "</tr>\n";
 			$cnt++;
 		}
 		$res .= "</table>\n";
 		return $res;
-		return '<input type="text" class="form-control" name="qualifications" value="{{ old("qualifications") }}"/>';		
 	}
 	
 }
