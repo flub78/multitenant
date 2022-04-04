@@ -41,7 +41,7 @@ class BitsOperationsHelper {
 	 */
 	static public function set(&$bitfield, $index) {
 		$mask = 1 << $index;
-		echo "mask = $mask .. " . self::to_string($mask) ;
+		// echo "mask = $mask .. " . self::to_string($mask) ;
 		$bitfield |= $mask;
 	}
 	

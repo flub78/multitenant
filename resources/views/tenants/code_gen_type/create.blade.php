@@ -89,7 +89,39 @@ use App\Helpers\BladeHelper as Blade;
            
            <div class="form-group">
              <label for="qualifications">{{__("code_gen_type.qualifications")}}</label>
-             <input type="text" class="form-control" name="qualifications" value="{{ old("qualifications") }}"/>
+             <table>
+               <tr><td>{{__("code_gen_type.qualifications.redactor") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="0"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.student") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="1"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.pilot") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="2"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.instructor") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="3"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.winch_man") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="4"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.tow_pilot") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="5"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.president") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="6"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.accounter") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="7"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.secretary") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="8"  />		</td></tr>
+               <tr><td>{{__("code_gen_type.qualifications.mechanic") }}</td>
+               <td>&nbsp</td>
+               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="9"  />		</td></tr>
+</table>
+
            </div>
            
            <div class="form-group">

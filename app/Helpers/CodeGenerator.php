@@ -214,6 +214,15 @@ class CodeGenerator {
 			return Blade::select($field, $values, false, '', []);
 		}
 	
+		if ($subtype == "bitfield") {
+			$options = Meta::field_metadata($table, $field);
+			$values = [];
+			foreach ($options['values'] as $value) {
+				$values[$value] = '{{__("' . $element . '.' .$field. '.' . $value . '") }}';
+			}
+			return Blade::radioboxes($field, $values, false, '', []);
+		}
+		
 		$fkt = Schema::foreignKeyReferencedTable($table, $field);
 		if ($fkt) {
 			// the field is a foreign key

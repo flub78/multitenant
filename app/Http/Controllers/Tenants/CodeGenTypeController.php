@@ -48,6 +48,7 @@ class CodeGenTypeController extends Controller {
 		$this->store_datetime_with_date_and_time($validatedData, 'takeoff');
 		$this->store_picture($validatedData, "picture", $request, "code_gen_type");
 		$this->store_file($validatedData, "attachment", $request, "code_gen_type");
+		$this->store_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		
 		CodeGenType::create($validatedData);
 		

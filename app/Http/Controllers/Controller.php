@@ -10,7 +10,7 @@ use Response;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\BladeHelper as Blade;
 use App\Helpers\DateFormat;
-
+use App\Helpers\BitsOperationsHelper as BO;
 
 
 class Controller extends BaseController
@@ -97,6 +97,24 @@ class Controller extends BaseController
     	if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
     }
 
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     * @param unknown $request
+     * @param unknown $table
+     */
+    public function store_bitfield(&$validatedData, $field, $request, $table) {
+    	$boxes = $field . '_boxes';
+    	if (array_key_exists($boxes, $validatedData)) {
+    		$bitfield = 0;
+    		foreach ($validatedData[$boxes] as $bit) {
+    			BO::set($bitfield, $bit);
+    		}
+    		unset($validatedData[$boxes]);
+    		$validatedData[$field] = $bitfield;
+    	}
+    }
+    
     /*
      * Update functions
      */
@@ -150,6 +168,24 @@ class Controller extends BaseController
     	if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
     }
 
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     * @param unknown $request
+     * @param unknown $table
+     */
+    public function update_bitfield(&$validatedData, $field, $request, $table) {
+    	$boxes = $field . '_boxes';
+    	if (array_key_exists($boxes, $validatedData)) {
+    		$bitfield = 0;
+    		foreach ($validatedData[$boxes] as $bit) {
+    			BO::set($bitfield, $bit);
+    		}
+    		unset($validatedData[$boxes]);
+    		$validatedData[$field] = $bitfield;
+    	}
+    }
+    
     /*
      * Destroy functions
      */

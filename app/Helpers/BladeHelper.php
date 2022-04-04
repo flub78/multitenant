@@ -196,4 +196,36 @@ class BladeHelper {
 		// if ($value == "") return "";
 		return number_format($value, 2) . "&nbsp€";
 	}
+	
+	/**
+	 * Generate a set of radioboxes for bitfield
+	 *
+	 * @param unknown $field
+	 * @param array $values
+	 * @param boolean $with_null
+	 * @param string $selected
+	 * @param array $attrs
+	 * @return string
+	 *
+	 * @SuppressWarnings("PMD.ShortVariable")
+	 */
+	static public function radioboxes($field, $values = [ ], $with_null = false, $selected = "", $attrs = [ ]) {
+		$res = "<table>\n";
+		$cnt = 0;
+		foreach ($values as $value) {
+			// $power = (1 << $cnt) >> 1;
+			$res .= "               <tr>";
+			$res .= "<td>";
+			$res .= $value;
+			$res .= "</td>\n";
+			$res .= "               <td>&nbsp</td>\n";
+			$res .= '               <td align="left"><input type="checkbox" name="' . $field .'_boxes[]" value="' . $cnt .'"  />		</td>';
+			$res .= "</tr>\n";
+			$cnt++;
+		}
+		$res .= "</table>\n";
+		return $res;
+		return '<input type="text" class="form-control" name="qualifications" value="{{ old("qualifications") }}"/>';		
+	}
+	
 }
