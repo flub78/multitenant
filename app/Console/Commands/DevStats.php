@@ -43,6 +43,8 @@ class DevStats extends Command {
 	 * @return int
 	 */
 	public function handle() {
+		$verbose = $this->option('verbose');
+		
 		$cmd = "git --no-pager log --decorate=short --pretty=oneline";
 
 		$returnVar = NULL;
@@ -103,7 +105,7 @@ class DevStats extends Command {
 			if (count($matches)) {
 				// echo implode(', ', $matches) . $line . "\n";
 			} else {
-				echo "no match : $line\n";
+				if ($verbose) echo "no match : $line\n";
 				$not_classified++;
 			}
 		}
