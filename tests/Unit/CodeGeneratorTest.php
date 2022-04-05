@@ -6,8 +6,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Helpers\CodeGenerator as CG;
 use App\Models\Tenants\Metadata;
-
-
+use App\Helpers\MetadataHelper as Meta;
 
 class CodeGeneratorTest extends TestCase {
 	
@@ -55,7 +54,6 @@ class CodeGeneratorTest extends TestCase {
 	public function test_form_field_list() {
 		$table = "code_gen_types";
 		$list = CG::form_field_list($table);
-		// var_dump($list);
 		$this->assertTrue(count($list) > 10);
 		$this->assertTrue(count($list) < 20);
 		$this->assertTrue(is_array($list[0]));
@@ -83,5 +81,12 @@ class CodeGeneratorTest extends TestCase {
 		$sel = CG::select_list("roles");
 		$this->assertEquals(0, count($sel));
 	}
-	
+	public function test_fillable() {
+		$this->assertTrue(true);
+		
+		$fillable = Meta::fillable_names("code_gen_types");
+		
+		$this->assertNotContains("\"qualifications_boxes\"", explode(", ", $fillable));
+		$this->assertContains("\"qualifications\"", explode(", ", $fillable));
+	}
 }

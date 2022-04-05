@@ -138,12 +138,12 @@ class MetadataHelperTest extends TestCase {
 		
 		// var_dump($fillable); exit;
 		
-		$this->assertEquals(["name", "email", "password", "password_confirmation", "admin", "active"], $fillable);
+		$this->assertEquals(["name", "email", "password", "admin", "active"], $fillable);
 	}
 	
 	public function test_fillable_names() {
 		$fillable_names = Meta::fillable_names('users');
-		$this->assertEquals('"name", "email", "password", "password_confirmation", "admin", "active"', $fillable_names);
+		$this->assertEquals('"name", "email", "password", "admin", "active"', $fillable_names);
 		
 		$fillable_names = Meta::fillable_names('unknow_table');
 		$this->assertEquals('', $fillable_names);

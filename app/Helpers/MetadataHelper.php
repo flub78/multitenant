@@ -58,18 +58,20 @@ class MetadataHelper {
 	 */
 	static function fillable($table, $field) {
 		// look for options in metadata table
-		$options = MetaModel::options($table, $field);
-		
+		$options = MetaModel::options($table, $field);		
 		if ($options && array_key_exists('fillable', $options)) {
 			return ($options['fillable'] == "true");
 		}
 		
 		// Nothing in metadadata table look in comments
 		$meta = Schema::columnMetadata($table, $field);
+		if ($meta && array_key_exists('fillable', $meta)) {
+			// it is specified in comment
+			return ($meta['fillable'] == "yes");
+		}
 		
-		if (! $meta) return true;
-		if (! array_key_exists('fillable', $meta)) return true;
-		return ($meta['fillable'] == "yes");
+		// default 
+		return true;		
 	}
 	
 	/**
@@ -103,6 +105,11 @@ class MetadataHelper {
 	 * @return boolean
 	 */
 	static function inForm($table, $field) {
+		$subtype = self::subtype($table, $field);
+		
+		// in form bitfields are replaced by an array of checkboxes
+		if ('bitfield' == $subtype) return false;
+		
 		// look for options in metadata table
 		$options = MetaModel::options($table, $field);
 		
@@ -242,14 +249,22 @@ class MetadataHelper {
 		
 		if ($subtype == "password_with_confirmation") {
 			return [$field, $field . "_confirmation"];
-		} else if ($subtype == "datetime_with_date_and_time") {
+		} elseif ($subtype == "datetime_with_date_and_time") {
 			return [$field . "_date", $field . "_time"];
-		} 
+		} elseif ($subtype == 'bitfield') {
+			return [$field . "_boxes"];
+		}
 		return [$field];
 	}
 	
 	/**
 	 * Returns a list with fillable fields
+	 * 
+	 * Fillable fields are mass assignable.
+	 * Derived fields are additional fields used in form : password confirmation,
+	 * derived date and time of a datetime, bitfield chechboxes. They are never
+	 * mass assignable.
+	 * 
 	 * @param String $table
 	 * @return array
 	 */
@@ -259,10 +274,32 @@ class MetadataHelper {
 		$full_list = []; 
 		foreach ($list as $field) {
 			if (! self::fillable($table, $field)) continue;
+			if (in_array($field, ["id", "created_at", "updated_at"])) continue;
+			
+			$full_list[] = $field;
+		}
+		return $full_list;
+	}
+
+	/**
+	 * Returns a list of fields which are present in forms.
+	 * The same list os used to generate validation rules.
+	 * 
+	 * @param String $table
+	 * @return array
+	 */
+	static public function form_fields(String $table) {
+		$list = Schema::fieldList($table);
+		if (! $list) return "";
+		$full_list = [];
+		foreach ($list as $field) {
+			if (! self::fillable($table, $field)) continue;
+			if (in_array($field, ["id", "created_at", "updated_at"])) continue;
+			
 			$derived_flds = self::derived_fields($table, $field);
 			foreach ($derived_flds as $new_field) {
 				$full_list[] = $new_field;
-			}
+			}			
 		}
 		return $full_list;
 	}

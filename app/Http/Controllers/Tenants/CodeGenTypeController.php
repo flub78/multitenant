@@ -46,9 +46,9 @@ class CodeGenTypeController extends Controller {
 		$validatedData = $request->validated(); // Only retrieve the data, the validation is done
 		
 		$this->store_datetime_with_date_and_time($validatedData, 'takeoff');
+		$this->store_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		$this->store_picture($validatedData, "picture", $request, "code_gen_type");
 		$this->store_file($validatedData, "attachment", $request, "code_gen_type");
-		$this->store_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		
 		CodeGenType::create($validatedData);
 		
@@ -98,9 +98,9 @@ class CodeGenTypeController extends Controller {
 		
 		$this->update_date($validatedData, 'birthday');
 		$this->update_datetime_with_date_and_time($validatedData, 'takeoff');
+		$this->update_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		$this->update_picture($validatedData, "picture", $request, "code_gen_type", $previous);
 		$this->update_file($validatedData, "attachment", $request, "code_gen_type", $previous);
-		$this->update_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		
 		CodeGenType::where([ 'id' => $id])->update($validatedData);
 		

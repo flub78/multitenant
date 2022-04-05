@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use App\Helpers\MetadataHelper as Meta;
-
 use App\Models\Schema;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\HtmlHelper as HH;
@@ -64,6 +63,11 @@ class CodeGenerator {
 			$table_field = $element . '.' . $field;
 			$value = '$' .$element . '->' . $field;
 			return "{!! Blade::enumerate(\"$table_field\", $value) !!}";
+
+		} elseif (($subtype == "bitfield")) {
+			$table_field = $element . '.' . $field;
+			$value = '$' .$element . '->' . $field;
+			return "{!! Blade::bitfield(\"$table\", \"$field\", $value) !!}";
 			
 		} elseif (($subtype == "picture")) {
 			$route_name = $element . '.picture';
@@ -586,7 +590,7 @@ class CodeGenerator {
 	 */
 	static public function form_field_list (String $table) {
 		$res = [];
-		$list = Meta::fillable_fields($table);
+		$list = Meta::form_fields($table);
 		foreach ($list as $field) {
 			if (! Meta::inForm($table, $field)) continue;
 			// echo "adding $table $field to form\n";
@@ -602,8 +606,8 @@ class CodeGenerator {
 	 */
 	static public function factory_field_list (String $table) {
 		$res = [];
-		// Todo : it is not fillable_fields
-		$list = Meta::fillable_fields($table);
+		
+		$list = Meta::form_fields($table);
 		$list = Schema::fieldList($table);
 		foreach ($list as $field) {
 			if (in_array($field, ["id", "created_at", "updated_at"])) continue;
@@ -748,6 +752,9 @@ class CodeGenerator {
 				$line["store"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
 				$line["destroy"] = "if (\$$element->$field) \$this->destroy_file( \$$element->$field);";
 				$line["update"] = "\$this->update_$subtype(\$validatedData, \"$field\", \$request, \"$element\", \$previous);";
+			} elseif ("bitfield" == $subtype) {
+				$line["store"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
+				$line["update"] = "\$this->update_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
 			}
 			if ($line) $res[] = $line;
 		}
