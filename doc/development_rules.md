@@ -1,6 +1,6 @@
 # Mandatory Development Rules
 
-Here are the development rules that I consider mandatory for a succesful project in 2021
+Here are the development rules that I consider mandatory for a successful project in 2021
 
 
 1. CI/CD pipeline first

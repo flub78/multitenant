@@ -71,6 +71,38 @@ A jenkins server is in charge of the static analysis of the code and provide qua
 
 Not yet, but it is on the agenda.
 
+## Technical documentation
+
+### Laravel
+* [Admin middleware](doc/admin-middleware.md)
+* [Blade templates](doc/blade_templates.md)
+ 
+### DevOps and Testing
+* [Continuous delivery Pipeline](doc/continuous_delivery.md)
+* [Multitenant WEB application deployment](doc/deployment.md)
+* [Derived applications](doc/derived_applications.md)
+
+### Design notes
+* [Database Relationships](doc/database_relationships.md)
+
+### Software Engineering
+
+* [Development Rules](doc/development_rules.md)
+* [Writing APIs](doc/apis.md)
+* [Code generator](doc/code_generation.md)
+* [Code reviews checklist](doc/code_review_checklist.md)
+* [Debugging](doc/debugging.md)
+* [Development Introspection](doc/development_introspection.md)
+* [Development Workflow](doc/development.md)
+
+
+### Features
+
+* [Attachments](doc/attachements.md)
+* [Database backup and restore](doc/backup.md)
+* [Calendar](doc/calendar.md)
+* [Configuration per tenant](doc/configuration.md)
+
 ## Sources, references and inspiration
 
 [Laravel 8 CRUD tutorial](https://appdividend.com/2020/10/13/laravel-8-crud-tutorial-example-step-by-step-from-scratch/)

@@ -57,6 +57,10 @@ English language files can be translated in any language supported by Google tra
 
     php artisan mustache:translate  --compare configuration 
 
+## Supported data types
+
+* [Code generator data types](code_generation_data_types.md)
+
 ## Design notes 
 
 There is a tradeoff between the number of cases supported by the generator and its complexity. Making the generator more complex can be long and the gain in productivity becomes marginal. Keeping it too simple increase the chances to have to manually edit the result.
