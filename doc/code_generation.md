@@ -342,5 +342,9 @@ Note that it makes sense to have in some case multiple fields to create or updat
     php artisan mustache:generate --compare code_gen_types test_dusk        to be tested
     php artisan mustache:generate --compare code_gen_types api                  OK
     php artisan mustache:generate --compare code_gen_types test_api             NO
-        to validate          ~
+        to validate
+        
+### code_gen_types_view1
+
+    php artisan mustache:generate --pretend -v code_gen_types_view1 controller
     
