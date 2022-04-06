@@ -107,11 +107,11 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $look_for[] = __('code_gen_type.weight'); 
         $look_for[] = __('code_gen_type.birthday'); 
         $look_for[] = __('code_gen_type.tea_time'); 
-        $look_for[] = __('code_gen_type.takeoff_date'); 
-        $look_for[] = __('code_gen_type.takeoff_time'); 
+        $look_for[] = __('code_gen_type.takeoff'); 
         $look_for[] = __('code_gen_type.price'); 
         $look_for[] = __('code_gen_type.big_price'); 
         $look_for[] = __('code_gen_type.qualifications'); 
+        $look_for[] = __('code_gen_type.color_name'); 
         $look_for[] = __('code_gen_type.picture'); 
         $look_for[] = __('code_gen_type.attachment'); 
 

@@ -15,7 +15,7 @@ Generated code has often several drawbacks.
 * It is often difficult to debug because of the reason above and because there is no tools working at the abstraction level of the input data of the code generator
 * It is often inefficient
 
-These are the reasons which make the use of a template engine quite efficient.
+These are the reasons which make the use of a template engine much better.
 * Generated code can be as clean, as well indented and commented than manual code.
 * As the code looks like manually written code, it is as fast.
 * And it is as clean than manual code, it is not more difficult to debug.
@@ -329,23 +329,12 @@ Note that it makes sense to have in some case multiple fields to create or updat
 ## code_gen_types table
 
     php artisan mustache:generate --compare code_gen_types controller           OK
-    php artisan mustache:generate --compare code_gen_types request              OK
-              
-    php artisan mustache:generate --compare code_gen_types model          != fillable
-        takeoff is a datetime_with_date_and_time
-          
-        working version : contains "takeoff_date", "takeoff_time",
-        generated versio : contains takeoff
-        
-        if I remove "takeoff_date", "takeoff_time" : still OK
-                         
-    php artisan mustache:generate --compare code_gen_types index                NO   
-       
+    php artisan mustache:generate --compare code_gen_types request              OK          
+    php artisan mustache:generate --compare code_gen_types model                OK
+    php artisan mustache:generate --compare code_gen_types index                OK  
     php artisan mustache:generate --compare code_gen_types create               OK
     php artisan mustache:generate --compare code_gen_types edit                 OK
-    
-    php artisan mustache:generate --compare code_gen_types english              NO
-    
+    php artisan mustache:generate --compare code_gen_types english              OK
     php artisan mustache:generate --compare code_gen_types factory              OK
     
     php artisan mustache:generate --compare code_gen_types test_model           NO    

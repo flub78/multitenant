@@ -25,6 +25,7 @@ return 	[
 			"weight" => "Poids",
 			"birthday" => "Date d'anniversaire",
 			"tea_time" => "L'heure du thé",
+			'takeoff' => "Décollage",
 			"takeoff_date" => "Date de décollage",
 			"takeoff_time" => "Heure de décollage",
 			"price" => "Prix",

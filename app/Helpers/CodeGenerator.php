@@ -566,6 +566,10 @@ class CodeGenerator {
 	 * @return Array[]
 	 */
 	static public function field_metadata(String $table, String $field) {
+		
+		$subtype = Meta::subtype($table, $field);
+		if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);
+		
 		return ['name' => $field,
 				'display' => self::field_display($table, $field),
 				'label' => self::field_label($table, $field),

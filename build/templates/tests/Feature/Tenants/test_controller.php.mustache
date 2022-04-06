@@ -100,9 +100,9 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         Log::Debug(__METHOD__);
         
         $look_for = [__('[[element]].title'), __('[[element]].add'), __('navbar.tenant'), tenant('id')];
-        [[#form_field_list]]
+        [[#factory_field_list]]
         $look_for[] = __('[[element]].[[name]]'); 
-        [[/form_field_list]]
+        [[/factory_field_list]]
 
         $this->get_tenant_url($this->user, '[[element]]', $look_for);
     }

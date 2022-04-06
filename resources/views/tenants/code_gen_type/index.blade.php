@@ -30,8 +30,7 @@ use App\Helpers\BladeHelper as Blade;
           <td> {{__('code_gen_type.weight')}} </td>
           <td> {{__('code_gen_type.birthday')}} </td>
           <td> {{__('code_gen_type.tea_time')}} </td>
-          <td> {{__('code_gen_type.takeoff_date')}} </td>
-          <td> {{__('code_gen_type.takeoff_time')}} </td>
+          <td> {{__('code_gen_type.takeoff')}} </td>
           <td> {{__('code_gen_type.price')}} </td>
           <td> {{__('code_gen_type.big_price')}} </td>
           <td> {{__('code_gen_type.qualifications')}} </td>
@@ -54,8 +53,7 @@ use App\Helpers\BladeHelper as Blade;
           <td> <div align="right">{!! Blade::float($code_gen_type->weight) !!}</div></td>
           <td> {{$code_gen_type->birthday}}</td>
           <td> {{$code_gen_type->tea_time}}</td>
-          <td> {{$code_gen_type->takeoff_date}}</td>
-          <td> {{$code_gen_type->takeoff_time}}</td>
+          <td> {{$code_gen_type->takeoff}}</td>
           <td> <div align="right">{!! Blade::currency($code_gen_type->price) !!}</div></td>
           <td> <div align="right">{!! Blade::currency($code_gen_type->big_price) !!}</div></td>
           <td> {!! Blade::bitfield("code_gen_types", "qualifications", $code_gen_type->qualifications) !!}</td>
