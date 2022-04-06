@@ -178,6 +178,16 @@ class MetadataHelper {
 			}
 		}
 				
+		if (preg_match('/(.*)(\_boxes)/', $field, $matches)) {
+			$root = $matches[1];
+			
+			// root field metadata
+			$meta_root = Schema::columnMetadata($table, $root);
+			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "bitfield")) {
+				return "bitfield_boxes";
+			}
+		}
+		
 		// maybe it's a foreign key
 		$fk = Schema::foreignKey($table, $field);
 		if ($fk) {

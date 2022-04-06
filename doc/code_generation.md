@@ -329,17 +329,22 @@ Note that it makes sense to have in some case multiple fields to create or updat
 ## code_gen_types table
 
     php artisan mustache:generate --compare code_gen_types controller           OK
-    php artisan mustache:generate --compare code_gen_types request              OK          
-    php artisan mustache:generate --compare code_gen_types model                      
-    php artisan mustache:generate --compare code_gen_types index                
-    php artisan mustache:generate --compare code_gen_types create                         
-    php artisan mustache:generate --compare code_gen_types edit                 
-    php artisan mustache:generate --compare code_gen_types english              OK   
-    php artisan mustache:generate --compare code_gen_types factory              
-    php artisan mustache:generate --compare code_gen_types test_model                
-    php artisan mustache:generate --compare code_gen_types test_controller
-    php artisan mustache:generate --compare code_gen_types test_dusk
-    php artisan mustache:generate --compare code_gen_types api              
-    php artisan mustache:generate --compare code_gen_types test_api
+    php artisan mustache:generate --compare code_gen_types request              OK
+              
+    php artisan mustache:generate --compare code_gen_types model          != fillable                   
+    php artisan mustache:generate --compare code_gen_types index                NO   
+       
+    php artisan mustache:generate --compare code_gen_types create               OK
+    php artisan mustache:generate --compare code_gen_types edit                 OK
+    
+    php artisan mustache:generate --compare code_gen_types english              NO
+    
+    php artisan mustache:generate --compare code_gen_types factory              OK
+    
+    php artisan mustache:generate --compare code_gen_types test_model           NO    
+    php artisan mustache:generate --compare code_gen_types test_controller      NO
+    php artisan mustache:generate --compare code_gen_types test_dusk        to be tested
+    php artisan mustache:generate --compare code_gen_types api                  OK
+    php artisan mustache:generate --compare code_gen_types test_api             NO
         to validate          ~
     

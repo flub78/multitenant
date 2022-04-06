@@ -33,7 +33,7 @@ class CodeGenTypeFactory extends Factory
             'name' => "name_" . $next . "_" . Str::random(),
             'phone' => "phone_" . $next . "_" . Str::random(),
         	'description' => $this->faker->unique()->text(200),
-            'year_of_birth' => rand(1900, 2099),
+            'year_of_birth' => rand(1901, 2099),
             'weight' => $this->faker->unique()->randomFloat(2, 3.0, 300.0),
         	'birthday' => $this->faker->unique()->date(__("general.date_format")),
         	'tea_time' => $this->faker->unique()->time("H:i:s"),
@@ -41,6 +41,7 @@ class CodeGenTypeFactory extends Factory
             'price' => $this->faker->unique()->randomFloat(2, 0, 1000),
             'big_price' => $this->faker->unique()->randomFloat(2, 0, 10000),
             'qualifications' => rand(0, 10000),
+            'color_name' => $this->faker->unique()->randomElement(["blue","red","green","white","black"]),
             'picture' => "picture_" . $next . "_" . Str::random(),
             'attachment' => "attachment_" . $next . "_" . Str::random(),
         ];

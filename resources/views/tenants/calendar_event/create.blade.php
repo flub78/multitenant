@@ -29,7 +29,7 @@ use App\Helpers\BladeHelper as Blade;
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('calendar_event.store') }}">
+      <form method="post" action="{{ route('calendar_event.store') }}" enctype="multipart/form-data">
           @csrf
           
           <div class="form-group">    

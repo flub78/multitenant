@@ -103,6 +103,9 @@ class CodeGenerator {
 	 */
 	static public function field_label (String $table, String $field) {
 		$element = Meta::element($table);
+		$subtype = Meta::subtype($table, $field);
+		
+		if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);
 		return '<label for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
 	}
 	
@@ -118,6 +121,12 @@ class CodeGenerator {
 		$element = Meta::element($table);
 		$field_type = Meta::type($table, $field);
 		$subtype = Meta::subtype($table, $field);
+		
+		if ('bitfield_boxes' == $subtype) {
+			// return the result for the root field
+			$field = substr($field, 0, -6);
+			$subtype = 'bitfield';
+		}
 		
 		if ($subtype == "checkbox") {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\", $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
@@ -211,6 +220,12 @@ class CodeGenerator {
 		$field_type = Meta::type($table, $field);
 		$subtype = Meta::subtype($table, $field);
 		$element = Meta::element($table);
+		
+		if ('bitfield_boxes' == $subtype) {
+			// return the result for the root field
+			$field = substr($field, 0, -6);
+			$subtype = 'bitfield';
+		}
 		
 		if ($subtype == "checkbox") {
 			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" id=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\") ? 'checked' : ''}}/>";
