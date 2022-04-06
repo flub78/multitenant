@@ -68,7 +68,7 @@ class Controller extends BaseController
      * @param unknown $field
      */
     public function store_datetime_with_date_and_time(&$validatedData, $field) {
-    	$validatedData[$field] = $validatedData[$field . '_date'] . ' ' . $validatedData[$field . '_time'] . ':00';
+    	$validatedData[$field] = $validatedData[$field . '_date'] . ' ' . $validatedData[$field . '_time']; //  . ':00'
     }
     
     /**

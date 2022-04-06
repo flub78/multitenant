@@ -178,7 +178,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $elt['qualifications'] = $code_gen_type->qualifications; 
         $elt['picture'] = $code_gen_type->picture; 
         $elt['attachment'] = $code_gen_type->attachment; 
-
+        
         $initial_count = CodeGenType::count ();
         
         // call the post method to create it

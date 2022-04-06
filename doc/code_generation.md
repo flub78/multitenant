@@ -331,7 +331,14 @@ Note that it makes sense to have in some case multiple fields to create or updat
     php artisan mustache:generate --compare code_gen_types controller           OK
     php artisan mustache:generate --compare code_gen_types request              OK
               
-    php artisan mustache:generate --compare code_gen_types model          != fillable                   
+    php artisan mustache:generate --compare code_gen_types model          != fillable
+        takeoff is a datetime_with_date_and_time
+          
+        working version : contains "takeoff_date", "takeoff_time",
+        generated versio : contains takeoff
+        
+        if I remove "takeoff_date", "takeoff_time" : still OK
+                         
     php artisan mustache:generate --compare code_gen_types index                NO   
        
     php artisan mustache:generate --compare code_gen_types create               OK
