@@ -129,10 +129,6 @@ class BladeHelper {
 		return __($table_field . '.' . $value);
 	}
 	
-	static public function bit_at($bitfield, $index) {
-		return ($bitfield >> $index) & 1;
-	}
-	
 	/**
 	 * Display a bitfield
 	 * 

@@ -322,5 +322,5 @@ class SchemaModelTest extends TestCase
     	$field = "tea_time";
     	$this->assertEquals("time", Schema::basicType($table, $field));
     	$this->assertEquals("time", Schema::columnType($table, $field));
-    }
+    }    
 }

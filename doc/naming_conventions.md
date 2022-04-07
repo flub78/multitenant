@@ -53,7 +53,7 @@ By convention route to access resources use the element name (singular of the da
 
 The files for string translation are store in the resources/lang directory in a file with the element name.
 
-Ex:  resources/lanf/user.php
+Ex:  resources/lang/fr/user.php
 
 ## Naming convention for PHP
 

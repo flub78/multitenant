@@ -39,7 +39,7 @@ As the code generation will rarely be fully automatic there are limited needs to
 
 Supported templates:
 * controller
-* request to validate HTML requiests
+* request to validate HTML request
 * model for persistency
 * factory to generate elements for tests
 * create a form to create elements
@@ -246,8 +246,30 @@ In some cases one column in database requires several fields in form for creatio
 
 Setters and Getters are used to change the format of a field having a different representation internally and externally. In case of localization for example, the external format may depend on the current timezone, while the internal does not.
 
-Note that it makes sense to have in some case multiple fields to create or update a single table resource column. But what about list of elements (index view) ? For the list it makes more sense to have one array column per resource field and to use a display function to format them.  
-    
+Note that it makes sense to have in some case multiple fields to create or update a single table resource column. But what about list of elements (index view) ? For the list it makes more sense to have one array column per resource field and to use a display function to format them.
+
+## MySql views
+
+The code generator can also generates code to handle MySql views.
+
+Supported templates:
+* controller (limited to read methods)
+* model for persistency (read only)
+* index a blade template to display a list of elements
+* test_model a test for the model (read only)
+* test_controller a test for the controller (read only)
+* test_dusk an end to end test for the resource (read only)
+* api an API for programmatic acccess to the resource (read only)
+* test_api a test for this API (limited to read methods) 
+
+Non supported templates (Views are not supposed to be used to create or edit resources)
+* request to validate HTML requests
+* factory to generate elements for tests
+* create a form to create elements
+* edit a form to edit existing elements
+* english, views uses the string of the target field
+
+As a MySql view resource is read only, maybe that it would be cleaner to have specific templates ...    
 # Progress status
 
 
