@@ -40,7 +40,7 @@ class CreateTestViews extends Migration
     */
     private function createView1(): string {
     	
-    	return "	CREATE VIEW IF NOT EXISTS code_gen_types_view1 AS select `tenantabbeville`.`code_gen_types`.`name` AS `name`,`tenantabbeville`.`code_gen_types`.`description` AS `description`,`tenantabbeville`.`code_gen_types`.`tea_time` AS `tea_time` from `tenantabbeville`.`code_gen_types` where 1
+    	return "CREATE OR REPLACE VIEW code_gen_types_view1 AS select `code_gen_types`.`name` AS `name`,`code_gen_types`.`description` AS `description`,`code_gen_types`.`tea_time` AS `tea_time` from `code_gen_types` where 1
 ";
     }
     
@@ -61,7 +61,7 @@ class CreateTestViews extends Migration
      */
     private function createView2(): string {
     	
-    	return "CREATE VIEW IF NOT EXISTS user_roles_view1 AS select `tenantabbeville`.`users`.`name` AS `user_name`,`tenantabbeville`.`users`.`email` AS `user_email`,`tenantabbeville`.`roles`.`name` AS `role_name` from ((`tenantabbeville`.`users` join `tenantabbeville`.`user_roles`) join `tenantabbeville`.`roles`) where `tenantabbeville`.`user_roles`.`user_id` = `tenantabbeville`.`users`.`id` and `tenantabbeville`.`user_roles`.`role_id` = `tenantabbeville`.`roles`.`id`";
+    	return "CREATE OR REPLACE VIEW user_roles_view1 AS select `users`.`name` AS `user_name`,`users`.`email` AS `user_email`,`roles`.`name` AS `role_name` from ((`users` join `user_roles`) join `roles`) where `user_roles`.`user_id` = `users`.`id` and `user_roles`.`role_id` = `roles`.`id`";
     }
     
     /**
