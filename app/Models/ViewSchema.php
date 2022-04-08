@@ -27,7 +27,6 @@ class ViewSchema extends ModelWithLogs {
     public static function isView(String $view) {    		
     	
     	$dbs = ENV('DB_SCHEMA', 'tenanttest');
-    	$dbs = 'tenantabbeville';					// TODO: remove once the migration is defined, it's for testing
     	
     	$sql = "SELECT VIEW_DEFINITION FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_SCHEMA = '$dbs' AND TABLE_NAME = '$view';";
     	
