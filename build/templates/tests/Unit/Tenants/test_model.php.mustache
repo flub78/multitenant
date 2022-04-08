@@ -20,7 +20,8 @@ use App\Models\Tenants\[[class_name]];
  */
 class [[class_name]]ModelTest extends TenantTestCase {
         
-    /**
+ [[^is_view]]
+   /**
      * Test element creation, read, update and delete
      * Given the database server is on
      * Given the schema exists in database
@@ -154,5 +155,17 @@ class [[class_name]]ModelTest extends TenantTestCase {
         $fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})\s(\d{2})\:(\d{2})/i';
         $this->assertMatchesRegularExpression($fr_date_regexp, $cgt->[[&field]]);
     }
-[[/datetime_mutators]]  
+[[/datetime_mutators]]
+[[/is_view]] 
+ [[#is_view]]
+    /*
+     * Test of the view model is a little different from a regular table as
+     *    - the test is only read only
+     *    - and it require the generation of elements in the tables referenced by the view
+     */
+     
+     public function test_view() {
+        $this->assertTrue(true);
+     } 
+[[/is_view]] 
 }

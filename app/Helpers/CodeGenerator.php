@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Helpers\MetadataHelper as Meta;
 use App\Models\Schema;
+use App\Models\ViewSchema;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\HtmlHelper as HH;
 use App\Helpers\BladeHelper as Blade;
@@ -813,6 +814,8 @@ class CodeGenerator {
 	 * @return array[]
 	 */
 	static public function metadata(String $table) {
+		$is_view = ViewSchema::isView($table);
+		// ($is_view) ? '' : 
 		return array(
 				'table' => $table,
 				'class_name' => Meta::class_name($table),
@@ -826,15 +829,16 @@ class CodeGenerator {
 				'primary_index' => Schema::primaryIndex($table),
 				'select_list' => self::select_list($table),
 				'id_data_type' => self::id_data_type($table),
-				'is_referenced' => Schema::isReferenced($table) ? "true" : "",
-				'date_mutators' => self::type_mutators($table, "date"),
-				'datetime_mutators' => self::type_mutators($table, "datetime"),
-				'currency_mutators' => self::type_mutators($table, "undefined_currency"),
-				'float_mutators' => self::type_mutators($table, "undefined_float"),
+				'is_referenced' => (!$is_view && Schema::isReferenced($table)) ? "true" : "",
+				'date_mutators' => ($is_view) ? '' : self::type_mutators($table, "date"),
+				'datetime_mutators' => ($is_view) ? '' : self::type_mutators($table, "datetime"),
+				'currency_mutators' => ($is_view) ? '' : self::type_mutators($table, "undefined_currency"),
+				'float_mutators' => ($is_view) ? '' : self::type_mutators($table, "undefined_float"),
 				'picture_url'=> self::picture_file_url($table, "picture"),
 				'download_url'=> self::picture_file_url($table, "file"),
 				'controller_list'=> self::controller_list($table),
-				'enumerate_list' => self::enumerate_list($table)
+				'enumerate_list' => self::enumerate_list($table),
+				'is_view' => $is_view
 		);
 	}
 }

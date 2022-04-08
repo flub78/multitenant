@@ -20,7 +20,11 @@ When tenants already exist, if the migration is upward compatible, it may be con
 
 or
 
-    php artisan tenants:migrate-fresh
+    php artisan tenants:migrate-fresh --tenants=abbeville
+    
+to rollback
+
+    php artisan tenants:rollback --tenants=abbeville --step=1
     
 ## Testing
 
