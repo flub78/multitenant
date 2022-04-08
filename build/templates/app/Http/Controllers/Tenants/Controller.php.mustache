@@ -28,6 +28,7 @@ class [[class_name]]Controller extends Controller {
     	return view ( 'tenants/[[element]]/index', compact ( '[[table]]' ) );
     }
 
+[[^is_view]]
     /**
      * Show the form for creating a new resource.
      *
@@ -54,6 +55,7 @@ class [[class_name]]Controller extends Controller {
         [[class_name]]::create($validatedData);
        return redirect('/[[element]]')->with('success', __('general.creation_success', [ 'elt' => __("[[element]].elt")]));
      }
+[[/is_view]] 
 
     /**
      * Display the specified resource.
@@ -66,6 +68,7 @@ class [[class_name]]Controller extends Controller {
     }
 
     
+[[^is_view]]
     /**
      * Show the form for editing the specified resource.
      *
@@ -117,6 +120,7 @@ class [[class_name]]Controller extends Controller {
     	$[[element]]->delete();
     	return redirect ( '[[element]]' )->with ( 'success', __('general.deletion_success', ['elt' => $[[primary_index]]]));
     }
+[[/is_view]]
 [[#picture_url]]
 
     /**

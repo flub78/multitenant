@@ -12,7 +12,7 @@ class ViewSchemaModelTest extends TestCase
     // Clean up the database
     use RefreshDatabase;
     
-    public function ttest_is_view() {
+    public function test_is_view() {
     	$view_def = ViewSchema::isView("code_gen_types_view1");
     	$this->assertNotEquals('', $view_def);
 
@@ -22,7 +22,7 @@ class ViewSchemaModelTest extends TestCase
     	$this->assertEquals('', ViewSchema::isView("users"));
     }
     
-    public function ttest_dev() {
+    public function test_dev() {
     	$def1 = "select `tenantabbeville`.`code_gen_types`.`name` AS `name`,`tenantabbeville`.`code_gen_types`.`description` AS `description`,`tenantabbeville`.`code_gen_types`.`tea_time` AS `tea_time` from `tenantabbeville`.`code_gen_types` where 1";
     	$def2 = "select `tenantabbeville`.`users`.`name` AS `user_name`,`tenantabbeville`.`users`.`email` AS `user_email`,`tenantabbeville`.`roles`.`name` AS `role_name` from ((`tenantabbeville`.`users` join `tenantabbeville`.`user_roles`) join `tenantabbeville`.`roles`) where `tenantabbeville`.`user_roles`.`user_id` = `tenantabbeville`.`users`.`id` and `tenantabbeville`.`user_roles`.`role_id` = `tenantabbeville`.`roles`.`id`";
 
