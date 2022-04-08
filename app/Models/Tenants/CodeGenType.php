@@ -17,6 +17,7 @@ use Carbon\Exceptions\InvalidFormatException;
  * CodeGenType model
  *
  * Acces to the percistency layer
+ * code_gen_types is a regular table not a MySQL view
  *
  * @author fred
  *

@@ -269,7 +269,11 @@ Non supported templates (Views are not supposed to be used to create or edit res
 * edit a form to edit existing elements
 * english, views uses the string of the target field
 
-As a MySql view resource is read only, maybe that it would be cleaner to have specific templates ...    
+As a MySql view resource is read only, maybe that it would be cleaner to have specific templates ...   
+
+* [MySQL Views](mysql_views.md)
+* [MySQL Queries](mysql_queries.md)
+ 
 # Progress status
 
 
@@ -368,5 +372,6 @@ As a MySql view resource is read only, maybe that it would be cleaner to have sp
         
 ### code_gen_types_view1
 
+    php artisan mustache:generate --pretend -v code_gen_types_view1 model
     php artisan mustache:generate --pretend -v code_gen_types_view1 controller
     

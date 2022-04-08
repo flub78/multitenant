@@ -17,6 +17,12 @@ use Carbon\Exceptions\InvalidFormatException;
  * {{class_name}} model
  *
  * Acces to the percistency layer
+ {{#is_view}}
+ * {{table}} is a MySQL view
+{{/is_view}}
+{{^is_view}}
+ * {{table}} is a regular table not a MySQL view
+{{/is_view}}
  *
  * @author fred
  *
@@ -29,7 +35,9 @@ class {{class_name}} extends ModelWithLogs {
      * The associated database table
      */
     protected $table = '{{table}}';
-    
+ 
+ {{^is_view}}   
+{{#primary_index}}
     /**
      * The primary key associated with the table.
      *
@@ -37,13 +45,14 @@ class {{class_name}} extends ModelWithLogs {
      */
     protected $primaryKey = '{{primary_index}}';
 
-{{id_data_type}}
+{{/primary_index}}
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
 	protected $fillable = [{{& fillable_names}}];
+{{/is_view}}
 {{#is_referenced}}
 
     /**
