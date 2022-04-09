@@ -29,6 +29,7 @@
 php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ViewSchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/MetadataModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypeModelTest.php
+php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypesView1ModelTest.php
 
 @rem Feature tests
 @rem =============

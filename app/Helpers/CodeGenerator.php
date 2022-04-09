@@ -570,8 +570,9 @@ class CodeGenerator {
 		
 		$subtype = Meta::subtype($table, $field);
 		if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);
+		$element = Meta::element($table);
 		
-		return ['name' => $field,
+		$res = ['name' => $field,
 				'display' => self::field_display($table, $field),
 				'label' => self::field_label($table, $field),
 				'input_edit' => self::field_input_edit($table, $field),
@@ -579,8 +580,11 @@ class CodeGenerator {
 				'rule_edit' => self::field_rule_edit($table, $field),
 				'rule_create' => self::field_rule_create($table, $field),
 				'faker' => self::field_faker($table, $field),
-				'display_name' => ucfirst(str_replace('_', ' ',$field))
+				'display_name' => ucfirst(str_replace('_', ' ',$field)),
+				'element_name' => $element . '.' . $field
 		];
+		
+		return $res;
 	}
 	
 	/**

@@ -19,6 +19,7 @@ These are the reasons which make the use of a template engine much better.
 * Generated code can be as clean, as well indented and commented than manual code.
 * As the code looks like manually written code, it is as fast.
 * And it is as clean than manual code, it is not more difficult to debug.
+* The code generator can compare the generated code with the one already active in the application. It shows the two version in WinMerge making easy to mix generated code and manually written code.
 
 The goal is to generate code indistinguishable from manual code.
 
@@ -375,4 +376,6 @@ As a MySql view resource is read only, maybe that it would be cleaner to have sp
     php artisan mustache:generate --compare code_gen_types_view1 model
     php artisan mustache:generate --compare code_gen_types_view1 test_model
     php artisan mustache:generate --compare code_gen_types_view1 controller
+    php artisan mustache:generate --installe code_gen_types_view1 controller
+    
     

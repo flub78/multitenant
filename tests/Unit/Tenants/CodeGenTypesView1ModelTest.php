@@ -10,6 +10,7 @@ namespace tests\Unit\Tenants;
 use Tests\TenantTestCase;
 
 use App\Models\Tenants\CodeGenTypesView1;
+use App\Models\Tenants\CodeGenType;
 
 /**
  * Unit test for CodeGenTypesView1 model
@@ -27,5 +28,17 @@ class CodeGenTypesView1ModelTest extends TenantTestCase {
      
      public function test_view() {
         $this->assertTrue(true);
+        
+        // Here generation of the referenced elements
+        CodeGenType::factory()->create();
+        CodeGenType::factory()->create();
+        
+        $this->assertTrue(CodeGenTypesView1::count() > 0);
+        
+        $all = CodeGenTypesView1::all();
+        // Here the verification that the returned list is correct
+        // var_dump($all);
+        echo "\nname = " . $all[0]->name . "\n";
+        echo "description = " . $all[0]->description . "\n";
      } 
 }

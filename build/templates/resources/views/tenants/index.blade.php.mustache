@@ -25,11 +25,18 @@ use App\Helpers\BladeHelper as Blade;
     <thead>
         <tr>
 		  [[# table_field_list ]]
+[[^is_view]]          
           <td> {{__('[[element]].[[name]]')}} </td>
+[[/is_view]]
+[[#is_view]]          
+          <td> {{__('[[element_name]]')}} </td>
+[[/is_view]]
+ 
 		  [[/ table_field_list ]]
-		  
+[[^is_view]]		  
           <td> {{__('general.edit')}}   </td>
           <td> {{__('general.delete')}} </td>
+[[/is_view]] 
         </tr>
     </thead>
     
@@ -40,14 +47,18 @@ use App\Helpers\BladeHelper as Blade;
           <td> [[&display]]</td>
 		  [[/ table_field_list ]]
 		              
+[[^is_view]]          
           <td> [[& button_edit ]]  </td>
           <td> [[& button_delete ]] </td>
+[[/is_view]] 
         </tr>
         @endforeach
     </tbody>
   </table>
   
+[[^is_view]]          
     @button_create({{url('[[element]]')}}, {{__('[[element]].add')}}) 
+[[/is_view]] 
 </div>  
 @endsection
 

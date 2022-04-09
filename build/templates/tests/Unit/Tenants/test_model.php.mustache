@@ -9,8 +9,10 @@
 namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
-
 use App\Models\Tenants\[[class_name]];
+[[#is_view]]
+// Here use clause for the model referenced by the viex
+[[/is_view]] 
 
 /**
  * Unit test for [[class_name]] model
@@ -157,7 +159,7 @@ class [[class_name]]ModelTest extends TenantTestCase {
     }
 [[/datetime_mutators]]
 [[/is_view]] 
- [[#is_view]]
+[[#is_view]]
     /*
      * Test of the view model is a little different from a regular table as
      *    - the test is only read only
@@ -166,6 +168,15 @@ class [[class_name]]ModelTest extends TenantTestCase {
      
      public function test_view() {
         $this->assertTrue(true);
+        
+        // Here generation of the referenced elements
+        
+        $this->assertTrue([[class_name]]::count() > 0);
+        
+        $all = [[class_name]]::all();
+        
+        // Here the verification that the returned list is correct
+        var_dump($all);
      } 
 [[/is_view]] 
 }

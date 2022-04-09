@@ -81,6 +81,8 @@ Route::middleware([
 		
 		Route::get('/code_gen_type/picture/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'picture'])->name('code_gen_type.picture')->middleware('auth');
 		Route::get('/code_gen_type/download/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'download'])->name('code_gen_type.file')->middleware('auth');
+
+		Route::get('/code_gen_types_view1/', [App\Http\Controllers\Tenants\CodeGenTypesView1Controller::class, 'index'])->name('code_gen_types_view1')->middleware('auth');
 		
 	});			
 });
