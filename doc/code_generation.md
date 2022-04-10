@@ -376,6 +376,7 @@ As a MySql view resource is read only, maybe that it would be cleaner to have sp
     php artisan mustache:generate --compare code_gen_types_view1 model
     php artisan mustache:generate --compare code_gen_types_view1 test_model
     php artisan mustache:generate --compare code_gen_types_view1 controller
-    php artisan mustache:generate --installe code_gen_types_view1 controller
+    php artisan mustache:generate --compare code_gen_types_view1 controller
+    php artisan mustache:generate --compare code_gen_types_view1 index
     
     

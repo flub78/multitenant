@@ -23,9 +23,9 @@ use App\Helpers\BladeHelper as Blade;
     <caption>{{__('code_gen_types_view1.title')}}</caption>
     <thead>
         <tr>
-          <td> {{__('code_gen_types_view1.name')}} </td>
-          <td> {{__('code_gen_types_view1.description')}} </td>
-          <td> {{__('code_gen_types_view1.tea_time')}} </td>
+          <td> {{__('code_gen_type.name')}} </td>
+          <td> {{__('code_gen_type.description')}} </td>
+          <td> {{__('code_gen_type.tea_time')}} </td>
         </tr>
     </thead>
     
@@ -34,8 +34,7 @@ use App\Helpers\BladeHelper as Blade;
         <tr>
           <td> {{$code_gen_types_view1->name}}</td>
           <td> {{$code_gen_types_view1->description}}</td>
-          <td> {{$code_gen_types_view1->tea_time}}</td>
-		              
+          <td> {{$code_gen_types_view1->tea_time }}</td>		              
         </tr>
         @endforeach
     </tbody>

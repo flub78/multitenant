@@ -47,52 +47,52 @@ class CodeGenerator {
 	 * @param String $field
 	 * @return string
 	 */
-	static public function field_display (String $table, String $field) {
+	static public function field_display (String $table, String $field, String $view = "", String $view_field = "") {
 		$subtype = Meta::subtype($table, $field);
-		$element = Meta::element($table);
 		$field_type = Meta::type($table, $field);
 		
 		// echo "field_display ($table, $field), type=$field_type, subtype=$subtype\n";
+		if ($view) {
+			$element = Meta::element($view);
+			$value = '$' .$element . '->' . $view_field;
+		} else {
+			$element = Meta::element($table);
+			$value = '$' .$element . '->' . $field;
+		}
 		
 		if ($subtype == "email") {
-			return '<A HREF="mailto:{{$' . $element . '->' . $field . '}}">{{$' . $element . '->' . $field . '}}</A>';
+			return '<A HREF="mailto:{{' . $value . '}}">{{' . $value . '}}</A>';
 		
 		} elseif ($subtype == "checkbox") {
-			return '<input type="checkbox" {{ ($' . $element . '->' . $field . ') ? "checked" : "" }}  onclick="return false;" />';
+			return '<input type="checkbox" {{ (' . $value . ') ? "checked" : "" }}  onclick="return false;" />';
 		
 		} elseif (($subtype == "enumerate")) {
 			$table_field = $element . '.' . $field;
-			$value = '$' .$element . '->' . $field;
 			return "{!! Blade::enumerate(\"$table_field\", $value) !!}";
 
 		} elseif (($subtype == "bitfield")) {
 			$table_field = $element . '.' . $field;
-			$value = '$' .$element . '->' . $field;
 			return "{!! Blade::bitfield(\"$table\", \"$field\", $value) !!}";
 			
 		} elseif (($subtype == "picture")) {
 			$route_name = $element . '.picture';
 			$id = '$' . $element . '->id';
-			$img =  '$' .$element . '->' . $field;
-			return "{!! Blade::picture(\"$route_name\", $id, \"$field\", $img) !!}";
+			return "{!! Blade::picture(\"$route_name\", $id, \"$field\", $value) !!}";
 		
 		} elseif (($subtype == "file")) {
 			$route_name = $element . '.file';
 			$id = '$' . $element . '->id';
-			$file =  '$' .$element . '->' . $field;
 			$label = '"' . __($element . '.' . $field) . '"';
-			return "{!! Blade::download(\"$route_name\", $id, \"$field\", $file, $label) !!}";
+			return "{!! Blade::download(\"$route_name\", $id, \"$field\", $value, $label) !!}";
 		
 		} elseif (($subtype == "currency")) {
-			$value = '$' .$element . '->' . $field;
 			return '<div align="right">' . "{!! Blade::currency($value) !!}" . '</div>';
 		
 		} elseif (in_array($field_type, ['double', 'decimal'])) {
-			$value = '$' .$element . '->' . $field;
 			return '<div align="right">' . "{!! Blade::float($value) !!}" . '</div>';
 		}
 		
-		return '{{$' . $element . '->'. $field. '}}';
+		return '{{' . $value . '}}';
 	}
 	
 	/**
@@ -102,7 +102,7 @@ class CodeGenerator {
 	 * @param String $field
 	 * @return string
 	 */
-	static public function field_label (String $table, String $field) {
+	static public function field_label (String $table, String $field, String $view = "", String $view_field = "") {
 		$element = Meta::element($table);
 		$subtype = Meta::subtype($table, $field);
 		
@@ -566,15 +566,15 @@ class CodeGenerator {
 	 * @param String $field
 	 * @return Array[]
 	 */
-	static public function field_metadata(String $table, String $field) {
+	static public function field_metadata(String $table, String $field, String $view = "", String $view_field = "") {
 		
 		$subtype = Meta::subtype($table, $field);
 		if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);
 		$element = Meta::element($table);
 		
 		$res = ['name' => $field,
-				'display' => self::field_display($table, $field),
-				'label' => self::field_label($table, $field),
+				'display' => self::field_display($table, $field, $view, $view_field),
+				'label' => self::field_label($table, $field, $view, $view_field),
 				'input_edit' => self::field_input_edit($table, $field),
 				'input_create' => self::field_input_create($table, $field),
 				'rule_edit' => self::field_rule_edit($table, $field),
@@ -583,6 +583,8 @@ class CodeGenerator {
 				'display_name' => ucfirst(str_replace('_', ' ',$field)),
 				'element_name' => $element . '.' . $field
 		];
+		
+		if ($view) $res['element'] = $element;
 		
 		return $res;
 	}
@@ -595,15 +597,25 @@ class CodeGenerator {
 	static public function table_field_list (String $table) {
 		$res = [];
 		$list = Meta::fillable_fields($table);
+		$view_def = ViewSchema::isView($table);
 		
-		if ($table == "users") {
-			// Todo store this information in database
-			$list = ["name", "email", "admin", "active"];
+		if ($view_def) {
+			$view_list = ViewSchema::ScanViewDefinition($view_def);
+			foreach ($view_list as $view_field) {
+				$res[] = self::field_metadata($view_field['table'], $view_field['field'], $table, $view_field['name']);
+			}
+		} else {
+			if ($table == "users") {
+				// Todo store this information in database
+				$list = ["name", "email", "admin", "active"];
+			}
+		
+			// Fill the result and compute an index
+			foreach ($list as $field) {
+				$res[] = self::field_metadata($table, $field);
+			}
 		}
 		
-		foreach ($list as $field) {
-			$res[] = self::field_metadata($table, $field);
-		}
 		return $res;
 	}
 	

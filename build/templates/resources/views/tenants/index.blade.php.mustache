@@ -25,13 +25,7 @@ use App\Helpers\BladeHelper as Blade;
     <thead>
         <tr>
 		  [[# table_field_list ]]
-[[^is_view]]          
           <td> {{__('[[element]].[[name]]')}} </td>
-[[/is_view]]
-[[#is_view]]          
-          <td> {{__('[[element_name]]')}} </td>
-[[/is_view]]
- 
 		  [[/ table_field_list ]]
 [[^is_view]]		  
           <td> {{__('general.edit')}}   </td>

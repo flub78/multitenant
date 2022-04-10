@@ -76,7 +76,7 @@ class ViewSchema extends ModelWithLogs {
     			$exploded = explode('.', $def);
     			$database = $exploded[0];
     			$table = $exploded[1];
-    			$field = $exploded[2];
+    			$field = str_replace(' ', '', $exploded[2]);
      			$fields[] = ['name' => $name, 'database' => $database, 'table' => $table, 'field' => $field];
     		}
     	}
