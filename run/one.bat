@@ -26,10 +26,10 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/RoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/SchemaModelTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ViewSchemaModelTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ViewSchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/MetadataModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypeModelTest.php
-php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypesView1ModelTest.php
+@rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypesView1ModelTest.php
 
 @rem Feature tests
 @rem =============
@@ -74,6 +74,7 @@ php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypesView1ModelTes
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

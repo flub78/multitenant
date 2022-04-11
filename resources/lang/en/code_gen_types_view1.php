@@ -17,10 +17,5 @@ return [
 	'title' => "CodeGenTypesView1",
 	'list' => "CodeGenTypesView1 list.",
 	'elt' => "code_gen_types_view1",
-    'new' => "New code_gen_types_view1",
-    'add' => "Add a code_gen_types_view1",	
-	'name' => "Name",
-	'description' => "Description",
-	'tea_time' => "Tea time",
 ];
 

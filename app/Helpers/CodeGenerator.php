@@ -642,14 +642,21 @@ class CodeGenerator {
 	 */
 	static public function factory_field_list (String $table) {
 		$res = [];
+		$view_def = ViewSchema::isView($table);
 		
-		$list = Meta::form_fields($table);
-		$list = Schema::fieldList($table);
-		foreach ($list as $field) {
-			if (in_array($field, ["id", "created_at", "updated_at"])) continue;
-			// if (! Meta::inForm($table, $field)) continue;
-			// echo "adding $table $field to form\n";
-			$res[] = self::field_metadata($table, $field);
+		if ($view_def) {
+			$view_list = ViewSchema::ScanViewDefinition($view_def);
+			foreach ($view_list as $view_field) {
+				$res[] = self::field_metadata($view_field['table'], $view_field['field'], $table, $view_field['name']);
+			}
+		} else {
+			$list = Schema::fieldList($table);
+			foreach ($list as $field) {
+				if (in_array($field, ["id", "created_at", "updated_at"])) continue;
+				// if (! Meta::inForm($table, $field)) continue;
+				// echo "adding $table $field to form\n";
+				$res[] = self::field_metadata($table, $field);
+			}
 		}
 		return $res;
 	}

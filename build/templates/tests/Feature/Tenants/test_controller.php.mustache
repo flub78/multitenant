@@ -14,6 +14,7 @@ use App\Models\Tenants\[[class_name]];
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\App;
 
+[[^is_view]]
 /**
  * Functional test for the [[class_name]] CRUD 
  * 
@@ -46,6 +47,25 @@ use Illuminate\Support\Facades\App;
  * @author frede
  *
  */
+ [[/is_view]]
+ [[#is_view]]
+ /**
+ * Functional test for the [[class_name]] MySQL view
+ * 
+ * Most of the time, views are read only. This test is a subset of the one used for regular table.
+ * It only checks the index method.
+ * 
++--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
+| Domain | Method    | URI                           | Name              | Action                                                  | Middleware   |
++--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
+|        | GET|HEAD  | [[table]]                     | [[table]].index   | App\Http\Controllers\[[table]]Controller@index          | web          |
++--------+-----------+-------------------------------+-------------------+---------------------------------------------------------+--------------+
+ * 
+ * @author frede
+ *
+ */
+[[/is_view]]
+
 class [[class_name]]ControllerTest extends TenantTestCase {
 
     protected $tenancy = true;
@@ -99,7 +119,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {   
         Log::Debug(__METHOD__);
         
-        $look_for = [__('[[element]].title'), __('[[element]].add'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('[[element]].title'), __('navbar.tenant'), tenant('id')];
         [[#factory_field_list]]
         $look_for[] = __('[[element]].[[name]]'); 
         [[/factory_field_list]]
@@ -107,6 +127,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $this->get_tenant_url($this->user, '[[element]]', $look_for);
     }
 
+[[^is_view]]
     /**
      * Test creation form display
      * Given the user is logged on
@@ -137,7 +158,9 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         
         $this->get_tenant_url($this->user, '[[element]]/' . $id);
     }
+ [[/is_view]]
     
+[[^is_view]]
     /**
      * Test a post request
      * Given the user is logged on
@@ -297,7 +320,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $expected = $initial_count;
         $this->assertEquals ( $expected, $count_after_delete, "[[element]] deleted, actual=$count_after_delete, expected=$expected" );             
     }
-    
+ [[/is_view]]    
    
     /**
      * Test not found URL
@@ -338,10 +361,15 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $locale = App::getLocale();
 
     	App::setLocale('fr');
+[[^is_view]]
         $this->get_tenant_url($this->user, '[[element]]/create', [__('[[element]].new')]);      
         $fr_string = __('[[element]].new');
-    	
-    	/**
+[[/is_view]]
+[[#is_view]]    	
+        $this->get_tenant_url($this->user, '[[element]]', [__('[[element]].title')]);      
+        $fr_string = __('[[element]].title');
+[[/is_view]]
+   	/**
     	 * Scenario: [[class_name]] testLocale en
     	 * Given the local is set to en
     	 * When calling URLs
@@ -349,13 +377,18 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     	 */
     	
     	App::setLocale('en');
+[[^is_view]]
         $this->get_tenant_url($this->user, '[[element]]/create', [__('[[element]].new')]);      
         $en_string = __('[[element]].new');
-        $this->assertNotEquals($fr_string, $en_string);
+[[/is_view]]
+        $this->get_tenant_url($this->user, '[[element]]', [__('[[element]].title')]);      
+        $en_string = __('[[element]].title');
+[[#is_view]]        
+ [[/is_view]]
+       $this->assertNotEquals($fr_string, $en_string);
    	
     	App::setLocale($locale);
     	$new_locale = App::getLocale();
     	$this->assertTrue($new_locale == $locale, "Locale back to initial value");	
-    }
-        
+    }    
 }

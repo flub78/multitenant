@@ -30,15 +30,18 @@ class CodeGenTypesView1ModelTest extends TenantTestCase {
         $this->assertTrue(true);
         
         // Here generation of the referenced elements
-        CodeGenType::factory()->create();
-        CodeGenType::factory()->create();
+        $name1 = 'name_1';
+        CodeGenType::factory()->create(['name' => $name1, 'description' => 'description_1']);
+        $description_2 = 'description_2';
+        CodeGenType::factory()->create(['name' => 'name_2', 'description' => $description_2]);
         
         $this->assertTrue(CodeGenTypesView1::count() > 0);
         
         $all = CodeGenTypesView1::all();
+
         // Here the verification that the returned list is correct
-        // var_dump($all);
-        echo "\nname = " . $all[0]->name . "\n";
-        echo "description = " . $all[0]->description . "\n";
+        $this->assertEquals($name1, $all[0]->name);
+        $this->assertEquals($description_2, $all[1]->description);
+        
      } 
 }

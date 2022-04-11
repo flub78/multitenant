@@ -16,10 +16,5 @@ return 	[
 		"title" => "Vue sur Code Generation Types",
 			"list" => "Liste CodeGenTypesView1.",
 			"elt" => "code_gen_types_view1",
-			"new" => "Nouveau code_gen_types_view1",
-			"add" => "Ajouter un code_gen_types_view1",
-			"name" => "Nom",
-			"description" => "La description",
-			"tea_time" => "L&#39;heure du thé"
 	];
 
