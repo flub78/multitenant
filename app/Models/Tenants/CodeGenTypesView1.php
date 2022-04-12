@@ -12,6 +12,7 @@ use App\Models\ModelWithLogs;
 use App\Helpers\Config;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
+use App\Models\Tenants\CodeGenType;
 
 /**
  * CodeGenTypesView1 model
@@ -24,11 +25,24 @@ use Carbon\Exceptions\InvalidFormatException;
  */
 class CodeGenTypesView1 extends ModelWithLogs {
 
-    use HasFactory;
 
     /**
      * The associated database table
      */
     protected $table = 'code_gen_types_view1';
  
+    /**
+     * Views usually have no regular factories. The generation of test data
+     * usually implies to generate data in others tables.
+     * 
+     * @param int $number
+     * @param array $argv arguments to pass to referenced factories
+     */
+    public static function factoryCreate(int $number = 1, $argv = []) {
+        $cnt = self::count();
+        for ($i = 0; $i < $number; $i++) {
+        	CodeGenType::factory()->create($argv);
+        }
+        return $cnt;
+    }
 }

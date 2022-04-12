@@ -161,21 +161,36 @@ class [[class_name]]ModelTest extends TenantTestCase {
 [[/is_view]] 
 [[#is_view]]
     /*
+     *
+     */
+     public function test_factory() {
+        $initial_count = [[class_name]]::count();
+        
+        [[class_name]]::factoryCreate();        
+        $new_count = [[class_name]]::count();
+        $this->assertEquals($initial_count + 1, $new_count);
+        
+        [[class_name]]::factoryCreate();
+        $final_count = [[class_name]]::count();
+        $this->assertEquals($initial_count + 2, $final_count);
+     }
+      
+    /*
      * Test of the view model is a little different from a regular table as
      *    - the test is only read only
      *    - and it require the generation of elements in the tables referenced by the view
-     */
-     
+     */     
      public function test_view() {
         $this->assertTrue(true);
         
         // Here generation of the referenced elements
-        
+         [[class_name]]::factoryCreate(2); 
+         
         $this->assertTrue([[class_name]]::count() > 0);
         
         $all = [[class_name]]::all();
         
-        // Here the verification that the returned list is correct
+        // Here the verification that sthe returned list is correct
         var_dump($all);
      } 
 [[/is_view]] 

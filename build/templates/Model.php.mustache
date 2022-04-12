@@ -29,7 +29,9 @@ use Carbon\Exceptions\InvalidFormatException;
  */
 class {{class_name}} extends ModelWithLogs {
 
+{{^is_view}}
     use HasFactory;
+{{/is_view}}
 
     /**
      * The associated database table
@@ -211,7 +213,7 @@ class {{class_name}} extends ModelWithLogs {
 {{/currency_mutators}}
 {{#float_mutators}}
 
-        /**
+    /**
      * Get the {{&field_name}} float
      *
      * @param  float  $value
@@ -224,4 +226,21 @@ class {{class_name}} extends ModelWithLogs {
         return $result;
     }
 {{/float_mutators}}
+{{#is_view}}
+    /**
+     * Views usually have no regular factories. The generation of test data
+     * usually implies to generate data in others tables.
+     * 
+     * @param int $number
+     * @param array $argv arguments to pass to referenced factories
+     */
+    public static function factoryCreate(int $number = 1, $argv = []) {
+        $cnt = self::count();
+        for ($i = 0; $i < $number; $i++) {
+            // Generating one element
+            // [[class_name]]::factory()->create($argv);
+        }
+        return $cnt;
+    }
+{{/is_view}}
 }

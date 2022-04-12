@@ -10,7 +10,7 @@ namespace tests\Unit\Tenants;
 use Tests\TenantTestCase;
 
 use App\Models\Tenants\CodeGenTypesView1;
-use App\Models\Tenants\CodeGenType;
+// Here use clause for the model referenced by the viex
 
 /**
  * Unit test for CodeGenTypesView1 model
@@ -20,6 +20,21 @@ use App\Models\Tenants\CodeGenType;
  */
 class CodeGenTypesView1ModelTest extends TenantTestCase {
         
+    /*
+     *
+     */
+     public function test_factory() {
+        $initial_count = CodeGenTypesView1::count();
+        
+        CodeGenTypesView1::factoryCreate();        
+        $new_count = CodeGenTypesView1::count();
+        $this->assertEquals($initial_count + 1, $new_count);
+        
+        CodeGenTypesView1::factoryCreate();
+        $final_count = CodeGenTypesView1::count();
+        $this->assertEquals($initial_count + 2, $final_count);
+     }
+      
     /*
      * Test of the view model is a little different from a regular table as
      *    - the test is only read only
@@ -31,9 +46,9 @@ class CodeGenTypesView1ModelTest extends TenantTestCase {
         
         // Here generation of the referenced elements
         $name1 = 'name_1';
-        CodeGenType::factory()->create(['name' => $name1, 'description' => 'description_1']);
+        CodeGenTypesView1::factoryCreate(1, ['name' => $name1, 'description' => 'description_1']);
         $description_2 = 'description_2';
-        CodeGenType::factory()->create(['name' => 'name_2', 'description' => $description_2]);
+        CodeGenTypesView1::factoryCreate(1, ['name' => 'name_2', 'description' => $description_2]);
         
         $this->assertTrue(CodeGenTypesView1::count() > 0);
         

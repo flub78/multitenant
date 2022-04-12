@@ -32,6 +32,12 @@ This project is a framework for Web applications. The idea is to provide a start
 
 * Numerical data display
 
+* Message of the day
+
+* Data filtering
+
+* Online shopping, payment interface
+
 
 ## Development principles
 
