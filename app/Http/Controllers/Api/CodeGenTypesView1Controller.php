@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Tenants\Role;
-use App\Http\Requests\Tenants\RoleRequest;
+use App\Models\Tenants\CodeGenTypesView1;
+use App\Http\Requests\Tenants\CodeGenTypesView1Request;
 use App\Helpers\DateFormat;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
@@ -16,12 +16,12 @@ use Carbon\Carbon;
 
 
 /**
- * REST API for Role
+ * REST API for CodeGenTypesView1
  *
  * @author frederic
  *        
  */
-class RoleController extends Controller {
+class CodeGenTypesView1Controller extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -46,11 +46,10 @@ class RoleController extends Controller {
 	 *        
 	 */
 	public function index(Request $request) {
-		
 		// Laravel default is 15
 		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
 				
-		$query = Role::query();
+		$query = CodeGenTypesView1::query();
 		if ($request->has ('sort')) {
 			
 			$sorts = explode(',', $request->input ('sort'));
@@ -77,67 +76,11 @@ class RoleController extends Controller {
 						break;
 					}
 				}
-				// Todo check if it is not sensitive to Sql injection
 				if (!$operator_found) $query->where($criteria, $value);
 			}
 		}
 		
 		return $query->paginate ($per_page);
-	}
-
-		
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
-	 * 
-	 * 
-	 */
-	public function store(RoleRequest $request) {
-		$validatedData = $request->validated ();
-
-		return Role::create ( $validatedData );
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-
-     * @SuppressWarnings("PMD.ShortVariable")
-	 */
-	public function show($id) {
-		return Role::findOrFail ( $id );
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-
-     * @SuppressWarnings("PMD.ShortVariable")
-	 */
-	public function update(RoleRequest $request, $id) {
-		$validatedData = $request->validated ();
-
-		return Role::whereId ( $id )->update ( $validatedData );
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-
-     * @SuppressWarnings("PMD.ShortVariable")
-	 */
-	public function destroy($id) {
-		$role = Role::findOrFail ( $id );
-		return $role->delete ();
 	}
 
 }

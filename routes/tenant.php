@@ -96,10 +96,13 @@ Route::middleware([
 		Route::resource('api/calendar_event', App\Http\Controllers\Api\CalendarEventController::class, ['as' => 'api']);
 		
 		// Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api'])->middleware(['auth:sanctum']);
-		Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api'])->middleware(['auth:sanctum', 'ability:check-status,api-access']);
-		// Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api']);
+		// Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api'])->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+		Route::resource('api/role', App\Http\Controllers\Api\RoleController::class, ['as' => 'api']);
 
 		Route::resource('api/code_gen_type', App\Http\Controllers\Api\CodeGenTypeController::class, ['as' => 'api'])->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+		
+		// Route::resource('api/code_gen_types_view1', App\Http\Controllers\Api\CodeGenTypesView1Controller::class, ['as' => 'api'])->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+		Route::resource('api/code_gen_types_view1', App\Http\Controllers\Api\CodeGenTypesView1Controller::class, ['as' => 'api']);
 		
 	});
 	

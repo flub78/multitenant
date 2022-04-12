@@ -84,7 +84,7 @@ class [[class_name]]Controller extends Controller {
 		return $query->paginate ($per_page);
 	}
 
-		
+[[^is_view]]		
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -138,5 +138,5 @@ class [[class_name]]Controller extends Controller {
 		$[[element]] = [[class_name]]::findOrFail ( $id );
 		return $[[element]]->delete ();
 	}
-
+[[/is_view]]        
 }
