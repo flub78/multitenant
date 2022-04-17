@@ -35,14 +35,9 @@ class CodeGenTypesView1 extends ModelWithLogs {
      * Views usually have no regular factories. The generation of test data
      * usually implies to generate data in others tables.
      * 
-     * @param int $number
      * @param array $argv arguments to pass to referenced factories
      */
-    public static function factoryCreate(int $number = 1, $argv = []) {
-        $cnt = self::count();
-        for ($i = 0; $i < $number; $i++) {
-        	CodeGenType::factory()->create($argv);
-        }
-        return $cnt;
+    public static function factoryCreate($argv = []) {
+        CodeGenType::factory()->create($argv);
     }
 }

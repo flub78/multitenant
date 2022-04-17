@@ -50,3 +50,23 @@ On success it returns a json answer
     {"url":null,
     "label":"&raquo; Suivante","active":false}],"next_page_url":null,"path":"http:\/\/abbeville.tenants.com\/api\/role","per_page":1000000,"prev_page_url":null,"to":2,"total":2}
 
+## Authentication
+
+### Sanctum
+        
+Official Laravel package. Sanctum is a simple package you may use to issue API tokens to your users without the complication of OAuth.
+        
+API Tokens
+
+API tokens are currently generated from the /user/token route. Token are shown in the clear only then (the value stored in database is encrypted).
+
+I have only been able to access Sanctum protected API with Postman.
+Use Authorization.Type = Bearer Token and past the value returned by the user controller.
+
+
+#### Installation
+            
+    composer require laravel/sanctum
+    php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+    php artisan migrate 
+        

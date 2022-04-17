@@ -33,14 +33,32 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	}
 	
 	/**
+	 * Create some elements for testing
+	 *
+	 * @param int $number of elementes to create
+	 * @return an array of elements
+	 */
+    public function create_elements(int $number = 1, $argv = []) {
+	   $elements = [];
+       for ($i = 0; $i < $number; $i++) {
+[[^is_view]]        
+            $elements[] = [[class_name]]::factory ()->create ($argv);
+[[/is_view]]        
+[[#is_view]]        
+            $elements[] = [[class_name]]::factoryCreate ();
+[[/is_view]]
+        }
+        return $elements;
+	}
+	
+	/**
 	 * Test that base URL returns a json list of elements
 	 */
 	public function test_[[element]]_index_json() {
 		
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
-		$[[element]]1 = [[class_name]]::factory ()->create ();
-		[[class_name]]::factory ()->create ();
+        $elements = $this->create_elements(2);
 		
 		// Without page parameter the URL returns a collection
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url);
@@ -52,7 +70,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 
         foreach ([ [[&fillable_names]] ] as $field) {
             if ($field != "[[primary_index]]")
-                $this->assertEquals($[[element]]1->$field, $json['data'][0][$field]);             
+                $this->assertEquals($elements[0]->$field, $json['data'][0][$field]);             
         }
 	}
 	
@@ -63,8 +81,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	public function test_show() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
-		$[[element]]1 = [[class_name]]::factory ()->create ();
-		[[class_name]]::factory ()->create ();
+        $[[element]]1 = [[class_name]]::factory ()->create ();
+        [[class_name]]::factory ()->create ();
 		
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/1');
 		$response->assertStatus(200);
@@ -153,7 +171,9 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
         $initial_count = [[class_name]]::count ();
-		[[class_name]]::factory()->create();
+        [[class_name]]::factory ()->create ();
+        [[class_name]]::factoryCreate ();
+
 		$back = [[class_name]]::latest()->first();
 		$[[primary_index]] = $back->[[primary_index]];
 		
@@ -233,7 +253,12 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		
         $cnt = 0;		
 		for ($i = 0; $i < 90; $i++) {			
-			[[class_name]]::factory ()->create ();
+[[^is_view]]        
+            [[class_name]]::factory ()->create ();
+[[/is_view]]        
+[[#is_view]]        
+            [[class_name]]::factoryCreate ();
+[[/is_view]]        
             if ($cnt == 19) {
                 $elt20 = [[class_name]]::latest()->first();
             }
@@ -265,7 +290,12 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		for ($i = 0; $i < 100; $i++) {			
-			[[class_name]]::factory ()->create ();
+[[^is_view]]        
+            [[class_name]]::factory ()->create ();
+[[/is_view]]        
+[[#is_view]]        
+            [[class_name]]::factoryCreate ();
+[[/is_view]]        
 		}
 		
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=120');

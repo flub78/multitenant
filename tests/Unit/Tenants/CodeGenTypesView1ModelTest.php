@@ -46,9 +46,9 @@ class CodeGenTypesView1ModelTest extends TenantTestCase {
         
         // Here generation of the referenced elements
         $name1 = 'name_1';
-        CodeGenTypesView1::factoryCreate(1, ['name' => $name1, 'description' => 'description_1']);
+        CodeGenTypesView1::factoryCreate(['name' => $name1, 'description' => 'description_1']);
         $description_2 = 'description_2';
-        CodeGenTypesView1::factoryCreate(1, ['name' => 'name_2', 'description' => $description_2]);
+        CodeGenTypesView1::factoryCreate(['name' => 'name_2', 'description' => $description_2]);
         
         $this->assertTrue(CodeGenTypesView1::count() > 0);
         

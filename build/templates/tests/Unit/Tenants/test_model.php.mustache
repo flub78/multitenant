@@ -184,7 +184,8 @@ class [[class_name]]ModelTest extends TenantTestCase {
         $this->assertTrue(true);
         
         // Here generation of the referenced elements
-         [[class_name]]::factoryCreate(2); 
+         [[class_name]]::factoryCreate(); 
+         [[class_name]]::factoryCreate(); 
          
         $this->assertTrue([[class_name]]::count() > 0);
         
