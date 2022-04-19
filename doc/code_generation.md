@@ -12,10 +12,10 @@ It is a bet that the time spent to develop the infrastructure will be compensate
 
 Generated code has often several drawbacks.
 * It is usually ugly and difficult to understand
-* It is often difficult to debug because of the reason above and because there is no tools working at the abstraction level of the input data of the code generator
-* It is often inefficient
+* It is often difficult to debug because of the reason above and because there is no tools working at the abstraction level of the code generator
+* It is often slow and inefficient
 
-These are the reasons which make the use of a template engine much better.
+By generating code with templates:
 * Generated code can be as clean, as well indented and commented than manual code.
 * As the code looks like manually written code, it is as fast.
 * And it is as clean than manual code, it is not more difficult to debug.
@@ -38,20 +38,20 @@ As a developer
 
 As the code generation will rarely be fully automatic there are limited needs to generate and install all files of the application.
 
-Supported templates:
+Existing templates:
 * controller
-* request to validate HTML request
-* model for persistency
-* factory to generate elements for tests
-* create a form to create elements
-* edit a form to edit existing elements
-* index a blade template to display a list of elements
-* english a language file containing the strings to display
-* test_model a test for the model
-* test_controller a test for the controller
-* test_dusk an end to end test for the resource
-* api an API for programmatic acccess to the resource
-* test_api a test for this API
+* request: to validate HTML requests
+* model: for database interface
+* factory: to generate elements for tests
+* create: a form to create elements
+* edit: a form to edit existing elements
+* index: a blade template to display a list of elements
+* english: a language file containing the strings to display
+* test_model: a test for the model
+* test_controller: a test for the controller
+* test_dusk: an end to end test for the resource
+* api: an API for programmatic acccess to the resource
+* test_api: a test for this API
 
 
 English language files can be translated in any language supported by Google translate (French by default) using: 
@@ -65,7 +65,7 @@ English language files can be translated in any language supported by Google tra
 
 * [Code generator data types](code_generation_data_types.md)
 
-## Design notes 
+## Design
 
 There is a tradeoff between the number of cases supported by the generator and its complexity. Making the generator more complex can be long and the gain in productivity becomes marginal. Keeping it too simple increase the chances to have to manually edit the result.
     
@@ -274,115 +274,5 @@ As a MySql view resource is read only, maybe that it would be cleaner to have sp
 
 * [MySQL Views](mysql_views.md)
 * [MySQL Queries](mysql_queries.md)
- 
-# Progress status
 
-
-## roles table
-
-    php artisan mustache:generate --compare roles controller        OK
-    php artisan mustache:generate --compare roles request           OK
-    php artisan mustache:generate --compare roles model             OK
-    php artisan mustache:generate --compare roles index             OK
-    php artisan mustache:generate --compare roles create            OK
-    php artisan mustache:generate --compare roles edit              OK
-    php artisan mustache:generate --compare roles english           OK
-    php artisan mustache:generate --compare roles factory           OK
-    php artisan mustache:generate --compare roles test_model        OK
-    php artisan mustache:generate --compare roles test_controller   OK
-    php artisan mustache:generate --compare roles test_dusk does not exist
-    php artisan mustache:generate --compare roles api               OK        
-    php artisan mustache:generate --compare roles test_api          OK
-
-## configurations table
-
-    php artisan mustache:generate --compare configurations controller       OK
-    php artisan mustache:generate --compare configurations request          OK
-    php artisan mustache:generate --compare configurations edit             OK
-    php artisan mustache:generate --compare configurations create           OK
-    php artisan mustache:generate --compare configurations index            OK
-    php artisan mustache:generate --compare configurations model            OK
-    php artisan mustache:generate --compare configurations factory          OK
-    php artisan mustache:generate --compare configurations english          OK
-    php artisan mustache:generate --compare configurations test_model       OK
-    php artisan mustache:generate --compare configurations test_controller  OK
-    php artisan mustache:generate --compare configurations test_dusk        generates something
-    
-## users table
-
-    (users is not a tenant table)
-    php artisan mustache:generate --compare users controller
-    php artisan mustache:generate --compare users request
-    php artisan mustache:generate --compare users model                     not exactly
-    php artisan mustache:generate --compare users index                     OK
-    php artisan mustache:generate --compare users create                    OK
-    php artisan mustache:generate --compare users edit                      OK
-
-## user_roles table
-
-    php artisan mustache:generate --compare user_roles controller           to complete 
-        missing support for user_list and role_list
-        
-    php artisan mustache:generate --compare user_roles request              OK
-    php artisan mustache:generate --compare user_roles model
-        requires attributes to access the referenced element image
-        
-    php artisan mustache:generate --compare user_roles index        
-        user_name and role_name support missing
-    php artisan mustache:generate --compare user_roles create               OK
-    php artisan mustache:generate --compare user_roles edit                 OK
-    php artisan mustache:generate --compare user_roles test_model           not supported yet
-        requires creation of users and roles
-
-## calendar_events table
-
-    php artisan mustache:generate --compare calendar_events controller
-        Support for dateFormat missing
-    
-    php artisan mustache:generate --compare calendar_events request
-        missing date_format and regexp
-        
-    php artisan mustache:generate --compare calendar_events model
-    php artisan mustache:generate --compare calendar_events index
-    php artisan mustache:generate --compare calendar_events create          Almost
-        support for default missing
-    php artisan mustache:generate --compare calendar_events edit            Almost
-        a few ids missing plus no usage of the computed attributes
-        
-    php artisan mustache:generate --compare calendar_events factory
-    php artisan mustache:generate --compare calendar_events test_model
-    php artisan mustache:generate --compare calendar_events test_api          
-    
-## code_gen_types table
-
-    php artisan mustache:generate --compare code_gen_types controller           OK
-    php artisan mustache:generate --compare code_gen_types request              OK          
-    php artisan mustache:generate --compare code_gen_types model                OK
-    php artisan mustache:generate --compare code_gen_types index                OK  
-    php artisan mustache:generate --compare code_gen_types create               OK
-    php artisan mustache:generate --compare code_gen_types edit                 OK
-    php artisan mustache:generate --compare code_gen_types english              OK
-    php artisan mustache:generate --compare code_gen_types factory              OK
-    
-    php artisan mustache:generate --compare code_gen_types test_model           NO    
-    php artisan mustache:generate --compare code_gen_types test_controller      NO
-    php artisan mustache:generate --compare code_gen_types test_dusk        to be tested
-    php artisan mustache:generate --compare code_gen_types api                  OK
-    php artisan mustache:generate --compare code_gen_types test_api             NO
-        to validate
-        
-### code_gen_types_view1
-
-    php artisan mustache:generate --compare code_gen_types_view1 model
-    php artisan mustache:generate --compare code_gen_types_view1 test_model
-    php artisan mustache:generate --compare code_gen_types_view1 index
-    php artisan mustache:generate --compare code_gen_types_view1 english
-    php artisan mustache:generate --compare code_gen_types_view1 controller
-    php artisan mustache:generate --install code_gen_types_view1 test_controller
-    
-    php artisan mustache:generate --compare code_gen_types_view1 factory
-    php artisan mustache:generate --compare code_gen_types_view1 api
-    php artisan mustache:generate --compare code_gen_types_view1 test_api
-    
-    
     
