@@ -55,6 +55,7 @@ class BladeHelperTest extends TestCase {
 	
 	public function test_float() {
 		$this->assertNotEquals("", Blade::float(0.0));
+		$this->assertEquals("", Blade::float(null));
 		// $this->assertIsFloat(Blade::float(0.0));			// weird but they fail ...
 		// $this->assertIsFloat(Blade::float(100.0));
 		// $this->assertIsFloat(Blade::float(-1000.0));

@@ -198,6 +198,7 @@ class BladeHelper {
 	 * @return string
 	 */
 	static public function float ($value) {
+		if (is_null($value)) return "";
 		return number_format($value, 2);
 	}
 	
