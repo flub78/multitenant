@@ -23,9 +23,9 @@ class UserRoleModelTest extends TenantTestCase
 		parent::setUp();
 		
 		// create a few roles and users	
-		$this->user1 = User::factory()->create();
-		$this->user2 = User::factory()->create();
-		$this->user3 = User::factory()->create();
+		$this->user1 = User::factory()->create(['name' => 'user1']);
+		$this->user2 = User::factory()->create(['name' => 'user2']);
+		$this->user3 = User::factory()->create(['name' => 'user3']);
 
 		$this->role1 = Role::factory()->create(['name' => 'redactor']);
 		$this->role2 = Role::factory()->create(['name' => 'guest']);
@@ -171,5 +171,5 @@ class UserRoleModelTest extends TenantTestCase
     	$this->assertTrue(UserRole::hasRole($this->user2, "guest"));
     	$this->assertFalse(UserRole::hasRole($this->user2, "redactor"));
     	
-    }    
+    }        
 }

@@ -52,6 +52,6 @@ class UserRolesView1ModelTest extends TenantTestCase {
         $all = UserRolesView1::all();
         
         // Here the verification that sthe returned list is correct
-        var_dump($all);
+        // var_dump($all);
      } 
 }

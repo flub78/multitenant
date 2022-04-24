@@ -10,8 +10,10 @@ As a framework this project must handle several kind of relationships.
 * Has one of many
 * Has One Through
 * Has many through
-* Many to Many
+* Many to Many          (Ex : users - roles)
 * Polymorphic relationship
+
+Eloquent relationships are defined as methods on your Eloquent model classes. 
 
 ## No relationship, the CRUD
 
