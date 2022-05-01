@@ -18,11 +18,11 @@ use Exception;
  *
  */
 class MustacheGenerate extends Command {
-	protected $templates = [ "controller","model","request","index","create","edit","english","french"
+	protected $templates = [ "controller","model","request","index","create","edit","english", "api"
 	];
 
 	/*
-	 * "test_model","test_controller","test_dusk"
+	 * "test_model","test_controller","test_dusk", "test_api"
 	 */
 	
 	/**
@@ -35,7 +35,7 @@ class MustacheGenerate extends Command {
 			. ' {--install : install generated files from current version}' 
 			. ' {--pretend : simulation, no actions}' 
 			. ' {table : database table}' 
-			. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|french|test_model|test_controller|test_dusk}' 
+					. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|test_model|test_controller|api|test_api|migration}' 
 			. '';
 
 	/**
@@ -119,6 +119,14 @@ class MustacheGenerate extends Command {
 		$verbose = $this->option('verbose');
 		$pretend = $this->option('pretend');
 		
+		if ($verbose) {
+			$msg = "php artisant mustache:generate";
+			$msg .= " table=$table";
+			$msg .= ", schema=" . ENV('DB_SCHEMA', 'tenanttest');
+			$msg .= "\n";
+			echo $msg;
+		}
+		
 		if (!Schema::tableExists($table)) {
 			$this->error("Unknow table $table in tenant database");
 			return 1;
@@ -129,6 +137,7 @@ class MustacheGenerate extends Command {
 		} else {
 			$template_list = [$template];
 		}
+		
 		try {
 			foreach ($template_list as $tpl) {
 				$tpl_file = MustacheHelper::template_file($table, $tpl);

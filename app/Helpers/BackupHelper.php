@@ -45,6 +45,7 @@ class BackupHelper {
 	
 	/**
 	 * Create a backup file for a database
+	 * 
 	 * @param string $database
 	 * @param string $backup_fullname
 	 * @param string $host

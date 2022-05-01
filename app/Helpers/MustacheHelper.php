@@ -4,6 +4,8 @@ namespace App\Helpers;
 use App\Helpers\MetadataHelper as Meta;
 use App\Helpers\CodeGenerator as CG;
 use Exception;
+use Carbon\Carbon;
+
 
 /**
  * Some function related to code generation
@@ -112,12 +114,53 @@ class MustacheHelper {
 		} elseif ($template == "test_api") {
 			$file =  'tests/Feature/Api/test_api.php.mustache';
 			
+		} elseif ($template == "migration") {
+			$file =  'migration.php.mustache';
+			
 		} else {
 			throw new Exception("unsupported template: $template");
 		}
 		return self::template_filename($file);
 	}
 
+	/*
+	 * Filename for migrations
+	 * 
+	 * @param String $table
+	 * 
+	 * There is a particularity for migration file names.
+	 * They must include a timestamp to allow laravel to migrate or rollback migrations in the correct order.
+	 *
+	 * The convention applied here is that the current time will be used to generate the timestamp if no migrations for this table
+	 * already exists in the tenant directory. If one migration already exists for the table, the existing name is returned.
+	 *
+	 * Note that it does not work if you have several migrations for the same table which only differ by the timestamp.
+	 * In most cases, it is not a good idea anyway. Be aware of this point if you absolutely have to ...
+	 */
+	public static function migration_name($table) {
+		// $file = implode(DIRECTORY_SEPARATOR, ['database', 'migrations', 'tenant', '2030_12_31_235959_create_' . $table . '_table.php']);
+		
+		$migration_dir = implode(DIRECTORY_SEPARATOR, ['database', 'migrations', 'tenant'] );
+		$dirs = scandir($migration_dir);
+		
+		$pattern = '/(\d{4}_\d{2}_\d{2}_\d{6}_create_)(\w+)(_table\.php)/';
+		
+		$matches = [];
+		foreach ($dirs as $filename) {
+			if (preg_match($pattern, $filename, $matches)) {
+				if ($table == $matches[2]) {
+					return implode(DIRECTORY_SEPARATOR, [$migration_dir, $matches[0]]);
+				}
+			}
+		}
+		
+		// migration not found create one
+		$now = Carbon::now();
+		$timestamp = $now->format('Y_m_d_his');
+		
+		return $timestamp . '_create_' . $table . '_table.php';
+	}
+	
 	/**
 	 * Generated file name relative to results directory
 	 *
@@ -184,6 +227,9 @@ class MustacheHelper {
 			
 		} elseif ($template == "factory") {
 			$file = implode(DIRECTORY_SEPARATOR, ['database', 'factories', 'Tenants', $class_name . 'Factory.php']);
+		
+		} elseif ($template == "migration") {
+			$file = Self::migration_name($table);
 		}
 	
 		return self::result_filename($file, $installation);

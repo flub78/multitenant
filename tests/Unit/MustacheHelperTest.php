@@ -117,4 +117,22 @@ class MustacheHelperTest extends TestCase {
 		}
 	}
 	
+	public function test_migration_name() {
+		if (PHP_OS == "WINNT") {
+			
+			// Look for an existing migration
+			$filename = MustacheHelper::migration_name("calendar_events");
+			$expected = 'database\migrations\tenant\2021_06_18_165312_create_calendar_events_table.php';
+			$this->assertEquals($expected, $filename);
+			
+			// non existing migration
+			$filename = MustacheHelper::migration_name("non_existing_elements");			
+			$pattern = '/(\d{4}_\d{2}_\d{2}_\d{6}_create_)(\w+)(_table\.php)/';
+			$this->assertMatchesRegularExpression($pattern, $filename);
+			
+		} else {
+			// code generation not supported on Linux
+			$this->assertTrue(true);
+		}
+	}
 }

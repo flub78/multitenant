@@ -22,7 +22,7 @@ It is the case of a standalone table.
 ## One to one
 
 Implement the hasOne relation. It is an alternative to have all the column in a single table.
-By default the ELoquent interface also supports hasOneorNone relation.
+By default the ELoquent interface also supports hasOneorNone relation. (I cannot find that in the documentation...)
 By default the foreign key in the second table is *_id, user_id to reference user.id
 
 In Eloquent navigation is done through hasOne in one way and belongsTo in the other way.
@@ -31,6 +31,7 @@ Examples:
 * A vehicle has one registration document.
 * A user is one club member
 * A member has one account for accounting 
+* a calendar event has one or none repetition
 
 ## one to many
 
@@ -94,7 +95,7 @@ It could be used for example if a billing line is related to a flight, and fligh
 
 ## Example of database schema
 
-* one to one: user, address
+* one to one: user, profile
 * one to many: tenants, domains
 * Many to many: users, roles, role_user
 
@@ -160,4 +161,45 @@ possible values are:
 * "cascade"
 * "restrict"
 * "set null"
+
+## Examples
+
+As the goal of this project is to be a starting point for others projects in which there are example of the most frequent use cases, it is useful to have example of the most frequent relationships.
+
+### No relationship
+
+"configurations" is a model with no relationship. It is the most simple possible CRUD.
+
+### One to one
+
+users   profiles
+
+Users may have profiles with their Name and first name and birthday.
+
+### one to many (has one)
+
+The calendar event repetition is a good example of a one to many relationship. When creating an event it is possible to define a repetition. Note that in this case it create multiple events all attached to the same repetition.
+
+Note that this case may be tricky. It is not possible to generate all derived events of an event with a repetition and no repetition end date. ...
+
+There are several approaches to handle this point.
+* dynamic generation, only a few repetitions are generated, the others will be generated on the fly. (complex)
+* hard limit on the number or repetitions (no more than 10 000) 
+* hard end date limit, no end date means 31 December 2100. (simplest one, acceptable only if the end date is far enough, remember the years 2000 bug ...).
+
+### one to many inverse (belongs to)
+
+An events belongs to a repetition
+
+### Has one of many
+
+### Has One Through
+### Has many through
+### Many to Many          
+
+    (Ex : users - roles)
+    
+### Polymorphic relationship
+
+Attachments may be a good example. Attachments may be attach to any columns of any table and an item may have many of them.
 
