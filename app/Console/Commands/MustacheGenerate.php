@@ -99,7 +99,6 @@ class MustacheGenerate extends Command {
 
 		$metadata = MustacheHelper::metadata($table);
 		if ($this->argument('template') == "english") $metadata['language'] = "English";
-		if ($this->argument('template') == "french") $metadata['language'] = "French";
 		
 		$rendered = $mustache->render($template, $metadata);
 		if ($verbose && !($this->option('compare') || $install) )
@@ -138,6 +137,7 @@ class MustacheGenerate extends Command {
 			$template_list = [$template];
 		}
 		
+		// process all templates and generate the result
 		try {
 			foreach ($template_list as $tpl) {
 				$tpl_file = MustacheHelper::template_file($table, $tpl);

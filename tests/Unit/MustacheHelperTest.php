@@ -126,7 +126,7 @@ class MustacheHelperTest extends TestCase {
 			$this->assertEquals($expected, $filename);
 			
 			// non existing migration
-			$filename = MustacheHelper::migration_name("non_existing_elements");			
+			$filename = MustacheHelper::migration_name("non_existing_elements", true);			
 			$pattern = '/(\d{4}_\d{2}_\d{2}_\d{6}_create_)(\w+)(_table\.php)/';
 			$this->assertMatchesRegularExpression($pattern, $filename);
 			

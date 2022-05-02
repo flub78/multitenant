@@ -2,11 +2,11 @@
 
 namespace tests\Unit;
 
-use Tests\TenantTestCase;
+use Tests\TestCase;
 
 use App\Helpers\TestsConventions as TC;
 
-class TestsConventionsTest extends TenantTestCase
+class TestsConventionsTest extends TestCase
 
 {
         

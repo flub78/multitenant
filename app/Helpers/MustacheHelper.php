@@ -137,14 +137,15 @@ class MustacheHelper {
 	 * Note that it does not work if you have several migrations for the same table which only differ by the timestamp.
 	 * In most cases, it is not a good idea anyway. Be aware of this point if you absolutely have to ...
 	 */
-	public static function migration_name($table) {
-		// $file = implode(DIRECTORY_SEPARATOR, ['database', 'migrations', 'tenant', '2030_12_31_235959_create_' . $table . '_table.php']);
+	public static function migration_name($table, bool $installation = false) {
 		
 		$migration_dir = implode(DIRECTORY_SEPARATOR, ['database', 'migrations', 'tenant'] );
 		$dirs = scandir($migration_dir);
 		
 		$pattern = '/(\d{4}_\d{2}_\d{2}_\d{6}_create_)(\w+)(_table\.php)/';
 		
+		// If a migration already exists for this table, returns its filename
+		// including the timestamp
 		$matches = [];
 		foreach ($dirs as $filename) {
 			if (preg_match($pattern, $filename, $matches)) {
@@ -157,8 +158,14 @@ class MustacheHelper {
 		// migration not found create one
 		$now = Carbon::now();
 		$timestamp = $now->format('Y_m_d_his');
-		
-		return $timestamp . '_create_' . $table . '_table.php';
+		if ($installation) {
+			// include the timestamp
+			$file = $timestamp . '_create_' . $table . '_table.php';
+		} else {
+			// no timestamp
+			$file = 'create_' . $table . '_table.php';
+		}
+		return implode(DIRECTORY_SEPARATOR, [$migration_dir, $file]);
 	}
 	
 	/**
@@ -229,7 +236,7 @@ class MustacheHelper {
 			$file = implode(DIRECTORY_SEPARATOR, ['database', 'factories', 'Tenants', $class_name . 'Factory.php']);
 		
 		} elseif ($template == "migration") {
-			$file = Self::migration_name($table);
+			$file = Self::migration_name($table, $installation);
 		}
 	
 		return self::result_filename($file, $installation);
