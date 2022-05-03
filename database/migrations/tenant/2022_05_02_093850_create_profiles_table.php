@@ -1,4 +1,3 @@
-{{=[[ ]]=}}
 <?php
 /**
  * This file is generated from a template with metadata extracted from the data model.
@@ -11,12 +10,12 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Migration to create the [[table]] table
+ * Migration to create the profiles table
  
  * @author frederic
  *
  */
-class Create[[class_name]]sTable extends Migration {
+class CreateProfilesTable extends Migration {
     /**
      * Run the migrations.
      *
@@ -25,12 +24,12 @@ class Create[[class_name]]sTable extends Migration {
      */
     public function up() {
     
-        Schema::create ( '[[table]]', function (Blueprint $table) {
+        Schema::create ( 'profiles', function (Blueprint $table) {
             $table->id();
-            [[# table_field_list ]]
-            [[&migration]]
-            [[/ table_field_list ]]
-            $table->timestamps()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->date('birthday');
+            $table->timestamps();
         } );
     }
 
@@ -40,6 +39,6 @@ class Create[[class_name]]sTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists ( '[[table]]' );
+        Schema::dropIfExists ( 'profiles' );
     }
 }

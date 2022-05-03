@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
  * @author frederic
  *
  */
-class CodeGenerationTypes extends Migration
+class CreateCodeGenTypesTable extends Migration
 {
     /**
      * Run the migrations.

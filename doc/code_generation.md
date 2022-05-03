@@ -275,4 +275,12 @@ As a MySql view resource is read only, maybe that it would be cleaner to have sp
 * [MySQL Views](mysql_views.md)
 * [MySQL Queries](mysql_queries.md)
 
+## Migration Generation
+
+Code generation of migrations is a special case. In a way if a table already exists in the database you do not really need a migration to create it. And usually when you write a migration the table does not exist.
+
+However it may be convenient during development to generate the table manually with a graphical tool like phpmyadmin and when you are happy with the result to generate the migration. It is faster than using the standard php artisan make:migration because the migration is already filled.
+
+If you are more comfortable in creating the tables by writing migrations just do not use this feature.
+
     

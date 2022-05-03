@@ -558,7 +558,61 @@ class CodeGenerator {
 		}
 		return $res;
 	}
+
+	/**
+	 * Generation of the database migration
+	 *
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
+	static public function field_migration (String $table, String $field) {
+		$subtype = Meta::subtype($table, $field);
+		$type = Meta::type($table, $field);
+		$unique = Schema::unique($table, $field);
+		$options = Meta::field_metadata($table, $field);
+		$comment = Schema::columnComment ($table, $field);
 		
+		$res = '$table';
+		$json = [];
+		
+		if ('varchar' == $type) {
+			$res .= "->string('$field')";			
+		} elseif ('date' == $type) {
+			$res .= "->date('$field')";
+		} elseif ('datetime' == $type) {
+			$res .= "->datetime('$field')";
+		} elseif ('time' == $type) {
+			$res .= "->time('$field')";
+		} elseif ('text' == $type) {
+			$res .= "->text('$field')";
+		} elseif ('year' == $type) {
+			$res .= "->year('$field')";
+		} elseif ('double' == $type) {
+			$res .= "->double('$field')";
+		} elseif ('decimal' == $type) {
+			$res .= "->float('$field')";
+		} elseif ('bigint' == $type) {
+			$res .= "->bigInteger('$field')";
+		}
+		
+		if (!Schema::required($table, $field))  {
+			$res .= '->nullable()';
+		} 
+
+		// all checkboxes are tinyint but all tinyint are not booleans
+		if ($subtype == 'checkbox') {
+			$res .= "->boolean('$field')";
+		}
+		
+		if ($comment) {
+			$res .= "->comment('$comment')";
+		}
+		
+		$res .= ';';
+		return $res;
+	}
+	
 	/**
 	 * Metadata all metadata for an individual field
 	 *
@@ -581,7 +635,8 @@ class CodeGenerator {
 				'rule_create' => self::field_rule_create($table, $field),
 				'faker' => self::field_faker($table, $field),
 				'display_name' => ucfirst(str_replace('_', ' ',$field)),
-				'element_name' => $element . '.' . $field
+				'element_name' => $element . '.' . $field,
+				'migration' => self::field_migration($table, $field)
 		];
 		
 		if ($view) $res['element'] = $element;
