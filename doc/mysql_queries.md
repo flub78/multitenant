@@ -39,4 +39,19 @@ And it can be retrieved with the following request:
     AND     TABLE_NAME      = 'user_roles_view1';
        
 Which returns an empty result when a table is not a view.
+
+## Information on constraints
+
+    SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS;
+    
+    SELECT CONSTRAINT_SCHEMA, CONSTRAINT_NAME, UPDATE_RULE, DELETE_RULE, TABLE_NAME, REFERENCED_TABLE_NAME FROM         information_schema.REFERENTIAL_CONSTRAINTS;
+
+I do not know why but the following request does not work ...
+
+    SELECT CONSTRAINT_SCHEMA, CONSTRAINT_NAME, UPDATE_RULE, DELETE_RULE, TABLE_NAME, REFERENCED_TABLE_NAME FROM         information_schema.REFERENTIAL_CONSTRAINTS WHERE TABLE_NAME = 'profiles'
+    
+neither this one
+
+    SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS 
+    where information_schema.REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME = 'profiles_user_id_foreign';
        

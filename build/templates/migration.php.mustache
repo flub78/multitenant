@@ -32,6 +32,7 @@ class Create[[class_name]]sTable extends Migration {
             [[/ index_field_list ]]
             $table->timestamp('created_at')->useCurrent()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
             $table->timestamp('updated_at')->useCurrent()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
+            [[&foreign_keys]]
         } );
     }
 

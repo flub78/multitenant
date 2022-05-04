@@ -913,6 +913,32 @@ class CodeGenerator {
 		}
 		return $res;
 	}
+	
+	/**
+	 * Generate foreign keys instruction for migrations
+	 * 
+	 * @param String $table
+	 */
+	static public function foreign_keys($table) {
+		$res = "";
+		
+		foreach (Schema::fieldList($table) as $field) {
+			if (Schema::foreignKey($table, $field)) {
+				$foreign_table = Schema::foreignKeyReferencedTable ($table, $field);
+				$foreign_field = Schema::foreignKeyReferencedColumn ($table, $field);
+				$res .= "\n\t\t\t";
+				$res .= "\$table->foreign('$field')->references('$foreign_field')->on('$foreign_table')";
+				
+				// Fetch the type: restrict | cascade | no action from the database ...
+				$delete_rule =  Schema::onDeleteConstraint($table, $field);
+				$update_rule = Schema::onUpdateConstraint($table, $field);
+				
+				$res .= "->onUpdate('$update_rule')->onDelete('$delete_rule');";
+			}
+		}
+		return $res;
+	}
+	
 	/**
 	 * All the information for mustache engine
 	 *
@@ -945,7 +971,8 @@ class CodeGenerator {
 				'download_url'=> self::picture_file_url($table, "file"),
 				'controller_list'=> self::controller_list($table),
 				'enumerate_list' => self::enumerate_list($table),
-				'is_view' => $is_view
+				'is_view' => $is_view,
+				'foreign_keys' => self::foreign_keys($table)
 		);
 	}
 }

@@ -273,6 +273,8 @@ class SchemaModelTest extends TestCase
     
     public function test_foreign_key() {
     	$fk = Schema::foreignKey('user_roles', 'user_id');
+    	// var_dump($fk);
+    	
     	$this->assertEquals('users', $fk->REFERENCED_TABLE_NAME);
     	$this->assertEquals('id', $fk->REFERENCED_COLUMN_NAME);
     	
@@ -323,4 +325,16 @@ class SchemaModelTest extends TestCase
     	$this->assertEquals("time", Schema::basicType($table, $field));
     	$this->assertEquals("time", Schema::columnType($table, $field));
     }    
+    
+    public function test_on_constraints () {
+    	$this->assertEquals("cascade", Schema::onDeleteConstraint("user_roles", "user_id"));
+    	$this->assertEquals("cascade", Schema::onUpdateConstraint("user_roles", "role_id"));
+    	
+    	// commented out because the profiles table is not yet in the test database 
+    	// $this->assertEquals("restrict", Schema::onDeleteConstraint("profiles", "user_id"));
+    	// $this->assertEquals("restrict", Schema::onUpdateConstraint("profiles", "user_id"));
+    	
+    	$this->assertEquals("", Schema::onDeleteConstraint("user_roles", "id"));
+    	
+    }
 }

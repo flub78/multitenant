@@ -390,6 +390,45 @@ class Schema extends ModelWithLogs {
     }
     
     /**
+     * Returns the type of on delete constraint
+     * 
+     * @param string $table
+     * @param string $field
+     */
+    public static function onDeleteConstraint(string $table, string $field, string $type = "on_delete") {
+    	$fk = self::foreignKey($table, $field);
+    	
+    	if (!$fk) return "";		// check if it's a foreign key
+    	
+    	$referenced_table = $fk->REFERENCED_TABLE_NAME;
+    	    	
+    	$database = ENV('DB_SCHEMA', 'tenanttest');
+    	// Not a really elegant select but attempts to do better have failed
+     	$sql = "SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS; ";
+    	$res = DB::connection(SCHEMA)->select($sql);
+    	foreach ($res as $row) {
+    		if ($row->TABLE_NAME != $table) continue;
+    		if ($row->CONSTRAINT_SCHEMA != $database) continue;
+    		if ($row->REFERENCED_TABLE_NAME != $referenced_table) continue;
+    		if ($type == "on_delete") 
+    			return strtolower($row->DELETE_RULE);
+    		else
+    			return strtolower($row->UPDATE_RULE);
+    	}
+    	return "";
+    }
+
+    /**
+     * Returns the type of on delete constraint
+     *
+     * @param string $table
+     * @param string $field
+     */
+    public static function onUpdateConstraint(string $table, string $field) {
+    	return self::onDeleteConstraint($table, $field, "on_update");
+    }
+    
+    /**
      * True if this table is referenced in another table. In which case there
      * is a foreign key in the other table which points to this table.
      * 
