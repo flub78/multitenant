@@ -25,6 +25,7 @@ or
 to rollback
 
     php artisan tenants:rollback --tenants=abbeville --step=1
+    php artisan tenants:rollback --tenants=test --step=1
     
 ## Testing
 

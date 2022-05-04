@@ -24,9 +24,9 @@ use App\Helpers\BladeHelper as Blade;
     <caption>{{__('[[element]].title')}}</caption>
     <thead>
         <tr>
-		  [[# table_field_list ]]
+		  [[# index_field_list ]]
           <td> {{__('[[element]].[[name]]')}} </td>
-		  [[/ table_field_list ]]
+		  [[/ index_field_list ]]
 [[^is_view]]		  
           <td> {{__('general.edit')}}   </td>
           <td> {{__('general.delete')}} </td>
@@ -37,9 +37,9 @@ use App\Helpers\BladeHelper as Blade;
     <tbody>
         @foreach($[[table]] as $[[element]])
         <tr>
-		  [[# table_field_list ]]
+		  [[# index_field_list ]]
           <td> [[&display]]</td>
-		  [[/ table_field_list ]]
+		  [[/ index_field_list ]]
 		              
 [[^is_view]]          
           <td> [[& button_edit ]]  </td>

@@ -27,10 +27,11 @@ class Create[[class_name]]sTable extends Migration {
     
         Schema::create ( '[[table]]', function (Blueprint $table) {
             $table->id();
-            [[# table_field_list ]]
+            [[# index_field_list ]]
             [[&migration]]
-            [[/ table_field_list ]]
-            $table->timestamps()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
+            [[/ index_field_list ]]
+            $table->timestamp('created_at')->useCurrent()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
+            $table->timestamp('updated_at')->useCurrent()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
         } );
     }
 

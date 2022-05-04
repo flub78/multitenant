@@ -565,6 +565,9 @@ class CodeGenerator {
 	 * @param String $table
 	 * @param String $field
 	 * @return string
+	 * 
+	 * TODO CHeck that all types of integers are supported
+	 * 
 	 */
 	static public function field_migration (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
@@ -572,10 +575,16 @@ class CodeGenerator {
 		$unique = Schema::unique($table, $field);
 		$options = Meta::field_metadata($table, $field);
 		$comment = Schema::columnComment ($table, $field);
+		$unsigned = Schema::unsignedType ($table, $field);
 		
 		$res = '$table';
 		$json = [];
 		
+		if ('id' == $field) {
+			$res .= "->id();";
+			return $res;
+		}
+			
 		if ('varchar' == $type) {
 			$res .= "->string('$field')";			
 		} elseif ('date' == $type) {
@@ -593,7 +602,10 @@ class CodeGenerator {
 		} elseif ('decimal' == $type) {
 			$res .= "->float('$field')";
 		} elseif ('bigint' == $type) {
-			$res .= "->bigInteger('$field')";
+			if ($unsigned) 
+				$res .= "->unsignedBigInteger('$field')";
+			else
+				$res .= "->bigInteger('$field')";
 		}
 		
 		if (!Schema::required($table, $field))  {
@@ -646,13 +658,29 @@ class CodeGenerator {
 	
 	/**
 	 * An array of metadata for all fillable fields
+	 * 
 	 * @param String $table
 	 * @return string[][]
 	 */
 	static public function table_field_list (String $table) {
 		$res = [];
+		$list = Schema::fieldList($table);
+		foreach ($list as $field) {
+			$res[] = self::field_metadata($table, $field);
+		}		
+		return $res;
+	}
+	
+	/**
+	 * An array of metadata for all fillable fields
+	 *
+	 * @param String $table
+	 * @return string[][]
+	 */
+	static public function index_field_list (String $table) {
+		$res = [];
 		$list = Meta::fillable_fields($table);
-		$view_def = ViewSchema::isView($table);
+		$view_def = ViewSchema::isView($table);		// is it a MySQL view ?
 		
 		if ($view_def) {
 			$view_list = ViewSchema::ScanViewDefinition($view_def);
@@ -664,7 +692,7 @@ class CodeGenerator {
 				// Todo store this information in database
 				$list = ["name", "email", "admin", "active"];
 			}
-		
+			
 			// Fill the result and compute an index
 			foreach ($list as $field) {
 				$res[] = self::field_metadata($table, $field);
@@ -901,6 +929,7 @@ class CodeGenerator {
 				'element' => Meta::element($table),
 				'table_field_list' => self::table_field_list($table),
 				'form_field_list' => self::form_field_list($table),
+				'index_field_list' => self::index_field_list($table),
 				'factory_field_list' => self::factory_field_list($table),
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),

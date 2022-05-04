@@ -29,7 +29,11 @@ class CreateProfilesTable extends Migration {
             $table->string('first_name');
             $table->string('last_name');
             $table->date('birthday');
-            $table->timestamps();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->timestamp('created_at')->useCurrent()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
+            $table->timestamp('updated_at')->useCurrent()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
+
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('restrict')->onDelete('restrict');
         } );
     }
 
