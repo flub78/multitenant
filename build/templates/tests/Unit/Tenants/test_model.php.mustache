@@ -126,36 +126,36 @@ class [[class_name]]ModelTest extends TenantTestCase {
 [[#date_mutators]]
 
     public function test_[[&field]]_mutators() {
-        $cgt = CodeGenType::factory()->create();
+        $elt = [[class_name]]::factory()->create();
         
         // By default the lang is en
         $en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})/i';   
-        $this->assertMatchesRegularExpression($en_date_regexp, $cgt->[[&field]]);
+        $this->assertMatchesRegularExpression($en_date_regexp, $elt->[[&field]]);
         
         // switch to French
         $this->set_lang("fr");
 
         // and check that the dates are now in French format
         $fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})/i';
-        $this->assertMatchesRegularExpression($fr_date_regexp, $cgt->[[&field]]);
+        $this->assertMatchesRegularExpression($fr_date_regexp, $elt->[[&field]]);
             
     }
 [[/date_mutators]]  
 [[#datetime_mutators]]
 
     public function test_[[&field]]_mutators() {
-        $cgt = CodeGenType::factory()->create();
+        $elt = [[class_name]]::factory()->create();
                 
         // By default the lang is en
         $en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})\s(\d{2})\:(\d{2})/i';
-        $this->assertMatchesRegularExpression($en_date_regexp, $cgt->[[&field]]);
+        $this->assertMatchesRegularExpression($en_date_regexp, $elt->[[&field]]);
         
         // switch to French
         $this->set_lang("fr");
         
         // and check that the dates are now in French format
         $fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})\s(\d{2})\:(\d{2})/i';
-        $this->assertMatchesRegularExpression($fr_date_regexp, $cgt->[[&field]]);
+        $this->assertMatchesRegularExpression($fr_date_regexp, $elt->[[&field]]);
     }
 [[/datetime_mutators]]
 [[/is_view]] 

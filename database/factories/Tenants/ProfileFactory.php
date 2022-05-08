@@ -1,4 +1,3 @@
-{{=[[ ]]=}}
 <?php
 /**
  * This file is generated from a template with metadata extracted from the data model.
@@ -8,19 +7,19 @@
 
 namespace Database\Factories\Tenants;
 
-use App\Models\Tenants\[[class_name]];
+use App\Models\Tenants\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-[[factory_referenced_models]]
+use App\Models\User;
 
-class [[class_name]]Factory extends Factory
+class ProfileFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = [[class_name]]::class;
+    protected $model = Profile::class;
 
     /**
      * Define the model's default state.
@@ -28,13 +27,14 @@ class [[class_name]]Factory extends Factory
      * @return array
      */
     public function definition() {
-        $count = [[class_name]]::count ();
+        $count = Profile::count ();
         $next = $count + 1;
         
         return [
-            [[#factory_field_list]]
-            '[[name]]' => [[&faker]],
-            [[/factory_field_list]]
+            'first_name' => "first_name_" . $next . "_" . Str::random(),
+            'last_name' => "last_name_" . $next . "_" . Str::random(),
+            'birthday' => $this->faker->unique()->date(__("general.date_format")),
+        	'user_id' => User::factory ()->create()->getKey(),
         ];
     }
     

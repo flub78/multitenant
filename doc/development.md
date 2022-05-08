@@ -7,112 +7,92 @@
   * As a user
   * I want to 
   * So ..
+  
 * Define validation scenarios
   * Given ..
   * When ..
   * Then ..
+  
 * Implement the validation scenarios that should not pass
   * Write the code
   * write unit tests for the code
 
   
-# Specific workflow
-Most ot features will imply the following steps
+# Resource CRUD workflow
 
-* Creation of a model in a migration class
-* Migration and creation of unit test for the model
-* Creation of a Controller
-* Creation of a Feature test for the controller
-* Creation of an End-to-End test
+For resources, the usual workflow is
+
+* Creation of a migration
+* Migration
+* Include the migration into the test database
+* Model and unit test
+* Controller and feature test
+* End-to-End test
+
+The workflow is described in two ways, either as the usual Laravel workflow or using the code generator.
+
+## Migration
+
+### Manual migration creation
+
+    php artisan make:migration Profiles
+    
+    then edit the migration.
+
+### Generation of the migration from the MySQL database
+
+#### Create the table in tenanttest
+   
+##### Create the table
+   
+![New table](images/new_table.PNG?raw=true "How to create a table")
+    
+##### Fill the form
+    
+![Table creation form](images/creation_form.PNG?raw=true "Creation form")
+
+##### Check the indexes
+
+![Indexes](images/indexes.PNG?raw=true "Indexes")
+ 
+##### Create foreign key constraints
+
+![Constraints](images/create_constraint.PNG?raw=true "Constraints")
+
+#####  And the result must be
+
+![Alt text](images/phpmyadmin_table_structure.PNG?raw=true "Title")
+
+##### Generate the migration
+
+    php artisan mustache:generate --install profiles migration
+    
+or
+
+    php artisan mustache:generate --compare profiles migration
+    
+![WinMerge](images/WinMerge.PNG?raw=true "WinMerge")
+    
+### Running the migration
+
+If the migration has been created from the table, delete the table first.
+
+    php artisan tenants:migrate --tenants=test
+    
+and check that the table is the same again.
+
+Be sure that the admin user test is registered in the test tenant. Then you can regenerate
+the test database.
+
+    php artisan --tenant=test backup:create
+    php artisan --tenant=test backup:test_install
+
+Run the tests.
 
 ## Creation of the model
 
-    php artisan make:model --all CalendarEvent
-    
-    php artisan make:model --all Tenants\Configuration
-    
-    ()
-    
-    php artisan make:factory Tenants\CalendarEventFactory -m Tenants\CalendarEvent
-    
-it creates
+[See Code generation progress](./code_generation_progress.md)
 
-    app\Http\Controllers\CalendarEventController.php
-    app\Models\CalendarEvent.php
-    database\factories\CalendarEventFactory.php
-    database\migrations\2021_xx_yy_165312_create_celendar_events_table.php
-    database\seeders\CalendarEventSeeder.php
+## Creation a the controller
 
-In case of tenant feature some files need to be moved to the tenant directory.
-
-Edit and adapt all the created files.
-    
-What is missing:
-
-* the Request for validation in app\Http\Requests
-* the views
-* the tests, Model unit test and Feature controller test
-
-Creation of only a migration
-
-    php artisan make:migration AddEmailToTenants
-
-### The migration
-
-It can use any of the column types defined [here](https://laravel.com/docs/8.x/migrations#creating-columns)
-
-Modifiers list can be found on the same page. The main ones are:
-* ->comment('my comment')
-* ->default($value)
-* ->nullable($value = true)
-
-to migrate a tenant database
-
-see [Databases with tenants](databases_with_tenants.md)
-
-### Update the routes
-
-Either in routes/tenant.php or routes/web.php
-
-### Give access to the controller in the GUI
-
-Either in the navbar or other navigation mean.
-
-### Create form
-
-* Create a view
-* Create a Request
-
-    php artisan make:request Tenants\CalendarEventRequest
-
-# How to
-
-Some examples of workflow
-
-## How to rename a filed in a database (refactoring)
-
-### update the migration
-### Migrate the database
-
-migrate the tenant database
-
-Note that the connection does not matter.
-    php artisan tenants:migrate-fresh
-    php artisan tenants:migrate-fresh --tenants=test
-    php artisan tenants:migrate-fresh --tenants=abbeville
-    
-    php artisan tenants:seed --tenants=abbeville --class="Database\Seeders\RoleSeeder"
-    
-to migrate and seed
-     
-
-Several options: 
-1. make the refactoring and run the tests, then fix the tests
-1. just change the model, then run the test and fix them
-
-### Example renaming category into description in calendar_events
-* Change the migration
-* migrate the database
-* run the tests
-* search fo the previous column name and replace it
-* Including texts in language files
+## Creation of the views

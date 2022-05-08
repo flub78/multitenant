@@ -25,6 +25,11 @@ It is easy to use random data for testing simple database tables, it can be done
 For schema with complex relationship it is more tricky, generating fake data for complex data model with a lot of relations and dependencies between them.
 
     https://medium.com/@palypster/cascading-laravel-factories-b1eb5a214161
+    
+By default the code generator cascades the factories. For example when a user role is created by the factory, it also creates a user and a role which are referenced.
+
+It works well for simple cases, you may consider to change the factory to reuse existing values or to pre fill the test database. Note that tests relying on pre filled databases are more complex to manage. You need to generate the database and to manage them under configuration to be sure to run the correct tests with their matching database. It may be the best option however when there are a lot of data to generate.
+
 
 
 

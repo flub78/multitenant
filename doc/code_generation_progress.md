@@ -119,5 +119,29 @@
     php artisan mustache:generate --compare user_roles_view1 factory
     php artisan mustache:generate --compare user_roles_view1 api
     php artisan mustache:generate --compare user_roles_view1 test_api
+    
+## profiles
+
+    php artisan mustache:generate --compare profiles model              OK                
+    php artisan mustache:generate --install profiles factory            OK              
+    php artisan mustache:generate --install profiles test_model         OK           
+
+    php artisan mustache:generate --install profiles controller           
+    php artisan mustache:generate --install profiles request                        
+    php artisan mustache:generate --install profiles test_controller    
+
+    php artisan mustache:generate --install profiles index                  
+    php artisan mustache:generate --install profiles create               
+    php artisan mustache:generate --install profiles edit                 
+    php artisan mustache:generate --install profiles english              
+
+    
+    php artisan mustache:generate --install profiles test_dusk       
+    php artisan mustache:generate --install profiles api                  
+    php artisan mustache:generate --install profiles test_api        
+        to validate
+
+
+
 
     

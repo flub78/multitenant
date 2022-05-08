@@ -554,7 +554,8 @@ class CodeGenerator {
 			
 		} elseif ('foreign_key' == $subtype) {
 			$target_table = Schema::foreignKeyReferencedTable ($table, $field);
-			$res = $faker . '->randomNumber(), // Foreign key to ' . $target_table . ', raises QueryException';
+			$target_class = Meta::class_name($target_table);
+			$res = $target_class . '::factory()->create()->getKey()';
 		}
 		return $res;
 	}
@@ -586,7 +587,8 @@ class CodeGenerator {
 		}
 			
 		if ('varchar' == $type) {
-			$res .= "->string('$field')";			
+			$size = Schema::columnSize($table, $field);
+			$res .= "->string('$field', $size)";			
 		} elseif ('date' == $type) {
 			$res .= "->date('$field')";
 		} elseif ('datetime' == $type) {
@@ -940,6 +942,28 @@ class CodeGenerator {
 	}
 	
 	/**
+	 * Return a list of lines of the type
+	 * use App\Models\User;
+	 *
+	 * @param String $table
+	 */
+	static public function factory_referenced_models($table) {
+		$res = '';
+		foreach (Schema::fieldList($table) as $field) {
+			if (Schema::foreignKey($table, $field)) {
+				$foreign_table = Schema::foreignKeyReferencedTable ($table, $field);
+				$foreign_class = Meta::class_name($foreign_table);
+				if ("User" == $foreign_class) {
+					$res .= "use App\Models\User;\n";
+				} else {
+					$res .= "use App\Models\\$foreign_class;\n";
+				}
+			}
+		}
+		return $res;
+	}
+	
+	/**
 	 * All the information for mustache engine
 	 *
 	 * @param String $table
@@ -972,7 +996,8 @@ class CodeGenerator {
 				'controller_list'=> self::controller_list($table),
 				'enumerate_list' => self::enumerate_list($table),
 				'is_view' => $is_view,
-				'foreign_keys' => self::foreign_keys($table)
+				'foreign_keys' => self::foreign_keys($table),
+				'factory_referenced_models' => self::factory_referenced_models($table)
 		);
 	}
 }

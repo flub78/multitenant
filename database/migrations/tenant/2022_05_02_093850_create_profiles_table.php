@@ -26,9 +26,9 @@ class CreateProfilesTable extends Migration {
     
         Schema::create ( 'profiles', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->date('birthday');
+            $table->string('first_name', 128);
+            $table->string('last_name', 128);
+            $table->date('birthday')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamp('created_at')->useCurrent()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
             $table->timestamp('updated_at')->useCurrent()->comment('{"fillable":"no", "inTable":"no", "inForm":"no"}');
