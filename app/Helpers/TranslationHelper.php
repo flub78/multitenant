@@ -44,7 +44,19 @@ class TranslationHelper {
 			$response = curl_exec($handle);
 			$responseDecoded = json_decode($response, true);
 			curl_close($handle);
-
+		
+			// if ($responseDecoded['error']) {
+			if (array_key_exists("error", $responseDecoded)) {
+				
+				$code = (array_key_exists("code", $responseDecoded['error'])) ? $responseDecoded['error']['code'] : 0;
+				$message = (array_key_exists("message", $responseDecoded['error'])) ? $responseDecoded['error']['message'] : "";
+				$status = (array_key_exists("status", $responseDecoded['error'])) ?  $responseDecoded['error']['status'] : "";
+				$msg = "Error $code, $status, $message\n";
+				echo ($msg);
+				echo "API Key = $apiKey\n";
+				exit;
+			}
+			
 			$res = $responseDecoded ['data'] ['translations'] [0] ['translatedText'];
 		}
 

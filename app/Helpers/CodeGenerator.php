@@ -786,6 +786,17 @@ class CodeGenerator {
 				// echo "field = $field, subtype=$subtype, list = $list\n";
 				// var_dump($elt);
 				$res[] = $elt;
+				
+			} elseif ('foreign_key' == $subtype) {
+				
+				$target_table = Schema::foreignKeyReferencedTable ($table, $field);
+				$target_class = Meta::class_name($target_table);
+				$element = Meta::element($target_table);
+				$list = $element . '_list';
+				
+				$elt['selector'] = "\$$list = $target_class::selector();"; 
+				$elt['with'] = "\n\t\t\t->with('$list', \$$list)";
+				$res[] = $elt;
 			}
 		}
 		return $res;

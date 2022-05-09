@@ -53,13 +53,9 @@ Existing templates:
 * api: an API for programmatic acccess to the resource
 * test_api: a test for this API
 
+## Translation
 
-English language files can be translated in any language supported by Google translate (French by default) using: 
-
-    php artisan mustache:translate  --compare configuration 
-    php artisan mustache:translate  --compare configuration --lang fr
-    
-[More than 60 supported languages](https://www.labnol.org/code/19899-google-translate-languages)
+[Google automatic translation of the application](translation.md)
     
 ## Supported data types
 

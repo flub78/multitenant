@@ -91,8 +91,28 @@ Run the tests.
 
 ## Creation of the model
 
+Create the model, the factory and the model unit test.
+
 [See Code generation progress](./code_generation_progress.md)
 
-## Creation a the controller
+And run the test
 
-## Creation of the views
+    php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/ProfileModelTest.php
+
+## Creation a the controller and the views
+
+Create the controller, a request, the views and a test for the controller. Also create an set of English strings for the views and a translation in your favorite language.
+
+    php artisan mustache:translate --install profile 
+
+Declare a route for the controller into routes/tenant.php
+    
+    Route::resource('profile', App\Http\Controllers\Tenants\ProfileController::class)->middleware('auth');
+    
+At this point, the resource should be available through the controller:
+
+    http://abbeville.tenants.com/profile
+    
+Test it manually and run the feature test.
+
+

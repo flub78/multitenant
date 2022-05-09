@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\[[class_name]]Request;
 use App\Models\Tenants\[[class_name]];
+[[factory_referenced_models]]
 
 /**
  * Controller for [[element]]
@@ -35,9 +36,10 @@ class [[class_name]]Controller extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() { 
-        [[# select_list ]]
-        [[/ select_list ]]
-    	return view ('tenants/[[element]]/create')[[# select_with_list ]][[/ select_with_list ]];
+        [[#select_list ]]
+        [[&selector]]
+        [[/select_list ]]
+    	return view ('tenants/[[element]]/create')[[#select_list ]][[&with]][[/select_list ]];
     }
 
     /**
@@ -76,13 +78,13 @@ class [[class_name]]Controller extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit([[class_name]] $[[element]]) {
-        [[# select_list ]]
+        [[#select_list]]
         [[&selector]]
-        [[/ select_list ]]
+        [[/select_list]]
         return view('tenants/[[element]]/edit')->with(compact('[[element]]'))
-            [[# select_list ]]
+            [[#select_list]]
             [[&with]]
-            [[/ select_list ]];
+            [[/select_list]];
     }
 
     

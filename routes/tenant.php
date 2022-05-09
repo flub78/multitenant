@@ -54,6 +54,7 @@ Route::middleware([
 	
 	// Classic ressource
 	Route::resource('calendar_event', App\Http\Controllers\Tenants\CalendarEventController::class)->middleware('auth');
+	Route::resource('profile', App\Http\Controllers\Tenants\ProfileController::class)->middleware('auth');
 	
 	// admin routes
 	Route::group(['middleware' => ['admin']], function () {

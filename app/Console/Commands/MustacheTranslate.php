@@ -97,7 +97,6 @@ class MustacheTranslate extends Command {
 		$source = str_replace('<?php', '', $source);
 		
 		$data['language'] = $lang;
-		
 		$hash = eval($source);
 		$translated_hash = Translate::translate_array($hash, $lang);
 		

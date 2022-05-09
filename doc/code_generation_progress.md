@@ -123,17 +123,19 @@
 ## profiles
 
     php artisan mustache:generate --compare profiles model              OK                
-    php artisan mustache:generate --install profiles factory            OK              
-    php artisan mustache:generate --install profiles test_model         OK           
+    php artisan mustache:generate --compare profiles factory            OK              
+    php artisan mustache:generate --compare profiles test_model         OK           
 
-    php artisan mustache:generate --install profiles controller           
-    php artisan mustache:generate --install profiles request                        
-    php artisan mustache:generate --install profiles test_controller    
+    php artisan mustache:generate --compare profiles controller         OK       
+    php artisan mustache:generate --compare profiles request            OK            
+    php artisan mustache:generate --compare profiles test_controller    
 
-    php artisan mustache:generate --install profiles index                  
-    php artisan mustache:generate --install profiles create               
-    php artisan mustache:generate --install profiles edit                 
-    php artisan mustache:generate --install profiles english              
+    php artisan mustache:generate --install profiles index              OK  
+    php artisan mustache:generate --install profiles create             OK  
+    php artisan mustache:generate --install profiles edit               OK  
+    php artisan mustache:generate --install profiles english            OK
+    
+    php artisan mustache:translate --install profile                    OK
 
     
     php artisan mustache:generate --install profiles test_dusk       
