@@ -115,4 +115,5 @@ At this point, the resource should be available through the controller:
     
 Test it manually and run the feature test.
 
-
+    php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
+    

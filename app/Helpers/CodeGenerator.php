@@ -967,7 +967,7 @@ class CodeGenerator {
 				if ("User" == $foreign_class) {
 					$res .= "use App\Models\User;\n";
 				} else {
-					$res .= "use App\Models\\$foreign_class;\n";
+					$res .= "use App\Models\Tenants\\$foreign_class;\n";
 				}
 			}
 		}

@@ -81,10 +81,8 @@ class [[class_name]]Controller extends Controller {
         [[#select_list]]
         [[&selector]]
         [[/select_list]]
-        return view('tenants/[[element]]/edit')->with(compact('[[element]]'))
-            [[#select_list]]
-            [[&with]]
-            [[/select_list]];
+        return view('tenants/[[element]]/edit')
+            ->with(compact('[[element]]'))[[#select_list]][[&with]][[/select_list]];
     }
 
     
@@ -94,6 +92,8 @@ class [[class_name]]Controller extends Controller {
      * @param App\Http\Requests\Tenants\[[class_name]]Request;
      * @param String $id
      * @return \Illuminate\Http\Response
+     * 
+     * @SuppressWarnings("PMD.ShortVariable")
      */
     public function update([[class_name]]Request $request, $id) {
         $validatedData = $request->validated();
