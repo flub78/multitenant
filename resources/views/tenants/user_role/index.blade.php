@@ -1,5 +1,9 @@
 <!-- index.blade.php -->
 
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -9,6 +13,11 @@
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
+    </div><br />
+  @endif
+  @if(session()->get('error'))
+    <div class="alert alert-danger">
+      {{ session()->get('error') }}  
     </div><br />
   @endif
   <table class="table table-striped"  id="maintable">

@@ -7,9 +7,9 @@ namespace App\Http\Controllers\Tenants;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\UserRoleRequest;
+use App\Models\Tenants\UserRole;
 use App\Models\User;
 use App\Models\Tenants\Role;
-use App\Models\Tenants\UserRole;
 use Illuminate\Database\QueryException;
 
 
@@ -40,14 +40,14 @@ class UserRoleController extends Controller {
     	$user_list = User::selector();
     	$role_list = Role::selector();
     	return view ('tenants/user_role/create')
-    		->with('role_list', $role_list)
-    		->with('user_list', $user_list);   		;
+			->with('user_list', $user_list)
+			->with('role_list', $role_list);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param App\Http\Requests\Tenants\UserRoleRequest;
+     * @param App\Http\Requests\Tenants\UserRoleRequest
      * @return \Illuminate\Http\Response
      */
     public function store(UserRoleRequest $request) {
@@ -67,11 +67,11 @@ class UserRoleController extends Controller {
      *
      * @param  \App\Models\Tenants\UserRole  $user_role
      * @return \Illuminate\Http\Response
-
-    public function show(UserRole $user_role) {
-        //
-    }
      */
+    public function show(UserRole $user_role) {
+        // echo "UserRole.show\n";
+    }
+
     
     /**
      * Show the form for editing the specified resource.
@@ -83,9 +83,9 @@ class UserRoleController extends Controller {
     	$user_list = User::selector();
     	$role_list = Role::selector();
     	return view('tenants/user_role/edit')
-    	->with('role_list', $role_list)
+            ->with(compact('user_role'))
     	->with('user_list', $user_list)
-    	->with(compact('user_role'));
+			->with('role_list', $role_list);
     }
 
     
