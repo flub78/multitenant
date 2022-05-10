@@ -79,7 +79,7 @@ php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/ProfileModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

@@ -12,6 +12,7 @@ use App\Models\ModelWithLogs;
 use App\Helpers\Config;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
+{{factory_referenced_models}}
 
 /**
  * {{class_name}} model
@@ -75,7 +76,20 @@ class {{class_name}} extends ModelWithLogs {
         }
         return $res;
     }
-{{/is_referenced}}	
+{{/is_referenced}}
+{{#foreign_key_list}}
+    
+    /**
+     * Get the image of the referenced {{&foreign_element}}
+     * 
+     * @return String
+     */
+    public function {{&foreign_element}}_image() {
+        ${{&foreign_element}} = {{&foreign_class}}::findOrFail ( $this->{{&foreign_element}}_id );
+        return ${{&foreign_element}}->image();
+    }
+
+{{/foreign_key_list}}	
 {{#date_mutators}}
 
     /**

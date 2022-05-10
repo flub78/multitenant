@@ -38,7 +38,7 @@ use App\Helpers\BladeHelper as Blade;
           <td> {{$profile->first_name}}</td>
           <td> {{$profile->last_name}}</td>
           <td> {{$profile->birthday}}</td>
-          <td> {{$profile->user_id}}</td>
+          <td> {{$profile->user_image()}}</td>
 		              
           <td> <a href="{{ route('profile.edit', $profile->id) }}" class="btn btn-primary" dusk="edit_{{ $profile->id }}">{{ __('general.edit') }}</a>  </td>
           <td> <form action="{{ route("profile.destroy", $profile->id)}}" method="post">

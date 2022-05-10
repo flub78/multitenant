@@ -12,6 +12,8 @@ use App\Models\ModelWithLogs;
 use App\Helpers\Config;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
+use App\Models\User;
+
 
 /**
  * Profile model
@@ -45,7 +47,17 @@ class Profile extends ModelWithLogs {
      */
 	protected $fillable = ["first_name", "last_name", "birthday", "user_id"];
 
-    /**
+	/**
+	 * Get the image of the referenced user
+	 *
+	 * @return String
+	 */
+	public function user_image() {
+		$user = User::findOrFail ( $this->user_id );
+		return $user->image();
+	}
+	
+	/**
      * Get the Birthday date
      *
      * @param  string  $value date in MySql format
@@ -76,5 +88,12 @@ class Profile extends ModelWithLogs {
         $db_format = 'Y-m-d';
         $date = Carbon::createFromFormat(__('general.date_format'), $value);
         $this->attributes['birthday'] = $date->format($db_format);
+    }
+
+    /**
+     * Get the user associated with the profile.
+     */
+    public function user() {
+    	return $this->belongsTo(User::class);
     }
 }

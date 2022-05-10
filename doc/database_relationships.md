@@ -25,7 +25,7 @@ Implement the hasOne relation. It is an alternative to have all the column in a 
 By default the ELoquent interface also supports hasOneorNone relation. (I cannot find that in the documentation...)
 By default the foreign key in the second table is *_id, user_id to reference user.id
 
-In Eloquent navigation is done through hasOne in one way and belongsTo in the other way.
+In Eloquent navigation is done through hasOne in one way and belongsTo in the other way. Interestingly if a model has a foreign key to another table, it belongs to the other model. Note that it is a convention that could have been reversed but reversing it wouldn't work with one to many relationship. 
 
 Examples: 
 * A vehicle has one registration document.
@@ -139,7 +139,7 @@ It could be used for example if a billing line is related to a flight, and fligh
         session_id
         student_id
         
-## Forign Key Constraints
+## Foreign Key Constraints
 
 Laravel also provides support for creating foreign key constraints, which are used to force referential integrity at the database level. For example, let's define a user_id column on the posts table that references the id column on a users table:
 
@@ -161,6 +161,18 @@ possible values are:
 * "cascade"
 * "restrict"
 * "set null"
+
+## Relationship and Code generation
+
+The code generator checks if a field is a foreign key to generate code accordingly.
+
+Note that the presence of a foreign key is not sufficient to determine the kind of relationship.
+A simple foreign key can implement a one to one or a one to many relationship.
+The presence of two foreign keys in a table may indicates a many to many relationship (user roles) but it can also be irrelevant (Or in other words a many to many relationship may exist in the schema without having any domain or business signification)
+
+The conclusion is that it is not possible to determine the useful relationships only from the presence of foreign keys in the model. For the code generator, the choice is either to define additional metadata to describe the relationships or to add these relationship manually once the models have been generated.
+
+No decision taken at this point, I do not want to make the code generator over complicated. 
 
 ## Examples
 

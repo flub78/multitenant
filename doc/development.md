@@ -98,6 +98,8 @@ Create the model, the factory and the model unit test.
 And run the test
 
     php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/ProfileModelTest.php
+    
+There is currently no support in the code generator to generate the relationship methods in the model (hasOne, belongsTo, HasMany). They must be added manually.
 
 ## Creation a the controller and the views
 

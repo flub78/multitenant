@@ -128,7 +128,7 @@
 
     php artisan mustache:generate --compare profiles controller         OK       
     php artisan mustache:generate --compare profiles request            OK            
-    php artisan mustache:generate --compare profiles test_controller    
+    php artisan mustache:generate --compare profiles test_controller    OK
 
     php artisan mustache:generate --install profiles index              OK  
     php artisan mustache:generate --install profiles create             OK  

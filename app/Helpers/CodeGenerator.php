@@ -90,6 +90,12 @@ class CodeGenerator {
 		
 		} elseif (in_array($field_type, ['double', 'decimal'])) {
 			return '<div align="right">' . "{!! Blade::float($value) !!}" . '</div>';
+			
+		} elseif (($subtype == "foreign_key")) {
+			$value = '$' .$element . '->';
+			$method = str_replace('_id', '', $field) . "_image()";
+			$value .= $method;
+			return '{{' . $value . '}}';	
 		}
 		
 		return '{{' . $value . '}}';
@@ -974,6 +980,22 @@ class CodeGenerator {
 		return $res;
 	}
 	
+	static public function foreign_key_list($table) {
+		$res = [];
+		foreach (Schema::fieldList($table) as $field) {
+			if (Schema::foreignKey($table, $field)) {
+				$foreign_table = Schema::foreignKeyReferencedTable ($table, $field);
+				$foreign_class = Meta::class_name($foreign_table);
+				$elt = [];
+				$elt['foreign_table'] = $foreign_table;
+				$elt['foreign_class'] = $foreign_class;
+				$elt['foreign_element'] = Meta::element($foreign_table);
+				$res[] = $elt;
+			}
+		}
+		return $res;
+	}
+	
 	/**
 	 * All the information for mustache engine
 	 *
@@ -1008,6 +1030,7 @@ class CodeGenerator {
 				'enumerate_list' => self::enumerate_list($table),
 				'is_view' => $is_view,
 				'foreign_keys' => self::foreign_keys($table),
+				'foreign_key_list' => self::foreign_key_list($table),
 				'factory_referenced_models' => self::factory_referenced_models($table)
 		);
 	}

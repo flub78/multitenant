@@ -118,4 +118,12 @@ class ProfileModelTest extends TenantTestCase {
         $this->assertMatchesRegularExpression($fr_date_regexp, $elt->birthday);
             
     }
+    
+    public function test_image_of_referenced_model () {
+    	$elt = Profile::factory()->create();
+    	$user = $elt->user;
+    	$this->assertNotNull($user);
+    	$this->assertTrue(strlen($user->name) > 0);
+    	$this->assertTrue(strlen($user->image()) > 0);    	
+    }
 }
