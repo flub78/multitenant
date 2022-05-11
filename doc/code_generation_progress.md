@@ -141,7 +141,6 @@
     php artisan mustache:generate --install profiles test_dusk       
     php artisan mustache:generate --install profiles api                  
     php artisan mustache:generate --install profiles test_api        
-        to validate
 
 
 

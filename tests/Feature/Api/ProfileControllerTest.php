@@ -1,18 +1,17 @@
-{{=[[ ]]=}}
 <?php
 
 /**
- * Test cases: [[class_name]] CRUD
+ * Test cases: Profile CRUD
  *
  */
 namespace tests\Feature\Api;
 
 use Tests\TenantTestCase;
 use App\Models\User;
-use App\Models\Tenants\[[class_name]];
+use App\Models\Tenants\Profile;
 use Laravel\Sanctum\Sanctum;
 
-class [[class_name]]ControllerTest extends TenantTestCase {
+class ProfileControllerTest extends TenantTestCase {
 	
 	protected $tenancy = true;
 	
@@ -25,7 +24,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		$this->user = User::factory ()->make ();
 		$this->user->admin = true;
 		
-		$this->base_url = '/[[element]]';
+		$this->base_url = '/profile';
 	}
 
 	function __destruct() {
@@ -41,12 +40,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     public function create_elements(int $number = 1, $argv = []) {
 	   $elements = [];
        for ($i = 0; $i < $number; $i++) {
-[[^is_view]]        
-            $elements[] = [[class_name]]::factory ()->create ($argv);
-[[/is_view]]        
-[[#is_view]]        
-            $elements[] = [[class_name]]::factoryCreate ();
-[[/is_view]]
+            $elements[] = Profile::factory ()->create ($argv);
         }
         return $elements;
 	}
@@ -54,7 +48,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	/**
 	 * Test that base URL returns a json list of elements
 	 */
-	public function test_[[element]]_index_json() {
+	public function test_profile_index_json() {
 		
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
@@ -68,28 +62,27 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		// var_dump($json);
 		$this->assertEquals(2, count($json['data']));
 
-        foreach ([ [[&fillable_names]] ] as $field) {
-            if ($field != "[[primary_index]]")
+        foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
+            if ($field != "id")
                 $this->assertEquals($elements[0]->$field, $json['data'][0][$field]);             
         }
 	}
 	
-[[^is_view]]        
 	/**
 	 * Get one element form the API
 	 */
 	public function test_show() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
-        $[[element]]1 = [[class_name]]::factory ()->create ();
-        [[class_name]]::factory ()->create ();
+        $profile1 = Profile::factory ()->create ();
+        Profile::factory ()->create ();
 		
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/1');
 		$response->assertStatus(200);
 		$json = $response->json();
-        foreach ([ [[&fillable_names]] ] as $field) {
-            if ($field != "[[primary_index]]")
-                $this->assertEquals($[[element]]1->$field, $json[$field]);             
+        foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
+            if ($field != "id")
+                $this->assertEquals($profile1->$field, $json[$field]);             
         }
 	}
 	
@@ -97,20 +90,20 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	/**
 	 * Create elements from the API
 	 */
-	public function test_[[element]]_store() {
+	public function test_profile_store() {
 		
 		$this->withoutMiddleware();
 		
-		$initial_count = [[class_name]]::count();
+		$initial_count = Profile::count();
 		
 		//prepare an element
-		$[[element]] = [[class_name]]::factory()->make();
+		$profile = Profile::factory()->make();
 		$elt = [];
         // Normally the crsf token is required for all post, put, patch and delete requests
         // But in this context all middleware are disabled ...
         // $elt['_token'] = csrf_token();
-		foreach ([ [[&fillable_names]] ] as $field) {
-		    $elt[$field] = $[[element]]->$field;
+		foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
+		    $elt[$field] = $profile->$field;
 		}
 				
 		// call the post method to create it
@@ -121,33 +114,33 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		$json = $response->json();
 		
 		// by default the store method returns the created element
-        foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertEquals($[[element]]->$field, $json[$field]);             
+        foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
+            $this->assertEquals($profile->$field, $json[$field]);             
         }
 		
 		// check that an element has been created
-		$new_count = [[class_name]]::count ();
+		$new_count = Profile::count ();
 		$expected = $initial_count + 1;
 		$this->assertEquals ( $expected, $new_count, "event created, actual=$new_count, expected=$expected" );
 		
 		// and it can be retrieved		
-		$back = [[class_name]]::latest()->first();
+		$back = Profile::latest()->first();
 		$this->assertNotNull($back);
-        foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertEquals($[[element]]->$field, $back->$field);             
+        foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
+            $this->assertEquals($profile->$field, $back->$field);             
         }
 	}
 	
 	/**
 	 * Test store error cases
 	 */
-	public function test_[[element]]_store_incorrect_value() {
+	public function test_profile_store_incorrect_value() {
 	
 	    $this->withoutMiddleware();
 		
 		$cnt = 1;
-		foreach ([[class_name]]::factory()->error_cases() as $case) {
-            $initial_count = [[class_name]]::count ();
+		foreach (Profile::factory()->error_cases() as $case) {
+            $initial_count = Profile::count ();
 
             $elt = $case["fields"];
             
@@ -158,8 +151,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
                 $this->assertEquals($msg, $json['errors'][$field][0]);   
             }
              
-            $new_count = [[class_name]]::count ();
-            $this->assertEquals ( $initial_count, $new_count, "error case $cnt: [[element]] not created, actual=$new_count, expected=$initial_count" );
+            $new_count = Profile::count ();
+            $this->assertEquals ( $initial_count, $new_count, "error case $cnt: profile not created, actual=$new_count, expected=$initial_count" );
             $cnt = $cnt + 1;
 		}
 		// To avoid risky tests warning when no error cases have been defined
@@ -172,22 +165,22 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	public function test_delete() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
-        $initial_count = [[class_name]]::count ();
+        $initial_count = Profile::count ();
         $this->assertEquals ( 0, $initial_count, "No element when starting test" );
-        [[class_name]]::factory ()->create ();
-        [[class_name]]::factory ()->create ();
-        $this->assertEquals ( 2, [[class_name]]::count (), "Two elements after creation" );
-
-		$back = [[class_name]]::latest()->first();
-		$[[primary_index]] = $back->[[primary_index]];
+        Profile::factory ()->create ();
+        Profile::factory ()->create ();
+        $this->assertEquals ( 2, Profile::count (), "Two elements after creation" );
+        
+		$back = Profile::latest()->first();
+		$id = $back->id;
 		
-		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $[[primary_index]]);
+		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id);
 		
 		// $response->dump();
 		$json = $response->json();
 		$this->assertEquals($json, 1);
 		
-        $this->assertEquals ( 1, [[class_name]]::count (), "One elements after delete" );
+		$this->assertEquals ( 1, Profile::count (), "One elements after delete" );
 	}
 	
 	/**
@@ -197,7 +190,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		$id = "123456789";
-		$initial_count = [[class_name]]::count ();
+		$initial_count = Profile::count ();
 		
 		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id);
 		
@@ -206,7 +199,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		$this->assertTrue(strpos($json['message'], "No query results for model") >= 0);
 		$this->assertTrue(strpos($json['message'], $id) >= 0);
 		
-		$new_count = [[class_name]]::count ();
+		$new_count = Profile::count ();
 		$expected = $initial_count;
 		$this->assertEquals ( $expected, $new_count, "Nothing deleted, actual=$new_count, expected=$expected" );
 	}
@@ -218,51 +211,45 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		
 		$this->withoutMiddleware();
 		
-		[[class_name]]::factory()->create();
-		$back = [[class_name]]::latest()->first();
-		$[[primary_index]] = $back->[[primary_index]];
+		Profile::factory()->create();
+		$back = Profile::latest()->first();
+		$id = $back->id;
 				
-        $initial_count = [[class_name]]::count ();
+        $initial_count = Profile::count ();
 
         //prepare another element
-        $[[element]] = [[class_name]]::factory()->make();
+        $profile = Profile::factory()->make();
         $elt = [];
-        foreach ([ [[&fillable_names]] ] as $field) {
-            $elt[$field] = $[[element]]->$field;
+        foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
+            $elt[$field] = $profile->$field;
         }
 		$elt['_token'] = csrf_token();
 						
-		$response = $this->patchJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $[[primary_index]], $elt);
+		$response = $this->patchJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id, $elt);
 		$this->assertEquals(1, $response->json());		
 
-		$updated = [[class_name]]::findOrFail($[[primary_index]]);
+		$updated = Profile::findOrFail($id);
 		
-		foreach ([ [[&fillable_names]] ] as $field) {
-		    if ($field != "[[primary_index]]")
+		foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
+		    if ($field != "id")
                 $this->assertEquals($elt[$field], $updated->$field);             
         }
 
-		$new_count = [[class_name]]::count ();
+		$new_count = Profile::count ();
 		$this->assertEquals ( $new_count, $initial_count, "Count does not change on update, actual=$initial_count, expected=$new_count" );
 	}
 
-[[/is_view]]        
 	/**
 	 * Test pagination
 	 */
-	public function test_[[element]]_pagination() {
+	public function test_profile_pagination() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
         $cnt = 0;		
 		for ($i = 0; $i < 90; $i++) {			
-[[^is_view]]        
-            [[class_name]]::factory ()->create ();
-[[/is_view]]        
-[[#is_view]]        
-            [[class_name]]::factoryCreate ();
-[[/is_view]]        
+            Profile::factory ()->create ();
             if ($cnt == 19) {
-                $elt20 = [[class_name]]::latest()->first();
+                $elt20 = Profile::latest()->first();
             }
             $cnt = $cnt + 1;
             if ($cnt == 19) sleep(2); // because lastest has a second precision
@@ -275,7 +262,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		// with a page parameter the API returns the collection in the data field
         // Check that 20 elements out of 100 have been received
 		$this->assertEquals(20, count($json['data']));
-        foreach ([ [[&fillable_names]] ] as $field) {
+        foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
             $this->assertEquals($elt20->$field, $json['data'][19][$field]);
         }
 		
@@ -292,12 +279,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		for ($i = 0; $i < 100; $i++) {			
-[[^is_view]]        
-            [[class_name]]::factory ()->create ();
-[[/is_view]]        
-[[#is_view]]        
-            [[class_name]]::factoryCreate ();
-[[/is_view]]        
+            Profile::factory ()->create ();
 		}
 		
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=120');
@@ -312,18 +294,18 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	/**
 	 * Test that pages are correctly sorted
 	 */
-	public function test_[[element]]_sorting() {
+	public function test_profile_sorting() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		// generate the test data set
 	    $cnt = 0;
 		for ($i = 0; $i < 90; $i++) {			
-			[[class_name]]::factory ()->create ();
+			Profile::factory ()->create ();
             if ($cnt == 19) {
-                $elt20 = [[class_name]]::latest()->first();
+                $elt20 = Profile::latest()->first();
             }
             if ($cnt == 84) {
-                $elt85 = [[class_name]]::latest()->first();
+                $elt85 = Profile::latest()->first();
             }
             $cnt++;
             if (($cnt == 19) || ($cnt == 84)) sleep(2);
@@ -336,16 +318,16 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		$json = $response->json();
 		// First call without sorting
 		$this->assertEquals(20, count($json['data']));
-        foreach ([ [[&fillable_names]] ] as $field) {
+        foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
             $this->assertEquals($elt20->$field, $json['data'][19][$field]);
         }
 		
 		// Sorting on start (reverse order)
-		$first_field = [ [[&fillable_names]] ][0];
+		$first_field = [ "first_name", "last_name", "birthday", "user_id" ][0];
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=-' . $first_field);
 		$json = $response->json();
 		
-        foreach ([ [[&fillable_names]] ] as $field) {
+        foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
             $this->assertEquals($elt85->$field, $json['data'][6][$field]);
         }
 		// var_dump($json);
@@ -354,13 +336,13 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	/**
 	 *
 	 */
-	public function ttest_[[element]]_sorting_on_multiple_columns() {
+	public function ttest_profile_sorting_on_multiple_columns() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		// generate the test data set
 		//
 		for ($i = 0; $i < 100; $i++) {
-			[[class_name]]::factory ()->create ();
+			Profile::factory ()->create ();
 		}
 		
 		// First page, non sorted
@@ -399,7 +381,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		
 		// generate the test data set
 		for ($i = 0; $i < 100; $i++) {
-			[[class_name]]::factory ()->create ();
+			Profile::factory ()->create ();
 		}
 				
 		// Sorting on multiple columns
@@ -416,7 +398,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		
 		// generate the test data set
 		for ($i = 0; $i < 100; $i++) {
-			[[class_name]]::factory ()->create ();
+			Profile::factory ()->create ();
 		}		
 		
 		// Filtering on multiple columns

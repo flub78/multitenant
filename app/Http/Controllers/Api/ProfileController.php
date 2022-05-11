@@ -1,12 +1,11 @@
-{{=[[ ]]=}}
 <?php
 
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Tenants\[[class_name]];
-use App\Http\Requests\Tenants\[[class_name]]Request;
+use App\Models\Tenants\Profile;
+use App\Http\Requests\Tenants\ProfileRequest;
 use App\Helpers\DateFormat;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
@@ -17,12 +16,12 @@ use Carbon\Carbon;
 
 
 /**
- * REST API for [[class_name]]
+ * REST API for Profile
  *
  * @author frederic
  *        
  */
-class [[class_name]]Controller extends Controller {
+class ProfileController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -50,7 +49,7 @@ class [[class_name]]Controller extends Controller {
 		// Laravel default is 15
 		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
 				
-		$query = [[class_name]]::query();
+		$query = Profile::query();
 		if ($request->has ('sort')) {
 			
 			$sorts = explode(',', $request->input ('sort'));
@@ -84,7 +83,6 @@ class [[class_name]]Controller extends Controller {
 		return $query->paginate ($per_page);
 	}
 
-[[^is_view]]		
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -93,10 +91,10 @@ class [[class_name]]Controller extends Controller {
 	 * 
 	 * 
 	 */
-	public function store([[class_name]]Request $request) {
+	public function store(ProfileRequest $request) {
 		$validatedData = $request->validated ();
 
-		return [[class_name]]::create ( $validatedData );
+		return Profile::create ( $validatedData );
 	}
 
 	/**
@@ -108,7 +106,7 @@ class [[class_name]]Controller extends Controller {
      * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function show($id) {
-		return [[class_name]]::findOrFail ( $id );
+		return Profile::findOrFail ( $id );
 	}
 
 	/**
@@ -120,13 +118,12 @@ class [[class_name]]Controller extends Controller {
 
      * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	public function update([[class_name]]Request $request, $id) {
+	public function update(ProfileRequest $request, $id) {
 		$validatedData = $request->validated ();
 
-[[# controller_list ]]
-        [[&update]]
-[[/ controller_list ]]
-		return [[class_name]]::whereId ( $id )->update ( $validatedData );
+		$this->update_date($validatedData, 'birthday');
+		
+		return Profile::whereId ( $id )->update ( $validatedData );
 	}
 
 	/**
@@ -138,8 +135,7 @@ class [[class_name]]Controller extends Controller {
      * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function destroy($id) {
-		$[[element]] = [[class_name]]::findOrFail ( $id );
-		return $[[element]]->delete ();
+		$profile = Profile::findOrFail ( $id );
+		return $profile->delete ();
 	}
-[[/is_view]]        
 }

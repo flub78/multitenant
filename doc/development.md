@@ -25,9 +25,9 @@ For resources, the usual workflow is
 * Creation of a migration
 * Migration
 * Include the migration into the test database
-* Model and unit test
-* Controller and feature test
-* End-to-End test
+* Model and unit tests
+* Controller and feature tests
+* End-to-End tests
 
 The workflow is described in two ways, either as the usual Laravel workflow or using the code generator.
 
@@ -37,7 +37,7 @@ The workflow is described in two ways, either as the usual Laravel workflow or u
 
     php artisan make:migration Profiles
     
-    then edit the migration.
+    then edit and adapt the migration.
 
 ### Generation of the migration from the MySQL database
 
@@ -66,28 +66,27 @@ The workflow is described in two ways, either as the usual Laravel workflow or u
 ##### Generate the migration
 
     php artisan mustache:generate --install profiles migration
-    
 or
 
     php artisan mustache:generate --compare profiles migration
     
 ![WinMerge](images/WinMerge.PNG?raw=true "WinMerge")
     
-### Running the migration
+### Run the migration
 
 If the migration has been created from the table, delete the table first.
 
     php artisan tenants:migrate --tenants=test
     
-and check that the table is the same again.
+and check that the table is identical to the original version.
 
-Be sure that the admin user test is registered in the test tenant. Then you can regenerate
+Be sure that the admin test user is registered in the test tenant database. Then regenerate
 the test database.
 
     php artisan --tenant=test backup:create
     php artisan --tenant=test backup:test_install
 
-Run the tests.
+Run all the tests for non regression.
 
 ## Creation of the model
 
@@ -100,6 +99,8 @@ And run the test
     php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/ProfileModelTest.php
     
 There is currently no support in the code generator to generate the relationship methods in the model (hasOne, belongsTo, HasMany). They must be added manually.
+
+Do not forget to complete the factory with error cases if you want tests on error cases.
 
 ## Creation a the controller and the views
 
@@ -119,3 +120,19 @@ Test it manually and run the feature test.
 
     php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
     
+## Optional creation of an API
+
+    php artisan mustache:generate --install profiles api                  
+    php artisan mustache:generate --install profiles test_api        
+
+Declare a route for the API controller into routes/tenant.php
+
+    Route::resource('api/profile', App\Http\Controllers\Api\profileController::class, ['as' => 'api'])
+        ->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+
+The API can be manually tested with Postman (I do not know how to send the Sanctum token with a Web browser).
+            
+Then run the test
+
+    php vendor/phpunit/phpunit/phpunit tests/Feature/Api/ProfileControllerTest.php
+        
