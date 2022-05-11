@@ -130,18 +130,17 @@
     php artisan mustache:generate --compare profiles request            OK            
     php artisan mustache:generate --compare profiles test_controller    OK
 
-    php artisan mustache:generate --install profiles index              OK  
-    php artisan mustache:generate --install profiles create             OK  
-    php artisan mustache:generate --install profiles edit               OK  
-    php artisan mustache:generate --install profiles english            OK
+    php artisan mustache:generate --compare profiles index              OK  
+    php artisan mustache:generate --compare profiles create             OK  
+    php artisan mustache:generate --compare profiles edit               OK  
+    php artisan mustache:generate --compare profiles english            OK
     
-    php artisan mustache:translate --install profile                    OK
+    php artisan mustache:translate --compare profile                    OK
 
-    
-    php artisan mustache:generate --install profiles test_dusk       
-    php artisan mustache:generate --install profiles api                  
-    php artisan mustache:generate --install profiles test_api        
+    php artisan mustache:generate --compare profiles api                OK                 
+    php artisan mustache:generate --compare profiles test_api           OK
 
+    php artisan mustache:generate --compare profiles test_dusk       
 
 
 

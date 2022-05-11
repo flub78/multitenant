@@ -1,5 +1,7 @@
+@rem Dusk tests for Central
+@rem ======================
 php artisan dusk --colors=always --browse tests/Browser/MinimalDuskTest.php
-php artisan dusk --colors=always --browse tests/Browser/Central/WelcomeTest.php
+@rem php artisan dusk --colors=always --browse tests/Browser/Central/WelcomeTest.php
 @rem php artisan dusk --colors=always --browse tests/Browser/Central/TenantsTest.php
 @rem php artisan dusk  --browse tests/Browser/Central/UserTest.php
 @rem php artisan dusk --colors=always --browse tests/Browser/Central/BackupsTest.php
@@ -9,6 +11,8 @@ php artisan dusk --colors=always --browse tests/Browser/Central/WelcomeTest.php
 @rem php artisan dusk --browse --colors=always 
 
 
+@rem Dusk tests for Tenants
+@rem ======================
 cp .env .env.svg
 cp .env.dusk.tenants .env
 
@@ -19,9 +23,14 @@ cp .env.dusk.tenants .env
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/ConfigurationTest.php
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/UserTest.php
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/BackupsTest.php
+php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/ProfileTest.php
 cp .env.svg .env
 
 
+@rem Dusk tests for Deployed Applications 
+@rem =====================================
+
+@rem These tests are absolute white box tests, they only relies on the URL and domain where the applciation is deployed
 cp .env .env.svg
 cp .env.dusk.deployed_tenant .env
 

@@ -135,4 +135,23 @@ The API can be manually tested with Postman (I do not know how to send the Sanct
 Then run the test
 
     php vendor/phpunit/phpunit/phpunit tests/Feature/Api/ProfileControllerTest.php
+    
+## End to End dusk test
+
+    php artisan mustache:generate --install profiles test_dusk       
+    
+Note as chrome may be updated on the development platform, desynchronization of chrome and the chrome webdriver may be frequent:
+
+    Facebook\WebDriver\Exception\SessionNotCreatedException: session not created: This version of ChromeDriver only supports Chrome version 98
+    Current browser version is 101.0.4951.54 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+    
+In this case the solution is to update the chrome web driver.
+
+    php artisan dusk:chrome-driver 101
+    
+Once the driver is up to date you can run the test.
+
+    php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/ProfileTest.php
+    
+    
         

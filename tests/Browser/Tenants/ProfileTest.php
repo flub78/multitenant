@@ -1,4 +1,3 @@
-{{=[[ ]]=}}
 <?php
 
 namespace Tests\Browser\Tenants;
@@ -8,12 +7,12 @@ use Tests\DuskTestCase;
 use App\Helpers\BackupHelper;
 
 /**
- * [[class_name]] CRUD
+ * Profile CRUD
  *  
  * @author frederic
  *
  */
-class [[class_name]]Test extends DuskTestCase {
+class ProfileTest extends DuskTestCase {
 
 
 	public function setUp(): void {
@@ -45,15 +44,15 @@ class [[class_name]]Test extends DuskTestCase {
 		} );
 	}
 	
-	public function test_[[element]]_CRUD() {
+	public function test_profile_CRUD() {
 		$this->browse ( function (Browser $browser) {
 		
             // Goto the index page
-			$browser->visit ( '/[[element]]' )
-			->assertSee ( __('[[element]].title') );
+			$browser->visit ( '/profile' )
+			->assertSee ( __('profile.title') );
 			
 			// Take a screenshot
-			$browser->screenshot('Tenants/[[element]]');
+			$browser->screenshot('Tenants/profile');
 			
 			// See pagination elements
 			$browser->assertSee ( 'Search' )
@@ -62,9 +61,9 @@ class [[class_name]]Test extends DuskTestCase {
 			->assertSee ( 'Showing 0 to 0 of 0 entries' );
 			
 			// Press the button to add an element
-			$browser->press ( __('[[element]].add')  )
-			->assertPathIs('/[[element]]/create');
-
+			$browser->press ( __('profile.add')  )
+			->assertPathIs('/profile/create');
+			
             // The rest is not correctly implemented yet
             return;
             			
@@ -73,14 +72,14 @@ class [[class_name]]Test extends DuskTestCase {
 			->select ( 'key', 'app.timezone')
 			->type ( 'value', 'Europe/Paris')
 			->press ( 'Submit' )
-			->assertPathIs('/[[element]]')
+			->assertPathIs('/profile')
 			->assertSee ( 'Paris' )
 			->assertSee ( "Showing 1 to 1 of 1 entries" );
 			
 			
 			// delete
 			$browser->press('Delete')
-			->assertPathIs('/[[element]]')
+			->assertPathIs('/profile')
 			->assertSee ( 'app.timezone deleted' )
 			->assertSee ( 'Showing 0 to 0 of 0 entries' );
 		} );
