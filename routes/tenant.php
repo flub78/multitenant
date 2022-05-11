@@ -108,7 +108,7 @@ Route::middleware([
 		Route::resource('api/code_gen_types_view1', App\Http\Controllers\Api\CodeGenTypesView1Controller::class, ['as' => 'api'])
 			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
 
-		Route::resource('api/profile', App\Http\Controllers\Api\profileController::class, ['as' => 'api'])
+		Route::resource('api/profile', App\Http\Controllers\Api\ProfileController::class, ['as' => 'api'])
 			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
 			
 	});
