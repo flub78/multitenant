@@ -1,0 +1,24 @@
+@startuml
+
+title Event Notification ERD
+
+entity Event {
+    title : string
+    description : string
+    all_day_event :  Boolean
+    start         :  datetime
+    end           :  datetime
+    color         :  string
+}
+
+entity Notification {
+    event_id : Event
+    type : application|email|SMS
+    number : integer
+    unit : string  minute|hours|days|weeks
+}
+
+Event --> Notification : hasMany >
+
+
+@enduml

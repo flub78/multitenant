@@ -1,0 +1,21 @@
+@startuml
+
+Entity UserRole {
+    user_id : User
+    role_id : Role
+}
+
+entity User {
+    name : string
+    first_name : string
+}
+
+entity Role {
+    name : string
+    description : string
+}
+
+UserRole --> User : hasOne >
+UserRole --> Role : hasOne >
+
+@enduml

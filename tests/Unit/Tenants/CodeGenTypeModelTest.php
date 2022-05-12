@@ -185,4 +185,19 @@ class CodeGenTypeModelTest extends TenantTestCase {
     	// echo "takeoff_time = " . $cgt->takeoff_time . "\n";
     }
     
+    public function test_set_takeoff() {
+    	$datetime = "07-30-2022 14:30";
+    	$cgt = CodeGenType::factory()->create(["takeoff" => $datetime]);
+    	
+    	$this->assertEquals($datetime, $cgt->takeoff);
+    	
+    	$datetime2 = "07-31-2022 23:30";
+    	$cgt->setTakeoffAttribute($datetime2);
+    	$this->assertEquals($datetime2, $cgt->takeoff);
+
+    	$datetime3 = " ";
+    	$cgt->setTakeoffAttribute($datetime3);
+    	$this->assertEquals($datetime2, $cgt->takeoff);
+    	
+    }
 }

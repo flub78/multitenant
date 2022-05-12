@@ -30,7 +30,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/SchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ViewSchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/MetadataModelTest.php
-@rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypeModelTest.php
+php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypeModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypesView1ModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/UserRolesView1ModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/ProfileModelTest.php
@@ -85,5 +85,5 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypesView1ControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Api/ProfileControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/ProfileControllerTest.php
 

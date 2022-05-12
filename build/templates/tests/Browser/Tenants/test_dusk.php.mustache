@@ -69,23 +69,77 @@ class [[class_name]]Test extends DuskTestCase {
             return;
             			
 			// Fill the form to create an element
-			$browser
-			->select ( 'key', 'app.timezone')
-			->type ( 'value', 'Europe/Paris')
-			->press ( 'Submit' )
-			->assertPathIs('/[[element]]')
-			->assertSee ( 'Paris' )
-			->assertSee ( "Showing 1 to 1 of 1 entries" );
+            $browser
+            ->type ('first_name', 'John')       
+            ->type ('last_name', 'Doe')
+            ->type ('birthday', '08-29-1959' . "\n")
+            ->select('user_id');
+            
+            // Validate and check the result
+            $browser
+            ->press ( 'Submit' )
+            ->assertPathIs('/[[element]]')
+            ->assertSee ( "Showing 1 to 1 of 1 entries" );
+            
+            $browser->assertSee('John');
+            
+            // Create another element
+            
+            // Use it to update the initial element
+            // Goto the index page
+            $browser->visit ( '/[[element]]/1/edit' )
+            ->assertSee ( __('general.edit') )
+            ->assertSee ( __('[[element]].elt') );
+            
+            $browser
+            ->type ('first_name', 'Joe')
+            ->type ('last_name', 'Dalton')
+            ->type ('birthday', '08-29-1959' . "\n")
+            ->select('user_id');
+            $browser->screenshot('Tenants/[[element]]_edit_form');
 			
-			
+            // Check that the first element has been modified
+            // Validate and check the result
+            $browser
+            ->press ( 'Update' )
+            ->assertPathIs('/[[element]]')
+            ->assertSee('Dalton')
+            ->assertSee ( "Showing 1 to 1 of 1 entries" );
+            $browser->screenshot('Tenants/[[element]]_after_update');
+
 			// delete
+            $browser
+            ->visit ( '/[[element]]' );
+            $browser->screenshot('Tenants/[[element]]_deleting');
+            
 			$browser->press('Delete')
 			->assertPathIs('/[[element]]')
-			->assertSee ( 'app.timezone deleted' )
+			->assertSee ( 'deleted' )
 			->assertSee ( 'Showing 0 to 0 of 0 entries' );
 		} );
 	}
 	
+    /**
+     * Check that incorrect values are rejected
+     *
+     * @return void
+     */
+    public function test_validation() {
+        $this->browse ( function (Browser $browser) {
+            
+            $browser->visit ( '/[[element]]/create' )
+            ->assertSee ( __('[[element]].new'));
+
+            // Validate without filling required fields
+            
+            $browser
+            ->press ( 'Submit' )
+            ->assertPathIs('/[[element]]/create')
+            ->assertSee ( "is required" );
+            
+        } );
+    }
+
 	/**
 	 * Test that the user can log out
 	 *

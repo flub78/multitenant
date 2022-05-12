@@ -13,17 +13,19 @@ For example it will be possible to create a reservation system with several type
     Event
         title           String
         description     String - Multiline
-        all_deay_event  Boolean
+        all_day_event   Boolean
         start           datetime
         end             datetime
         color           string
                 
     Notification
-        event
+        event_id
         type    application|email|SMS
         number
         unit    minute|hours|days|weeks
-        
+
+![EventNotification ERD](./images/EventNotificationErd.png) 
+ 
 ### Discussion on Database Schema
 
 There are a lot of ways to represent calendar events in database

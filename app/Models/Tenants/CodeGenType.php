@@ -53,7 +53,7 @@ class CodeGenType extends ModelWithLogs {
      * @return string the date in local format
      */
     public function getBirthdayAttribute($value) {
-        if (!$value) return $value;
+        if (!trim($value)) return $value;
         $db_format = 'Y-m-d';
         try {
             $date = Carbon::createFromFormat($db_format, $value);
@@ -73,7 +73,7 @@ class CodeGenType extends ModelWithLogs {
      * @param  string  $value date in local format
      */
     public function setBirthdayAttribute($value) {
-        if (!$value) return $value;
+        if (!trim($value)) return $value;
         $db_format = 'Y-m-d';
         $date = Carbon::createFromFormat(__('general.date_format'), $value);
         $this->attributes['birthday'] = $date->format($db_format);
@@ -86,7 +86,7 @@ class CodeGenType extends ModelWithLogs {
      * @return string the datetime in local format
      */
     public function getTakeoffAttribute($value) {
-        if (! $value) return $value;
+        if (!trim($value)) return $value;
         $db_format = 'Y-m-d H:i:s';
         try {
             $datetime = Carbon::createFromFormat($db_format, $value);
@@ -106,7 +106,7 @@ class CodeGenType extends ModelWithLogs {
      * @param  string  $value datetime in local format
      */
     public function setTakeoffAttribute($value) {
-        if (!$value) return $value;
+        if (!trim($value)) return $value;
         $db_format = 'Y-m-d H:i:s';
         $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
         $this->attributes['takeoff'] = $datetime->format($db_format);
@@ -142,7 +142,7 @@ class CodeGenType extends ModelWithLogs {
      * @param String $value
      */
     public function setTakeoffDateAttribute($value) {
-        if (!$value) return $value;
+        if (!trim($value)) return $value;
         $time = ($this->takeoff_time) ? $this->takeoff_time : "00:00";
         $local_datetime = $value . " " . $time;    
         $this->setTakeoffAttribute($local_datetime);
@@ -155,7 +155,7 @@ class CodeGenType extends ModelWithLogs {
      * @param String $value
      */
     public function setTakeoffTimeAttribute($value) {
-        if (!$value) return $value;        
+        if (!trim($value)) return $value;        
         $local_datetime = $this->takeoff_date . " " . $value;
         $this->setTakeoffAttribute($local_datetime);
         // echo "\nsetTakeoffTimeAttribute($value) => setTakeoffAttribute($local_datetime)";
