@@ -391,6 +391,10 @@ class CodeGenerator {
 			}
 		}
 		
+		if ($subtype == 'picture') {
+			$rules[] = "'mimes:jpeg,bmp,png'";
+		}
+		
 		if ($subtype == 'email') {
 			$rules[] = "'email'";
 		}
@@ -454,6 +458,7 @@ class CodeGenerator {
 		if ($options && array_key_exists("max", $options)) {
 			$size = $options['max'];
 			$rules[] = "'max:$size'";
+			
 		} elseif ($size = Schema::columnSize($table, $field)) {
 			if (($subtype == "picture") || ($subtype == "file")) {
 				$size = 2000;
@@ -461,6 +466,10 @@ class CodeGenerator {
 			if (in_array($field_type, ['varchar', 'text'])) {
 				$rules[] = "'max:$size'";
 			}
+		}
+		
+		if ($subtype == 'picture') {
+			$rules[] = "'mimes:jpeg,bmp,png'";
 		}
 		
 		if ($subtype == 'email') {
@@ -518,26 +527,34 @@ class CodeGenerator {
 		
 		if ('varchar' == $type) {
 			$res =  "\"$field" . '_" . $next . "_" . ' . 'Str::random()';
+			
 		} elseif ('date' == $type) {
 			$res = $faker . '->date(__("general.date_format"))';
+			
 		} elseif ('datetime' == $type) {
 			$res = $faker . '->date(__("general.datetime_format"))';
+			
 		} elseif ('time' == $type) {
 			$res = $faker . '->time("H:i:s")';
+			
 		} elseif ('text' == $type) {
 			$res = $faker . '->text(200)';
+			
 		} elseif ('year' == $type) {
 			$min = ($options && array_key_exists("min", $options)) ? $options['min'] : 1950;
 			$max = ($options && array_key_exists("max", $options)) ? $options['max'] : 2020;			
 			$res = "rand($min, $max)";
+			
 		} elseif ('double' == $type) {
 			$min = ($options && array_key_exists("min", $options)) ? $options['min'] : 0.0;
 			$max = ($options && array_key_exists("max", $options)) ? $options['max'] : 10000.0;
 			$res = $faker . "->randomFloat(2, $min, $max)";
+			
 		} elseif ('decimal' == $type) {
 			$min = ($options && array_key_exists("min", $options)) ? $options['min'] : 0.0;
 			$max = ($options && array_key_exists("max", $options)) ? $options['max'] : 1000.0;
 			$res = $faker . "->randomFloat(2, $min, $max)";
+			
 		} elseif ('bigint' == $type) {
 			$min = ($options && array_key_exists("min", $options)) ? $options['min'] : 0;
 			$max = ($options && array_key_exists("max", $options)) ? $options['max'] : 10000;
@@ -557,6 +574,14 @@ class CodeGenerator {
 			
 		} elseif ('color' == $subtype) {
 			$res = $faker . '->hexcolor()';
+			
+		} elseif ('picture' == $subtype) {
+			$res = "\$file = UploadedFile::fake()->image('$field.jpg')";
+			
+		} elseif ('file' == $subtype) {
+			$res = "\$file = UploadedFile::fake()->image('$field.jpg')";
+			$sizeInKb = 3;
+			$res = "\$file = UploadedFile::fake()->create('$field.pdf', $sizeInKb)->store('$field.pdf')";
 			
 		} elseif ('foreign_key' == $subtype) {
 			$target_table = Schema::foreignKeyReferencedTable ($table, $field);

@@ -70,7 +70,8 @@ use Illuminate\Validation\Rule;
 						'max:255',
 						Rule::in(["blue","red","green","white","black"])],
     			    'picture' => ['nullable',
-						'max:2000'],
+						'max:2000',
+					    'mimes:jpeg,bmp,png'],
     			    'attachment' => ['nullable',
 						'max:2000'],
    			];
@@ -106,7 +107,8 @@ use Illuminate\Validation\Rule;
 						'max:255',
 						Rule::in(["blue","red","green","white","black"])],
                     'picture' => ['nullable',
-						'max:2000'],
+                    		'max:2000',
+                    	    'mimes:jpeg,bmp,png'],
                     'attachment' => ['nullable',
 						'max:2000'],
     			];

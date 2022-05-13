@@ -183,7 +183,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         
         // call the post method to create it
         $this->post_tenant_url($this->user, 'code_gen_type', ['created'], $elt);
-        
+
         $new_count = CodeGenType::count ();
         $expected = $initial_count + 1;
         $this->assertEquals ( $expected, $new_count, "code_gen_type created, actual=$new_count, expected=$expected" );       
@@ -287,7 +287,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $updated = CodeGenType::where('id', $id)->first();
         $this->assertNotNull($updated);     
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
-        	if ($field != 'id' && $field != 'qualifications') {
+        	if ($field != 'id' && $field != 'qualifications' && $field != 'picture') {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }
         }

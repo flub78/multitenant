@@ -10,6 +10,7 @@ namespace Database\Factories\Tenants;
 use App\Models\Tenants\CodeGenType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 
 class CodeGenTypeFactory extends Factory
 {
@@ -42,8 +43,8 @@ class CodeGenTypeFactory extends Factory
             'big_price' => $this->faker->unique()->randomFloat(2, 0, 10000),
             'qualifications' => rand(0, 10000),
             'color_name' => $this->faker->unique()->randomElement(["blue","red","green","white","black"]),
-            'picture' => "picture_" . $next . "_" . Str::random(),
-            'attachment' => "attachment_" . $next . "_" . Str::random(),
+            'picture' => $file = UploadedFile::fake()->image('picture.jpg'),
+            'attachment' => $file = UploadedFile::fake()->create('attachment.pdf', 3)->store('attachment.pdf'),
         ];
     }
     
@@ -63,6 +64,7 @@ class CodeGenTypeFactory extends Factory
         $scenarios = [];
         // $scenarios[] = ["fields" => [], "errors" => ["name" => "The name field is required."]];
         // $scenarios[] = ["fields" => ["name" => $bad_name], "errors" => ["name" => "The name must not be greater than 255 characters."]];
-       return $scenarios;       
+        $scenarios[] = ["fields" => ["picture" => "not_a_picture"], "errors" => ["picture" => "The picture must be a file of type: jpeg, bmp, png."]];
+        return $scenarios;       
     }
 }
