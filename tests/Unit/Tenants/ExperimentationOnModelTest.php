@@ -38,7 +38,6 @@ class ExperimentationOnModelTest extends TenantTestCase {
         // Create an element
         $role1 = Role::factory()->create();
         $this->assertNotNull($role1);
-        // var_dump($role1);	// return a full role with an id
         $id_created = $role1->id;
         $this->assertNotNull($id_created);
         
@@ -54,7 +53,6 @@ class ExperimentationOnModelTest extends TenantTestCase {
     	// Make an element
     	$role1 = Role::factory()->make();
     	$this->assertNotNull($role1);
-    	// var_dump($role1);
     	$role2 = Role::factory()->make();
     	$this->assertNotNull($role2);
     	
@@ -67,13 +65,11 @@ class ExperimentationOnModelTest extends TenantTestCase {
     	$this->assertTrue($save_return);
     	$this->assertFalse(is_bool("2"));
     	
-    	// var_dump($role1);		// role1 is still accessible after save
     	$this->assertEquals($role1->id, 1);
     	
     	$save_return2 = $role2->save();
     	$this->assertTrue(is_bool($save_return2));
     	$this->assertTrue($save_return2);
-//    	echo "\$save_return2 =$save_return2\n";
     	$this->assertEquals($role2->id, 2);
     	
     	
@@ -92,7 +88,6 @@ class ExperimentationOnModelTest extends TenantTestCase {
     	// Create an element
     	$conf1 = Configuration::factory()->create();
     	$this->assertNotNull($conf1);
-    	// var_dump($conf1);	// return a full role without key
     	$key_created = $conf1->key;
     	$this->assertEquals("0", $key_created);			// That is weird ...
     	$this->assertTrue($conf1->exists);
@@ -113,7 +108,6 @@ class ExperimentationOnModelTest extends TenantTestCase {
     	// Make an element
     	$conf1 = Configuration::factory()->make();
     	$this->assertNotNull($conf1);
-    	// var_dump($conf1);
     	
     	$key_made = $conf1->key;
     	// as long as the element has not been saved, their is no id
@@ -122,7 +116,6 @@ class ExperimentationOnModelTest extends TenantTestCase {
     	$this->assertTrue(strlen($key_made) > 0);
     	
     	$save_return = $conf1->save();
-    	// var_dump($conf1);		// $conf1 is valid except the primary key
     	$this->assertTrue(is_bool($save_return));
     	$this->assertTrue($save_return);
 

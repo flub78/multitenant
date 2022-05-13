@@ -77,7 +77,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		// and it can be retrieved		
 		$event = CalendarEvent::where('title', $title)->first();
 		/*
-		var_dump($event);
   array(14) {
     'id' =>
     int(1)

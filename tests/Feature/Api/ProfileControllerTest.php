@@ -59,7 +59,6 @@ class ProfileControllerTest extends TenantTestCase {
 		$response->assertStatus(200);
 		
 		$json = $response->json();
-		// var_dump($json);
 		$this->assertEquals(2, count($json['data']));
 
         foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
@@ -287,7 +286,6 @@ class ProfileControllerTest extends TenantTestCase {
 		
 		$json = $response->json();
 		$this->assertEquals(0, count($json['data'])); // just returns no data
-		// var_dump($json);
 	}
 	
 	
@@ -330,7 +328,6 @@ class ProfileControllerTest extends TenantTestCase {
         foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
             $this->assertEquals($elt85->$field, $json['data'][6][$field]);
         }
-		// var_dump($json);
 	}
 	
 	/**
@@ -368,9 +365,7 @@ class ProfileControllerTest extends TenantTestCase {
 		$this->assertEquals(0, $json['data'][49]['allDay']);
 		$this->assertEquals(1, $json['data'][50]['allDay']);
 		$this->assertEquals(1, $json['data'][51]['allDay']);
-		$this->assertEquals(1, $json['data'][99]['allDay']);
-		
-		// var_dump($json);
+		$this->assertEquals(1, $json['data'][99]['allDay']);		
 	}
 
 	/**
@@ -389,8 +384,6 @@ class ProfileControllerTest extends TenantTestCase {
 		$json = $response->json();
 		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
 		$this->assertStringContainsString("Unknown column ", $json['message']);
-		
-		// var_dump($json);
 	}
 
 	public function ttest_filtering() {
@@ -418,7 +411,5 @@ class ProfileControllerTest extends TenantTestCase {
 		$response = $this->getJson($url);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));
-		
-		// var_dump($json);
 	}
 }

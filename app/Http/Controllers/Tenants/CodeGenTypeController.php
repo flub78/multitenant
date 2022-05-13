@@ -62,7 +62,6 @@ class CodeGenTypeController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show(CodeGenType $code_gen_type) {
-		// echo "CodeGenType.show\n";
 	}
 	
 	

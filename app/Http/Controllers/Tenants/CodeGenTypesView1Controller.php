@@ -35,8 +35,6 @@ class CodeGenTypesView1Controller extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(CodeGenTypesView1 $code_gen_types_view1) {
-        // echo "CodeGenTypesView1.show\n";
     }
 
-    
 }

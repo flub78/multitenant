@@ -47,8 +47,6 @@ class UserRolesView1 extends ModelWithLogs {
         	$user_ids[] = User::factory()->create(['name' => 'user_' . $i]);
         }
 
-        // var_dump($user_ids);
-        
         return $cnt;
     }
 }

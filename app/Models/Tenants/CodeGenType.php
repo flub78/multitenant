@@ -63,7 +63,6 @@ class CodeGenType extends ModelWithLogs {
         }
         $date->tz(Config::config('app.timezone'));
         $result = $date->format(__('general.date_format'));
-        // echo "\ngetBirthdayAttribute(String $value) => $result";
         return $result;
     }
     
@@ -96,7 +95,6 @@ class CodeGenType extends ModelWithLogs {
        }
         $datetime->tz(Config::config('app.timezone'));
         $result = $datetime->format(__('general.datetime_format'));
-        // echo "\ngetTakeoffAttribute($value) => $result\n";
         return $result;
     }
     
@@ -120,7 +118,6 @@ class CodeGenType extends ModelWithLogs {
      */
     public function getTakeoffDateAttribute($value) {
         $result = substr($this->takeoff, 0, 10);
-        // echo "\ngetTakeoffDateAttribute($value) => $result";
         return $result;
     }
 
@@ -132,7 +129,6 @@ class CodeGenType extends ModelWithLogs {
      */
     public function getTakeoffTimeAttribute($value) {
         $result = substr($this->takeoff, 11, 5);
-        // echo "\ngetTakeoffTimeAttribute($value) => $result";
         return $result;
     }
     
@@ -146,7 +142,6 @@ class CodeGenType extends ModelWithLogs {
         $time = ($this->takeoff_time) ? $this->takeoff_time : "00:00";
         $local_datetime = $value . " " . $time;    
         $this->setTakeoffAttribute($local_datetime);
-        // echo "\nsetTakeoffDateAttribute($value) => setTakeoffAttribute($local_datetime)";
     }
     
     /**
@@ -158,7 +153,6 @@ class CodeGenType extends ModelWithLogs {
         if (!trim($value)) return $value;        
         $local_datetime = $this->takeoff_date . " " . $value;
         $this->setTakeoffAttribute($local_datetime);
-        // echo "\nsetTakeoffTimeAttribute($value) => setTakeoffAttribute($local_datetime)";
     }
     
 }

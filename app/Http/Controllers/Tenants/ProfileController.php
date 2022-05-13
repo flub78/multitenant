@@ -60,7 +60,6 @@ class ProfileController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Profile $profile) {
-        // echo "Profile.show\n";
     }
 
     

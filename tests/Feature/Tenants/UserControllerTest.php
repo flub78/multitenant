@@ -225,11 +225,7 @@ class UserControllerTest extends TenantTestCase {
 		$response->assertStatus ( 200 );
 		$response->assertSeeText(__("Password changed"));
 		// $response->dump();
-		/*
-		var_dump($this->user->id);
-		*/
 		$updated = User::where(['email' => $email])->first();
-		// var_dump($updated);
 		//$this->assertEquals($new_mail, $updated->email);
 		
 		$user->delete();

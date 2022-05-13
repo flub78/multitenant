@@ -27,9 +27,6 @@ class ViewSchemaModelTest extends TestCase
     	$def2 = "select `tenantabbeville`.`users`.`name` AS `user_name`,`tenantabbeville`.`users`.`email` AS `user_email`,`tenantabbeville`.`roles`.`name` AS `role_name` from ((`tenantabbeville`.`users` join `tenantabbeville`.`user_roles`) join `tenantabbeville`.`roles`) where `tenantabbeville`.`user_roles`.`user_id` = `tenantabbeville`.`users`.`id` and `tenantabbeville`.`user_roles`.`role_id` = `tenantabbeville`.`roles`.`id`";
 
     	$this->assertEquals(["name", "description", "tea_time"], ViewSchema::fieldList($def1));
-    	$this->assertNotEquals(["user_name", "user_email", "role_name"], ViewSchema::fieldList($def2));
-    	
-    	var_dump(ViewSchema::ScanViewDefinition($def1));
-    	var_dump(ViewSchema::ScanViewDefinition($def2));
+    	$this->assertNotEquals(["user_name", "user_email", "role_name"], ViewSchema::fieldList($def2));    	
     }
 }

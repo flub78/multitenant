@@ -105,7 +105,6 @@ class CalendarEventController extends Controller {
 		$validatedData = $request->validated ();
 		
 		/**
-		var_dump($validatedData); exit;
 array (size=9)
   'title' => string 'Titre' (length=5)
   'description' => string 'Description' (length=11)

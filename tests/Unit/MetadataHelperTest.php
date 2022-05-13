@@ -135,9 +135,7 @@ class MetadataHelperTest extends TestCase {
 	public function test_fillable_fields() {
 		
 		$fillable = Meta::fillable_fields('users');
-		
-		// var_dump($fillable); exit;
-		
+				
 		$this->assertEquals(["name", "email", "password", "admin", "active"], $fillable);
 	}
 	
@@ -226,8 +224,6 @@ class MetadataHelperTest extends TestCase {
 		$str .= ', "rules_to_add": ["rule1", "Rule::in($this->valid_configs)"]';
 		$str .= '}';
 		$json = json_decode($str, true);
-		// var_dump($str);
-		// var_dump($json);
 		$this->assertNotNull($json, "json_decode($str) not null");
 
 		$j = [
@@ -235,16 +231,13 @@ class MetadataHelperTest extends TestCase {
 				"rules_to_add" => ["rule1", "rule2"]
 		];
 		$str = json_encode($j);
-		// var_dump($str);
 	
 		$j = [
 				"values" => ["app.locale", "app.timezone", "browser.locale"],
 				"rules_to_add" => ['regex:/\w+\.\w+(\.\w+)*/', 'Rule::in($this->valid_configs)']
 		];
 		$str = json_encode($j);
-		// var_dump($str);
 		$json = json_decode($str, true);
-		// var_dump($json);
 		$this->assertNotNull($json, "json_decode($str) not null");
 		
 	}

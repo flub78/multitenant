@@ -43,10 +43,8 @@ class CodeGeneratorTest extends TestCase {
 		
 		$input = CG::field_input_create($table, $field);
 		$this->assertNotEquals('', $input);
-		// var_dump($input);
 		
 		$rules = CG::field_rule_create($table, $field);
-		// var_dump($rules);
 		
 		$metadata->delete();
 	}
@@ -65,7 +63,6 @@ class CodeGeneratorTest extends TestCase {
 	public function test_factory_field_list() {
 		$table = "code_gen_types";
 		$list = CG::factory_field_list($table);
-		// var_dump($list);
 		$this->assertTrue(count($list) > 10);
 		$this->assertTrue(count($list) < 20);
 		$this->assertTrue(is_array($list[0]));

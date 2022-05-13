@@ -223,7 +223,6 @@ class MetadataHelper {
 		
 		$pattern = '/(.*)(\(\d*\)*)/';
 		if (preg_match($pattern, $first, $matches)) {
-			// var_dump($matches);
 			return $matches[1];
 		}
 		return $first;

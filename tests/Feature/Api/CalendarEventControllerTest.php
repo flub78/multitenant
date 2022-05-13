@@ -53,7 +53,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertStatus(200);
 		
 		$json = $response->json();
-		// var_dump($json);
 		$this->assertEquals(2, count($json['data']));
 		$this->assertEquals('event 1', $json['data'][0]['title']);
 	}
@@ -78,7 +77,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertStatus(200);
 		$json = $response->json();
 		$this->assertEquals('event 1', $json['title']);
-		//var_dump($json);
 	}
 	
 	/**
@@ -106,7 +104,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response->assertStatus(200);
 		$json = $response->json();
 		//$this->assertEquals('event 1', $json['title']);
-		// var_dump($json);
 	}
 	
 	
@@ -273,7 +270,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		//echo "last_page_url = " . $json['last_page_url'] . "\n";
 		$response = $this->getJson($json['last_page_url'] . '&per_page=20');
 		$json = $response->json();
-		// var_dump($json);
 		$this->assertEquals(20, count($json['data']));
 		$this->assertEquals('event_80', $json['data'][0]['title']);
 	}
@@ -301,7 +297,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		$json = $response->json();
 		$this->assertEquals(0, count($json['data'])); // just returns no data
-		// var_dump($json);
 	}
 	
 	
@@ -337,7 +332,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=-start');
 		$json = $response->json();
 		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
-		// var_dump($json);
 	}
 	
 	public function test_calendar_event_sorting_on_multiple_columns() {
@@ -380,8 +374,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals(1, $json['data'][50]['allDay']);
 		$this->assertEquals(1, $json['data'][51]['allDay']);
 		$this->assertEquals(1, $json['data'][99]['allDay']);
-		
-		// var_dump($json);
 	}
 
 	/**
@@ -408,8 +400,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$json = $response->json();
 		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
 		$this->assertStringContainsString("Unknown column 'allDate'", $json['message']);
-		
-		// var_dump($json);
 	}
 
 	public function test_filtering() {
@@ -449,8 +439,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response = $this->getJson($url);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));
-		
-		// var_dump($json);
 	}
 	
 }

@@ -46,7 +46,6 @@ class RoleControllerTest extends TenantTestCase {
 		$response->assertStatus(200);
 		
 		$json = $response->json();
-		// var_dump($json);
 		$this->assertEquals(2, count($json['data']));
 
         foreach ([ "name", "description" ] as $field) {
@@ -270,7 +269,6 @@ class RoleControllerTest extends TenantTestCase {
 		
 		$json = $response->json();
 		$this->assertEquals(0, count($json['data'])); // just returns no data
-		// var_dump($json);
 	}
 	
 	
@@ -313,7 +311,6 @@ class RoleControllerTest extends TenantTestCase {
         foreach ([ "name", "description" ] as $field) {
             $this->assertEquals($elt85->$field, $json['data'][6][$field]);
         }
-		// var_dump($json);
 	}
 	
 	/**
@@ -352,8 +349,6 @@ class RoleControllerTest extends TenantTestCase {
 		$this->assertEquals(1, $json['data'][50]['allDay']);
 		$this->assertEquals(1, $json['data'][51]['allDay']);
 		$this->assertEquals(1, $json['data'][99]['allDay']);
-		
-		// var_dump($json);
 	}
 
 	/**
@@ -372,8 +367,6 @@ class RoleControllerTest extends TenantTestCase {
 		$json = $response->json();
 		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
 		$this->assertStringContainsString("Unknown column ", $json['message']);
-		
-		// var_dump($json);
 	}
 
 	public function ttest_filtering() {
@@ -401,7 +394,5 @@ class RoleControllerTest extends TenantTestCase {
 		$response = $this->getJson($url);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));
-		
-		// var_dump($json);
 	}
 }

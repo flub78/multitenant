@@ -74,7 +74,6 @@ class Profile extends ModelWithLogs {
         }
         $date->tz(Config::config('app.timezone'));
         $result = $date->format(__('general.date_format'));
-        // echo "\ngetBirthdayAttribute(String $value) => $result";
         return $result;
     }
     

@@ -109,7 +109,6 @@ class {{class_name}} extends ModelWithLogs {
         }
         $date->tz(Config::config('app.timezone'));
         $result = $date->format(__('general.date_format'));
-        // echo "\nget{{&field_name}}Attribute(String $value) => $result";
         return $result;
     }
     
@@ -144,7 +143,6 @@ class {{class_name}} extends ModelWithLogs {
        }
         $datetime->tz(Config::config('app.timezone'));
         $result = $datetime->format(__('general.datetime_format'));
-        // echo "\nget{{&field_name}}Attribute($value) => $result\n";
         return $result;
     }
     
@@ -168,7 +166,6 @@ class {{class_name}} extends ModelWithLogs {
      */
     public function get{{&field_name}}DateAttribute($value) {
         $result = substr($this->{{&field}}, 0, 10);
-        // echo "\nget{{&field_name}}DateAttribute($value) => $result";
         return $result;
     }
 
@@ -180,7 +177,6 @@ class {{class_name}} extends ModelWithLogs {
      */
     public function get{{&field_name}}TimeAttribute($value) {
         $result = substr($this->{{&field}}, 11, 5);
-        // echo "\nget{{&field_name}}TimeAttribute($value) => $result";
         return $result;
     }
     
@@ -194,7 +190,6 @@ class {{class_name}} extends ModelWithLogs {
         $time = ($this->{{&field}}_time) ? $this->{{&field}}_time : "00:00";
         $local_datetime = $value . " " . $time;    
         $this->set{{&field_name}}Attribute($local_datetime);
-        // echo "\nset{{&field_name}}DateAttribute($value) => set{{&field_name}}Attribute($local_datetime)";
     }
     
     /**
@@ -206,7 +201,6 @@ class {{class_name}} extends ModelWithLogs {
         if (!trim($value)) return $value;        
         $local_datetime = $this->{{&field}}_date . " " . $value;
         $this->set{{&field_name}}Attribute($local_datetime);
-        // echo "\nset{{&field_name}}TimeAttribute($value) => set{{&field_name}}Attribute($local_datetime)";
     }
     
 {{/datetime_mutators}}
@@ -221,7 +215,6 @@ class {{class_name}} extends ModelWithLogs {
     public function get{{&field_name}}Attribute($value) {
         if (!trim($value)) return $value;
         $result = $value;
-         // echo "\nget{{&field_name}}Attribute(String $value) => $result";
         return $result;
     }
 {{/currency_mutators}}
@@ -236,7 +229,6 @@ class {{class_name}} extends ModelWithLogs {
     public function get{{&field_name}}Attribute($value) {
         if (!trim($value)) return $value;
         $result = $value;
-         // echo "\nget{{&field_name}}Attribute(String $value) => $result";
         return $result;
     }
 {{/float_mutators}}

@@ -65,7 +65,6 @@ class ConfigurationController extends Controller {
 	 * @SuppressWarnings("PMD.UnusedFormalParameter")
      */
 	public function show(Configuration $configuration) {
-        // echo "Configuration.show\n";
 	}
 
 

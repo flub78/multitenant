@@ -259,8 +259,6 @@ class SchemaModelTest extends TestCase
     	$this->assertEquals("unique_combination", $ii->Key_name);
     	$this->assertEquals("user_id", $ii->Column_name);
     	$this->assertEquals("BTREE", $ii->Index_type);
-    	// echo "\nindexInfo\n";
-    	// var_dump(Schema::indexInfo('user_roles', 'user_id'));
     	
     	$ii2 = Schema::indexInfo('roles', 'name');
 
@@ -273,7 +271,6 @@ class SchemaModelTest extends TestCase
     
     public function test_foreign_key() {
     	$fk = Schema::foreignKey('user_roles', 'user_id');
-    	// var_dump($fk);
     	
     	$this->assertEquals('users', $fk->REFERENCED_TABLE_NAME);
     	$this->assertEquals('id', $fk->REFERENCED_COLUMN_NAME);

@@ -81,7 +81,6 @@ class User extends Authenticatable
     public function equals(User $user) {
     	foreach ($this->fillable as $attr) {
     		if ($this->$attr != $user->$attr) {
-    			// echo "$attr : " . ($this->$attr) . " != " . ($user->$attr);
     			return false;
     		}
     	}

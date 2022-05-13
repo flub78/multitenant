@@ -69,7 +69,6 @@ class UserRoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(UserRole $user_role) {
-        // echo "UserRole.show\n";
     }
 
     

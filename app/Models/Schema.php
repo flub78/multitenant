@@ -115,7 +115,6 @@ class Schema extends ModelWithLogs {
     	// $fk = self::foreignKey($table, $field);
     	
     	$info = self::indexInfo($table, $field);
-    	// var_dump($info);
     	
     	if (!$info) return false;
     	
@@ -226,7 +225,6 @@ class Schema extends ModelWithLogs {
     	$type = self::columnType($table, $field);
     	$pattern = '/^([\w-]+).*$/i';
     	if (preg_match($pattern, $type, $matches)) {
-    		// var_dump($matches);
     		return $matches[1];
     	}
     	return "";
@@ -283,7 +281,6 @@ class Schema extends ModelWithLogs {
     	
     	$pattern = '/^.*?(\d+).*$/i';
     	if (preg_match($pattern, $type, $matches)) {
-    		// var_dump($matches);
     		return $matches[1];
     	}
     	
