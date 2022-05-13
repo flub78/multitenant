@@ -46,6 +46,9 @@ The workflow is described in two ways, either as the usual Laravel workflow or u
 ##### Create the table
    
 ![New table](images/new_table.PNG?raw=true "How to create a table")
+
+Do not forget the created_at and updated_at timestamps with current_timestamp() as default
+and {"fillable":"no", "inTable":"no", "inForm":"no"} comment
     
 ##### Fill the form
     
@@ -65,10 +68,12 @@ The workflow is described in two ways, either as the usual Laravel workflow or u
 
 ##### Generate the migration
 
-    php artisan mustache:generate --install profiles migration
+    set table=profiles
+    
+    php artisan mustache:generate --install %table% migration
 or
 
-    php artisan mustache:generate --compare profiles migration
+    php artisan mustache:generate --compare %table% migration
     
 ![WinMerge](images/WinMerge.PNG?raw=true "WinMerge")
     
@@ -92,6 +97,10 @@ Run all the tests for non regression.
 
 Create the model, the factory and the model unit test.
 
+    php artisan mustache:generate --install %table% model         
+    php artisan mustache:generate --install %table% factory        
+    php artisan mustache:generate --install %table% test_model        
+
 [See Code generation progress](./code_generation_progress.md)
 
 And run the test
@@ -105,6 +114,16 @@ Do not forget to complete the factory with error cases if you want tests on erro
 ## Creation a the controller and the views
 
 Create the controller, a request, the views and a test for the controller. Also create an set of English strings for the views and a translation in your favorite language.
+
+    php artisan mustache:generate --install %table% controller       
+    php artisan mustache:generate --install %table% request         
+    php artisan mustache:generate --install %table% test_controller 
+
+    php artisan mustache:generate --install %table% index
+    php artisan mustache:generate --install %table% create 
+    php artisan mustache:generate --install %table% edit 
+    php artisan mustache:generate --install %table% english 
+
 
     php artisan mustache:translate --install profile 
 
@@ -122,8 +141,8 @@ Test it manually and run the feature test.
     
 ## Optional creation of an API
 
-    php artisan mustache:generate --install profiles api                  
-    php artisan mustache:generate --install profiles test_api        
+    php artisan mustache:generate --install %table% api                  
+    php artisan mustache:generate --install %table% test_api        
 
 Declare a route for the API controller into routes/tenant.php
 
@@ -138,7 +157,7 @@ Then run the test
     
 ## End to End dusk test
 
-    php artisan mustache:generate --install profiles test_dusk       
+    php artisan mustache:generate --install %table% test_dusk       
     
 Note as chrome may be updated on the development platform, desynchronization of chrome and the chrome webdriver may be frequent:
 

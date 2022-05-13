@@ -1,0 +1,29 @@
+@startuml
+
+    class Attachement {
+        id
+        referenced_table    - Name of the table to which the object is attached
+        referenced_id         - Reference of the item to which something is attached
+        user_id                   - the owner of the file
+        name                      - visible name
+        description         - Let the user make a comment
+        file                - file to upload
+        purpose             - a string to describe the purpose of this file inside the application ex: user_picture 
+    }
+    
+    class AttachmentRule {
+        id
+        referenced_table
+        referenced_field
+        allowed_mime_types
+        allowed_purpose
+        max_number
+        max_size
+    }
+    
+    class AttachmentManager {
+        max_total_storage
+    }
+
+
+@enduml
