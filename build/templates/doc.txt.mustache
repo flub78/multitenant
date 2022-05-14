@@ -1,0 +1,42 @@
+===============================================================================================================
+The resources files for {{table}} have been generated
+
+Model 
+
+    app/Models/Tenants/{{class_name}}.php
+    
+    There is currently no support in the code generator to generate the relationship methods in the model
+    (hasOne, belongsTo, HasMany). They must be added manually.
+    
+    Do not forget to complete the factory with error cases if you want tests on error cases.
+    
+Localization Strings
+
+    Review the generated language files: 
+        resources/lang/en/{{element}}.php
+        resources/lang/fr/{{element}}.php
+    
+Routes declaration
+
+    The following routes should be added in routes/tenant.php
+    
+    Route::resource('{{element}}', App\Http\Controllers\Tenants\{{class_name}}Controller::class)
+        ->middleware('auth');
+        
+    Route::resource('api/{{element}}', App\Http\Controllers\Api\{{class_name}}Controller::class, ['as' => 'api'])
+        ->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+
+Test
+
+    The resource is available at http://abbeville.tenants.com/{{element}}
+    and the API at  http://abbeville.tenants.com/api/{{element}}
+    
+    The API can be manually tested with Postman (I do not know how to send the Sanctum token with a Web browser).
+
+Run the tests and add them to the test scripts
+
+    php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/{{class_name}}ModelTest.php
+    php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/{{class_name}}ControllerTest.php
+    php vendor/phpunit/phpunit/phpunit  tests/Feature/Api/{{class_name}}ControllerTest.php
+    php vendor/phpunit/phpunit/phpunit  tests/Browser/Tenants/{{class_name}}Test.php
+===============================================================================================================

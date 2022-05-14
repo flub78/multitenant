@@ -75,6 +75,9 @@ class MustacheHelper {
 		} elseif ($template == "model") {
 			$file =  'Model.php.mustache';
 			
+		} elseif ($template == "doc") {
+			$file =  'doc.txt.mustache';
+			
 		} elseif ($template == "request") {
 			$file =  'Request.php.mustache';
 			
@@ -237,6 +240,9 @@ class MustacheHelper {
 		
 		} elseif ($template == "migration") {
 			$file = Self::migration_name($table, $installation);
+		
+		} elseif ($template == "doc") {
+			$file = "doc.txt";
 		}
 	
 		return self::result_filename($file, $installation);

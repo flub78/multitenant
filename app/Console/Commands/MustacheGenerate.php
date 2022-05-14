@@ -7,6 +7,8 @@ use App\Models\Schema;
 use App\Helpers\MustacheHelper;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use App\Helpers\MetadataHelper as Meta;
+use Illuminate\Support\Facades\Artisan;
 
 /**
  * php artisan mustache:generate
@@ -18,6 +20,9 @@ use Exception;
  *
  */
 class MustacheGenerate extends Command {
+	
+	// The tool also support special templates migration and doc
+	
 	protected $templates = [ "controller","model","request","index","create","edit","english", "api",
 		"test_model","test_controller","test_dusk", "test_api"
 	];
@@ -97,14 +102,36 @@ class MustacheGenerate extends Command {
 		}
 		$template = file_get_contents($template_file);
 
-		$metadata = MustacheHelper::metadata($table);
+		// $metadata = MustacheHelper::metadata($table);
 		if ($this->argument('template') == "english") $metadata['language'] = "English";
 		
-		$rendered = $mustache->render($template, $metadata);
-		if ($verbose && !($this->option('compare') || $install) )
+		$rendered = $mustache->render($template, $this->metadata);
+		if ($verbose && !($this->option('compare') || $install))
 			echo $rendered;
+		
 		$this->write_file($rendered, $result_file);
 	}
+	
+	/**
+	 * Display the documentation (which is a template)
+	 *
+	 * @param string $table
+	 * @param string $template
+	 */
+	protected function process_doc(string $table) {
+		
+		$template_file = MustacheHelper::template_file($table, 'doc');
+		
+		$mustache = new \Mustache_Engine();
+		
+		$template = file_get_contents($template_file);
+		
+		$metadata = MustacheHelper::metadata($table);
+		
+		$rendered = $mustache->render($template, $metadata);
+		echo $rendered;			
+	}
+	
 
 	/**
 	 * Execute the console command.
@@ -117,11 +144,13 @@ class MustacheGenerate extends Command {
 		$install = $this->option('install');
 		$verbose = $this->option('verbose');
 		$pretend = $this->option('pretend');
+		$element = Meta::element($table);
 		
 		if ($verbose) {
 			$msg = "php artisant mustache:generate";
 			$msg .= " table=$table";
 			$msg .= ", schema=" . ENV('DB_SCHEMA', 'tenanttest');
+			$msg .= ", template=" . $template;
 			$msg .= "\n";
 			echo $msg;
 		}
@@ -130,7 +159,7 @@ class MustacheGenerate extends Command {
 			$this->error("Unknow table $table in tenant database");
 			return 1;
 		}
-
+		
 		if ($template == "all") {
 			$template_list = $this->templates;
 		} else {
@@ -141,18 +170,25 @@ class MustacheGenerate extends Command {
 			foreach ($template_list as $tpl) {
 				$install_file = MustacheHelper::result_file($table, $tpl, true);
 				if (file_exists($install_file)) {
-					if ($verbose) echo "\ndelete $install_file";
+					echo "\ndelete $install_file";
 					unlink($install_file);
 				} else {
-					if ($verbose) echo "\ncannot delete $install_file (not found)";
+					echo "\ncannot delete $install_file (not found)";
 				}
+			}
+			if ($template == "all") {
+				$translation = "resources/lang/fr/$element.php";
+				echo "\ndelete $translation";
+				if (file_exists($translation)) unlink($translation);
 			}
 			return 0;	
 		}
 		
 		// process all templates and generate the result
+		$this->metadata = MustacheHelper::metadata($table);
 		try {
 			foreach ($template_list as $tpl) {
+				echo "processing $tpl\n";
 				$tpl_file = MustacheHelper::template_file($table, $tpl);
 				$result_file = MustacheHelper::result_file($table, $tpl);
 				$this->process_file($table, $tpl_file, $result_file);
@@ -192,6 +228,21 @@ class MustacheGenerate extends Command {
 				$returnVar = NULL;
 				$output = NULL;
 				if (!$pretend) copy($result_file, $install_file);
+			}
+			
+			if ($template == "all") {
+				// Special case of global install
+				
+				// translate the English strings
+				$exitCode = Artisan::call("mustache:translate --install $element");
+				if ($exitCode) {
+					echo "\nError while generating French translation $exitCode\n";
+				} else {
+					echo "\nFrench translation: resources/lang/fr/$element.php\n";
+				}
+				
+				// And display information about the rest
+				$this->process_doc($table);
 			}
 		}
 		
