@@ -1,19 +1,19 @@
 # Development Workflow
 
 
-## General workflow
+## General workflow for a new feature
 
-* Defines a feature using
+Defines use cases using
   * As a user
   * I want to 
   * So ..
   
-* Define validation scenarios
+Define validation scenarios
   * Given ..
   * When ..
   * Then ..
   
-* Implement the validation scenarios that should not pass
+Implement the validation scenarios that should not pass
   * Write the code
   * write unit tests for the code
 
@@ -30,7 +30,7 @@ For resources, the usual workflow is
 * Generate the REST API
 * End-to-End tests
 
-I describe the workflow that I consider the most convenient in which the tables are created first in phpmyadmin and then the migration is generated from the table schema. If you are more comfortable writing migrations in PHP.
+This is the workflow that I consider the most convenient in which the tables are created first in phpmyadmin and then the migration is generated from the table schema. If you are more comfortable writing migrations in PHP you can skip this step and create the migration with Artisan.
 
     php artisan make:migration Profiles
  
@@ -85,7 +85,7 @@ Most of the time
     
 ### Migrate
 
-Delete the table from the tenanttest database.
+Delete the table from the tenanttest database, then migrate.
 
     php artisan tenants:migrate --tenants=test
     
@@ -97,17 +97,57 @@ the test database.
     php artisan --tenant=test backup:create
     php artisan --tenant=test backup:test_install
 
-## Creation of everything at once
-
-For a full resource generated everything at once
+## Creating all files related to the resource
 
     set table=motds
     php artisan mustache:generate --verbose --install %table% all
 
-     
-[If you prefer to generate files on by one](./code_generation_progress.md)
+And follow the instructions displayed per the tool:
 
-And follow the instructions
+    ===============================================================================================================
+    The resources files for motds have been generated
+
+    Model
+
+        app/Models/Tenants/Motd.php
+
+        There is currently no support in the code generator to generate the relationship methods in the model
+        (hasOne, belongsTo, HasMany). They must be added manually.
+
+        Do not forget to complete the factory with error cases if you want tests on error cases.
+
+    Localization Strings
+
+        Review the generated language files:
+            resources/lang/en/motd.php
+            resources/lang/fr/motd.php
+
+    Routes declaration
+
+        The following routes should be added in routes/tenant.php
+
+        Route::resource('motd', App\Http\Controllers\Tenants\MotdController::class)
+            ->middleware('auth');
+
+        Route::resource('api/motd', App\Http\Controllers\Api\MotdController::class, ['as' => 'api'])
+            ->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+
+    Test
+
+        The resource is available at http://abbeville.tenants.com/motd
+        and the API at  http://abbeville.tenants.com/api/motd
+
+        The API can be manually tested with Postman (I do not know how to send the Sanctum token with a Web browser).
+
+    Run the tests and add them to the test scripts
+
+        php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/MotdModelTest.php
+        php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
+        php vendor/phpunit/phpunit/phpunit  tests/Feature/Api/MotdControllerTest.php
+        php vendor/phpunit/phpunit/phpunit  tests/Browser/Tenants/MotdTest.php
+    ===============================================================================================================     
+
+[If you prefer to generate files on by one, see](./code_generation_progress.md)
 
     
 ## In case of errors with the End to End dusk test

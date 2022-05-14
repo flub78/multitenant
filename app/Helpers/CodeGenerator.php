@@ -905,7 +905,7 @@ class CodeGenerator {
 			$line = [];
 			
 			if ("date" == $field_type) {
-				$line["update"] = "\$this->update_date(\$validatedData, '$field');";
+			    $line["update"] = "\$this->update_date(\$validatedData, '$field');";
 			} elseif ("datetime_with_date_and_time" == $subtype) {
 				$line["store"] = "\$this->store_$subtype(\$validatedData, '$field');";
 				$line["update"] = "\$this->update_$subtype(\$validatedData, '$field');";

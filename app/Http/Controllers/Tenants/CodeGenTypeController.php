@@ -45,6 +45,7 @@ class CodeGenTypeController extends Controller {
 	public function store(CodeGenTypeRequest $request) {
 		$validatedData = $request->validated(); // Only retrieve the data, the validation is done
 		
+        
 		$this->store_datetime_with_date_and_time($validatedData, 'takeoff');
 		$this->store_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		$this->store_picture($validatedData, "picture", $request, "code_gen_type");
@@ -90,6 +91,8 @@ class CodeGenTypeController extends Controller {
 	 * @param App\Http\Requests\Tenants\CodeGenTypeRequest;
 	 * @param String $id
 	 * @return \Illuminate\Http\Response
+     * 
+     * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function update(CodeGenTypeRequest $request, $id) {
 		$validatedData = $request->validated();

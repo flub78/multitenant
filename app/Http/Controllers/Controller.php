@@ -60,7 +60,15 @@ class Controller extends BaseController
      * @param unknown $field
      */
     public function store_date(&$validatedData, $field) {
-    	$validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field]);
+    	$validatedData [$field] = DateFormat::date_to_db ( $validatedData [$field]);
+    }
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     */
+    public function store_datetime(&$validatedData, $field) {
+        $validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field]);
     }
     
     /**
@@ -124,7 +132,7 @@ class Controller extends BaseController
      * @param unknown $field
      */
     public function update_date(&$validatedData, $field) {
-    	$validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field]);
+    	$validatedData [$field] = DateFormat::date_to_db ( $validatedData [$field]);
     }
     
     /**

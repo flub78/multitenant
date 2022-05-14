@@ -20,18 +20,12 @@ class DateFormat {
 	 *
 	 * @param string $date
 	 *        	localized date
-	 * @param
-	 *        	optional tz timezone
 	 * @return string yyyy-mm-dd
      *
-     * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function date_to_db($local_date, $tz = "") {
-		if (! $tz) {
-			$tz = Config::config ( 'app.timezone' );
-		}
-		$date = Carbon::createFromFormat ( __ ( 'general.date_format' ), $local_date, $tz );
-		return $date->format ( "Y-m-d" );
+	static public function date_to_db($date) {
+		$db_date = Carbon::createFromFormat ( __ ( 'general.date_format' ), $date );
+		return $db_date->format ( "Y-m-d" );
 	}
 
 	/**

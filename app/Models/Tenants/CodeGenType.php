@@ -73,9 +73,8 @@ class CodeGenType extends ModelWithLogs {
      */
     public function setBirthdayAttribute($value) {
         if (!trim($value)) return $value;
-        $db_format = 'Y-m-d';
         $date = Carbon::createFromFormat(__('general.date_format'), $value);
-        $this->attributes['birthday'] = $date->format($db_format);
+        $this->attributes['birthday'] = $date->format('Y-m-d');
     }
 
     /**

@@ -18,21 +18,22 @@ class DateFormatHelperTest extends TestCase {
 	 */
 	public function testDatesInDifferentLanguagesCanBeStoredInDatabase() {
 		App::setLocale ( 'fr' );
-		$res = DateFormat::date_to_db ( "22/04/2018", "Europe/Paris");
+		$res = DateFormat::date_to_db ( "22/04/2018");
 		$this->assertTrue ( $res == '2018-04-22', "basic french format " . $res );
 		
+		// Exception when a datetime is submited instead of a date
 		$this->expectException(InvalidFormatException::class);
-		$res = DateFormat::date_to_db ( "22/04/2018 01:00", "Europe/Paris");
+		$res = DateFormat::date_to_db ( "22/04/2018 01:00");
 
 		App::setLocale ( 'en' );
-		$res = DateFormat::date_to_db ( '04-22-2018', "UTC");
+		$res = DateFormat::date_to_db ( '04-22-2018');
 		$this->assertTrue ( $res == "2018-04-22", "basic english format " . $res );
 	}
 	
 	public function test_date_to_db_incorrect_input() {
 		App::setLocale ( 'en' );
 		$this->expectException(InvalidFormatException::class);
-		$res = DateFormat::date_to_db ( '04-22-two-thousand-and-eighteen', "UTC");
+		$res = DateFormat::date_to_db ( '04-22-two-thousand-and-eighteen');
 	}
 
 	/**

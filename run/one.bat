@@ -3,7 +3,7 @@
     @rem helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/BladeHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/TranslationHelperTest.php
@@ -77,7 +77,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
 
