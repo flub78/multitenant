@@ -31,3 +31,5 @@ The user choice about new presentation will be store into a cookie with the date
 ## May be later
 
 It could be interesting to include some kind of formating, HTML or Markdown
+
+    https://laracasts.com/discuss/channels/laravel/best-way-to-render-markdown-in-views

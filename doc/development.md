@@ -35,11 +35,14 @@ The workflow is described in two ways, either as the usual Laravel workflow or u
 
 ### Manual migration creation
 
+If you are more comfortable writing a migration in PHP, do it. If you prefer to create a table 
+using phpmyadmin skip to the next section.
+
     php artisan make:migration Profiles
     
     then edit and adapt the migration.
 
-### Generation of the migration from the MySQL database
+### Or generation of the migration from the MySQL database
 
 #### Create the table in tenanttest
    
@@ -79,7 +82,7 @@ or
     
 ### Run the migration
 
-If the migration has been created from the table, delete the table first.
+Delete the table from the tenanttest database.
 
     php artisan tenants:migrate --tenants=test
     
@@ -93,10 +96,19 @@ the test database.
 
 Run all the tests for non regression.
 
+## Creation of everything at once
+
+For a full resource generated everything at once
+
+    set table=motds
+    php artisan mustache:generate --verbose --install %table% all
+    
 ## Creation of the model
 
 Create the model, the factory and the model unit test.
 
+    set table=mods
+    
     php artisan mustache:generate --install %table% model         
     php artisan mustache:generate --install %table% factory        
     php artisan mustache:generate --install %table% test_model        

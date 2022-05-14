@@ -18,12 +18,10 @@ use Exception;
  *
  */
 class MustacheGenerate extends Command {
-	protected $templates = [ "controller","model","request","index","create","edit","english", "api"
+	protected $templates = [ "controller","model","request","index","create","edit","english", "api",
+		"test_model","test_controller","test_dusk", "test_api"
 	];
 
-	/*
-	 * "test_model","test_controller","test_dusk", "test_api"
-	 */
 	
 	/**
 	 * The name and signature of the console command.
@@ -33,6 +31,7 @@ class MustacheGenerate extends Command {
 	protected $signature = 'mustache:generate' 
 			. ' {--compare : compare generated files with current version}' 
 			. ' {--install : install generated files from current version}' 
+			. ' {--delete  : delete installed files}'
 			. ' {--pretend : simulation, no actions}' 
 			. ' {table : database table}' 
 					. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|test_model|test_controller|api|test_api|migration}' 
@@ -84,11 +83,12 @@ class MustacheGenerate extends Command {
 	protected function process_file(string $table, string $template_file, string $result_file) {
 		$verbose = $this->option('verbose');
 		$install = $this->option('install');
+		
 		if ($verbose) {
 			echo "\nprocessing $table\n" . "template=$template_file\n" . "result=$result_file\n";
 			echo "Metadata schema=" . env("DB_SCHEMA") . "\n";
 		}
-
+		
 		if ($verbose) {
 			$mustache = new \Mustache_Engine([ 'logger' => Log::channel('stderr')
 			]);
@@ -135,6 +135,19 @@ class MustacheGenerate extends Command {
 			$template_list = $this->templates;
 		} else {
 			$template_list = [$template];
+		}
+		
+		if ($this->option('delete')) {
+			foreach ($template_list as $tpl) {
+				$install_file = MustacheHelper::result_file($table, $tpl, true);
+				if (file_exists($install_file)) {
+					if ($verbose) echo "\ndelete $install_file";
+					unlink($install_file);
+				} else {
+					if ($verbose) echo "\ncannot delete $install_file (not found)";
+				}
+			}
+			return 0;	
 		}
 		
 		// process all templates and generate the result

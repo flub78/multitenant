@@ -24,6 +24,7 @@ return [
 		
 		'footer' => "Pied de page",
 		'date_format' => 'd/m/Y',
+		'database_date_format' => 'Y-m-d',
 		'time_format' => 'H:i',
 		'datetime_format' => 'd/m/Y H:i',
 		'datepicker_format' => 'dd/mm/yy',

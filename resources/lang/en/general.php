@@ -24,6 +24,7 @@ return [
 		
 	'footer' => "This is the footer",
     'date_format' => 'm-d-Y',
+	'database_date_format' => 'Y-m-d',
 	'time_format' => 'H:i',
 	'datetime_format' => 'm-d-Y H:i',				// code not compatible with m-d-Y H:i:s
 	'datepicker_format' => 'mm-dd-yy',		
