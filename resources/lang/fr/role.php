@@ -1,20 +1,24 @@
 <?php
+/**
+ * This file is a template generated file automatically translated from the English version.
+ * If modifications are required, it is important to consider if they should be done in the template,
+ * in the English version or in the generated file, in which case caution must be exerted to avoid overwritting.
+ */
 
-return [
+/*
+|--------------------------------------------------------------------------
+| role Localized strings (fr version)
+|--------------------------------------------------------------------------
+||
+*/
+    
+return 	[
+		"title" => "Rôles d&#39;utilisateur",
+			"list" => "Lister",
+			"elt" => "rôle",
+			"new" => "Nouveau rôle",
+			"add" => "Ajouter un rôle",
+			"name" => "Nom",
+			"description" => "La description"
+	];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Menu strings to translate (English version)
-    |--------------------------------------------------------------------------
-    |
-    |
-    */
-
-	'title' => "Rôle des utilisateurs",
-	'list' => "Liste",	
-	'elt' => "rôle",
-	'new' => "Nouveau rôle",
-	'add' => "Ajout d'un rôle",
-    'name' => "Nom",
-	'description' => "Description"
-];
