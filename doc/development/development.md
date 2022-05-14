@@ -23,64 +23,67 @@
 For resources, the usual workflow is
 
 * Creation of a migration
-* Migration
+* Migrate
 * Include the migration into the test database
 * Model and unit tests
 * Controller and feature tests
+* Generate the REST API
 * End-to-End tests
 
-The workflow is described in two ways, either as the usual Laravel workflow or using the code generator.
-
-## Migration
-
-### Manual migration creation
-
-If you are more comfortable writing a migration in PHP, do it. If you prefer to create a table 
-using phpmyadmin skip to the next section.
+I describe the workflow that I consider the most convenient in which the tables are created first in phpmyadmin and then the migration is generated from the table schema. If you are more comfortable writing migrations in PHP.
 
     php artisan make:migration Profiles
-    
-    then edit and adapt the migration.
+ 
+then edit and adapt the migration.
 
-### Or generation of the migration from the MySQL database
 
-#### Create the table in tenanttest
-   
-##### Create the table
-   
+## Migration from the schema
+
+### Create the table in tenanttest
+      
 ![New table](images/new_table.PNG?raw=true "How to create a table")
-
-Do not forget the created_at and updated_at timestamps with current_timestamp() as default
-and {"fillable":"no", "inTable":"no", "inForm":"no"} comment
     
-##### Fill the form
+#### Define the columns
+
+Most of the time
+
+    id
+        - a bigint
+        - unsigned attribut
+        - primary
+        - Auto incremented
+
+    created_at
+        - timestamp
+        - default = current_timestamp()
+        - comment: {"fillable":"no", "inTable":"no", "inForm":"no"}
+    
+
+    
     
 ![Table creation form](images/creation_form.PNG?raw=true "Creation form")
 
-##### Check the indexes
+#### Check the indexes
 
 ![Indexes](images/indexes.PNG?raw=true "Indexes")
  
-##### Create foreign key constraints
+#### Create foreign key constraints
 
 ![Constraints](images/create_constraint.PNG?raw=true "Constraints")
 
-#####  And the result must be
+####  And the result must be
 
 ![Alt text](images/phpmyadmin_table_structure.PNG?raw=true "Title")
 
-##### Generate the migration
+### Generate the migration
 
-    set table=profiles
-    
+    set table=motds    
     php artisan mustache:generate --install %table% migration
-or
 
-    php artisan mustache:generate --compare %table% migration
     
 ![WinMerge](images/WinMerge.PNG?raw=true "WinMerge")
     
-### Run the migration
+### Migrate
 
 Delete the table from the tenanttest database.
 
@@ -102,18 +105,9 @@ For a full resource generated everything at once
 
     set table=motds
     php artisan mustache:generate --verbose --install %table% all
-    
-## Creation of the model
 
-Create the model, the factory and the model unit test.
-
-    set table=mods
-    
-    php artisan mustache:generate --install %table% model         
-    php artisan mustache:generate --install %table% factory        
-    php artisan mustache:generate --install %table% test_model        
-
-[See Code generation progress](./code_generation_progress.md)
+     
+[If you prefer to generate files on by one](./code_generation_progress.md)
 
 And run the test
 
