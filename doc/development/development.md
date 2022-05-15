@@ -165,4 +165,28 @@ Once the driver is up to date you can run the test.
 
     php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/ProfileTest.php
     
+# Maintenance workflow
+
+More often than generating the code from scratch, a developer may want to change the database schema.
+
+Here is a minimal example of modifications. Let's imagine that we have a table with a varchar and we want to indicate to the system that it has to be handled as a multiline text.
+
+## Test of the modifications with the Metadata table
+
+Before to change everything, let's test the effects of the modifications.
+
+### Create metadata to describe our changes:
+
+![Create Metadata](images/metadata_creation.PNG?raw=true "How to create a table")
+
+1. Update the database structure to reflect the changes
+1. Regenerate the code in compare mode and cherry pick what is needed
+1. Retest everything
+
+## Integration of the changes into the migrations
+
+Once the database has been updated, the code regenerated and tests.
+
+1. Include the changes in the migration (rollback to the modified migration, then migrate)
+1. As for the initial generation, the test database must be generated and copied in tests.data    
     

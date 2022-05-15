@@ -40,7 +40,7 @@ use App\Helpers\BladeHelper as Blade;
            
              <div class="form-group">
                <label for="message">{{__("motd.message")}}</label>
-               <input type="text" class="form-control" name="message" value="{{ old("message", $motd->message) }}"/>
+               <textarea rows="4" cols="40" class="form-control" name="message">{{ old("message",  $motd->message) }}</textarea>
              </div>
            
              <div class="form-group">
