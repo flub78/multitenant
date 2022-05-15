@@ -24,7 +24,7 @@ class MustacheGenerate extends Command {
 	// The tool also support special templates migration and doc
 	
 	protected $templates = [ "controller","model","request","index","create","edit","english", "api",
-		"test_model","test_controller","test_dusk", "test_api"
+		"factory", "test_model","test_controller","test_dusk", "test_api"
 	];
 
 	

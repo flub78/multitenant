@@ -78,6 +78,7 @@ class CodeGeneratorTest extends TestCase {
 		$sel = CG::select_list("roles");
 		$this->assertEquals(0, count($sel));
 	}
+	
 	public function test_fillable() {
 		$this->assertTrue(true);
 		
@@ -85,5 +86,15 @@ class CodeGeneratorTest extends TestCase {
 		
 		$this->assertNotContains("\"qualifications_boxes\"", explode(", ", $fillable));
 		$this->assertContains("\"qualifications\"", explode(", ", $fillable));
+	}
+	
+	public function test_to_camel_case() {
+	    $str = "";
+	    $res = CG::toCamelCase($str);
+	    $this->assertEquals("", $res);
+	    
+	    $str = "start_date";
+	    $res = CG::toCamelCase($str);
+	    $this->assertEquals("StartDate", $res);
 	}
 }

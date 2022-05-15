@@ -100,7 +100,7 @@ the test database.
 ## Creating all files related to the resource
 
     set table=motds
-    php artisan mustache:generate --verbose --install %table% all
+    php artisan mustache:generate --install %table% all
 
 And follow the instructions displayed per the tool:
 

@@ -23,7 +23,28 @@ class CodeGenerator {
 	// Code Generation
 	// ###############################################################################################################
 	
-	/**
+    
+    /**
+     * Transform an underscore separated string into camel case
+     * 
+     * @param unknown $string
+     * @param boolean $capitalizeFirstCharacter
+     * @return mixed
+     */
+    static public function toCamelCase($string, $capitalizeFirstCharacter = true) {
+        
+        $str = str_replace('_', ' ', $string);
+        $str = ucwords($str);
+        $str = str_replace(' ', '', $str);
+        
+        if (!$capitalizeFirstCharacter) {
+            $str[0] = strtolower($str[0]);
+        }
+        
+        return $str;
+    }
+    
+    /**
 	 * Generate a dusk anchor
 	 * @param String $table
 	 * @param String $element
@@ -856,14 +877,17 @@ class CodeGenerator {
 		$res = [];
 		$list = Meta::fillable_fields($table);
 		$list = Schema::fieldList($table);
+		
 		foreach ($list as $field) {
 			$type = Meta::type($table, $field);
 			$subtype = Meta::subtype($table, $field);
+			
 			if ($type == $mutating_type || $subtype == $mutating_type) {
-				$res[] = ["field" => $field, "field_name" => ucfirst($field)];
+				$res[] = ["field" => $field, "field_name" => self::toCamelCase($field)];
+				
 			} elseif ("float" == $mutating_type && "currency" != $subtype) {
 				if (in_array($type, ['double', 'decimal'])) {
-					$res[] = ["field" => $field, "field_name" => ucfirst($field)];
+				    $res[] = ["field" => $field, "field_name" => self::toCamelCase($field)];
 				}
 			}
 		}

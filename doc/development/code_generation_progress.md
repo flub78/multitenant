@@ -142,6 +142,31 @@
 
     php artisan mustache:generate --compare profiles test_dusk       
 
+## motds 
 
+	set table=motds
+	set element=motd
+	
+	php artisan mustache:generate --verbose %table% doc
+	
+    php artisan mustache:generate --compare %table% model                              
+    php artisan mustache:generate --compare %table% factory                          
+    php artisan mustache:generate --compare %table% test_model                    
+
+    php artisan mustache:generate --compare %table% controller                
+    php artisan mustache:generate --compare %table% request                        
+    php artisan mustache:generate --compare %table% test_controller    
+
+    php artisan mustache:generate --compare %table% index                
+    php artisan mustache:generate --compare %table% create               
+    php artisan mustache:generate --compare %table% edit                 
+    php artisan mustache:generate --compare %table% english            
+    
+    php artisan mustache:translate --compare %element%                    
+
+    php artisan mustache:generate --compare %table% api                                 
+    php artisan mustache:generate --compare %table% test_api           
+
+    php artisan mustache:generate --compare %table% test_dusk       
 
     

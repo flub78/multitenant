@@ -3,7 +3,7 @@
     @rem helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/BladeHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/TranslationHelperTest.php
@@ -11,7 +11,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/BitsOperationsTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/TestsConventionsTest.php
 

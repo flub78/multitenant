@@ -84,6 +84,9 @@ Route::middleware([
 		Route::get('/code_gen_type/download/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'download'])->name('code_gen_type.file')->middleware('auth');
 
 		Route::get('/code_gen_types_view1/', [App\Http\Controllers\Tenants\CodeGenTypesView1Controller::class, 'index'])->name('code_gen_types_view1')->middleware('auth');
+
+		Route::resource('motd', App\Http\Controllers\Tenants\MotdController::class)
+		  ->middleware('auth');
 		
 	});			
 });
@@ -110,7 +113,9 @@ Route::middleware([
 
 		Route::resource('api/profile', App\Http\Controllers\Api\ProfileController::class, ['as' => 'api'])
 			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
-			
+		
+		Route::resource('api/motd', App\Http\Controllers\Api\MotdController::class, ['as' => 'api'])
+			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
 	});
 	
 		
