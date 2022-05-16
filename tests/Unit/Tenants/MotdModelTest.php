@@ -134,4 +134,57 @@ class MotdModelTest extends TenantTestCase {
         $this->assertMatchesRegularExpression($fr_date_regexp, $elt->end_date);
             
     }
+    
+    public function test_currents() {
+        $elt = Motd::factory()->create();
+        
+        $initial_count = Motd::count();
+        $elt = Motd::factory()->create();
+        
+        $this->assertTrue(Motd::count() == $initial_count + 1, "No changes in database");
+        
+        $elt->delete();
+        $this->assertEquals(1, Motd::count(), "Back to 1");
+        
+        $currents = Motd::currents();
+        $initial_currents = count($currents); 
+        
+        $elt1 = ['title' => 'in the past',
+            'message' => 'Humanity has landed on the moon',
+            'publication_date' => '07-20-1969',          //  m-d-Y English local format
+            'end_date' => '12-31-1969'
+        ]; 
+        $elt = Motd::factory()->create($elt1);
+        $this->assertEquals(2, Motd::count(), "After creation");
+       
+        $elt2 = ['title' => 'in the future',
+            'message' => 'Humanity has landed on mars',
+            'publication_date' => '07-20-2039',          //  m-d-Y English local format
+            'end_date' => '12-31-2069'
+        ];
+        $elt = Motd::factory()->create($elt2);
+        $this->assertEquals(3, Motd::count(), "Another one");
+        
+        // $el1 and $el2 should not be returned, today is out of range
+        $this->assertEquals($initial_currents, count(Motd::currents()), "No display");
+        
+        // $el3 and $elt4 should be returned until 2069
+        $elt3 = ['title' => 'Active',
+            'message' => 'Humanity has landed on the moon again',
+            'publication_date' => '07-20-1969',          //  m-d-Y English local format
+            'end_date' => '12-31-2069'
+        ];
+        $elt = Motd::factory()->create($elt3);
+        
+        // It is mandatory to specify null or the factory will use a random
+        // not null value
+        $elt4 = ['title' => 'Another Active',
+            'message' => 'Humanity has not yet landed on mars',
+            'publication_date' => '07-20-1969',          //  m-d-Y English local format
+            'end_date' => null
+        ];
+        $elt = Motd::factory()->create($elt4);
+        $this->assertEquals($initial_currents + 2, count(Motd::currents()), "To be displayed");
+        
+    }
 }

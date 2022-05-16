@@ -107,34 +107,36 @@ class Motd extends ModelWithLogs {
     }
     
     /**
-     * Returns the motd with today in the publication interval
+     * Returns the currently active motds
+     * 
+     *      publication_date <= today <= end_date
+     * 
      * @return unknown
      */
     public static function currents() {
         
-        /*
-         * https://syntaxfix.com/question/3384/laravel-eloquent-where-field-is-x-or-null
-         * 
-         * $query = Model::where('field1', 1)
-                ->whereNull('field2')
-                ->where(function ($query) {
-                    $query->where('datefield', '<', $date)
-                        ->orWhereNull('datefield');
-                }
-            );
-         */
-        $today = Carbon::now(); // 2022-05-16
+        $today = Carbon::now(); // format = 2022-05-16
+                
+        $query = Motd::where('publication_date', '<=', $today)
+            ->where(function ($query) use ($today) {
+                $query->where('end_date', '>=', $today)
+                ->orWhereNull('end_date');
+            }
+        )->get();
+        return $query;
         
-        $motds = Motd::where('publication_date', '<=', $today)
-        ->where('end_date', '>=', $today)
-        ->get();
+// Alternative implementation with query merge
+
+//         $motds = Motd::where('publication_date', '<=', $today)
+//         ->where('end_date', '>=', $today)
+//         ->get();
         
-        $motds_with_null_end =  Motd::where('publication_date', '<=', $today)
-        ->whereNull('end_date')
-        ->get();
+//         $motds_with_null_end =  Motd::where('publication_date', '<=', $today)
+//         ->whereNull('end_date')
+//         ->get();
         
-        $motds = $motds->merge($motds_with_null_end);
+//         $motds = $motds->merge($motds_with_null_end);
         
-        return $motds;
+//         return $motds;
     }
 }
