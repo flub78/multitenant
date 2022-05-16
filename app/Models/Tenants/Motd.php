@@ -105,4 +105,36 @@ class Motd extends ModelWithLogs {
         $date = Carbon::createFromFormat(__('general.date_format'), $value);
         $this->attributes['end_date'] = $date->format('Y-m-d');
     }
+    
+    /**
+     * Returns the motd with today in the publication interval
+     * @return unknown
+     */
+    public static function currents() {
+        
+        /*
+         * https://syntaxfix.com/question/3384/laravel-eloquent-where-field-is-x-or-null
+         * 
+         * $query = Model::where('field1', 1)
+                ->whereNull('field2')
+                ->where(function ($query) {
+                    $query->where('datefield', '<', $date)
+                        ->orWhereNull('datefield');
+                }
+            );
+         */
+        $today = Carbon::now(); // 2022-05-16
+        
+        $motds = Motd::where('publication_date', '<=', $today)
+        ->where('end_date', '>=', $today)
+        ->get();
+        
+        $motds_with_null_end =  Motd::where('publication_date', '<=', $today)
+        ->whereNull('end_date')
+        ->get();
+        
+        $motds = $motds->merge($motds_with_null_end);
+        
+        return $motds;
+    }
 }

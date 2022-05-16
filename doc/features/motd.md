@@ -33,3 +33,14 @@ The user choice about new presentation will be store into a cookie with the date
 It could be interesting to include some kind of formating, HTML or Markdown
 
     https://laracasts.com/discuss/channels/laravel/best-way-to-render-markdown-in-views
+
+# Design and implementation
+
+## Steps
+
+* Define the motds table and generate the associated code. Globally it is more or less the admin view.
+* Define a controller and a view to see the more recent messages
+
+* On this page there is a button proposing to not show the messages any more. A Cookie will be use to store this information.
+
+Let's start basic but this feature is a good opportunity to learn how to create a component that can be displayed on many pages.

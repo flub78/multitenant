@@ -106,4 +106,15 @@ class MotdController extends Controller {
     	$motd->delete();
     	return redirect ( 'motd' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
     }
+    
+    /**
+     * Display the current messages
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function current() {
+        $motds = Motd::currents();
+        return view ( 'tenants/motd/current', compact ( 'motds' ) );
+    }
+    
 }

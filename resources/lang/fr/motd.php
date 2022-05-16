@@ -20,6 +20,7 @@ return 	[
 			"add" => "Ajouter un message du jour",
 			"message" => "Message",
 			"publication_date" => "Date de publication",
-			"end_date" => "Date de fin"
-	];
+			"end_date" => "Date de fin",
+            'current_messages' => "Dernière Nouvelles"
+];
 

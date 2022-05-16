@@ -23,5 +23,6 @@ return [
 	'message' => "Message",
 	'publication_date' => "Publication date",
 	'end_date' => "End date",
+    'current_messages' => "Latests News"
 ];
 

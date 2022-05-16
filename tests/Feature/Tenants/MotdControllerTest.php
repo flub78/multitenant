@@ -359,4 +359,23 @@ class MotdControllerTest extends TenantTestCase {
     	$new_locale = App::getLocale();
     	$this->assertTrue($new_locale == $locale, "Locale back to initial value");	
     }    
+    
+    /**
+     * Test display of the latest messages the current date mus be between 
+     * the publication date and the end date.
+     * 
+     * Given the user is logged on
+     * When calling index URL
+     * Then the table view is displayed
+     *
+     * @return void
+     */
+    public function testCurrentMessages() {
+        Log::Debug(__METHOD__);
+        
+        $look_for[] = __('motd.current_messages');
+        
+        $this->get_tenant_url($this->user, 'motd/current', $look_for);
+    }
+    
 }

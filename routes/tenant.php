@@ -24,6 +24,9 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
 	
+    /*
+     * Non admin routes
+     */
 	Auth::routes();
 	
 	Route::get('/', function () {return view('welcome');});
@@ -56,7 +59,11 @@ Route::middleware([
 	Route::resource('calendar_event', App\Http\Controllers\Tenants\CalendarEventController::class)->middleware('auth');
 	Route::resource('profile', App\Http\Controllers\Tenants\ProfileController::class)->middleware('auth');
 	
-	// admin routes
+	Route::get('/motd/current', [App\Http\Controllers\Tenants\MotdController::class, 'current'])->name('current')->middleware('auth');
+	
+	/*
+	 * admin routes
+	 */
 	Route::group(['middleware' => ['admin']], function () {
 		Route::get('/user/token', [App\Http\Controllers\UserController::class, 'token'])->name('tokens.create')->middleware('auth');
 		Route::resource('user', App\Http\Controllers\UserController::class)->middleware('auth');
@@ -91,6 +98,9 @@ Route::middleware([
 	});			
 });
 
+/*
+ * APIs
+ */
 Route::middleware([
 			'api',
 			InitializeTenancyByDomain::class,
@@ -116,6 +126,7 @@ Route::middleware([
 		
 		Route::resource('api/motd', App\Http\Controllers\Api\MotdController::class, ['as' => 'api'])
 			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+		
 	});
 	
 		
