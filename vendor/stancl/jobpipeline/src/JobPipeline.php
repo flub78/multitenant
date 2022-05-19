@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stancl\JobPipeline;
 
 use Closure;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Throwable;
 
 class JobPipeline implements ShouldQueue
 {
@@ -61,7 +64,17 @@ class JobPipeline implements ShouldQueue
                 $job = [new $job(...$this->passable), 'handle'];
             }
 
-            $result = app()->call($job);
+            try {
+                $result = app()->call($job);
+            } catch (Throwable $exception) {
+                if (method_exists(get_class($job[0]), 'failed')) {
+                    call_user_func_array([$job[0], 'failed'], [$exception]);
+                } else {
+                    throw $exception;
+                }
+
+                break;
+            }
 
             if ($result === false) {
                 break;

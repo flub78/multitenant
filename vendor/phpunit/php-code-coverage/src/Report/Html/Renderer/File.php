@@ -96,7 +96,7 @@ use function token_get_all;
 use function trim;
 use PHPUnit\Runner\BaseTestRunner;
 use SebastianBergmann\CodeCoverage\Node\File as FileNode;
-use SebastianBergmann\CodeCoverage\Percentage;
+use SebastianBergmann\CodeCoverage\Util\Percentage;
 use SebastianBergmann\Template\Template;
 
 /**
@@ -1134,6 +1134,14 @@ final class File extends Renderer
 
         if (defined('T_MATCH')) {
             self::$keywordTokens[constant('T_MATCH')] = true;
+        }
+
+        if (defined('T_ENUM')) {
+            self::$keywordTokens[constant('T_ENUM')] = true;
+        }
+
+        if (defined('T_READONLY')) {
+            self::$keywordTokens[constant('T_READONLY')] = true;
         }
 
         return self::$keywordTokens;

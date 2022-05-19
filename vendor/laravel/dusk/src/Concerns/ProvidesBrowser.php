@@ -29,6 +29,7 @@ trait ProvidesBrowser
      * Tear down the Dusk test case class.
      *
      * @afterClass
+     *
      * @return void
      */
     public static function tearDownDuskClass()
@@ -173,8 +174,8 @@ trait ProvidesBrowser
     protected function storeSourceLogsFor($browsers)
     {
         $browsers->each(function ($browser, $key) {
-            if (property_exists($browser, 'makesSourceAssertion') &&
-                $browser->makesSourceAssertion) {
+            if (property_exists($browser, 'madeSourceAssertion') &&
+                $browser->madeSourceAssertion) {
                 $browser->storeSource($this->getCallerName().'-'.$key);
             }
         });

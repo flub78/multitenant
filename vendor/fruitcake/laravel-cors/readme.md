@@ -3,8 +3,9 @@
 [![Build Status][ico-actions]][link-actions]
 [![Software License][ico-license]](LICENSE.md)
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Fruitcake](https://img.shields.io/badge/Powered%20By-Fruitcake-b2bc35.svg)](https://fruitcake.nl/)
 
-Implements https://github.com/asm89/stack-cors for Laravel
+Implements https://github.com/fruitcake/php-cors for Laravel
 
 ## About
 
@@ -14,7 +15,7 @@ headers with Laravel middleware configuration.
 If you want to have a global overview of CORS workflow, you can  browse
 this [image](http://www.html5rocks.com/static/images/cors_server_flowchart.png).
 
-## Upgrading from 0.x / barryvdh-laravel-cors
+## Upgrading from 0.x (barryvdh/laravel-cors)
 When upgrading from 0.x versions, there are some breaking changes:
  - **A new 'paths' property is used to enable/disable CORS on certain routes. This is empty by default, so fill it correctly!**
  - **Group middleware is no longer supported, use the global middleware**
@@ -80,7 +81,7 @@ php artisan vendor:publish --tag="cors"
 | allowed_headers          | Sets the Access-Control-Allow-Headers response header.                   | `['*']`       |
 | exposed_headers          | Sets the Access-Control-Expose-Headers response header.                  | `false`       |
 | max_age                  | Sets the Access-Control-Max-Age response header.                         | `0`           |
-| supports_credentials     | Sets the Access-Control-Allow-Credentials header.                        | `false`       |
+| supports_credentials     | Sets the Access-Control-Allow-Credentials header.                        | `[]`       |
 
 
 `allowed_origins`, `allowed_headers` and `allowed_methods` can be set to `['*']` to accept any value.
@@ -159,7 +160,7 @@ Released under the MIT License, see [LICENSE](LICENSE).
 
 [ico-version]: https://img.shields.io/packagist/v/fruitcake/laravel-cors.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-actions]: https://github.com/fruitcake/laravel-cors/workflows/.github/workflows/run-tests.yml/badge.svg
+[ico-actions]: https://github.com/fruitcake/laravel-cors/actions/workflows/run-tests.yml/badge.svg
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/fruitcake/laravel-cors.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/fruitcake/laravel-cors.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/fruitcake/laravel-cors.svg?style=flat-square

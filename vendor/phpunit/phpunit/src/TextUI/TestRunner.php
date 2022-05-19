@@ -54,6 +54,7 @@ use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\FilterMapper;
 use PHPUnit\TextUI\XmlConfiguration\Configuration;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use PHPUnit\TextUI\XmlConfiguration\PhpHandler;
+use PHPUnit\Util\Color;
 use PHPUnit\Util\Filesystem;
 use PHPUnit\Util\Log\JUnit;
 use PHPUnit\Util\Log\TeamCity;
@@ -92,11 +93,6 @@ final class TestRunner extends BaseTestRunner
     public const FAILURE_EXIT = 1;
 
     public const EXCEPTION_EXIT = 2;
-
-    /**
-     * @var bool
-     */
-    private static $versionStringPrinted = false;
 
     /**
      * @var CodeCoverageFilter
@@ -248,8 +244,8 @@ final class TestRunner extends BaseTestRunner
 
         unset($listener, $listenerNeeded);
 
-        if (!$arguments['convertDeprecationsToExceptions']) {
-            $result->convertDeprecationsToExceptions(false);
+        if ($arguments['convertDeprecationsToExceptions']) {
+            $result->convertDeprecationsToExceptions(true);
         }
 
         if (!$arguments['convertErrorsToExceptions']) {
@@ -330,11 +326,18 @@ final class TestRunner extends BaseTestRunner
             $this->printer->setShowProgressAnimation(!$arguments['noInteraction']);
         }
 
-        $this->printer->write(
-            Version::getVersionString() . "\n"
-        );
-
-        self::$versionStringPrinted = true;
+        if ($arguments['colors'] !== DefaultResultPrinter::COLOR_NEVER) {
+            $this->write(
+                'PHPUnit ' .
+                Version::id() .
+                ' ' .
+                Color::colorize('bg-blue', '#StandWith') .
+                Color::colorize('bg-yellow', 'Ukraine') .
+                "\n"
+            );
+        } else {
+            $this->write(Version::getVersionString() . "\n");
+        }
 
         foreach ($arguments['listeners'] as $listener) {
             $result->addListener($listener);
@@ -621,7 +624,7 @@ final class TestRunner extends BaseTestRunner
             exit(self::SUCCESS_EXIT);
         }
 
-        $this->printer->write("\n");
+        $this->write("\n");
 
         if (isset($codeCoverage)) {
             $result->setCodeCoverage($codeCoverage);
@@ -1101,7 +1104,7 @@ final class TestRunner extends BaseTestRunner
         $arguments['cacheResult']                                     = $arguments['cacheResult'] ?? true;
         $arguments['colors']                                          = $arguments['colors'] ?? DefaultResultPrinter::COLOR_DEFAULT;
         $arguments['columns']                                         = $arguments['columns'] ?? 80;
-        $arguments['convertDeprecationsToExceptions']                 = $arguments['convertDeprecationsToExceptions'] ?? true;
+        $arguments['convertDeprecationsToExceptions']                 = $arguments['convertDeprecationsToExceptions'] ?? false;
         $arguments['convertErrorsToExceptions']                       = $arguments['convertErrorsToExceptions'] ?? true;
         $arguments['convertNoticesToExceptions']                      = $arguments['convertNoticesToExceptions'] ?? true;
         $arguments['convertWarningsToExceptions']                     = $arguments['convertWarningsToExceptions'] ?? true;
@@ -1142,6 +1145,11 @@ final class TestRunner extends BaseTestRunner
         $arguments['timeoutForMediumTests']                           = $arguments['timeoutForMediumTests'] ?? 10;
         $arguments['timeoutForSmallTests']                            = $arguments['timeoutForSmallTests'] ?? 1;
         $arguments['verbose']                                         = $arguments['verbose'] ?? false;
+
+        if ($arguments['reportLowUpperBound'] > $arguments['reportHighLowerBound']) {
+            $arguments['reportLowUpperBound']  = 50;
+            $arguments['reportHighLowerBound'] = 90;
+        }
     }
 
     private function processSuiteFilters(TestSuite $suite, array $arguments): void
@@ -1241,7 +1249,7 @@ final class TestRunner extends BaseTestRunner
 
     private function codeCoverageGenerationStart(string $format): void
     {
-        $this->printer->write(
+        $this->write(
             sprintf(
                 "\nGenerating code coverage report in %s format ... ",
                 $format
@@ -1253,7 +1261,7 @@ final class TestRunner extends BaseTestRunner
 
     private function codeCoverageGenerationSucceeded(): void
     {
-        $this->printer->write(
+        $this->write(
             sprintf(
                 "done [%s]\n",
                 $this->timer->stop()->asString()
@@ -1263,7 +1271,7 @@ final class TestRunner extends BaseTestRunner
 
     private function codeCoverageGenerationFailed(\Exception $e): void
     {
-        $this->printer->write(
+        $this->write(
             sprintf(
                 "failed [%s]\n%s\n",
                 $this->timer->stop()->asString(),

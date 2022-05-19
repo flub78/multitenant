@@ -60,6 +60,8 @@ Route::middleware([
 	Route::resource('profile', App\Http\Controllers\Tenants\ProfileController::class)->middleware('auth');
 	
 	Route::get('/motd/current', [App\Http\Controllers\Tenants\MotdController::class, 'current'])->name('current')->middleware('auth');
+	Route::get('/motd/setCookie', [App\Http\Controllers\Tenants\MotdController::class, 'setCookie'])->name('setCookie')->middleware('auth');
+	Route::get('/motd/getCookie', [App\Http\Controllers\Tenants\MotdController::class, 'getCookie'])->name('getCookie')->middleware('auth');
 	
 	/*
 	 * admin routes

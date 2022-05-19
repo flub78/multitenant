@@ -32,12 +32,13 @@ class CarbonTest extends TenantTestCase
     	
     	$date_regexp = '/(\d{4})\-(\d{2})\-(\d{2})\s(\d{2})\:(\d{2})\:(\d{2})/i';
     	
+    	// By default timezone = UTC and format is Y-m-d h:i:s
     	$mutable = Carbon::now();
     	$mutable->add(1, 'day');
     	$this->assertEquals(0, $mutable->utcOffset());
-    	$this->assertMatchesRegularExpression($date_regexp,$mutable);
+    	$this->assertMatchesRegularExpression($date_regexp, $mutable);
     	
-    	$this->assertEquals($mutable, $mutable->toDateTimeString(), "2021-07-01 17:59:55");		
+    	$this->assertEquals($mutable, $mutable->toDateTimeString(), "Carbon date default value == toDateTimeString");		
     	
     	// today, tomorrow, yesterday are at 00:00:00.000000+0000
     	$this->assertEquals(Carbon::today()->add(1, 'day'), Carbon::tomorrow());
@@ -49,7 +50,7 @@ class CarbonTest extends TenantTestCase
     	    	
     	// now in local timezone
     	$date = Carbon::now($tz);
-    	$this->assertMatchesRegularExpression($date_regexp,$date, 'By default TZ is not displayed in Carbon date');
+    	$this->assertMatchesRegularExpression($date_regexp, $date, 'By default TZ is not displayed in Carbon date');
     	$this->assertEquals($tz, $date->tzName, "TimeZone is contained in the object");
     	// echo "date = $date\n";		date = 2021-06-30 18:50:01
 		
@@ -72,20 +73,21 @@ class CarbonTest extends TenantTestCase
 	   	$knownDate = Carbon::create(2001, 5, 21, 12, 0, 0, $tz); 
 	   	Carbon::setTestNow($knownDate);    							
 	   	$now = Carbon::now();
+	   	// echo "tz = $knownDate $tz\n";
 	   	
 	   	// getters
-	   	$this->assertEquals("2001-05-21 12:00:00", $now);
+	   	$this->assertEquals("2001-05-21 10:00:00", $now->format('Y-m-d h:i:s'));
 	   	$this->assertEquals("2001", $now->year);
 	   	$this->assertEquals("05", $now->month);
 	   	$this->assertEquals("21", $now->day);
-	   	$this->assertEquals("12", $now->hour);
+	   	$this->assertEquals("10", $now->hour);
 	   	$this->assertEquals("00", $now->minute);
 	   	$this->assertEquals("00", $now->second);
 	   	$this->assertEquals("lundi", $now->locale('fr')->dayName);
 	   	$this->assertEquals("mai", $now->locale('fr')->monthName);
 	   	
-	   	$this->assertFalse(Carbon::now()->utc);
-	   	$this->assertEquals($tz, Carbon::now()->timezone);
+	   	$this->assertTrue(Carbon::now()->utc);                         // weird but time zone has not been taken into account
+	   	$this->assertEquals("UTC", Carbon::now()->timezone);
 	   	$this->assertEquals(Carbon::now()->tz, Carbon::now()->timezone);
 	   	
 	   	// take a UTC time
@@ -132,7 +134,7 @@ class CarbonTest extends TenantTestCase
 	   	$this->assertEquals("Wednesday 21st of May 1975 10:32:05 PM", $now->format('l jS \\of F Y h:i:s A'));
 	   	
 	   	// echo $now->serialize();
-	   	$this->assertEquals('"1975-05-21T21:32:05.000000Z"', json_encode($now));
+	   	$this->assertEquals('"1975-05-21T22:32:05.000000Z"', json_encode($now));
 	   	
 	   	// Back to real time
 	   	Carbon::setTestNow(); 

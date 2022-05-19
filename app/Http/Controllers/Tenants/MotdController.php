@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\MotdRequest;
 use App\Models\Tenants\Motd;
+use Illuminate\Http\Response;
 
 
 /**
@@ -115,6 +116,18 @@ class MotdController extends Controller {
     public function current() {
         $motds = Motd::currents();
         return view ( 'tenants/motd/current', compact ( 'motds' ) );
+    }
+    
+    public function setCookie(MotdRequest $request){
+        $minutes = 60;
+        $response = new Response('Set Cookie');
+        $response->withCookie(cookie('name', 'MyValue', $minutes));
+        return $response;
+    }
+   
+    public function getCookie(MotdRequest $request){
+        $value = $request->cookie('name');
+        echo $value;
     }
     
 }

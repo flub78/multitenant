@@ -18,7 +18,7 @@
 
     @rem tenants
     @rem -------
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
 
     @rem Tenant models
     @rem -------------

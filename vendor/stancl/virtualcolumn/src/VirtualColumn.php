@@ -16,7 +16,7 @@ trait VirtualColumn
     /**
      * We need this property, because both created & saved event listeners
      * decode the data (to take precedence before other created & saved)
-     * listeners, but we don't want the dadta to be decoded twice.
+     * listeners, but we don't want the data to be decoded twice.
      *
      * @var string
      */
@@ -30,6 +30,7 @@ trait VirtualColumn
 
         foreach ($model->getAttribute(static::getDataColumn()) ?? [] as $key => $value) {
             $model->setAttribute($key, $value);
+            $model->syncOriginalAttribute($key);
         }
 
         $model->setAttribute(static::getDataColumn(), null);
@@ -52,6 +53,7 @@ trait VirtualColumn
                 ]));
 
                 unset($model->attributes[$key]);
+                unset($model->original[$key]);
             }
         }
 

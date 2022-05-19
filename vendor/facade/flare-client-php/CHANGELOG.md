@@ -2,6 +2,14 @@
 
 All notable changes to `flare-client-php` will be documented in this file
 
+## 1.9.1 - 2021-09-13
+
+- let `report` return the created report
+
+## 1.9.0 - 2021-09-13
+
+- add report tracking uuid
+
 ## 1.8.1 - 2021-05-31
 
 - improve compatibility with Symfony 5.3
