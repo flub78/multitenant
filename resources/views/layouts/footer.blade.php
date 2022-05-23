@@ -52,21 +52,29 @@
     
     // DataTable
 	    $('#maintable').DataTable({
-        columnDefs: [ {
-            orderable: false,
-            className: 'select-checkbox',
-            targets:   0
-        } ],
-        select: {
-            style:    'os',
-            selector: 'td:first-child'
-        },		    
+        	columnDefs: [ {
+            	orderable: false,
+            	className: 'select-checkbox',
+            	targets:   0
+        	} ],
+        	select: {
+            	style:    'multi+shift',
+            	selector: 'td:first-child'
+        	},		    
 	    	paging:true,
 	     	dom: 'Blfrtip',
 	     	stateSave: true,
 		    buttons: [
-		        'csv',
-		        'pdf', 'colvis'
+		    	'selectAll', 'selectNone',
+		        {
+            		extend: 'selected',
+            		action: function ( e, dt, node, config ) {
+                		var rows = dt.rows( { selected: true } ).count();
+ 
+                		alert( 'There are '+rows+'(s) selected in the table' );
+            		}
+        		},
+        		'csv', 'pdf', 'colvis',
 		    ],
 		    "oLanguage": olanguage[locale],
 	    });
