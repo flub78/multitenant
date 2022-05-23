@@ -1,0 +1,49 @@
+{{=[[ ]]=}}
+<!-- [[class_name]] edit.blade.php -->
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
+
+@extends('layouts.app')
+
+@section('content')
+
+<style>
+  .uper {
+    margin-top: 40px;
+  }
+</style>
+
+<div class="card uper">
+  <div class="card-header">
+    {{__('[[element]].elt')}}
+  </div>
+  <div class="card-body">
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+      </div><br />
+    @endif
+    
+      <form method="post" action="{{ route('[[element]].update', $[[element]]->[[primary_index]] ) }}" enctype="multipart/form-data">
+             @csrf
+             @method('PATCH')
+              
+             [[# form_field_list ]]
+             <div class="form-group">
+               [[&label]] : [[&display]]
+             </div>
+           
+             [[/ form_field_list ]]
+             
+             [[& button_edit ]]  [[& button_delete ]]
+             
+      </form>
+  </div>
+</div>
+@endsection

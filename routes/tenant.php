@@ -85,9 +85,10 @@ Route::middleware([
 		Route::post('/backup', [App\Http\Controllers\BackupController::class, 'upload'])->name('backup.upload')->middleware('auth');
 
 		Route::resource('code_gen_type', App\Http\Controllers\Tenants\CodeGenTypeController::class)->middleware('auth');
+		Route::get('/code_gen_type/{id}/show', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'show'])->name('code_gen_type.show')->middleware('auth');
 		// Initial implementation to remove
-		Route::get('/code_gen_type/download/{filename}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'download'])->name('code_gen_type.download')->middleware('auth');
-		Route::get('/code_gen_type/display_image/{filename}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'displayImage'])->name('code_gen_type.image')->middleware('auth');
+		// Route::get('/code_gen_type/download/{filename}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'download'])->name('code_gen_type.download')->middleware('auth');
+		// Route::get('/code_gen_type/display_image/{filename}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'displayImage'])->name('code_gen_type.image')->middleware('auth');
 		
 		Route::get('/code_gen_type/picture/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'picture'])->name('code_gen_type.picture')->middleware('auth');
 		Route::get('/code_gen_type/download/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'download'])->name('code_gen_type.file')->middleware('auth');

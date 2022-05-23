@@ -33,7 +33,12 @@ class CodeGenTypeController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view ('tenants/code_gen_type/create');
+        $color_name_list = ["blue" => __("code_gen_type.color_name.blue"),
+        		"red" => __("code_gen_type.color_name.red"),
+        		"green" => __("code_gen_type.color_name.green"),
+        		"white" => __("code_gen_type.color_name.white"),
+        		"black" => __("code_gen_type.color_name.black")];
+    	return view ('tenants/code_gen_type/create')->with("color_name_list", $color_name_list);
 	}
 	
 	/**
@@ -59,10 +64,20 @@ class CodeGenTypeController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  \App\Models\Tenants\CodeGenType  $code_gen_type
+	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(CodeGenType $code_gen_type) {
+	public function show($id) {
+	    $code_gen_type = CodeGenType::find($id);
+	    
+        $color_name_list = ["blue" => __("code_gen_type.color_name.blue"),
+        		"red" => __("code_gen_type.color_name.red"),
+        		"green" => __("code_gen_type.color_name.green"),
+        		"white" => __("code_gen_type.color_name.white"),
+        		"black" => __("code_gen_type.color_name.black")];
+        return view('tenants/code_gen_type/show')
+            ->with(compact('code_gen_type'))->with("color_name_list", $color_name_list);
+
 	}
 	
 	
@@ -78,10 +93,8 @@ class CodeGenTypeController extends Controller {
         		"green" => __("code_gen_type.color_name.green"),
         		"white" => __("code_gen_type.color_name.white"),        		
         		"black" => __("code_gen_type.color_name.black")];
-        
-        return view('tenants/code_gen_type/edit')->with(compact('code_gen_type'))
-            ->with("color_name_list", $color_name_list)
-;
+        return view('tenants/code_gen_type/edit')
+            ->with(compact('code_gen_type'))->with("color_name_list", $color_name_list);
 	}
 	
 	

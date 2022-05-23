@@ -23,7 +23,7 @@ class MustacheGenerate extends Command {
 	
 	// The tool also support special templates migration and doc
 	
-	protected $templates = [ "controller","model","request","index","create","edit","english", "api",
+	protected $templates = [ "controller","model","request","index","create","edit", "show", "english", "api",
 		"factory", "test_model","test_controller","test_dusk", "test_api"
 	];
 
@@ -39,7 +39,7 @@ class MustacheGenerate extends Command {
 			. ' {--delete  : delete installed files}'
 			. ' {--pretend : simulation, no actions}' 
 			. ' {table : database table}' 
-					. ' {template :  mustache template, all|controller|model|request|index|create|edit|english|test_model|test_controller|api|test_api|migration}' 
+					. ' {template :  mustache template, all|controller|model|request|index|create|edit|show|english|test_model|test_controller|api|test_api|migration}' 
 			. '';
 
 	/**

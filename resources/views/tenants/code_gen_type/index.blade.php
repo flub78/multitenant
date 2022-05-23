@@ -19,34 +19,35 @@ use App\Helpers\BladeHelper as Blade;
       {{ session()->get('error') }}  
     </div><br />
   @endif
-  <div class="table-responsive">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('code_gen_type.title')}}</caption>
     <thead>
         <tr>
-          <td> {{__('code_gen_type.name')}} </td>
-          <td> {{__('code_gen_type.phone')}} </td>
-          <td> {{__('code_gen_type.description')}} </td>
-          <td> {{__('code_gen_type.year_of_birth')}} </td>
-          <td> {{__('code_gen_type.weight')}} </td>
-          <td> {{__('code_gen_type.birthday')}} </td>
-          <td> {{__('code_gen_type.tea_time')}} </td>
-          <td> {{__('code_gen_type.takeoff')}} </td>
-          <td> {{__('code_gen_type.price')}} </td>
-          <td> {{__('code_gen_type.big_price')}} </td>
-          <td> {{__('code_gen_type.qualifications')}} </td>
-          <td> {{__('code_gen_type.color_name')}} </td>
-          <td> {{__('code_gen_type.picture')}} </td>
-          <td> {{__('code_gen_type.attachment')}} </td>
+          <th></th>
+          <th> {{__('code_gen_type.name')}} </th>
+          <th> {{__('code_gen_type.phone')}} </th>
+          <th> {{__('code_gen_type.description')}} </th>
+          <th> {{__('code_gen_type.year_of_birth')}} </th>
+          <th> {{__('code_gen_type.weight')}} </th>
+          <th> {{__('code_gen_type.birthday')}} </th>
+          <th> {{__('code_gen_type.tea_time')}} </th>
+          <th> {{__('code_gen_type.takeoff')}} </th>
+          <th> {{__('code_gen_type.price')}} </th>
+          <th> {{__('code_gen_type.big_price')}} </th>
+          <th> {{__('code_gen_type.qualifications')}} </th>
+          <th> {{__('code_gen_type.color_name')}} </th>
+          <th> {{__('code_gen_type.picture')}} </th>
+          <th> {{__('code_gen_type.attachment')}} </th>
 		  
-          <td> {{__('general.edit')}}   </td>
-          <td> {{__('general.delete')}} </td>
+          <th> {{__('general.edit')}}   </th>
+          <th> {{__('general.delete')}} </th>
         </tr>
     </thead>
     
     <tbody>
         @foreach($code_gen_types as $code_gen_type)
         <tr>
+          <td></td>
           <td> {{$code_gen_type->name}}</td>
           <td> {{$code_gen_type->phone}}</td>
           <td> {{$code_gen_type->description}}</td>
@@ -73,7 +74,6 @@ use App\Helpers\BladeHelper as Blade;
         @endforeach
     </tbody>
   </table>
-  </div>
     @button_create({{url('code_gen_type')}}, {{__('code_gen_type.add')}}) 
 </div>  
 @endsection

@@ -90,6 +90,9 @@ class MustacheHelper {
 		} elseif ($template == "edit") {
 			$file =  'resources/views/tenants/edit.blade.php.mustache';
 			
+		} elseif ($template == "show") {
+		    $file =  'resources/views/tenants/show.blade.php.mustache';
+		    
 		} elseif ($template == "english") {
 			$file =  'lang.php.mustache';
 			
@@ -214,6 +217,13 @@ class MustacheHelper {
 				$file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'users', 'edit.blade.php']);
 			}
 			
+		} elseif ($template == "show") {
+		    if ($table != "users") {
+		        $file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'tenants', $element, 'show.blade.php']);
+		    } else {
+		        $file = implode(DIRECTORY_SEPARATOR, ['resources', 'views', 'users', 'show.blade.php']);
+		    }
+		    
 		} elseif ($template == "english") {
 			$file = implode(DIRECTORY_SEPARATOR, ['resources', 'lang', 'en', $element . '.php']);
 			

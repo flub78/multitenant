@@ -62,10 +62,16 @@ class [[class_name]]Controller extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tenants\[[class_name]]  $[[element]]
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show([[class_name]] $[[element]]) {
+    public function show($id) {
+	    $[[element]] = [[class_name]]::find($id);
+		[[#select_list]]
+        [[&selector]]
+        [[/select_list]]
+        return view('tenants/[[element]]/show')
+            ->with(compact('[[element]]'))[[#select_list]][[&with]][[/select_list]];
     }
 
     
