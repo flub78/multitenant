@@ -19,6 +19,7 @@ use App\Helpers\BladeHelper as Blade;
       {{ session()->get('error') }}  
     </div><br />
   @endif
+  <div class="table-responsive">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('code_gen_type.title')}}</caption>
     <thead>
@@ -72,7 +73,7 @@ use App\Helpers\BladeHelper as Blade;
         @endforeach
     </tbody>
   </table>
-  
+  </div>
     @button_create({{url('code_gen_type')}}, {{__('code_gen_type.add')}}) 
 </div>  
 @endsection

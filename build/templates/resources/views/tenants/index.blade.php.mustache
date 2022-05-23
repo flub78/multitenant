@@ -20,6 +20,8 @@ use App\Helpers\BladeHelper as Blade;
       {{ session()->get('error') }}  
     </div><br />
   @endif
+  
+  <div class="table-responsive">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('[[element]].title')}}</caption>
     <thead>
@@ -49,7 +51,7 @@ use App\Helpers\BladeHelper as Blade;
         @endforeach
     </tbody>
   </table>
-  
+  </div>
 [[^is_view]]          
     @button_create({{url('[[element]]')}}, {{__('[[element]].add')}}) 
 [[/is_view]] 
