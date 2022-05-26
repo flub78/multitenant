@@ -96,10 +96,12 @@ All others information should be reserved to the element detailed information vi
 
 Same thing, it is not necessarily a good idea to multiply action buttons on the table view. Better to have a select box and global actions on the selection.
 
-In fact the choice between selection checkbox and global actions and individual actions on each item heavily depends on the most frequent use cases. Is it more frequent a apply action to one element, or globally.
+In fact the choice between selection checkbox and global actions and individual actions on each item heavily depends on the most frequent use cases. Is it more frequent a apply action to one element, or globaly.
 
 For example, phpmyadmin supports global editing and then open a form with several resources displayed sequentially. It is a little weird.
 
 Note that AWS has no actions attached to a resource, only global actions applied to the selection. But systematically a way to access to the show view.
 
 And the show view itself has an actions dropdown menu for actions to be applied to this unique resource.
+
+My previous projet had small icons for button action to edit and delete. Compared to a select checkbox coumn, it was not really taking significantly more space but there was no support for group actions.

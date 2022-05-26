@@ -38,7 +38,6 @@ use App\Helpers\BladeHelper as Blade;
           <th> {{__('code_gen_type.color_name')}} </th>
           <th> {{__('code_gen_type.picture')}} </th>
           <th> {{__('code_gen_type.attachment')}} </th>
-		  
           <th> {{__('general.edit')}}   </th>
           <th> {{__('general.delete')}} </th>
         </tr>
@@ -73,6 +72,29 @@ use App\Helpers\BladeHelper as Blade;
         </tr>
         @endforeach
     </tbody>
+    <tfoot>
+        <tr>
+          <th></th>
+          <th> {{__('code_gen_type.name')}} </th>
+          <th> {{__('code_gen_type.phone')}} </th>
+          <th> {{__('code_gen_type.description')}} </th>
+          <th> {{__('code_gen_type.year_of_birth')}} </th>
+          <th> {{__('code_gen_type.weight')}} </th>
+          <th> {{__('code_gen_type.birthday')}} </th>
+          <th> {{__('code_gen_type.tea_time')}} </th>
+          <th> {{__('code_gen_type.takeoff')}} </th>
+          <th> {{__('code_gen_type.price')}} </th>
+          <th> {{__('code_gen_type.big_price')}} </th>
+          <th> {{__('code_gen_type.qualifications')}} </th>
+          <th> {{__('code_gen_type.color_name')}} </th>
+          <th> {{__('code_gen_type.picture')}} </th>
+          <th> {{__('code_gen_type.attachment')}} </th>
+		  
+          <th> {{__('general.edit')}}   </th>
+          <th> {{__('general.delete')}} </th>
+        </tr>
+
+    </tfoot>
   </table>
     @button_create({{url('code_gen_type')}}, {{__('code_gen_type.add')}}) 
 </div>  
