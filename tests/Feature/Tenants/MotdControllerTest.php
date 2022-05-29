@@ -378,4 +378,9 @@ class MotdControllerTest extends TenantTestCase {
         $this->get_tenant_url($this->user, 'motd/current', $look_for);
     }
     
+    public function testCookie() {
+        $this->get_tenant_url($this->user, 'motd/setCookie');
+        $this->get_tenant_url($this->user, 'motd/getCookie');
+    }
+    
 }

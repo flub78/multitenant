@@ -14,7 +14,7 @@
     
 return 	[
 		"title" => "Rôles d&#39;utilisateur",
-			"list" => "Lister",
+			"list" => "Liste",
 			"elt" => "rôle",
 			"new" => "Nouveau rôle",
 			"add" => "Ajouter un rôle",

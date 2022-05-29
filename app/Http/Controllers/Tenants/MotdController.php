@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\MotdRequest;
 use App\Models\Tenants\Motd;
 use Illuminate\Http\Response;
+use Carbon\Carbon;
 
 
 /**
@@ -119,15 +120,16 @@ class MotdController extends Controller {
     }
     
     public function setCookie(MotdRequest $request){
-        $minutes = 60;
+        $date = Carbon::now();
+        $minutes = 60 * 24;
         $response = new Response('Set Cookie');
-        $response->withCookie(cookie('name', 'MyValue', $minutes));
+        $response->withCookie(cookie('stop_date', $date->format(__("general.date_format")) , $minutes));
         return $response;
     }
    
     public function getCookie(MotdRequest $request){
-        $value = $request->cookie('name');
-        echo $value;
+        $value = $request->cookie('stop_date');
+        echo "Stop date = " . $value;
     }
     
 }
