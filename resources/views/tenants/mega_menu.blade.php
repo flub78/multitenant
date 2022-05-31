@@ -20,9 +20,8 @@
         
             <h1>Mega-menu </h1>
         
-             <img src="http://abbeville.tenants.com/tenancy/assets/mecanic.PNG" class="rounded-circle" alt="icon mechanique">
-             <img src="{{asset('/icons/airplane.PNG')}}" 
-             	class="rounded-circle" alt="icon mechanique">
+             <img src="{{asset('icons/mecanic.PNG')}}" class="rounded-circle" alt="icon mechanique">
+             <img src="{{asset('/icons/airplane.PNG')}}" class="rounded-circle" alt="icon mechanique">
         </div>
     </div>
 </div>
