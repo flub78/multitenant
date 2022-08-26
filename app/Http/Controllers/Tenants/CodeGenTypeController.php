@@ -24,7 +24,7 @@ class CodeGenTypeController extends Controller {
 	 */
 	public function index() {
 		$code_gen_types = CodeGenType::all();
-		return view ( 'tenants/code_gen_type/index', compact ( 'code_gen_types' ) );
+		return view ( 'tenants/code_gen_type/bs_index', compact ( 'code_gen_types' ) );
 	}
 	
 	/**

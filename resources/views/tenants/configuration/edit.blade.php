@@ -16,8 +16,11 @@ use App\Helpers\BladeHelper as Blade;
 
 <div class="card uper">
   <div class="card-header">
+    {{-- Title what is edited --}}
     {{__('general.edit')}} {{__('configuration.elt')}}
   </div>
+
+  {{-- Display error messages when the form is invalide --}}
   <div class="card-body">
     @if ($errors->any())
       <div class="alert alert-danger">
@@ -29,6 +32,7 @@ use App\Helpers\BladeHelper as Blade;
       </div><br />
     @endif
     
+      {{-- Edit form --}}
       <form method="post" action="{{ route('configuration.update', $configuration->key ) }}">
               @csrf
               @method('PATCH')

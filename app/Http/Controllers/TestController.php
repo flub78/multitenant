@@ -48,8 +48,8 @@ class TestController extends Controller
         $section1 = [
             'title' => "Membres",
             'entries' => [
-                ['url' => 'http://locahost', 'label' => 'Calendrier', 'icon' => "", "text" => ""],
-                ['url' => 'http://locahost', 'label' => 'Reserver un vol ULM', 'icon' => "", "text" => ""],
+                ['url' => 'http://locahost', 'label' => 'Calendrier', 'icon' => "calendar.PNG", "text" => "Calendar"],
+                ['url' => 'http://locahost', 'label' => 'Reserver un vol ULM', 'icon' => "calendar.PNG", "text" => ""],
                 ['url' => 'http://locahost', 'label' => 'Reserver un vol avion', 'icon' => "", "text" => ""],
                 ['url' => 'http://locahost', 'label' => 'Ma facture', 'icon' => "", "text" => ""],
                 ['url' => 'http://locahost', 'label' => 'Mes vols planeur', 'icon' => "", "text" => ""],
@@ -160,7 +160,7 @@ class TestController extends Controller
          *      Est-ce qu'on peut fair mieux ?)
          */
         
-        return view('tenants/mega_menu');
+        return view('tenants/mega_menu')->with('section1', $section1);
         
     }
     
