@@ -11,6 +11,8 @@
       <div class="collapse navbar-collapse" id="mynavbar">
         <ul class="navbar-nav me-auto"> <!-- left side of the navbar -->
         
+          @auth
+          
           @if (tenant('id'))
           <li class="nav-item">
           	<a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="nav-link ">{{__("navbar.back_to") . ' ' . config('tenancy.central_domains')[0]}}</a>
@@ -29,6 +31,7 @@
           </li>
           
           @if (auth()->user()->isAdmin())
+          
           @if (tenant('id'))
           <!-- admin for tenant -->
           
@@ -81,27 +84,68 @@
           
           @endif <!-- (tenant('id')) -->
           @endif <!-- (auth()->user()->isAdmin()) -->
+
+          @if (tenant('id'))
+          
+          <!-- Feature Menu items for tenants -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{{__('calendar_event.feature')}}</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ route('calendar_event.fullcalendar') }}">{{__('calendar_event.fullcalendar')}}</a></li>
+              <li><a class="dropdown-item" href="{{ route('calendar_event.index') }}">{{__('calendar_event.list')}}</a></li>
+              <li><a class="dropdown-item" href="{{ route('calendar_event.create') }}">{{__('calendar_event.add')}}</a></li>
+            </ul>
+          </li>          
+          
+          @endif <!-- (tenant('id')) -->
           
         </ul>
-
+		
         <form class="d-flex"> <!-- right side of the navbar -->
           <input class="form-control me-2" type="text" placeholder="Search">
           <button class="btn btn-primary" type="button">Search</button>
-          <div class="text-white p-2">Frédéric_Peignot</div>
-          <div class="text-white p-2">Admin</div>
-
-          <li class="nav-item dropdown dropstart">
-            <a class="nav-link dropdown-toggle  text-white" href="#" role="button" data-bs-toggle="dropdown">
-              <i class="fa-solid fa-user fa-2xl"></i>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Change password</a></li>
-              <li><a class="dropdown-item" href="#">Exit</a></li>
-            </ul>
-          </li>
-
         </form>
+        
+        <div class="text-white p-2">Frédéric_Peignot</div>
+        <div class="text-white p-2">Admin</div>
+
+        <li class="nav-item dropdown  ">
+          <a class="nav-link dropdown-toggle  text-white" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-user fa-2xl"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-sm-end">
+            <li><a class="dropdown-item" href="{{ route('change_password.change_password') }}">Change password</a></li>
+            <li><a class="dropdown-item" href="{{ route('tokens.create') }}">{{__('user.generate_token')}}</a></li>
+              
+            <li><a class="dropdown-item" href="{{ route('logout') }}" dusk="logout"
+                                     onclick="event.preventDefault();
+                                                   document.getElementById('logout-form').submit();">
+                                      {{ __('navbar.logout') }}
+                                    </a>
+                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                   @csrf
+                 </form>
+            </li>
+          </ul>
+        </li>
+		@endauth
+		
+		@guest
+          @if (Route::has('login'))
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+            </li>
+          @endif
+
+          @if (Route::has('register'))
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+            </li>
+          @endif
+        @endguest
+
       </div>
+    
     </div>
   </nav>
   
