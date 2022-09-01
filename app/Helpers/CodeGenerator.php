@@ -133,7 +133,7 @@ class CodeGenerator {
 		$subtype = Meta::subtype($table, $field);
 		
 		if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);
-		return '<label for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
+		return '<label class="form-label" for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
 	}
 	
 	/**
@@ -305,7 +305,8 @@ class CodeGenerator {
 		$class = 'form-control';
 		
 		if ($field_type == "date") {
-			$class .= ' datepicker';
+			// $class .= ' datepicker';  no more used with HTML 5
+			$type = 'date';
 		}
 		
 		if ($field_type == "time") {

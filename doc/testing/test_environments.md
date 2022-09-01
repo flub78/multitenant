@@ -16,8 +16,10 @@ environment variables are defined in the .env file.
 ### phpunit tests
 
 phpunit tests can be executed with:
-* runone.bat to execute one phpunit test
-* runtest.bat to run all of them
+
+	run\one.bat to execute one phpunit test
+	run\tests.bat to run all of them
+	run\coverage.bat
 
 phpunit tests use the same domains but a specific database
 phpunit tests use the mysql_test database connection
@@ -39,9 +41,9 @@ The test tenant is created and deleted before every test tenants. It implies tha
 
 They can be executed with
 
-* dusk_one.bat  to run one dusk test
-* dusk_central.bat to run the end to end tests on central application
-* dusk_tenants.bat to run the end to end tests on tenant application
+	run\dusk_one.bat  to run one dusk test
+	run\dusk_central.bat to run the end to end tests on central application
+	run\dusk_tenants.bat to run the end to end tests on tenant application
 
 Dusk tests use the environment define in .env.dusk.tenants
 

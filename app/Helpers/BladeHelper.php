@@ -225,25 +225,28 @@ class BladeHelper {
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function radioboxes($table, $field, $values = [ ], $bitfield = 0, $attrs = [ ]) {
-		$res = "<table>\n";
-		$cnt = 0;
 		$element = Meta::element($table);
+		
+		$cnt = 0;
+		$res = "<fieldset class=\"form-group border d-sm-flex flex-wrap mb-3 p-1\">\n";
 		foreach ($values as $value) {
-			$lang_key = $element . '.'  . $field . '.' . $value;
-			
-			$res .= "               <tr>";
-			$res .= "<td>";
-			// $res .= '{{ __("' . $lang_key . '") }}';
-			$res .= (__($lang_key) == $lang_key) ? $value : __($lang_key);
-			$res .= "</td>\n";
-			$res .= "               <td>&nbsp</td>\n";
-			$res .= '               <td align="left"><input type="checkbox" name="' . $field .'_boxes[]" value="' . $cnt .'"';
-			if (BO::bit_at($bitfield, $cnt)) $res .= ' checked="checked"'; 
-			$res .= ' />		</td>';
-			$res .= "</tr>\n";
-			$cnt++;
+		    $res .= "             <div>\n";
+		    
+		    $res .= '               <label for="" class="form-label">';
+		    $res .= (__($lang_key) == $lang_key) ? $value : __($lang_key);
+		    $res .= "</label>\n";
+		    
+		    $res .= '               <input type="checkbox" name="' . $field .'_boxes[]" value="' . $cnt .'"';
+		    $res .= ' class="form-check-input me-3"';
+		    if (BO::bit_at($bitfield, $cnt)) $res .= ' checked="checked"';
+		    $res .= " />\n";
+		    $res .= "             </div>\n";
+		    
+		    $cnt++;
 		}
-		$res .= "</table>\n";
+		
+		$res .= "</fieldset>\n";
+		
 		return $res;
 	}
 	

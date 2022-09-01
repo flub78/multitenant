@@ -59,7 +59,7 @@ use App\Helpers\BladeHelper as Blade;
            
            <div class="form-group mb-2">
              <label class="form-label" for="birthday">{{__("code_gen_type.birthday")}}</label>
-             <input type="date" class="form-control datepicker" name="birthday" value="{{ old("birthday") }}"/>
+             <input type="date" class="form-control" name="birthday" value="{{ old("birthday") }}"/>
            </div>
            
            <div class="form-group mb-2">
@@ -69,7 +69,7 @@ use App\Helpers\BladeHelper as Blade;
            
            <div class="form-group mb-2">
              <label class="form-label" for="takeoff_date">{{__("code_gen_type.takeoff_date")}}</label>
-             <input type="date" class="form-control datepicker" name="takeoff_date" value="{{ old("takeoff_date") }}"/>
+             <input type="date" class="form-control" name="takeoff_date" value="{{ old("takeoff_date") }}"/>
            </div>
            
            <div class="form-group mb-2">
@@ -90,45 +90,48 @@ use App\Helpers\BladeHelper as Blade;
            <div class="form-group mb-2">
              <label class="form-label" for="qualifications">{{__("code_gen_type.qualifications")}}</label>
              
+             <fieldset class="form-group border d-sm-flex flex-wrap mb-3 p-1">
              <div>
-                           	<input type="radio" name="filter_prive" value="0" checked="checked"
-                              id="Tous" />&nbsp;&nbsp;Club<input type="radio" name="filter_prive" value="1"
-                              id="Club" />&nbsp;&nbsp;Privé<input type="radio" name="filter_prive" value="2"
-                              id="Privé" />&nbsp;&nbsp;Ext<input type="radio" name="filter_prive" value="3" id="Ext"
-                              class="form-check-input" />
-                          </div>
-             <table>
-               <tr><td>{{__("code_gen_type.qualifications.redactor") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="0"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.student") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="1"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.pilot") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="2"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.instructor") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="3"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.winch_man") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="4"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.tow_pilot") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="5"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.president") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="6"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.accounter") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="7"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.secretary") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="8"  />		</td></tr>
-               <tr><td>{{__("code_gen_type.qualifications.mechanic") }}</td>
-               <td>&nbsp</td>
-               <td align="left"><input type="checkbox" name="qualifications_boxes[]" value="9"  />		</td></tr>
-</table>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.redactor") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="0" class="form-check-input me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.student") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="1" class="form-check-input me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.pilot") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="2" class="form-check-input   me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.instructor") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="3" class="form-check-input   me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.winch_man") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="4" class="form-check-input   me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.tow_pilot") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="5" class="form-check-input me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.president") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="6" class="form-check-input me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.accounter") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="7" class="form-check-input me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.secretary") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="8" class="form-check-input me-3" />
+             </div>
+             <div>
+               <label for="" class="form-label">{{__("code_gen_type.qualifications.mechanic") }}</label>
+               <input type="checkbox" name="qualifications_boxes[]" value="9" class="form-check-input me-3" />
+             </div>
+</fieldset>
 
            </div>
            
