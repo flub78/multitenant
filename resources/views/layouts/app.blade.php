@@ -2,12 +2,12 @@
 <html lang="{{App::getLocale()}}">
 
 <head>
-    @include('layouts.header')
+    @include('layouts.bs_header')
 </head>
 
 <body>
     <div id="app">
-    	@include('layouts.navbar')
+    	@include('layouts.bs_navbar')
 
         <main class="container py-4">
             @yield('content')
@@ -15,7 +15,7 @@
     </div>
     
     <footer>
-        @include('layouts.footer')
+        @include('layouts.bs_footer')
     </footer> 
     
 </body>

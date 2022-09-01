@@ -4,7 +4,7 @@
 use App\Helpers\BladeHelper as Blade;
 @endphp
 
-@extends('layouts.bs_app')
+@extends('layouts.app')
 
 @section('content')
 

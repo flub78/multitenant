@@ -32,63 +32,71 @@ use App\Helpers\BladeHelper as Blade;
       <form method="post" action="{{ route('code_gen_type.store') }}" enctype="multipart/form-data">
            @csrf
            
-           <div class="form-group">
-             <label for="name">{{__("code_gen_type.name")}}</label>
+           <div class="form-group mb-2" >
+             <label class="form-label" for="name">{{__("code_gen_type.name")}}</label>
              <input type="text" class="form-control" name="name" value="{{ old("name") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="phone">{{__("code_gen_type.phone")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="phone">{{__("code_gen_type.phone")}}</label>
              <input type="tel" class="form-control" name="phone" value="{{ old("phone") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="description">{{__("code_gen_type.description")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="description">{{__("code_gen_type.description")}}</label>
              <textarea rows="4" cols="40" class="form-control" name="description">{{ old("description") }}</textarea>
            </div>
            
-           <div class="form-group">
-             <label for="year_of_birth">{{__("code_gen_type.year_of_birth")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="year_of_birth" >{{__("code_gen_type.year_of_birth")}}</label>
              <input type="text" class="form-control" name="year_of_birth" value="{{ old("year_of_birth") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="weight">{{__("code_gen_type.weight")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="weight">{{__("code_gen_type.weight")}}</label>
              <input type="text" class="form-control" name="weight" value="{{ old("weight") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="birthday">{{__("code_gen_type.birthday")}}</label>
-             <input type="text" class="form-control datepicker" name="birthday" value="{{ old("birthday") }}"/>
+           <div class="form-group mb-2">
+             <label class="form-label" for="birthday">{{__("code_gen_type.birthday")}}</label>
+             <input type="date" class="form-control datepicker" name="birthday" value="{{ old("birthday") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="tea_time">{{__("code_gen_type.tea_time")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="tea_time">{{__("code_gen_type.tea_time")}}</label>
              <input type="text" class="form-control timepicker" name="tea_time" value="{{ old("tea_time") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="takeoff_date">{{__("code_gen_type.takeoff_date")}}</label>
-             <input type="text" class="form-control datepicker" name="takeoff_date" value="{{ old("takeoff_date") }}"/>
+           <div class="form-group mb-2">
+             <label class="form-label" for="takeoff_date">{{__("code_gen_type.takeoff_date")}}</label>
+             <input type="date" class="form-control datepicker" name="takeoff_date" value="{{ old("takeoff_date") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="takeoff_time">{{__("code_gen_type.takeoff_time")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="takeoff_time">{{__("code_gen_type.takeoff_time")}}</label>
              <input type="text" class="form-control timepicker" name="takeoff_time" value="{{ old("takeoff_time") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="price">{{__("code_gen_type.price")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="price">{{__("code_gen_type.price")}}</label>
              <input type="text" class="form-control" name="price" value="{{ old("price") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="big_price">{{__("code_gen_type.big_price")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="big_price">{{__("code_gen_type.big_price")}}</label>
              <input type="text" class="form-control" name="big_price" value="{{ old("big_price") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="qualifications">{{__("code_gen_type.qualifications")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="qualifications">{{__("code_gen_type.qualifications")}}</label>
+             
+             <div>
+                           	<input type="radio" name="filter_prive" value="0" checked="checked"
+                              id="Tous" />&nbsp;&nbsp;Club<input type="radio" name="filter_prive" value="1"
+                              id="Club" />&nbsp;&nbsp;Privé<input type="radio" name="filter_prive" value="2"
+                              id="Privé" />&nbsp;&nbsp;Ext<input type="radio" name="filter_prive" value="3" id="Ext"
+                              class="form-check-input" />
+                          </div>
              <table>
                <tr><td>{{__("code_gen_type.qualifications.redactor") }}</td>
                <td>&nbsp</td>
@@ -124,8 +132,8 @@ use App\Helpers\BladeHelper as Blade;
 
            </div>
            
-           <div class="form-group">
-             <label for="color_name">{{__("code_gen_type.color_name")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="color_name">{{__("code_gen_type.color_name")}}</label>
              <select class="form-select" name="color_name" id="color_name">
 			    <option value="blue">{{__("code_gen_type.color_name.blue") }}</option>
 			    <option value="red">{{__("code_gen_type.color_name.red") }}</option>
@@ -136,13 +144,13 @@ use App\Helpers\BladeHelper as Blade;
 
            </div>
            
-           <div class="form-group">
-             <label for="picture">{{__("code_gen_type.picture")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="picture">{{__("code_gen_type.picture")}}</label>
              <input type="file" class="form-control" name="picture" value="{{ old("picture") }}"/>
            </div>
            
-           <div class="form-group">
-             <label for="attachment">{{__("code_gen_type.attachment")}}</label>
+           <div class="form-group mb-2">
+             <label class="form-label" for="attachment">{{__("code_gen_type.attachment")}}</label>
              <input type="file" class="form-control" name="attachment" value="{{ old("attachment") }}"/>
            </div>
            
