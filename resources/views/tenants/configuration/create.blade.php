@@ -32,17 +32,18 @@ use App\Helpers\BladeHelper as Blade;
       <form method="post" action="{{ route('configuration.store') }}">
            @csrf
            
-           <div class="form-group">
+           <div class="form-group pb-3">
              <label for="key">{{__("configuration.key")}}</label>
              <select class="form-select" name="key" id="key">
 			    <option value="app.locale">app.locale</option>
 			    <option value="app.timezone">app.timezone</option>
+			    <option value="app.currency_symbol">app.currency_symbol</option>
 			    <option value="browser.locale">browser.locale</option>
 			</select>
 
            </div>
            
-           <div class="form-group">
+           <div class="form-group pb-3">
              <label for="value">{{__("configuration.value")}}</label>
              <input type="text" class="form-control" name="value" value="{{ old("value") }}"/>
            </div>

@@ -37,12 +37,12 @@ use App\Helpers\BladeHelper as Blade;
               @csrf
               @method('PATCH')
               
-             <div class="form-group">
+             <div class="form-group  pb-3">
                <label for="key">{{__("configuration.key")}}</label>
                {!! Blade::select("key", $key_list, false, $configuration->key) !!}
              </div>
            
-             <div class="form-group">
+             <div class="form-group pb-3">
                <label for="value">{{__("configuration.value")}}</label>
                <input type="text" class="form-control" name="value" value="{{ old("value", $configuration->value) }}"/>
              </div>

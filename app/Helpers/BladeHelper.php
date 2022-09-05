@@ -210,7 +210,8 @@ class BladeHelper {
 	 */
 	static public function currency ($value) {
 		if ($value == "") return "";
-		return number_format($value, 2) . "&nbsp" . "€";
+		$symbol = Config::config('app.currency_symbol');
+		return number_format($value, 2) . "&nbsp" . $symbol;
 	}
 	
 	/**

@@ -34,6 +34,12 @@ use Illuminate\Validation\Rule;
      * @return array
      */
     public function rules() {
+        
+        $authorised = [
+            "app.locale",
+            "app.timezone",
+            "app.currency_symbol",
+            "browser.locale"];
     	
     	switch($this->method()) {
     		case 'GET':
@@ -45,7 +51,7 @@ use Illuminate\Validation\Rule;
     			    'key' => ['required',
 						'max:255',
 						'unique:configurations',
-						Rule::in(["app.locale","app.timezone","browser.locale"]),
+    			        Rule::in($authorised),
 						'regex:/\w+\.\w+(\.\w+)*/'],
     			    'value' => ['required',
 						'max:255'],
@@ -57,7 +63,7 @@ use Illuminate\Validation\Rule;
                     'key' => ['required',
 						'max:255',
 						Rule::unique('configurations')->ignore(request('configuration'), 'key'),
-						Rule::in(["app.locale","app.timezone","browser.locale"]),
+                        Rule::in($authorised),
 						'regex:/\w+\.\w+(\.\w+)*/'],
                     'value' => ['required',
 						'max:255'],
