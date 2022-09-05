@@ -68,15 +68,10 @@ use App\Helpers\BladeHelper as Blade;
            </div>
            
            <div class="form-group mb-2">
-             <label class="form-label" for="takeoff_date">{{__("code_gen_type.takeoff_date")}}</label>
-             <input type="date" class="form-control" name="takeoff_date" value="{{ old("takeoff_date") }}"/>
+             <label class="form-label" for="takeoff">{{__("code_gen_type.takeoff")}}</label>
+             <input type="datetime-local" class="form-control" name="takeoff" value="{{ old("takeoff") }}"/>
            </div>
-           
-           <div class="form-group mb-2">
-             <label class="form-label" for="takeoff_time">{{__("code_gen_type.takeoff_time")}}</label>
-             <input type="time" class="form-control" name="takeoff_time" value="{{ old("takeoff_time") }}"/>
-           </div>
-           
+                      
            <div class="form-group mb-2">
              <label class="form-label" for="price">{{__("code_gen_type.price")}}</label>
              <input type="text" class="form-control" name="price" value="{{ old("price") }}"/>

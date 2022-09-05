@@ -2,6 +2,7 @@
 
 @php
 use App\Helpers\BladeHelper as Blade;
+use App\Helpers\DateFormat; 
 @endphp
 
 @extends('layouts.app')
@@ -61,10 +62,10 @@ use App\Helpers\BladeHelper as Blade;
           <td> {{$code_gen_type->description}}</td>
           <td> {{$code_gen_type->year_of_birth}}</td>
           <td> <div align="right">{!! Blade::float($code_gen_type->weight) !!}</div></td>
-          <td> {{$code_gen_type->birthday}}</td>
+          <td> {{DateFormat::to_local_date($code_gen_type->birthday)}}</td>
           <td> {{$code_gen_type->tea_time}}</td>
-          <td> {{$code_gen_type->takeoff}}</td>
-          <td> <div align="right">{!! Blade::float($code_gen_type->price) !!}</div></td>
+          <td> {{DateFormat::local_datetime($code_gen_type->takeoff)}}</td>
+          <td> <div align="right">{!! Blade::currency($code_gen_type->price) !!}</div></td>
           <td> <div align="right">{!! Blade::currency($code_gen_type->big_price) !!}</div></td>
           <td> {!! Blade::bitfield("code_gen_types", "qualifications", $code_gen_type->qualifications) !!}</td>
           <td> {!! Blade::enumerate("code_gen_type.color_name", $code_gen_type->color_name) !!}</td>

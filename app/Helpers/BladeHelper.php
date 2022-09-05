@@ -210,7 +210,7 @@ class BladeHelper {
 	 */
 	static public function currency ($value) {
 		if ($value == "") return "";
-		return number_format($value, 2) . "&nbsp€";
+		return number_format($value, 2) . "&nbsp" . "€";
 	}
 	
 	/**

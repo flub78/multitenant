@@ -1,12 +1,12 @@
 <!-- index.blade.php -->
 
+@php
+use App\Helpers\DateFormat; 
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
-
-<?php
-use App\Helpers\DateFormat;  
-?>
 
 <div class="uper">
   @if(session()->get('success'))

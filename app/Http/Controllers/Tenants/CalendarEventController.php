@@ -152,8 +152,8 @@ array (
 	public function edit($id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
 		
-		$calendarEvent->start = DateFormat::to_local($calendarEvent->start);
-		$calendarEvent->end = DateFormat::to_local($calendarEvent->end);
+		$calendarEvent->start = DateFormat::to_local_datetime($calendarEvent->start);
+		$calendarEvent->end = DateFormat::to_local_datetime($calendarEvent->end);
 		
 		echo "event->start = " . $calendarEvent->start . "\n";
 		// var_dump($calendarEvent);

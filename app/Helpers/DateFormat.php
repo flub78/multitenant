@@ -61,7 +61,7 @@ class DateFormat {
 	
 	/**
 	 * Translate a datetime into local format.
-	 * Just a format change, or does it manage timezone ?
+	 * The database datetime is in UTC and the local time in the local timezone
 	 * @param String $date
 	 * @param Boolean $date_only
 	 */
@@ -79,7 +79,7 @@ class DateFormat {
 	           return $date->format (__ ( 'general.local_datetime_format' ));
 	       }
 	    } catch (Exception $e) {
-	       return "Incorrect datetime"; 
+	        return "local_datetime: Incorrect datetime: " . $db_datetime; 
 	    }
 	}
 	
@@ -87,7 +87,7 @@ class DateFormat {
 	 * transform a datetime into a local value that can be used as value for an HTML
 	 * input datetime-local
 	 */
-	static public function to_local ($db_datetime) {
+	static public function to_local_datetime ($db_datetime) {
 	    if (!$db_datetime) return "";
 	    
 	    try  {
@@ -98,8 +98,26 @@ class DateFormat {
 	        return $date->format (__ ( 'general.datetime_format' ));
 	        
 	    } catch (Exception $e) {
-	        return "Incorrect datetime";
+	        return "to_local_datetime: Incorrect datetime: " . $db_datetime;
 	    }
 	}
 
+	/**
+	 * transform a date into the local format
+	 * There is no concept of timezone for dates
+	 */
+	static public function to_local_date ($db_date) {
+	    if (!$db_date) return "";
+	    
+	    try  {
+	        $tz = Config::config ('app.timezone');
+	        $date = Carbon::createFromFormat ("Y-m-d" , $db_date);
+	        
+	        return $date->format (__ ( 'general.date_format' ));
+	        
+	    } catch (Exception $e) {
+	        return "to_local_date: Incorrect date: " . $db_date;
+	    }
+	}
+	
 }
