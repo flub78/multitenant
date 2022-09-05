@@ -233,6 +233,8 @@ class BladeHelper {
 		    $res .= "             <div>\n";
 		    
 		    $res .= '               <label for="" class="form-label">';
+		    $lang_key = $element . '.'  . $field . '.' . $value;
+		    
 		    $res .= (__($lang_key) == $lang_key) ? $value : __($lang_key);
 		    $res .= "</label>\n";
 		    

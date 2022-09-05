@@ -25,10 +25,12 @@ return [
 	'footer' => "This is the footer",
     'date_format' => 'm-d-Y',
 	'database_date_format' => 'Y-m-d',
-	'time_format' => 'H:i',
-	'datetime_format' => 'm-d-Y H:i',				// code not compatible with m-d-Y H:i:s
-	'datepicker_format' => 'mm-dd-yy',		
-
+    'database_datetime_format' => 'Y-m-d H:i:s',
+    'time_format' => 'H:i',
+    
+    'datetime_format' => 'Y-m-d H:i',
+    'local_datetime_format' => 'm-d-Y H:i',         // used for display
+    
 	'creation_success' => ":elt created",
 	'modification_success' => ":elt updated",
 	'deletion_success' => ":elt deleted",

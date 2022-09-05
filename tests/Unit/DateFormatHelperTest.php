@@ -47,27 +47,58 @@ class DateFormatHelperTest extends TestCase {
 		DateFormat::date_to_db ( "xx/04/2018" );
 	}
 	
-	public function test_datetime() {
+	public function test_datetime_to_db() {
 		App::setLocale ( 'fr' );
-		$res = DateFormat::datetime_to_db ( "22/04/2018", "10:00", "Europe/Paris");
+		$res = DateFormat::datetime_to_db ( "2018-04-22", "10:00", "Europe/Paris");
 		$this->assertTrue ( $res == '2018-04-22 08:00', "basic french format " . $res );
 	}
 		
-	public function test_datetime_incorrect_format() {
+	public function test_datetime_to_db_incorrect_format() {
 		App::setLocale ( 'fr' );
 		$this->expectException(InvalidFormatException::class);
-		$res = DateFormat::datetime_to_db ( "22/04/2018", "01:00:61", "Europe/Paris");
+		$res = DateFormat::datetime_to_db ( "2018-04-22", "01:00:61", "Europe/Paris");
 	}
 		
-	public function test_datetime_english() {
+	public function test_datetime_to_db_english() {
 		App::setLocale ( 'en' );
-		$res = DateFormat::datetime_to_db ( '04-22-2018', '10:00', "UTC");
-		$this->assertTrue ( $res == "2018-04-22 10:00", "basic english format " . $res );
+		$res = DateFormat::datetime_to_db ( '2018-04-22', '10:00', "UTC");
+		$expected = "2018-04-22 10:00";
+		$this->assertTrue ( $res == $expected, "basic english format " . $res  . " == " . $expected);
 		
-		$res = DateFormat::datetime_to_db ( '04-22-2018', '', "UTC");
+		$res = DateFormat::datetime_to_db ( '2018-04-22', '', "UTC");
 		$this->assertTrue ( $res == "2018-04-22 00:00", "default time is 00:00 " . $res );
 
 		$this->expectException(InvalidFormatException::class);
 		$res = DateFormat::datetime_to_db ( '04-22-two-thousand', '', "UTC");		
+	}
+	
+	public function test_local_datetime_en() {
+	    App::setLocale ( 'en' );
+	    $this->assertEquals ("", DateFormat::local_datetime(""));
+	    
+	    $date = "2022-09-05 09:00";
+	    $expected = "Incorrect date";
+	    $this->assertEquals ($expected, DateFormat::local_datetime($date));
+
+	    $date = "2022-09-05 09:00:00";
+	    $expected = "09-05-2022 09:00";
+	    $this->assertEquals ($expected, DateFormat::local_datetime($date));
+	}
+	
+	public function test_local_datetime_fr() {
+	    App::setLocale ( 'fr' );
+	    $this->assertEquals ("", DateFormat::local_datetime(""));
+	    
+	    $date = "2022-09-05 09:00";
+	    $expected = "Incorrect date";
+	    $this->assertEquals ($expected, DateFormat::local_datetime($date));
+	    
+	    $date = "2022-09-25 09:00:00";
+	    $expected = "25/09/2022 09:00";
+	    $this->assertEquals ($expected, DateFormat::local_datetime($date));
+
+	    $date = "2022-09-25 09:00:00";
+	    $expected = "25/09/2022";
+	    $this->assertEquals ($expected, DateFormat::local_datetime($date, true));
 	}
 }

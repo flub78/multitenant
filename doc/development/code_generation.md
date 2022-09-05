@@ -101,7 +101,7 @@ Here is the list of types, subtypes and metadata annotation supported by the gen
     * checkbox
     * foreign keys
     * password_with_confirmation
-    * datetime_with_date_and_time
+    * datetime		fHTML datetime-local
     * color
     * enumerate
     * bitfield

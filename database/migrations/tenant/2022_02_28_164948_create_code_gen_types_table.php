@@ -39,7 +39,7 @@ class CreateCodeGenTypesTable extends Migration
 
     		$table->time("tea_time")->nullable()->default("17:00:00")->comment('{}');
     		
-    		$table->datetime("takeoff")->nullable()->comment('{"subtype" : "datetime_with_date_and_time"}');
+    		$table->datetime("takeoff")->nullable()->comment('{"subtype" : "datetime"}');
     		
     		$table ->decimal('price',  $precision = 8, $scale = 2)->nullable();
     		

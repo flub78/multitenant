@@ -157,27 +157,7 @@ class MetadataHelper {
 				return "password_confirmation";
 			}
 		}
-		
-		if (preg_match('/(.*)(\_date)/', $field, $matches)) {
-			$root = $matches[1];
 						
-			// root field metadata
-			$meta_root = Schema::columnMetadata($table, $root);
-			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "datetime_with_date_and_time")) {
-				return "datetime_date";
-			}
-		}
-
-		if (preg_match('/(.*)(\_time)/', $field, $matches)) {
-			$root = $matches[1];
-						
-			// root field metadata
-			$meta_root = Schema::columnMetadata($table, $root);
-			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "datetime_with_date_and_time")) {
-				return "datetime_time";
-			}
-		}
-				
 		if (preg_match('/(.*)(\_boxes)/', $field, $matches)) {
 			$root = $matches[1];
 			
@@ -213,11 +193,7 @@ class MetadataHelper {
 				return "password";
 			} else if ($subtype == "password_with_confirmation") {
 				return "password";
-			} else if ($subtype == "datetime_date") {
-				return "date";
-			} else if ($subtype == "datetime_time") {
-				return "time";
-			}
+			} 
 		}
 		$first = explode(' ', $full_type)[0];
 		
@@ -258,8 +234,6 @@ class MetadataHelper {
 		
 		if ($subtype == "password_with_confirmation") {
 			return [$field, $field . "_confirmation"];
-		} elseif ($subtype == "datetime_with_date_and_time") {
-			return [$field . "_date", $field . "_time"];
 		} elseif ($subtype == 'bitfield') {
 			return [$field . "_boxes"];
 		}
@@ -271,8 +245,7 @@ class MetadataHelper {
 	 * 
 	 * Fillable fields are mass assignable.
 	 * Derived fields are additional fields used in form : password confirmation,
-	 * derived date and time of a datetime, bitfield chechboxes. They are never
-	 * mass assignable.
+	 * bitfield chechboxes. They are never mass assignable.
 	 * 
 	 * @param String $table
 	 * @return array

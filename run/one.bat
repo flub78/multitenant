@@ -3,7 +3,7 @@
     @rem helpers
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/DateFormatHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/BladeHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/TranslationHelperTest.php
@@ -18,7 +18,7 @@
 
     @rem tenants
     @rem -------
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
+@rem @php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
 
     @rem Tenant models
     @rem -------------
@@ -36,7 +36,7 @@
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypesView1ModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/UserRolesView1ModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/ProfileModelTest.php
-php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/MotdModelTest.php
+@rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/MotdModelTest.php
 
 
 @rem Feature tests
@@ -82,7 +82,7 @@ php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/MotdModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ConfigurationControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHomeControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
@@ -90,7 +90,7 @@ php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TestControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
-php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php

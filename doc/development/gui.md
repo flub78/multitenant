@@ -1,13 +1,21 @@
 # Graphical User Interface
 
-To improve the user interface, the views use sophisticated Javascript modules, most of the based on Jquery
+Note: this page needs to be updated. As the project is still in its early stages, it makes more sense to release it initially with up to date libraries. The decision has been taken to switch to Bootstrap 5 which does not use Jquery any more. 
+
+So does it make sense to still use Jquery UI ?
+
+I still have not found anything as convenient than datatable for handling table, it is based on JQuery.
+
+The overhead and size of the javascript library is not perceptible by a human being.
+
+To improve the user interface, the views use sophisticated Javascript modules, most of them based on Jquery
 
 * Jquery, JqueryUI
 * Bootstrap
 * [Datatable to display tabular data](https://datatables.net/)
-* [Datepicker for date input](https://jqueryui.com/datepicker/)
-* [Timepicker for time](https://timepicker.co/) 
-* [spectrum color picker](https://github.com/seballot/spectrum)
+* [Datepicker for date input](https://jqueryui.com/datepicker/) (HTML 5 and modern browsers do not need it)
+* [Timepicker for time](https://timepicker.co/) 				(HTML 5 and modern browsers do not need it)
+* [spectrum color picker](https://github.com/seballot/spectrum) (HTML 5 and modern browsers do not need it)
 
 ## Datatable
 

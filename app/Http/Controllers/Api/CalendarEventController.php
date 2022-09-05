@@ -220,11 +220,6 @@ class CalendarEventController extends Controller {
 		}
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 
-		unset ( $validatedData ['start_date'] );
-		unset ( $validatedData ['end_date'] );
-		unset ( $validatedData ['start_time'] );
-		unset ( $validatedData ['end_time'] );
-
 		return CalendarEvent::whereId ( $id )->update ( $validatedData );
 	}
 

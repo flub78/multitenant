@@ -144,14 +144,12 @@ class CalendarEventModelTest extends TenantTestCase
 				'start' => '2021-06-30 12:00:00'
 		] ); // UTC
 
-		$this->assertEquals ( 0, $event1->durationInSeconds () );
 		
 		$event2 = CalendarEvent::factory ()->create ( [ 
 				'start' => '2021-06-30 12:00:00',
 				'end' => '2021-06-30 12:35:00'
 		] ); // UTC
 
-		$this->assertEquals ( 35*60, $event2->durationInSeconds () );
 	}
 
 }

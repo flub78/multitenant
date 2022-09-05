@@ -72,23 +72,25 @@ class CalendarEventController extends Controller {
 				", start=" . $request->get ('start'));
 		
 		$data = ['action' => $request->get ('action')];
-		
+			
+        /*
+         * A start parameter is specified when the method is called from the agenda.
+         * It is used to prefill the creation form
+         * It can be a date like 2022-09-14 or a datetime 2022-09-05T11:00:00
+         * The datetime is in local time as displayed by the full calendar.
+         */
 		if ($request->get ('start')) {
 			
 			$start = explode(' ', $request->get ('start'))[0];
+						
 			$cstart = Carbon::parse($start);
-			$data['start_date'] = $cstart->format(__('general.date_format'));
-			$start_time = $cstart->format(__('general.time_format'));
-			if (strlen($start) > 12) {
-				// a time was specified.
-				$data['start_time'] = $start_time;
-			} else {
-				$data['start_time'] = "";
-			}
+			$start_str = $cstart->format(__('general.datetime_format'));
+			// echo("strart_str = $start_str");
+			$data['start'] = $start_str;			
 		} else {
-			$data['start_date'] = "";
-			$data['start_time'] = "";
+		    $data['start'] = "";
 		}
+		
 		$data['defaultBackgroundColor'] = "#00FFFF";
 		$data['defaultTextColor'] = "#808080";
 		
@@ -105,34 +107,23 @@ class CalendarEventController extends Controller {
 		$validatedData = $request->validated ();
 		
 		/**
-array (size=9)
-  'title' => string 'Titre' (length=5)
-  'description' => string 'Description' (length=11)
-  'start_date' => string '14/12/2021' (length=10)
-  'start_time' => string '10:20' (length=5)
-  'end' => string '15/12/2021' (length=10)
-  'end_time' => string '10:30' (length=5)
-  'allDay' => string '1' (length=1)
-  'backgroundColor' => string '#990000' (length=7)
-  'textColor' => string '#38761d' (length=7)
+array (
+  'title' => 'After midnight',
+  'description' => NULL,
+  'start' => '2022-09-05T00:15',
+  'end' => NULL,
+  'backgroundColor' => '#00ffff',
+  'textColor' => '#808080',
+) 
 */
 
 		Log::Debug("CalendarEventController.stored: validated=" . var_export($validatedData, true));
 		
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 		
-		if (array_key_exists ( 'start_date', $validatedData ) && $validatedData ['start_date']) {
-			if (! array_key_exists ( 'start_time', $validatedData )) {
-				$validatedData ['start_time'] = '';
-			}
-			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start_date'], $validatedData ['start_time'] );
-		}
-		if (array_key_exists ( 'end_date', $validatedData ) && $validatedData ['end_date']) {
-			if (! array_key_exists ( 'end_time', $validatedData )) {
-				$validatedData ['end_time'] = '';
-			}
-			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end_date'], $validatedData ['end_time'] );
-		}
+		$this->store_datetime($validatedData, 'start');
+		$this->store_datetime($validatedData, 'end');
+				
 		if (!array_key_exists ( 'backgroundColor', $validatedData )) {
 			$validatedData ['backgroundColor'] = '#FFFFFF';
 		}
@@ -140,11 +131,6 @@ array (size=9)
 			$validatedData ['textColor'] = '#000000';
 		}
 
-		unset ( $validatedData ['start_date'] );
-		unset ( $validatedData ['end_date'] );
-		unset ( $validatedData ['start_time'] );
-		unset ( $validatedData ['end_time'] );
-		
 		CalendarEvent::create ( $validatedData );
 
 		return redirect ( $this->base_url )->with ( 'success', __ ( 'general.creation_success', [ 
@@ -165,6 +151,12 @@ array (size=9)
 	 */
 	public function edit($id) {
 		$calendarEvent = CalendarEvent::findOrFail ( $id );
+		
+		$calendarEvent->start = DateFormat::to_local($calendarEvent->start);
+		$calendarEvent->end = DateFormat::to_local($calendarEvent->end);
+		
+		echo "event->start = " . $calendarEvent->start . "\n";
+		// var_dump($calendarEvent);
 		return view ( $this->base_view . 'edit' )->with ( 'calendar_event', $calendarEvent );
 	}
 
@@ -183,24 +175,10 @@ array (size=9)
 
 		Log::Debug("CalendarEventController.update: id=$id, validated=" . var_export($validatedData, true));
 		
-		if (array_key_exists ( 'start_date', $validatedData ) && $validatedData ['start_date']) {
-			if (! array_key_exists ( 'start_time', $validatedData )) {
-				$validatedData ['start_time'] = '';
-			}
-			$validatedData ['start'] = DateFormat::datetime_to_db ( $validatedData ['start_date'], $validatedData ['start_time'] );
-		}
-		if (array_key_exists ( 'end_date', $validatedData ) && $validatedData ['end_date']) {
-			if (! array_key_exists ( 'end_time', $validatedData )) {
-				$validatedData ['end_time'] = '';
-			}
-			$validatedData ['end'] = DateFormat::datetime_to_db ( $validatedData ['end_date'], $validatedData ['end_time'] );
-		}
+		$this->store_datetime($validatedData, 'start');
+		$this->store_datetime($validatedData, 'end');
+		
 		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
-
-		unset ( $validatedData ['start_date'] );
-		unset ( $validatedData ['end_date'] );
-		unset ( $validatedData ['start_time'] );
-		unset ( $validatedData ['end_time'] );
 
 		CalendarEvent::whereId ( $id )->update ( $validatedData );
 

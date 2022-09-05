@@ -26,8 +26,9 @@ return [
 		'date_format' => 'd/m/Y',
 		'database_date_format' => 'Y-m-d',
 		'time_format' => 'H:i',
-		'datetime_format' => 'd/m/Y H:i',
-		'datepicker_format' => 'dd/mm/yy',
+    
+		'datetime_format' => 'Y-m-d H:i',
+        'local_datetime_format' => 'd/m/Y H:i',         // used for display
 
 		'creation_success' => "Création de :elt",
 		'modification_success' => ":elt modifié",

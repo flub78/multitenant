@@ -84,50 +84,6 @@
 		    "oLanguage": olanguage[locale],
 	    });
 		
-$.datepicker.regional['en'] = {
-    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    today: "Today",
-    clear: "Clear",
-    dateFormat: "mm-dd-yy",
-    titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-    weekStart: 0
-};
-
-$.datepicker.regional['fr'] = {
-    closeText: "Fermer",
-    prevText: "Précédent",
-    nextText: "Suivant",
-    currentText: "Aujourd'hui",
-    monthNames: [ "janvier", "février", "mars", "avril", "mai", "juin",
-        "juillet", "août", "septembre", "octobre", "novembre", "décembre" ],
-    monthNamesShort: [ "janv.", "févr.", "mars", "avr.", "mai", "juin",
-        "juil.", "août", "sept.", "oct.", "nov.", "déc." ],
-    dayNames: [ "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi" ],
-    dayNamesShort: [ "dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam." ],
-    dayNamesMin: [ "D","L","M","M","J","V","S" ],
-    weekHeader: "Sem.",
-    dateFormat: "dd/mm/yy",
-    firstDay: 1,
-    isRTL: false,
-    showMonthAfterYear: false,
-    yearSuffix: "" };
-    		
-	$( ".datepicker" ).datepicker($.datepicker.regional[locale]);
-	 
-	$('.timepicker').timepicker({
-    	timeFormat: 'HH:mm',
-    	interval: 30,
-    	minTime: '00:00',
-    	maxTime: '23:59',
-    	startTime: '09:00',
-    	dynamic: false,
-    	dropdown: true,
-    	scrollbar: true
-	});
 	
 	$("#allDay").change(function() {
 		if($(this).is(":checked")) {
@@ -139,8 +95,6 @@ $.datepicker.regional['fr'] = {
 	
 	all_day_visible();
 
-    $(".colorpicker").colorpicker({
-    });
 	
 });
 

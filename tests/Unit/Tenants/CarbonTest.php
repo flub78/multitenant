@@ -30,7 +30,7 @@ class CarbonTest extends TenantTestCase
      */
     public function test_carbon() {
     	
-    	$date_regexp = '/(\d{4})\-(\d{2})\-(\d{2})\s(\d{2})\:(\d{2})\:(\d{2})/i';
+    	$date_regexp = '/(\d{4})\-(\d{2})\-(\d{2})\s(\d{2})\:(\d{2})\:(\d{2})/i';      // YYYY-DD-MM hh:mm:ss
     	
     	// By default timezone = UTC and format is Y-m-d h:i:s
     	$mutable = Carbon::now();
@@ -58,18 +58,32 @@ class CarbonTest extends TenantTestCase
     	$date = Carbon::now();
     	$this->assertEquals(0, Carbon::now()->utcOffset());
  
-    	// At least in summer Paris is 2 hours ahead of UTC
+    	// In summer Paris is 2 hours ahead of UTC
     	$this->assertTrue(Carbon::now($tz)->utcOffset() >= 60);		// True east of UTC    	
     	
     	$this->assertEquals('9999-12-31 23:59:59', Carbon::maxValue());
     	$this->assertEquals('0001-01-01 00:00:00', Carbon::minValue());
     	
+    	// Create a carbon date from string with no time (by default the time is set to current time)
     	$seed_date = '1975-05-21';
     	$a_long_time_ago = Carbon::createFromFormat('Y-m-d', $seed_date, $tz);		// 1975-05-21 20:16:3110
     	$this->assertEquals($tz, $a_long_time_ago->tzName, "TimeZone is contained in the object");
 	   	$this->assertEquals(strlen($a_long_time_ago), strlen($seed_date) + 9, 'carbon date contains time');
+	   	// echo("--> " . $a_long_time_ago . "\n");
 	   	
-	   	// Set Carbon for testing
+	   	// Create a carbon datetime from string
+	   	$another_long_time_ago = Carbon::createFromFormat('Y-m-d H:i:s',  '1975-05-21 12:34:56');
+	   	// echo("--> " . $another_long_time_ago . "\n");
+	   	$this->assertEquals($another_long_time_ago, '1975-05-21 12:34:56');
+	   	
+	   	// Create a carbon datetime from string with no seconds
+	   	// when seconds are not specified they are set to 0
+	   	$another_long_time_ago = Carbon::createFromFormat('Y-m-d H:i',  '1975-05-21 12:34');
+	   	// echo("--> " . $another_long_time_ago . "\n");
+	   	$this->assertEquals($another_long_time_ago, '1975-05-21 12:34');
+	   	
+	   	// Set Carbon current time for testing
+	   	// -----------------------------------
 	   	$knownDate = Carbon::create(2001, 5, 21, 12, 0, 0, $tz); 
 	   	Carbon::setTestNow($knownDate);    							
 	   	$now = Carbon::now();

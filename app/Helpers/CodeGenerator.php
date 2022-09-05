@@ -156,7 +156,7 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "checkbox") {
-			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\", $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
+			return "<input type=\"checkbox\" class=\"form-check-input\" name=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\", $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
 		}
 		
 		if ($subtype == "password_with_confirmation" || $subtype == "password_confirmation") {
@@ -200,11 +200,17 @@ class CodeGenerator {
 		$prefix = "";
 		
 		if ($field_type == "date") {
-			$class .= ' datepicker';
+			// $class .= ' datepicker';
+		    $type = 'date';
 		}
 		
 		if ($field_type == "time") {
-			$class .= ' timepicker';
+			// $class .= ' timepicker';
+		    $type = 'time';
+		}
+		
+		if ($field_type == "datetime") {
+		    $type = "datetime-local";
 		}
 		
 		if ($subtype == "phone") {
@@ -212,7 +218,7 @@ class CodeGenerator {
 		}		
 		
 		if ($subtype == "color") {
-			$class .= ' colorpicker';
+			// $class .= ' colorpicker';
 			$type = 'color';
 		}
 		
@@ -255,7 +261,7 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "checkbox") {
-			return "<input type=\"checkbox\" class=\"form-control\" name=\"" . $field . "\" id=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\") ? 'checked' : ''}}/>";
+			return "<input type=\"checkbox\" class=\"form-check-input\" name=\"" . $field . "\" id=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\") ? 'checked' : ''}}/>";
 		}
 		
 		if ($subtype == "enumerate") {
@@ -310,7 +316,12 @@ class CodeGenerator {
 		}
 		
 		if ($field_type == "time") {
-			$class .= ' timepicker';
+			// $class .= ' timepicker';
+			$type = "time";
+		}
+		
+		if ($field_type == "datetime") {
+		    $type = "datetime-local";
 		}
 		
 		if ($subtype == "phone") {
@@ -318,7 +329,7 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "color") {
-			$class .= ' colorpicker';
+			// $class .= ' colorpicker';
 			$type = 'color';
 		}
 
@@ -931,7 +942,7 @@ class CodeGenerator {
 			
 			if ("date" == $field_type) {
 			    $line["update"] = "\$this->update_date(\$validatedData, '$field');";
-			} elseif ("datetime_with_date_and_time" == $subtype) {
+			} elseif ("datetime" == $subtype) {
 				$line["store"] = "\$this->store_$subtype(\$validatedData, '$field');";
 				$line["update"] = "\$this->update_$subtype(\$validatedData, '$field');";
 			} elseif ("picture" == $subtype || "file" == $subtype) {

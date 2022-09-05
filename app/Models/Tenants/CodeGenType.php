@@ -73,8 +73,9 @@ class CodeGenType extends ModelWithLogs {
      */
     public function setBirthdayAttribute($value) {
         if (!trim($value)) return $value;
-        $date = Carbon::createFromFormat(__('general.date_format'), $value);
-        $this->attributes['birthday'] = $date->format('Y-m-d');
+        // $date = Carbon::createFromFormat(__('general.date_format'), $value);
+        // $this->attributes['birthday'] = $date->format('Y-m-d');
+        $this->attributes['birthday'] = $value;
     }
 
     /**
@@ -104,8 +105,10 @@ class CodeGenType extends ModelWithLogs {
      */
     public function setTakeoffAttribute($value) {
         if (!trim($value)) return $value;
+        echo "len = " . strlen($value) .", value = " . $value ."\n";
         $db_format = 'Y-m-d H:i:s';
-        $datetime = Carbon::createFromFormat(__('general.datetime_format'), $value);
+        $val = (strlen($value) == 16) ? $value . "00" : $value;
+        $datetime = Carbon::createFromFormat(__('general.datetime_format'), $val);
         $this->attributes['takeoff'] = $datetime->format($db_format);
     }
           

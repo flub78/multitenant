@@ -229,7 +229,6 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
         $this->assertEquals("2021-06-24 06:30:00", $stored->start);
         $this->assertEquals($stored->allDay, 0); 
-        $this->assertEquals(3600 * 1.25, $stored->durationInSeconds());
         
 		$new_count = CalendarEvent::count ();
 		$this->assertEquals ( $new_count, $initial_count, "Count does not change on update, actual=$initial_count, expected=$new_count" );

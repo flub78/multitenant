@@ -64,7 +64,7 @@ use App\Helpers\BladeHelper as Blade;
            
            <div class="form-group mb-2">
              <label class="form-label" for="tea_time">{{__("code_gen_type.tea_time")}}</label>
-             <input type="text" class="form-control timepicker" name="tea_time" value="{{ old("tea_time") }}"/>
+             <input type="time" class="form-control" name="tea_time" value="{{ old("tea_time") }}"/>             
            </div>
            
            <div class="form-group mb-2">
@@ -74,7 +74,7 @@ use App\Helpers\BladeHelper as Blade;
            
            <div class="form-group mb-2">
              <label class="form-label" for="takeoff_time">{{__("code_gen_type.takeoff_time")}}</label>
-             <input type="text" class="form-control timepicker" name="takeoff_time" value="{{ old("takeoff_time") }}"/>
+             <input type="time" class="form-control" name="takeoff_time" value="{{ old("takeoff_time") }}"/>
            </div>
            
            <div class="form-group mb-2">

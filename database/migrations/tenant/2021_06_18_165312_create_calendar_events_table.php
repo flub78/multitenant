@@ -24,9 +24,9 @@ class CreateCalendarEventsTable extends Migration {
             $table->string('description')->nullable();
             $table->boolean('allDay')->default(true)->comment('{"subtype": "checkbox"}');
             $table->datetime('start')
-            	->comment('{"subtype": "datetime_with_date_and_time", "fillable":"yes"}');	// '2021-06-29 00:00:00'
+            	->comment('{"subtype": "datetime", "fillable":"yes"}');	// '2021-06-29 00:00:00'
             $table->datetime('end')->nullable()
-            ->comment('{"subtype": "datetime_with_date_and_time", "fillable":"yes"}');	// '2021-06-28 11:30:00'
+            ->comment('{"subtype": "datetime", "fillable":"yes"}');	// '2021-06-28 11:30:00'
             $table->boolean('editable')->default(true)
             	->comment('{"subtype": "checkbox", "inTable": "no", "inForm": "no"}');
             $table->boolean('startEditable')->default(true)

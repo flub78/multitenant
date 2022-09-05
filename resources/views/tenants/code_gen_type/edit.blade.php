@@ -60,22 +60,22 @@ use App\Helpers\BladeHelper as Blade;
            
              <div class="form-group mb-2">
                <label class="form-label" for="birthday">{{__("code_gen_type.birthday")}}</label>
-               <input type="text" class="form-control datepicker" name="birthday" value="{{ old("birthday", $code_gen_type->birthday) }}"/>
+               <input type="date" class="form-control" name="birthday" value="{{ old("birthday", $code_gen_type->birthday) }}"/>
              </div>
            
              <div class="form-group mb-2">
                <label class="form-label" for="tea_time">{{__("code_gen_type.tea_time")}}</label>
-               <input type="text" class="form-control timepicker" name="tea_time" value="{{ old("tea_time", $code_gen_type->tea_time) }}"/>
+               <input type="time" class="form-control" name="tea_time" value="{{ old("tea_time", $code_gen_type->tea_time) }}"/>
              </div>
            
              <div class="form-group mb-2">
                <label class="form-label" for="takeoff_date">{{__("code_gen_type.takeoff_date")}}</label>
-               <input type="text" class="form-control datepicker" name="takeoff_date" value="{{ old("takeoff_date", $code_gen_type->takeoff_date) }}"/>
+               <input type="date" class="form-control" name="takeoff_date" value="{{ old("takeoff_date", $code_gen_type->takeoff_date) }}"/>
              </div>
            
              <div class="form-group mb-2">
                <label class="form-label" for="takeoff_time">{{__("code_gen_type.takeoff_time")}}</label>
-               <input type="text" class="form-control timepicker" name="takeoff_time" value="{{ old("takeoff_time", $code_gen_type->takeoff_time) }}"/>
+               <input type="time" class="form-control" name="takeoff_time" value="{{ old("takeoff_time", $code_gen_type->takeoff_time) }}"/>
              </div>
            
              <div class="form-group mb-2">

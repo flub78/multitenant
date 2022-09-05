@@ -36,22 +36,31 @@ class CalendarEventRequest extends FormRequest {
 				}
 			case 'POST' :
 				{
-					return [ 
-							'title' => 'required|max:191',
-							'description' => 'max:191',
-							'start_date' => 'required|date_format:' . __ ( 'general.date_format' ) . '',
-							'start_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
-							'end_date' => ['nullable', 'date_format:' . __ ( 'general.date_format' ), 
-									new IsAfter(request('start_date'), request('start_time'), request('end_time')) ],
-							'end_time' => 'nullable|regex:/\d{1,2}\:\d{2}/',
-							'allDay' => '',
-							'backgroundColor' => 'starts_with:#',
-							'textColor' => 'starts_with:#'
-					];
+				    return [
+				        'title' => 'required|max:191',
+				        'description' => 'max:191',
+				        'start' => 'required|date',
+				        'end' => ['nullable', 'date_format:Y-m-dTH:i' ,
+				            new IsAfter(request('start_date'), request('start_time'), request('end_time')) ],
+				        'allDay' => '',
+				        'backgroundColor' => 'starts_with:#',
+				        'textColor' => 'starts_with:#'
+				    ];
+				    
 				}
 			case 'PUT' :
 			case 'PATCH' :
 				{
+				    return [
+				        'title' => 'required|max:191',
+				        'description' => 'max:191',
+				        'start' => 'required|date',
+				        'end' => 'nullable|date',
+				        'allDay' => '',
+				        'backgroundColor' => 'nullable',
+				        'textColor' => 'nullable'
+				    ];
+				    /**
 					return [ 
 							'title' => 'required|max:191',
 							'description' => 'max:191',
@@ -64,6 +73,7 @@ class CalendarEventRequest extends FormRequest {
 							'backgroundColor' => 'nullable',
 							'textColor' => 'nullable'
 					];
+					**/
 				}
 			default :
 				break;

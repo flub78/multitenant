@@ -4,6 +4,9 @@
 
 @section('content')
 
+<?php
+use App\Helpers\DateFormat;  
+?>
 
 <div class="uper">
   @if(session()->get('success'))
@@ -15,39 +18,36 @@
     <caption>{{__('calendar_event.title')}}</caption>
     <thead>
         <tr>
+          <td></td>
+          <td ></td>
           <td>{{__('calendar_event.event_title')}}</td>
           <td>{{__('calendar_event.description')}}</td>
-          <td>{{__('calendar_event.start_date')}}</td>
-          <td>{{__('calendar_event.start_time')}}</td>
+          <td>{{__('calendar_event.start')}}</td>
           <td>{{__('calendar_event.allDay')}}</td>
-          <td>{{__('calendar_event.end_date')}}</td>
-          <td>{{__('calendar_event.end_time')}}</td>
-          <td >{{__('general.edit')}}</td>
-          <td >{{__('general.delete')}}</td>
+          <td>{{__('calendar_event.end')}}</td>
         </tr>
     </thead>
     
     <tbody>
         @foreach($events as $event)
         <tr>
-            <td><div style="color:{{$event->textColor}};background-color:{{$event->backgroundColor}}">{{$event->title}}</div></td>
-            <td>{{$event->description}}</td>
-            <td>{{$event->getStartDate()}}</td>
-            <td>{{$event->getStartTime()}}</td>
-            <td>
-            	<input type="checkbox"   {{($event->allDay) ? 'checked' : ''}} onclick="return false;" />
-            </td>
-            <td>{{$event->getEndDate()}}</td>
-            <td>{{$event->getEndTime()}}</td>
-            <td><a href="{{ route('calendar_event.edit', $event->id)}}" class="btn btn-primary" dusk="edit_{{$event->title}}">{{__('general.edit')}}</a></td>
-            
+            <td><a href="{{ route('calendar_event.edit', $event->id)}}" class="btn btn-primary" dusk="edit_{{$event->title}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
             <td>
                 <form action="{{ route('calendar_event.destroy', $event->id)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit" dusk="delete_{{$event->title}}">{{__('general.delete')}}</button>
+                  <button class="btn btn-danger" type="submit" dusk="delete_{{$event->title}}"><i class="fa-solid fa-trash"></i></button>
                 </form>
             </td>
+            
+            <td><div style="color:{{$event->textColor}};background-color:{{$event->backgroundColor}}">{{$event->title}}</div></td>
+            <td>{{$event->description}}</td>
+            <td>{{DateFormat::local_datetime($event->start)}}</td>
+            <td>
+            	<input type="checkbox"   {{($event->allDay) ? 'checked' : ''}} onclick="return false;" />
+            </td>
+            <td>{{DateFormat::local_datetime($event->end)}}</td>
+
         </tr>
         @endforeach
     </tbody>
