@@ -50,11 +50,15 @@ use App\Helpers\DateFormat;
         @foreach($code_gen_types as $code_gen_type)
         <tr>
           <td></td>
-          <td> <a href="{{ route('code_gen_type.edit', $code_gen_type->id) }}" class="btn btn-primary" dusk="edit_{{ $code_gen_type->id }}"><i class="fa-solid fa-pen-to-square"></i></a>  </td>
+          <td> <a href="{{ route('code_gen_type.edit', $code_gen_type->id) }}" class="btn btn-primary" dusk="edit_{{ $code_gen_type->id }}">
+          	       <i class="fa-solid fa-pen-to-square"></i>
+               </a>  </td>
           <td> <form action="{{ route("code_gen_type.destroy", $code_gen_type->id)}}" method="post">
                    @csrf
                    @method('DELETE')
-                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $code_gen_type->id }}"><i class="fa-solid fa-trash"></i></button>
+                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $code_gen_type->id }}">
+                       <i class="fa-solid fa-trash"></i>
+                   </button>
                  </form>
  		  </td>
           <td> {{$code_gen_type->name}}</td>

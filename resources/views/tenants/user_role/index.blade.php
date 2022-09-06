@@ -24,29 +24,31 @@ use App\Helpers\BladeHelper as Blade;
     <caption>{{__('user_role.title')}}</caption>
     <thead>
         <tr>
+          <td ></td>
+          <td ></td>
           <td>{{__('user_role.user_id')}}</td>
           <td>{{__('user_role.role_id')}}</td>
-          <td >{{__('general.edit')}}</td>
-          <td >{{__('general.delete')}}</td>
         </tr>
     </thead>
     
     <tbody>
         @foreach($user_roles as $user_role)
         <tr>
-        
-            <td>{{$user_role->user_name}}</td>
-            <td>{{$user_role->role_name}}</td>
             
-            <td><a href="{{ route('user_role.edit', $user_role->id)}}" class="btn btn-primary">{{__('general.edit')}}</a></td>
+            <td><a href="{{ route('user_role.edit', $user_role->id)}}" class="btn btn-primary">
+              <i class="fa-solid fa-pen-to-square"></i></a></td>
             
             <td>
                 <form action="{{ route('user_role.destroy', $user_role->id)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">{{__('general.delete')}}</button>
+                  <button class="btn btn-danger" type="submit">
+                    <i class="fa-solid fa-trash"></i></button>
                 </form>
             </td>
+        
+            <td>{{$user_role->user_name}}</td>
+            <td>{{$user_role->role_name}}</td>
         </tr>
         @endforeach
     </tbody>

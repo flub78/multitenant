@@ -14,31 +14,36 @@
     <caption>{{__('user.title')}}</caption>
     <thead>
         <tr>
+          <td></td>
+          <td></td>
+
           <td> {{__('user.name')}} </td>
           <td> {{__('user.email')}} </td>
           <td> {{__('user.admin')}} </td>
           <td> {{__('user.active')}} </td>
 		  
-          <td> {{__('general.edit')}}   </td>
-          <td> {{__('general.delete')}} </td>
         </tr>
     </thead>
     
     <tbody>
         @foreach($users as $user)
         <tr>
+          <td> <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary" dusk="edit_{{ $user->name }}">
+                   <i class="fa-solid fa-pen-to-square"></i>
+               </a>  </td>
+          <td> <form action="{{ route("user.destroy", $user->id)}}" method="post">
+                   @csrf
+                   @method('DELETE')
+                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $user->name }}">
+                       <i class="fa-solid fa-trash"></i></button>
+                 </form>
+          </td>
           <td> {{$user->name}}</td>
           <td> <A HREF="mailto:{{$user->email}}">{{$user->email}}</A></td>
           <td> <input type="checkbox" {{ ($user->admin) ? "checked" : "" }}  onclick="return false;" /></td>
           <td> <input type="checkbox" {{ ($user->active) ? "checked" : "" }}  onclick="return false;" /></td>
 		              
-          <td> <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary" dusk="edit_{{ $user->name }}">{{ __('general.edit') }}</a>  </td>
-          <td> <form action="{{ route("user.destroy", $user->id)}}" method="post">
-                   @csrf
-                   @method('DELETE')
-                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $user->name }}">{{__('general.delete')}}</button>
-                 </form>
- </td>
+
         </tr>
         @endforeach
     </tbody>

@@ -15,6 +15,8 @@
     <caption>{{__('metadata.title')}}</caption>
     <thead>
         <tr>
+          <td ></td>
+          <td ></td>
           <td>{{__('metadata.table')}}</td>
           <td>{{__('metadata.field')}}</td>
           <td>{{__('metadata.subtype')}}</td>
@@ -22,14 +24,24 @@
           <td>{{__('metadata.foreign_key')}}</td>
           <td>{{__('metadata.target_table')}}</td>
           <td>{{__('metadata.target_field')}}</td>
-          <td >{{__('general.edit')}}</td>
-          <td >{{__('general.delete')}}</td>
         </tr>
     </thead>
     
     <tbody>
         @foreach($metadata as $meta)
         <tr>
+            <td><a href="{{ route('metadata.edit', $meta->id)}}" class="btn btn-primary" dusk="edit_{{$meta->table}}_{{$meta->field}}">
+            	<i class="fa-solid fa-pen-to-square"></i></a></td>
+            
+            <td>
+                <form action="{{ route('metadata.destroy', $meta->id)}}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn btn-danger" type="submit" dusk="delete_{{$meta->table}}_{{$meta->field}}" >
+                  	<i class="fa-solid fa-trash"></i></button>
+                </form>
+            </td>
+            
             <td>{{$meta->table}}</td>
             <td>{{$meta->field}}</td>
             <td>{{$meta->subtype}}</td>
@@ -40,15 +52,6 @@
             <td>{{$meta->target_table}}</td>
             <td>{{$meta->target_field}}</td>
             
-            <td><a href="{{ route('metadata.edit', $meta->id)}}" class="btn btn-primary" dusk="edit_{{$meta->table}}_{{$meta->field}}">{{__('general.edit')}}</a></td>
-            
-            <td>
-                <form action="{{ route('metadata.destroy', $meta->id)}}" method="post">
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn btn-danger" type="submit" dusk="delete_{{$meta->table}}_{{$meta->field}}" >{{__('general.delete')}}</button>
-                </form>
-            </td>
         </tr>
         @endforeach
     </tbody>

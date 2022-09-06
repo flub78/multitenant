@@ -14,27 +14,29 @@
     <caption>{{__('role.title')}}</caption>
     <thead>
         <tr>
+          <td> </td>
+          <td></td>
           <td> {{__('role.name')}} </td>
           <td> {{__('role.description')}} </td>
 		  
-          <td> {{__('general.edit')}}   </td>
-          <td> {{__('general.delete')}} </td>
         </tr>
     </thead>
     
     <tbody>
         @foreach($roles as $role)
         <tr>
-          <td> {{$role->name}}</td>
-          <td> {{$role->description}}</td>
-		              
-          <td> <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary" dusk="edit_{{ $role->id }}">{{ __('general.edit') }}</a>  </td>
+          <td> <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary" dusk="edit_{{ $role->id }}">
+            <i class="fa-solid fa-pen-to-square"></i></a>  </td>
           <td> <form action="{{ route("role.destroy", $role->id)}}" method="post">
                    @csrf
                    @method('DELETE')
-                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $role->id }}">{{__('general.delete')}}</button>
+                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $role->id }}">
+                   <i class="fa-solid fa-trash"></i></button>
                  </form>
- </td>
+          </td>
+          <td> {{$role->name}}</td>
+          <td> {{$role->description}}</td>		              
+          
         </tr>
         @endforeach
     </tbody>
