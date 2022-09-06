@@ -108,11 +108,10 @@
           <button class="btn btn-primary" type="button">Search</button>
         </form>
         
-        <div class="text-white p-2">Frédéric_Peignot</div>
-        <div class="text-white p-2">Admin</div>
 
         <li class="nav-item dropdown  ">
           <a class="nav-link dropdown-toggle  text-white" href="#" role="button" data-bs-toggle="dropdown">
+          	{{ Auth::user()->name }}
             <i class="fa-solid fa-user fa-2xl"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-sm-end">

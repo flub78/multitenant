@@ -36,7 +36,7 @@
                     
                 </div>
             </div>
-            <div class="card">
+            <div class="card p-3">
 	            <div>QRCODE  :  {{ $qrcode }}</div>
             </div>
             
