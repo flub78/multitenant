@@ -8,12 +8,15 @@ use App\Helpers\DateFormat;
 
 @section('content')
 
-<div class="uper">
+<div class="uper d-flex flex-column">
+
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  
+  <div class="mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('calendar_event.title')}}</caption>
     <thead>
@@ -52,8 +55,10 @@ use App\Helpers\DateFormat;
         @endforeach
     </tbody>
   </table>
+  </div>
   
-    <a href="{{url('calendar_event')}}/create"><button type="submit" class="btn btn-primary" >{{__('calendar_event.add')}}</button></a> 
+  <a href="{{url('calendar_event')}}/create"><button type="submit" class="btn btn-primary" >{{__('calendar_event.add')}}</button></a> 
+
 </div>  
 @endsection
 

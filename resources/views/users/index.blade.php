@@ -4,12 +4,15 @@
 
 @section('content')
 
-<div class="uper">
+<div class="uper d-flex flex-column">
+
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  
+  <div class="mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('user.title')}}</caption>
     <thead>
@@ -48,8 +51,10 @@
         @endforeach
     </tbody>
   </table>
+  </div>
   
-    @button_create({{url('user')}}, {{__('user.add')}}) 
+  @button_create({{url('user')}}, {{__('user.add')}})
+    
 </div>  
 @endsection
 

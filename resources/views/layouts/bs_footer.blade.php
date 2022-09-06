@@ -66,20 +66,7 @@
 	     	dom: 'lfrtipB',
 	     	stateSave: true,
 		    buttons: [
-		    	{
-		    		text: 'Nouveau',
-		    	},
-		    	'selectAll', 'selectNone',
-		        {
-		        	text: 'avec la selection',
-            		extend: 'selected',
-            		action: function ( e, dt, node, config ) {
-                		var rows = dt.rows( { selected: true } ).count();
- 
-                		alert( 'There are '+rows+'(s) selected in the table' );
-            		}
-        		},
-        		'csv', 'pdf', 'colvis'
+        		'print','csv', 'pdf', 'colvis'
 		    ],
 		    "oLanguage": olanguage[locale],
 	    });
