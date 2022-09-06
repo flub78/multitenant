@@ -9,7 +9,7 @@ use App\Helpers\DateFormat;
 
 @section('content')
 
-<div class="uper">
+<div class="uper  d-flex flex-column">
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
@@ -21,14 +21,13 @@ use App\Helpers\DateFormat;
     </div><br />
   @endif
   
-  <div class="container-fluid">
+  <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('code_gen_type.title')}}</caption>
     <thead>
         <tr>
-          <th></th>
-          <th>   </th>
-          <th>  </th>
+          <th style="width: 30px;"></th>
+          <th style="width: 30px;"></th>
           <th> {{__('code_gen_type.name')}} </th>
           <th> {{__('code_gen_type.phone')}} </th>
           <th> {{__('code_gen_type.description')}} </th>
@@ -49,16 +48,11 @@ use App\Helpers\DateFormat;
     <tbody>
         @foreach($code_gen_types as $code_gen_type)
         <tr>
-          <td></td>
-          <td> <a href="{{ route('code_gen_type.edit', $code_gen_type->id) }}" class="btn btn-primary" dusk="edit_{{ $code_gen_type->id }}">
-          	       <i class="fa-solid fa-pen-to-square"></i>
-               </a>  </td>
+          <td> <a href="{{ route('code_gen_type.edit', $code_gen_type->id) }}" class="btn btn-primary" dusk="edit_{{ $code_gen_type->id }}"><i class="fa-solid fa-pen-to-square"></i></a>  </td>
           <td> <form action="{{ route("code_gen_type.destroy", $code_gen_type->id)}}" method="post">
                    @csrf
                    @method('DELETE')
-                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $code_gen_type->id }}">
-                       <i class="fa-solid fa-trash"></i>
-                   </button>
+                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $code_gen_type->id }}"><i class="fa-solid fa-trash"></i></button>
                  </form>
  		  </td>
           <td> {{$code_gen_type->name}}</td>

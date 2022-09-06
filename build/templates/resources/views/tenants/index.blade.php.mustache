@@ -3,57 +3,59 @@
 
 @php
 use App\Helpers\BladeHelper as Blade;
+use App\Helpers\DateFormat;
 @endphp
 
 @extends('layouts.app')
 
 @section('content')
 
-<div class="uper">
+<div class="uper  d-flex flex-column">
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  
   @if(session()->get('error'))
     <div class="alert alert-danger">
       {{ session()->get('error') }}  
     </div><br />
   @endif
   
-  <div class="table-responsive">
+  <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('[[element]].title')}}</caption>
     <thead>
         <tr>
-          <th></th>
+[[^is_view]]		  
+          <th style="width: 30px;"></th>
+          <th style="width: 30px;"></th>
+[[/is_view]] 
+
 		  [[# index_field_list ]]
           <th> {{__('[[element]].[[name]]')}} </th>
 		  [[/ index_field_list ]]
-[[^is_view]]		  
-          <th> {{__('general.edit')}}   </th>
-          <th> {{__('general.delete')}} </th>
-[[/is_view]] 
         </tr>
     </thead>
     
     <tbody>
         @foreach($[[table]] as $[[element]])
         <tr>
-          <td></td>
-		  [[# index_field_list ]]
-          <td> [[&display]]</td>
-		  [[/ index_field_list ]]
-		              
 [[^is_view]]          
           <td> [[& button_edit ]]  </td>
           <td> [[& button_delete ]] </td>
 [[/is_view]] 
+		  [[# index_field_list ]]
+          <td> [[&display]]</td>
+		  [[/ index_field_list ]]
+		              
         </tr>
         @endforeach
     </tbody>
   </table>
   </div>
+  
 [[^is_view]]          
     @button_create({{url('[[element]]')}}, {{__('[[element]].add')}}) 
 [[/is_view]] 

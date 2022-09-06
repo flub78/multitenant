@@ -80,6 +80,13 @@ class CodeGenerator {
 			$value = '$' .$element . '->' . $field;
 		}
 		
+		if ($field_type == "date") {
+		     return '{{DateFormat::to_local_date(' . $value . ')}}';
+		} elseif ($field_type == "datetime") {
+		    return '{{DateFormat::local_datetime(' . $value . ')}}';
+		}
+		
+		
 		if ($subtype == "email") {
 			return '<A HREF="mailto:{{' . $value . '}}">{{' . $value . '}}</A>';
 		
@@ -356,7 +363,9 @@ class CodeGenerator {
 				. $primary_index . ')}}" method="post">' . "\n";
 				$res .= "                   @csrf\n";
 				$res .= "                   @method('DELETE')\n";
-				$res .= "                   <button class=\"btn btn-danger\" type=\"submit\" dusk=\"$dusk\">{{__('general.delete')}}</button>\n";
+				$res .= "                   <button class=\"btn btn-danger\" type=\"submit\" dusk=\"$dusk\">";
+				$res .= '<i class="fa-solid fa-trash"></i>';
+				$res .= "</button>\n";
 				$res .= "                 </form>\n";
 				return $res;
 	}
@@ -375,7 +384,8 @@ class CodeGenerator {
 		$id = $element . '->' . $primary_index;
 		$dusk = self::dusk($table, $element, "edit");
 		$route = "{{ route('$element.edit', \$$id) }}";
-		$label = "{{ __('general.edit') }}";
+		// $label = "{{ __('general.edit') }}";
+		$label = '<i class="fa-solid fa-pen-to-square"></i>';
 		return '<a href="' . $route . '" class="btn btn-primary" dusk="' . $dusk . '">' . $label . '</a>';
 	}
 	

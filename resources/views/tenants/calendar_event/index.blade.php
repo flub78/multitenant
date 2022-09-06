@@ -21,8 +21,8 @@ use App\Helpers\DateFormat;
     <caption>{{__('calendar_event.title')}}</caption>
     <thead>
         <tr>
-          <td></td>
-          <td ></td>
+          <td style="width: 30px;"></td>
+          <td style="width: 30px;"></td>
           <td>{{__('calendar_event.event_title')}}</td>
           <td>{{__('calendar_event.description')}}</td>
           <td>{{__('calendar_event.start')}}</td>
