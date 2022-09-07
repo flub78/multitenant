@@ -33,6 +33,7 @@ Route::middleware([
 		
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 	Route::get('/test', [App\Http\Controllers\Tenants\TenantTestController::class, 'index'])->name('test')->middleware('auth');
+	Route::get('/test/checklist', [App\Http\Controllers\Tenants\TenantTestController::class, 'checklist'])->name('test.checklist')->middleware('auth');
 	Route::get('/info', [App\Http\Controllers\TestController::class, 'info'])->name('info')->middleware('auth');
 	Route::get('/test/email', [App\Http\Controllers\TestController::class, 'email'])->name('test.email')->middleware('auth');
 	Route::get('/test/menu', [App\Http\Controllers\TestController::class, 'menu'])->name('test.menu')->middleware('auth');
@@ -76,7 +77,7 @@ Route::middleware([
 		
 		Route::resource('configuration', App\Http\Controllers\Tenants\ConfigurationController::class)->middleware('auth');
 		Route::resource('role', App\Http\Controllers\Tenants\RoleController::class)->middleware('auth');
-		
+						
 		// Backup controller is not a full resource
 		Route::get('/backup', [App\Http\Controllers\BackupController::class, 'index'])->name('backup.index')->middleware('auth');
 		Route::get('/backup/create', [App\Http\Controllers\BackupController::class, 'create'])->name('backup.create')->middleware('auth');

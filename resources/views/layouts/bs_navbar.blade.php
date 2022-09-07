@@ -53,10 +53,10 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{{ route('info') }}">Info</a></li>
               <li><a class="dropdown-item" href="{{ route('test') }}">Test</a></li>
-              <li><a class="dropdown-item" href="{{ route('test.email') }}">Email</a></li>
+              <li><a class="dropdown-item" href="{{ route('test.email') }}">Email (if smtp)</a></li>
               <li><a class="dropdown-item" href="{{ route('metadata.index') }}">Metadata</a></li>
-              <li><a class="dropdown-item" href="#">central database = {{env ( 'DB_DATABASE' )}}</a></li>
               <li><a class="dropdown-item" href="{{ route('code_gen_type.index') }}">Code Gen Types</a></li>
+              <li><a class="dropdown-item" href="{{ route('test.checklist') }}">Manual resource testing checklist</a></li>
             </ul>
           </li>
           

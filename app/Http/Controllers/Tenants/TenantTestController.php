@@ -30,8 +30,8 @@ class TenantTestController extends Controller
         
         // Forbiden access except during testing
         if (config("app.env") != "testing" ) {
-        	echo "Access only for testing";
-        	//exit;
+        	// echo "Access only for testing";
+        	// exit;
         }
     }
 
@@ -42,18 +42,28 @@ class TenantTestController extends Controller
      */
     public function index()
     {
-    	$locale = setlocale(LC_ALL, 'fr_FR');
+    	setlocale(LC_ALL, 'fr_FR');
     	
-    	$msg = HtmlHelper::h1("Tenant Test Controller") . "\n";
-    	$msg .= "Tenant=" . tenant('id') . " \n";
-    	$msg .= "Local from Config:: =" . Config::config('app.locale'). " \n";
-    	$msg .= "Local =" . App::getLocale() . " \n";
-    	$route = route('calendar_event.index');
-    	$msg .= "route('calendar_event.index') = $route";
-    	$msg .= " url=" . URL::to('/');
-    	$msg .= ", locale=$locale";
-    	echo $msg;
-    	// return $msg;
-    	// return view('test');
+    	$vars = ['locale' => Config::config('app.locale'), 
+    	    'url' => URL::to('/')];
+    	$vars['app_locale'] = App::getLocale();
+    	$vars['route'] = route('calendar_event.index');
+    	$vars['central_db'] = env ( 'DB_DATABASE' );
+    	
+    	return view('test/test', $vars);
+    	
     }
+    
+    /**
+     * Show a test checklist
+     *
+     */
+    public function checklist()
+    {        
+        $vars = ['locale' => Config::config('app.locale'),
+            'url' => URL::to('/')];
+        return view('test/checklist', $vars);
+        
+    }
+    
 }

@@ -27,7 +27,7 @@ class TestController extends Controller
      */
     public function index()
     {
-    	return view('test', ['locale' => Config::config('app.locale'), 'url' => URL::to('/')]);
+    	return view('test/test', ['locale' => Config::config('app.locale'), 'url' => URL::to('/')]);
     }
     
     public function info() {
