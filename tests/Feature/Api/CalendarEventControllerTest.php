@@ -117,9 +117,10 @@ class CalendarEventControllerTest extends TenantTestCase {
 		//prepare an element
 		$title = "Event $initial_count";
 		$description = "Description $initial_count";
-		$start = "07-31-2021";
-		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start, 'start_time' => '10:00',
-				'allDay' => 0, 'end_date' => $start, 'end_time' => '12:00'
+		$start = "07-31-2021 10:00";
+		$end = "07-31-2021 12:00";
+		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 
+				'allDay' => 0, 'end' => $end
 		];
 				
 		// call the post method to create it
@@ -154,7 +155,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$title = "Event $initial_count";
 		$description = "description $initial_count";
 		$start = "start";
-		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start];
+		$elt = ['title' => $title, 'description' => $description, 'start' => $start];
 		
 		$response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
 		$json = $response->json();

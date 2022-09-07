@@ -68,7 +68,6 @@ class UserControllerTest extends TenantTestCase {
 		$response = $this->get ( '/user' );
 		$response->assertStatus ( 200 );
 		$response->assertSeeText ( 'Users' );
-		$response->assertSeeText ( 'Edit' );
 	}
 
 	/**

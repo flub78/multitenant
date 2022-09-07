@@ -61,8 +61,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 		//prepare an element
 		$title = "Event $initial_count";
 		$description = "description $initial_count";
-		$start = "07-31-2021";
-		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start, 'start_time' => '10:00',
+		$start = "2021-07-31 10:00";
+		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 'end' => null,
 				'allDay' => 1, 'backgroundColor' => '#000000', 'textColor' => '#000000'
 		];
 				
@@ -121,15 +121,14 @@ class CalendarEventControllerTest extends TenantTestCase {
 		//prepare an element
 		$title = "Event $new_count";
 		$description = "description $new_count";
-		$start = "08-01-2021";
-		$end = "08-02-2021";
+		$start = "2021-08-01T10:00";
+		$end = "2021-08-02T12:00";
+		
 		$elt = ['title' => $title, 
 				'description' => $description, 
-				'start_date' => $start, 
-				'start_time' => '10:00',
+				'start' => $start, 
 				'allDay' => false,
-				'end_date' => $end,
-				'end_time' => '12:00',
+				'end' => $end,
 		];
 		
 		// call the post method to create it
@@ -157,7 +156,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$title = "Event $initial_count";
 		$description = "description $initial_count";
 		$start = "start";
-		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start];
+		$elt = ['title' => $title, 'description' => $description, 'start' => $start];
 		
 		$this->post_tenant_url( $this->user, $this->base_url, [], $elt, $errors_expected = true);
 		
@@ -171,9 +170,9 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		$title = "Event $initial_count";
 		$description = "description $initial_count";
-		$start = "08-31-2021";
-		$end = "07-31-2021";
-		$elt = ['title' => $title, 'description' => $description, 'start_date' => $start, 'start_time' => '99:99', 'end_date' => $end];
+		$start = "2021-08-31 99:99";
+		$end = "2021-07-31";
+		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 'end' => $end];
 		
 		$this->post_tenant_url( $this->user, $this->base_url, [], $elt, $errors_expected = true);
 		
@@ -202,7 +201,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$event = CalendarEvent::factory()->make();
 		$id = $event->save();
 		
-		$this->get_tenant_url($this->user,  $this->base_url . '/' . $id . '/edit', [__('general.edit'), __('general.delete'), __('calendar_event.elt')]);		
+		$this->get_tenant_url($this->user,  $this->base_url . '/' . $id . '/edit', [__('calendar_event.elt')]);		
 	}
 	
 	public function test_update() {
@@ -216,10 +215,10 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals($event->allDay, 1); // by default
 		
 		$new_title = "new title";
-		$new_start = '06-24-2021';
+		$new_start = '2021-06-24 06:30';
+		$new_end = '2021-06-24 07:45';
 		$elt = ["id" => $event->id, "title" => $new_title,
-				'start_date' => $new_start, 'end_date' => $new_start,
-				'start_time' => '06:30', 'end_time' => '07:45', 
+				'start' => $new_start, 'end' => $new_end,
 				'allDay' => false, '_token' => csrf_token()];
 						
 		$this->patch_tenant_url( $this->user,  $this->base_url . '/' . $id, $elt);

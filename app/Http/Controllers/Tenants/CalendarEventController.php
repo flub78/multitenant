@@ -117,25 +117,31 @@ array (
 ) 
 */
 
-		Log::Debug("CalendarEventController.stored: validated=" . var_export($validatedData, true));
+		try {
 		
-		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
+		    $validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 		
-		$this->store_datetime($validatedData, 'start');
-		$this->store_datetime($validatedData, 'end');
+		    $this->store_datetime($validatedData, 'start');
+		    $this->store_datetime($validatedData, 'end');
 				
-		if (!array_key_exists ( 'backgroundColor', $validatedData )) {
-			$validatedData ['backgroundColor'] = '#FFFFFF';
-		}
-		if (!array_key_exists ( 'textColor', $validatedData )) {
-			$validatedData ['textColor'] = '#000000';
-		}
+		    if (!array_key_exists ( 'backgroundColor', $validatedData )) {
+			  $validatedData ['backgroundColor'] = '#FFFFFF';
+		    }
+		    if (!array_key_exists ( 'textColor', $validatedData )) {
+			  $validatedData ['textColor'] = '#000000';
+		    }
 
-		CalendarEvent::create ( $validatedData );
+		    Log::Debug("CalendarEventController.stored: validated=" . var_export($validatedData, true));
+		
+		    CalendarEvent::create ( $validatedData );
 
-		return redirect ( $this->base_url )->with ( 'success', __ ( 'general.creation_success', [ 
+		    return redirect ( $this->base_url )->with ( 'success', __ ( 'general.creation_success', [ 
 				'elt' => $validatedData ['title']
-		] ) );
+		    ] ) );
+		
+		} catch (Exception $e) {
+		    return back()->withErrors(['msg' => $e->getMessage()]);   		    
+		}
 	}
 
 

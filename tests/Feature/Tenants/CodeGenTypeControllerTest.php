@@ -171,16 +171,17 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $elt['weight'] = $code_gen_type->weight; 
         $elt['birthday'] = $code_gen_type->birthday; 
         $elt['tea_time'] = $code_gen_type->tea_time; 
-        $elt['takeoff_date'] = $code_gen_type->takeoff_date; 
-        $elt['takeoff_time'] = $code_gen_type->takeoff_time; 
+        $elt['takeoff'] = $code_gen_type->takeoff; 
         $elt['price'] = $code_gen_type->price; 
         $elt['big_price'] = $code_gen_type->big_price; 
         $elt['qualifications'] = $code_gen_type->qualifications; 
         $elt['picture'] = $code_gen_type->picture; 
-        $elt['attachment'] = $code_gen_type->attachment; 
+        $elt['attachment'] = $code_gen_type->attachment;
+        
+        $elt['takeoff'] = substr($elt['takeoff'], 0, -3); // "2008-10-12 09:09";
         
         $initial_count = CodeGenType::count ();
-        
+                
         // call the post method to create it
         $this->post_tenant_url($this->user, 'code_gen_type', ['created'], $elt);
 
@@ -258,10 +259,11 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $elt = ['_token' => csrf_token()];
         $elt2 = ['_token' => csrf_token()];
         
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             $elt[$field] = $code_gen_type->$field;
             $elt2[$field] = $code_gen_type2->$field;
         }
+        $elt2['takeoff'] = substr($elt2['takeoff'], 0, -3);        
         
         $code_gen_type->save();                            // save the first element
         $latest = CodeGenType::latest()->first();
@@ -273,7 +275,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $this->assertNotNull($initial);
         
         // Check that the first saved element has the correct values and is different from the second one
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             if ($field != 'id') {
                 $this->assertEquals($initial->$field, $elt[$field]);
                 $this->assertNotEquals($initial->$field, $code_gen_type2->$field);
@@ -286,10 +288,12 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         
         $updated = CodeGenType::where('id', $id)->first();
         $this->assertNotNull($updated);     
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
         	if ($field != 'id' && $field != 'qualifications' && $field != 'picture') {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }
+            $this->assertEquals($updated->takeoff, $elt2['takeoff'] . ":00");
+            
         }
         $updated->delete();
     }

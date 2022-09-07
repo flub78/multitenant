@@ -11,8 +11,8 @@ use App\Helpers\MetadataHelper as Meta;
 class CodeGeneratorTest extends TestCase {
 	
 	public function test_field_label() {
-		$label = CG::field_label("calendar_events", "start_date");
-		$this->assertEquals('<label class="form-label" for="start_date">{{__("calendar_event.start_date")}}</label>', $label);
+		$label = CG::field_label("calendar_events", "start");
+		$this->assertEquals('<label class="form-label" for="start">{{__("calendar_event.start")}}</label>', $label);
 	}
 	
 	public function test_dusk() {

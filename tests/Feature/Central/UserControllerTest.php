@@ -66,7 +66,6 @@ class UserControllerTest extends TestCase {
 		$response = $this->get ( '/user' );
 		$response->assertStatus ( 200 );
 		$response->assertSeeText ( 'Users' );
-		$response->assertSeeText ( 'Edit' );
 	}
 
 	/**

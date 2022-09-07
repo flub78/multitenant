@@ -42,7 +42,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
          // a third to generate values for updates
         $code_gen_type3 = CodeGenType::factory()->make();
         $this->assertNotNull($code_gen_type3);
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             $this->assertNotEquals($latest->$field, $code_gen_type3->$field, "different $field between two random element");
         }
  
@@ -53,12 +53,12 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $stored = CodeGenType::where(['id' => $id])->first();      
         $this->assertNotNull($stored, "It is possible to retrieve the code_gen_type after creation");
         
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             $this->assertEquals($latest->$field, $stored->$field, "Checks the element $field fetched from the database");
         }
         
         // Update
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             if ($field != "id")
                 $stored->$field = $code_gen_type3->$field;
         }
@@ -69,7 +69,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $back = CodeGenType::where('id', $id)->first();
         $this->assertNotNull($back, "It is possible to retrieve the code_gen_type after update");
 
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff_date", "takeoff_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
             if ($field != "id") {
                 $this->assertEquals($back->$field, $code_gen_type3->$field, "$field after update");
             }
@@ -103,101 +103,11 @@ class CodeGenTypeModelTest extends TenantTestCase {
     	$this->assertTrue(CodeGenType::count() == $initial_count, "No changes in database");
     }
     
-    public function test_birthday_mutators() {
-    	$cgt = CodeGenType::factory()->create();
-    	
-    	// By default the lang is en
-    	$en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})/i'; 	
-    	$this->assertMatchesRegularExpression($en_date_regexp, $cgt->birthday);
-    	
-    	// switch to French
-    	$this->set_lang("fr");
-
-    	// and check that the dates are now in French format
-    	$fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})/i';
-    	$this->assertMatchesRegularExpression($fr_date_regexp, $cgt->birthday);	  	
-    }
-    
-    public function test_takeoff_mutators() {
-    	$cgt = CodeGenType::factory()->create();
-    	    	
-    	// By default the lang is en
-    	$en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})\s(\d{2})\:(\d{2})/i';
-    	$this->assertMatchesRegularExpression($en_date_regexp, $cgt->takeoff);
-    	
-    	// switch to French
-    	$this->set_lang("fr");
-    	
-    	// and check that the dates are now in French format
-    	$fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})\s(\d{2})\:(\d{2})/i';
-    	$this->assertMatchesRegularExpression($fr_date_regexp, $cgt->takeoff);
-    }
-    
-    public function test_derived_attributes() {
-    	// create an object with a well known takeoff datetime
-    	$date = "07-30-2022";
-    	$time = "13:14";
-    	$datetime = "$date $time";
-    	$cgt = CodeGenType::factory()->create(["takeoff" => $datetime]);
-    	
-    	// check the accessors
-    	$this->assertEquals($datetime, $cgt->takeoff);
-    	$this->assertEquals($date, $cgt->takeoff_date);
-    	$this->assertEquals($time, $cgt->takeoff_time);
-    	
-    	// change the date
-    	$new_date = "07-31-2022";
-    	$cgt->takeoff_date = $new_date;
-    	// check that the date has been changed
-    	$this->assertEquals("$new_date $time", $cgt->takeoff);
-    	$this->assertEquals($new_date, $cgt->takeoff_date);
-    	$this->assertEquals($time, $cgt->takeoff_time);
-    	
-    	// change the time
-    	$new_time = "15:16";
-    	$cgt->takeoff_time = $new_time;
-    	// check that the time has been change
-    	$this->assertEquals("$new_date $new_time", $cgt->takeoff);
-    	$this->assertEquals($new_date, $cgt->takeoff_date);
-    	$this->assertEquals($new_time, $cgt->takeoff_time);
-
-    	// Switch to French
-    	$this->set_lang("fr");
-    	
-    	// the current date in French
-    	$fr_date = "31/07/2022";
-    	
-    	// check that I have the correct values in the correct local
-    	$this->assertEquals("$fr_date $new_time", $cgt->takeoff);
-    	$this->assertEquals($fr_date, $cgt->takeoff_date);
-    	$this->assertEquals($new_time, $cgt->takeoff_time);
-    	
-    	// change the date providing a French date
-    	$new_fr_date = "14/07/2022";
-    	$cgt->takeoff_date = $new_fr_date; 
-    	
-    	$this->assertEquals("$new_fr_date $new_time", $cgt->takeoff);
-    	$this->assertEquals($new_fr_date, $cgt->takeoff_date);
-    	$this->assertEquals($new_time, $cgt->takeoff_time);
-    	
-    	// echo "\ntakeoff = " . $cgt->takeoff . "\n";
-    	// echo "takeoff_date = " . $cgt->takeoff_date . "\n";
-    	// echo "takeoff_time = " . $cgt->takeoff_time . "\n";
-    }
-    
+            
     public function test_set_takeoff() {
-    	$datetime = "07-30-2022 14:30";
+    	$datetime = "2022-07-30 14:30";
     	$cgt = CodeGenType::factory()->create(["takeoff" => $datetime]);
     	
-    	$this->assertEquals($datetime, $cgt->takeoff);
-    	
-    	$datetime2 = "07-31-2022 23:30";
-    	$cgt->setTakeoffAttribute($datetime2);
-    	$this->assertEquals($datetime2, $cgt->takeoff);
-
-    	$datetime3 = " ";
-    	$cgt->setTakeoffAttribute($datetime3);
-    	$this->assertEquals($datetime2, $cgt->takeoff);
-    	
+    	$this->assertEquals($datetime, $cgt->takeoff);    	
     }
 }

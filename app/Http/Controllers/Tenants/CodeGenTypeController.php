@@ -52,7 +52,6 @@ class CodeGenTypeController extends Controller {
 	public function store(CodeGenTypeRequest $request) {
 		$validatedData = $request->validated(); // Only retrieve the data, the validation is done
 		
-        
 		$this->store_datetime($validatedData, 'takeoff');
 		$this->store_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		$this->store_picture($validatedData, "picture", $request, "code_gen_type");
