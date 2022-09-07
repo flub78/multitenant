@@ -234,8 +234,10 @@ class MetadataHelper {
 		
 		if ($subtype == "password_with_confirmation") {
 			return [$field, $field . "_confirmation"];
+			
 		} elseif ($subtype == 'bitfield') {
 			return [$field . "_boxes"];
+			
 		}
 		return [$field];
 	}

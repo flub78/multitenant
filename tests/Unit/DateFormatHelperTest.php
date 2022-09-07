@@ -7,6 +7,7 @@ use App\Helpers\DateFormat;
 use App;
 use Exception;
 use Carbon\Exceptions\InvalidFormatException;
+use Illuminate\Support\Str;
 
 class DateFormatHelperTest extends TestCase {
 
@@ -49,24 +50,24 @@ class DateFormatHelperTest extends TestCase {
 	
 	public function test_datetime_to_db() {
 		App::setLocale ( 'fr' );
-		$res = DateFormat::datetime_to_db ( "2018-04-22", "10:00", "Europe/Paris");
-		$this->assertTrue ( $res == '2018-04-22 08:00', "basic french format " . $res );
+		$res = DateFormat::datetime_to_db ( "2018-04-22 10:00", "Europe/Paris");
+		$this->assertTrue ( $res == '2018-04-22 08:00:00', "basic french format " . $res );
 	}
 		
 	public function test_datetime_to_db_incorrect_format() {
 		App::setLocale ( 'fr' );
 		$this->expectException(InvalidFormatException::class);
-		$res = DateFormat::datetime_to_db ( "2018-04-22", "01:00:61", "Europe/Paris");
+		$res = DateFormat::datetime_to_db ( "2018-04-22 01:00:61", "Europe/Paris");
 	}
 		
 	public function test_datetime_to_db_english() {
 		App::setLocale ( 'en' );
-		$res = DateFormat::datetime_to_db ( '2018-04-22', '10:00', "UTC");
-		$expected = "2018-04-22 10:00";
+		$res = DateFormat::datetime_to_db ( '2018-04-22 10:00', "UTC");
+		$expected = "2018-04-22 10:00:00";
 		$this->assertTrue ( $res == $expected, "basic english format " . $res  . " == " . $expected);
 		
-		$res = DateFormat::datetime_to_db ( '2018-04-22', '', "UTC");
-		$this->assertTrue ( $res == "2018-04-22 00:00", "default time is 00:00 " . $res );
+		$res = DateFormat::datetime_to_db ( '2018-04-22 00:00', "UTC");
+		$this->assertTrue ( $res == "2018-04-22 00:00:00", "default time is 00:00 " . $res );
 
 		$this->expectException(InvalidFormatException::class);
 		$res = DateFormat::datetime_to_db ( '04-22-two-thousand', '', "UTC");		
@@ -77,8 +78,7 @@ class DateFormatHelperTest extends TestCase {
 	    $this->assertEquals ("", DateFormat::local_datetime(""));
 	    
 	    $date = "2022-09-05 09:00";
-	    $expected = "Incorrect date";
-	    $this->assertEquals ($expected, DateFormat::local_datetime($date));
+	    $this->assertTrue(Str::startsWith(DateFormat::local_datetime($date), 'local_datetime: Incorrect datetime:'));
 
 	    $date = "2022-09-05 09:00:00";
 	    $expected = "09-05-2022 09:00";
@@ -90,8 +90,8 @@ class DateFormatHelperTest extends TestCase {
 	    $this->assertEquals ("", DateFormat::local_datetime(""));
 	    
 	    $date = "2022-09-05 09:00";
-	    $expected = "Incorrect date";
-	    $this->assertEquals ($expected, DateFormat::local_datetime($date));
+	    $this->assertTrue(Str::startsWith(DateFormat::local_datetime($date), 'local_datetime: Incorrect datetime:'));
+	    
 	    
 	    $date = "2022-09-25 09:00:00";
 	    $expected = "25/09/2022 09:00";

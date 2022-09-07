@@ -52,7 +52,7 @@ class CodeGenTypeController extends Controller {
 	public function store(CodeGenTypeRequest $request) {
 		$validatedData = $request->validated(); // Only retrieve the data, the validation is done
 		
-		// var_dump($validatedData);exit;
+        
 		$this->store_datetime($validatedData, 'takeoff');
 		$this->store_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		$this->store_picture($validatedData, "picture", $request, "code_gen_type");
@@ -90,9 +90,8 @@ class CodeGenTypeController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(CodeGenType $code_gen_type) {
-	    
-	    $code_gen_type->takeoff = DateFormat::to_local_datetime($code_gen_type->takeoff);
-	    
+	    $this->convert_datetime($code_gen_type, 'takeoff');   
+        
         $color_name_list = ["blue" => __("code_gen_type.color_name.blue"),
         		"red" => __("code_gen_type.color_name.red"),
         		"green" => __("code_gen_type.color_name.green"),
@@ -116,8 +115,6 @@ class CodeGenTypeController extends Controller {
 		$validatedData = $request->validated();
 		$previous = CodeGenType::find($id);
 		
-		// $this->update_date($validatedData, 'birthday');
-		// var_dump($validatedData);exit;
 		$this->store_datetime($validatedData, 'takeoff');		
 		$this->update_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		$this->update_picture($validatedData, "picture", $request, "code_gen_type", $previous);

@@ -31,23 +31,23 @@
               @method('PATCH')              
           </div>
            
-          <div class="form-group">
+          <div class="form-group mb-2">
               <label for="cases">{{__('user.email')}}</label>
               <input type="text" class="form-control" name="email" value="{{ old('email', $user->email) }}"/>
           </div>
 
-          <div class="form-group">
+          <div class="form-group mb-2">
               <label for="cases">{{__('user.current_password')}}</label>
               <input type="password" class="form-control" name="password" value="{{ old('password') }}"/>
           </div>
           
-          <div class="form-group">
+          <div class="form-group mb-2">
               <label for="cases">{{__('user.new_password')}}</label>
               <input type="password" class="form-control" name="new_password" value="{{ old('new_password') }}"/>
           </div>
 
-          <div class="form-group">
-              <label for="cases">{{__('user.password_confirm_new')}}</label>
+          <div class="form-group mb-3">
+              <label for="cases">{{__('user.password_confirmation')}}</label>
               <input type="password" class="form-control" name="new_password_confirmation" value="{{ old('new_password_confirmation') }}"/>
           </div>
 

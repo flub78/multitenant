@@ -177,6 +177,20 @@ class Controller extends BaseController
     }
     
     /*
+     * Convert functions
+     * 
+     * They are used for type needing a conversion between the database and the edit form
+     */
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     */
+    public function convert_datetime($object, $field) {
+        $object->$field = DateFormat::to_local_datetime ( $object->$field);
+    }
+    
+    /*
      * Destroy functions
      */
     

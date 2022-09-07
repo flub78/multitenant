@@ -950,15 +950,16 @@ class CodeGenerator {
 			
 			$line = [];
 			
-			if ("date" == $field_type) {
-			    $line["update"] = "\$this->update_date(\$validatedData, '$field');";
-			} elseif ("datetime" == $subtype) {
-				$line["store"] = "\$this->store_$subtype(\$validatedData, '$field');";
-				$line["update"] = "\$this->update_$subtype(\$validatedData, '$field');";
+			if ("datetime" == $field_type) {
+				$line["store"] = "\$this->store_datetime(\$validatedData, '$field');";
+				$line["update"] = "\$this->store_datetime(\$validatedData, '$field');";
+				$line["convert"] = "\$this->convert_datetime(\$$element, '$field');";
+				
 			} elseif ("picture" == $subtype || "file" == $subtype) {
 				$line["store"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
 				$line["destroy"] = "if (\$$element->$field) \$this->destroy_file( \$$element->$field);";
 				$line["update"] = "\$this->update_$subtype(\$validatedData, \"$field\", \$request, \"$element\", \$previous);";
+				
 			} elseif ("bitfield" == $subtype) {
 				$line["store"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
 				$line["update"] = "\$this->update_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";

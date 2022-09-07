@@ -36,9 +36,9 @@
             @if (Route::has('login'))
                 <!--  div class2="hidden fixed top-0 right-0 px-6 py-4 sm:block" -->
                     @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-light underline ms-3 me-3">Home</a>
+                        <a href="{{ url('/home') }}" class="text-sm text-light underline ms-3 me-3 me-auto">Home</a>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm text-light underline  ms-3 me-3">Log in</a>
+                        <a href="{{ route('login') }}" class="text-sm text-light underline  ms-3 me-3 ms-auto">Log in</a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-light underline  ms-3 me-3">Register</a>
@@ -48,11 +48,13 @@
         </div>
 
             <div class2="max-w-6xl mx-auto sm:px-6 lg:px-8" class="container-fluid p-3 bg-success text-white text-center">
-                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
+                <div class="d-flex justify-center pt-8 sm:justify-start sm:pt-0">
                                                         
                             @if (tenant('id'))
-                             <h1>Webapp - Welcome to {{tenant('id')}}</h1>
-                             <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-light underline">Back to {{config('tenancy.central_domains')[0]}}</a>
+                             <div class="flex justify-center">
+                             <h1>WEBAPP - Welcome to {{tenant('id')}}</h1>
+                             <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-light underline">Central application {{config('tenancy.central_domains')[0]}}</a>
+                             </div> 
                             @else
                             <h1>Webapp Central application - Tenants management</h1>
                             @endif

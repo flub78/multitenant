@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\[[class_name]]Request;
 use App\Models\Tenants\[[class_name]];
+use App\Helpers\DateFormat;
 [[factory_referenced_models]]
 
 /**
@@ -83,6 +84,9 @@ class [[class_name]]Controller extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit([[class_name]] $[[element]]) {
+        [[# controller_list ]]
+        [[&convert]]
+        [[/ controller_list ]]
         [[#select_list]]
         [[&selector]]
         [[/select_list]]
