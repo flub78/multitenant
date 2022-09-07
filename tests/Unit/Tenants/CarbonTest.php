@@ -80,7 +80,7 @@ class CarbonTest extends TenantTestCase
 	   	// when seconds are not specified they are set to 0
 	   	$another_long_time_ago = Carbon::createFromFormat('Y-m-d H:i',  '1975-05-21 12:34');
 	   	// echo("--> " . $another_long_time_ago . "\n");
-	   	$this->assertEquals($another_long_time_ago, '1975-05-21 12:34');
+	   	$this->assertEquals($another_long_time_ago, '1975-05-21 12:34:00');
 	   	
 	   	// Set Carbon current time for testing
 	   	// -----------------------------------

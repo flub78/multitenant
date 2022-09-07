@@ -102,9 +102,6 @@ class MetadataHelperTest extends TestCase {
 		
 		$this->assertEquals("password_confirmation", Meta::subtype('users', 'password_confirmation'));
 		
-		$this->assertEquals("datetime_date", Meta::subtype('calendar_events', 'start_date'));
-		$this->assertEquals("datetime_time", Meta::subtype('calendar_events', 'end_time'));
-		
 		$this->assertEquals("color", Meta::subtype('calendar_events', 'textColor'));
 		
 	}
@@ -124,8 +121,6 @@ class MetadataHelperTest extends TestCase {
 
 		// types of derived fields
 		$this->assertEquals("password", Meta::type('users', 'password_confirmation'));
-		$this->assertEquals("date", Meta::type('calendar_events', 'start_date'));
-		$this->assertEquals("time", Meta::type('calendar_events', 'end_time'));
 
 		$this->assertEquals("varchar", Meta::type('calendar_events', 'textColor'));
 

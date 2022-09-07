@@ -44,26 +44,11 @@ class CalendarEventModelTest extends TenantTestCase
 
 		$this->assertNotNull ( $event );
 
-		$this->assertEquals ( '30/06/2021', $event->getStartDate () );
-		$this->assertEquals ( $event->start_date, $event->getStartDate () );
-		
-		$this->assertEquals ( '14:00', $event->getStartTime () );
-		$this->assertEquals ( $event->start_time, $event->getStartTime () );
-		
-		$this->assertEquals ( '', $event->getEndDate () );
-		$this->assertEquals ( $event->end_date, $event->getEndDate () );
-		
-		$this->assertEquals ( '', $event->getEndTime () );
-
 		$event = CalendarEvent::factory ()->create ( [ 
 				'start' => '2021-06-30 12:00:00',
 				'end' => '2021-06-30 12:35:00'
 		] ); // UTC
 
-		$this->assertEquals ( '30/06/2021', $event->getEndDate () );
-		$this->assertEquals ( $event->end_date, $event->getEndDate () );
-		$this->assertEquals ( '14:35', $event->getEndTime () );
-		$this->assertEquals ( $event->end_time, $event->getEndTime () );
 	}
 
 	/**
@@ -134,22 +119,6 @@ class CalendarEventModelTest extends TenantTestCase
 		$event->delete ();
 
 		$this->assertTrue (CalendarEvent::count () == $initial_count, "No changes in database" );
-	}
-
-	/**
-	 * Test Calendar Event duration
-	 */
-	public function test_duration() {
-		$event1 = CalendarEvent::factory ()->create ( [ 
-				'start' => '2021-06-30 12:00:00'
-		] ); // UTC
-
-		
-		$event2 = CalendarEvent::factory ()->create ( [ 
-				'start' => '2021-06-30 12:00:00',
-				'end' => '2021-06-30 12:35:00'
-		] ); // UTC
-
 	}
 
 }

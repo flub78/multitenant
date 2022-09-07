@@ -12,7 +12,7 @@ class CodeGeneratorTest extends TestCase {
 	
 	public function test_field_label() {
 		$label = CG::field_label("calendar_events", "start_date");
-		$this->assertEquals('<label for="start_date">{{__("calendar_event.start_date")}}</label>', $label);
+		$this->assertEquals('<label class="form-label" for="start_date">{{__("calendar_event.start_date")}}</label>', $label);
 	}
 	
 	public function test_dusk() {
