@@ -229,7 +229,7 @@ class BladeHelper {
 		$element = Meta::element($table);
 		
 		$cnt = 0;
-		$res = "<fieldset class=\"form-group border d-sm-flex flex-wrap mb-3 p-1\">\n";
+		$res = "<fieldset class=\"form-group d-sm-flex flex-wrap mt-5 mb-3 ms-2\">\n";
 		foreach ($values as $value) {
 		    $res .= "             <div>\n";
 		    

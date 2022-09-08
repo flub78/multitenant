@@ -21,3 +21,21 @@ I need to be cautious to not leak information that could help an attacker.
 Current conclusion:
 
 It need to be confirmed, but it is likely useless to catch these exceptions, even if I usually do not feel comfortable to let exceptions being propagated.
+
+## Client side validation
+
+### Before submit client side validation
+
+They can be used to guide the user and turn green (Bootstrap) fields once they are valid. It implies to re-implement laravel validation and to add a class relative to the metadata types and subtypes. One difficulty is to mimick exactlly the Laravel validation methods which can be tricky and time consuming. Easy to do when fields are just required.
+
+### After submit validation
+
+It is a more light weight approach (which does not preclude the previous one). In this case the Bootstrap validation mechanism is just used to mark the fields which have been rejected by Laravel. It is already helping the user.
+
+One difficulty: should invalid fields stay red until the next validation ? It makes sense or we need to implement the "before submit validation" to turn off the red border once the field is valid.
+
+### Temporary conclusion
+
+When using special HTML input types, some navigators already perform client side validation on submit. To some extend it is annoying as the validation is a two step process. First a javascript client side validation, then a server side validation. The problem is that errors are not reported with the same look and feel.
+
+For the moment only the second approach seems to make sense, just identifying the fields rejected by Laravel and turning them red.

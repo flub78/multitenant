@@ -138,9 +138,14 @@ class CodeGenerator {
 	static public function field_label (String $table, String $field, String $view = "", String $view_field = "") {
 		$element = Meta::element($table);
 		$subtype = Meta::subtype($table, $field);
+		$class="form-label";
 		
 		if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);
-		return '<label class="form-label" for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
+		
+		if ($subtype == "file" || $subtype == "picture") {
+		    // $class .= " mt-4";
+		}
+		return '<label class="' . $class .  '" for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
 	}
 	
 	/**
@@ -231,12 +236,16 @@ class CodeGenerator {
 		
 		if ($subtype == "file") {
 			$type = 'file';
-			$prefix = '{{$' . $element . '->' . $field . '}}';
+			$prefix = '<div class="m-2">{{$' . $element . '->' . $field . '}}</div>' ."\n";
+			$class .= " mt-3";
 		}
 		
 		if ($subtype == "picture") {
 			$type = 'file';
-			$prefix = '{!! Blade::picture("' . $element . '.' . $field . '", $' . $element . '->id' . ', "' . $field . '", $' . $element .  '->'  . $field . ') !!}';
+			$prefix = '<div class="m-2">{!! Blade::picture("' . $element . '.' . $field . '", $' . 
+			    $element . '->id' . ', "' . $field . '", $' . 
+			    $element .  '->'  . $field . ') !!}</div>' . "\n";
+			    $class .= " mt-3";
 		}
 		
 		return $prefix . '<input type="' . $type

@@ -34,10 +34,14 @@ use App\Helpers\BladeHelper as Blade;
              @csrf
              @method('PATCH')
               
+             <!--
+             For floating label the label must come after the input and the class is form-floating
+             For regular label use form group and label first then input 
+             -->
              [[# form_field_list ]]
-             <div class="form-group mb-2">
-               [[&label]]
+             <div class="form-floating mb-2 border">
                [[&input_edit]]
+               [[&label]]
              </div>
            
              [[/ form_field_list ]]

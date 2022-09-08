@@ -56,6 +56,7 @@
               <li><a class="dropdown-item" href="{{ route('test.email') }}">Email (if smtp)</a></li>
               <li><a class="dropdown-item" href="{{ route('metadata.index') }}">Metadata</a></li>
               <li><a class="dropdown-item" href="{{ route('code_gen_type.index') }}">Code Gen Types</a></li>
+              <li><a class="dropdown-item" href="{{ route('code_gen_types_view1') }}">Code Gen Types View</a></li>
               <li><a class="dropdown-item" href="{{ route('test.checklist') }}">Manual resource testing checklist</a></li>
             </ul>
           </li>

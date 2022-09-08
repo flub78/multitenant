@@ -33,10 +33,15 @@ use App\Helpers\BladeHelper as Blade;
       <form method="post" action="{{ route('[[element]].store') }}" enctype="multipart/form-data">
            @csrf
            
+           <!--
+           For floating label the label must come after the input and the class is form-floating
+           For regular label use form group and label first then input
+            
+           -->
            [[# form_field_list ]]
-           <div class="form-group mb-2">
-             [[&label]]
+           <div class="form-floating mb-2 border">
              [[&input_create]]
+             [[&label]]
            </div>
            
            [[/ form_field_list ]]

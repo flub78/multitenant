@@ -8,7 +8,7 @@ use App\Helpers\BladeHelper as Blade;
 
 @section('content')
 
-<div class="uper">
+<div class="uper d-flex flex-column">
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
