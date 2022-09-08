@@ -57,6 +57,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/AdminAccessTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/CentralBackupArtisanTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Central/UserControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Central/TestControllerTest.php
 
 
     @rem Helpers
@@ -93,7 +94,7 @@
 @rem php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
 
     @rem APIs
-php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypesView1ControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/ProfileControllerTest.php

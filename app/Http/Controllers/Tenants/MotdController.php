@@ -129,7 +129,7 @@ class MotdController extends Controller {
    
     public function getCookie(MotdRequest $request){
         $value = $request->cookie('stop_date');
-        echo "Stop date = " . $value;
+        // echo "Stop date = " . $value;
     }
     
 }

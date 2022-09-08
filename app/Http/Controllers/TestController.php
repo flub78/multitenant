@@ -7,6 +7,8 @@ use App\Helpers\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use App\Mail\Invitation;
+use Illuminate\Support\Facades\App;
+
 
 class TestController extends Controller
 {
@@ -27,7 +29,14 @@ class TestController extends Controller
      */
     public function index()
     {
-    	return view('test/test', ['locale' => Config::config('app.locale'), 'url' => URL::to('/')]);
+        $vars = ['locale' => Config::config('app.locale'),
+            'url' => URL::to('/')];
+        
+        $vars['app_locale'] = App::getLocale();
+        $vars['route'] = route('calendar_event.index');
+        $vars['central_db'] = env ( 'DB_DATABASE' );
+        
+        return view('test/test',$vars);
     }
     
     public function info() {
