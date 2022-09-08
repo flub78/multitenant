@@ -107,15 +107,15 @@ class CalendarEventController extends Controller {
 		$validatedData = $request->validated ();
 		
 		/**
-array (
-  'title' => 'After midnight',
-  'description' => NULL,
-  'start' => '2022-09-05T00:15',
-  'end' => NULL,
-  'backgroundColor' => '#00ffff',
-  'textColor' => '#808080',
-) 
-*/
+            array (
+                'title' => 'After midnight',
+                'description' => NULL,
+                'start' => '2022-09-05T00:15',
+                'end' => NULL,
+                'backgroundColor' => '#00ffff',
+                'textColor' => '#808080',
+            ) 
+        */
 
 		try {
 		
@@ -161,8 +161,6 @@ array (
 		$calendarEvent->start = DateFormat::to_local_datetime($calendarEvent->start);
 		$calendarEvent->end = DateFormat::to_local_datetime($calendarEvent->end);
 		
-		echo "event->start = " . $calendarEvent->start . "\n";
-		// var_dump($calendarEvent);
 		return view ( $this->base_view . 'edit' )->with ( 'calendar_event', $calendarEvent );
 	}
 
@@ -178,19 +176,23 @@ array (
 	 */
 	public function update(CalendarEventRequest $request, $id) {
 		$validatedData = $request->validated ();
-
-		Log::Debug("CalendarEventController.update: id=$id, validated=" . var_export($validatedData, true));
 		
-		$this->store_datetime($validatedData, 'start');
-		$this->store_datetime($validatedData, 'end');
+		try {
+		  $this->store_datetime($validatedData, 'start');
+		  $this->store_datetime($validatedData, 'end');
 		
-		$validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
+		  Log::Debug("CalendarEventController.update: id=$id, validated=" . var_export($validatedData, true));
+		
+		  $validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
 
-		CalendarEvent::whereId ( $id )->update ( $validatedData );
+		  CalendarEvent::whereId ( $id )->update ( $validatedData );
 
-		return redirect ( $this->base_url )->with ( 'success', __ ( 'general.modification_success', [ 
+		  return redirect ( $this->base_url )->with ( 'success', __ ( 'general.modification_success', [ 
 				'elt' => $validatedData ['title']
-		] ) );
+		  ] ) );
+		} catch (Exception $e) {
+		  return back()->withErrors(['msg' => $e->getMessage()]);
+		}
 	}
 
 	/**

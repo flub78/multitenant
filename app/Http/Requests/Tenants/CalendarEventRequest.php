@@ -39,7 +39,7 @@ class CalendarEventRequest extends FormRequest {
 				    return [
 				        'title' => 'required|max:191',
 				        'description' => 'max:191',
-				        'start' => 'required',
+				        'start' => 'required|date',
 				        'end' => ['nullable', 'date'
 				            // , new IsAfter(request('start_date'), request('start_time'), request('end_time'))
 				        ],

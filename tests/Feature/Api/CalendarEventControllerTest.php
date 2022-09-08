@@ -117,8 +117,8 @@ class CalendarEventControllerTest extends TenantTestCase {
 		//prepare an element
 		$title = "Event $initial_count";
 		$description = "Description $initial_count";
-		$start = "07-31-2021 10:00";
-		$end = "07-31-2021 12:00";
+		$start = "2021-07-31 10:00";
+		$end = "2021-07-31 12:00";
 		$elt = ['title' => $title, 'description' => $description, 'start' => $start, 
 				'allDay' => 0, 'end' => $end
 		];
@@ -160,7 +160,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
 		$json = $response->json();
 		$this->assertEquals('The given data was invalid.', $json['message']);
-		$this->assertEquals('The start date does not match the format m-d-Y.', $json['errors']['start_date'][0]);
+		$this->assertEquals('The start is not a valid date.', $json['errors']['start'][0]);
 		
 		// Check that nothing has been created
 		$new_count = CalendarEvent::count ();
@@ -223,10 +223,10 @@ class CalendarEventControllerTest extends TenantTestCase {
 		$this->assertEquals($event->allDay, 1); // by default
 		
 		$new_title = "new title";
-		$new_start = '06-24-2021';
+		$new_start = '2021-06-24 06:30';
+		$new_end = '2021-06-24 07:45';
 		$elt = ["id" => $event->id, "title" => $new_title,
-				'start_date' => $new_start, 'end_date' => $new_start,
-				'start_time' => '06:30', 'end_time' => '07:45', 
+				'start' => $new_start, 'end' => $new_end,
 				'allDay' => false, '_token' => csrf_token()];
 						
 		$response = $this->patchJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id, $elt);

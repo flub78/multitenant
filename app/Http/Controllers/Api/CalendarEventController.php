@@ -186,6 +186,8 @@ class CalendarEventController extends Controller {
 		}
 		*/
 		$validatedData ['allDay'] = $request->has ( 'allDay' );
+		
+		// var_dump($validatedData);exit;
 
 		return CalendarEvent::create ( $validatedData );
 	}
