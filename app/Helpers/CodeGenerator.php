@@ -623,10 +623,10 @@ class CodeGenerator {
 			$res =  "\"$field" . '_" . $next . "_" . ' . 'Str::random()';
 			
 		} elseif ('date' == $type) {
-			$res = $faker . '->date(__("general.date_format"))';
+			$res = $faker . '->date(__("general.database_date_format"))';
 			
 		} elseif ('datetime' == $type) {
-			$res = $faker . '->date(__("general.datetime_format"))';
+			$res = $faker . '->date(__("general.database_datetime_format"))';
 			
 		} elseif ('time' == $type) {
 			$res = $faker . '->time("H:i:s")';
@@ -847,6 +847,7 @@ class CodeGenerator {
 	
 	/**
 	 * An array of metadata for all fields relevant to factories
+	 * 
 	 * @param String $table
 	 * @return string[][]
 	 */
