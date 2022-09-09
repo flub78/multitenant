@@ -31,22 +31,14 @@ use App\Helpers\BladeHelper as Blade;
     @endif
     
       <form method="post" action="{{ route('[[element]].update', $[[element]]->[[primary_index]] ) }}" enctype="multipart/form-data">
-             @csrf
-             @method('PATCH')
+          @csrf
+          @method('PATCH')
               
-             <!--
-             For floating label the label must come after the input and the class is form-floating
-             For regular label use form group and label first then input 
-             -->
-             [[# form_field_list ]]
-             <div class="form-floating mb-2 border">
-               [[&input_edit]]
-               [[&label]]
-             </div>
-           
-             [[/ form_field_list ]]
+          [[# form_field_list ]]
+          [[&label_input_edit]]           
+          [[/ form_field_list ]]
              
-             @button_submit({{__('general.update')}})
+          @button_submit({{__('general.update')}})
 
       </form>
   </div>

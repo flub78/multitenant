@@ -235,17 +235,11 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "file") {
-			$type = 'file';
-			$prefix = '<div class="m-2">{{$' . $element . '->' . $field . '}}</div>' ."\n";
-			$class .= " mt-3";
+		    $type = 'file';
 		}
 		
 		if ($subtype == "picture") {
-			$type = 'file';
-			$prefix = '<div class="m-2">{!! Blade::picture("' . $element . '.' . $field . '", $' . 
-			    $element . '->id' . ', "' . $field . '", $' . 
-			    $element .  '->'  . $field . ') !!}</div>' . "\n";
-			    $class .= " mt-3";
+		    $type = 'file';
 		}
 		
 		return $prefix . '<input type="' . $type
@@ -253,6 +247,58 @@ class CodeGenerator {
 				. $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
 	}
 	
+	/**
+	 * Generate code for input in an edit form
+	 *
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
+	static public function field_label_input_edit (String $table, String $field) {
+	    $type = "text";
+	    $element = Meta::element($table);
+	    $field_type = Meta::type($table, $field);
+	    $subtype = Meta::subtype($table, $field);
+	    
+	    if ($subtype == "file" || $subtype == "picture") {
+	        if ($subtype == "file") {
+	            $prefix = '{{$' . $element . '->' . $field . '}}' ."\n";
+	        }
+	        
+	        if ($subtype == "picture") {
+	            $prefix = '{!! Blade::picture("' . $element . '.' . $field . '", $' .
+	   	            $element . '->id' . ', "' . $field . '", $' .
+	   	            $element .  '->'  . $field . ') !!}' . "\n";
+	        }
+	        
+	        
+	        $res = '<div class="d-flex flex-wrap">' . "\n";
+	        $res .= '              <div class="form-floating mb-2 border">' . "\n";
+	        $res .= '                  ' . self::field_input_edit($table, $field) . "\n";
+	        $res .= '                  ' . self::field_label($table, $field) . "\n";
+	        $res .= '              </div>' . "\n";
+	        
+	        $res .= '              <div class="m-2">' . "\n";
+	        $res .= '                  ' . $prefix . "\n";
+	        $res .= '              </div>' . "\n";
+	        
+	        $res .= '          </div>' . "\n";
+	        return $res;
+	    }
+	    
+	    $res = '<div class="form-floating mb-2 border">' . "\n";
+	    $res .= '              ' . self::field_input_edit($table, $field) . "\n";
+	    $res .= '              ' . self::field_label($table, $field) . "\n";
+	    $res .= '          </div>' . "\n";
+	    return $res;
+	}
+	
+	/**
+	 * helper function to know if an array is associative
+	 * 
+	 * @param unknown $array
+	 * @return boolean
+	 */
 	static function isAssoc($array) {
 		return ($array !== array_values($array));
 	}
@@ -722,8 +768,9 @@ class CodeGenerator {
 		$res = ['name' => $field,
 				'display' => self::field_display($table, $field, $view, $view_field),
 				'label' => self::field_label($table, $field, $view, $view_field),
-				'input_edit' => self::field_input_edit($table, $field),
+				// 'input_edit' => self::field_input_edit($table, $field),
 				'input_create' => self::field_input_create($table, $field),
+		        'label_input_edit' => self::field_label_input_edit($table, $field),
 				'rule_edit' => self::field_rule_edit($table, $field),
 				'rule_create' => self::field_rule_create($table, $field),
 				'faker' => self::field_faker($table, $field),
