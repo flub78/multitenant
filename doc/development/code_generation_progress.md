@@ -79,8 +79,10 @@
 ## code_gen_types table
 
     php artisan mustache:generate --compare code_gen_types controller           OK
-    php artisan mustache:generate --compare code_gen_types request              .          
-    php artisan mustache:generate --compare code_gen_types model                .
+    php artisan mustache:generate --compare code_gen_types request
+    	a pb with radio boxes ...
+    	              .          
+    php artisan mustache:generate --compare code_gen_types model      			OK    	          .
     php artisan mustache:generate --compare code_gen_types index                .  
     php artisan mustache:generate --compare code_gen_types create               .
     php artisan mustache:generate --compare code_gen_types edit                 .
