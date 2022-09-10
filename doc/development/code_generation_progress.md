@@ -79,9 +79,7 @@
 ## code_gen_types table
 
     php artisan mustache:generate --compare code_gen_types controller           OK
-    php artisan mustache:generate --compare code_gen_types request				NO
-    	a pb with radio boxes ...
-    	              .          
+    php artisan mustache:generate --compare code_gen_types request				NO    	             .          
     php artisan mustache:generate --compare code_gen_types model      			OK    	          .
     php artisan mustache:generate --compare code_gen_types index                OK
     	except that price is not declared as currency

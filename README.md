@@ -4,13 +4,13 @@
 
 This project is a framework for Web applications. The idea is to provide a starting point for projects with a lot of common features and DevOps settings already provided. Specific business logic should be fast and easy to add (to the extend that software development can be fast and easy). At least it should be faster and easier than without this preparatory investment. 
 
-I know that this approach could be considered as not very agile as it is not really agile to prepare a lot of things for a future which is still unknown. I rather consider it as an agile development of a project, starting with the part which can potentially be reused in several contexts.
+I know that this approach could be considered as not very agile as it is not really agile to prepare a lot of things for a future which is still unknown. I rather consider it as an agile development of a project, starting with the parts which can potentially be reused in several contexts.
 
 ## Basic existing features
 
 * It is basically a resource management system with REST APIs for machines and WEB interface for humans, based on top of a relational database. It can be considered as a CRUD scaffolding system with support for complex relationship between tables (one to one, one to many and many to many). 
 
-* The current implementation is in PHP integrated with Laravel on top of MySQl or Mariadb. The principles are reusable with other framework, database or languages, but they are the initial technical choices and in 2022 they are making some sense.
+* The current implementation is in PHP integrated with Laravel on top of MySql or MariaDb. The principles are reusable with other framework, database or languages, but they are the initial technical choices and in 2022 they are making sense.
 
 * The project supports multi-tenancy with one database per tenant. By default tenants are identified by their sub-domain. It can be adapted to a single multi-tenant database as the underlying system supports it, but I need to provide backup and restore per tenant which is incompatible with this alternative approach.
 

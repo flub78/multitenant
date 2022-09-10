@@ -54,7 +54,21 @@ class MetadataHelperTest extends TestCase {
 		$fields = Meta::derived_fields("unknow_table", "password");
 		
 		$meta_password->delete();
-		
+	}
+	
+	public function test_form_fields () {
+	    $ff = Meta::form_fields('configurations');
+	    $this->assertEquals(["key", "value"], $ff);
+	    
+	    $ff = Meta::form_fields('unknown_table');
+	    $this->assertEquals("", $ff);
+	    
+	    $ff = Meta::form_fields('users');
+	    $this->assertEquals(["name", "email", "password", "password_confirmation", "admin", "active"], $ff);
+
+	    $ff = Meta::form_fields('code_gen_types');
+	    $this->assertTrue(in_array("qualifications_boxes", $ff));
+	    $this->assertFalse(in_array("qualifications", $ff));
 	}
 	
 	public function test_inForm() {
@@ -104,6 +118,10 @@ class MetadataHelperTest extends TestCase {
 		
 		$this->assertEquals("color", Meta::subtype('calendar_events', 'textColor'));
 		
+		$this->assertEquals("bitfield", Meta::subtype('code_gen_types', 'qualifications'));
+		$this->assertEquals("bitfield_boxes", Meta::subtype('code_gen_types', 'qualifications_boxes'));
+		
+		$this->assertEquals("", Meta::subtype('calendar_events', 'textColor_boxes'));
 	}
 	
 	public function test_type() {

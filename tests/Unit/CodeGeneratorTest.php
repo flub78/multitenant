@@ -32,6 +32,14 @@ class CodeGeneratorTest extends TestCase {
 		$this->assertEquals("User", $meta['class_name']);
 		$this->assertEquals("user", $meta['element']);
 	}
+
+	public function test_metadata_with_derived_fields() {
+	    $meta = CG::metadata("code_gen_types");
+	    $this->assertEquals("code_gen_types", $meta['table']);
+	    $this->assertEquals("CodeGenType", $meta['class_name']);
+	    $this->assertEquals("code_gen_type", $meta['element']);
+	    //var_dump($meta); exit;
+	}
 	
 	public function test_enumerate () {
 		$table = "configurations";

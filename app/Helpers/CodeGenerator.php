@@ -762,7 +762,7 @@ class CodeGenerator {
 	static public function field_metadata(String $table, String $field, String $view = "", String $view_field = "") {
 		
 		$subtype = Meta::subtype($table, $field);
-		if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);
+		if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);  // remove '_boxes'
 		$element = Meta::element($table);
 		
 		$res = ['name' => $field,
@@ -840,7 +840,10 @@ class CodeGenerator {
 		$list = Meta::form_fields($table);
 		foreach ($list as $field) {
 			if (! Meta::inForm($table, $field)) continue;
-			$res[] = self::field_metadata($table, $field);
+			
+			$meta = self::field_metadata($table, $field);
+			$meta['name'] = $field;
+			$res[] = $meta;
 		}
 		return $res;
 	}

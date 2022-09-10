@@ -267,7 +267,7 @@ class MetadataHelper {
 
 	/**
 	 * Returns a list of fields which are present in forms.
-	 * The same list os used to generate validation rules.
+	 * The same list is used to generate validation rules.
 	 * 
 	 * @param String $table
 	 * @return array

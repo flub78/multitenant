@@ -42,7 +42,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
          // a third to generate values for updates
         $code_gen_type3 = CodeGenType::factory()->make();
         $this->assertNotNull($code_gen_type3);
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
             $this->assertNotEquals($latest->$field, $code_gen_type3->$field, "different $field between two random element");
         }
  
@@ -53,12 +53,12 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $stored = CodeGenType::where(['id' => $id])->first();      
         $this->assertNotNull($stored, "It is possible to retrieve the code_gen_type after creation");
         
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
             $this->assertEquals($latest->$field, $stored->$field, "Checks the element $field fetched from the database");
         }
         
         // Update
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
             if ($field != "id")
                 $stored->$field = $code_gen_type3->$field;
         }
@@ -69,7 +69,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $back = CodeGenType::where('id', $id)->first();
         $this->assertNotNull($back, "It is possible to retrieve the code_gen_type after update");
 
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
             if ($field != "id") {
                 $this->assertEquals($back->$field, $code_gen_type3->$field, "$field after update");
             }
@@ -79,7 +79,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $stored->delete();   
         $this->assertDeleted($stored);
         $this->assertTrue(CodeGenType::count() == $initial_count + 1, "One less elements in the table");
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
             if ($field != "id")
                 $this->assertDatabaseMissing('code_gen_types', [$field => $code_gen_type3->$field]);
         }
@@ -103,11 +103,4 @@ class CodeGenTypeModelTest extends TenantTestCase {
     	$this->assertTrue(CodeGenType::count() == $initial_count, "No changes in database");
     }
     
-            
-    public function test_set_takeoff() {
-    	$datetime = "2022-07-30 14:30";
-    	$cgt = CodeGenType::factory()->create(["takeoff" => $datetime]);
-    	
-    	$this->assertEquals($datetime, $cgt->takeoff);    	
-    }
 }
