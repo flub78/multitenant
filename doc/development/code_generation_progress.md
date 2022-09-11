@@ -6,9 +6,9 @@
     php artisan mustache:generate --compare roles controller        OK
     php artisan mustache:generate --compare roles request           OK
     php artisan mustache:generate --compare roles model             OK
-    php artisan mustache:generate --compare roles index             OK
-    php artisan mustache:generate --compare roles create            OK
-    php artisan mustache:generate --compare roles edit              OK
+    php artisan mustache:generate --compare roles index             OK bs
+    php artisan mustache:generate --compare roles create            OK bs
+    php artisan mustache:generate --compare roles edit              OK bs
     php artisan mustache:generate --compare roles english           OK
     php artisan mustache:generate --compare roles factory           OK
     php artisan mustache:generate --compare roles test_model        OK
@@ -30,7 +30,23 @@
     php artisan mustache:generate --compare configurations test_model       OK
     php artisan mustache:generate --compare configurations test_controller  OK
     php artisan mustache:generate --compare configurations test_dusk        generates something
-    
+
+## metadata table
+
+    php artisan mustache:generate --compare metadata controller       
+    php artisan mustache:generate --compare metadata request          
+    php artisan mustache:generate --compare metadata model            
+    php artisan mustache:generate --compare metadata index            
+    php artisan mustache:generate --compare metadata create           
+    php artisan mustache:generate --compare metadata edit             
+    php artisan mustache:generate --compare metadata english          
+    php artisan mustache:generate --compare metadata factory          
+    php artisan mustache:generate --compare metadata test_model       
+    php artisan mustache:generate --compare metadata test_controller  
+    php artisan mustache:generate --compare metadata test_dusk 
+    php artisan mustache:generate --compare metadata api                     
+    php artisan mustache:generate --compare metadata test_api   
+            
 ## users table
 
     (users is not a tenant table)
@@ -52,8 +68,8 @@
         
     php artisan mustache:generate --compare user_roles index        
         user_name and role_name support missing
-    php artisan mustache:generate --compare user_roles create               OK
-    php artisan mustache:generate --compare user_roles edit                 OK
+    php artisan mustache:generate --compare user_roles create               OK bs
+    php artisan mustache:generate --compare user_roles edit                 OK bs
     php artisan mustache:generate --compare user_roles test_model           not supported yet
         requires creation of users and roles
 
@@ -79,7 +95,7 @@
 ## code_gen_types table
 
     php artisan mustache:generate --compare code_gen_types controller           OK
-    php artisan mustache:generate --compare code_gen_types request				NO    	             .          
+    php artisan mustache:generate --compare code_gen_types request				OK    	             .          
     php artisan mustache:generate --compare code_gen_types model      			OK    	          .
     php artisan mustache:generate --compare code_gen_types index                OK
     	except that price is not declared as currency
@@ -88,7 +104,7 @@
     php artisan mustache:generate --compare code_gen_types english              OK
     php artisan mustache:generate --compare code_gen_types factory              OK
     
-    php artisan mustache:generate --compare code_gen_types test_model           NO    
+    php artisan mustache:generate --compare code_gen_types test_model           OK    
     php artisan mustache:generate --compare code_gen_types test_controller      NO
     php artisan mustache:generate --compare code_gen_types test_dusk        to be tested
     php artisan mustache:generate --compare code_gen_types api                  OK

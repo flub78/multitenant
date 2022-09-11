@@ -76,7 +76,7 @@ use App\Helpers\DateFormat;
   </table>
   </div>
     @button_create({{url('code_gen_type')}}, {{__('code_gen_type.add')}}) 
-</div>  
+</div> <!-- content div --> 
 @endsection
 
 

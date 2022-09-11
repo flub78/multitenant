@@ -29,21 +29,21 @@ use App\Helpers\BladeHelper as Blade;
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('user_role.store') }}">
+      <form method="post" action="{{ route('user_role.store') }}" enctype="multipart/form-data">
            @csrf
            
-           <div class="form-group">
-             <label for="user_id">{{__("user_role.user_id")}}</label>
+           <div class="form-floating mb-2 border">
              {!! Blade::selector("user_id", $user_list, "") !!}
+             <label class="form-label" for="user_id">{{__("user_role.user_id")}}</label>
            </div>
            
-           <div class="form-group">
-             <label for="role_id">{{__("user_role.role_id")}}</label>
+           <div class="form-floating mb-2 border">
              {!! Blade::selector("role_id", $role_list, "") !!}
+             <label class="form-label" for="role_id">{{__("user_role.role_id")}}</label>
            </div>
            
            
-           @button_submit()
+           @button_submit({{__('general.submit')}})
 
       </form>
   </div>

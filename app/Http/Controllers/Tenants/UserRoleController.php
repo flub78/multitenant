@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\UserRoleRequest;
 use App\Models\Tenants\UserRole;
+use App\Helpers\DateFormat;
 use App\Models\User;
 use App\Models\Tenants\Role;
 use Illuminate\Database\QueryException;
@@ -65,10 +66,17 @@ class UserRoleController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tenants\UserRole  $user_role
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(UserRole $user_role) {
+    public function show($id) {
+	    $user_role = UserRole::find($id);
+        $user_list = User::selector();
+        $role_list = Role::selector();
+        return view('tenants/user_role/show')
+            ->with(compact('user_role'))
+			->with('user_list', $user_list)
+			->with('role_list', $role_list);
     }
 
     

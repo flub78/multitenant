@@ -1,16 +1,28 @@
 <!-- index.blade.php -->
 
+@php
+use App\Helpers\BladeHelper as Blade;
+use App\Helpers\DateFormat;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
 
-
-<div class="uper">
+<div class="uper d-flex flex-column">
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  
+  @if(session()->get('error'))
+    <div class="alert alert-danger">
+      {{ session()->get('error') }}  
+    </div><br />
+  @endif
+  
+  <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('metadata.title')}}</caption>
     <thead>
@@ -56,9 +68,10 @@
         @endforeach
     </tbody>
   </table>
+  </div>
   
-    <a href="{{url('metadata')}}/create"><button type="submit" class="btn btn-primary" >@lang('metadata.add')</button></a> 
-</div>  
+    @button_create({{url('metadata')}}, {{__('metadata.add')}}) 
+</div> <!-- content div --> 
 @endsection
 
 

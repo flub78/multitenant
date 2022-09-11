@@ -813,7 +813,8 @@ class CodeGenerator {
 		if ($view_def) {
 			$view_list = ViewSchema::ScanViewDefinition($view_def);
 			foreach ($view_list as $view_field) {
-				$res[] = self::field_metadata($view_field['table'], $view_field['field'], $table, $view_field['name']);
+			    if (! Meta::inTable($table, $view_field)) continue;
+			    $res[] = self::field_metadata($view_field['table'], $view_field['field'], $table, $view_field['name']);
 			}
 		} else {
 			if ($table == "users") {
@@ -823,6 +824,7 @@ class CodeGenerator {
 			
 			// Fill the result and compute an index
 			foreach ($list as $field) {
+			    if (! Meta::inTable($table, $field)) continue;
 				$res[] = self::field_metadata($table, $field);
 			}
 		}

@@ -1,5 +1,9 @@
 <!-- Role edit.blade.php -->
 
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -25,23 +29,23 @@
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('role.update', $role->id ) }}">
-          <div class="form-group">
+      <form method="post" action="{{ route('role.update', $role->id ) }}" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
               
-             <div class="form-group">
-               <label for="name">{{__("role.name")}}</label>
+          <div class="form-floating mb-2 border">
                <input type="text" class="form-control" name="name" value="{{ old("name", $role->name) }}"/>
+              <label class="form-label" for="name">{{__("role.name")}}</label>
              </div>
            
-             <div class="form-group">
-               <label for="description">{{__("role.description")}}</label>
+          <div class="form-floating mb-2 border">
                <input type="text" class="form-control" name="description" value="{{ old("description", $role->description) }}"/>
+              <label class="form-label" for="description">{{__("role.description")}}</label>
              </div>
            
              
-          <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
+          @button_submit({{__('general.update')}})
+
       </form>
   </div>
 </div>

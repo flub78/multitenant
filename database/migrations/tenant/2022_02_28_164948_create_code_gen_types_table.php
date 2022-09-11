@@ -41,7 +41,7 @@ class CreateCodeGenTypesTable extends Migration
     		
     		$table->datetime("takeoff")->nullable()->comment('{"subtype" : "datetime"}');
     		
-    		$table ->decimal('price',  $precision = 8, $scale = 2)->nullable();
+    		$table ->decimal('price',  $precision = 8, $scale = 2)->nullable()->comment('{"subtype" : "currency"}');
     		
     		$table ->double('big_price',  $precision = 11, $scale = 2)->nullable()->comment('{"subtype" : "currency"}');
     		
