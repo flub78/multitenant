@@ -22,6 +22,10 @@ use App\Helpers\DateFormat;
     </div><br />
   @endif
   
+	<div class="mb-3">         
+    @button_create({{url('configuration')}}, {{__('configuration.add')}})
+    </div>  
+  
   <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('configuration.title')}}</caption>
@@ -54,7 +58,6 @@ use App\Helpers\DateFormat;
   </table>
   </div>
   
-    @button_create({{url('configuration')}}, {{__('configuration.add')}}) 
 </div> <!-- content div --> 
 @endsection
 

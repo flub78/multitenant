@@ -23,7 +23,7 @@
     php artisan mustache:generate --compare configurations request          OK
     php artisan mustache:generate --compare configurations edit             OK
     php artisan mustache:generate --compare configurations create           OK
-    php artisan mustache:generate --compare configurations index            OK
+    php artisan mustache:generate --compare configurations index            OK bs
     php artisan mustache:generate --compare configurations model            OK
     php artisan mustache:generate --compare configurations factory          OK
     php artisan mustache:generate --compare configurations english          OK
@@ -36,9 +36,9 @@
     php artisan mustache:generate --compare metadata controller       
     php artisan mustache:generate --compare metadata request          
     php artisan mustache:generate --compare metadata model            
-    php artisan mustache:generate --compare metadata index            
-    php artisan mustache:generate --compare metadata create           
-    php artisan mustache:generate --compare metadata edit             
+    php artisan mustache:generate --compare metadata index     				OK bs       
+    php artisan mustache:generate --compare metadata create           		OK bs
+    php artisan mustache:generate --compare metadata edit             		OK bs
     php artisan mustache:generate --compare metadata english          
     php artisan mustache:generate --compare metadata factory          
     php artisan mustache:generate --compare metadata test_model       
@@ -53,7 +53,7 @@
     php artisan mustache:generate --compare users controller
     php artisan mustache:generate --compare users request
     php artisan mustache:generate --compare users model                     not exactly
-    php artisan mustache:generate --compare users index                     OK
+    php artisan mustache:generate --compare users index                     OK bs
     php artisan mustache:generate --compare users create                    OK
     php artisan mustache:generate --compare users edit                      OK
 
@@ -83,23 +83,20 @@
         
     php artisan mustache:generate --compare calendar_events model
     php artisan mustache:generate --compare calendar_events index
-    php artisan mustache:generate --compare calendar_events create          Almost
-        support for default missing
-    php artisan mustache:generate --compare calendar_events edit            Almost
-        a few ids missing plus no usage of the computed attributes
-        
+    php artisan mustache:generate --compare calendar_events create          OK
+    php artisan mustache:generate --compare calendar_events edit            OK        
     php artisan mustache:generate --compare calendar_events factory
     php artisan mustache:generate --compare calendar_events test_model
     php artisan mustache:generate --compare calendar_events test_api          
     
-## code_gen_types table
+## code_gen_types
 
     php artisan mustache:generate --compare code_gen_types controller           OK
-    php artisan mustache:generate --compare code_gen_types request				OK    	             .          
-    php artisan mustache:generate --compare code_gen_types model      			OK    	          .
-    php artisan mustache:generate --compare code_gen_types index                OK
-    php artisan mustache:generate --compare code_gen_types create        		OK
-    php artisan mustache:generate --compare code_gen_types edit                 OK
+    php artisan mustache:generate --compare code_gen_types request				OK    	                       
+    php artisan mustache:generate --compare code_gen_types model      			OK    	          
+    php artisan mustache:generate --compare code_gen_types index                OK bs
+    php artisan mustache:generate --compare code_gen_types create        		OK bs
+    php artisan mustache:generate --compare code_gen_types edit                 OK bs
     php artisan mustache:generate --compare code_gen_types english              OK
     php artisan mustache:generate --compare code_gen_types factory              OK
     
@@ -114,7 +111,7 @@
 
     php artisan mustache:generate --compare code_gen_types_view1 model              OK
     php artisan mustache:generate --compare code_gen_types_view1 test_model         OK
-    php artisan mustache:generate --compare code_gen_types_view1 index              OK
+    php artisan mustache:generate --compare code_gen_types_view1 index              crash
     php artisan mustache:generate --compare code_gen_types_view1 english            OK
     php artisan mustache:generate --compare code_gen_types_view1 controller         OK
     php artisan mustache:generate --install code_gen_types_view1 test_controller

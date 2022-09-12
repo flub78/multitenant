@@ -2,14 +2,14 @@
 
 @php
 use App\Helpers\BladeHelper as Blade;
+use App\Helpers\DateFormat;
 @endphp
 
 @extends('layouts.app')
 
 @section('content')
 
-
-<div class="uper">
+<div class="uper d-flex flex-column">
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
@@ -20,14 +20,21 @@ use App\Helpers\BladeHelper as Blade;
       {{ session()->get('error') }}  
     </div><br />
   @endif
+
+	<div class="mb-3">         
+    @button_create({{url('user_role')}}, {{__('user_role.add')}})
+    </div>  
+  
+  <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('user_role.title')}}</caption>
     <thead>
         <tr>
-          <td ></td>
-          <td ></td>
-          <td>{{__('user_role.user_id')}}</td>
-          <td>{{__('user_role.role_id')}}</td>
+          <th style="width: 30px;"></th>
+          <th style="width: 30px;"></th>
+
+          <th> {{__('user_role.user_id')}} </th>
+          <th> {{__('user_role.role_id')}} </th>
         </tr>
     </thead>
     
@@ -53,9 +60,9 @@ use App\Helpers\BladeHelper as Blade;
         @endforeach
     </tbody>
   </table>
+  </div>
   
-    <a href="{{url('user_role')}}/create"><button type="submit" class="btn btn-primary" >@lang('user_role.add')</button></a> 
-</div>  
+</div> <!-- content div --> 
 @endsection
 
 

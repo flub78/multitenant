@@ -1,4 +1,8 @@
-<!-- Users edit.blade.php -->
+<!-- Metadata edit.blade.php -->
+
+@php
+use App\Helpers\BladeHelper as Blade;
+@endphp
 
 @extends('layouts.app')
 
@@ -25,47 +29,48 @@
       </div><br />
     @endif
     
-      <form method="post" action="{{ route('metadata.update', $metadata->id ) }}">
-      
-          <div class="form-group">
+      <form method="post" action="{{ route('metadata.update', $metadata->id ) }}" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
               
-              <label for="table">{{__('metadata.table')}}</label>
-              <input type="text" class="form-control" name="table" value="{{ old('table', $metadata->table) }}"/>
+          <div class="form-floating mb-2 border">
+              <input type="text" class="form-control" name="table" value="{{ old("table", $metadata->table) }}"/>
+              <label class="form-label" for="table">{{__("metadata.table")}}</label>
           </div>
           
-          <div class="form-group">
-              <label for="field">{{__('metadata.field')}}</label>
-              <input type="text" class="form-control" name="field" value="{{ old('field', $metadata->field) }}"/>
+          <div class="form-floating mb-2 border">
+              <input type="text" class="form-control" name="field" value="{{ old("field", $metadata->field) }}"/>
+              <label class="form-label" for="field">{{__("metadata.field")}}</label>
           </div>
 
-          <div class="form-group">
-              <label for="subtype">{{__('metadata.subtype')}}</label>
-              <input type="text" class="form-control" name="subtype" value="{{ old('subtype', $metadata->subtype) }}"/>
+          <div class="form-floating mb-2 border">
+              <input type="text" class="form-control" name="subtype" value="{{ old("subtype", $metadata->subtype) }}"/>
+              <label class="form-label" for="subtype">{{__("metadata.subtype")}}</label>
           </div>
            
-          <div class="form-group">
-              <label for="options">{{__('metadata.options')}}</label>
-              <input type="text" class="form-control" name="options" value="{{ old('options', $metadata->options) }}"/>
+          <div class="form-floating mb-2 border">
+              <input type="text" class="form-control" name="options" value="{{ old("options", $metadata->options) }}"/>
+              <label class="form-label" for="options">{{__("metadata.options")}}</label>
           </div>
           
-           <div class="form-group">
-              <label for="foreign_key">{{__('metadata.foreign_key')}}</label>
-              <input type="checkbox" class="form-control" name="foreign_key" value="1"  {{old('foreign_key', $metadata->foreign_key) ? 'checked' : ''}}/>
+          <div class="form-group mb-2 border">
+              <label class="form-label m-2" for="foreign_key">{{__("metadata.foreign_key")}}</label>
+              <input type="checkbox" class="form-check-input m-2" name="foreign_key" value="1"  {{old("foreign_key", $metadata->foreign_key) ? 'checked' : ''}}/>
           </div>
           
-          <div class="form-group">              
-              <label for="target_table">{{__('metadata.target_table')}}</label>
-              <input type="text" class="form-control" name="target_table" value="{{ old('target_table', $metadata->target_table) }}"/>
+          <div class="form-floating mb-2 border">
+              <input type="text" class="form-control" name="target_table" value="{{ old("target_table", $metadata->target_table) }}"/>
+              <label class="form-label" for="target_table">{{__("metadata.target_table")}}</label>
           </div>
           
-          <div class="form-group">
-              <label for="target_field">{{__('metadata.target_field')}}</label>
-              <input type="text" class="form-control" name="target_field" value="{{ old('target_field', $metadata->target_field) }}"/>
+          <div class="form-floating mb-2 border">
+              <input type="text" class="form-control" name="target_field" value="{{ old("target_field", $metadata->target_field) }}"/>
+              <label class="form-label" for="target_field">{{__("metadata.target_field")}}</label>
           </div>
 
-          <button type="submit" class="btn btn-primary">{{__('general.update')}}</button>
+             
+          @button_submit({{__('general.update')}})
+
       </form>
   </div>
 </div>

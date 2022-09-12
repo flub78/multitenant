@@ -19,6 +19,11 @@
     </div><br />
   @endif
   
+	<div class="mb-3">         
+      <a href="{{url('backup')}}/create"><button type="submit" class="btn btn-primary" dusk="new_backup">{{__('backup.new')}}</button></a> 
+    </div>  
+    
+    <section class="mb-5">
   
   <table class="table table-striped"  id="maintable">
     <caption>{{__('backup.title')}}</caption>
@@ -48,15 +53,13 @@
         @endforeach
     </tbody>
   </table>
-  
-    <a href="{{url('backup')}}/create"><button type="submit" class="btn btn-primary" dusk="new_backup">{{__('backup.new')}}</button></a> 
-    
-    <section>
+         </section>
+     
+    <section class="mt-5">
     
     <form action="{{route('backup.upload')}}" method="post" enctype="multipart/form-data">
     
-    <h5 class="text mb-5"></h5>
-    <h5 class="text mb-5">{{__('backup.upload_backup')}}</h5>
+    <h5 class="text mt-5">{{__('backup.upload_backup')}}</h5>
        @csrf
 
 	   <input type="file" name="backup_file" />

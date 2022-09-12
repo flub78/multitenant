@@ -21,6 +21,10 @@ use App\Helpers\DateFormat;
     </div><br />
   @endif
   
+	<div class="mb-3">         
+    @button_create({{url('code_gen_type')}}, {{__('code_gen_type.add')}}) 
+    </div>  
+  
   <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('code_gen_type.title')}}</caption>
@@ -77,7 +81,7 @@ use App\Helpers\DateFormat;
     </tbody>
   </table>
   </div>
-    @button_create({{url('code_gen_type')}}, {{__('code_gen_type.add')}}) 
+  
 </div> <!-- content div --> 
 @endsection
 

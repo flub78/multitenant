@@ -22,20 +22,25 @@ use App\Helpers\DateFormat;
     </div><br />
   @endif
   
+	<div class="mb-3">         
+    @button_create({{url('metadata')}}, {{__('metadata.add')}})
+    </div>  
+  
   <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('metadata.title')}}</caption>
     <thead>
         <tr>
-          <td ></td>
-          <td ></td>
-          <td>{{__('metadata.table')}}</td>
-          <td>{{__('metadata.field')}}</td>
-          <td>{{__('metadata.subtype')}}</td>
-          <td>{{__('metadata.options')}}</td>
-          <td>{{__('metadata.foreign_key')}}</td>
-          <td>{{__('metadata.target_table')}}</td>
-          <td>{{__('metadata.target_field')}}</td>
+          <th style="width: 30px;"></th>
+          <th style="width: 30px;"></th>
+
+          <th> {{__('metadata.table')}} </th>
+          <th> {{__('metadata.field')}} </th>
+          <th> {{__('metadata.subtype')}} </th>
+          <th> {{__('metadata.options')}} </th>
+          <th> {{__('metadata.foreign_key')}} </th>
+          <th> {{__('metadata.target_table')}} </th>
+          <th> {{__('metadata.target_field')}} </th>
         </tr>
     </thead>
     
@@ -70,7 +75,6 @@ use App\Helpers\DateFormat;
   </table>
   </div>
   
-    @button_create({{url('metadata')}}, {{__('metadata.add')}}) 
 </div> <!-- content div --> 
 @endsection
 

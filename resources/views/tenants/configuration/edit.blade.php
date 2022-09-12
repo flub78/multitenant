@@ -16,11 +16,8 @@ use App\Helpers\BladeHelper as Blade;
 
 <div class="card uper">
   <div class="card-header">
-    {{-- Title what is edited --}}
     {{__('general.edit')}} {{__('configuration.elt')}}
   </div>
-
-  {{-- Display error messages when the form is invalide --}}
   <div class="card-body">
     @if ($errors->any())
       <div class="alert alert-danger">
@@ -32,8 +29,7 @@ use App\Helpers\BladeHelper as Blade;
       </div><br />
     @endif
     
-      {{-- Edit form --}}
-      <form method="post" action="{{ route('configuration.update', $configuration->key ) }}">
+      <form method="post" action="{{ route('configuration.update', $configuration->key ) }}" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
               
@@ -42,9 +38,9 @@ use App\Helpers\BladeHelper as Blade;
                {!! Blade::select("key", $key_list, false, $configuration->key) !!}
              </div>
            
-             <div class="form-group pb-3">
-               <label for="value">{{__("configuration.value")}}</label>
+          <div class="form-floating mb-2 border">
                <input type="text" class="form-control" name="value" value="{{ old("value", $configuration->value) }}"/>
+              <label class="form-label" for="value">{{__("configuration.value")}}</label>
              </div>
            
              

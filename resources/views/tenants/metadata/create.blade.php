@@ -47,14 +47,14 @@ use App\Helpers\BladeHelper as Blade;
              <label class="form-label" for="subtype">{{__("metadata.subtype")}}</label>
           </div>
            
-           <div class="form-floating m-5 border border-danger">
-             <input type="checkbox" class="form-check-input m-3" name="options" id="options" value="1"  {{old("options") ? 'checked' : ''}}/>
-             <label class="form-label m-3" for="options">{{__("metadata.options")}}</label>
+           <div class="form-floating mb-2 border">
+              <input type="text" class="form-control" name="options" value="{{ old("options") }}"/>
+              <label class="form-label" for="options">{{__("metadata.options")}}</label>
           </div>
           
-           <div class="form-floating mb-2 border border-primary">
-             <input type="text" class="form-control" name="foreign_key" value="{{ old("foreign_key") }}"/>
-             <label class="form-label" for="foreign_key">{{__("metadata.foreign_key")}}</label>
+           <div class="form-group mb-2 border">
+              <label class="form-label m-2" for="foreign_key">{{__("metadata.foreign_key")}}</label>
+              <input type="checkbox" class="form-check-input m-2" name="foreign_key" id="foreign_key" value="1"  {{old("foreign_key") ? 'checked' : ''}}/>
           </div>
           
            <div class="form-floating mb-2 border">

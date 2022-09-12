@@ -1,5 +1,10 @@
 <!-- index.blade.php -->
 
+@php
+use App\Helpers\BladeHelper as Blade;
+use App\Helpers\DateFormat;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -12,33 +17,39 @@
     </div><br />
   @endif
   
+  @if(session()->get('error'))
+    <div class="alert alert-danger">
+      {{ session()->get('error') }}  
+    </div><br />
+  @endif
+
   <div class="mb-3">
+    @button_create({{url('user')}}, {{__('user.add')}})
+    </div>  
+  
+  <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('user.title')}}</caption>
     <thead>
         <tr>
-          <td></td>
-          <td></td>
-
-          <td> {{__('user.name')}} </td>
-          <td> {{__('user.email')}} </td>
-          <td> {{__('user.admin')}} </td>
-          <td> {{__('user.active')}} </td>
+          <th style="width: 30px;"></th>
+          <th style="width: 30px;"></th>
 		  
+          <th> {{__('user.name')}} </th>
+          <th> {{__('user.email')}} </th>
+          <th> {{__('user.admin')}} </th>
+          <th> {{__('user.active')}} </th>
         </tr>
     </thead>
     
     <tbody>
         @foreach($users as $user)
         <tr>
-          <td> <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary" dusk="edit_{{ $user->name }}">
-                   <i class="fa-solid fa-pen-to-square"></i>
-               </a>  </td>
+          <td> <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary" dusk="edit_{{ $user->name }}"><i class="fa-solid fa-pen-to-square"></i></a>  </td>
           <td> <form action="{{ route("user.destroy", $user->id)}}" method="post">
                    @csrf
                    @method('DELETE')
-                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $user->name }}">
-                       <i class="fa-solid fa-trash"></i></button>
+                   <button class="btn btn-danger" type="submit" dusk="delete_{{ $user->name }}"><i class="fa-solid fa-trash"></i></button>
                  </form>
           </td>
           <td> {{$user->name}}</td>
@@ -53,9 +64,7 @@
   </table>
   </div>
   
-  @button_create({{url('user')}}, {{__('user.add')}})
-    
-</div>  
+</div> <!-- content div --> 
 @endsection
 
 

@@ -22,6 +22,12 @@ use App\Helpers\DateFormat;
       {{ session()->get('error') }}  
     </div><br />
   @endif
+
+[[^is_view]]
+	<div class="mb-3">         
+    @button_create({{url('[[element]]')}}, {{__('[[element]].add')}})
+    </div>  
+[[/is_view]] 
   
   <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
@@ -56,9 +62,6 @@ use App\Helpers\DateFormat;
   </table>
   </div>
   
-[[^is_view]]          
-    @button_create({{url('[[element]]')}}, {{__('[[element]].add')}}) 
-[[/is_view]] 
 </div> <!-- content div --> 
 @endsection
 
