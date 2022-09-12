@@ -1,6 +1,7 @@
 <!-- index.blade.php -->
 
 @php
+use App\Helpers\BladeHelper as Blade;
 use App\Helpers\DateFormat; 
 @endphp
 
@@ -16,7 +17,17 @@ use App\Helpers\DateFormat;
     </div><br />
   @endif
   
+  @if(session()->get('error'))
+    <div class="alert alert-danger">
+      {{ session()->get('error') }}  
+    </div><br />
+  @endif
+
   <div class="mb-3">
+    @button_create({{url('calendar_event')}}, {{__('calendar_event.add')}})
+    </div>  
+  
+  <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">
     <caption>{{__('calendar_event.title')}}</caption>
     <thead>
@@ -57,9 +68,7 @@ use App\Helpers\DateFormat;
   </table>
   </div>
   
-  <a href="{{url('calendar_event')}}/create"><button type="submit" class="btn btn-primary" >{{__('calendar_event.add')}}</button></a> 
-
-</div>  
+</div> <!-- content div --> 
 @endsection
 
 
