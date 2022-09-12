@@ -52,6 +52,8 @@ class CodeGenTypeController extends Controller {
 	public function store(CodeGenTypeRequest $request) {
 		$validatedData = $request->validated(); // Only retrieve the data, the validation is done
 		
+		$validatedData ['black_and_white'] = $request->has ( 'black_and_white' ) && $request->black_and_white;
+		
 		$this->store_datetime($validatedData, 'takeoff');
 		$this->store_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		$this->store_picture($validatedData, "picture", $request, "code_gen_type");
@@ -114,6 +116,7 @@ class CodeGenTypeController extends Controller {
 		$validatedData = $request->validated();
 		$previous = CodeGenType::find($id);
 		
+		$validatedData ['black_and_white'] = $request->has ( 'black_and_white' ) && $request->black_and_white;
 		$this->store_datetime($validatedData, 'takeoff');		
 		$this->update_bitfield($validatedData, "qualifications", $request, "code_gen_type");
 		$this->update_picture($validatedData, "picture", $request, "code_gen_type", $previous);

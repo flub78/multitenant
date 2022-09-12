@@ -504,10 +504,14 @@ class CodeGenerator {
 		$field_type = Meta::type($table, $field);
 		
 		$rules = [];
-		if (Schema::required($table, $field))  {
+		if ($subtype != "checkbox") {
+		  if (Schema::required($table, $field))  {
 			$rules[] = "'required'";
-		} else {
+		  } else {
 			$rules[] = "'nullable'";
+		  }
+		} else {
+		    $rules[] = "''";
 		}
 		
 		if (in_array($field_type, ['year', 'double', 'decimal', 'bigint', 'int'])) {				
@@ -578,10 +582,14 @@ class CodeGenerator {
 		$field_type = Meta::type($table, $field);
 		
 		$rules = [];
-		if (Schema::required($table, $field))  {
-			$rules[] = "'required'";
+		if ($subtype != "checkbox") {
+		    if (Schema::required($table, $field))  {
+			    $rules[] = "'required'";
+		    } else {
+			    $rules[] = "'nullable'";
+		    }
 		} else {
-			$rules[] = "'nullable'";
+		    $rules[] = "''";
 		}
 		
 		if (in_array($field_type, ['year', 'double', 'decimal', 'bigint', 'int'])) {
