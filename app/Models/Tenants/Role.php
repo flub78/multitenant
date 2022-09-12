@@ -9,12 +9,16 @@ namespace App\Models\Tenants;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\ModelWithLogs;
+use App\Helpers\Config;
+use Carbon\Carbon;
+use Carbon\Exceptions\InvalidFormatException;
 
 
 /**
  * Role model
  *
  * Acces to the percistency layer
+ * roles is a regular table not a MySQL view
  *
  * @author fred
  *

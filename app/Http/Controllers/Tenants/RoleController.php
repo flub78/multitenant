@@ -8,7 +8,8 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\RoleRequest;
 use App\Models\Tenants\Role;
-use Illuminate\Database\QueryException;
+use App\Helpers\DateFormat;
+
 
 /**
  * Controller for role
@@ -40,26 +41,27 @@ class RoleController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\RoleRequest  $request
+     * @param App\Http\Requests\Tenants\RoleRequest
      * @return \Illuminate\Http\Response
      */
     public function store(RoleRequest $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
         Role::create($validatedData);
-
-        return redirect('/role')->with('success', __('general.creation_success', [ 'elt' => $validatedData ['name']]));
+       return redirect('/role')->with('success', __('general.creation_success', [ 'elt' => __("role.elt")]));
      }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tenants\Role  $role
+     * @param  int  $id
      * @return \Illuminate\Http\Response
-     * 
-    public function show(Role $role) {
-        //
+     */
+    public function show($id) {
+	    $role = Role::find($id);
+        return view('tenants/role/show')
+            ->with(compact('role'));
     }
-    */
+
     
     /**
      * Show the form for editing the specified resource.
@@ -68,26 +70,27 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Role $role) {
-        return view('tenants/role/edit')->with(compact('role'));
+        return view('tenants/role/edit')
+            ->with(compact('role'));
     }
 
     
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tenants\Role  $role
+     * @param App\Http\Requests\Tenants\RoleRequest;
+     * @param String $id
      * @return \Illuminate\Http\Response
      *
      * @SuppressWarnings("PMD.ShortVariable")
      */
     public function update(RoleRequest $request, $id) {
         $validatedData = $request->validated();
+        $previous = Role::find($id);
 
         Role::where([ 'id' => $id])->update($validatedData);
 
-        return redirect('/role')->with('success', __('general.modification_success', [ 'elt' => $validatedData ['name']
-        ]));
+        return redirect('/role')->with('success', __('general.modification_success', [ 'elt' => __("role.elt") ]));
     }
 
     
@@ -98,8 +101,8 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role) {
-    	$full_name = $role->full_name;
+    	$id = $role->id;
     	$role->delete();
-    	return redirect ( 'role' )->with ( 'success', __('general.deletion_success', ['elt' => $full_name]));
+    	return redirect ( 'role' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
     }
 }

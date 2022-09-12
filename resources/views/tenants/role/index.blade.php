@@ -55,7 +55,7 @@ use App\Helpers\DateFormat;
   </div>
   
     @button_create({{url('role')}}, {{__('role.add')}}) 
-</div>  
+</div> <!-- content div --> 
 @endsection
 
 

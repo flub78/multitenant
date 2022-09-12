@@ -88,7 +88,12 @@ use App\Helpers\BladeHelper as Blade;
         <label class="form-label" for="qualifications">{{__("code_gen_type.qualifications")}}</label>
       </div>
 
-      <div class="form-floating mb-2 border">
+      <div class="form-group mb-2 border">
+              <label class="form-label m-2" for="black_and_white">{{__("code_gen_type.black_and_white")}}</label>
+              <input type="checkbox" class="form-check-input m-2" name="black_and_white" value="1"  {{old("black_and_white", $code_gen_type->black_and_white) ? 'checked' : ''}}/>
+          </div>
+           
+          <div class="form-floating mb-2 border">
         {!! Blade::select("color_name", $color_name_list, false, $code_gen_type->color_name) !!}
         <label class="form-label" for="color_name">{{__("code_gen_type.color_name")}}</label>
       </div>

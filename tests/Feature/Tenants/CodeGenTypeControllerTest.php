@@ -99,7 +99,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {   
         Log::Debug(__METHOD__);
         
-        $look_for = [__('code_gen_type.title'), __('code_gen_type.add'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('code_gen_type.title'), __('navbar.tenant'), tenant('id')];
         $look_for[] = __('code_gen_type.name'); 
         $look_for[] = __('code_gen_type.phone'); 
         $look_for[] = __('code_gen_type.description'); 
@@ -111,6 +111,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $look_for[] = __('code_gen_type.price'); 
         $look_for[] = __('code_gen_type.big_price'); 
         $look_for[] = __('code_gen_type.qualifications'); 
+        $look_for[] = __('code_gen_type.black_and_white'); 
         $look_for[] = __('code_gen_type.color_name'); 
         $look_for[] = __('code_gen_type.picture'); 
         $look_for[] = __('code_gen_type.attachment'); 
@@ -175,6 +176,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $elt['price'] = $code_gen_type->price; 
         $elt['big_price'] = $code_gen_type->big_price; 
         $elt['qualifications'] = $code_gen_type->qualifications; 
+        $elt['black_and_white'] = $code_gen_type->black_and_white; 
         $elt['picture'] = $code_gen_type->picture; 
         $elt['attachment'] = $code_gen_type->attachment;
         
@@ -259,7 +261,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $elt = ['_token' => csrf_token()];
         $elt2 = ['_token' => csrf_token()];
         
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
             $elt[$field] = $code_gen_type->$field;
             $elt2[$field] = $code_gen_type2->$field;
         }
@@ -275,7 +277,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $this->assertNotNull($initial);
         
         // Check that the first saved element has the correct values and is different from the second one
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
             if ($field != 'id') {
                 $this->assertEquals($initial->$field, $elt[$field]);
                 $this->assertNotEquals($initial->$field, $code_gen_type2->$field);

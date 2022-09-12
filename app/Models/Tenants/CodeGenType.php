@@ -44,6 +44,5 @@ class CodeGenType extends ModelWithLogs {
      *
      * @var array
      */
-    protected $fillable = ["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment"];
-    
+	protected $fillable = ["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment"];
 }

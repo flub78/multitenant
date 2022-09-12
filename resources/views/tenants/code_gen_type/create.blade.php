@@ -32,10 +32,6 @@ use App\Helpers\BladeHelper as Blade;
       <form method="post" action="{{ route('code_gen_type.store') }}" enctype="multipart/form-data">
            @csrf
            
-           <!--
-           For floating label the label must come after the input and the class is form-floating
-           For regular label use form group and label first then input 
-           -->
            <div class="form-floating mb-2 border">
              <input type="text" class="form-control" name="name" value="{{ old("name") }}"/>
              <label class="form-label" for="name">{{__("code_gen_type.name")}}</label>
@@ -131,6 +127,11 @@ use App\Helpers\BladeHelper as Blade;
            </fieldset>
 
              <label class="form-label" for="qualifications">{{__("code_gen_type.qualifications")}}</label>
+           </div>
+           
+           <div class="form-group mb-2 border">
+             <label class="form-label m-2" for="black_and_white">{{__("code_gen_type.black_and_white")}}</label>
+             <input type="checkbox" class="form-check-input m-2" name="black_and_white" id="black_and_white" value="1"  {{old("black_and_white") ? 'checked' : ''}}/>
            </div>
            
            <div class="form-floating mb-2 border">

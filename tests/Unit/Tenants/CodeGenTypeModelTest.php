@@ -53,12 +53,12 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $stored = CodeGenType::where(['id' => $id])->first();      
         $this->assertNotNull($stored, "It is possible to retrieve the code_gen_type after creation");
         
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
             $this->assertEquals($latest->$field, $stored->$field, "Checks the element $field fetched from the database");
         }
         
         // Update
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
             if ($field != "id")
                 $stored->$field = $code_gen_type3->$field;
         }
@@ -69,7 +69,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $back = CodeGenType::where('id', $id)->first();
         $this->assertNotNull($back, "It is possible to retrieve the code_gen_type after update");
 
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
             if ($field != "id") {
                 $this->assertEquals($back->$field, $code_gen_type3->$field, "$field after update");
             }

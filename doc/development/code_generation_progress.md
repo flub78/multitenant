@@ -98,7 +98,6 @@
     php artisan mustache:generate --compare code_gen_types request				OK    	             .          
     php artisan mustache:generate --compare code_gen_types model      			OK    	          .
     php artisan mustache:generate --compare code_gen_types index                OK
-    	except that price is not declared as currency
     php artisan mustache:generate --compare code_gen_types create        		OK
     php artisan mustache:generate --compare code_gen_types edit                 OK
     php artisan mustache:generate --compare code_gen_types english              OK

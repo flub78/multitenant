@@ -49,6 +49,8 @@ class CreateCodeGenTypesTable extends Migration
     		->comment('{"subtype": "bitfield", 
 			"values":["redactor","student","pilot", "instructor", "winch_man", "tow_pilot", "president", "accounter", "secretary", "mechanic"]}');
     		
+    		$table->boolean('black_and_white')->default(false)->comment('{"subtype": "checkbox"}');
+    		
     		$table->string("color_name")->nullable()
     		->comment('{"subtype": "enumerate",
 			"values":["blue","red","green", "white", "black"]}');

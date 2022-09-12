@@ -135,7 +135,7 @@ class CodeGenerator {
 	 * @param String $field
 	 * @return string
 	 */
-	static public function field_label (String $table, String $field, String $view = "", String $view_field = "") {
+	static public function field_label (String $table, String $field, String $view = "", String $view_field = "", ) {
 		$element = Meta::element($table);
 		$subtype = Meta::subtype($table, $field);
 		$class="form-label";
@@ -145,6 +145,11 @@ class CodeGenerator {
 		if ($subtype == "file" || $subtype == "picture") {
 		    // $class .= " mt-4";
 		}
+		
+		if ($subtype == "checkbox") {
+		    $class .= " m-2";
+		}
+		
 		return '<label class="' . $class .  '" for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
 	}
 	
@@ -168,7 +173,7 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "checkbox") {
-			return "<input type=\"checkbox\" class=\"form-check-input\" name=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\", $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
+			return "<input type=\"checkbox\" class=\"form-check-input m-2\" name=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\", $" . $element . "->" . $field . ") ? 'checked' : ''}}/>";
 		}
 		
 		if ($subtype == "password_with_confirmation" || $subtype == "password_confirmation") {
@@ -286,8 +291,46 @@ class CodeGenerator {
 	        return $res;
 	    }
 	    
+	    if ($subtype == "checkbox" ) {
+	        $res = '<div class="form-group mb-2 border">' . "\n";
+	        $res .= '              ' . self::field_label($table, $field) . "\n";
+	        $res .= '              ' . self::field_input_edit($table, $field) . "\n";
+	        $res .= '          </div>' . "\n";
+	        return $res;
+	        
+	    }
+	    
 	    $res = '<div class="form-floating mb-2 border">' . "\n";
 	    $res .= '              ' . self::field_input_edit($table, $field) . "\n";
+	    $res .= '              ' . self::field_label($table, $field) . "\n";
+	    $res .= '          </div>' . "\n";
+	    return $res;
+	}
+
+	/**
+	 * Generate code for input in a create form
+	 *
+	 * @param String $table
+	 * @param String $field
+	 * @return string
+	 */
+	static public function field_label_input_create (String $table, String $field) {
+	    $type = "text";
+	    $element = Meta::element($table);
+	    $field_type = Meta::type($table, $field);
+	    $subtype = Meta::subtype($table, $field);
+	    
+	    if ($subtype == "checkbox") {	        
+	        
+	        $res = '<div class="form-group mb-2 border">' . "\n";
+	        $res .= '              ' . self::field_label($table, $field) . "\n";
+	        $res .= '              ' . self::field_input_create($table, $field) . "\n";
+	        $res .= '          </div>' . "\n";
+	        return $res;
+	    }
+	    
+	    $res = '<div class="form-floating mb-2 border">' . "\n";
+	    $res .= '              ' . self::field_input_create($table, $field) . "\n";
 	    $res .= '              ' . self::field_label($table, $field) . "\n";
 	    $res .= '          </div>' . "\n";
 	    return $res;
@@ -323,7 +366,7 @@ class CodeGenerator {
 		}
 		
 		if ($subtype == "checkbox") {
-			return "<input type=\"checkbox\" class=\"form-check-input\" name=\"" . $field . "\" id=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\") ? 'checked' : ''}}/>";
+			return "<input type=\"checkbox\" class=\"form-check-input m-2\" name=\"" . $field . "\" id=\"" . $field . "\" value=\"1\"  {{old(\"" . $field . "\") ? 'checked' : ''}}/>";
 		}
 		
 		if ($subtype == "enumerate") {
@@ -468,7 +511,7 @@ class CodeGenerator {
 		}
 		
 		if (in_array($field_type, ['year', 'double', 'decimal', 'bigint', 'int'])) {				
-			$rules[] = "'numeric'";
+			if ($subtype != "bitfield") $rules[] = "'numeric'";
 		}
 		
 		if ($options && array_key_exists("min", $options)) {
@@ -771,7 +814,8 @@ class CodeGenerator {
 				// 'input_edit' => self::field_input_edit($table, $field),
 				'input_create' => self::field_input_create($table, $field),
 		        'label_input_edit' => self::field_label_input_edit($table, $field),
-				'rule_edit' => self::field_rule_edit($table, $field),
+		        'label_input_create' => self::field_label_input_create($table, $field),
+		        'rule_edit' => self::field_rule_edit($table, $field),
 				'rule_create' => self::field_rule_create($table, $field),
 				'faker' => self::field_faker($table, $field),
 				'display_name' => ucfirst(str_replace('_', ' ',$field)),

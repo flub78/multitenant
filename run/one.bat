@@ -10,7 +10,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/CodeGeneratorTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/BitsOperationsTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/TestsConventionsTest.php
@@ -32,7 +32,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/SchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ViewSchemaModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/MetadataModelTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CodeGenTypeModelTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CodeGenTypeModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypesView1ModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/UserRolesView1ModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/ProfileModelTest.php
@@ -89,7 +89,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
 

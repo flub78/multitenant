@@ -39,6 +39,7 @@ use App\Helpers\DateFormat;
           <th> {{__('code_gen_type.price')}} </th>
           <th> {{__('code_gen_type.big_price')}} </th>
           <th> {{__('code_gen_type.qualifications')}} </th>
+          <th> {{__('code_gen_type.black_and_white')}} </th>
           <th> {{__('code_gen_type.color_name')}} </th>
           <th> {{__('code_gen_type.picture')}} </th>
           <th> {{__('code_gen_type.attachment')}} </th>
@@ -66,6 +67,7 @@ use App\Helpers\DateFormat;
           <td> <div align="right">{!! Blade::currency($code_gen_type->price) !!}</div></td>
           <td> <div align="right">{!! Blade::currency($code_gen_type->big_price) !!}</div></td>
           <td> {!! Blade::bitfield("code_gen_types", "qualifications", $code_gen_type->qualifications) !!}</td>
+          <td> <input type="checkbox" {{ ($code_gen_type->black_and_white) ? "checked" : "" }}  onclick="return false;" /></td>
           <td> {!! Blade::enumerate("code_gen_type.color_name", $code_gen_type->color_name) !!}</td>
           <td> {!! Blade::picture("code_gen_type.picture", $code_gen_type->id, "picture", $code_gen_type->picture) !!}</td>
           <td> {!! Blade::download("code_gen_type.file", $code_gen_type->id, "attachment", $code_gen_type->attachment, "Attachment") !!}</td>
