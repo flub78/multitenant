@@ -67,6 +67,14 @@ class Controller extends BaseController
      * @param unknown $validatedData
      * @param unknown $field
      */
+    public function store_checkbox(&$validatedData, $field, $request) {
+        $validatedData [$field] = $request->has ( $field ) && $request->$field;        
+    }
+    
+    /**
+     * @param unknown $validatedData
+     * @param unknown $field
+     */
     public function store_datetime(&$validatedData, $field) {
         $validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field]);
     }

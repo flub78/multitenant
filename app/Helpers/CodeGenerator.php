@@ -1077,7 +1077,12 @@ class CodeGenerator {
 			} elseif ("bitfield" == $subtype) {
 				$line["store"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
 				$line["update"] = "\$this->update_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
+				
+			} elseif ("checkbox" == $subtype) {
+			    $line["store"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
+			    $line["update"] = "\$this->store_$subtype(\$validatedData, \"$field\", \$request, \"$element\");";
 			}
+			
 			if ($line) $res[] = $line;
 		}
 		return $res;
