@@ -67,21 +67,30 @@ class MetadataHelper {
 	 * @return boolean
 	 */
 	static function fillable($table, $field) {
+	    
+	    $key = 'fillable_' . $table . '___' . $field;
+	    if (array_key_exists($key, self::$memoization)) {
+	        return self::$memoization[$key];
+	    }
+	    
 		// look for options in metadata table
 		$options = MetaModel::options($table, $field);		
 		if ($options && array_key_exists('fillable', $options)) {
-			return ($options['fillable'] == "true");
+		    self::$memoization[$key] = ($options['fillable'] == "true");
+		    return self::$memoization[$key];
 		}
 		
 		// Nothing in metadadata table look in comments
 		$meta = Schema::columnMetadata($table, $field);
 		if ($meta && array_key_exists('fillable', $meta)) {
 			// it is specified in comment
-			return ($meta['fillable'] == "yes");
+		    self::$memoization[$key] = ($meta['fillable'] == "yes");
+		    return self::$memoization[$key];
 		}
 		
 		// default 
-		return true;		
+		self::$memoization[$key] = true;
+		return self::$memoization[$key];
 	}
 	
 	/**
@@ -174,7 +183,7 @@ class MetadataHelper {
 			$meta_root = Schema::columnMetadata($table, $root);
 			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "password_with_confirmation")) {
 			    self::$memoization[$key] = "password_confirmation";
-			    return "password_confirmation";
+			    return self::$memoization[$key];
 			}
 		}
 						
@@ -185,7 +194,7 @@ class MetadataHelper {
 			$meta_root = Schema::columnMetadata($table, $root);
 			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "bitfield")) {
 			    self::$memoization[$key] = "bitfield_boxes";
-			    return "bitfield_boxes";
+			    return self::$memoization[$key];
 			}
 		}
 		
@@ -193,12 +202,12 @@ class MetadataHelper {
 		$fk = Schema::foreignKey($table, $field);
 		if ($fk) {
 		    self::$memoization[$key] = "foreign_key";
-		    return "foreign_key";
+		    return self::$memoization[$key];
 		}
 		
 		// not found anywhere
 		self::$memoization[$key] = "";
-		return "";
+		return self::$memoization[$key];
 	}
 	
 	/**
@@ -219,10 +228,10 @@ class MetadataHelper {
 			$subtype = self::subtype($table, $field);
 			if ($subtype == "password_confirmation") {
 			    self::$memoization[$key] = "password";
-				return "password";
+			    return self::$memoization[$key];
 			} else if ($subtype == "password_with_confirmation") {
 			    self::$memoization[$key] = "password";
-			    return "password";
+			    return self::$memoization[$key];
 			} 
 		}
 		$first = explode(' ', $full_type)[0];
@@ -230,7 +239,7 @@ class MetadataHelper {
 		$pattern = '/(.*)(\(\d*\)*)/';
 		if (preg_match($pattern, $first, $matches)) {
 		    self::$memoization[$key] = $matches[1];
-		    return $matches[1];
+		    return self::$memoization[$key];
 		}
 		self::$memoization[$key] = $first;
 		return $first;
