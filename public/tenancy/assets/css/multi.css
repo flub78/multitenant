@@ -1,5 +1,23 @@
-.rounded-circle {
-    color: red;
-    background-color: green;
-    width: 75px;
+
+header {
+   background: url(../images/header.jpg) no-repeat left top;
+   background-size: cover;
+}
+#header_left {
+   background: url(../images/header_left.gif) no-repeat left top;
+   background-size: contain;
+   width: 200px;
+   height:50px;
+}
+#header_right {
+   background: url(../images/header_right.gif) no-repeat right top;
+   background-size: contain;
+   width: 200px;
+   height:50px;
+}
+
+footer {
+   background: 
+        url(../images/header.jpg) no-repeat left top;
+   background-size: cover;
 }

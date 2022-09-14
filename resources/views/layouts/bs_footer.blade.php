@@ -1,6 +1,6 @@
-<div class="container-fluid p-3 bg-success text-white text-center">
+<footer class="container-fluid p-3 bg-success text-white text-center">
 	<p>Tenant WEBAPP ©2021 Flub78</p>
-</div>
+</footer>
 
 <div> <!-- End of body -->
 

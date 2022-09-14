@@ -122,7 +122,8 @@ class [[class_name]]Controller extends Controller {
 	 */
 	public function update([[class_name]]Request $request, $id) {
 		$validatedData = $request->validated ();
-
+		$previous = [[class_name]]::find($id);
+		
 [[# controller_list ]]
         [[&update]]
 [[/ controller_list ]]
