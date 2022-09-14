@@ -841,8 +841,7 @@ class CodeGenerator {
 		$res = ['name' => $field,
 				'display' => self::field_display($table, $field, $view, $view_field),
 				'label' => self::field_label($table, $field, $view, $view_field),
-				// 'input_edit' => self::field_input_edit($table, $field),
-				'input_create' => self::field_input_create($table, $field),
+				 //'input_create' => self::field_input_create($table, $field),
 		        'label_input_edit' => self::field_label_input_edit($table, $field),
 		        'label_input_create' => self::field_label_input_create($table, $field),
 		        'rule_edit' => self::field_rule_edit($table, $field),
@@ -911,7 +910,7 @@ class CodeGenerator {
 	 * @param String $table
 	 * @return string[][]
 	 */
-	static public function form_field_list (String $table) {
+	static public function form_field_list (String $table, $for_rules = false) {
 		$res = [];
 		$list = Meta::form_fields($table);
 		foreach ($list as $field) {
@@ -920,10 +919,21 @@ class CodeGenerator {
 			$meta = self::field_metadata($table, $field);
 			$meta['name'] = $field;
 			$res[] = $meta;
+		
+			$subtype = Meta::subtype($table, $field);
+			if ("bitfield_boxes" == $subtype) {
+			    $basename = substr($field, 0, -6);
+			    
+			    $meta = [];
+			    $meta['name'] = $basename;
+			    $meta['rule_edit'] = "['nullable', 'numeric']";
+			    $meta['rule_create'] = "['nullable', 'numeric']";
+			    $res[] = $meta;
+			}
 		}
 		return $res;
 	}
-	
+		
 	/**
 	 * An array of metadata for all fields relevant to factories
 	 * 
@@ -1216,7 +1226,8 @@ class CodeGenerator {
 				'element' => Meta::element($table),
 				'table_field_list' => self::table_field_list($table),
 				'form_field_list' => self::form_field_list($table),
-				'index_field_list' => self::index_field_list($table),
+		        'rules_field_list' => self::form_field_list($table, true),
+		        'index_field_list' => self::index_field_list($table),
 				'factory_field_list' => self::factory_field_list($table),
 				'button_edit' => self::button_edit($table),
 				'button_delete' => self::button_delete($table),
