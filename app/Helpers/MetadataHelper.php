@@ -20,6 +20,13 @@ class MetadataHelper {
     public static $memoization = [];
     
     /**
+     * Some tests create metadata on the fly and need a way to disable the memoizer
+     */
+    static  public function reset_memoizer () {
+        self::$memoization = [];
+    }
+    
+    /**
 	 * Transform a string into CamelCase
 	 * @param unknown $string
 	 * @param boolean $capitalizeFirst

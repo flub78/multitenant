@@ -165,6 +165,7 @@ class MetadataHelperTest extends TestCase {
 		
 		// Let's use a field for which metadata are defined in comments
 		$this->assertEquals("password_with_confirmation", Meta::subtype('users', 'password'));
+		Meta::reset_memoizer();
 		
 		// create an entry in the metadata table
 		$metadata = Metadata::factory()->make(['table' => "users", 'field' => "password", "subtype" => "zorglub"]);
@@ -175,6 +176,7 @@ class MetadataHelperTest extends TestCase {
 		
 		// delete the metadata table element
 		$metadata->delete();
+		Meta::reset_memoizer();
 		
 		// Check that we are back to comment value
 		$this->assertEquals("password_with_confirmation", Meta::subtype('users', 'password'));
@@ -182,6 +184,7 @@ class MetadataHelperTest extends TestCase {
 	
 	public function test_metadata_enumerate() {
 		$this->assertEquals("", Meta::subtype('configurations', 'key'));
+		Meta::reset_memoizer();
 		
 		$elt = ['table' => "configurations", 'field' => "key", "subtype" => "enumerate",
 				"options" => '{"values":["app.locale", "app.timezone", "browser.locale"]}'];
@@ -191,6 +194,7 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals("enumerate", Meta::subtype('configurations', 'key'));
 		
 		$metadata->delete();
+		Meta::reset_memoizer();
 		
 		$options = Meta::field_metadata("calendar_events", "allDay");
 		$this->assertEquals('checkbox', $options['subtype']);
@@ -199,6 +203,7 @@ class MetadataHelperTest extends TestCase {
 				"options" => '{"values":["app.locale", "app.timezone", "browser.locale"]}'];
 		$metadata = Metadata::factory()->make($elt);
 		$metadata->save();
+		Meta::reset_memoizer();
 		
 		$options = Meta::field_metadata("calendar_events", "allDay");
 		$this->assertEquals("enumerate", Meta::subtype('calendar_events', 'allDay'));
