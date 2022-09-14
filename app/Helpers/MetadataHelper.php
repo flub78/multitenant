@@ -9,14 +9,17 @@ use Illuminate\Support\Facades\Log;
 /**
  * Metadata interface
  *
- * Central point to get metadata associated to a table
+ * Central point to get metadata associated to a table. In other words to fetch information 
+ * form the database comments information of from the metadata table.
  * 
  * @author frederic
  *        
  */
 class MetadataHelper {
 
-	/**
+    public static $memoization = [];
+    
+    /**
 	 * Transform a string into CamelCase
 	 * @param unknown $string
 	 * @param boolean $capitalizeFirst
@@ -136,16 +139,25 @@ class MetadataHelper {
 	 * @return string
 	 */
 	static public function subtype($table, $field) {
+	    
+	    $key = 'subtype_' . $table . '___' . $field;
+	    if (array_key_exists($key, self::$memoization)) {
+	        return self::$memoization[$key];
+	    }
 		
 		// value from metadatatable takes precedence
 		$subtype = MetaModel::subtype($table, $field);
 		if ($subtype != "") {
+		    self::$memoization[$key] = $subtype;
 			return $subtype;
 		}
 
 		// look in the field comment
 		$meta = Schema::columnMetadata($table, $field);
-		if ($meta && array_key_exists('subtype', $meta)) return $meta['subtype'];
+		if ($meta && array_key_exists('subtype', $meta)) {
+		    self::$memoization[$key] = $meta['subtype'];
+		    return $meta['subtype'];
+		}
 					
 		// Not found, maybe it's a derived field, look for root field
 		if (preg_match('/(.*)(\_confirmation)/', $field, $matches)) {
@@ -154,7 +166,8 @@ class MetadataHelper {
 			// root field metadata
 			$meta_root = Schema::columnMetadata($table, $root);
 			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "password_with_confirmation")) {
-				return "password_confirmation";
+			    self::$memoization[$key] = "password_confirmation";
+			    return "password_confirmation";
 			}
 		}
 						
@@ -164,17 +177,20 @@ class MetadataHelper {
 			// root field metadata
 			$meta_root = Schema::columnMetadata($table, $root);
 			if ($meta_root && array_key_exists('subtype', $meta_root) && ($meta_root['subtype'] == "bitfield")) {
-				return "bitfield_boxes";
+			    self::$memoization[$key] = "bitfield_boxes";
+			    return "bitfield_boxes";
 			}
 		}
 		
 		// maybe it's a foreign key
 		$fk = Schema::foreignKey($table, $field);
 		if ($fk) {
-			return "foreign_key";
+		    self::$memoization[$key] = "foreign_key";
+		    return "foreign_key";
 		}
 		
 		// not found anywhere
+		self::$memoization[$key] = "";
 		return "";
 	}
 	
@@ -185,22 +201,31 @@ class MetadataHelper {
 	 * @return string
 	 */
 	static public function type($table, $field) {
+	    $key = 'type_' . $table . '___' . $field;
+	    if (array_key_exists($key, self::$memoization)) {
+	        return self::$memoization[$key];
+	    }
+	    
 		$full_type = Schema::columnType($table, $field);
 						
 		if (! $full_type) {
 			$subtype = self::subtype($table, $field);
 			if ($subtype == "password_confirmation") {
+			    self::$memoization[$key] = "password";
 				return "password";
 			} else if ($subtype == "password_with_confirmation") {
-				return "password";
+			    self::$memoization[$key] = "password";
+			    return "password";
 			} 
 		}
 		$first = explode(' ', $full_type)[0];
 		
 		$pattern = '/(.*)(\(\d*\)*)/';
 		if (preg_match($pattern, $first, $matches)) {
-			return $matches[1];
+		    self::$memoization[$key] = $matches[1];
+		    return $matches[1];
 		}
+		self::$memoization[$key] = $first;
 		return $first;
 	}
 	
