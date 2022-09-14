@@ -9,6 +9,7 @@ namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
 use App\Models\Tenants\CodeGenType;
+use App\Helpers\CodeGenerator as CG;
 
 /**
  * Unit test for CodeGenType model
@@ -42,8 +43,10 @@ class CodeGenTypeModelTest extends TenantTestCase {
          // a third to generate values for updates
         $code_gen_type3 = CodeGenType::factory()->make();
         $this->assertNotNull($code_gen_type3);
+        $table = "code_gen_types";
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
-            $this->assertNotEquals($latest->$field, $code_gen_type3->$field, "different $field between two random element");
+            if (CG::lot_of_values($table, $field)) 
+                $this->assertNotEquals($latest->$field, $code_gen_type3->$field, "different $field between two random element");
         }
  
         $this->assertTrue(CodeGenType::count() == $initial_count + 2, "Two new elements in the table");
@@ -80,7 +83,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $this->assertDeleted($stored);
         $this->assertTrue(CodeGenType::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
-            if ($field != "id")
+            if ($field != "id" && (CG::lot_of_values($table, $field)) )
                 $this->assertDatabaseMissing('code_gen_types', [$field => $code_gen_type3->$field]);
         }
     }

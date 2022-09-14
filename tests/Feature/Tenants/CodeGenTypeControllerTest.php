@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Tenants\CodeGenType;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\App;
+use App\Helpers\CodeGenerator as CG;
 
 
 /**
@@ -276,11 +277,13 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $initial = CodeGenType::where('id', $id)->first();     // get it back
         $this->assertNotNull($initial);
         
+        $table = "code_gen_types";
         // Check that the first saved element has the correct values and is different from the second one
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
             if ($field != 'id') {
-                $this->assertEquals($initial->$field, $elt[$field]);
-                $this->assertNotEquals($initial->$field, $code_gen_type2->$field);
+                $this->assertEquals($initial->$field, $elt[$field], "field $field correct after being retreived from database");
+                if (CG::lot_of_values($table, $field))
+                    $this->assertNotEquals($initial->$field, $code_gen_type2->$field, "field $field is different between two random instances");
             }
         }
                 

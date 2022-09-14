@@ -26,7 +26,8 @@ The goal is to generate code indistinguishable from manual code.
 
 With this template mechanism it is possible to generate quickly a basic application. Of course complex resources will need tuning and adaptations but the intial version should work out of the box. In this context a resource may be a database table but also the result of a joint stored as a view in the database. It is the generalization of the idea of automated CRUD generator to complex views result of select implicating several tables.
 
-     
+This idea came from a previous project using another PHP framework. At this time, it was obvious that developing software at the data type level (data driven programing) was more productive than traditional approaches. In a way it was a mitigation for the poor modularity of HTML. Things could become different with Javascript frameworks like React. By writting a React component to display, create or modify all the types supported by the code generator it may be possible to reach the same productivity maybe in a way more familiar to more developers. Perhaps that is is a natural evolution of this project, to introduce React and move a part of the code generator complexity into React components. In this case the code generator could be limited to generate REST API and become simpler ... 
+
 ## Use cases
 
 Depending on the size of the application we can expect between twenty and a few hundred different resources.

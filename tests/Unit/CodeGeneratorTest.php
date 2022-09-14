@@ -105,4 +105,15 @@ class CodeGeneratorTest extends TestCase {
 	    $res = CG::toCamelCase($str);
 	    $this->assertEquals("StartDate", $res);
 	}
+	
+	public function test_lot_of_values() {
+	    $this->assertFalse(CG::lot_of_values("code_gen_types", "black_and_white"));
+	    $this->assertFalse(CG::lot_of_values("code_gen_types", "color_name"));
+	    
+	    $this->assertTrue(CG::lot_of_values("code_gen_types", "name"));
+	    $this->assertTrue(CG::lot_of_values("code_gen_types", "phone"));
+	    $this->assertTrue(CG::lot_of_values("code_gen_types", "price"));
+	    $this->assertTrue(CG::lot_of_values("code_gen_types", "name"));
+	}
+	
 }

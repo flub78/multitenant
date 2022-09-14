@@ -10,9 +10,9 @@ use App\Helpers\HtmlHelper as HH;
 use App\Helpers\BladeHelper as Blade;
 
 /**
- * Metadata interface
+ * Code Generator
  *
- * Central point to get metadata associated to a table
+ * This helper generate code from the metadata information.
  * 
  * @author frederic
  *        
@@ -60,6 +60,23 @@ class CodeGenerator {
 			return 'delete_{{ $' . $element . '->' . $dusk_field . ' }}';
 		}
 	}
+	
+	/**
+	 * Check if a field can contain a lot of different values and so
+	 * use a different one for every object instance for testins.
+	 * By opposition booleans or small enumerates cannot support that.
+	 * 
+	 * @param unknown $table
+	 * @param unknown $element
+	 */
+	static public function lot_of_values(String $table, String $field) {
+	    $subtype = Meta::subtype($table, $field);
+	    if (in_array($subtype, ['checkbox', 'enumerate'])) {
+	        return false;
+	    }
+	    return true;
+	}
+	    
 	
 	/**
 	 * Generate code to display an element in a table list view
@@ -661,12 +678,17 @@ class CodeGenerator {
 	static public function field_faker (String $table, String $field) {
 		$subtype = Meta::subtype($table, $field);
 		$type = Meta::type($table, $field);
-		$unique = Schema::unique($table, $field);
+		// $unique = Schema::unique($table, $field);
 		$options = Meta::field_metadata($table, $field);
 		
 		// $faker = ($unique) ? '$this->faker->unique()' : '$this->faker';
 		// Tests relies on random elements to be different
-		$faker = '$this->faker->unique()';
+		$faker = '$this->faker';
+		
+		$not_unique_subtypes = ['checkbox', 'enumerate', 'picture', 'file'];
+		if (! in_array($subtype, $not_unique_subtypes)) {
+		  $faker .= '->unique()';
+		}
 		
 		$res = "$table.$field faker type=$type, subtype=$subtype\n";
 		

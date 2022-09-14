@@ -53,8 +53,13 @@ class DateFormat {
 		// echo "tz = $tz\n"; 
 		$local_datetime = str_replace('T', ' ', $local_datetime);
 		
-		// $date = Carbon::createFromFormat ( __ ( 'general.datetime_format' ), $local_datetime, $tz );
-		$date = Carbon::createFromFormat ("Y-m-d H:i" , $local_datetime, $tz);
+		if (strlen($local_datetime) > 18) {
+		    // with seconds
+		    $date = Carbon::createFromFormat ("Y-m-d H:i:s" , $local_datetime, $tz);
+		} else {
+		    // no seconds
+		    $date = Carbon::createFromFormat ("Y-m-d H:i" , $local_datetime, $tz);
+		}
 		$date->timezone ( "UTC" );
 		return $date->format ( "Y-m-d H:i:s" );
 	}

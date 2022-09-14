@@ -76,7 +76,7 @@ class Controller extends BaseController
      * @param unknown $field
      */
     public function store_datetime(&$validatedData, $field) {
-        $validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field]);
+        $validatedData [$field] = DateFormat::datetime_to_db ($validatedData [$field]);
     }
         
     /**

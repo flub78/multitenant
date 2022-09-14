@@ -43,7 +43,7 @@ class CodeGenTypeFactory extends Factory
             'big_price' => $this->faker->unique()->randomFloat(2, 0, 10000),
             'qualifications' => rand(0, 10000),
             'black_and_white' => $this->faker->boolean(),
-            'color_name' => $this->faker->unique()->randomElement(["blue","red","green","white","black"]),
+            'color_name' => $this->faker->randomElement(["blue","red","green","white","black"]),
             'picture' => $file = UploadedFile::fake()->image('picture.jpg'),
             'attachment' => $file = UploadedFile::fake()->create('attachment.pdf', 3)->store('attachment.pdf'),
         ];

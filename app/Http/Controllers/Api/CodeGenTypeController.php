@@ -94,7 +94,7 @@ class CodeGenTypeController extends Controller {
 	 */
 	public function store(CodeGenTypeRequest $request) {
 		$validatedData = $request->validated ();
-
+		
 		return CodeGenType::create ( $validatedData );
 	}
 
@@ -121,12 +121,14 @@ class CodeGenTypeController extends Controller {
 	 */
 	public function update(CodeGenTypeRequest $request, $id) {
 		$validatedData = $request->validated ();
+		$previous = CodeGenType::find($id);
 
         $this->store_datetime($validatedData, 'takeoff');
         $this->update_bitfield($validatedData, "qualifications", $request, "code_gen_type");
+        $this->store_checkbox($validatedData, "black_and_white", $request, "code_gen_type");
         $this->update_picture($validatedData, "picture", $request, "code_gen_type", $previous);
         $this->update_file($validatedData, "attachment", $request, "code_gen_type", $previous);
-		return CodeGenType::whereId ( $id )->update ( $validatedData );
+        return CodeGenType::whereId ( $id )->update ( $validatedData );
 	}
 
 	/**

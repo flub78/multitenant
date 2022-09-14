@@ -66,6 +66,10 @@ use Illuminate\Validation\Rule;
 						'numeric'],
     			    'qualifications_boxes' => ['nullable',
 						'numeric'],
+    			    
+    			    'qualifications' => ['nullable',
+    			        'numeric'],
+    			    
     			    'black_and_white' => [''],
     			    'color_name' => ['nullable',
 						'max:255',
@@ -103,7 +107,9 @@ use Illuminate\Validation\Rule;
                     'big_price' => ['nullable',
 						'numeric'],
                     'qualifications_boxes' => ['nullable'],
-                    'black_and_white' => [''],
+    			    'qualifications' => ['nullable',
+    			        'numeric'],
+    			    'black_and_white' => [''],
                     'color_name' => ['nullable',
 						'max:255',
 						Rule::in(["blue","red","green","white","black"])],

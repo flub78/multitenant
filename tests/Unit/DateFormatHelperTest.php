@@ -51,13 +51,17 @@ class DateFormatHelperTest extends TestCase {
 	public function test_datetime_to_db() {
 		App::setLocale ( 'fr' );
 		$res = DateFormat::datetime_to_db ( "2018-04-22 10:00", "Europe/Paris");
-		$this->assertTrue ( $res == '2018-04-22 08:00:00', "basic french format " . $res );
+		$this->assertTrue ( $res == '2018-04-22 08:00:00', "basic french format no seconds " . $res );
+
+		$res = DateFormat::datetime_to_db ( "2018-04-22 10:00:42", "Europe/Paris");
+		$this->assertTrue ( $res == '2018-04-22 08:00:42', "basic french format with seconds " . $res );
 	}
 		
 	public function test_datetime_to_db_incorrect_format() {
 		App::setLocale ( 'fr' );
+		
 		$this->expectException(InvalidFormatException::class);
-		$res = DateFormat::datetime_to_db ( "2018-04-22 01:00:61", "Europe/Paris");
+		$res = DateFormat::datetime_to_db ( "2018-04-22 0100:00:61", "Europe/Paris");
 	}
 		
 	public function test_datetime_to_db_english() {
