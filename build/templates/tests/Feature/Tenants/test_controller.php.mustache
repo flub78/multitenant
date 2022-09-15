@@ -289,7 +289,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $updated = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();
         $this->assertNotNull($updated);     
         foreach ([ [[&fillable_names]] ] as $field) {
-            if ($field != '[[primary_index]]') {
+            if ($field != '[[primary_index]]' && CG::testable($table, $field) ) {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }
         }

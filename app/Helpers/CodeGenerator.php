@@ -857,6 +857,16 @@ class CodeGenerator {
         return $res;
     }
     
+    
+    /**
+     * Some subtypes are more difficult to test
+     */
+    static public function testable(String $table, String $field) {
+        $subtype = Meta::subtype($table, $field);
+        if (in_array($subtype, ["picture"]) ) return false;
+        return true;
+    }
+    
     /**
      * An array of metadata for all fillable fields
      *

@@ -289,8 +289,8 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         
         $updated = CodeGenType::where('id', $id)->first();
         $this->assertNotNull($updated);     
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
-        	if ($field != 'id' && $field != 'qualifications' && $field != 'picture') {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
+        	if ($field != 'id' && CG::testable($table, $field) ) {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }            
         }
