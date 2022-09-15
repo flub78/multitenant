@@ -314,13 +314,17 @@ class MetadataHelper {
 	 * @return array
 	 */
 	static public function form_fields(String $table) {
+	    // start from the database field list
 		$list = Schema::fieldList($table);
 		if (! $list) return "";
 		$full_list = [];
 		foreach ($list as $field) {
+		    // ignore non fillable fields
 			if (! self::fillable($table, $field)) continue;
+			// ignore some work fields
 			if (in_array($field, ["id", "created_at", "updated_at"])) continue;
 			
+			// in most cases derived fields also return the base field
 			$derived_flds = self::derived_fields($table, $field);
 			foreach ($derived_flds as $new_field) {
 				$full_list[] = $new_field;

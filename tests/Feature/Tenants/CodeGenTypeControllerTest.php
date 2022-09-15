@@ -178,11 +178,10 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         $elt['big_price'] = $code_gen_type->big_price; 
         $elt['qualifications'] = $code_gen_type->qualifications; 
         $elt['black_and_white'] = $code_gen_type->black_and_white; 
+        $elt['color_name'] = $code_gen_type->color_name; 
         $elt['picture'] = $code_gen_type->picture; 
         $elt['attachment'] = $code_gen_type->attachment;
-        
-        $elt['takeoff'] = substr($elt['takeoff'], 0, -3); // "2008-10-12 09:09";
-        
+                
         $initial_count = CodeGenType::count ();
                 
         // call the post method to create it
@@ -250,8 +249,6 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * When sending a put request
      * Then the element is modified in the database
      * 
-     * TODO: test also with files, pictures and bitfields
-     * 
      * @return void
      */
     public function testPostRequestUpdatesElement() {   
@@ -266,7 +263,6 @@ class CodeGenTypeControllerTest extends TenantTestCase {
             $elt[$field] = $code_gen_type->$field;
             $elt2[$field] = $code_gen_type2->$field;
         }
-        $elt2['takeoff'] = substr($elt2['takeoff'], 0, -3);        
         
         $code_gen_type->save();                            // save the first element
         $latest = CodeGenType::latest()->first();
@@ -279,9 +275,9 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         
         $table = "code_gen_types";
         // Check that the first saved element has the correct values and is different from the second one
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
             if ($field != 'id') {
-                $this->assertEquals($initial->$field, $elt[$field], "field $field correct after being retreived from database");
+                $this->assertEquals($initial->$field, $elt[$field], "correct field $field retreived from the database");
                 if (CG::lot_of_values($table, $field))
                     $this->assertNotEquals($initial->$field, $code_gen_type2->$field, "field $field is different between two random instances");
             }
@@ -296,9 +292,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "price", "big_price", "qualifications", "picture", "attachment" ] as $field) {
         	if ($field != 'id' && $field != 'qualifications' && $field != 'picture') {
                 $this->assertEquals($updated->$field, $elt2[$field]);
-            }
-            $this->assertEquals($updated->takeoff, $elt2['takeoff'] . ":00");
-            
+            }            
         }
         $updated->delete();
     }
@@ -384,6 +378,8 @@ class CodeGenTypeControllerTest extends TenantTestCase {
     	App::setLocale('en');
     	$this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);    	
     	$en_string = __('code_gen_type.new');
+        $this->get_tenant_url($this->user, 'code_gen_type', [__('code_gen_type.title')]);      
+        $en_string = __('code_gen_type.title');
     	$this->assertNotEquals($fr_string, $en_string);
     	
     	App::setLocale($locale);

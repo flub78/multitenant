@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Tenants\[[class_name]];
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\App;
+use App\Helpers\CodeGenerator as CG;
 
 [[^is_view]]
 /**
@@ -176,9 +177,9 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         // Post a creation request
         $[[element]] = [[class_name]]::factory()->make();
         $elt = ['_token' => csrf_token()];
-        [[#form_field_list]]
+        [[#factory_field_list]]
         $elt['[[name]]'] = $[[element]]->[[name]]; 
-        [[/form_field_list]]
+        [[/factory_field_list]]
 
         $initial_count = [[class_name]]::count ();
         
@@ -271,11 +272,13 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         $initial = [[class_name]]::where('[[primary_index]]', $[[primary_index]])->first();     // get it back
         $this->assertNotNull($initial);
         
+        $table = "[[table]]";
         // Check that the first saved element has the correct values and is different from the second one
         foreach ([ [[&fillable_names]] ] as $field) {
             if ($field != '[[primary_index]]') {
-                $this->assertEquals($initial->$field, $elt[$field]);
-                $this->assertNotEquals($initial->$field, $[[element]]2->$field);
+                $this->assertEquals($initial->$field, $elt[$field], "correct field $field retreived from the database");
+                if (CG::lot_of_values($table, $field))
+                    $this->assertNotEquals($initial->$field, $[[element]]2->$field, "field $field is different between two random instances");
             }
         }
                 
@@ -368,8 +371,9 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 [[#is_view]]    	
         $this->get_tenant_url($this->user, '[[element]]', [__('[[element]].title')]);      
         $fr_string = __('[[element]].title');
-[[/is_view]]
-   	/**
+[[/is_view]] 
+
+    	/**
     	 * Scenario: [[class_name]] testLocale en
     	 * Given the local is set to en
     	 * When calling URLs

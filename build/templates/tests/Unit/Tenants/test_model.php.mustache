@@ -10,6 +10,7 @@ namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
 use App\Models\Tenants\[[class_name]];
+use App\Helpers\CodeGenerator as CG;
 [[#is_view]]
 // Here use clause for the model referenced by the viex
 [[/is_view]] 
@@ -46,8 +47,10 @@ class [[class_name]]ModelTest extends TenantTestCase {
          // a third to generate values for updates
         $[[element]]3 = [[class_name]]::factory()->make();
         $this->assertNotNull($[[element]]3);
+        $table = "[[table]]";
         foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertNotEquals($latest->$field, $[[element]]3->$field, "different $field between two random element");
+            if (CG::lot_of_values($table, $field))
+                $this->assertNotEquals($latest->$field, $[[element]]3->$field, "different $field between two random element");
         }
  
         $this->assertTrue([[class_name]]::count() == $initial_count + 2, "Two new elements in the table");
@@ -84,7 +87,7 @@ class [[class_name]]ModelTest extends TenantTestCase {
         $this->assertDeleted($stored);
         $this->assertTrue([[class_name]]::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ [[&fillable_names]] ] as $field) {
-            if ($field != "[[primary_index]]")
+            if ($field != "[[primary_index]]" && (CG::lot_of_values($table, $field)) )
                 $this->assertDatabaseMissing('[[table]]', [$field => $[[element]]3->$field]);
         }
     }

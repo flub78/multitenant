@@ -44,7 +44,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $code_gen_type3 = CodeGenType::factory()->make();
         $this->assertNotNull($code_gen_type3);
         $table = "code_gen_types";
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
             if (CG::lot_of_values($table, $field)) 
                 $this->assertNotEquals($latest->$field, $code_gen_type3->$field, "different $field between two random element");
         }
@@ -82,7 +82,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         $stored->delete();   
         $this->assertDeleted($stored);
         $this->assertTrue(CodeGenType::count() == $initial_count + 1, "One less elements in the table");
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "color_name", "picture", "attachment" ] as $field) {
+        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
             if ($field != "id" && (CG::lot_of_values($table, $field)) )
                 $this->assertDatabaseMissing('code_gen_types', [$field => $code_gen_type3->$field]);
         }
