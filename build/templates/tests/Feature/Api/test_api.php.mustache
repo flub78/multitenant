@@ -110,10 +110,13 @@ class [[class_name]]ControllerTest extends TenantTestCase {
         // Normally the crsf token is required for all post, put, patch and delete requests
         // But in this context all middleware are disabled ...
         // $elt['_token'] = csrf_token();
-		echo("table = [[table]]\n");
-		// Meta::element($table)
+		$table = "[[table]]";
 		foreach ([ [[&fillable_names]] ] as $field) {
-		    $elt[$field] = $[[element]]->$field;
+			if (CG::testable($table, $field)) {
+		    	$elt[$field] = $[[element]]->$field;
+			} else {
+				$elt[$field] = "";
+			}
 		}
 				
 		// call the post method to create it
@@ -125,7 +128,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		
 		// by default the store method returns the created element
         foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertEquals($[[element]]->$field, $json[$field]);             
+			if (CG::testable($table, $field)) 
+	            $this->assertEquals($[[element]]->$field, $json[$field]);             
         }
 		
 		// check that an element has been created
@@ -137,7 +141,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 		$back = [[class_name]]::latest()->first();
 		$this->assertNotNull($back);
         foreach ([ [[&fillable_names]] ] as $field) {
-            $this->assertEquals($[[element]]->$field, $back->$field);             
+			if (CG::testable($table, $field)) 
+	            $this->assertEquals($[[element]]->$field, $back->$field);             
         }
 	}
 	
@@ -240,8 +245,9 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 
 		$updated = [[class_name]]::findOrFail($[[primary_index]]);
 		
+		$table = "[[table]]";
 		foreach ([ [[&fillable_names]] ] as $field) {
-		    if ($field != "[[primary_index]]")
+		    if ($field != "[[primary_index]]" && CG::testable($table, $field))
                 $this->assertEquals($elt[$field], $updated->$field);             
         }
 

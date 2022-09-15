@@ -10,7 +10,8 @@ use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\CodeGenType;
 use Laravel\Sanctum\Sanctum;
-use App\Helpers\MetadataHelper as Meta;
+use App\Helpers\CodeGenerator as CG;
+
 
 class CodeGenTypeControllerTest extends TenantTestCase {
 	
@@ -102,12 +103,12 @@ class CodeGenTypeControllerTest extends TenantTestCase {
         // Normally the crsf token is required for all post, put, patch and delete requests
         // But in this context all middleware are disabled ...
         // $elt['_token'] = csrf_token();
-        $table = "code_gen_types";
+		$table = "code_gen_types";
 		foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
-		    if (Meta::subtype($table, $field) != "picture") {
+			if (CG::testable($table, $field)) {
 		      $elt[$field] = $code_gen_type->$field;
 		    } else {
-		        $elt[$field] = '';
+				$elt[$field] = "";
 		    }
 		}	
 				
@@ -120,7 +121,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		
 		// by default the store method returns the created element
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
-            if (Meta::subtype($table, $field) != "picture")
+            if (CG::testable($table, $field))    
                 $this->assertEquals($code_gen_type->$field, $json[$field]);             
         }
 		
@@ -133,7 +134,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		$back = CodeGenType::latest()->first();
 		$this->assertNotNull($back);
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
-            if (Meta::subtype($table, $field) != "picture")
+			if (CG::testable($table, $field)) 
                 $this->assertEquals($code_gen_type->$field, $back->$field);             
         }
 	}
@@ -233,19 +234,14 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		$elt['_token'] = csrf_token();
 		
 		$response = $this->patchJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id, $elt);
-		
-		/*
-		 * In case of exception $response->json() is an associative array with the keys:
-		 * "message", "exception", "file", "line" and "trace"
-		 */
 		$this->assertEquals(1, $response->json());		
 
 		$updated = CodeGenType::findOrFail($id);
 		
 		$table = "code_gen_types";
 		foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
-		    if ($field != "id" && (Meta::subtype($table, $field) != "picture")) 
-		        $this->assertEquals($elt[$field], $updated->$field, "field $field updated, new value = " . $elt[$field]);             
+		    if ($field != "id" && CG::testable($table, $field))
+                $this->assertEquals($elt[$field], $updated->$field);             
         }
 
 		$new_count = CodeGenType::count ();
