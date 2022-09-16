@@ -9,6 +9,11 @@ use App\Models\Tenants\Metadata;
 use App\Helpers\MetadataHelper as Meta;
 
 class CodeGeneratorTest extends TestCase {
+    
+    public function test_array_to_string() {
+        $this->assertEquals('[]', CG::array_to_string([]));
+        $this->assertEquals('["one", "two", "three"]', CG::array_to_string(['one', 'two', 'three']));
+    }
 	
 	public function test_field_label() {
 		$label = CG::field_label("calendar_events", "start");
@@ -38,7 +43,6 @@ class CodeGeneratorTest extends TestCase {
 	    $this->assertEquals("code_gen_types", $meta['table']);
 	    $this->assertEquals("CodeGenType", $meta['class_name']);
 	    $this->assertEquals("code_gen_type", $meta['element']);
-	    //var_dump($meta); exit;
 	}
 	
 	public function test_enumerate () {

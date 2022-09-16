@@ -5,7 +5,6 @@ namespace App\Helpers;
 use Exception;
 use App\Helpers\HtmlHelper as HH;
 use Illuminate\Support\Str;
-use App\Helpers\MetadataHelper as Meta;
 use App\Helpers\BitsOperationsHelper as BO;
 
 /**
@@ -132,19 +131,17 @@ class BladeHelper {
 	/**
 	 * Display a bitfield
 	 * 
+	 * Basic implementation is to return a comma separated list of values.
+	 * 
 	 * @return string
 	 *
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function bitfield($table, $field, $bitfield) {
-		$options = Meta::field_metadata($table, $field);
-		$element = Meta::element($table);
-		if (!$options) return $bitfield;
-		if (!array_key_exists("values", $options)) return $bitfield;
+	static public function bitfield($table, $field, $bitfield, $element, $values = []) {
 		
 		$cnt = 0;
 		$res = "";
-		foreach ($options['values'] as $value) {
+		foreach ($values as $value) {
 			if (BO::bit_at($bitfield, $cnt)) {
 				if ($res) $res .= ", ";
 				$lang_key = $element . '.'  . $field . '.' . $value;
@@ -157,20 +154,14 @@ class BladeHelper {
 	}
 	
 	/**
-	 * Display a bitfield
+	 * Input for bitfield
 	 *
 	 * @return string
 	 *
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function bitfield_input($table, $field, $bitfield) {
-		$default = '<input type="text" class="form-control" name="qualifications" value="' . $bitfield . '"/>';
-		$options = Meta::field_metadata($table, $field);
-		$element = Meta::element($table);
-		if (!$options) return $default;
-		if (!array_key_exists("values", $options)) return $default;
-				
-		$res = self::radioboxes($table, $field, $options['values'], $bitfield);
+	static public function bitfield_input($table, $field, $bitfield, $element, $values) {
+		$res = self::radioboxes($table, $field, $values, $bitfield, $element);
 		return $res;
 	}
 	
@@ -225,8 +216,7 @@ class BladeHelper {
 	 *
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function radioboxes($table, $field, $values = [ ], $bitfield = 0, $attrs = [ ]) {
-		$element = Meta::element($table);
+	static public function radioboxes($table, $field, $values = [ ], $bitfield = 0, $element) {
 		
 		$cnt = 0;
 		$res = "<fieldset class=\"form-group d-sm-flex flex-wrap mt-5 mb-3 ms-2\">\n";

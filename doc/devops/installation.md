@@ -47,7 +47,15 @@ And create tenants :
 
 ![Created tenant](images/tenant_created.png?raw=true "Result of tenant creation")
 
+Also migrate the test database
 	
+	
+
+### Backup restore
+
+It is possible to restore a backup, but it is only going to restore the central database,
+not to create previous tenants.
+		
 
 ### Generate a laravel key
 

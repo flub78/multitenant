@@ -45,6 +45,20 @@ class CodeGenerator {
     }
     
     /**
+     * return a string at the format '["elt1", "elt2"]' from an array of string
+     * 
+     * @param unknown $array
+     */
+    static public function array_to_string($array) {
+        $res = '[';
+        if ($array) {
+            $res .= '"' . implode('", "', $array) . '"';
+        }
+        $res .= ']';
+        return $res;
+    }
+    
+    /**
      * Generate a dusk anchor
      * @param String $table
      * @param String $element
@@ -116,7 +130,10 @@ class CodeGenerator {
             
         } elseif (($subtype == "bitfield")) {
             $table_field = $element . '.' . $field;
-            return "{!! Blade::bitfield(\"$table\", \"$field\", $value) !!}";
+            $options = Meta::field_metadata($table, $field);
+            if (!array_key_exists("values", $options)) return $value;
+            $str_values = self::array_to_string($options['values']);
+            return "{!! Blade::bitfield(\"$table\", \"$field\", $value, \"$element\", $str_values) !!}";
             
         } elseif (($subtype == "picture")) {
             $route_name = $element . '.picture';
@@ -211,8 +228,12 @@ class CodeGenerator {
         
         if ($subtype == "bitfield") {
             $options = Meta::field_metadata($table, $field);
+            if (!array_key_exists("values", $options)) return $value;
+            $str_values = self::array_to_string($options['values']);
             
-            return '{!! Blade::bitfield_input("' . $table . '", "' . $field . '", $' . $element  . '->' . $field .') !!}';
+            return '{!! Blade::bitfield_input("' . $table . '", "' . $field . '", $' . $element  . '->' . $field
+            . ", \"$element\",  $str_values"
+            .') !!}';
             
         }
         
@@ -401,7 +422,7 @@ class CodeGenerator {
             foreach ($options['values'] as $value) {
                 $values[$value] = '{{__("' . $element . '.' .$field. '.' . $value . '") }}';
             }
-            return Blade::radioboxes($table, $field, $values, false, '', []);
+            return Blade::radioboxes($table, $field, $values, 0, $element);
         }
         
         $fkt = Schema::foreignKeyReferencedTable($table, $field);

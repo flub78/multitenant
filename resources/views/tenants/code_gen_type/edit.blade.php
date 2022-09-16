@@ -84,7 +84,7 @@ use App\Helpers\BladeHelper as Blade;
       </div>
 
       <div class="form-floating mb-2 border">
-        {!! Blade::bitfield_input("code_gen_types", "qualifications", $code_gen_type->qualifications) !!}
+              {!! Blade::bitfield_input("code_gen_types", "qualifications", $code_gen_type->qualifications, "code_gen_type",  ["redactor", "student", "pilot", "instructor", "winch_man", "tow_pilot", "president", "accounter", "secretary", "mechanic"]) !!}
         <label class="form-label" for="qualifications">{{__("code_gen_type.qualifications")}}</label>
       </div>
 

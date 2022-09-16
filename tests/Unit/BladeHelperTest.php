@@ -81,4 +81,31 @@ class BladeHelperTest extends TestCase {
 		$this->assertEquals("roles_name.red", $en);		
 	}
 	
+	public function test_bietfield() {
+	    $values = ["redactor","student","pilot", "instructor", "winch_man", "tow_pilot", "president", 
+	        "accounter", "secretary", "mechanic"];
+	    $res = Blade::bitfield("code_gen_types", "qualifications", 7, "code_gen_type", $values);
+	    $this->assertNotEquals("", $res);
+	    $this->assertEquals("Redactor, Student, Pilot", $res);
+	}
+
+	public function test_bietfield_input() {
+	    $values = ["redactor","student","pilot", "instructor", "winch_man", "tow_pilot", "president",
+	        "accounter", "secretary", "mechanic"];
+	    
+	    $res = Blade::bitfield_input("code_gen_types", "qualifications", 7, "code_gen_type", $values);
+	    
+	    $this->assertNotEquals("", $res);
+	    
+	    $this->assertTrue(str_contains($res, '<fieldset'));
+	    $this->assertTrue(str_contains($res, 'class="form-group d-sm-flex flex-wrap'));
+	    $this->assertTrue(str_contains($res, '<label'));
+	    $this->assertTrue(str_contains($res, '<input'));
+	    $this->assertTrue(str_contains($res, 'Redactor'));
+	    $this->assertTrue(str_contains($res, 'checked'));
+	    $this->assertTrue(str_contains($res, '<fieldset'));
+	    
+	    // $this->assertEquals("", $res);
+	}
+	
 }

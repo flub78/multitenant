@@ -45,7 +45,20 @@ in httpd-vhosts.conf
 	ServerAlias *.tenants.com
 	</VirtualHost>
 
+## PHP
 
+	install GD which is required for unit tests
+	
+	In the xampp control
+	
+	Apache - Config - php.ini
+	
+	uncomment ;extension=gd
+	
+	restart Apache
+	
+	
+	
 ## Eclipse
 
 
