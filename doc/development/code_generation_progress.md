@@ -101,11 +101,10 @@
     php artisan mustache:generate --compare code_gen_types factory              OK
     
     php artisan mustache:generate --compare code_gen_types test_model           OK    
-    php artisan mustache:generate --compare code_gen_types test_controller      NO
+    php artisan mustache:generate --compare code_gen_types test_controller      OK
     php artisan mustache:generate --compare code_gen_types test_dusk        to be tested
     php artisan mustache:generate --compare code_gen_types api                  OK
-    php artisan mustache:generate --compare code_gen_types test_api             NO
-        to validate
+    php artisan mustache:generate --compare code_gen_types test_api             OK
         
 ## code_gen_types_view1
 

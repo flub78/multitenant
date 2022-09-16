@@ -9,7 +9,7 @@ use App\Helpers\DateFormat;
 
 @section('content')
 
-<div class="uper  d-flex flex-column">
+<div class="uper d-flex flex-column">
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  

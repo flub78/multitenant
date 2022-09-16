@@ -23,7 +23,8 @@ cp .env.dusk.tenants .env
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/ConfigurationTest.php
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/UserTest.php
 @rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/BackupsTest.php
-php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/ProfileTest.php
+@rem php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/ProfileTest.php
+php artisan dusk --colors=always --env=.env.dusk.tenants --browse tests/Browser/Tenants/CodeGenTypeTest.php
 cp .env.svg .env
 
 

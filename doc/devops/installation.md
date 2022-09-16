@@ -11,15 +11,49 @@ or initial installation steps
 
 ## Installation steps
 
-* Get the sources from github
-* Create the tenant database
-* Create a database user
+### Get the sources from github
 
-* Move the public directory (some difficulties with that)
-* create the .env
+	Setup the Apache virtual host to point to the public directory.
 
-* migrate and seed the database
-* php artisan key:generate
+### Create the databases
+
+Create one database matching the credentials in each .env environement. For security reasons you should not use the database user name and password from the github repository.
+
+A typicall development environment has 
+
+* .env for interactive testing
+* .env.testing for unit tests
+* .env.dusk.local for dusk central application tests
+* .env.dusk.tenants for dusk tenant application tests
+* .env.dusk.deployed_tenant	for end to end test of a deployed server
+
+Usually they use at least one database for human and one for the test, sometimes more for the test.
+
+### Migrate and seed the database
+
+See migrations
+
+[Migrations](../development/migrations.md)
+
+Migrate the main database
+
+	php artisan migrate
+	
+Once done it is possible to register to central application.
+
+And create tenants :
+
+![Create tenant](images/create_tenant.png?raw=true "Register a tenant")
+
+![Created tenant](images/tenant_created.png?raw=true "Result of tenant creation")
+
+	
+
+### Generate a laravel key
+
+If you are in development and already have a key in the .env files you should skip this step.
+
+	php artisan key:generate
 
 ## Details
 
@@ -31,7 +65,6 @@ or initial installation steps
         http://localhost/crud8/public/ OK
     
     2) le mettre sous github
-        
         
         Create a repo under Github (empty, no README.md, no LICENSE)
         

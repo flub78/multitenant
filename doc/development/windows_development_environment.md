@@ -2,7 +2,9 @@
 
 ## Wamp
 
-Download and Install XAMPP
+* rename or delete c:\xamp
+* supend antivirus
+* Download and Install XAMPP
 
 ### Setup the root directory
 
@@ -32,6 +34,10 @@ Download and Install XAMPP
 	
 in httpd-vhosts.conf
 
+	in C:\xampp\apache\conf\original\extra
+	
+	Comment out the existing virtual hosts
+
 	<VirtualHost *:80>
 	ServerAdmin frederic.peignot@free.fr
 	DocumentRoot C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\public
@@ -39,8 +45,6 @@ in httpd-vhosts.conf
 	ServerAlias *.tenants.com
 	</VirtualHost>
 
-	
-	
 
 ## Eclipse
 

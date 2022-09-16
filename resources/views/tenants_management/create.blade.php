@@ -26,26 +26,26 @@
     @endif
     
       <form method="post" action="{{ route('tenants.store') }}">
-          <div class="form-group">
-              @csrf
-              
-              <label for="id">Tenant id</label>
+          @csrf
+          
+          <div class="form-floating mb-2 border">              
               <input type="text" class="form-control" name="id" value="{{ old('id') }}"/>
+              <label class="form-label" for="id">Tenant id</label>
           </div>
 @if (true)          
-          <div class="form-group">
-              <label for="email">Email</label>
+          <div class="form-floating mb-2 border">
               <input type="text" class="form-control" name="email" value="{{ old('email') }}"/>
+              <label class="form-label" for="email">Email</label>
           </div>
           
-          <div class="form-group">
-              <label for="db_name">Database</label>
+          <div class="form-floating mb-2 border">
               <input type="text" class="form-control" name="db_name" value="{{ old('db_name') }}"/>
+              <label class="form-label" for="db_name">Database</label>
           </div>
 @endif          
-           <div class="form-group">
-              <label for="domain">Domain</label>
+           <div class="form-floating mb-2 border">
               <input type="text" class="form-control" name="domain" value="{{ old('domain') }}"/>
+              <label class="form-label" for="domain">Domain</label>
           </div>
           
           

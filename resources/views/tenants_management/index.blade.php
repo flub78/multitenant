@@ -5,12 +5,17 @@
 @section('content')
 
 
-<div class="uper">
+<div class="uper d-flex flex-column">
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  
     </div><br />
   @endif
+ 
+  <div class="mb-4">
+  	<a href="{{url('tenants')}}/create"><button type="submit" class="btn btn-primary" >@lang('general.create') tenant</button></a> 
+  </div>
+  
   <table class="table table-striped"  id="maintable">
     <caption>Tenants</caption>
     <thead>
@@ -46,7 +51,6 @@
     </tbody>
   </table>
   
-    <a href="{{url('tenants')}}/create"><button type="submit" class="btn btn-primary" >@lang('general.create') tenant</button></a> 
 </div>  
 @endsection
 
