@@ -304,11 +304,12 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 	 */
 	public function test_code_gen_type_sorting() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
-		
+				
 		// generate the test data set
 	    $cnt = 0;
 		for ($i = 0; $i < 90; $i++) {			
 			CodeGenType::factory ()->create ();
+			// keep trace of some specific elements
             if ($cnt == 19) {
                 $elt20 = CodeGenType::latest()->first();
             }
@@ -327,15 +328,17 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 		// First call without sorting
 		$this->assertEquals(20, count($json['data']));
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
+            // check that the 20th element is returned at the right rank
             $this->assertEquals($elt20->$field, $json['data'][19][$field]);
         }
 		
-		// Sorting on start (reverse order)
+		// Sorting on the first field (reverse order)
 		$first_field = [ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ][0];
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=-' . $first_field);
 		$json = $response->json();
 		
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
+            // check that the 6'th element is now 6th from the end (90 - 6 = 86th)
             $this->assertEquals($elt85->$field, $json['data'][6][$field]);
         }
 	}

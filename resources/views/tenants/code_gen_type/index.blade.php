@@ -21,9 +21,80 @@ use App\Helpers\DateFormat;
     </div><br />
   @endif
   
-	<div class="mb-3">         
+  <div class="mb-3">         
     @button_create({{url('code_gen_type')}}, {{__('code_gen_type.add')}}) 
-    </div>  
+  </div>
+  
+            <div class="accordion container-fluid mt-3" id="accordionExample">
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                  aria-expanded="true" aria-controls="collapseOne">
+                  Filtre
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse"
+                aria-labelledby="headingOne"="#accordionExample">
+                <div class="accordion-body">
+                
+                  <div>
+                    <form action="https://gvv.planeur-abbeville.fr/index.php/vols_planeur/filterValidation/3"
+                      method="post" accept-charset="utf-8" name="saisie">
+                      <div>
+
+                        <div>
+                          <label for="date" class="form-label">Date: </label>
+                          <input type="date" name="filter_date" value="" size="15" title="JJ/MM/AAAA"
+                            class="datepicker form-control" id="date" />
+                        </div>
+
+                        <div>
+                          <label for="until" class="form-label">Jusqu'a: </label>
+                          <input type="date" name="date_end" value="" size="15" title="JJ/MM/AAAA"
+                            class="datepicker form-control" id="until" />
+                        </div>
+
+                        <input type="submit" name="button" value="Filtrer" class="btn bg-primary text-white" />
+                        <input type="submit" name="button" value="Afficher tout" class="btn bg-primary text-white" />
+
+                      </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item mb-4">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Totaux
+                </button>
+              </h2>
+              
+              <div id="collapseTwo" class="accordion-collapse collapse"
+                aria-labelledby="headingTwo"="#accordionExample">
+                <div class="accordion-body">
+                  <div>
+                    <table>
+                      <tr>
+                        <td align="right"> Nombre de vols = </td>
+                        <td> 605 </td>
+                        <td> Remorqué=540, Treuil=0, Autonome=50, Extérieur=15 </td>
+                      </tr>
+                      <tr>
+                        <td align="right"> Total heures = </td>
+                        <td>879h11 </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>  
   
   <div class="container-fluid mb-3">
   <table class="table table-striped"  id="maintable">

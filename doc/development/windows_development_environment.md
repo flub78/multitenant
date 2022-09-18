@@ -61,9 +61,17 @@ in httpd-vhosts.conf
 	
 ## Eclipse
 
-
 ### Phpunit
 
 ## Debuger
 
 ## Coverage and profiling
+
+Install XDebug as described in debugging.md
+
+[Debugging and Debuger Installation ](./debugging.md)
+
+## Installation
+
+[Application Installation ](../devops/installation.md)
+

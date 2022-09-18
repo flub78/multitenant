@@ -46,12 +46,15 @@ class CodeGenTypeController extends Controller {
 	 *        
 	 */
 	public function index(Request $request) {
-		// Laravel default is 15
+		// Laravel default is 15 elements per page
 		$per_page = ($request->has ( 'page' )) ?  $request->get ('per_page') : 1000000;
 				
 		$query = CodeGenType::query();
+		
+		// the request has a sort parameter
 		if ($request->has ('sort')) {
 			
+		    // the sort parameter can be a scalar or a comma separated list of fields
 			$sorts = explode(',', $request->input ('sort'));
 			
 			foreach($sorts as $sortCol) {
@@ -61,16 +64,22 @@ class CodeGenTypeController extends Controller {
 			}
 		}
 		
+		// the request has a filter parameter
 		if ($request->has ('filter')) {
+		    
+		    // filter parameter are comma separated list of filter criteria
 			$filters = explode(',', $request->input ('filter'));
 			
 			foreach ($filters as $filter) {
+			    
+			    // a filter criteria is a field:value
 				list($criteria, $value) = explode(':', $filter, 2);
 				
 				$operator_found = false;
-				foreach (['<=', '>=', '<', '>'] as $op) {
+				foreach (['<=', '>=', '<', '>', '<like>', '<>'] as $op) {
 					if (Str::startsWith($value, $op)) {
 						$value = ltrim($value, $op);
+						if ($op == '<like>') $op = 'like';
 						$query->where($criteria, $op, $value);
 						$operator_found = true;
 						break;

@@ -85,26 +85,54 @@ class CodeGenTypeControllerFilterTest extends TenantTestCase {
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=black_and_white:0');
 		$json = $response->json();
 		$number_of_boolean_off = count($json['data']);
-		
-		var_dump($response->json());
-		
+				
 		$this->assertGreaterThan(25, $number_of_boolean_on);
 		$this->assertGreaterThan(25, $number_of_boolean_off);
-		$this->assertEquals(100, $number_of_boolean_on + $number_of_boolean_off);
-		
-		return;
-		
-		// Filtering on multiple columns
-		$limit = $date->sub(10, 'hour');
-		$after =  htmlspecialchars(',start:>' . $limit->toDateTimeString());
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after);
-		$json = $response->json();
-		$this->assertEquals(3, count($json['data']));
-
-		$after =  htmlspecialchars(',start:>=' . $limit->toDateTimeString());
-		$url = 'http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after;
-		$response = $this->getJson($url);
-		$json = $response->json();
-		$this->assertEquals(3, count($json['data']));
+		$this->assertEquals(100, $number_of_boolean_on + $number_of_boolean_off);		
 	}
+	
+	public function test_filtering_on_date() {
+	    Sanctum::actingAs(User::factory()->create(),['api-access']);
+	    
+	    // generate the test data set
+	    for ($i = 0; $i < 10; $i++) {
+	        CodeGenType::factory ()->create ();
+	    }
+	    
+	    // sort by birthday
+	    $response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=birthday');
+	    $json = $response->json();
+	    // var_dump($json);
+	    foreach ($json["data"] as $elt) {
+	        // echo $elt['birthday'] . "\n";
+	    }
+	    
+	    // sort by birthday reverse ordet
+	    $response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=-birthday');
+	    $json = $response->json();
+	    // var_dump($json);
+	    $cnt = 0;
+	    foreach ($json["data"] as $elt) {
+	        echo $elt['birthday'] . "\n";
+	        $cnt++;
+	        // take a date in the middle of the range
+	        if ($cnt == 5) $mid_date =  $elt['birthday'];
+	    }
+	    
+	    echo "mid date = $mid_date\n";
+	    
+	    // filter on the mid range date
+	    $response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url 
+	        . '?filter=birthday:' . $mid_date);
+	    $json = $response->json();
+	    $this->assertEquals(1, count($json['data']), "only one birthday matches the date");
+	    $this->assertEquals($mid_date, $json['data'][0]['birthday'], "filter of the correct date");
+	    
+	    // filter greater than the mid range date
+	    $response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url
+	        . '?filter=birthday:>' . $mid_date);
+	    $json = $response->json();
+	    $this->assertGreaterThan(3, count($json['data']));
+	}
+	
 }
