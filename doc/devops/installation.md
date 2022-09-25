@@ -27,7 +27,8 @@ A typicall development environment has
 * .env.dusk.tenants for dusk tenant application tests
 * .env.dusk.deployed_tenant	for end to end test of a deployed server
 
-Usually they use at least one database for human and one for the test, sometimes more for the test.
+Usually they use at least one database for human and one for the test, sometimes more for the test. (multi and 
+multi_test)
 
 ### Migrate and seed the database
 
