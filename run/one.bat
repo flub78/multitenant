@@ -19,6 +19,7 @@
     @rem tenants
     @rem -------
 @rem php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
+@rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/TenantTestCaseTest.php
 
     @rem Tenant models
     @rem -------------
@@ -89,6 +90,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/UserRoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/MetadataControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerFilterTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
@@ -97,7 +99,7 @@
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypeControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypeControllerFilterTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypeControllerFilterTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypesView1ControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/ProfileControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Feature/Api/MotdControllerTest.php

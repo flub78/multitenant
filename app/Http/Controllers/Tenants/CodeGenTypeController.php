@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\CodeGenTypeRequest;
 use App\Models\Tenants\CodeGenType;
 use App\Helpers\DateFormat;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 
 /**
@@ -24,8 +27,38 @@ class CodeGenTypeController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index() {
-		$code_gen_types = CodeGenType::all();
+    public function index(Request $request) {
+	    
+	    $per_page = 1000000;
+	    $query = CodeGenType::query();
+	    
+	    if ($request->has ('filter')) {
+	        
+	        // filter parameter are comma separated list of filter criteria
+	        $filters = explode(',', $request->input ('filter'));
+	        foreach ($filters as $filter) {
+	            
+	            // a filter criteria is a field:value
+	            list($criteria, $value) = explode(':', $filter, 2);
+	            
+	            $operator_found = false;
+	            foreach (['<=', '>=', '<', '>', '<like>', '<>'] as $op) {
+	                if (Str::startsWith($value, $op)) {
+	                    $value = ltrim($value, $op);
+	                    if ($op == '<like>') $op = 'like';
+	                    $query->where($criteria, $op, $value);
+	                    $operator_found = true;
+	                    break;
+	                }
+	            }
+	            if (!$operator_found) $query->where($criteria, $value);
+	        }
+	        
+	        $code_gen_types = $query->paginate ($per_page);
+	        
+	    } else {
+		  $code_gen_types = CodeGenType::all();
+	    }
 		return view ( 'tenants/code_gen_type/index', compact ( 'code_gen_types' ) );
 	}
 	

@@ -149,6 +149,7 @@ abstract class TenantTestCase extends BaseTestCase {
 		$domain =  URL::to('/') . '/' . $sub_url;
 		$parsed = parse_url($domain);		
 		$tenant = tenant("id");
+		$query = array_key_exists('query', $parsed) ? $parsed['query'] : '';
 		
 		if (str_starts_with($parsed['host'], $tenant . '.')) {
 			$host = $parsed['host'];
@@ -157,6 +158,10 @@ abstract class TenantTestCase extends BaseTestCase {
 		}
 		$url = $parsed['scheme'] . '://' . $host . $parsed['path'];
 		
+		if ($query) {
+		    $url = $url . '?' . $query;
+		}
+				
 		return $url;
 	}
 	
@@ -171,7 +176,6 @@ abstract class TenantTestCase extends BaseTestCase {
 		$this->be ( $user );
 		
 		$url = $this->tenant_url($sub_url);
-		// echo "\nget_tenant_url url = $url\n";
 		$response = $this->get ( $url);
 		$response->assertStatus ( 200 );
 		
@@ -262,5 +266,33 @@ abstract class TenantTestCase extends BaseTestCase {
 		
 		$response->assertStatus ( 302);
 		return $response;
+	}
+	
+	/**
+	 * Assert a number of occurences of a substring inside a string, the search is delimited 
+	 * by two substring.
+	 * 
+	 * This method can be convenient to test a number of occurences inside an html page.
+	 * 
+	 * @param unknown $needle
+	 * @param unknown $haystack
+	 * @param unknown $expected
+	 * @param unknown $from
+	 * @param unknown $to
+	 */
+	public function assertOccurencesInString($needle, $haystack, $expected, $from="", $to="") {
+	    
+	    $str = $haystack;
+	    // echo "assertOccurencesInString(needle=$needle, haystack=$haystack, expected=$expected, from=$from, to=$to)\n";
+	    $start_i = ($from) ? strpos($haystack, $from) : 0;
+	    
+	    $start_i = strpos($haystack, $from);
+	    // echo "start = $start_i\n";
+	    $haystack = substr($haystack, $start_i);
+	    $stop_i = ($to) ? strpos($haystack, $to) : null;
+	    $haystack = substr($haystack, 0, $stop_i);
+	    // echo "\$haystack = $haystack\n";
+	    $count = substr_count($haystack, $needle);
+	    $this->assertEquals($expected, $count, "$expected occurences of $needle in $str between $from and $to");
 	}
 }
