@@ -4,8 +4,6 @@
 
 This project is a framework for Web applications. It provides a starting point for projects with a lot of common features and DevOps settings. Specific business logic should be fast and easy to add (to the extend that software development can be fast and easy). At least it should be faster and easier. 
 
-This approach could be considered not agile as it is not agile to prepare a lot of things for a still unknown future. In fact, it is an agile development, starting by the parts which can potentially be reused in several contexts.
-
 ## Basic existing features
 
 * It is a resource management system with REST APIs for machines and WEB interfaces for humans, on top of a relational database. It is a CRUD scaffolding system with support for complex relationship between tables (one to one, one to many and many to many). 
@@ -32,7 +30,7 @@ This approach could be considered not agile as it is not agile to prepare a lot 
 
 ## Future features
 
-* Email and sort text message notifications
+* Email and short text message notifications
 
 * Documents and picture attachments.
 
@@ -72,75 +70,40 @@ Short design notes are kept in the doc directory as a set of md files. Plantuml 
 #### Development documentation
 
 - [Admin middleware](doc/development/admin-middleware.md)
-
 - [APIs](doc/development/apis.md)
-
 - [Blade templates](doc/development/blade_templates.md)
-
 - [Checklist for code reviews](doc/development/checklist_code_review.md)
-
 - [Checklist for metadata update](doc/development/checklist_metadata_update.md)
-
 - [Code generation](doc/development/code_generation.md)
-
 - [Code generation data types](doc/development/code_generation_data_types.md)
-
 - [Code generation progress](doc/development/code_generation_progress.md)
-
 - [Current status](doc/development/current_status.md)
-
 - [Database relationships](doc/development/database_relationships.md)
-
 - [Dates](doc/development/dates.md)
-
 - [Debugging](doc/development/debugging.md)
-
 - [Deployment](doc/development/deployment.md)
-
 - [Derived applications](doc/development/derived_applications.md)
-
 - [Design notes](doc/development/design_notes.md)
-
 - [Development](doc/development/development.md)
-
 - [Development introspection](doc/development/development_introspection.md)
-
 - [Development rules](doc/development/development_rules.md)
-
 - [Dusk Chrome version issue](doc/development/dusk_chrome_version_issue.md)
-
 - [Eclipse](doc/development/eclipse.md)
-
 - [Fields validation](doc/development/Fields_validation.md)
-
 - [Filtering](doc/development/filtering.md)
-
 - [Graphical user interfaces](doc/development/gui.md)
-
 - [Laravel](doc/development/laravel.md)
-
 - [Logging](doc/development/logging.md)
-
 - [Migrations](doc/development/migrations.md)
-
 - [Models](doc/development/models.md)
-
 - [MySQL queries](doc/development/mysql_queries.md)
-
 - [MySQL views](doc/development/mysql_views.md)
-
 - [Naming conventions](doc/development/naming_conventions.md)
-
 - [PlantUML](doc/development/plantuml.md)
-
 - [Routes](doc/development/routes.txt)
-
 - [Selectors](doc/development/selectors.md)
-
 - [Testing with Postman](doc/development/testing_with_postman.md)
-
 - [Translation](doc/development/translation.md)
-
 - [Windows development environment](doc/development/windows_development_environment.md)
  
 
