@@ -26,12 +26,12 @@ class MustacheHelperTest extends TestCase {
 	public function test_template_filename() {
 
 		if (PHP_OS == "WINNT") {
-			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
-			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp1));
-			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp2));
+		    $expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache');
+		    $this->assertEquals($expected, strtolower(MustacheHelper::template_filename(Self::temp1)));
+		    $this->assertEquals($expected, strtolower(MustacheHelper::template_filename(Self::temp2)));
 						
-			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\translation.php.mustache';
-			$this->assertEquals($expected, MustacheHelper::template_filename(Self::temp3));
+		    $expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\translation.php.mustache');
+		    $this->assertEquals($expected, strtolower(MustacheHelper::template_filename(Self::temp3)));
 			
 			$this->expectException(Exception::class);
 			$this->assertEquals($expected, MustacheHelper::template_filename("zorglub"));
@@ -45,15 +45,15 @@ class MustacheHelperTest extends TestCase {
 	
 	public function test_result_filename () {
 		if (PHP_OS == "WINNT") {			
-			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\app\Http\Controllers\Tenants\Controller.php';
+		    $expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\app\Http\Controllers\Tenants\Controller.php');
 		} else {
 			$this->assertTrue(true);
 			return;  // Curently code generation is not supported on Linux
 			$expected = '/var/www/html/multi_phpunit/build/results/app\Http\Controllers\Tenants\RoleController.php';
 		}
-		$this->assertEquals($expected, MustacheHelper::result_filename(Self::temp1));
-		$this->assertEquals($expected, MustacheHelper::result_filename(Self::temp2));		
-		$this->assertEquals($expected, MustacheHelper::result_filename($expected));
+		$this->assertEquals($expected, strtolower(MustacheHelper::result_filename(Self::temp1)));
+		$this->assertEquals($expected, strtolower(MustacheHelper::result_filename(Self::temp2)));		
+		$this->assertEquals($expected, strtolower(MustacheHelper::result_filename($expected)));
 	}
 	
 	public function test_is_absolute_path () {
@@ -87,17 +87,17 @@ class MustacheHelperTest extends TestCase {
 	public function test_translation_result_file () {
 
 		if (PHP_OS == "WINNT") {
-			$template = MustacheHelper::translation_result_file('role', 'fr');
-			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\resources\lang\fr\role.php';
+		    $template = strtolower(MustacheHelper::translation_result_file('role', 'fr'));
+		    $expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\resources\lang\fr\role.php');
 			$this->assertEquals($expected, $template);
 			
-			$template = MustacheHelper::translation_result_file('configuration', 'en');
-			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\resources\lang\en\configuration.php';
+			$template = strtolower(MustacheHelper::translation_result_file('configuration', 'en'));
+			$expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\resources\lang\en\configuration.php');
 			$this->assertEquals($expected, $template);
 			
 			
-			$template = MustacheHelper::translation_result_file('role', 'fr', true);
-			$expected = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\resources\lang\fr\role.php';
+			$template = strtolower(MustacheHelper::translation_result_file('role', 'fr', true));
+			$expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\resources\lang\fr\role.php');
 			$this->assertEquals($expected, $template);
 			
 		} else {
