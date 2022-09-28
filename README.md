@@ -6,11 +6,11 @@ This project is a framework for Web applications. It provides a starting point f
 
 ## Basic existing features
 
-* It is a resource management system with REST APIs for machines and WEB interfaces for humans, on top of a relational database. It is a CRUD scaffolding system with support for complex relationship between tables (one to one, one to many and many to many). 
+* It is a resource management system on top of a relational database with REST APIs for machines and WEB interfaces for humans. It is a CRUD scaffolding system with support for complex relationship between tables (one to one, one to many and many to many). 
 
-* The current implementation is in PHP, integrated with Laravel on top of MySql or MariaDb. The principles are reusable with other frameworks, databases or languages, but they are the initial technical choices and in 2022 they are making sense.
+* It is written in PHP, integrated with Laravel and MySql or MariaDb. It can be adapted to other frameworks, databases or languages. In 2022 these initial technical choices make sense.
 
-* The project supports multi-tenancy with one database per tenant. By default tenants are identified by their sub-domain. It can be adapted to a single multi-tenant database as the underlying system supports it, but there is a requirement to support backups and restores per tenant which is incompatible with a shared database.
+* The project is multi-tenant with one database per tenant. By default tenants are identified by their sub-domain. It can be adapted for a shared multi-tenant database as the underlying system supports it. To backup and restore database per tenant this model is the only suitable one.
 
 * Localization and GUI in several languages. Automated generation of language files with Google translate. It requires human reviewing, but sometimes it is not so bad and it is fast to generate.
 

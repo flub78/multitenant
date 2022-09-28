@@ -59,15 +59,24 @@ class CodeGenTypeControllerFilterTest extends TenantTestCase {
 		return CodeGenType::count(); 
 	}
     
+	
+	protected function checkFilter($url, $expected, $look_for) {
+	    $res = $this->get_tenant_url($this->user, $url, $look_for);
+	    $start = 'id="maintable"';
+	    $stop = '</table>';
+	    $row_marker = '<tr>';
+	    $this->assertOccurencesInString($row_marker, $res->getContent(), $expected, $start, $stop);
+	}
+	
     /**
-     * Test display of all elements
+     * Test display selected elements
      * Given the user is logged on
      * When calling index URL
      * Then the table view is displayed
      * 
      * @return void
      */
-    public function testBaseUrlDisplaysTableView() {   
+    public function testFiltering() {   
         Log::Debug(__METHOD__);
         
         $look_for = [__('code_gen_type.title'), __('navbar.tenant'), tenant('id')];
@@ -78,11 +87,11 @@ class CodeGenTypeControllerFilterTest extends TenantTestCase {
         
         $this->assertEquals(0, $this->eltCount());
         
-        CodeGenType::factory()->create(['name' => 'dupont', 'price' => '10']); 
-        CodeGenType::factory()->create(['name' => 'durand', 'price' => '10']);
-        CodeGenType::factory()->create(['name' => 'dugenou', 'price' => '20']);
-        CodeGenType::factory()->create(['name' => 'john', 'price' => '20']);
-        CodeGenType::factory()->create(['name' => 'james', 'price' => '30']);
+        CodeGenType::factory()->create(['name' => 'dupont', 'price' => '10', 'birthday' => '1959-08-29', 'takeoff' => '2022-07-14 12:00']); 
+        CodeGenType::factory()->create(['name' => 'durand', 'price' => '10', 'birthday' => '1959-08-28', 'takeoff' => '2022-07-14 12:30']);
+        CodeGenType::factory()->create(['name' => 'dugenou', 'price' => '20', 'birthday' => '1959-08-27', 'takeoff' => '2022-07-14 13:00']);
+        CodeGenType::factory()->create(['name' => 'john', 'price' => '20', 'birthday' => '1959-07-26', 'takeoff' => '2022-07-14 13:30']);
+        CodeGenType::factory()->create(['name' => 'james', 'price' => '30', 'birthday' => '1959-07-25', 'takeoff' => '2022-07-14 14:00']);
         $count = 5;
         
         $this->assertEquals($count, $this->eltCount());
@@ -92,23 +101,34 @@ class CodeGenTypeControllerFilterTest extends TenantTestCase {
         // here I rely on the number of row (<tr>) in the page which may be difficult to evaluate
         // for complex pages
         
-        $url = 'code_gen_type';
-        $res = $this->get_tenant_url($this->user, $url, $look_for);
-        $start = 'id="maintable"';
-        $stop = '</table>';
-        $row_marker = '<tr>';
-        $this->assertOccurencesInString($row_marker, $res->getContent(), $count + 1, $start, $stop);
+        $this->checkFilter('code_gen_type', $count + 1, $look_for);
+        
+        $this->checkFilter('code_gen_type?filter=name:dupont', 2, $look_for);
+        
+        $this->checkFilter('code_gen_type?filter=birthday:1959-08-29', 2, $look_for);
+       
+        $this->checkFilter('code_gen_type?filter=birthday:<1959-08-29', 5, $look_for);
 
-        // filter on one name
-        $url = 'code_gen_type?filter=name:dupont';
-        $res = $this->get_tenant_url($this->user, $url, $look_for);
-        $start = 'id="maintable"';
-        $stop = '</table>';
-        $row_marker = '<tr>';
-        $this->assertOccurencesInString($row_marker, $res->getContent(), 2, $start, $stop);
+        $this->checkFilter('code_gen_type?filter=birthday:<1959-08-29,birthday:>1959-07-27', 3, $look_for);
+        
+        $this->checkFilter('code_gen_type?filter=takeoff:2022-07-14 13:00', 2, $look_for);
+        
+        $this->checkFilter('code_gen_type?filter=takeoff:>2022-07-14 12:00,takeoff:<2022-07-14 13:30', 3, $look_for);
         
     }
 
-
+    public function testFilterOnIncorrectParameters() {
+        Log::Debug(__METHOD__);
+        
+        $look_for = [__('code_gen_type.title'), __('navbar.tenant'), tenant('id')];
+        $look_for[] = __('code_gen_type.name');
+        $look_for[] = __('code_gen_type.phone');
+        
+        $url = 'code_gen_type?filter=takeoff:>2022-07-14 12:00,takeoff:<2022-07-14 13:30,unknown:yes';
+        $this->be ( $this->user );
+        $url = $this->tenant_url($url);
+        $response = $this->get ( $url);
+        $response->assertStatus ( 500 );
+    }
         
 }
