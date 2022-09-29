@@ -39,8 +39,10 @@ use App\Helpers\DateFormat;
                 <div class="accordion-body">
                 
                   <div>
-                    <form action="https://gvv.planeur-abbeville.fr/index.php/vols_planeur/filterValidation/3"
-                      method="post" accept-charset="utf-8" name="saisie">
+                      <form method="post" action="{{ route('code_gen_type.filter') }}" enctype="multipart/form-data">
+                    
+                      <!-- csrf is mandatory to avoid the error 419, page expired -->
+                      @csrf  
                       <div>
 
                         <div>
@@ -49,7 +51,7 @@ use App\Helpers\DateFormat;
                             class="datepicker form-control" id="date" />
                         </div>
 
-                        <div>
+                        <div class="mb-2">
                           <label for="until" class="form-label">Jusqu'a: </label>
                           <input type="date" name="date_end" value="" size="15" title="JJ/MM/AAAA"
                             class="datepicker form-control" id="until" />

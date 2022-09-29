@@ -205,4 +205,14 @@ class CodeGenTypeController extends Controller {
         }
 	}
 	
+	public function filter(Request $request) {
+	    // var_dump($request->input());
+	    if ($request->input('button') == "Filtrer") {
+	        echo "filtrer";exit;
+	    } elseif ($request->input('button') == "Afficher tout") {
+	        echo "afficher tout";exit;
+	    }
+	    echo "CodeGenTypeController.filter\n"; exit;
+	}
+	
 }

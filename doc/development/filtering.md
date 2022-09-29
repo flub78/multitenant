@@ -38,6 +38,26 @@ A controller can easily analyze the content of a form to determine what rows sho
 
 One possible implementation is to just clear the selection form on "display all" click. However by doing that the selection is not persistent if another page is visited. Is it an issue ?
 
+## Initial implementation
+
+I'd like to:
+- have the WEB index method accepting the same filter parameter than the API REST controller (to be consistent).
+- have a filter method analysing the filter form values and generating a parameter to the format above
+- then this filter method should call the regular index method or redirect.
+
+This approach is simple. I just need to check that there is no undesired side effects when clicking the navigator back button.
+
+Questions: 
+
+- How persistent should be the filter values? Should they only work for one call ? or be persistent for a whole session ?
+
+Remarks:
+
+- I am not sure that it is a good idea to share filter criteria across different views. For exemple, if I select the rows of a view to be the ones related to a specific user, cutomer, etc. When I navigate to another view, should I keep the selection on the same user, customer, etc.? In somes cases it may be convenient for the user of the application, but it could also be complex and surprising or error prone for the user.
+
+
+
+
 ## Types of filtering
 
 * On string we may want to filter on strict equality, or the fact that the provided string is contained into the database.

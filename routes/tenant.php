@@ -88,6 +88,7 @@ Route::middleware([
 
 		Route::resource('code_gen_type', App\Http\Controllers\Tenants\CodeGenTypeController::class)->middleware('auth');
 		Route::get('/code_gen_type/{id}/show', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'show'])->name('code_gen_type.show')->middleware('auth');
+		Route::post('/code_gen_type/filter', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'filter'])->name('code_gen_type.filter')->middleware('auth');
 		
 		Route::get('/code_gen_type/picture/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'picture'])->name('code_gen_type.picture')->middleware('auth');
 		Route::get('/code_gen_type/download/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'download'])->name('code_gen_type.file')->middleware('auth');
