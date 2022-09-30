@@ -32,18 +32,14 @@ class CodeGenTypeController extends Controller {
 	    
 	    $query = CodeGenType::query();
 	    
-	    $filter_open = ($request->has ('filter_open')) ? "-show" : "";
-	    
-	    if ($request->has ('filter')) {
-	        
-	        $this->applyFilter($query, $request->input ('filter'));	        
-	        $code_gen_types = $query->get ();
-	        
-	    } else {
-		  $code_gen_types = CodeGenType::all();
+	    $filter_open = ($request->has ('filter_open')) ? "-show" : "";	    
+	    if ($request->has ('filter')) {	        
+	        $this->applyFilter($query, $request->input ('filter'));
 	    }
+	    $code_gen_types = $query->get ();   
+
 		return view ( 'tenants/code_gen_type/index', compact ( 'code_gen_types' ))
-		->with('filter_open', $filter_open);
+		  ->with('filter_open', $filter_open);
 	}
 	
 	/**
@@ -197,16 +193,17 @@ class CodeGenTypeController extends Controller {
 	 */
 	public function filter(Request $request) {
 	    $inputs = $request->input();
+	    
+	    // When it is not the filter button redirect to index with no filtering
 	    if ($request->input('button') != __('general.filter')) {
 	        return redirect('/code_gen_type');
 	    }
 	    
 	    /*
-	     * Checkboxes and enumerates nedd an additonal checkbox to detemine if they must be taken into account
-	     * by the filter
+	     * Generate a filter string from the form inputs fields
 	     * 
-	     * todo: when the filter is active, the accordeon should stay open, populated with the filter
-	     * options
+	     * Checkboxes and enumerates need an additonal checkbox to detemine if they must be taken into account
+	     * by the filter
 	     */
 	    $filters_array = [];
 	    $fields = ['name', 'description', 'year_of_birth', 'birthday', 'tea_time', 'takeoff', 'price'
@@ -217,6 +214,8 @@ class CodeGenTypeController extends Controller {
 	        }
 	    }
 	    $filter = implode(",", $filters_array);
+	    
+	    
         return redirect("/code_gen_type?filter=$filter&filter_open=1")->withInput();
 	}
 	

@@ -71,8 +71,3 @@
     - to do: change behavio according to role
     
 * Calendar 
-
-## Todo
-
-    See Trello list of stories
-    https://trello.com/b/VGGQo4XL/webapp

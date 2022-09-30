@@ -4,28 +4,14 @@
 
 ### Past phpinfo into the XDebug wizard
 
-    https://xdebug.org/wizard
-    
-Installation Wizard
-Summary
+Cut the phpinfo page and paste it in the XDebug installation wizard
 
-    Xdebug installed: no
-    Server API: Apache 2.0 Handler
-    Windows: yes
-    Compiler: MS VS16
-    Architecture: x64
-    Zend Server: no
-    PHP Version: 8.0.13
-    Zend API nr: 420200930
-    PHP API nr: 20200930
-    Debug Build: no
-    Thread Safe Build: yes
-    OPcache Loaded: no
-    Configuration File Path: no value
-    Configuration File: C:\xampp\php\php.ini
-    Extensions directory: C:\xampp\php\ext
+[XDebug installation wizard](https://xdebug.org/wizard)
+    
 
 ### Instructions
+
+Then follow the instructions.
 
     Download php_xdebug-3.1.3-8.0-vs16-x86_64.dll
     Move the downloaded file to C:\xampp\php\ext, and rename it to php_xdebug.dll
@@ -33,7 +19,7 @@ Summary
     zend_extension = xdebug
     Restart the Apache Webserver
     
-    check phpinfo again to see the XDEBUG section
+    check phpinfo again to see that XDEBUG is enabled
     
 ## Configuration
 
@@ -51,5 +37,12 @@ Summary
     
     file:///C:/Users/frederic/Dropbox/xampp/htdocs/multitenant/results/coverage/index.html
     
-## Debuging with Eclipse
+## Debugging a Unit test with Eclipse
+
+tbd
+
+## Debugging an interactive browser session
+
+tbd
+
 
