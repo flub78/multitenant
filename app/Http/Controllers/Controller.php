@@ -220,6 +220,8 @@ class Controller extends BaseController
      */
     protected function applyFilter(&$query, $filter) {
         // filter parameter are comma separated list of filter criteria
+        if (!$filter) return; 
+        
         $filters = explode(',', $filter);
         foreach ($filters as $filter) {
             

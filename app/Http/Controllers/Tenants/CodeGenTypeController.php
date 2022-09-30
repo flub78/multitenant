@@ -30,18 +30,20 @@ class CodeGenTypeController extends Controller {
 	 */
     public function index(Request $request) {
 	    
-	    $per_page = 1000000;
 	    $query = CodeGenType::query();
+	    
+	    $filter_open = ($request->has ('filter_open')) ? "-show" : "";
 	    
 	    if ($request->has ('filter')) {
 	        
 	        $this->applyFilter($query, $request->input ('filter'));	        
-	        $code_gen_types = $query->paginate ($per_page);
+	        $code_gen_types = $query->get ();
 	        
 	    } else {
 		  $code_gen_types = CodeGenType::all();
 	    }
-		return view ( 'tenants/code_gen_type/index', compact ( 'code_gen_types' ) );
+		return view ( 'tenants/code_gen_type/index', compact ( 'code_gen_types' ))
+		->with('filter_open', $filter_open);
 	}
 	
 	/**
@@ -215,7 +217,7 @@ class CodeGenTypeController extends Controller {
 	        }
 	    }
 	    $filter = implode(",", $filters_array);
-        return redirect("/code_gen_type?filter=$filter")->withInput();
+        return redirect("/code_gen_type?filter=$filter&filter_open=1")->withInput();
 	}
 	
 }
