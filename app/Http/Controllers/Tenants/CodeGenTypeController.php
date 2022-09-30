@@ -205,14 +205,35 @@ class CodeGenTypeController extends Controller {
         }
 	}
 	
+	/**
+	 * This method is called by the filter form submit buttons
+	 * Generate a filter parameter according to the filter form and call the index view
+	 * 
+	 * @param Request $request
+	 */
 	public function filter(Request $request) {
-	    // var_dump($request->input());
-	    if ($request->input('button') == "Filtrer") {
-	        echo "filtrer";exit;
-	    } elseif ($request->input('button') == "Afficher tout") {
-	        echo "afficher tout";exit;
+	    $inputs = $request->input();
+	    /*
+	     * Checkboxes and enumerates nedd an additonal checkbox to detemine if they must be taken into account
+	     * by the filter
+	     * 
+	     * todo: when the filter is active, the accordeon should stay open, populated with the filter
+	     * options
+	     */
+	    $filters_array = [];
+	    $fields = ['name', 'description', 'year_of_birth', 'birthday', 'tea_time', 'takeoff', 'price'
+	    ];
+	    foreach ($fields as $field) {
+	        if (array_key_exists($field, $inputs) && $inputs[$field]) {
+	            echo " - ";
+	            $filters_array[] = $field . ':' . $inputs[$field];
+	        }
 	    }
-	    echo "CodeGenTypeController.filter\n"; exit;
+	    $filter = implode(",", $filters_array);
+	    if ($request->input('button') == __('general.filter')) {
+	        return redirect("/code_gen_type?filter=$filter");
+	    }
+	    return redirect('/code_gen_type');
 	}
 	
 }

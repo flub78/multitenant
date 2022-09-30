@@ -21,7 +21,9 @@ return [
 	'search' => "Search",
 	'upload' => 'Upload',
 	'select_file' => 'Select file',
-		
+    'filter' => 'Filter',
+    'display_all' => 'Display all',
+    
 	'footer' => "This is the footer",
     'date_format' => 'm-d-Y',
 	'database_date_format' => 'Y-m-d',

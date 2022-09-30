@@ -21,6 +21,8 @@ return [
 		'search' => "Chercher",
 		'upload' => 'Télécharger',
 		'select_file' => 'Selectionnez un fichier',
+        'filter' => 'Filtrer',
+        'display_all' => 'Afficher tout',
 		
 		'footer' => "Pied de page",
 		'date_format' => 'd/m/Y',
