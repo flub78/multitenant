@@ -25,7 +25,7 @@ use App\Helpers\DateFormat;
     @button_create({{url('code_gen_type')}}, {{__('code_gen_type.add')}})
   </div>
 
-  <div class="accordion container-fluid mt-3" id="accordionExample">
+  <div class="accordion container-fluid mt-3" id="accordionFilter">
 
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingOne">
@@ -33,7 +33,7 @@ use App\Helpers\DateFormat;
           Filtre
         </button>
       </h2>
-      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"="#accordionExample">
+      <div id="collapseOne" class="accordion-collapse collapse-show" aria-labelledby="headingOne"="#accordionFilter">
         <div class="accordion-body">
 
           <div>
@@ -160,7 +160,7 @@ use App\Helpers\DateFormat;
         </button>
       </h2>
 
-      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"="#accordionExample">
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"="#accordionFilter">
         <div class="accordion-body">
           <div>
             <table>

@@ -10,7 +10,7 @@ use App\Http\Requests\Tenants\CodeGenTypeRequest;
 use App\Models\Tenants\CodeGenType;
 use App\Helpers\DateFormat;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Redirect;
 
 
 
@@ -21,6 +21,7 @@ use Illuminate\Support\Str;
  *
  */
 class CodeGenTypeController extends Controller {
+    
 	
 	/**
 	 * Display a listing of the resource.
@@ -34,26 +35,7 @@ class CodeGenTypeController extends Controller {
 	    
 	    if ($request->has ('filter')) {
 	        
-	        // filter parameter are comma separated list of filter criteria
-	        $filters = explode(',', $request->input ('filter'));
-	        foreach ($filters as $filter) {
-	            
-	            // a filter criteria is a field:value
-	            list($criteria, $value) = explode(':', $filter, 2);
-	            
-	            $operator_found = false;
-	            foreach (['<=', '>=', '<', '>', '<like>', '<>'] as $op) {
-	                if (Str::startsWith($value, $op)) {
-	                    $value = ltrim($value, $op);
-	                    if ($op == '<like>') $op = 'like';
-	                    $query->where($criteria, $op, $value);
-	                    $operator_found = true;
-	                    break;
-	                }
-	            }
-	            if (!$operator_found) $query->where($criteria, $value);
-	        }
-	        
+	        $this->applyFilter($query, $request->input ('filter'));	        
 	        $code_gen_types = $query->paginate ($per_page);
 	        
 	    } else {
@@ -213,6 +195,10 @@ class CodeGenTypeController extends Controller {
 	 */
 	public function filter(Request $request) {
 	    $inputs = $request->input();
+	    if ($request->input('button') != __('general.filter')) {
+	        return redirect('/code_gen_type');
+	    }
+	    
 	    /*
 	     * Checkboxes and enumerates nedd an additonal checkbox to detemine if they must be taken into account
 	     * by the filter
@@ -225,15 +211,11 @@ class CodeGenTypeController extends Controller {
 	    ];
 	    foreach ($fields as $field) {
 	        if (array_key_exists($field, $inputs) && $inputs[$field]) {
-	            echo " - ";
 	            $filters_array[] = $field . ':' . $inputs[$field];
 	        }
 	    }
 	    $filter = implode(",", $filters_array);
-	    if ($request->input('button') == __('general.filter')) {
-	        return redirect("/code_gen_type?filter=$filter");
-	    }
-	    return redirect('/code_gen_type');
+        return redirect("/code_gen_type?filter=$filter")->withInput();
 	}
 	
 }

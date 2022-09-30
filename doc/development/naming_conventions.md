@@ -39,11 +39,15 @@ Models have singular names starting with upper case (CamelCase)
 Model and table have the same name in different casing. (Role versus roles, CalendarEvent versus calendar_event).
 
 
-## Naming convention for resources model classes
+## Naming convention for resources model classes 
 
 methods are in lowerCamelCase
 
 getters and setters are in lowerCamelCase getStartTime.
+
+## Naming convention for controllers
+
+methods are in lowerCamelCase
 
 ## Naming convention for route resources
 
@@ -56,4 +60,6 @@ The files for string translation are store in the resources/lang directory in a 
 Ex:  resources/lang/fr/user.php
 
 ## Naming convention for PHP
+
+[PHP Naming Conventions](https://pear.php.net/manual/en/standards.naming.php)
 

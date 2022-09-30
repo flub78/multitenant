@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Helpers\BladeHelper as Blade;
 use App\Helpers\DateFormat;
 use App\Helpers\BitsOperationsHelper as BO;
+use Illuminate\Support\Str;
+
 
 
 class Controller extends BaseController
@@ -211,4 +213,32 @@ class Controller extends BaseController
     		Storage::delete('uploads/' . $file);
     	}   	
     }
+    
+    /**
+     * @param unknown $query
+     * @param unknown $filter
+     */
+    protected function applyFilter(&$query, $filter) {
+        // filter parameter are comma separated list of filter criteria
+        $filters = explode(',', $filter);
+        foreach ($filters as $filter) {
+            
+            // a filter criteria is a field:value
+            list($criteria, $value) = explode(':', $filter, 2);
+            
+            $operator_found = false;
+            foreach (['<=', '>=', '<', '>', '<like>', '<>'] as $op) {
+                if (Str::startsWith($value, $op)) {
+                    $value = ltrim($value, $op);
+                    if ($op == '<like>') $op = 'like';
+                    $query->where($criteria, $op, $value);
+                    $operator_found = true;
+                    break;
+                }
+            }
+            if (!$operator_found) $query->where($criteria, $value);
+        }
+        
+    }
+    
 }
