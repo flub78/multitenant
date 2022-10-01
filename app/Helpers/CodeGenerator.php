@@ -1226,6 +1226,9 @@ class CodeGenerator {
         return $res;
     }
     
+    /**
+     * 
+     */
     static public function foreign_key_list($table) {
         $res = [];
         foreach (Schema::fieldList($table) as $field) {
@@ -1241,7 +1244,7 @@ class CodeGenerator {
         }
         return $res;
     }
-    
+        
     /**
      * All the information for mustache engine
      *
@@ -1278,7 +1281,8 @@ class CodeGenerator {
             'is_view' => $is_view,
             'foreign_keys' => self::foreign_keys($table),
             'foreign_key_list' => self::foreign_key_list($table),
-            'factory_referenced_models' => self::factory_referenced_models($table)
+            'factory_referenced_models' => self::factory_referenced_models($table),
+            'filter_fields' => Meta::filter_names('code_gen_types')
         );
     }
 }

@@ -94,6 +94,41 @@ class MetadataHelper {
 	}
 	
 	/**
+	 * True if in_filter in metadata field comments
+	 *
+	 * @param unknown $table
+	 * @param unknown $field
+	 * @return boolean
+	 */
+	static function in_filter($table, $field) {
+	    
+	    $key = 'in_filter_' . $table . '___' . $field;
+	    if (array_key_exists($key, self::$memoization)) {
+	        return self::$memoization[$key];
+	    }
+	    
+	    // look for options in metadata table
+	    $options = MetaModel::options($table, $field);
+	    if ($options && array_key_exists('in_filter', $options)) {
+	        self::$memoization[$key] = ($options['in_filter'] == "yes");
+	        return self::$memoization[$key];
+	    }
+	    
+	    // Nothing in metadadata table look in comments
+	    $meta = Schema::columnMetadata($table, $field);
+	    if ($meta && array_key_exists('in_filter', $meta)) {
+	        // it is specified in comment
+	        self::$memoization[$key] = ($meta['in_filter'] == "yes");
+	        return self::$memoization[$key];
+	    }
+	    
+	    // default
+	    self::$memoization[$key] = false;
+	    return self::$memoization[$key];
+	}
+	
+	
+	/**
 	 * True if the field must be displayed in the table list view
 	 *
 	 * @param unknown $table
@@ -307,6 +342,26 @@ class MetadataHelper {
 	}
 
 	/**
+	 * Returns a list with fields that must be included in filter
+	 *
+	 * @param String $table
+	 * @return array
+	 */
+	static public function filter_fields(String $table) {
+	    $list = Schema::fieldList($table);
+	    if (! $list) return "";
+	    $full_list = [];
+	    foreach ($list as $field) {
+	        if (! self::in_filter($table, $field)) continue;
+	        if (in_array($field, ["id", "created_at", "updated_at"])) continue;
+	        
+	        $full_list[] = $field;
+	    }
+	    return $full_list;
+	}
+	
+	
+	/**
 	 * Returns a list of fields which are present in forms.
 	 * The same list is used to generate validation rules.
 	 * 
@@ -347,5 +402,22 @@ class MetadataHelper {
 		$res = implode(', ', $list); // transform into string
 		return $res;
 	}
+	
+	/**
+	 * List of filter fields into a comma separated string
+
+	 * @param String $table
+	 * @return string
+	 *
+	 * @SuppressWarnings("PMD.ShortVariable")
+	 */
+	static public function filter_names (String $table) {
+	    $list = self::filter_fields($table);
+	    if (! $list) return "";
+	    array_walk($list, function(&$x) {$x = "\"$x\"";}); // put double quotes around each element
+	    $res = implode(', ', $list); // transform into string
+	    return $res;
+	}
+	
 	
 }

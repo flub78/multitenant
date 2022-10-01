@@ -160,6 +160,17 @@ class MetadataHelperTest extends TestCase {
 		$this->assertEquals('', $fillable_names);
 	}
 	
+	public function test_filter_names() {
+	    $filter_names = Meta::filter_names('users');
+	    $this->assertEquals('', $filter_names);
+	    
+	    $filter_names = Meta::filter_names('code_gen_types');
+	    $this->assertEquals('"name", "description", "year_of_birth", "birthday", "tea_time", "takeoff", "price"', $filter_names);
+	    
+	    $filter_names = Meta::filter_names('unknow_table');
+	    $this->assertEquals('', $filter_names);
+	}
+	
 
 	public function test_metada_from_table_overwrite_comments () {
 		

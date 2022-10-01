@@ -206,8 +206,7 @@ class CodeGenTypeController extends Controller {
 	     * by the filter
 	     */
 	    $filters_array = [];
-	    $fields = ['name', 'description', 'year_of_birth', 'birthday', 'tea_time', 'takeoff', 'price'
-	    ];
+	    $fields = [ "name", "description", "year_of_birth", "birthday", "tea_time", "takeoff", "price" ];
 	    foreach ($fields as $field) {
 	        if (array_key_exists($field, $inputs) && $inputs[$field]) {
 	            $filters_array[] = $field . ':' . $inputs[$field];

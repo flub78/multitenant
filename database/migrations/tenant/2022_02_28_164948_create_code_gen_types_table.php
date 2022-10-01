@@ -1,47 +1,52 @@
 <?php
+/**
+ * This file is generated from a template with metadata extracted from the data model.
+ * If modifications are required, it is important to consider if they should be done in the template
+ * or in the generated file, in which case caution must be exerted to avoid overwritting.
+ */
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Test on all code generation data types.
+ * Migration to create the code_gen_types table
+ 
  * @author frederic
  *
  */
-class CreateCodeGenTypesTable extends Migration
-{
+class CreateCodeGenTypesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      * @SuppressWarnings("PMD.ShortMethodName")
      */
-    public function up()
-    {
+    public function up() {
+    
     	Schema::create('code_gen_types', function (Blueprint $table) {
     		$table->id();
     		
-    		$table->string('name')->unique()->comment("User name");
+    		$table->string('name')->unique()->comment('{"in_filter":"yes"}');
     		
     		$table->string('phone')->nullable()
     			->unique()
     			->comment('{"subtype": "phone"}');
     		
-    		$table->text('description')->nullable(true);
+    		$table->text('description')->nullable(true)->comment('{"in_filter":"yes"}');
     			    		
     		// MySql years are in 1901 .. 2155
-    		$table->year("year_of_birth")->nullable()->comment('{"min": "1901", "max":"2099"}');
+    		$table->year("year_of_birth")->nullable()->comment('{"min": "1901", "max":"2099", "in_filter":"yes"}');
     		
     		$table->float("weight")->nullable()->comment('{"min": "3.0", "max":"300.0"}');
 
-    		$table->date("birthday")->nullable()->comment('{}');
+    		$table->date("birthday")->nullable()->comment('{"in_filter":"yes"}');
 
-    		$table->time("tea_time")->nullable()->default("17:00:00")->comment('{}');
+    		$table->time("tea_time")->nullable()->default("17:00:00")->comment('{"in_filter":"yes"}');
     		
-    		$table->datetime("takeoff")->nullable()->comment('{"subtype" : "datetime"}');
+    		$table->datetime("takeoff")->nullable()->comment('{"subtype" : "datetime","in_filter":"yes"}');
     		
-    		$table ->decimal('price',  $precision = 8, $scale = 2)->nullable()->comment('{"subtype" : "currency"}');
+    		$table ->decimal('price',  $precision = 8, $scale = 2)->nullable()->comment('{"subtype" : "currency","in_filter":"yes"}');
     		
     		$table ->double('big_price',  $precision = 11, $scale = 2)->nullable()->comment('{"subtype" : "currency"}');
     		

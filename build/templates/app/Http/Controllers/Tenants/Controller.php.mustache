@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\[[class_name]]Request;
 use App\Models\Tenants\[[class_name]];
 use App\Helpers\DateFormat;
+use Illuminate\Http\Request;
+use Redirect;
 [[factory_referenced_models]]
 
 /**
@@ -25,9 +27,18 @@ class [[class_name]]Controller extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-    	$[[table]] = [[class_name]]::all();
-    	return view ( 'tenants/[[element]]/index', compact ( '[[table]]' ) );
+    public function index(Request $request) {
+
+        $query = [[class_name]]::query();
+
+	    $filter_open = ($request->has ('filter_open')) ? "-show" : "";	    
+	    if ($request->has ('filter')) {	        
+	        $this->applyFilter($query, $request->input ('filter'));
+	    }
+	    $[[table]] = $query->get ();   
+
+    	return view ( 'tenants/[[element]]/index', compact ( '[[table]]' ) )
+            ->with('filter_open', $filter_open);
     }
 
 [[^is_view]]
@@ -165,5 +176,38 @@ class [[class_name]]Controller extends Controller {
             return $this->download_file($filename);
         }
     }
-[[/download_url]]    
+[[/download_url]]
+
+	/**
+	 * This method is called by the filter form submit buttons
+	 * Generate a filter parameter according to the filter form and call the index view
+	 * 
+	 * @param Request $request
+	 */
+	public function filter(Request $request) {
+	    $inputs = $request->input();
+	    
+	    // When it is not the filter button redirect to index with no filtering
+	    if ($request->input('button') != __('general.filter')) {
+	        return redirect('/[[element]]');
+	    }
+	    
+	    /*
+	     * Generate a filter string from the form inputs fields
+	     * 
+	     * Checkboxes and enumerates need an additonal checkbox to detemine if they must be taken into account
+	     * by the filter
+	     */
+	    $filters_array = [];
+	    $fields = [ [[&filter_fields]] ];
+	    foreach ($fields as $field) {
+	        if (array_key_exists($field, $inputs) && $inputs[$field]) {
+	            $filters_array[] = $field . ':' . $inputs[$field];
+	        }
+	    }
+	    $filter = implode(",", $filters_array);
+	    
+	    
+        return redirect("/[[element]]?filter=$filter&filter_open=1")->withInput();
+	}
 }
