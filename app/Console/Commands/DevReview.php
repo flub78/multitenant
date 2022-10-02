@@ -5,6 +5,14 @@ namespace App\Console\Commands;
 use App\Helpers\TenantHelper;
 use Illuminate\Console\Command;
 
+
+/**
+ * Scan a directory and fill a result array
+ * 
+ * @param unknown $dir
+ * @param array $results
+ * @return unknown|string
+ */
 function getDirContents($dir, &$results = array()) {
 	$files = scandir($dir);
 	

@@ -29,4 +29,12 @@ class ViewSchemaModelTest extends TestCase
     	$this->assertEquals(["name", "description", "tea_time"], ViewSchema::fieldList($def1));
     	$this->assertNotEquals(["user_name", "user_email", "role_name"], ViewSchema::fieldList($def2));    	
     }
+    
+    public function test_scan_view () {
+        $view_def = ViewSchema::isView("code_gen_types_view1");
+        $view_list = ViewSchema::ScanViewDefinition($view_def);
+        // var_dump($view_list);
+        $this->assertEquals("name", $view_list[0]['name']);
+        $this->assertEquals("description", $view_list[1]['field']);
+    }
 }

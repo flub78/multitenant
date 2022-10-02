@@ -977,6 +977,7 @@ class CodeGenerator {
         $view_def = ViewSchema::isView($table);
         
         if ($view_def) {
+            // Does it really make sense to generate a factory for a view ?
             $view_list = ViewSchema::ScanViewDefinition($view_def);
             foreach ($view_list as $view_field) {
                 $res[] = self::field_metadata($view_field['table'], $view_field['field'], $table, $view_field['name']);

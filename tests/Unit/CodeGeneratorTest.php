@@ -45,6 +45,7 @@ class CodeGeneratorTest extends TestCase {
 	    $this->assertEquals("code_gen_type", $meta['element']);
 	}
 	
+	
 	public function test_enumerate () {
 		$table = "configurations";
 		$field = "key";
