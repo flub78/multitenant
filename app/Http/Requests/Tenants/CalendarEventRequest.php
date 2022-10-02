@@ -3,8 +3,6 @@
 namespace App\Http\Requests\Tenants;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\IsAfter;
-
 
 /**
  * A Request to validate calendar events
@@ -40,9 +38,7 @@ class CalendarEventRequest extends FormRequest {
 				        'title' => 'required|max:191',
 				        'description' => 'max:191',
 				        'start' => 'required|date',
-				        'end' => ['nullable', 'date'
-				            // , new IsAfter(request('start_date'), request('start_time'), request('end_time'))
-				        ],
+				        'end' => ['nullable', 'date'],
 				        'allDay' => '',
 				        'backgroundColor' => 'starts_with:#',
 				        'textColor' => 'starts_with:#'
