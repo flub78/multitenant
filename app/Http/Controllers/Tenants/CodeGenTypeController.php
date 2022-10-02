@@ -22,7 +22,6 @@ use Redirect;
  */
 class CodeGenTypeController extends Controller {
     
-	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -70,9 +69,7 @@ class CodeGenTypeController extends Controller {
         $this->store_checkbox($validatedData, "black_and_white", $request, "code_gen_type");
 		$this->store_picture($validatedData, "picture", $request, "code_gen_type");
 		$this->store_file($validatedData, "attachment", $request, "code_gen_type");
-		
 		CodeGenType::create($validatedData);
-		
 		return redirect('/code_gen_type')->with('success', __('general.creation_success', [ 'elt' => __("code_gen_type.elt")]));
 	}
 	
@@ -84,7 +81,6 @@ class CodeGenTypeController extends Controller {
 	 */
 	public function show($id) {
 	    $code_gen_type = CodeGenType::find($id);
-	    
         $color_name_list = ["blue" => __("code_gen_type.color_name.blue"),
         		"red" => __("code_gen_type.color_name.red"),
         		"green" => __("code_gen_type.color_name.green"),
@@ -104,6 +100,9 @@ class CodeGenTypeController extends Controller {
 	 */
 	public function edit(CodeGenType $code_gen_type) {
 	    $this->convert_datetime($code_gen_type, 'takeoff');   
+        
+        
+        
         
         $color_name_list = ["blue" => __("code_gen_type.color_name.blue"),
         		"red" => __("code_gen_type.color_name.red"),
@@ -133,12 +132,12 @@ class CodeGenTypeController extends Controller {
         $this->store_checkbox($validatedData, "black_and_white", $request, "code_gen_type");
 		$this->update_picture($validatedData, "picture", $request, "code_gen_type", $previous);
 		$this->update_file($validatedData, "attachment", $request, "code_gen_type", $previous);
-		
 		CodeGenType::where([ 'id' => $id])->update($validatedData);
 		
 		return redirect('/code_gen_type')->with('success', __('general.modification_success', [ 'elt' => __("code_gen_type.elt") ]));
 	}
 	
+    
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -148,9 +147,10 @@ class CodeGenTypeController extends Controller {
 	public function destroy(CodeGenType $code_gen_type) {
 		$id = $code_gen_type->id;
 		
+        
+        
 		if ($code_gen_type->picture) $this->destroy_file($code_gen_type->picture);
 		if ($code_gen_type->attachment) $this->destroy_file($code_gen_type->attachment);
-		
 		$code_gen_type->delete();
 		return redirect ( 'code_gen_type' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
 	}
@@ -217,5 +217,4 @@ class CodeGenTypeController extends Controller {
 	    
         return redirect("/code_gen_type?filter=$filter&filter_open=1")->withInput();
 	}
-	
 }

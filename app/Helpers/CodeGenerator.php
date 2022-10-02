@@ -993,6 +993,24 @@ class CodeGenerator {
     }
     
     /**
+     * An array of metadata for all fields used in filter
+     *
+     * @param String $table
+     * @return string[][]
+     */
+    static public function filter_field_list (String $table) {
+        $fff = self::form_field_list($table);
+        $res = [];
+        foreach ($fff as $elt) {
+            
+            if (Meta::in_filter($table, $elt['name'])) {
+                $res[] = $elt;
+            }
+        }
+        return $res;
+    }
+    
+    /**
      * Information to generate the selectors
      * a list of hash table with selector and with keys
      *	$res[] = ['selector' => '$key_list = ["app.locale", "app.timezone"];',
@@ -1283,7 +1301,8 @@ class CodeGenerator {
             'foreign_keys' => self::foreign_keys($table),
             'foreign_key_list' => self::foreign_key_list($table),
             'factory_referenced_models' => self::factory_referenced_models($table),
-            'filter_fields' => Meta::filter_names('code_gen_types')
+            'filter_names' => Meta::filter_names($table),
+            'filter_fields' => self::filter_field_list($table)
         );
     }
 }

@@ -199,7 +199,7 @@ class [[class_name]]Controller extends Controller {
 	     * by the filter
 	     */
 	    $filters_array = [];
-	    $fields = [ [[&filter_fields]] ];
+	    $fields = [ [[&filter_names]] ];
 	    foreach ($fields as $field) {
 	        if (array_key_exists($field, $inputs) && $inputs[$field]) {
 	            $filters_array[] = $field . ':' . $inputs[$field];

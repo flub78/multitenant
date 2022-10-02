@@ -55,8 +55,7 @@ use App\Helpers\DateFormat;
         @foreach($code_gen_types as $code_gen_type)
         <tr>
           <td> <a href="{{ route('code_gen_type.edit', $code_gen_type->id) }}" class="btn btn-primary" dusk="edit_{{ $code_gen_type->id }}"><i class="fa-solid fa-pen-to-square"></i></a> </td>
-          <td>
-            <form action="{{ route("code_gen_type.destroy", $code_gen_type->id)}}" method="post">
+          <td> <form action="{{ route("code_gen_type.destroy", $code_gen_type->id)}}" method="post">
               @csrf
               @method('DELETE')
               <button class="btn btn-danger" type="submit" dusk="delete_{{ $code_gen_type->id }}"><i class="fa-solid fa-trash"></i></button>
@@ -66,18 +65,12 @@ use App\Helpers\DateFormat;
           <td> {{$code_gen_type->phone}}</td>
           <td> {{$code_gen_type->description}}</td>
           <td> {{$code_gen_type->year_of_birth}}</td>
-          <td>
-            <div align="right">{!! Blade::float($code_gen_type->weight) !!}</div>
-          </td>
+          <td> <div align="right">{!! Blade::float($code_gen_type->weight) !!}</div></td>
           <td> {{DateFormat::to_local_date($code_gen_type->birthday)}}</td>
           <td> {{$code_gen_type->tea_time}}</td>
           <td> {{DateFormat::local_datetime($code_gen_type->takeoff)}}</td>
-          <td>
-            <div align="right">{!! Blade::currency($code_gen_type->price) !!}</div>
-          </td>
-          <td>
-            <div align="right">{!! Blade::currency($code_gen_type->big_price) !!}</div>
-          </td>
+          <td> <div align="right">{!! Blade::currency($code_gen_type->price) !!}</div></td>
+          <td> <div align="right">{!! Blade::currency($code_gen_type->big_price) !!}</div></td>
           <td> {!! Blade::bitfield("code_gen_types", "qualifications", $code_gen_type->qualifications, "code_gen_type", ["redactor", "student", "pilot", "instructor", "winch_man", "tow_pilot", "president", "accounter", "secretary", "mechanic"]) !!}</td>
           <td> <input type="checkbox" {{ ($code_gen_type->black_and_white) ? "checked" : "" }} onclick="return false;" /></td>
           <td> {!! Blade::enumerate("code_gen_type.color_name", $code_gen_type->color_name) !!}</td>

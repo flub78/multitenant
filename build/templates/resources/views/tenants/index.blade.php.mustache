@@ -60,8 +60,44 @@ use App\Helpers\DateFormat;
         @endforeach
     </tbody>
   </table>
+  </div> 
+[[#filter_names]]
+
+  <div class="accordion container-fluid mt-3" id="accordionFilter">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Filtre
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse{{ $filter_open }}" aria-labelledby="headingOne"="#accordionFilter">
+        <div class="accordion-body">
+
+          <div>
+            <form method="post" action="{{ route('code_gen_type.filter') }}" enctype="multipart/form-data">
+
+              <!-- csrf is mandatory to avoid the error 419, page expired -->
+              @csrf
+              <div>
+
+          [[# filter_fields ]]
+          [[&label_input_create]]           
+          [[/ filter_fields ]]
+
+                <input type="submit" name="button" value="{{__('general.filter')}}" class="btn bg-primary text-white" />
+                <input type="submit" name="button" value="{{__('general.display_all')}}" class="btn bg-primary text-white" />
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+          
+    </div>
   </div>
   
+[[/filter_names]]  
 </div> <!-- content div --> 
 @endsection
 
