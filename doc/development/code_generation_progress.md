@@ -181,4 +181,8 @@
 
     php artisan mustache:generate --compare %table% test_dusk       
 
+## motd_todays
+
+	set table=motd_todays
+    php artisan mustache:generate --install %table% all
     

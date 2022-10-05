@@ -98,6 +98,9 @@ Route::middleware([
 		Route::resource('motd', App\Http\Controllers\Tenants\MotdController::class)
 		  ->middleware('auth');
 		
+		Route::resource('motd_today', App\Http\Controllers\Tenants\MotdTodayController::class)
+		  ->middleware('auth');
+		
 	});			
 });
 
@@ -130,6 +133,9 @@ Route::middleware([
 		Route::resource('api/motd', App\Http\Controllers\Api\MotdController::class, ['as' => 'api'])
 			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
 		
+		Route::resource('api/motd_today', App\Http\Controllers\Api\MotdTodayController::class, ['as' => 'api'])
+			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+			
 	});
 	
 		

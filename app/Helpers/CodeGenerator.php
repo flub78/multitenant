@@ -917,7 +917,7 @@ class CodeGenerator {
         if ($view_def) {
             $view_list = ViewSchema::ScanViewDefinition($view_def);
             foreach ($view_list as $view_field) {
-                if (! Meta::inTable($table, $view_field)) continue;
+                if (! Meta::inTable($table, $view_field['field'])) continue;
                 $res[] = self::field_metadata($view_field['table'], $view_field['field'], $table, $view_field['name']);
             }
         } else {

@@ -136,6 +136,11 @@ class MetadataHelper {
 	 * @return boolean
 	 */
 	static function inTable($table, $field) {
+	    if (is_array($field)) {
+	        var_dump($field);
+	        throw new Exception('MetadataHelper.inTable \$field should b ea scalar');
+	    }
+	    
 		$subtype = self::subtype($table, $field);
 		
 		if (in_array($subtype, ['password_with_confirmation', 'password_confirmation'])) return false;
