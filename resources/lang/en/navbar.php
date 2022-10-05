@@ -23,6 +23,5 @@ return [
 	'configuration' => "Configuration",
 	'roles' => "Roles",
 	'user_roles' => "Roles for users",
-		
-		
+    'motd' => "Messages of the day"		
 ];

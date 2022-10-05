@@ -45,6 +45,7 @@
               <li><a class="dropdown-item" href="{{ route('configuration.index') }}">{{__('navbar.configuration')}}</a></li>
               <li><a class="dropdown-item" href="{{ route('role.index') }}">{{__('navbar.roles')}}</a></li>
               <li><a class="dropdown-item" href="{{ route('user_role.index') }}">{{__('navbar.user_roles')}}</a></li>
+              <li><a class="dropdown-item" href="{{ route('motd.index') }}">{{__('navbar.motd')}}</a></li>
             </ul>
           </li>
           

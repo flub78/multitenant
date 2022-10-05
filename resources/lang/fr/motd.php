@@ -13,14 +13,13 @@
 */
     
 return 	[
-		"title" => "Titre du message",
+		"title" => "Titre",
 			"list" => "Liste des messages du jour.",
 			"elt" => "message du jour",
 			"new" => "Nouveau message du jour",
 			"add" => "Ajouter un message du jour",
 			"message" => "Message",
 			"publication_date" => "Date de publication",
-			"end_date" => "Date de fin",
-            'current_messages' => "Dernière Nouvelles"
-];
+			"end_date" => "Date de fin"
+	];
 
