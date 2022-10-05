@@ -1,15 +1,10 @@
 # MySql Views
 
-MySQL views are another topic on which I'd like to experiment. They are definitively an elegant way to store and maintain complex selects.
+MySQL are an elegant way to store and maintain complex selects.
 
 Maintenance of the application could be easier if all the complex selects are stored in the database instead of being scattered across the code.
 
-Together with the code generator they could be an efficient method to generate an application. Once the basic database schema is defined and the code to handle it is generated, it should be easy to store the application selects as MySql views. If it is possible to make the code generator aware of the views and generate the matching code it would cover a lot of the development hassles.
-
-It implies a few things:
-
-* The metadata layer must be able to find out when it is processing a view.
-* It must be able to find out the fields subtypes and metadata from the view. Note that it is possible to enforce a name convention on the view column names to be able to retrieve the column original metadata or it can be done by analyzing the view definition.
+Together with the code generator they are an efficient method to generate an application. Once the basic database schema is defined and the code to handle it is generated, it is easy to store the application selects as MySql views. The code generator aware of the views and can generate the matching code.
 
 ## Remarks
 
@@ -17,7 +12,13 @@ If this approach is powerful it generates one controller, one model and one inde
 
 ## How to create a MySql view with a Laravel migration
 
-    https://www.nicesnippets.com/blog/how-to-use-mysql-view-in-laravel-8
+[How to use MySQL views in Laravel](https://www.nicesnippets.com/blog/how-to-use-mysql-view-in-laravel-8)
+
+### Generate a migration
+
+### Create the view with phpmysadmin
+
+### Update the migration and migrate
 
 ## Views backup and restore
 
