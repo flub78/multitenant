@@ -120,9 +120,8 @@ class MotdController extends Controller {
 	 */
 	public function update(MotdRequest $request, $id) {
 		$validatedData = $request->validated ();
-
-        $this->update_date($validatedData, 'publication_date');
-        $this->update_date($validatedData, 'end_date');
+		$previous = Motd::find($id);
+		
 		return Motd::whereId ( $id )->update ( $validatedData );
 	}
 

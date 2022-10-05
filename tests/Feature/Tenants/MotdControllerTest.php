@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Tenants\Motd;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\App;
+use App\Helpers\CodeGenerator as CG;
 
 /**
  * Functional test for the Motd CRUD 
@@ -250,11 +251,13 @@ class MotdControllerTest extends TenantTestCase {
         $initial = Motd::where('id', $id)->first();     // get it back
         $this->assertNotNull($initial);
         
+        $table = "motds";
         // Check that the first saved element has the correct values and is different from the second one
         foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
             if ($field != 'id') {
-                $this->assertEquals($initial->$field, $elt[$field]);
-                $this->assertNotEquals($initial->$field, $motd2->$field);
+                $this->assertEquals($initial->$field, $elt[$field], "correct field $field retreived from the database");
+                if (CG::lot_of_values($table, $field))
+                    $this->assertNotEquals($initial->$field, $motd2->$field, "field $field is different between two random instances");
             }
         }
                 
@@ -265,7 +268,7 @@ class MotdControllerTest extends TenantTestCase {
         $updated = Motd::where('id', $id)->first();
         $this->assertNotNull($updated);     
         foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
-            if ($field != 'id') {
+            if ($field != 'id' && CG::testable($table, $field) ) {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }
         }
@@ -341,7 +344,8 @@ class MotdControllerTest extends TenantTestCase {
     	App::setLocale('fr');
         $this->get_tenant_url($this->user, 'motd/create', [__('motd.new')]);      
         $fr_string = __('motd.new');
-   	/**
+
+    	/**
     	 * Scenario: Motd testLocale en
     	 * Given the local is set to en
     	 * When calling URLs
@@ -359,28 +363,4 @@ class MotdControllerTest extends TenantTestCase {
     	$new_locale = App::getLocale();
     	$this->assertTrue($new_locale == $locale, "Locale back to initial value");	
     }    
-    
-    /**
-     * Test display of the latest messages the current date mus be between 
-     * the publication date and the end date.
-     * 
-     * Given the user is logged on
-     * When calling index URL
-     * Then the table view is displayed
-     *
-     * @return void
-     */
-    public function testCurrentMessages() {
-        Log::Debug(__METHOD__);
-        
-        $look_for[] = __('motd.current_messages');
-        
-        $this->get_tenant_url($this->user, 'motd/current', $look_for);
-    }
-    
-    public function testCookie() {
-        $this->get_tenant_url($this->user, 'motd/setCookie');
-        $this->get_tenant_url($this->user, 'motd/getCookie');
-    }
-    
 }

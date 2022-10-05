@@ -10,6 +10,8 @@ use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\Motd;
 use Laravel\Sanctum\Sanctum;
+use App\Helpers\CodeGenerator as CG;
+
 
 class MotdControllerTest extends TenantTestCase {
 	
@@ -101,8 +103,13 @@ class MotdControllerTest extends TenantTestCase {
         // Normally the crsf token is required for all post, put, patch and delete requests
         // But in this context all middleware are disabled ...
         // $elt['_token'] = csrf_token();
+		$table = "motds";
 		foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
-		    $elt[$field] = $motd->$field;
+			if (CG::testable($table, $field)) {
+		    	$elt[$field] = $motd->$field;
+			} else {
+				$elt[$field] = "";
+			}
 		}
 				
 		// call the post method to create it
@@ -114,7 +121,8 @@ class MotdControllerTest extends TenantTestCase {
 		
 		// by default the store method returns the created element
         foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
-            $this->assertEquals($motd->$field, $json[$field]);             
+			if (CG::testable($table, $field)) 
+	            $this->assertEquals($motd->$field, $json[$field]);             
         }
 		
 		// check that an element has been created
@@ -126,7 +134,8 @@ class MotdControllerTest extends TenantTestCase {
 		$back = Motd::latest()->first();
 		$this->assertNotNull($back);
         foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
-            $this->assertEquals($motd->$field, $back->$field);             
+			if (CG::testable($table, $field)) 
+	            $this->assertEquals($motd->$field, $back->$field);             
         }
 	}
 	
@@ -229,8 +238,9 @@ class MotdControllerTest extends TenantTestCase {
 
 		$updated = Motd::findOrFail($id);
 		
+		$table = "motds";
 		foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
-		    if ($field != "id")
+		    if ($field != "id" && CG::testable($table, $field))
                 $this->assertEquals($elt[$field], $updated->$field);             
         }
 

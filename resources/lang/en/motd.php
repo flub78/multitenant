@@ -14,15 +14,14 @@ Todo ucfirst field names
 */
     
 return [
-	'title' => "Messages title",
+	'title' => "Motd",
 	'list' => "Motd list.",
 	'elt' => "motd",
-    'new' => "New message of the day",
-    'add' => "Add a message of the day",	
+    'new' => "New motd",
+    'add' => "Add a motd",	
 	'title' => "Title",
 	'message' => "Message",
 	'publication_date' => "Publication date",
 	'end_date' => "End date",
-    'current_messages' => "Latests News"
 ];
 

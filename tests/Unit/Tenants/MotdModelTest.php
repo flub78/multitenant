@@ -9,6 +9,7 @@ namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
 use App\Models\Tenants\Motd;
+use App\Helpers\CodeGenerator as CG;
 
 /**
  * Unit test for Motd model
@@ -41,8 +42,10 @@ class MotdModelTest extends TenantTestCase {
          // a third to generate values for updates
         $motd3 = Motd::factory()->make();
         $this->assertNotNull($motd3);
+        $table = "motds";
         foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
-            $this->assertNotEquals($latest->$field, $motd3->$field, "different $field between two random element");
+            if (CG::lot_of_values($table, $field))
+                $this->assertNotEquals($latest->$field, $motd3->$field, "different $field between two random element");
         }
  
         $this->assertTrue(Motd::count() == $initial_count + 2, "Two new elements in the table");
@@ -79,7 +82,7 @@ class MotdModelTest extends TenantTestCase {
         $this->assertDeleted($stored);
         $this->assertTrue(Motd::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
-            if ($field != "id")
+            if ($field != "id" && (CG::lot_of_values($table, $field)) )
                 $this->assertDatabaseMissing('motds', [$field => $motd3->$field]);
         }
     }
@@ -102,89 +105,4 @@ class MotdModelTest extends TenantTestCase {
     	$this->assertTrue(Motd::count() == $initial_count, "No changes in database");
     }
     
-
-    public function test_publication_date_mutators() {
-        $elt = Motd::factory()->create();
-        
-        // By default the lang is en
-        $en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})/i';   
-        $this->assertMatchesRegularExpression($en_date_regexp, $elt->publication_date);
-        
-        // switch to French
-        $this->set_lang("fr");
-
-        // and check that the dates are now in French format
-        $fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})/i';
-        $this->assertMatchesRegularExpression($fr_date_regexp, $elt->publication_date);
-            
-    }
-
-    public function test_end_date_mutators() {
-        $elt = Motd::factory()->create();
-        
-        // By default the lang is en
-        $en_date_regexp = '/(\d{2})\-(\d{2})\-(\d{4})/i';   
-        $this->assertMatchesRegularExpression($en_date_regexp, $elt->end_date);
-        
-        // switch to French
-        $this->set_lang("fr");
-
-        // and check that the dates are now in French format
-        $fr_date_regexp = '/(\d{2})\/(\d{2})\/(\d{4})/i';
-        $this->assertMatchesRegularExpression($fr_date_regexp, $elt->end_date);
-            
-    }
-    
-    public function test_currents() {
-        $elt = Motd::factory()->create();
-        
-        $initial_count = Motd::count();
-        $elt = Motd::factory()->create();
-        
-        $this->assertTrue(Motd::count() == $initial_count + 1, "No changes in database");
-        
-        $elt->delete();
-        $this->assertEquals(1, Motd::count(), "Back to 1");
-        
-        $currents = Motd::currents();
-        $initial_currents = count($currents); 
-        
-        $elt1 = ['title' => 'in the past',
-            'message' => 'Humanity has landed on the moon',
-            'publication_date' => '07-20-1969',          //  m-d-Y English local format
-            'end_date' => '12-31-1969'
-        ]; 
-        $elt = Motd::factory()->create($elt1);
-        $this->assertEquals(2, Motd::count(), "After creation");
-       
-        $elt2 = ['title' => 'in the future',
-            'message' => 'Humanity has landed on mars',
-            'publication_date' => '07-20-2039',          //  m-d-Y English local format
-            'end_date' => '12-31-2069'
-        ];
-        $elt = Motd::factory()->create($elt2);
-        $this->assertEquals(3, Motd::count(), "Another one");
-        
-        // $el1 and $el2 should not be returned, today is out of range
-        $this->assertEquals($initial_currents, count(Motd::currents()), "No display");
-        
-        // $el3 and $elt4 should be returned until 2069
-        $elt3 = ['title' => 'Active',
-            'message' => 'Humanity has landed on the moon again',
-            'publication_date' => '07-20-1969',          //  m-d-Y English local format
-            'end_date' => '12-31-2069'
-        ];
-        $elt = Motd::factory()->create($elt3);
-        
-        // It is mandatory to specify null or the factory will use a random
-        // not null value
-        $elt4 = ['title' => 'Another Active',
-            'message' => 'Humanity has not yet landed on mars',
-            'publication_date' => '07-20-1969',          //  m-d-Y English local format
-            'end_date' => null
-        ];
-        $elt = Motd::factory()->create($elt4);
-        $this->assertEquals($initial_currents + 2, count(Motd::currents()), "To be displayed");
-        
-    }
 }

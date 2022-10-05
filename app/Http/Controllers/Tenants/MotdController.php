@@ -8,8 +8,9 @@ namespace App\Http\Controllers\Tenants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenants\MotdRequest;
 use App\Models\Tenants\Motd;
-use Illuminate\Http\Response;
-use Carbon\Carbon;
+use App\Helpers\DateFormat;
+use Illuminate\Http\Request;
+use Redirect;
 
 
 /**
@@ -25,9 +26,18 @@ class MotdController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-    	$motds = Motd::all();
-    	return view ( 'tenants/motd/index', compact ( 'motds' ) );
+    public function index(Request $request) {
+
+        $query = Motd::query();
+
+	    $filter_open = ($request->has ('filter_open')) ? "-show" : "";	    
+	    if ($request->has ('filter')) {	        
+	        $this->applyFilter($query, $request->input ('filter'));
+	    }
+	    $motds = $query->get ();   
+
+    	return view ( 'tenants/motd/index', compact ( 'motds' ) )
+            ->with('filter_open', $filter_open);
     }
 
     /**
@@ -47,7 +57,7 @@ class MotdController extends Controller {
      */
     public function store(MotdRequest $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
-        
+
         Motd::create($validatedData);
        return redirect('/motd')->with('success', __('general.creation_success', [ 'elt' => __("motd.elt")]));
      }
@@ -55,10 +65,13 @@ class MotdController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tenants\Motd  $motd
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Motd $motd) {
+    public function show($id) {
+	    $motd = Motd::find($id);
+        return view('tenants/motd/show')
+            ->with(compact('motd'));
     }
 
     
@@ -87,8 +100,6 @@ class MotdController extends Controller {
         $validatedData = $request->validated();
         $previous = Motd::find($id);
 
-        $this->update_date($validatedData, 'publication_date');
-        $this->update_date($validatedData, 'end_date');
         Motd::where([ 'id' => $id])->update($validatedData);
 
         return redirect('/motd')->with('success', __('general.modification_success', [ 'elt' => __("motd.elt") ]));
@@ -103,33 +114,40 @@ class MotdController extends Controller {
      */
     public function destroy(Motd $motd) {
     	$id = $motd->id;
-        
-        
     	$motd->delete();
     	return redirect ( 'motd' )->with ( 'success', __('general.deletion_success', ['elt' => $id]));
     }
-    
-    /**
-     * Display the current messages
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function current() {
-        $motds = Motd::currents();
-        return view ( 'tenants/motd/current', compact ( 'motds' ) );
-    }
-    
-    public function setCookie(MotdRequest $request){
-        $date = Carbon::now();
-        $minutes = 60 * 24;
-        $response = new Response('Set Cookie');
-        $response->withCookie(cookie('stop_date', $date->format(__("general.date_format")) , $minutes));
-        return $response;
-    }
-   
-    public function getCookie(MotdRequest $request){
-        $value = $request->cookie('stop_date');
-        // echo "Stop date = " . $value;
-    }
-    
+
+	/**
+	 * This method is called by the filter form submit buttons
+	 * Generate a filter parameter according to the filter form and call the index view
+	 * 
+	 * @param Request $request
+	 */
+	public function filter(Request $request) {
+	    $inputs = $request->input();
+	    
+	    // When it is not the filter button redirect to index with no filtering
+	    if ($request->input('button') != __('general.filter')) {
+	        return redirect('/motd');
+	    }
+	    
+	    /*
+	     * Generate a filter string from the form inputs fields
+	     * 
+	     * Checkboxes and enumerates need an additonal checkbox to detemine if they must be taken into account
+	     * by the filter
+	     */
+	    $filters_array = [];
+	    $fields = [  ];
+	    foreach ($fields as $field) {
+	        if (array_key_exists($field, $inputs) && $inputs[$field]) {
+	            $filters_array[] = $field . ':' . $inputs[$field];
+	        }
+	    }
+	    $filter = implode(",", $filters_array);
+	    
+	    
+        return redirect("/motd?filter=$filter&filter_open=1")->withInput();
+	}
 }

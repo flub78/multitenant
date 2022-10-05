@@ -34,8 +34,8 @@ class MotdFactory extends Factory
         return [
             'title' => "title_" . $next . "_" . Str::random(),
             'message' => "message_" . $next . "_" . Str::random(),
-            'publication_date' => $this->faker->unique()->date(__("general.date_format")),
-            'end_date' => $this->faker->unique()->date(__("general.date_format")),
+            'publication_date' => $this->faker->unique()->date(__("general.database_date_format")),
+            'end_date' => $this->faker->unique()->date(__("general.database_date_format")),
         ];
     }
     
