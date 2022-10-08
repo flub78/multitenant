@@ -37,8 +37,8 @@
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/CodeGenTypesView1ModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/UserRolesView1ModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/ProfileModelTest.php
-php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/MotdModelTest.php
-
+@rem php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/MotdModelTest.php
+php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/MotdTodayModelTest.php
 
 @rem Feature tests
 @rem =============
@@ -94,7 +94,9 @@ php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/MotdModelTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerFilterTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
-php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
+
+@rem ============= php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
+@rem ============= php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdTodayControllerTest.php
 
     @rem APIs
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
@@ -103,4 +105,5 @@ php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypeControllerFilterTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypesView1ControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/ProfileControllerTest.php
-php vendor/phpunit/phpunit/phpunit  tests/Feature/Api/MotdControllerTest.php
+@rem ============= php vendor/phpunit/phpunit/phpunit  tests/Feature/Api/MotdControllerTest.php
+@rem ============= php vendor/phpunit/phpunit/phpunit  tests/Feature/Api/MotdTodayControllerTest.php

@@ -26,7 +26,7 @@ Move the migration in the correct dirrectory
 
 Generate a SQL query
 
-	SELECT * FROM `motds` WHERE `publication_date` >= CURDATE() and (CURDATE() < `end_date` or `end_date` IS NULL);
+	SELECT * FROM `motds` WHERE `publication_date` <= CURDATE() and (CURDATE() < `end_date` or `end_date` IS NULL);
 
 From the phpmyadmin result page choose create a view
 

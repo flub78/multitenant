@@ -35,6 +35,9 @@ class CarbonTest extends TenantTestCase
     	// By default timezone = UTC and format is Y-m-d h:i:s
     	$mutable = Carbon::now();
     	$mutable->add(1, 'day');
+        // echo "tomorrow = " . $mutable->toDateString(); 
+    	// $yesterday = Carbon::yesterday();
+    	// echo "yesterday = " . $yesterday->toDateString(); 
     	$this->assertEquals(0, $mutable->utcOffset());
     	$this->assertMatchesRegularExpression($date_regexp, $mutable);
     	

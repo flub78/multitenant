@@ -14,7 +14,7 @@ class MotdToday extends Migration
     public function up() {
         $sql = "CREATE OR REPLACE VIEW motd_todays " 
             . " AS select * "
-            . " FROM `motds` WHERE `publication_date` >= CURDATE() and (CURDATE() < `end_date` or `end_date` IS NULL)";
+            . " FROM `motds` WHERE `publication_date` <= CURDATE() and (CURDATE() < `end_date` or `end_date` IS NULL)";
         \DB::statement($sql);
     }
 

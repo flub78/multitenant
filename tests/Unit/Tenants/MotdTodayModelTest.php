@@ -9,7 +9,9 @@ namespace tests\Unit\Tenants;
 
 use Tests\TenantTestCase;
 use App\Models\Tenants\MotdToday;
-use App\Helpers\CodeGenerator as CG;
+use App\Models\Tenants\Motd;
+use Carbon\Carbon;
+
 // Here use clause for the model referenced by the viex
 
 /**
@@ -26,13 +28,18 @@ class MotdTodayModelTest extends TenantTestCase {
      public function test_factory() {
         $initial_count = MotdToday::count();
         
-        MotdToday::factoryCreate();        
+        $today = Carbon::now();
+        $publication_date = $today->toDateString();
+        $today->add(10, 'day');
+        $end_date = $today->toDateString();
+        
+        Motd::factory()->create(['publication_date' => $publication_date, 'end_date' => $end_date]);
         $new_count = MotdToday::count();
         $this->assertEquals($initial_count + 1, $new_count);
         
-        MotdToday::factoryCreate();
+        Motd::factory()->create(['publication_date' => $end_date, 'end_date' => $end_date]);
         $final_count = MotdToday::count();
-        $this->assertEquals($initial_count + 2, $final_count);
+        $this->assertEquals($initial_count + 1, $final_count);
      }
       
     /*
@@ -43,9 +50,12 @@ class MotdTodayModelTest extends TenantTestCase {
      public function test_view() {
         $this->assertTrue(true);
         
+        $today = Carbon::now()->toDateString();
+        $end_date = Carbon::tomorrow()->toDateString();
+        
         // Here generation of the referenced elements
-         MotdToday::factoryCreate(); 
-         MotdToday::factoryCreate(); 
+        Motd::factory()->create(['publication_date' => $today, 'end_date' => $end_date]); 
+        Motd::factory()->create(['publication_date' => $today, 'end_date' => $end_date]); 
          
         $this->assertTrue(MotdToday::count() > 0);
         
