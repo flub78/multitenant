@@ -84,13 +84,10 @@ class MotdTodayControllerTest extends TenantTestCase {
         Log::Debug(__METHOD__);
         
         $look_for = [__('motd_today.title'), __('navbar.tenant'), tenant('id')];
-        $look_for[] = __('motd.id'); 
         $look_for[] = __('motd.title'); 
         $look_for[] = __('motd.message'); 
         $look_for[] = __('motd.publication_date'); 
         $look_for[] = __('motd.end_date'); 
-        $look_for[] = __('motd.created_at'); 
-        $look_for[] = __('motd.updated_at'); 
 
         $this->get_tenant_url($this->user, 'motd_today', $look_for);
     }

@@ -9,8 +9,9 @@ namespace tests\Feature\Api;
 use Tests\TenantTestCase;
 use App\Models\User;
 use App\Models\Tenants\MotdToday;
+use App\Models\Tenants\Motd;
 use Laravel\Sanctum\Sanctum;
-use App\Helpers\CodeGenerator as CG;
+use Carbon\Carbon;
 
 
 class MotdTodayControllerTest extends TenantTestCase {
@@ -22,7 +23,6 @@ class MotdTodayControllerTest extends TenantTestCase {
 
 		// required to be able to use the factory inside the constructor
 		$this->createApplication ();
-		// $this->user = factory(User::class)->create();
 		$this->user = User::factory ()->make ();
 		$this->user->admin = true;
 		
@@ -41,8 +41,10 @@ class MotdTodayControllerTest extends TenantTestCase {
 	 */
     public function create_elements(int $number = 1, $argv = []) {
 	   $elements = [];
+	   $today_str = Carbon::now()->toDateString();
+	   $end_date_str = Carbon::tomorrow()->toDateString();
        for ($i = 0; $i < $number; $i++) {
-            $elements[] = MotdToday::factoryCreate ();
+           $elements[] = Motd::factory()->create(['publication_date' => $today_str, 'end_date' => $end_date_str]); 
         }
         return $elements;
 	}
@@ -75,9 +77,13 @@ class MotdTodayControllerTest extends TenantTestCase {
 	public function test_motd_today_pagination() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
-        $cnt = 0;		
+        $cnt = 0;
+        $today_str = Carbon::now()->toDateString();
+        $end_date_str = Carbon::tomorrow()->toDateString();
+        
 		for ($i = 0; $i < 90; $i++) {			
-            MotdToday::factoryCreate ();
+            Motd::factory()->create(['publication_date' => $today_str, 'end_date' => $end_date_str]);
+            
             if ($cnt == 19) {
                 $elt20 = MotdToday::latest()->first();
             }
@@ -108,8 +114,12 @@ class MotdTodayControllerTest extends TenantTestCase {
 	public function test_bad_page_number() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
+		$today_str = Carbon::now()->toDateString();
+		$end_date_str = Carbon::tomorrow()->toDateString();
+		
 		for ($i = 0; $i < 100; $i++) {			
-            MotdToday::factoryCreate ();
+            Motd::factory()->create(['publication_date' => $today_str, 'end_date' => $end_date_str]);
+            
 		}
 		
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=120');
@@ -128,8 +138,10 @@ class MotdTodayControllerTest extends TenantTestCase {
 		
 		// generate the test data set
 	    $cnt = 0;
-		for ($i = 0; $i < 90; $i++) {			
-			MotdToday::factory ()->create ();
+	    $today_str = Carbon::now()->toDateString();
+	    $end_date_str = Carbon::tomorrow()->toDateString();
+	    for ($i = 0; $i < 90; $i++) {			
+			Motd::factory()->create(['publication_date' => $today_str, 'end_date' => $end_date_str]); 
             if ($cnt == 19) {
                 $elt20 = MotdToday::latest()->first();
             }
@@ -162,52 +174,16 @@ class MotdTodayControllerTest extends TenantTestCase {
 	}
 	
 	/**
-	 *
-	 */
-	public function ttest_motd_today_sorting_on_multiple_columns() {
-		Sanctum::actingAs(User::factory()->create(),['api-access']);
-		
-		// generate the test data set
-		//
-		for ($i = 0; $i < 100; $i++) {
-			MotdToday::factory ()->create ();
-		}
-		
-		// First page, non sorted
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
-		$response->assertStatus(200);
-		
-		$json = $response->json();
-		// First call without sorting
-		$this->assertEquals(20, count($json['data']));
-		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
-		
-		// Sorting on multiple columns
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=allDay,-start');
-		$json = $response->json();
-		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
-		$this->assertEquals('event_98', $json['data'][1]['title']); // reverse order
-		$this->assertEquals('event_96', $json['data'][2]['title']); // reverse order
-		
-		$this->assertEquals(0, $json['data'][0]['allDay']);
-		$this->assertEquals(0, $json['data'][1]['allDay']);
-		$this->assertEquals(0, $json['data'][2]['allDay']);
-		$this->assertEquals(0, $json['data'][48]['allDay']);
-		$this->assertEquals(0, $json['data'][49]['allDay']);
-		$this->assertEquals(1, $json['data'][50]['allDay']);
-		$this->assertEquals(1, $json['data'][51]['allDay']);
-		$this->assertEquals(1, $json['data'][99]['allDay']);		
-	}
-
-	/**
 	 * Sorting on bad column name
 	 */
 	public function test_sorting_on_bad_column_name() {
 		Sanctum::actingAs(User::factory()->create(),['api-access']);
 		
 		// generate the test data set
+		$today_str = Carbon::now()->toDateString();
+		$end_date_str = Carbon::tomorrow()->toDateString();
 		for ($i = 0; $i < 100; $i++) {
-			MotdToday::factory ()->create ();
+			Motd::factory()->create(['publication_date' => $today_str, 'end_date' => $end_date_str]); 
 		}
 				
 		// Sorting on multiple columns
@@ -217,30 +193,4 @@ class MotdTodayControllerTest extends TenantTestCase {
 		$this->assertStringContainsString("Unknown column ", $json['message']);
 	}
 
-	public function ttest_filtering() {
-		Sanctum::actingAs(User::factory()->create(),['api-access']);
-		
-		// generate the test data set
-		for ($i = 0; $i < 100; $i++) {
-			MotdToday::factory ()->create ();
-		}		
-		
-		// Filtering on multiple columns
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1');
-		$json = $response->json();
-		$this->assertEquals(50, count($json['data']));
-		
-		// Filtering on multiple columns
-		$limit = $date->sub(10, 'hour');
-		$after =  htmlspecialchars(',start:>' . $limit->toDateTimeString());
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after);
-		$json = $response->json();
-		$this->assertEquals(3, count($json['data']));
-
-		$after =  htmlspecialchars(',start:>=' . $limit->toDateTimeString());
-		$url = 'http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after;
-		$response = $this->getJson($url);
-		$json = $response->json();
-		$this->assertEquals(3, count($json['data']));
-	}
 }
