@@ -1,5 +1,7 @@
 # Admin middleware
 
+[Back to documentation home page](../../README.md)
+
 Users have an admin attribute. By default the first registered user of the central or tenant application is admin. others registered users are not. The first admin user can then set or reset the user admin fields and create others admin.
 
 A middleware exists to reserve some routes to admin users.
