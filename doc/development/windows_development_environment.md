@@ -63,7 +63,18 @@ in httpd-vhosts.conf
 
 ### Phpunit
 
+#### Setup a PHP executable
+
+#### Execution
+
+* Select a Unit test
+* run it as phpunit test
+
+
 ## Debuger
+
+* toggle a breakpoint
+* 
 
 ## Coverage and profiling
 

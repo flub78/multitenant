@@ -28,6 +28,4 @@ return [
 	'textColor' => 'Couleur du texte',
 		
 	'end_before_start' => "La fin doit être après le début."
-		
-
 ];
