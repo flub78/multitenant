@@ -129,7 +129,7 @@ Short design notes are kept in the doc directory as a set of md files. Plantuml 
 #### Testing documentation
 
 - [Test data generation](doc/testing/test_data_generation.md)
-- [Test environments](doc/testing/test_environments.md)
+- [Running tests](doc/testing/running_tests.md)
 - [Testing](doc/testing/testing.md)
 
 ### TDD
