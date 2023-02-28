@@ -19,6 +19,6 @@ return 	[
 			"new" => "Nouveau rôle",
 			"add" => "Ajouter un rôle",
 			"name" => "Nom",
-			"description" => "La description"
+			"description" => "Description"
 	];
 

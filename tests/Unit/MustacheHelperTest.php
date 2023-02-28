@@ -22,15 +22,21 @@ class MustacheHelperTest extends TestCase {
 	const temp1 = "app\Http\Controllers\Tenants\Controller.php";
 	const temp2 = "app\Http\Controllers\Tenants\Controller.php.mustache";
 	const temp3 = 'translation.php';
+	# C:\Users\frede\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers
+	const win_root = 'C:\Users\frede\Dropbox\xampp\htdocs\multitenant';
 	
 	public function test_template_filename() {
 
+	    # This test does not pass under eclipse as the getcwd does not return the same thing that when the
+	    # test is run from command line. 
+	    # TODO: refactor the template_filename function to find the templates another way
+	    
 		if (PHP_OS == "WINNT") {
-		    $expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache');
+		    $expected = strtolower(Self::win_root . '\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache');
 		    $this->assertEquals($expected, strtolower(MustacheHelper::template_filename(Self::temp1)));
 		    $this->assertEquals($expected, strtolower(MustacheHelper::template_filename(Self::temp2)));
 						
-		    $expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\translation.php.mustache');
+		    $expected = strtolower(Self::win_root . '\build\templates\translation.php.mustache');
 		    $this->assertEquals($expected, strtolower(MustacheHelper::template_filename(Self::temp3)));
 			
 			$this->expectException(Exception::class);
@@ -45,7 +51,7 @@ class MustacheHelperTest extends TestCase {
 	
 	public function test_result_filename () {
 		if (PHP_OS == "WINNT") {			
-		    $expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\app\Http\Controllers\Tenants\Controller.php');
+		    $expected = strtolower(Self::win_root . '\build\results\app\Http\Controllers\Tenants\Controller.php');
 		} else {
 			$this->assertTrue(true);
 			return;  // Curently code generation is not supported on Linux
@@ -58,7 +64,7 @@ class MustacheHelperTest extends TestCase {
 	
 	public function test_is_absolute_path () {
 		if (PHP_OS == "WINNT") {
-			$template = 'C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
+		    $template = Self::win_root . '\build\templates\app\Http\Controllers\Tenants\Controller.php.mustache';
 		} else {
 			$template = '/var/www/html/multi_phpunit/build/results/app\Http\Controllers\Tenants\Controller.php';
 		}
@@ -88,16 +94,16 @@ class MustacheHelperTest extends TestCase {
 
 		if (PHP_OS == "WINNT") {
 		    $template = strtolower(MustacheHelper::translation_result_file('role', 'fr'));
-		    $expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\resources\lang\fr\role.php');
+		    $expected = strtolower(Self::win_root . '\build\results\resources\lang\fr\role.php');
 			$this->assertEquals($expected, $template);
 			
 			$template = strtolower(MustacheHelper::translation_result_file('configuration', 'en'));
-			$expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\build\results\resources\lang\en\configuration.php');
+			$expected = strtolower(Self::win_root . '\build\results\resources\lang\en\configuration.php');
 			$this->assertEquals($expected, $template);
 			
 			
 			$template = strtolower(MustacheHelper::translation_result_file('role', 'fr', true));
-			$expected = strtolower('C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\resources\lang\fr\role.php');
+			$expected = strtolower(Self::win_root . '\resources\lang\fr\role.php');
 			$this->assertEquals($expected, $template);
 			
 		} else {
