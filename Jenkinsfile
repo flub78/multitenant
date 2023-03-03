@@ -3,20 +3,23 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
+	      		// Get some code from a GitHub repository
+    	  		git 'https://github.com/flub78/multitenant.git'
                 //
-                sh 'echo "Build step 1"' 
+                sh 'ls' 
+                echo "Source code fetched"
             }
         }
         stage('Test') { 
             steps {
                 // 
-                sh 'echo "Test step 1"' 
+                echo "Test step 1" 
             }
         }
         stage('Deploy') { 
             steps {
                 // 
-                sh 'echo "Deploy step 1"' 
+                echo "Deploy step 1"
             }
         }
     }
