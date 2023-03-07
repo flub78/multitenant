@@ -3,7 +3,7 @@
     - name: Setup .env file
       debug: 
         msg:
-          - "APP_URL = {{ base_url }}"
+          - "APP_URL = {{ app_url }}"
           - "INSTALLATION_PATH = {{ installation_path }}"
           - "Welcome to the Multitenant Web Application Framework installation"
 
