@@ -21,11 +21,10 @@ pipeline {
         VERBOSE="-v"
         
         DB_CRED=credentials('multi_db_user')
-        API_KEY=credentials('google_translate_api_key')
         DB_HOST="localhost"        
-        TRANSLATE_API_KEY="AXXXXXXXXXXXXXXXXXXXXXXn6zz4FJk9_c"
+        TRANSLATE_API_KEY=credentials('google_translate_api_key')
         DB_USERNAME="${DB_CRED_USR}"
-        DB_PASSWORD="password"
+        DB_PASSWORD="$DB_CRED_PSW"
         DB_DATABASE="multi_jenkins"
     }
     stages {
@@ -36,9 +35,6 @@ pipeline {
                 
                 echo "Source code fetched"
     			echo "APP_URL = $APP_URL"
-    			echo "DB_USERNAME=$DB_CRED_USR"
-    			echo "DB_PASSWORD=$DB_CRED_PSW"
-    			echo "translate_key=$API_KEY"
             }
         }
         stage('Test') {
