@@ -20,7 +20,7 @@ pipeline {
         SERVER_PATH="/var/www/multi"
         VERBOSE="-v"
         
-        DB_CRED=credentials('multi_user_db')
+        DB_CRED=credentials('multi_db_user')
         API_KEY=credentials('google_translate_api_key')
         DB_HOST="localhost"        
         TRANSLATE_API_KEY="AXXXXXXXXXXXXXXXXXXXXXXn6zz4FJk9_c"
