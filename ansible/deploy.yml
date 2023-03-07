@@ -21,10 +21,10 @@
   hosts: localhost
 
   vars:
-    base_url: "{{lookup('env','BASE_URL')}}" 
+    app_url: "{{lookup('env','APP_URL')}}" 
     tenant_url: "{{lookup('env','TENANT_URL')}}" 
     installation_path: "{{lookup('env','INSTALLATION_PATH')}}"
-    server_path: "{{lookup('env','SERVER_PATH')}}"
+    public_path: "{{lookup('env','PUBLIC_PATH')}}"
     env_file: '{{installation_path}}/.env'
     db_username: "{{lookup('env','DB_USERNAME')}}"
     db_password: "{{lookup('env','DB_PASSWORD')}}"

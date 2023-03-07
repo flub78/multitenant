@@ -52,7 +52,6 @@
     # writable files
     - name: Ensure file are executable
       command: chmod +x "{{ installation_path }}/{{item}}"
-      warn: False
       with_items:
         - test.sh
         - vendor/laravel/dusk/bin/chromedriver-linux

@@ -1,4 +1,7 @@
 # Ansible create public directory
+#
+# For security reasons the Apache virtual host references a copy ot the Laravel project public file.
+# The index.php file is modified to point to the non public Laravel project directory tree.
 
     - name: Setup .env file
       debug: 
@@ -7,10 +10,10 @@
 
     - synchronize:
         src: '{{installation_path}}/public/'
-        dest: '{{server_path}}/'
+        dest: '{{public_path}}/'
         
     - name: edit index.php
       replace:
-        path: '{{server_path}}/index.php'
+        path: '{{public_path}}/index.php'
         regexp: "__DIR__\\.'\\/\\.\\."
         replace: "\'{{installation_path}}"
