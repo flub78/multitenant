@@ -37,7 +37,7 @@ pipeline {
                 echo "Source code fetched"
     			echo "APP_URL = $APP_URL"
     			echo "DB_USERNAME=$DB_CRED_USR"
-    			echo "DB_PASSWORD=$DB_CRED_PWD"
+    			echo "DB_PASSWORD=$DB_CRED_PSW"
     			echo "translate_key=$API_KEY"
             }
         }
