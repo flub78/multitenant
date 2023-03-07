@@ -24,7 +24,7 @@ pipeline {
         DB_HOST="localhost"        
         TRANSLATE_API_KEY=credentials('google_translate_api_key')
         DB_USERNAME="${DB_CRED_USR}"
-        DB_PASSWORD="$DB_CRED_PSW"
+        DB_PASSWORD='$DB_CRED_PSW'
         DB_DATABASE="multi_jenkins"
     }
     stages {
