@@ -8,6 +8,9 @@ or initial installation steps
 * Apache
 * php version >= 8.0
 * Mysql or MariaDB
+* a domain
+
+The domain can be public and declared in the DNS or private, in which case it must be declared in the /etc/hosts of the Ansible control node and in the target machine.
 
 ## Installation steps
 
