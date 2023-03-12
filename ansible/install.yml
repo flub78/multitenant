@@ -37,6 +37,7 @@
 
   roles:
     - git_clone
+    - create_db
     #- env
     - directories
     #- laravel
@@ -49,7 +50,8 @@
   #         - "INSTALLATION_PATH = {{ installation_path }}"
   #         - "Welcome to the Multitenant Web Application Framework installation"
 
-    # - name: test root access
-    #   command: 'grep root /etc/shadow'  
+  tasks:
+    - name: test root access
+      command: 'grep root /etc/shadow'  
       
 

@@ -4,4 +4,5 @@
       ansible.builtin.git:
         repo: 'https://github.com/flub78/multitenant.git'
         dest: "{{ installation_path }}"
+        force: true
         
