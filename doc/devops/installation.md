@@ -20,9 +20,9 @@ The domain can be public and declared in the DNS or private, in which case it mu
 
 ### Create the databases
 
-Create one database matching the credentials in each .env environement. For security reasons you should not use the database user name and password from the github repository.
+Create one database matching the credentials in each .env environnement. For security reasons you should not use the database user name and password from the github repository.
 
-A typicall development environment has 
+A typically development environment has 
 
 * .env for interactive testing
 * .env.testing for unit tests
