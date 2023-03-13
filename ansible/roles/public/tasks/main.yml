@@ -3,17 +3,15 @@
 # For security reasons the Apache virtual host references a copy ot the Laravel project public file.
 # The index.php file is modified to point to the non public Laravel project directory tree.
 
-    - name: Setup .env file
-      debug: 
-        msg:
-          - "Move public"
-
-    - synchronize:
+    - name: copy public directory
+      copy:
         src: '{{installation_path}}/public/'
         dest: '{{public_path}}/'
-        
+        remote_src: true
+  
+    # Replace   __DIR__.'/../  with  '{{installation_path}}' in index.php
     - name: edit index.php
       replace:
         path: '{{public_path}}/index.php'
         regexp: "__DIR__\\.'\\/\\.\\."
-        replace: "\'{{installation_path}}"
+        replace: "'{{installation_path}}"

@@ -76,7 +76,8 @@
          dest: '{{test_env_file}}'
          remote_src: true
          
-    - name:  setup database in .env
+    # It is not a good idea to use the same database for interactive testing and unit testing     
+    - name:  setup database in .env.testing
       lineinfile:
          dest:  '{{test_env_file}}'
          regexp: 'DB_DATABASE'
