@@ -36,9 +36,10 @@
     db_database: "{{lookup('env','DB_DATABASE')}}"
     translate_api_key: "{{lookup('env','TRANSLATE_API_KEY')}}"
     tenant_url: "{{ lookup('env','APP_SCHEME') + lookup('env','TENANT_SUBDOMAIN') + '.' + lookup('env','APP_DOMAIN') + '/'}}" 
-
+    email_address: "{{lookup('env','EMAIL_ADDRESS')}}"
 
   roles:
+    - cert
     - git_clone
     - create_db
     - env

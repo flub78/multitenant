@@ -7,18 +7,18 @@
     #    chdir: '{{installation_path}}'
 
     # reset database
-    - name: Migrate database
+    - name: php artisan migrate
       command: php artisan migrate
       args:
         chdir: '{{installation_path}}'
 
-    - name: Reset database
+    - name: php artisan migrate:reset
       command: php artisan migrate:reset
       args:
         chdir: '{{installation_path}}'
 
     # setup database
-    - name: setup database
+    - name: php artisan migrate --seed
       command: php artisan migrate --seed
       args:
         chdir: '{{installation_path}}'

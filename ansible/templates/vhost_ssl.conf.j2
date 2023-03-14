@@ -1,7 +1,7 @@
 <IfModule mod_ssl.c>
         <VirtualHost _default_:443>
                 ServerAdmin webmaster@localhost
-
+                ServerName {{app_domain}}
                 DocumentRoot /var/www/{{app_domain}}
 
                 # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,

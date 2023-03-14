@@ -1,0 +1,13 @@
+# Ansible create a certificate
+#
+# The certificate is created using the certbot command line tool and apache must be up and running
+
+# '/etc/letsencrypt/live/webapp.multi.flub78.net/fullchain.pem' does not exist
+    - name: Check if certificate exists
+      stat:
+        path: "/etc/letsencrypt/live/{{app_domain}}/fullchain.pem"
+      register: cert
+
+    - name: Create a certificate for {{app_domain}}
+      command: certbot certonly --standalone --non-interactive --email {{email_address}} --agree-tos -d {{app_domain}}
+      when: cert.stat.exists == False

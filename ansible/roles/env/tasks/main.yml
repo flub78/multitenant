@@ -67,6 +67,13 @@
          regexp: 'APP_NAME'
          line: "APP_NAME=Multi"
 
+    - name:  setup APP_DOMAIN in config/tenancy.php
+      lineinfile:
+         dest:  '{{installation_path}}/config/tenancy.php'
+         regexp: 'tenants.com'
+         line: "'{{app_domain}}'"
+
+
     # --------------------------------------------------------------------------------------------------------         
     # set .env.testing
 
