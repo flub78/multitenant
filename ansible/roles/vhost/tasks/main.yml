@@ -1,19 +1,14 @@
 # Ansible create virtual host
 #
-    - name: create virtual host
-      debug: 
-        msg:
-          - "Create virtual host"
-
-    - name: Create an apache configuration file for the domain
+    - name: apache vhost file
       template:
         src: "templates/vhost_ssl.conf.j2"
-        dest: "/etc/apache2/sites-available/{{app_url}}.conf"
+        dest: "/etc/apache2/sites-available/{{app_domain}}.conf"
         mode: u=rw,g=r,o=r
 
 # Enable the virtual host
     - name: Enable the virtual host
-      shell: "a2ensite {{app_url}}"
+      shell: "a2ensite {{app_domain}}"
       register: a2ensite
       changed_when: "'already enabled' not in a2ensite.stdout"
       notify:

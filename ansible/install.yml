@@ -25,6 +25,7 @@
   become_user: root
 
   vars:
+    app_domain: "{{lookup('env','APP_DOMAIN')}}"
     app_url: "{{ lookup('env','APP_SCHEME') + lookup('env','APP_DOMAIN') + '/'}}" 
     installation_path: "{{lookup('env','INSTALLATION_PATH')}}"
     public_path: "{{lookup('env','PUBLIC_PATH')}}"
@@ -46,16 +47,16 @@
     - public
     - vhost
 
-  # tasks:
-  #   - name: Display context information
-  #     debug: 
-  #       msg:
-  #         - "APP_URL = {{ app_url }}"
-  #         - "INSTALLATION_PATH = {{ installation_path }}"
-  #         - "Welcome to the Multitenant Web Application Framework installation"
+  
 
   tasks:
     - name: test root access
       command: 'grep root /etc/shadow'  
       
+    - name: Display context information
+      debug: 
+        msg:
+          - "Multitenant Web Application installation"
+          - "APP_URL = {{ app_url }}"
+          - "INSTALLATION_PATH = {{ installation_path }}"
 

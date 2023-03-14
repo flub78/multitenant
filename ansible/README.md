@@ -13,7 +13,7 @@ This directory contains ansible scripts to deploy Multitenant in different conte
 
 or
 
-    ansible-playbook --inventory hosts --key-file $TF_VAR_PRIVATE_KEY install.yml --start-at-task="vhost : create virtual host"
+    ansible-playbook --inventory hosts --key-file $TF_VAR_PRIVATE_KEY install.yml --start-at-task="vhost : apache vhost file"
 
 ## Playbooks
 
@@ -27,6 +27,13 @@ or
 - Install a public directory as root for the Apache server
 - Create an Apache virtual host
 - Setup the DNS routes
+
+### install.yml testing
+
+once the playbook is executed the central application should be online. (If the DNS routing is not setup it is possible to declare the application domain in the /etc/hosts file of the test machine)
+
+    C:\Windows\System32\drivers\etc\hosts
+    
 
 ### Manual cleanup
 

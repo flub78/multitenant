@@ -2,7 +2,7 @@
         <VirtualHost _default_:443>
                 ServerAdmin webmaster@localhost
 
-                DocumentRoot /var/www/{{lookup('env','INFRA_DOMAIN')}}
+                DocumentRoot /var/www/{{app_domain}}
 
                 # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
                 # error, crit, alert, emerg.
@@ -29,8 +29,8 @@
                 #   /usr/share/doc/apache2/README.Debian.gz for more info.
                 #   If both key and certificate are stored in the same file, only the
                 #   SSLCertificateFile directive is needed.
-                SSLCertificateFile /etc/letsencrypt/live/{{lookup('env','INFRA_DOMAIN')}}/fullchain.pem
-                SSLCertificateKeyFile /etc/letsencrypt/live/{{lookup('env','INFRA_DOMAIN')}}/privkey.pem
+                SSLCertificateFile /etc/letsencrypt/live/{{app_domain}}/fullchain.pem
+                SSLCertificateKeyFile /etc/letsencrypt/live/{{app_domain}}/privkey.pem
 
                 #   Server Certificate Chain:
                 #   Point SSLCertificateChainFile at a file containing the
