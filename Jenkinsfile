@@ -30,7 +30,8 @@ pipeline {
     stages {
         stage('Static analysis') { 
             steps {
-    			sh 'phing -f build-phing.xml ci'            
+    			sh 'phing -f build-phing.xml ci'
+                pmd canRunOnFailed: true, pattern: 'build/logs/pmd.xml'            
             }
         }
         stage('Phpunit') {
