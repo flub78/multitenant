@@ -12,7 +12,7 @@
  *     - INSTALLATION_PATH home of the laravel files 
  */
 pipeline {
-    agent any 
+    agent { label 'multi' }
     environment { 
         APP_URL="http://multi.ratus.flub78.net/"
         TENANT_URL="http://test.multi.ratus.flub78.net/"
@@ -28,13 +28,9 @@ pipeline {
         DB_DATABASE="multi_jenkins"
     }
     stages {
-        stage('Build') { 
+        stage('Static analysis') { 
             steps {
-	      		// Get some code from a GitHub repository
-    	  		git 'https://github.com/flub78/multitenant.git'
-                
-                echo "Source code fetched"
-    			echo "APP_URL = $APP_URL"
+    			sh 'phing -f build-phing.xml ci'            
             }
         }
         stage('Test') {
@@ -42,8 +38,8 @@ pipeline {
                 //  
         	
     			// some block
-    			sh 'ansible-playbook ansible/deploy.yml'
-    			sh '.test.sh'  
+    			// sh 'ansible-playbook ansible/deploy.yml'
+    			// sh '.test.sh'  
             }
         }
         stage('Deploy') { 
