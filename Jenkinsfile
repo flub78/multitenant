@@ -27,6 +27,7 @@ pipeline {
         DB_PASSWORD='$DB_CRED_PSW'
         DB_DATABASE="multi_jenkins"
     }
+
     stages {
         stage('Static analysis') { 
             steps {
@@ -48,6 +49,17 @@ pipeline {
                 // 
                 echo "Dusk"
             }
+        }
+    }
+
+    post {
+        always {
+            // junit testResults: '**/target/surefire-reports/TEST-*.xml'
+
+            // recordIssues enabledForFailure: true, tool: checkStyle()
+            // recordIssues enabledForFailure: true, tool: spotBugs()
+            // recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
+            recordIssues enabledForFailure: true, tool: pmdParser(pattern: 'build/logs/pmd.xml')
         }
     }
 }
