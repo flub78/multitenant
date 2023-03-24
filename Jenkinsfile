@@ -58,6 +58,7 @@ pipeline {
             // recordIssues enabledForFailure: true, tool: checkStyle()
             // recordIssues enabledForFailure: true, tool: spotBugs()
             // recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
+            recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'build/checkstyle.xml')
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: 'build/logs/pmd.xml')
         }
     }
