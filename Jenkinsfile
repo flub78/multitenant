@@ -33,19 +33,19 @@ pipeline {
     			sh 'phing -f build-phing.xml ci'            
             }
         }
-        stage('Test') {
+        stage('Phpunit') {
             steps {
                 //  
-        	
+        	    echo "Phpunit"
     			// some block
     			// sh 'ansible-playbook ansible/deploy.yml'
     			// sh '.test.sh'  
             }
         }
-        stage('Deploy') { 
+        stage('Dusk') { 
             steps {
                 // 
-                echo "Deploy step 1"
+                echo "Dusk"
             }
         }
     }
