@@ -1,0 +1,43 @@
+# Multitenant deployment
+#
+# This playbook is run to configure a jenkins agent node to run
+# the phpunit tests. When this playbook is executed the workspace has been fetched.
+# The playbook will:
+#
+# - update the /etc/hosts file
+# - change the configuration files
+# - create the database
+#
+# BASE_URL              for central application
+# INSTALLATION_PATH     installation directory
+
+# DB_HOST               database host
+# DB_USERNAME           and user name
+# DB_PASSWORD
+# DB_DATABASE 
+#
+# to execute:
+# ansible-playbook deploy.yml
+---
+
+- name: Simple local playbook
+
+  gather_facts: true
+  hosts: localhost
+
+  vars:
+    app_url: "{{lookup('env','APP_URL')}}" 
+    tenant_url: "{{lookup('env','TENANT_URL')}}" 
+    installation_path: "{{lookup('env','INSTALLATION_PATH')}}"
+    public_path: "{{lookup('env','PUBLIC_PATH')}}"
+    env_file: '{{installation_path}}/.env'
+    db_username: "{{lookup('env','DB_USERNAME')}}"
+    db_password: "{{lookup('env','DB_PASSWORD')}}"
+    db_database: "{{lookup('env','DB_DATABASE')}}"
+    translate_api_key: "{{lookup('env','TRANSLATE_API_KEY')}}"
+
+  roles:
+    - env
+    - directories
+    - laravel
+

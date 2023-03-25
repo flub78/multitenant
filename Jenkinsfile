@@ -14,28 +14,35 @@
 pipeline {
     agent { label 'multi' }
     environment { 
-        APP_URL="http://multi.ratus.flub78.net/"
-        TENANT_URL="http://test.multi.ratus.flub78.net/"
-        INSTALLATION_PATH="/var/lib/jenkins/workspace/Multitenant_pipeline"
-        SERVER_PATH="/var/www/multi"
+        /*
+        The tests are run locally, on a machine with no Internet access. It is relatively safe to use hard coded credentials.
+        */
+        BASE_URL="http://tenants.com/"
+        APP_URL="http://tenants.com/"
+        TENANT_URL="http://test.tenants.com/"
+        INSTALLATION_PATH="/var/www/html/multi_phpunit"
+        SERVER_PATH="/var/www/html/tenants.com"
         VERBOSE="-v"
-        
-        // DB_CRED=credentials('multi_db_user')
-        DB_HOST="localhost"        
-        // TRANSLATE_API_KEY=credentials('google_translate_api_key')
-        DB_USERNAME="${DB_CRED_USR}"
-        DB_PASSWORD='$DB_CRED_PSW'
+
+        DB_HOST="localhost"
+        DB_USERNAME="jenkins"
+        DB_PASSWORD="jenkins_password"
         DB_DATABASE="multi_jenkins"
+
+        /*
+        ansible-playbook ansible/deploy.yml
+        ./test.sh
+        */
     }
 
     stages {
         stage('Static analysis') { 
             steps {
-    			sh 'phing -f build-phing.xml ci'
                 sh 'hostname'
                 sh 'pwd'
                 sh 'id'
                 sh 'ls'
+    			sh 'phing -f build-phing.xml ci'
             }
         }
         stage('Phpunit') {

@@ -12,6 +12,10 @@ or initial installation steps
 
 The domain can be public and declared in the DNS or private, in which case it must be declared in the /etc/hosts of the Ansible control node and in the target machine.
 
+## Ansible Installation
+
+It is possible to install the application with the insatll.yml ansible playbook.
+
 ## Installation steps
 
 ### Get the sources from github
