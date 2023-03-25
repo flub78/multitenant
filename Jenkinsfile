@@ -32,6 +32,10 @@ pipeline {
         stage('Static analysis') { 
             steps {
     			sh 'phing -f build-phing.xml ci'
+                sh 'hostname'
+                sh 'pwd'
+                sh 'id'
+                sh 'ls'
             }
         }
         stage('Phpunit') {
