@@ -40,6 +40,18 @@
     - name: test local connection
       ping:
 
+    - name: Display context information
+      debug: 
+        msg:
+          - "Multitenant Web Application installation from jenkins workspace"
+          - "APP_URL = {{ app_url }}"
+
+    # declare domain in /etc/hosts
+    - name: add domain to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        line: "127.0.0.1 {{ app_url }} {{ tenant_url }}"
+
   roles:
     #- env
     #- directories
