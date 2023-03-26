@@ -24,6 +24,9 @@
 
   gather_facts: true
   hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
 
   vars:
     app_url: "{{lookup('env','APP_URL')}}" 
