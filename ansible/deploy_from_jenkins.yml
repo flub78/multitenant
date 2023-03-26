@@ -36,8 +36,12 @@
     db_database: "{{lookup('env','DB_DATABASE')}}"
     translate_api_key: "{{lookup('env','TRANSLATE_API_KEY')}}"
 
+  tasks:
+    - name: test local connection
+      ping:
+
   roles:
-    - env
-    - directories
-    - laravel
+    #- env
+    #- directories
+    #- laravel
 

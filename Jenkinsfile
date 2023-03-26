@@ -38,10 +38,6 @@ pipeline {
     stages {
         stage('Static analysis') { 
             steps {
-                sh 'hostname'
-                sh 'pwd'
-                sh 'id'
-                sh 'ls'
     			sh 'phing -f build-phing.xml ci'
             }
         }
@@ -49,8 +45,11 @@ pipeline {
             steps {
                 //  
         	    echo "Phpunit"
-    			// some block
-    			// sh 'ansible-playbook ansible/deploy.yml'
+                 sh 'hostname'
+                sh 'pwd'
+                sh 'id'
+                sh 'ls'
+    			sh 'ansible-playbook ansible/deploy_from_jenkins.yml'
     			// sh '.test.sh'  
             }
         }
