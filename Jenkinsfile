@@ -49,7 +49,6 @@ pipeline {
                 sh 'pwd'
                 sh 'id'
                 sh 'ls'
-    			sh 'ansible-playbook ansible/deploy_from_jenkins.yml'
     			// sh '.test.sh'  
             }
         }

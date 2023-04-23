@@ -1,0 +1,80 @@
+# Multitenant phpunit installation
+#
+# This playbook is variation on the install playbook to configure a jenkins agent
+# when a workspace has been fetched by jenkins.
+#
+# The installation is local, on a machine which cannot be reached from the Internet.
+# This playbook requires root authorizations and should not be run from jenkins itself.
+# The easiest way it to run it from the control machine.
+#
+# The playbook will:
+#
+# - update the /etc/hosts file
+# - change the configuration files
+# - create the database
+#
+# BASE_URL              for central application
+# INSTALLATION_PATH     installation directory
+
+# DB_HOST               database host
+# DB_USERNAME           and user name
+# DB_PASSWORD
+# DB_DATABASE 
+#
+# to run:
+# ansible-playbook --inventory hosts --key-file $TF_VAR_PRIVATE_KEY install_phpunit.yml
+---
+
+- name: phpunit configuration for multitenant web application
+
+  gather_facts: true
+  hosts: multi_server
+  become: yes
+  become_method: sudo
+  become_user: root
+
+  vars:
+    domain: "tenants.com"
+    test_subdomain: "test"
+    app_url: "http://{{domain}}"
+    tenant_url: "http://{{test_subdomain}}.{{domain}}" 
+
+    # installation path is the workspace
+    installation_path: "/home/jenkins/workspace/multi"
+    public_path: "{{installation_path)}}/public"
+
+    env_file: '{{installation_path}}/.env'
+    db_username: "multi_phpunit"
+    db_password: "multi_phpunit"
+    db_database: "multi_phpunit"
+    translate_api_key: "{{lookup('env','TRANSLATE_API_KEY')}}"
+
+  tasks:
+    - name: test local connection
+      ping:
+
+    - name: Display context information
+      debug: 
+        msg:
+          - "Multitenant Web Application installation from jenkins workspace"
+          - "APP_URL = {{ app_url }}"
+
+    # declare domain in /etc/hosts
+    - name: add domain to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        line: "127.0.0.1 {{ domain }} {{ test_subdomain }}.{{ domain }}"
+
+    # create an apache virtual host
+    # a2ensite tenants.com.conf
+    # systemctl reload apache2
+
+    # create a database
+
+
+  roles:
+    - create_db
+    #- env
+    #- directories
+    #- laravel
+
