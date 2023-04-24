@@ -24,6 +24,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/change_password/change_password', [App\Http\Controllers\ChangePasswordController::class, 'change_password'])->name('change_password.change_password');
 Route::patch('/change_password/password', [App\Http\Controllers\ChangePasswordController::class, 'password'])->name('change_password.password');
 
+Route::get('/repas', [App\Http\Controllers\RepasController::class, 'index'])->name('repas.csv');
+Route::post('/repas', [App\Http\Controllers\RepasController::class, 'csv'])->name('repas.csv');
+
 // admin routes
 Route::group(['middleware' => ['admin']], function () {
 	Route::resource('user', App\Http\Controllers\UserController::class)->middleware('auth');
