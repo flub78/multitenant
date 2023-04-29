@@ -72,6 +72,7 @@ class RepasController extends Controller {
       $fields = str_getcsv ($line, ",");
       // var_dump($fields);
 
+      
       $result = [];
       $result['reservation_date'] = $fields[0];
       $result['name'] = $fields[1];
@@ -99,6 +100,7 @@ class RepasController extends Controller {
       return $result;
     }
 
+
     public function convert_resa_day($fields, $needle) {
       $convert = [
         '3' => '18',
@@ -123,6 +125,62 @@ class RepasController extends Controller {
       return $result;
     }
 
+    public function per_person ($lines) {
+      $cnt = 0;
+      $result = [];
+      foreach ($lines as $line) {
+          if ($cnt) $result[] = $this->convert_line($line);
+          $cnt++;
+      }
+      return $result;
+    }
+
+    public function per_day ($lines) {
+      $convert = [
+        '3' => '18',
+        '4' => '19',
+        '5' => '20',
+        '6' => '21',
+        '7' => '27',
+        '8' => '28',
+        '9' => '29'
+      ];      $cnt = 0;
+      $result = [];
+      $patterns = ['Petit déjeuner', 'Déjeuner', 'Dîner'];
+      $init = [
+        'Petit déjeuner' => 0,
+        'Déjeuner' => 0,
+        'Dîner' => 0
+      ];
+      for ($i = 3; $i < 10; $i++) {
+        $day = $convert[$i];
+        $result[$day] = $init;
+      }
+
+      foreach ($lines as $line) {
+          if ($cnt) {
+            $fields = str_getcsv ($line, ",");
+ 
+            for ($i = 3; $i < 10; $i++) {
+              $day = $convert[$i];
+              foreach ($patterns as $pattern) {
+                if (str_contains($fields[$i], $pattern)) {
+                  if ($pattern == 'Dîner') {
+                    if ($i == 6 || $i == 8 || $i == 9) continue;
+                  }
+                  $result[$day][$pattern] += 1;
+                }
+              }
+ 
+
+            }
+          }
+          $cnt++;
+      }
+      return $result;
+    }
+
+
     public function csv(Request $request) {
         $request->validate([
             'picture' => 'required|file|mimes:csv,txt',
@@ -132,16 +190,15 @@ class RepasController extends Controller {
         $file->storeAs('public', $file->getClientOriginalName());
 
         $lines = explode("\n", file_get_contents($file->getRealPath()));
-        $cnt = 0;
-        $result = [];
-        foreach ($lines as $line) {
-            if ($cnt) $result[] = $this->convert_line($line);
-            $cnt++;
-        }
+
+        $per_person = $this-> per_person($lines);
+        $per_day = $this-> per_day($lines);
 
         // var_dump($result);
-        $this->display_results($result);
-        $this->total($result);
+        $this->display_results($per_person);
+        $this->total($per_person);
+
+        var_dump($per_day);
         
         // return redirect()->route('repas.index')->with('success', 'File uploaded successfully');
     }
