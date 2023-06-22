@@ -86,6 +86,36 @@ CENTRAL_APPLICATION_DOMAIN
 TEST_TENANT_APPLICATION_DOMAIN
 
 
+### Jenkins server on Oracle cloud
+
+    https://jenkins2.flub78.net:8443/
+
+    cd oracle_cloud/
+    export PUBLIC_KEY="$HOME/.ssh/oracle.pub"
+    export PRIVATE_KEY="$HOME/.ssh/oracle"
+    source setenv.sh
+    source jenkins2.setenv
+
+    ssh -i $PRIVATE_KEY ubuntu@jenkins2.flub78.net
+    sudo -i -u jenkins
+    cd workspace/Multitenant_phpunit/
+    php --version
+    PHP 8.1.18 (cli) (built: Apr 14 2023 04:39:44) (NTS)
+
+    php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
+    PHPUnit 9.5.20 #StandWithUkraine
+    .                                                                   1 / 1 (100%)
+    Time: 00:00.007, Memory: 8.00 MB
+    OK (1 test, 1 assertion)
+
+    php vendor/phpunit/phpunit/phpunit tests/Unit/OsTest.php        OK
+
+    php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
+    InvalidArgumentException: Please provide a valid cache path
+
+    chmod +x valid_cache_path.sh
+    ./valid_cache_path.sh
+
 ## End to End tests on deployment
 
 By default these tests should be able to run on any deployment. The CD pipeline install a test environment on one public server and then run the tests. These tests have no direct access to the database nor any internal data. They are pure black box tests.
