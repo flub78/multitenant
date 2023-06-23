@@ -38,6 +38,8 @@ A controller can easily analyze the content of a form to determine what rows sho
 
 One possible implementation is to just clear the selection form on "display all" click. However by doing that the selection is not persistent if another page is visited. Is it an issue ?
 
+I like a lot the dynamic search of datatable where the selection is dynamic. 
+
 ## Initial implementation
 
 I'd like to:
@@ -53,7 +55,7 @@ Questions:
 
 Remarks:
 
-- I am not sure that it is a good idea to share filter criteria across different views. For exemple, if I select the rows of a view to be the ones related to a specific user, cutomer, etc. When I navigate to another view, should I keep the selection on the same user, customer, etc.? In somes cases it may be convenient for the user of the application, but it could also be complex and surprising or error prone for the user.
+- I am not sure that it is a good idea to share filter criteria across different views. For exemple, if I select the rows of a view to be the ones related to a specific user, customer, etc. When I navigate to another view, should I keep the selection on the same user, customer, etc.? In somes cases it may be convenient for the user of the application, but it could also be complex and error prone for the user.
 
 
 
@@ -69,6 +71,8 @@ The like mysql operator can be used with the % wildchar to find values containin
 * Bitfields should be selected when the bits of the selector are set in the database value.
 
 * Checkboxes can be filter by value, but require an additional checkbox to know if this criteria is part of the selection. If only a checkbox is given, there is no way to find out if an unset value means filter the items with this field equal to false or do not filter on this field. For others types like varchar or integer an empty value means no selection on this field.
+  
+* Dates. We may like to filter on the curent date, current month, current year, and everything between a start and end date. Depending on the application default may be different (no filtering, today, this year).
 
 * There is no support for filtering for images or files.
 
