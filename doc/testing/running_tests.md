@@ -21,14 +21,14 @@ phpunit tests can be executed with:
 	run\tests.bat to run all of them
 	run\coverage.bat
 
-phpunit tests use the same domains but a specific database
-phpunit tests use the mysql_test database connection
+phpunit tests use the same domains but a specific database. phpunit tests use the mysql_test database connection
 
-All tests cases use the .env.testing environment file, which defines a master database user with the capacity
-of creating databases and users.
+All tests cases use the .env.testing environment file, which defines a master database user with the capacity of creating databases and users.
 
 By default the central database for testing is
 DB_DATABASE=multi_test
+
+Warning: to migrate the multi_test database, I edit temporarly the .env file to point to multi_test. I shoud find a cleaner way.
 
 Tenant databases are named tenant . tenant('id')
 
