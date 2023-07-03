@@ -8,6 +8,8 @@ namespace Stancl\VirtualColumn;
  * This trait lets you add a "data" column functionality to any Eloquent model.
  * It serializes attributes which don't exist as columns on the model's table
  * into a JSON column named data (customizable by overriding getDataColumn).
+ *
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 trait VirtualColumn
 {
@@ -138,5 +140,19 @@ trait VirtualColumn
         return [
             'id',
         ];
+    }
+
+    /**
+     * Get a column name for an attribute that can be used in SQL queries.
+     *
+     * (`foo` or `data->foo` depending on whether `foo` is in custom columns)
+     */
+    public function getColumnForQuery(string $column): string
+    {
+        if (in_array($column, static::getCustomColumns(), true)) {
+            return $column;
+        }
+
+        return static::getDataColumn() . '->' . $column;
     }
 }

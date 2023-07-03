@@ -34,9 +34,9 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
     /**
      * @var \SplObjectStorage<Request, callable>
      */
-    private $controllers;
-    private $sessionUsages = [];
-    private $requestStack;
+    private \SplObjectStorage $controllers;
+    private array $sessionUsages = [];
+    private ?RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack = null)
     {
@@ -44,10 +44,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         // attributes are serialized and as they can be anything, they need to be converted to strings.
         $attributes = [];
@@ -110,7 +107,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
             'session_metadata' => $sessionMetadata,
             'session_attributes' => $sessionAttributes,
             'session_usages' => array_values($this->sessionUsages),
-            'stateless_check' => $this->requestStack && $this->requestStack->getMainRequest()->attributes->get('_stateless', false),
+            'stateless_check' => $this->requestStack?->getMainRequest()?->attributes->get('_stateless') ?? false,
             'flashes' => $flashes,
             'path_info' => $request->getPathInfo(),
             'controller' => 'n/a',
@@ -139,7 +136,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
                 continue;
             }
             if ('request_headers' === $key || 'response_headers' === $key) {
-                $this->data[$key] = array_map(function ($v) { return isset($v[0]) && !isset($v[1]) ? $v[0] : $v; }, $value);
+                $this->data[$key] = array_map(fn ($v) => isset($v[0]) && !isset($v[1]) ? $v[0] : $v, $value);
             }
         }
 
@@ -176,12 +173,12 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         }
     }
 
-    public function lateCollect()
+    public function lateCollect(): void
     {
         $this->data = $this->cloneVar($this->data);
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->data = [];
         $this->controllers = new \SplObjectStorage();
@@ -198,46 +195,73 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['path_info'];
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getRequestRequest()
     {
         return new ParameterBag($this->data['request_request']->getValue());
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getRequestQuery()
     {
         return new ParameterBag($this->data['request_query']->getValue());
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getRequestFiles()
     {
         return new ParameterBag($this->data['request_files']->getValue());
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getRequestHeaders()
     {
         return new ParameterBag($this->data['request_headers']->getValue());
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getRequestServer(bool $raw = false)
     {
         return new ParameterBag($this->data['request_server']->getValue($raw));
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getRequestCookies(bool $raw = false)
     {
         return new ParameterBag($this->data['request_cookies']->getValue($raw));
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getRequestAttributes()
     {
         return new ParameterBag($this->data['request_attributes']->getValue());
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getResponseHeaders()
     {
         return new ParameterBag($this->data['response_headers']->getValue());
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getResponseCookies()
     {
         return new ParameterBag($this->data['response_cookies']->getValue());
@@ -273,11 +297,17 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['content'];
     }
 
+    /**
+     * @return bool
+     */
     public function isJsonRequest()
     {
         return 1 === preg_match('{^application/(?:\w+\++)*json$}i', $this->data['request_headers']['content-type']);
     }
 
+    /**
+     * @return string|null
+     */
     public function getPrettyJson()
     {
         $decoded = json_decode($this->getContent());
@@ -310,6 +340,9 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['locale'];
     }
 
+    /**
+     * @return ParameterBag
+     */
     public function getDotenvVars()
     {
         return new ParameterBag($this->data['dotenv_vars']->getValue());
@@ -346,7 +379,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
      * @return array|string|Data The controller as a string or array of data
      *                           with keys 'class', 'method', 'file' and 'line'
      */
-    public function getController()
+    public function getController(): array|string|Data
     {
         return $this->data['controller'];
     }
@@ -357,7 +390,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
      * @return array|Data|false A legacy array of data from the previous redirection response
      *                          or false otherwise
      */
-    public function getRedirect()
+    public function getRedirect(): array|Data|false
     {
         return $this->data['redirect'] ?? false;
     }
@@ -367,12 +400,12 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['forward_token'] ?? null;
     }
 
-    public function onKernelController(ControllerEvent $event)
+    public function onKernelController(ControllerEvent $event): void
     {
         $this->controllers[$event->getRequest()] = $event->getController();
     }
 
-    public function onKernelResponse(ResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event): void
     {
         if (!$event->isMainRequest()) {
             return;
@@ -391,9 +424,6 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'request';
@@ -431,11 +461,9 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
     }
 
     /**
-     * @param string|object|array|null $controller The controller to parse
-     *
      * @return array|string An array of controller data or a simple string
      */
-    private function parseController($controller)
+    private function parseController(array|object|string|null $controller): array|string
     {
         if (\is_string($controller) && str_contains($controller, '::')) {
             $controller = explode('::', $controller);
@@ -451,7 +479,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
                     'file' => $r->getFileName(),
                     'line' => $r->getStartLine(),
                 ];
-            } catch (\ReflectionException $e) {
+            } catch (\ReflectionException) {
                 if (\is_callable($controller)) {
                     // using __call or  __callStatic
                     return [
@@ -479,7 +507,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
             }
             $controller['method'] = $r->name;
 
-            if ($class = $r->getClosureScopeClass()) {
+            if ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
                 $controller['class'] = $class->name;
             } else {
                 return $r->name;

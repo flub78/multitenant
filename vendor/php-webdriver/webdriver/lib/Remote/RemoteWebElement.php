@@ -3,10 +3,13 @@
 namespace Facebook\WebDriver\Remote;
 
 use Facebook\WebDriver\Exception\ElementNotInteractableException;
+use Facebook\WebDriver\Exception\Internal\IOException;
+use Facebook\WebDriver\Exception\Internal\LogicException;
+use Facebook\WebDriver\Exception\PhpWebDriverExceptionInterface;
 use Facebook\WebDriver\Exception\UnsupportedOperationException;
-use Facebook\WebDriver\Exception\WebDriverException;
 use Facebook\WebDriver\Interactions\Internal\WebDriverCoordinates;
 use Facebook\WebDriver\Internal\WebDriverLocatable;
+use Facebook\WebDriver\Support\ScreenshotHelper;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\WebDriverElement;
@@ -37,7 +40,6 @@ class RemoteWebElement implements WebDriverElement, WebDriverLocatable
     protected $isW3cCompliant;
 
     /**
-     * @param RemoteExecuteMethod $executor
      * @param string $id
      * @param bool $isW3cCompliant
      */
@@ -93,7 +95,6 @@ class RemoteWebElement implements WebDriverElement, WebDriverLocatable
      * search the entire document from the root, not just the children (relative context) of this current node.
      * Use ".//" to limit your search to the children of this element.
      *
-     * @param WebDriverBy $by
      * @return RemoteWebElement NoSuchElementException is thrown in HttpCommandExecutor if no element is found.
      * @see WebDriverBy
      */
@@ -117,7 +118,6 @@ class RemoteWebElement implements WebDriverElement, WebDriverLocatable
      * search the entire document from the root, not just the children (relative context) of this current node.
      * Use ".//" to limit your search to the children of this element.
      *
-     * @param WebDriverBy $by
      * @return RemoteWebElement[] A list of all WebDriverElements, or an empty
      *    array if nothing matches
      * @see WebDriverBy
@@ -240,11 +240,11 @@ class RemoteWebElement implements WebDriverElement, WebDriverLocatable
     {
         if ($this->isW3cCompliant) {
             $script = <<<JS
-var e = arguments[0];
-e.scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' }); 
-var rect = e.getBoundingClientRect(); 
-return {'x': rect.left, 'y': rect.top};
-JS;
+                var e = arguments[0];
+                e.scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
+                var rect = e.getBoundingClientRect();
+                return {'x': rect.left, 'y': rect.top};
+            JS;
 
             $result = $this->executor->execute(DriverCommand::EXECUTE_SCRIPT, [
                 'script' => $script,
@@ -407,7 +407,7 @@ JS;
                     // This is so far non-W3C compliant method, so it may fail - if so, we just ignore the exception.
                     // @see https://github.com/w3c/webdriver/issues/1355
                     $fileName = $this->upload($local_file);
-                } catch (WebDriverException $e) {
+                } catch (PhpWebDriverExceptionInterface $e) {
                     $fileName = $local_file;
                 }
 
@@ -438,7 +438,6 @@ JS;
      *
      *   eg. `$element->setFileDetector(new LocalFileDetector);`
      *
-     * @param FileDetector $detector
      * @return RemoteWebElement
      * @see FileDetector
      * @see LocalFileDetector
@@ -461,7 +460,7 @@ JS;
         if ($this->isW3cCompliant) {
             // Submit method cannot be called directly in case an input of this form is named "submit".
             // We use this polyfill to trigger 'submit' event using form.dispatchEvent().
-            $submitPolyfill = $script = <<<HTXT
+            $submitPolyfill = <<<HTXT
                 var form = arguments[0];
                 while (form.nodeName !== "FORM" && form.parentNode) { // find the parent form of this element
                     form = form.parentNode;
@@ -473,7 +472,7 @@ JS;
                 if (form.dispatchEvent(event)) {
                     HTMLFormElement.prototype.submit.call(form);
                 }
-HTXT;
+            HTXT;
             $this->executor->execute(DriverCommand::EXECUTE_SCRIPT, [
                 'script' => $submitPolyfill,
                 'args' => [[JsonWireCompat::WEB_DRIVER_ELEMENT_IDENTIFIER => $this->id]],
@@ -508,30 +507,12 @@ HTXT;
      */
     public function takeElementScreenshot($save_as = null)
     {
-        $screenshot = base64_decode(
-            $this->executor->execute(
-                DriverCommand::TAKE_ELEMENT_SCREENSHOT,
-                [':id' => $this->id]
-            ),
-            true
-        );
-
-        if ($save_as !== null) {
-            $directoryPath = dirname($save_as);
-            if (!file_exists($directoryPath)) {
-                mkdir($directoryPath, 0777, true);
-            }
-
-            file_put_contents($save_as, $screenshot);
-        }
-
-        return $screenshot;
+        return (new ScreenshotHelper($this->executor))->takeElementScreenshot($this->id, $save_as);
     }
 
     /**
      * Test if two elements IDs refer to the same DOM element.
      *
-     * @param WebDriverElement $other
      * @return bool
      */
     public function equals(WebDriverElement $other)
@@ -544,6 +525,27 @@ HTXT;
             ':id' => $this->id,
             ':other' => $other->getID(),
         ]);
+    }
+
+    /**
+     * Get representation of an element's shadow root for accessing the shadow DOM of a web component.
+     *
+     * @return ShadowRoot
+     */
+    public function getShadowRoot()
+    {
+        if (!$this->isW3cCompliant) {
+            throw new UnsupportedOperationException('This method is only supported in W3C mode');
+        }
+
+        $response = $this->executor->execute(
+            DriverCommand::GET_ELEMENT_SHADOW_ROOT,
+            [
+                ':id' => $this->id,
+            ]
+        );
+
+        return ShadowRoot::createFromResponse($this->executor, $response);
     }
 
     /**
@@ -597,13 +599,13 @@ HTXT;
      *
      * @param string $local_file
      *
-     * @throws WebDriverException
+     * @throws LogicException
      * @return string The remote path of the file.
      */
     protected function upload($local_file)
     {
         if (!is_file($local_file)) {
-            throw new WebDriverException('You may only upload files: ' . $local_file);
+            throw LogicException::forError('You may only upload files: ' . $local_file);
         }
 
         $temp_zip_path = $this->createTemporaryZipArchive($local_file);
@@ -630,7 +632,7 @@ HTXT;
 
         $zip = new ZipArchive();
         if (($errorCode = $zip->open($tempZipPath, ZipArchive::CREATE)) !== true) {
-            throw new WebDriverException(sprintf('Error creating zip archive: %s', $errorCode));
+            throw IOException::forFileError(sprintf('Error creating zip archive: %s', $errorCode), $tempZipPath);
         }
 
         $info = pathinfo($fileToZip);

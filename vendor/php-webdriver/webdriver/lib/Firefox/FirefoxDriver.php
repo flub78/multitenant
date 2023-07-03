@@ -9,7 +9,14 @@ use Facebook\WebDriver\Remote\WebDriverCommand;
 
 class FirefoxDriver extends LocalWebDriver
 {
-    const PROFILE = 'firefox_profile';
+    /**
+     * @deprecated Pass Firefox Profile using FirefoxOptions:
+     * $firefoxOptions = new FirefoxOptions();
+     * $firefoxOptions->setProfile($profile->encode());
+     * $capabilities = DesiredCapabilities::firefox();
+     * $capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
+     */
+    public const PROFILE = 'firefox_profile';
 
     /**
      * Creates a new FirefoxDriver using default configuration.

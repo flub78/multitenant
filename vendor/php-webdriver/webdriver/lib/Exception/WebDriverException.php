@@ -5,9 +5,12 @@ namespace Facebook\WebDriver\Exception;
 use Exception;
 
 /**
+ * Ancestor for all exceptions defined in W3C WebDriver standard.
+ * (And also for deprecated JsonWire protocol exceptions.)
+ *
  * @see https://w3c.github.io/webdriver/#errors
  */
-class WebDriverException extends Exception
+class WebDriverException extends Exception implements PhpWebDriverExceptionInterface
 {
     private $results;
 
@@ -119,12 +122,16 @@ class WebDriverException extends Exception
                     throw new NoSuchFrameException($message, $results);
                 case 'no such window':
                     throw new NoSuchWindowException($message, $results);
+                case 'no such shadow root':
+                    throw new NoSuchShadowRootException($message, $results);
                 case 'script timeout':
                     throw new ScriptTimeoutException($message, $results);
                 case 'session not created':
                     throw new SessionNotCreatedException($message, $results);
                 case 'stale element reference':
                     throw new StaleElementReferenceException($message, $results);
+                case 'detached shadow root':
+                    throw new DetachedShadowRootException($message, $results);
                 case 'timeout':
                     throw new TimeoutException($message, $results);
                 case 'unable to set cookie':

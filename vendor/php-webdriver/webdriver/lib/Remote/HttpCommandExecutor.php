@@ -2,18 +2,18 @@
 
 namespace Facebook\WebDriver\Remote;
 
-use BadMethodCallException;
-use Facebook\WebDriver\Exception\WebDriverCurlException;
+use Facebook\WebDriver\Exception\Internal\LogicException;
+use Facebook\WebDriver\Exception\Internal\UnexpectedResponseException;
+use Facebook\WebDriver\Exception\Internal\WebDriverCurlException;
 use Facebook\WebDriver\Exception\WebDriverException;
 use Facebook\WebDriver\WebDriverCommandExecutor;
-use InvalidArgumentException;
 
 /**
  * Command executor talking to the standalone server via HTTP.
  */
 class HttpCommandExecutor implements WebDriverCommandExecutor
 {
-    const DEFAULT_HTTP_HEADERS = [
+    public const DEFAULT_HTTP_HEADERS = [
         'Content-Type: application/json;charset=UTF-8',
         'Accept: application/json',
     ];
@@ -141,6 +141,14 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         DriverCommand::DISMISS_ALERT => ['method' => 'POST', 'url' => '/session/:sessionId/alert/dismiss'],
         DriverCommand::EXECUTE_ASYNC_SCRIPT => ['method' => 'POST', 'url' => '/session/:sessionId/execute/async'],
         DriverCommand::EXECUTE_SCRIPT => ['method' => 'POST', 'url' => '/session/:sessionId/execute/sync'],
+        DriverCommand::FIND_ELEMENT_FROM_SHADOW_ROOT => [
+            'method' => 'POST',
+            'url' => '/session/:sessionId/shadow/:id/element',
+        ],
+        DriverCommand::FIND_ELEMENTS_FROM_SHADOW_ROOT => [
+            'method' => 'POST',
+            'url' => '/session/:sessionId/shadow/:id/elements',
+        ],
         DriverCommand::FULLSCREEN_WINDOW => ['method' => 'POST', 'url' => '/session/:sessionId/window/fullscreen'],
         DriverCommand::GET_ACTIVE_ELEMENT => ['method' => 'GET', 'url' => '/session/:sessionId/element/active'],
         DriverCommand::GET_ALERT_TEXT => ['method' => 'GET', 'url' => '/session/:sessionId/alert/text'],
@@ -149,6 +157,10 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         DriverCommand::GET_ELEMENT_PROPERTY => [
             'method' => 'GET',
             'url' => '/session/:sessionId/element/:id/property/:name',
+        ],
+        DriverCommand::GET_ELEMENT_SHADOW_ROOT => [
+            'method' => 'GET',
+            'url' => '/session/:sessionId/element/:id/shadow',
         ],
         DriverCommand::GET_ELEMENT_SIZE => ['method' => 'GET', 'url' => '/session/:sessionId/element/:id/rect'],
         DriverCommand::GET_WINDOW_HANDLES => ['method' => 'GET', 'url' => '/session/:sessionId/window/handles'],
@@ -208,8 +220,9 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, static::DEFAULT_HTTP_HEADERS);
-        $this->setRequestTimeout(30000);
-        $this->setConnectionTimeout(30000);
+
+        $this->setConnectionTimeout(30 * 1000); // 30 seconds
+        $this->setRequestTimeout(180 * 1000); // 3 minutes
     }
 
     public function disableW3cCompliance()
@@ -257,9 +270,6 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
     }
 
     /**
-     * @param WebDriverCommand $command
-     *
-     * @throws WebDriverException
      * @return WebDriverResponse
      */
     public function execute(WebDriverCommand $command)
@@ -269,7 +279,7 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         $url = $http_options['url'];
 
         $sessionID = $command->getSessionID();
-        $url = str_replace(':sessionId', $sessionID === null ? '' : $sessionID, $url);
+        $url = str_replace(':sessionId', $sessionID ?? '', $url);
         $params = $command->getParameters();
         foreach ($params as $name => $value) {
             if ($name[0] === ':') {
@@ -279,13 +289,7 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         }
 
         if (is_array($params) && !empty($params) && $http_method !== 'POST') {
-            throw new BadMethodCallException(sprintf(
-                'The http method called for %s is %s but it has to be POST' .
-                ' if you want to pass the JSON params %s',
-                $url,
-                $http_method,
-                json_encode($params)
-            ));
+            throw LogicException::forInvalidHttpMethod($url, $http_method, $params);
         }
 
         curl_setopt($this->curl, CURLOPT_URL, $this->url . $url);
@@ -321,30 +325,13 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         $raw_results = trim(curl_exec($this->curl));
 
         if ($error = curl_error($this->curl)) {
-            $msg = sprintf(
-                'Curl error thrown for http %s to %s',
-                $http_method,
-                $url
-            );
-            if (is_array($params) && !empty($params)) {
-                $msg .= sprintf(' with params: %s', json_encode($params, JSON_UNESCAPED_SLASHES));
-            }
-
-            throw new WebDriverCurlException($msg . "\n\n" . $error);
+            throw WebDriverCurlException::forCurlError($http_method, $url, $error, is_array($params) ? $params : null);
         }
 
         $results = json_decode($raw_results, true);
 
         if ($results === null && json_last_error() !== JSON_ERROR_NONE) {
-            throw new WebDriverException(
-                sprintf(
-                    "JSON decoding of remote response failed.\n" .
-                    "Error code: %d\n" .
-                    "The response: '%s'\n",
-                    json_last_error(),
-                    $raw_results
-                )
-            );
+            throw UnexpectedResponseException::forJsonDecodingError(json_last_error(), $raw_results);
         }
 
         $value = null;
@@ -372,7 +359,7 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
             WebDriverException::throwException($value['error'], $message, $results);
         }
 
-        $status = isset($results['status']) ? $results['status'] : 0;
+        $status = $results['status'] ?? 0;
         if ($status !== 0) {
             // Legacy JsonWire
             WebDriverException::throwException($status, $message, $results);
@@ -401,7 +388,7 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         $commandName = $command->getName();
         if (!isset(self::$commands[$commandName])) {
             if ($this->isW3cCompliant && !isset(self::$w3cCompliantCommands[$commandName])) {
-                throw new InvalidArgumentException($command->getName() . ' is not a valid command.');
+                throw LogicException::forError($command->getName() . ' is not a valid command.');
             }
         }
 

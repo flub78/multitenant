@@ -84,7 +84,7 @@ class [[class_name]]ModelTest extends TenantTestCase {
         
         // Delete
         $stored->delete();   
-        $this->assertDeleted($stored);
+        $this->assertModelMissing($stored);
         $this->assertTrue([[class_name]]::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ [[&fillable_names]] ] as $field) {
             if ($field != "[[primary_index]]" && (CG::lot_of_values($table, $field)) )

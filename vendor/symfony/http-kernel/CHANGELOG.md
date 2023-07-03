@@ -1,6 +1,52 @@
 CHANGELOG
 =========
 
+6.3
+---
+
+ * Deprecate parameters `container.dumper.inline_factories` and `container.dumper.inline_class_loader`, use `.container.dumper.inline_factories` and `.container.dumper.inline_class_loader` instead
+ * `FileProfilerStorage` removes profiles automatically after two days
+ * Add `#[WithHttpStatus]` for defining status codes for exceptions
+ * Use an instance of `Psr\Clock\ClockInterface` to generate the current date time in `DateTimeValueResolver`
+ * Add `#[WithLogLevel]` for defining log levels for exceptions
+ * Add `skip_response_headers` to the `HttpCache` options
+ * Introduce targeted value resolvers with `#[ValueResolver]` and `#[AsTargetedValueResolver]`
+ * Add `#[MapRequestPayload]` to map and validate request payload from `Request::getContent()` or `Request::$request->all()` to typed objects
+ * Add `#[MapQueryString]` to map and validate request query string from `Request::$query->all()` to typed objects
+ * Add `#[MapQueryParameter]` to map and validate individual query parameters to controller arguments
+ * Collect data from every event dispatcher
+
+6.2
+---
+
+ * Add constructor argument `bool $handleAllThrowable` to `HttpKernel`
+ * Add `ControllerEvent::getAttributes()` to handle attributes on controllers
+ * Add `#[Cache]` to describe the default HTTP cache headers on controllers
+ * Add `absolute_uri` option to surrogate fragment renderers
+ * Add `ValueResolverInterface` and deprecate `ArgumentValueResolverInterface`
+ * Add argument `$reflector` to `ArgumentResolverInterface` and `ArgumentMetadataFactoryInterface`
+ * Deprecate calling `ConfigDataCollector::setKernel()`, `RouterListener::setCurrentRequest()` without arguments
+
+6.1
+---
+
+ * Add `BackedEnumValueResolver` to resolve backed enum cases from request attributes in controller arguments
+ * Add `DateTimeValueResolver` to resolve request attributes into DateTime objects in controller arguments
+ * Deprecate StreamedResponseListener, it's not needed anymore
+ * Add `Profiler::isEnabled()` so collaborating collector services may elect to omit themselves
+ * Add the `UidValueResolver` argument value resolver
+ * Add `AbstractBundle` class for DI configuration/definition on a single file
+ * Update the path of a bundle placed in the `src/` directory to the parent directory when `AbstractBundle` is used
+
+6.0
+---
+
+ * Remove `ArgumentInterface`
+ * Remove `ArgumentMetadata::getAttribute()`, use `getAttributes()` instead
+ * Remove support for returning a `ContainerBuilder` from `KernelInterface::registerContainerConfiguration()`
+ * Remove `KernelEvent::isMasterRequest()`, use `isMainRequest()` instead
+ * Remove support for `service:action` syntax to reference controllers, use `serviceOrFqcn::method` instead
+
 5.4
 ---
 

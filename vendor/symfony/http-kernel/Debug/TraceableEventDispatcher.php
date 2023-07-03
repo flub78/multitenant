@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class TraceableEventDispatcher extends BaseTraceableEventDispatcher
 {
     /**
-     * {@inheritdoc}
+     * @return void
      */
     protected function beforeDispatch(string $eventName, object $event)
     {
@@ -52,14 +52,14 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
                 // which must be caught.
                 try {
                     $this->stopwatch->openSection($sectionId);
-                } catch (\LogicException $e) {
+                } catch (\LogicException) {
                 }
                 break;
         }
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     protected function afterDispatch(string $eventName, object $event)
     {
@@ -83,7 +83,7 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
                 }
                 try {
                     $this->stopwatch->stopSection($sectionId);
-                } catch (\LogicException $e) {
+                } catch (\LogicException) {
                 }
                 break;
         }

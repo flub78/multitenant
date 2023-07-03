@@ -80,7 +80,7 @@ class RoleModelTest extends TenantTestCase {
         
         // Delete
         $stored->delete();   
-        $this->assertDeleted($stored);
+        $this->assertModelMissing($stored);
         $this->assertTrue(Role::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ "name", "description" ] as $field) {
             if ($field != "id")

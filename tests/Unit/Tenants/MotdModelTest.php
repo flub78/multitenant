@@ -79,7 +79,7 @@ class MotdModelTest extends TenantTestCase {
         
         // Delete
         $stored->delete();   
-        $this->assertDeleted($stored);
+        $this->assertModelMissing($stored);
         $this->assertTrue(Motd::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ "title", "message", "publication_date", "end_date" ] as $field) {
             if ($field != "id" && (CG::lot_of_values($table, $field)) )

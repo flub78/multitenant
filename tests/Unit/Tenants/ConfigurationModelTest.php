@@ -80,7 +80,7 @@ class ConfigurationModelTest extends TenantTestCase {
         
         // Delete
         $stored->delete();   
-        $this->assertDeleted($stored);
+        $this->assertModelMissing($stored);
         $this->assertTrue(Configuration::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ "key", "value" ] as $field) {
             if ($field != "key")

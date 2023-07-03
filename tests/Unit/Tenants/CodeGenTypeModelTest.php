@@ -80,7 +80,7 @@ class CodeGenTypeModelTest extends TenantTestCase {
         
         // Delete
         $stored->delete();   
-        $this->assertDeleted($stored);
+        $this->assertModelMissing($stored);
         $this->assertTrue(CodeGenType::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
             if ($field != "id" && (CG::lot_of_values($table, $field)) )

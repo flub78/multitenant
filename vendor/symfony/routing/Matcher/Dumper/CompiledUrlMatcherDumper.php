@@ -26,18 +26,15 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class CompiledUrlMatcherDumper extends MatcherDumper
 {
-    private $expressionLanguage;
-    private $signalingException;
+    private ExpressionLanguage $expressionLanguage;
+    private ?\Exception $signalingException = null;
 
     /**
      * @var ExpressionFunctionProviderInterface[]
      */
-    private $expressionLanguageProviders = [];
+    private array $expressionLanguageProviders = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function dump(array $options = [])
+    public function dump(array $options = []): string
     {
         return <<<EOF
 <?php
@@ -53,6 +50,9 @@ return [
 EOF;
     }
 
+    /**
+     * @return void
+     */
     public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider)
     {
         $this->expressionLanguageProviders[] = $provider;
@@ -115,7 +115,7 @@ EOF;
             }
 
             $checkConditionCode = <<<EOF
-    static function (\$condition, \$context, \$request) { // \$checkCondition
+    static function (\$condition, \$context, \$request, \$params) { // \$checkCondition
         switch (\$condition) {
 {$this->indent(implode("\n", $conditions), 3)}
         }
@@ -139,7 +139,8 @@ EOF;
         foreach ($staticRoutes as $path => $routes) {
             $code .= sprintf("    %s => [\n", self::export($path));
             foreach ($routes as $route) {
-                $code .= sprintf("        [%s, %s, %s, %s, %s, %s, %s],\n", ...array_map([__CLASS__, 'export'], $route));
+                $r = array_map([__CLASS__, 'export'], $route);
+                $code .= sprintf("        [%s, %s, %s, %s, %s, %s, %s],\n", $r[0], $r[1], $r[2], $r[3], $r[4], $r[5], $r[6]);
             }
             $code .= "    ],\n";
         }
@@ -151,7 +152,8 @@ EOF;
         foreach ($dynamicRoutes as $path => $routes) {
             $code .= sprintf("    %s => [\n", self::export($path));
             foreach ($routes as $route) {
-                $code .= sprintf("        [%s, %s, %s, %s, %s, %s, %s],\n", ...array_map([__CLASS__, 'export'], $route));
+                $r = array_map([__CLASS__, 'export'], $route);
+                $code .= sprintf("        [%s, %s, %s, %s, %s, %s, %s],\n", $r[0], $r[1], $r[2], $r[3], $r[4], $r[5], $r[6]);
             }
             $code .= "    ],\n";
         }
@@ -332,7 +334,7 @@ EOF;
                     if ($hasTrailingSlash = '/' !== $regex && '/' === $regex[-1]) {
                         $regex = substr($regex, 0, -1);
                     }
-                    $hasTrailingVar = (bool) preg_match('#\{\w+\}/?$#', $route->getPath());
+                    $hasTrailingVar = (bool) preg_match('#\{[\w\x80-\xFF]+\}/?$#', $route->getPath());
 
                     $tree->addRoute($regex, [$name, $regex, $state->vars, $route, $hasTrailingSlash, $hasTrailingVar]);
                 }
@@ -416,7 +418,7 @@ EOF;
     /**
      * Compiles a single Route to PHP code used to match it against the path info.
      */
-    private function compileRoute(Route $route, string $name, $vars, bool $hasTrailingSlash, bool $hasTrailingVar, array &$conditions): array
+    private function compileRoute(Route $route, string $name, string|array|null $vars, bool $hasTrailingSlash, bool $hasTrailingVar, array &$conditions): array
     {
         $defaults = $route->getDefaults();
 
@@ -426,8 +428,8 @@ EOF;
         }
 
         if ($condition = $route->getCondition()) {
-            $condition = $this->getExpressionLanguage()->compile($condition, ['context', 'request']);
-            $condition = $conditions[$condition] ?? $conditions[$condition] = (str_contains($condition, '$request') ? 1 : -1) * \count($conditions);
+            $condition = $this->getExpressionLanguage()->compile($condition, ['context', 'request', 'params']);
+            $condition = $conditions[$condition] ??= (str_contains($condition, '$request') ? 1 : -1) * \count($conditions);
         } else {
             $condition = null;
         }
@@ -445,9 +447,9 @@ EOF;
 
     private function getExpressionLanguage(): ExpressionLanguage
     {
-        if (null === $this->expressionLanguage) {
+        if (!isset($this->expressionLanguage)) {
             if (!class_exists(ExpressionLanguage::class)) {
-                throw new \LogicException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed.');
+                throw new \LogicException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed. Try running "composer require symfony/expression-language".');
             }
             $this->expressionLanguage = new ExpressionLanguage(null, $this->expressionLanguageProviders);
         }
@@ -463,7 +465,7 @@ EOF;
     /**
      * @internal
      */
-    public static function export($value): string
+    public static function export(mixed $value): string
     {
         if (null === $value) {
             return 'null';

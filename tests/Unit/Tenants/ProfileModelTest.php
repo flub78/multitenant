@@ -76,7 +76,7 @@ class ProfileModelTest extends TenantTestCase {
         
         // Delete
         $stored->delete();   
-        $this->assertDeleted($stored);
+        $this->assertModelMissing($stored);
         $this->assertTrue(Profile::count() == $initial_count + 1, "One less elements in the table");
         foreach ([ "first_name", "last_name", "birthday", "user_id" ] as $field) {
             if ($field != "id")

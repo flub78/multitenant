@@ -17,11 +17,11 @@ class ChromeOptions implements JsonSerializable
      * The key of chromeOptions in desired capabilities (in legacy OSS JsonWire protocol)
      * @todo Replace value with 'goog:chromeOptions' after JsonWire protocol support is removed
      */
-    const CAPABILITY = 'chromeOptions';
+    public const CAPABILITY = 'chromeOptions';
     /**
      * The key of chromeOptions in desired capabilities (in W3C compatible protocol)
      */
-    const CAPABILITY_W3C = 'goog:chromeOptions';
+    public const CAPABILITY_W3C = 'goog:chromeOptions';
     /**
      * @var array
      */
@@ -65,7 +65,6 @@ class ChromeOptions implements JsonSerializable
     }
 
     /**
-     * @param array $arguments
      * @return ChromeOptions
      */
     public function addArguments(array $arguments)
@@ -79,7 +78,6 @@ class ChromeOptions implements JsonSerializable
      * Add a Chrome extension to install on browser startup. Each path should be
      * a packed Chrome extension.
      *
-     * @param array $paths
      * @return ChromeOptions
      */
     public function addExtensions(array $paths)
@@ -106,6 +104,9 @@ class ChromeOptions implements JsonSerializable
 
     /**
      * Sets an experimental option which has not exposed officially.
+     *
+     * When using "prefs" to set Chrome preferences, please be aware they are so far not supported by
+     * Chrome running in headless mode, see https://bugs.chromium.org/p/chromium/issues/detail?id=775911
      *
      * @param string $name
      * @param mixed $value

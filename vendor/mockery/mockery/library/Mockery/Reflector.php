@@ -132,7 +132,8 @@ class Reflector
      */
     private static function typeToString(\ReflectionType $type, \ReflectionClass $declaringClass)
     {
-        return \implode('|', \array_map(function (array $typeInformation) {
+        $char = $type instanceof \ReflectionIntersectionType ? "&" : "|";
+        return \implode($char, \array_map(function (array $typeInformation) {
             return $typeInformation['typeHint'];
         }, self::getTypeInformation($type, $declaringClass)));
     }
@@ -147,8 +148,8 @@ class Reflector
      */
     private static function getTypeInformation(\ReflectionType $type, \ReflectionClass $declaringClass)
     {
-        // PHP 8 union types can be recursively processed
-        if ($type instanceof \ReflectionUnionType) {
+        // PHP 8 union types and PHP 8.1 intersection types can be recursively processed
+        if ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
             $types = [];
 
             foreach ($type->getTypes() as $innterType) {
@@ -219,6 +220,10 @@ class Reflector
             return sprintf('?%s', $typeHint);
         }
 
-        return $typeHint === 'mixed' ? 'mixed' : sprintf('%s|null', $typeHint);
+        if ($typeHint === 'null' || $typeHint === 'mixed') {
+            return $typeHint;
+        }
+
+        return sprintf('%s|null', $typeHint);
     }
 }

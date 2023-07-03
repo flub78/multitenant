@@ -2,7 +2,9 @@
 
 namespace Facebook\WebDriver\Firefox;
 
-use Facebook\WebDriver\Exception\WebDriverException;
+use Facebook\WebDriver\Exception\Internal\IOException;
+use Facebook\WebDriver\Exception\Internal\LogicException;
+use Facebook\WebDriver\Exception\Internal\RuntimeException;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -71,7 +73,7 @@ class FirefoxProfile
     /**
      * @param string $key
      * @param string|bool|int $value
-     * @throws WebDriverException
+     * @throws LogicException
      * @return FirefoxProfile
      */
     public function setPreference($key, $value)
@@ -85,7 +87,7 @@ class FirefoxProfile
                 if (is_bool($value)) {
                     $value = $value ? 'true' : 'false';
                 } else {
-                    throw new WebDriverException(
+                    throw LogicException::forError(
                         'The value of the preference should be either a string, int or bool.'
                     );
                 }
@@ -184,52 +186,34 @@ class FirefoxProfile
 
     /**
      * @param string $extension The path to the extension.
-     * @param string $profile_dir The path to the profile directory.
-     * @return string The path to the directory of this extension.
+     * @param string $profileDir The path to the profile directory.
+     * @throws IOException
      */
-    private function installExtension($extension, $profile_dir)
+    private function installExtension($extension, $profileDir)
     {
-        $temp_dir = $this->createTempDirectory('WebDriverFirefoxProfileExtension');
-        $this->extractTo($extension, $temp_dir);
+        $extensionCommonName = $this->parseExtensionName($extension);
 
-        // This is a hacky way to parse the id since there is no offical RDF parser library.
-        // Find the correct namespace for the id element.
-        $install_rdf_path = $temp_dir . '/install.rdf';
-        $xml = simplexml_load_file($install_rdf_path);
-        $ns = $xml->getDocNamespaces();
-        $prefix = '';
-        if (!empty($ns)) {
-            foreach ($ns as $key => $value) {
-                if (mb_strpos($value, '//www.mozilla.org/2004/em-rdf') > 0) {
-                    if ($key != '') {
-                        $prefix = $key . ':'; // Separate the namespace from the name.
-                    }
-                    break;
-                }
-            }
-        }
-        // Get the extension id from the install manifest.
-        $matches = [];
-        preg_match('#<' . $prefix . 'id>([^<]+)</' . $prefix . 'id>#', $xml->asXML(), $matches);
-        if (isset($matches[1])) {
-            $ext_dir = $profile_dir . '/extensions/' . $matches[1];
-            mkdir($ext_dir, 0777, true);
-            $this->extractTo($extension, $ext_dir);
-        } else {
-            $this->deleteDirectory($temp_dir);
-
-            throw new WebDriverException('Cannot get the extension id from the install manifest.');
+        // install extension to profile directory
+        $extensionDir = $profileDir . '/extensions/';
+        if (!is_dir($extensionDir) && !mkdir($extensionDir, 0777, true) && !is_dir($extensionDir)) {
+            throw IOException::forFileError(
+                'Cannot install Firefox extension - cannot create directory',
+                $extensionDir
+            );
         }
 
-        $this->deleteDirectory($temp_dir);
-
-        return $ext_dir;
+        if (!copy($extension, $extensionDir . $extensionCommonName . '.xpi')) {
+            throw IOException::forFileError(
+                'Cannot install Firefox extension - cannot copy file',
+                $extension
+            );
+        }
     }
 
     /**
      * @param string $prefix Prefix of the temp directory.
      *
-     * @throws WebDriverException
+     * @throws IOException
      * @return string The path to the temp directory created.
      */
     private function createTempDirectory($prefix = '')
@@ -239,7 +223,10 @@ class FirefoxProfile
             unlink($temp_dir);
             mkdir($temp_dir);
             if (!is_dir($temp_dir)) {
-                throw new WebDriverException('Cannot create firefox profile.');
+                throw IOException::forFileError(
+                    'Cannot install Firefox extension - cannot create directory',
+                    $temp_dir
+                );
             }
         }
 
@@ -269,7 +256,7 @@ class FirefoxProfile
      * @param string $xpi The path to the .xpi extension.
      * @param string $target_dir The path to the unzip directory.
      *
-     * @throws \Exception
+     * @throws IOException
      * @return FirefoxProfile
      */
     private function extractTo($xpi, $target_dir)
@@ -280,12 +267,52 @@ class FirefoxProfile
                 $zip->extractTo($target_dir);
                 $zip->close();
             } else {
-                throw new \Exception("Failed to open the firefox extension. '$xpi'");
+                throw IOException::forFileError('Failed to open the firefox extension.', $xpi);
             }
         } else {
-            throw new \Exception("Firefox extension doesn't exist. '$xpi'");
+            throw IOException::forFileError('Firefox extension doesn\'t exist.', $xpi);
         }
 
         return $this;
+    }
+
+    private function parseExtensionName($extensionPath)
+    {
+        $temp_dir = $this->createTempDirectory();
+
+        $this->extractTo($extensionPath, $temp_dir);
+
+        $mozillaRsaPath = $temp_dir . '/META-INF/mozilla.rsa';
+        $mozillaRsaBinaryData = file_get_contents($mozillaRsaPath);
+        $mozillaRsaHex = bin2hex($mozillaRsaBinaryData);
+
+        //We need to find the plugin id. This is the second occurrence of object identifier "2.5.4.3 commonName".
+
+        //That is marker "2.5.4.3 commonName" in hex:
+        $objectIdentifierHexMarker = '0603550403';
+
+        $firstMarkerPosInHex = strpos($mozillaRsaHex, $objectIdentifierHexMarker); // phpcs:ignore
+
+        $secondMarkerPosInHexString =
+            strpos($mozillaRsaHex, $objectIdentifierHexMarker, $firstMarkerPosInHex + 2); // phpcs:ignore
+
+        if ($secondMarkerPosInHexString === false) {
+            throw RuntimeException::forError('Cannot install extension. Cannot fetch extension commonName');
+        }
+
+        // phpcs:ignore
+        $commonNameStringPositionInBinary = ($secondMarkerPosInHexString + strlen($objectIdentifierHexMarker)) / 2;
+
+        $commonNameStringLength = ord($mozillaRsaBinaryData[$commonNameStringPositionInBinary + 1]);
+        // phpcs:ignore
+        $extensionCommonName = substr(
+            $mozillaRsaBinaryData,
+            $commonNameStringPositionInBinary + 2,
+            $commonNameStringLength
+        );
+
+        $this->deleteDirectory($temp_dir);
+
+        return $extensionCommonName;
     }
 }

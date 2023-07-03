@@ -57,7 +57,7 @@ class UsersModelTest extends TestCase
         
         // Delete
         $stored->delete();   
-        $this->assertDeleted($stored);
+        $this->assertModelMissing($stored);
         $this->assertTrue(User::count() == $initial_count + 1, "One less elements in the table");
         $this->assertDatabaseMissing('users', [
             'name' => $new_name,

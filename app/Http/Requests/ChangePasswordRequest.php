@@ -40,7 +40,7 @@ class ChangePasswordRequest extends FormRequest {
 					],
 					'password' => [
 						'required',
-						'password'
+						'current_password'
 				    ],
 				    'new_password' => [
 						'required',
