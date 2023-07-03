@@ -154,7 +154,7 @@ class CodeGenTypeControllerTest extends TenantTestCase {
             
             $response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
             $json = $response->json();
-            $this->assertEquals('The given data was invalid.', $json['message']);
+            $this->assertEquals('The name field is required. (and 1 more error)', $json['message']);
             foreach ($case["errors"] as $field => $msg) {
                 $this->assertEquals($msg, $json['errors'][$field][0]);   
             }
