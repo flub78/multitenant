@@ -159,7 +159,7 @@ class CalendarEventControllerTest extends TenantTestCase {
 		
 		$response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
 		$json = $response->json();
-		$this->assertEquals('The given data was invalid.', $json['message']);
+		$this->assertEquals('The start is not a valid date.', $json['message']);
 		$this->assertEquals('The start is not a valid date.', $json['errors']['start'][0]);
 		
 		// Check that nothing has been created

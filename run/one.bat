@@ -99,8 +99,8 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
 @rem php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdTodayControllerTest.php
 
     @rem APIs
-@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypeControllerTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypeControllerFilterTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CodeGenTypesView1ControllerTest.php
