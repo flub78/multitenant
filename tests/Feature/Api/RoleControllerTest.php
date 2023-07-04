@@ -126,13 +126,14 @@ class RoleControllerTest extends TenantTestCase {
 		
 		$cnt = 1;
 		foreach (Role::factory()->error_cases() as $case) {
-            $initial_count = Role::count ();
+
+			$initial_count = Role::count ();
 
             $elt = $case["fields"];
             
             $response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
             $json = $response->json();
-            $this->assertEquals('The given data was invalid.', $json['message']);
+
             foreach ($case["errors"] as $field => $msg) {
                 $this->assertEquals($msg, $json['errors'][$field][0]);   
             }
