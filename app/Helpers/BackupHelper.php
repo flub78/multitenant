@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helpers;
 
 use App\Models\Tenant;
@@ -6,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
-  
+
 /**
  * Class to manage backups
  * 
@@ -14,7 +15,7 @@ use Exception;
  *
  */
 class BackupHelper {
-	
+
 	/**
 	 * Restore a database
 	 * 
@@ -22,28 +23,32 @@ class BackupHelper {
 	 * @param string $database to overwrite
 	 * @param boolean $pretend 
 	 */
-	public static function restore (string $filename, string $database, $pretend = false) {
+	public static function restore(string $filename, string $database, $pretend = false) {
 		if (PHP_OS == "WINNT") {
 			$mysql = 'c:\xampp_php8\mysql\bin\mysql.exe';
 		} else {
 			$mysql = '/usr/bin/mysql';
 		}
-		// TODO : check if executable file exists
 
-		$cmd = "gzip -d -c < " . $filename . "| $mysql --user=" . env ( 'DB_USERNAME' ) . " --password=" . env ( 'DB_PASSWORD' ) . " --host=" . env ( 'DB_HOST' ) . " " . $database;
-		
+		// Check if executable file exists
+		if (!file_exists($mysql)) {
+			throw new Exception("mysql $mysql not found");
+		}
+
+		$cmd = "gzip -d -c < " . $filename . "| $mysql --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . $database;
+
 		$returnVar = NULL;
 		$output = NULL;
-		
+
 		Log::Debug("BackupHelper.restore : $cmd");
-		
+
 		if ($pretend) {
 			echo "pretend: " . $cmd . "\n";
 		} else {
-			exec ( $cmd, $output, $returnVar );
+			exec($cmd, $output, $returnVar);
 		}
 	}
-	
+
 	/**
 	 * Create a backup file for a database
 	 * 
@@ -58,9 +63,13 @@ class BackupHelper {
 			$mysqldump = 'c:\xampp_php8\mysql\bin\mysqldump.exe';
 		} else {
 			// Default on Linux
-			$mysqldump = '/usr/bin/mysqldump';			
+			$mysqldump = '/usr/bin/mysqldump';
 		}
-		// TODO : check if executable file exists
+
+		// check if executable file exists
+		if (!file_exists($mysqldump)) {
+			throw new Exception("mysqldump $mysqldump not found");
+		}
 
 		// create the backup directory if it does not exist
 		$dirname = dirname($backup_fullname);
@@ -70,19 +79,19 @@ class BackupHelper {
 				throw new Exception("backup dir $dirname not created");
 			}
 		}
-		
+
 		if ($database && $backup_fullname) {
-			
+
 			$cmd = "$mysqldump --user=$user --password=$password --host=$host $database  | gzip > $backup_fullname";
-			
+
 			Log::Debug("BackupHelper.backup : $cmd");
 
 			$returnVar = NULL;
 			$output = NULL;
-			
+
 			// echo "backup cmd = $cmd\n";
 
-			$exec = exec ( $cmd, $output, $returnVar );
+			$exec = exec($cmd, $output, $returnVar);
 			if ($output) {
 				echo "mysqldump output: $output\n";
 			}
