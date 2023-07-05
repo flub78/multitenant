@@ -81,7 +81,7 @@ class DevStats extends Command {
 			}
 		}
 
-		// COunt matches
+		// Count matches
 		$not_classified = 0;
 		foreach ($output as $line) {
 
@@ -113,10 +113,14 @@ class DevStats extends Command {
 		// Display results
 		echo "Commits = $count\n";		
 		foreach ($keywords as $key => $val) {
-			$percent = number_format(100 * $numbers [$key] / $count, 2);
-			echo "$key : $percent %\n";
+			if (array_key_exists($key, $numbers)) {
+				$percent = number_format(100 * $numbers [$key] / $count, 2);
+				echo "$key : $percent %\n";
+			} else {
+				echo "$key : 0 %\n";
+			}
 		}
-		echo "not classified = " . number_format(100 *  $not_classified / $count, 2) . " %\n";
+		if ($count) echo "not classified = " . number_format(100 *  $not_classified / $count, 2) . " %\n";
         return 0;
     }
 }
