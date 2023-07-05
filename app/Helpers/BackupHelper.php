@@ -24,22 +24,23 @@ class BackupHelper {
 	 */
 	public static function restore (string $filename, string $database, $pretend = false) {
 		if (PHP_OS == "WINNT") {
-			$mysql = 'c:\xampp\mysql\bin\mysql.exe';
+			$mysql = 'c:\xampp_php8\mysql\bin\mysql.exe';
 		} else {
 			$mysql = '/usr/bin/mysql';
 		}
-		
-		$command = "gzip -d < " . $filename . "| $mysql --user=" . env ( 'DB_USERNAME' ) . " --password=" . env ( 'DB_PASSWORD' ) . " --host=" . env ( 'DB_HOST' ) . " " . $database;
+		// TODO : check if executable file exists
+
+		$cmd = "gzip -d -c < " . $filename . "| $mysql --user=" . env ( 'DB_USERNAME' ) . " --password=" . env ( 'DB_PASSWORD' ) . " --host=" . env ( 'DB_HOST' ) . " " . $database;
 		
 		$returnVar = NULL;
 		$output = NULL;
 		
-		Log::Debug("BackupHelper.restore : $command");
+		Log::Debug("BackupHelper.restore : $cmd");
 		
 		if ($pretend) {
-			echo "pretend: " . $command . "\n";
+			echo "pretend: " . $cmd . "\n";
 		} else {
-			exec ( $command, $output, $returnVar );
+			exec ( $cmd, $output, $returnVar );
 		}
 	}
 	
@@ -54,12 +55,13 @@ class BackupHelper {
 	 */
 	public static function backup($database, $backup_fullname, $host, $user, $password) {
 		if (PHP_OS == "WINNT") {
-			$mysqldump = 'c:\xampp\mysql\bin\mysqldump.exe';
+			$mysqldump = 'c:\xampp_php8\mysql\bin\mysqldump.exe';
 		} else {
 			// Default on Linux
 			$mysqldump = '/usr/bin/mysqldump';			
 		}
-		
+		// TODO : check if executable file exists
+
 		// create the backup directory if it does not exist
 		$dirname = dirname($backup_fullname);
 		if (!is_dir($dirname)) {
@@ -73,9 +75,13 @@ class BackupHelper {
 			
 			$cmd = "$mysqldump --user=$user --password=$password --host=$host $database  | gzip > $backup_fullname";
 			
+			Log::Debug("BackupHelper.backup : $cmd");
+
 			$returnVar = NULL;
 			$output = NULL;
 			
+			// echo "backup cmd = $cmd\n";
+
 			$exec = exec ( $cmd, $output, $returnVar );
 			if ($output) {
 				echo "mysqldump output: $output\n";
