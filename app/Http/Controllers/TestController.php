@@ -46,7 +46,8 @@ class TestController extends Controller
     public function email () {
     
     	$name = 'Fred';
-    	Mail::to('frederic.peignot@free.fr')->send(new Invitation($name));
+    	Mail::to('frederic.peignot@free.fr')
+        ->send(new Invitation($name));
     	
     	return 'Email was sent';
     }

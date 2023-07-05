@@ -33,6 +33,7 @@ class Invitation extends Mailable
     {
         return $this
         ->subject("Welcome ")
+        ->from('frederic.peignot@free.fr', 'Fred')
         ->view('emails.assignment');
     }
 }
