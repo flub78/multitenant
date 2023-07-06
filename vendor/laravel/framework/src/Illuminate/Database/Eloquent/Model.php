@@ -30,6 +30,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
         Concerns\HasGlobalScopes,
         Concerns\HasRelationships,
         Concerns\HasTimestamps,
+        Concerns\HasUniqueIds,
         Concerns\HidesAttributes,
         Concerns\GuardsAttributes,
         ForwardsCalls;
@@ -467,7 +468,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
     }
 
     /**
-     * Register a callback that is responsible for handling lazy loading violations.
+     * Register a callback that is responsible for handling missing attribute violations.
      *
      * @param  callable|null  $callback
      * @return void
@@ -745,7 +746,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      *
      * @param  array|string  $relations
      * @param  string  $column
-     * @param  string  $function
+     * @param  string|null  $function
      * @return $this
      */
     public function loadAggregate($relations, $column, $function = null)
@@ -833,7 +834,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      * @param  string  $relation
      * @param  array  $relations
      * @param  string  $column
-     * @param  string  $function
+     * @param  string|null  $function
      * @return $this
      */
     public function loadMorphAggregate($relation, $relations, $column, $function = null)
@@ -1275,6 +1276,10 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     protected function performInsert(Builder $query)
     {
+        if ($this->usesUniqueIds()) {
+            $this->setUniqueIds();
+        }
+
         if ($this->fireModelEvent('creating') === false) {
             return false;
         }
@@ -2314,7 +2319,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     public function __call($method, $parameters)
     {
-        if (in_array($method, ['increment', 'decrement'])) {
+        if (in_array($method, ['increment', 'decrement', 'incrementQuietly', 'decrementQuietly'])) {
             return $this->$method(...$parameters);
         }
 

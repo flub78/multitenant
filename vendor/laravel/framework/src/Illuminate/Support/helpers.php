@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Env;
 use Illuminate\Support\HigherOrderTapProxy;
 use Illuminate\Support\Optional;
+use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 
 if (! function_exists('append_config')) {
@@ -120,7 +121,7 @@ if (! function_exists('e')) {
             $value = $value->value;
         }
 
-        return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8', $doubleEncode);
+        return htmlspecialchars($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
     }
 }
 
@@ -253,7 +254,7 @@ if (! function_exists('retry')) {
             $sleepMilliseconds = $backoff[$attempts - 1] ?? $sleepMilliseconds;
 
             if ($sleepMilliseconds) {
-                usleep(value($sleepMilliseconds, $attempts, $e) * 1000);
+                Sleep::usleep(value($sleepMilliseconds, $attempts, $e) * 1000);
             }
 
             goto beginning;
@@ -357,7 +358,7 @@ if (! function_exists('trait_uses_recursive')) {
     /**
      * Returns all traits used by a trait and its traits.
      *
-     * @param  string  $trait
+     * @param  object|string  $trait
      * @return array
      */
     function trait_uses_recursive($trait)
@@ -376,10 +377,14 @@ if (! function_exists('transform')) {
     /**
      * Transform the given value if it is present.
      *
-     * @param  mixed  $value
-     * @param  callable  $callback
-     * @param  mixed  $default
-     * @return mixed|null
+     * @template TValue of mixed
+     * @template TReturn of mixed
+     * @template TDefault of mixed
+     *
+     * @param  TValue  $value
+     * @param  callable(TValue): TReturn  $callback
+     * @param  TDefault|callable(TValue): TDefault|null  $default
+     * @return ($value is empty ? ($default is null ? null : TDefault) : TReturn)
      */
     function transform($value, callable $callback, $default = null)
     {

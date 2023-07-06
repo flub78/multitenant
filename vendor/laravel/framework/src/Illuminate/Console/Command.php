@@ -62,6 +62,27 @@ class Command extends SymfonyCommand
     protected $hidden = false;
 
     /**
+     * Indicates whether only one instance of the command can run at any given time.
+     *
+     * @var bool
+     */
+    protected $isolated = false;
+
+    /**
+     * The default exit code for isolated commands.
+     *
+     * @var int
+     */
+    protected $isolatedExitCode = self::SUCCESS;
+
+    /**
+     * The console command name aliases.
+     *
+     * @var array
+     */
+    protected $aliases;
+
+    /**
      * Create a new console command instance.
      *
      * @return void
@@ -89,6 +110,10 @@ class Command extends SymfonyCommand
         $this->setHelp((string) $this->help);
 
         $this->setHidden($this->isHidden());
+
+        if (isset($this->aliases)) {
+            $this->setAliases((array) $this->aliases);
+        }
 
         if (! isset($this->signature)) {
             $this->specifyParameters();
@@ -129,7 +154,7 @@ class Command extends SymfonyCommand
             null,
             InputOption::VALUE_OPTIONAL,
             'Do not run the command if another instance of the command is already running',
-            false
+            $this->isolated
         ));
     }
 
@@ -174,7 +199,7 @@ class Command extends SymfonyCommand
 
             return (int) (is_numeric($this->option('isolated'))
                         ? $this->option('isolated')
-                        : self::SUCCESS);
+                        : $this->isolatedExitCode);
         }
 
         $method = method_exists($this, 'handle') ? 'handle' : '__invoke';

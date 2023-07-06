@@ -215,7 +215,7 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string|object  $event
      * @param  mixed  $payload
-     * @return array|null
+     * @return mixed
      */
     public function until($event, $payload = [])
     {
@@ -492,7 +492,7 @@ class Dispatcher implements DispatcherContract
             return (new ReflectionClass($class))->implementsInterface(
                 ShouldQueue::class
             );
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }

@@ -5,6 +5,7 @@ namespace Laravel\Dusk\Console;
 use Dotenv\Dotenv;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use PHPUnit\Runner\Version;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Exception\RuntimeException;
@@ -224,7 +225,8 @@ class DuskCommand extends Command
     protected function setupDuskEnvironment()
     {
         if (file_exists(base_path($this->duskFile()))) {
-            if (file_get_contents(base_path('.env')) !== file_get_contents(base_path($this->duskFile()))) {
+            if (file_exists(base_path('.env')) &&
+                file_get_contents(base_path('.env')) !== file_get_contents(base_path($this->duskFile()))) {
                 $this->backupEnvironment();
             }
 
@@ -257,7 +259,7 @@ class DuskCommand extends Command
     {
         // BC fix to support Dotenv ^2.2...
         if (! method_exists(Dotenv::class, 'create')) {
-            (new Dotenv(base_path()))->overload();
+            (new Dotenv(base_path()))->overload(); // @phpstan-ignore-line
 
             return;
         }
@@ -281,7 +283,11 @@ class DuskCommand extends Command
     {
         if (! file_exists($file = base_path('phpunit.dusk.xml')) &&
             ! file_exists(base_path('phpunit.dusk.xml.dist'))) {
-            copy(realpath(__DIR__.'/../../stubs/phpunit.xml'), $file);
+            if (version_compare(Version::id(), '10.0', '>=')) {
+                copy(realpath(__DIR__.'/../../stubs/phpunit.xml'), $file);
+            } else {
+                copy(realpath(__DIR__.'/../../stubs/phpunit9.xml'), $file);
+            }
 
             return;
         }
