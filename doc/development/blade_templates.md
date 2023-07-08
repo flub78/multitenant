@@ -12,4 +12,4 @@ Example:
 
     <td> {!! Blade::picture("code_gen_type.picture", $code_gen_type->id, "picture", $code_gen_type->picture) !!}</td>
 
-The combination of these three mechanisms, blade templates, code generation and Helper keep the views relatively simple. 
+The combination of these three mechanisms, blade templates, code generation and Helper keeps the views relatively simple. 
