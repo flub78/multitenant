@@ -18,6 +18,8 @@ The simplest way to create an API in this project is to use the code generator. 
     
 Setup the route in the tenant.php file.
 
+To test the API:
+
     http://abbeville.tenants.com/api/role
     
 On success it returns a json answer
@@ -64,7 +66,7 @@ I have only been able to access Sanctum protected API with Postman.
 Use Authorization.Type = Bearer Token and past the value returned by the user controller.
 
 
-#### Installation
+#### Sanctum Installation
             
     composer require laravel/sanctum
     php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
