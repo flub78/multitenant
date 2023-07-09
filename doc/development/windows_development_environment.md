@@ -1,19 +1,31 @@
 # Windows Development Environment
 
-## Wamp
+This is a description of the installation and configuration of the development environment on a Windows workstation.
 
-* rename or delete c:\xamp
+## Xamp
+
+* rename or delete c:\xamp or x:\xampp_php8
 * supend antivirus
 * Download and Install XAMPP
 
 ### Setup the root directory
 
+	In the XAMPP control panel
 	xampp - Apache - Config - httpd.conf
 	
+	Change default editor
+	to C:\Program Files\Notepad++\notepad++.exe
+	in 
 	Change DocumentRoot
 	
-	DocumentRoot "C:\Users\frederic\...\xampp\htdocs"
-	<Directory "C:\Users\frederic\...\xampp\htdocs">
+	replace
+	DocumentRoot "C:/xampp_php8/htdocs"
+	<Directory "C:/xampp_php8/htdocs">
+	by
+	
+	C:/xampp_php8/htdocs
+	DocumentRoot "C:\Users\frede\Dropbox\xampp\htdocs"
+	<Directory "C:\Users\frede\Dropbox\xampp\htdocs">
 	
 	restart Apache
 
@@ -39,10 +51,10 @@ in httpd-vhosts.conf
 	Comment out the existing virtual hosts
 
 	<VirtualHost *:80>
-	ServerAdmin frederic.peignot@free.fr
-	DocumentRoot C:\Users\frederic\Dropbox\xampp\htdocs\multitenant\public
-	ServerName tenants.com
-	ServerAlias *.tenants.com
+		ServerAdmin frederic.peignot@free.fr
+		DocumentRoot "C:\Users\frede\Dropbox\xampp\htdocs\multitenant\public"
+		ServerName tenants.com
+		ServerAlias *.tenants.com
 	</VirtualHost>
 
 ## PHP
@@ -52,12 +64,8 @@ in httpd-vhosts.conf
 	In the xampp control
 	
 	Apache - Config - php.ini
-	
 	uncomment ;extension=gd
-	
 	restart Apache
-	
-	
 	
 ## Eclipse
 
@@ -70,7 +78,11 @@ in httpd-vhosts.conf
 * Select a Unit test
 * run it as phpunit test
 
+## Visual Studio Code
 
+* install the editor
+* Open the project directory
+  
 ## Debuger
 
 * toggle a breakpoint

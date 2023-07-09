@@ -14,7 +14,7 @@ The domain can be public and declared in the DNS or private, in which case it mu
 
 ## Ansible Installation
 
-It is possible to install the application with the insatll.yml ansible playbook.
+It is possible to install the application with the install.yml ansible playbook.
 
 ## Installation steps
 
@@ -49,14 +49,14 @@ Migrate the main database
 	
 Once done it is possible to register to central application.
 
+
 And create tenants :
 
 ![Create tenant](images/create_tenant.png?raw=true "Register a tenant")
 
 ![Created tenant](images/tenant_created.png?raw=true "Result of tenant creation")
 
-Also migrate the test database
-	
+Also migrate the test database (currently I can only migrate the multi_test database by temporarily editing the .env file, I should look for a better method)	
 	
 
 ### Backup restore
