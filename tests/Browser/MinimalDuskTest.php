@@ -43,7 +43,7 @@ class MinimalDuskTest extends DuskTestCase
     		$title = "AWC - METeorological Aerodrome Reports (METARs)";
     		
     		$browser->visit($lfat)
-    		->assertSee('Ceiling:')
+    		->assertSee('Temperature')
     		->assertTitle($title);
     		
     	});
