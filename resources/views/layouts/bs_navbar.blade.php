@@ -113,7 +113,7 @@
         
 
         <li class="nav-item dropdown  ">
-          <a class="nav-link dropdown-toggle  text-white" href="#" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle  text-white" href="#" role="button" data-bs-toggle="dropdown" dusk="user_name">
           	{{ Auth::user()->name }}
             <i class="fa-solid fa-user fa-2xl"></i>
           </a>
