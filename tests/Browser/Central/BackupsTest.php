@@ -54,7 +54,7 @@ class BackupsTest extends DuskTestCase {
 			// Goto backup
 			$browser->visit ( '/backup' )
 			->assertPathIs ( '/backup' )
-			->assertSee ( 'Multi Central Application' )
+			->assertSee ( 'Central Application' )
 			->assertSee ( 'Number' )
 			->assertSee ( 'Backup' )
 			->assertSee ( 'Restore' )
