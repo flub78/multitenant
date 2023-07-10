@@ -78,8 +78,17 @@ class MustacheGenerate extends Command {
 		fclose($fh);
 	}
 
+	protected function check_db_connection() {
+		$connection = env('DB_CONNECTION', 'mysql');
+		try {
+			\DB::connection()->getPDO();
+			return \DB::connection()->getDatabaseName();
+		} catch (\Exception $e) {
+			return null;
+		}
+	}
+
 	/**
-	 * c
 	 * Apply action on one template
 	 *
 	 * @param string $table
@@ -88,7 +97,7 @@ class MustacheGenerate extends Command {
 	protected function process_file(string $table, string $template_file, string $result_file) {
 		$verbose = $this->option('verbose');
 		$install = $this->option('install');
-		
+
 		if ($verbose) {
 			echo "\nprocessing $table\n" . "template=$template_file\n" . "result=$result_file\n";
 			echo "Metadata schema=" . env("DB_SCHEMA") . "\n";
@@ -155,8 +164,15 @@ class MustacheGenerate extends Command {
 			echo $msg;
 		}
 		
+		if (!$this->check_db_connection()) {
+			$this->error("No connection to database " . env("DB_SCHEMA", 'tenanttest'));
+			return 1;
+		} else {
+			if ($verbose) $this->info("Connected to database " . $this->check_db_connection());
+		}
+
 		if (!Schema::tableExists($table)) {
-			$this->error("Unknow table $table in tenant database");
+			$this->error("Unknow table $table in " . ENV('DB_SCHEMA', 'tenanttest') . " database");
 			return 1;
 		}
 		
