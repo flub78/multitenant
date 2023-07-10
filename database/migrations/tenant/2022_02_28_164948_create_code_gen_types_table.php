@@ -38,7 +38,9 @@ class CreateCodeGenTypesTable extends Migration {
     		// MySql years are in 1901 .. 2155
     		$table->year("year_of_birth")->nullable()->comment('{"min": "1901", "max":"2099", "in_filter":"yes"}');
     		
-    		$table->float("weight")->nullable()->comment('{"min": "3.0", "max":"300.0"}');
+    		$table->float("weight")->nullable()
+			->default(75.0)
+			->comment('{"min": "3.0", "max":"300.0"}');
 
     		$table->date("birthday")->nullable()->comment('{"in_filter":"yes"}');
 

@@ -20,7 +20,7 @@ class CreateCalendarEventsTable extends Migration {
     	// See https://fullcalendar.io/docs/event-object
         Schema::create('calendar_events', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->default("titre");
             $table->string('description')->nullable();
             $table->boolean('allDay')->default(true)->comment('{"subtype": "checkbox"}');
             $table->datetime('start')
@@ -37,11 +37,11 @@ class CreateCalendarEventsTable extends Migration {
             // colors
             // #f00, #ff0000, rgb(255,0,0), or red.
             // https://www.w3schools.com/colors/colors_hex.asp
-            $table->string('backgroundColor')->nullable()
+            $table->string('backgroundColor')->default("#ffffcc")->nullable()
             	->comment('{"subtype": "color", "inTable": "no", "inForm": "yes"}'); 
             $table->string('borderColor')->nullable()
             ->comment('{"subtype": "color", "inTable": "no", "inForm": "no"}');		  
-            $table->string('textColor')->nullable()
+            $table->string('textColor')->default("#000066")->nullable()
             	->comment('{"subtype": "color", "inTable": "no", "inForm": "yes"}');
             
             $table->timestamps();
