@@ -58,12 +58,27 @@ use App\Helpers\BladeHelper as Blade;
           </div>
 
            <div class="form-floating mb-2 border">
-              <input type="color" class="form-control" name="backgroundColor" value="{{ old("backgroundColor") }}"/>
+            @if (old("backgroundColor"))
+            <input type="color" class="form-control" name="backgroundColor" 
+              value="{{ old("backgroundColor")  }}"/>
+            @else
+            <input type="color" class="form-control" name="backgroundColor" 
+              value="{{ $defaultBackgroundColor }}"/> 
+            @endif
+
              <label class="form-label" for="backgroundColor">{{__("calendar_event.backgroundColor")}}</label>
           </div>
 
            <div class="form-floating mb-2 border">
-              <input type="color" class="form-control" name="textColor" value="{{ old("textColor") }}"/>
+ 
+              @if (old("textColor"))
+              <input type="color" class="form-control" name="textColor" 
+                value="{{ old("textColor")  }}"/>
+              @else
+              <input type="color" class="form-control" name="textColor" 
+                value="{{ $defaultTextColor }}"/>
+              @endif
+
              <label class="form-label" for="textColor">{{__("calendar_event.textColor")}}</label>
           </div>
           

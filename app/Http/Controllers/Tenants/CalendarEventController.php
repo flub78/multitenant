@@ -91,6 +91,7 @@ class CalendarEventController extends Controller {
 		    $data['start'] = "";
 		}
 		
+		// TODO: get the default values from the meta data
 		$data['defaultBackgroundColor'] = "#00FFFF";
 		$data['defaultTextColor'] = "#808080";
 		
