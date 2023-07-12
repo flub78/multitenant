@@ -172,7 +172,7 @@ class MustacheGenerate extends Command {
 		}
 
 		if (!Schema::tableExists($table)) {
-			$this->error("Unknow table $table in " . ENV('DB_SCHEMA', 'tenanttest') . " database");
+			$this->error("Unknown table $table in " . ENV('DB_SCHEMA', 'tenanttest') . " database");
 			return 1;
 		}
 		
