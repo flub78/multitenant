@@ -44,9 +44,9 @@ class Schema extends ModelWithLogs {
      * Return true when a table exists in the database
      * 
      * @param string $table
-     * @return boolean
+     * @return bool
      */
-    public static function tableExists(string $table) {
+    public static function tableExists(string $table) : bool{
     	return in_array($table, Schema::tableList());
     }
     

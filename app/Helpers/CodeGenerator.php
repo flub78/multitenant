@@ -16,6 +16,13 @@ use App\Helpers\BladeHelper as Blade;
  *
  * @author frederic
  *
+ * TODO: code generator refactoring
+ * 
+ * Schema: model to get information from the database
+ * Meatada: a class for the code generator to get information on metadata
+ * The code generator should never use schema directly
+ * 
+ * And split the code generator with objects handling each subtypes.
  */
 class CodeGenerator {
 
@@ -759,7 +766,7 @@ class CodeGenerator {
      * @param String $field
      * @return string
      *
-     * TODO CHeck that all types of integers are supported
+     * TODO Check that all types of integers are supported
      *
      */
     static public function field_migration(String $table, String $field) {
@@ -833,7 +840,7 @@ class CodeGenerator {
         $type = Meta::type($table, $field);
                 $res = '';
         $info = Schema::columnInformation($table, $field);
-        if (!$info->Default) return "";
+        if (!$info || !$info->Default) return "";
        
         $res = '$data["' . $field . '"] = "' . $info->Default . '";';
         

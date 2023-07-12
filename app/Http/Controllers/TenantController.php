@@ -118,6 +118,9 @@ class TenantController extends Controller
     public function destroy($id) {
     	$tenant = Tenant::findOrFail ( $id );
     	$id = $tenant->id;
+
+        // An error is raised if the tenant database has already been deleted
+        // It is not a regular use case but it can happen during testing ...
     	$tenant->delete ();
     	
     	// delete tenant storage

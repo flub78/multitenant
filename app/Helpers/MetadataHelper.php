@@ -28,11 +28,11 @@ class MetadataHelper {
     
     /**
 	 * Transform a string into CamelCase
-	 * @param unknown $string
-	 * @param boolean $capitalizeFirst
+	 * @param string $string
+	 * @param bool $capitalizeFirst
 	 * @return mixed
 	 */
-	static public function underscoreToCamelCase($string, $capitalizeFirst = false) {
+	static public function underscoreToCamelCase(string $string, bool $capitalizeFirst = false) {
 		$str = str_replace('_', '', ucwords($string, '_'));
 
 		if (!$capitalizeFirst) {
@@ -46,7 +46,7 @@ class MetadataHelper {
 	 * @param string $table
 	 * @return mixed
 	 */
-	static public function class_name(string $table) {
+	static public function class_name(string $table) : string {
 		return self::underscoreToCamelCase(rtrim($table, 's'), true);
 	}
 
