@@ -286,7 +286,7 @@ class MetadataHelper {
 	}
 	
 	static public function field_metadata ($table, $field) {
-		// look for options in metadata
+		// look for options in metadata table
 		$options = MetaModel::options($table, $field);
 		
 		if ($options) return $options;

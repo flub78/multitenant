@@ -49,6 +49,8 @@ class MustacheGenerate extends Command {
 	 */
 	protected $description = 'Generate code with a mustache template';
 
+	protected $metadata = null;
+
 	/**
 	 * Create a new command instance.
 	 *
