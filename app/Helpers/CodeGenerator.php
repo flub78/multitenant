@@ -3,9 +3,6 @@
 namespace App\Helpers;
 
 use App\Helpers\MetadataHelper as Meta;
-use App\Models\Schema;
-use App\Models\ViewSchema;
-use Illuminate\Support\Facades\Log;
 use App\Helpers\HtmlHelper as HH;
 use App\Helpers\BladeHelper as Blade;
 
@@ -74,7 +71,7 @@ class CodeGenerator {
      */
     static public function dusk(String $table, String $element, String $type = "edit") {
 
-        $dusk_field = ($table == "users") ? "name" : Schema::primaryIndex($table);
+        $dusk_field = ($table == "users") ? "name" : Meta::primaryIndex($table);
         if ($type == "edit") {
             return 'edit_{{ $' . $element . '->' . $dusk_field . ' }}';
         } else {
@@ -214,7 +211,7 @@ class CodeGenerator {
             return '<input type="' . $type . '" class="form-control" name="' . $field . '" value="{{ old("' . $field . '") }}"/>';
         }
 
-        $fkt = Schema::foreignKeyReferencedTable($table, $field);
+        $fkt = Meta::foreignKeyReferencedTable($table, $field);
         if ($fkt) {
             // the field is a foreign key
             $target_element = Meta::element($fkt);
@@ -422,7 +419,7 @@ class CodeGenerator {
             return Blade::radioboxes($table, $field, $values, 0, $element);
         }
 
-        $fkt = Schema::foreignKeyReferencedTable($table, $field);
+        $fkt = Meta::foreignKeyReferencedTable($table, $field);
         if ($fkt) {
             // the field is a foreign key
             $target_element = Meta::element($fkt);
@@ -489,7 +486,7 @@ class CodeGenerator {
     static public function button_delete(String $table) {
         $element = Meta::element($table);
         $dusk = self::dusk($table, $element, "delete");
-        $primary_index = Schema::primaryIndex($table);
+        $primary_index = Meta::primaryIndex($table);
 
 
         $res = '<form action="{{ route("' . $element . '.destroy", $' . $element . '->'
@@ -512,7 +509,7 @@ class CodeGenerator {
      * @SuppressWarnings("PMD.ShortVariable")
      */
     static public function button_edit(String $table) {
-        $primary_index = Schema::primaryIndex($table);
+        $primary_index = Meta::primaryIndex($table);
         $element = Meta::element($table);
         $id = $element . '->' . $primary_index;
         $dusk = self::dusk($table, $element, "edit");
@@ -534,13 +531,13 @@ class CodeGenerator {
     static public function field_rule_edit(String $table, String $field) {
         $subtype = Meta::subtype($table, $field);
         $element = Meta::element($table);
-        $primary_index = Schema::primaryIndex($table);
+        $primary_index = Meta::primaryIndex($table);
         $options = Meta::field_metadata($table, $field);
         $field_type = Meta::type($table, $field);
 
         $rules = [];
         if ($subtype != "checkbox") {
-            if (Schema::required($table, $field)) {
+            if (Meta::required($table, $field)) {
                 $rules[] = "'required'";
             } else {
                 $rules[] = "'nullable'";
@@ -561,7 +558,7 @@ class CodeGenerator {
         if ($options && array_key_exists("max", $options)) {
             $size = $options['max'];
             $rules[] = "'max:$size'";
-        } elseif ($size = Schema::columnSize($table, $field)) {
+        } elseif ($size = Meta::columnSize($table, $field)) {
             if (($subtype == "picture") || ($subtype == "file")) {
                 $size = 2000;
             }
@@ -578,12 +575,12 @@ class CodeGenerator {
             $rules[] = "'email'";
         }
 
-        $fkt = Schema::foreignKeyReferencedTable($table, $field);
+        $fkt = Meta::foreignKeyReferencedTable($table, $field);
         if ($fkt) {
             // the field is a foreign key
-            $fkc = Schema::foreignKeyReferencedColumn($table, $field);
+            $fkc = Meta::foreignKeyReferencedColumn($table, $field);
             $rules[] = "'exists:$fkt,$fkc'";
-        } elseif (Schema::unique($table, $field)) {
+        } elseif (Meta::unique($table, $field)) {
             $id = ($primary_index == "id") ? "" : ", '$primary_index'";
             $rules[] = "Rule::unique('$table')->ignore(request('$element')$id)";
         }
@@ -617,7 +614,7 @@ class CodeGenerator {
 
         $rules = [];
         if ($subtype != "checkbox") {
-            if (Schema::required($table, $field)) {
+            if (Meta::required($table, $field)) {
                 $rules[] = "'required'";
             } else {
                 $rules[] = "'nullable'";
@@ -638,7 +635,7 @@ class CodeGenerator {
         if ($options && array_key_exists("max", $options)) {
             $size = $options['max'];
             $rules[] = "'max:$size'";
-        } elseif ($size = Schema::columnSize($table, $field)) {
+        } elseif ($size = Meta::columnSize($table, $field)) {
             if (($subtype == "picture") || ($subtype == "file")) {
                 $size = 2000;
             }
@@ -655,12 +652,12 @@ class CodeGenerator {
             $rules[] = "'email'";
         }
 
-        $fkt = Schema::foreignKeyReferencedTable($table, $field);
+        $fkt = Meta::foreignKeyReferencedTable($table, $field);
         if ($fkt) {
             // the field is a foreign key
-            $fkc = Schema::foreignKeyReferencedColumn($table, $field);
+            $fkc = Meta::foreignKeyReferencedColumn($table, $field);
             $rules[] = "'exists:$fkt,$fkc'";
-        } elseif (Schema::unique($table, $field)) {
+        } elseif (Meta::unique($table, $field)) {
             $rules[] = "'unique:$table'";
         }
 
@@ -693,7 +690,7 @@ class CodeGenerator {
     static public function field_faker(String $table, String $field) {
         $subtype = Meta::subtype($table, $field);
         $type = Meta::type($table, $field);
-        // $unique = Schema::unique($table, $field);
+        // $unique = Meta::unique($table, $field);
         $options = Meta::field_metadata($table, $field);
 
         // $faker = ($unique) ? '$this->faker->unique()' : '$this->faker';
@@ -752,7 +749,7 @@ class CodeGenerator {
             $sizeInKb = 3;
             $res = "\$file = UploadedFile::fake()->create('$field.pdf', $sizeInKb)->store('$field.pdf')";
         } elseif ('foreign_key' == $subtype) {
-            $target_table = Schema::foreignKeyReferencedTable($table, $field);
+            $target_table = Meta::foreignKeyReferencedTable($table, $field);
             $target_class = Meta::class_name($target_table);
             $res = $target_class . '::factory()->create()->getKey()';
         }
@@ -772,10 +769,10 @@ class CodeGenerator {
     static public function field_migration(String $table, String $field) {
         $subtype = Meta::subtype($table, $field);
         $type = Meta::type($table, $field);
-        $unique = Schema::unique($table, $field);
+        $unique = Meta::unique($table, $field);
         $options = Meta::field_metadata($table, $field);
-        $comment = Schema::columnComment($table, $field);
-        $unsigned = Schema::unsignedType($table, $field);
+        $comment = Meta::columnComment($table, $field);
+        $unsigned = Meta::unsignedType($table, $field);
 
         $res = '$table';
         $json = [];
@@ -786,7 +783,7 @@ class CodeGenerator {
         }
 
         if ('varchar' == $type) {
-            $size = Schema::columnSize($table, $field);
+            $size = Meta::columnSize($table, $field);
             $res .= "->string('$field', $size)";
         } elseif ('date' == $type) {
             $res .= "->date('$field')";
@@ -809,7 +806,7 @@ class CodeGenerator {
                 $res .= "->bigInteger('$field')";
         }
 
-        if (!Schema::required($table, $field)) {
+        if (!Meta::required($table, $field)) {
             $res .= '->nullable()';
         }
 
@@ -839,7 +836,7 @@ class CodeGenerator {
         $subtype = Meta::subtype($table, $field);
         $type = Meta::type($table, $field);
                 $res = '';
-        $info = Schema::columnInformation($table, $field);
+        $info = Meta::columnInformation($table, $field);
         if (!$info || !$info->Default) return "";
        
         $res = '$data["' . $field . '"] = "' . $info->Default . '";';
@@ -899,7 +896,7 @@ class CodeGenerator {
      */
     static public function table_field_list(String $table) {
         $res = [];
-        $list = Schema::fieldList($table);
+        $list = Meta::fieldList($table);
         foreach ($list as $field) {
             $res[] = self::field_metadata($table, $field);
         }
@@ -915,10 +912,10 @@ class CodeGenerator {
     static public function index_field_list(String $table) {
         $res = [];
         $list = Meta::fillable_fields($table);
-        $view_def = ViewSchema::isView($table);        // is it a MySQL view ?
+        $view_def = Meta::isView($table);        // is it a MySQL view ?
 
         if ($view_def) {
-            $view_list = ViewSchema::ScanViewDefinition($view_def);
+            $view_list = Meta::ScanViewDefinition($view_def);
             foreach ($view_list as $view_field) {
                 if (!Meta::inTable($table, $view_field['field'])) continue;
                 $res[] = self::field_metadata($view_field['table'], $view_field['field'], $table, $view_field['name']);
@@ -977,16 +974,16 @@ class CodeGenerator {
      */
     static public function factory_field_list(String $table) {
         $res = [];
-        $view_def = ViewSchema::isView($table);
+        $view_def = Meta::isView($table);
 
         if ($view_def) {
             // Does it really make sense to generate a factory for a view ?
-            $view_list = ViewSchema::ScanViewDefinition($view_def);
+            $view_list = Meta::ScanViewDefinition($view_def);
             foreach ($view_list as $view_field) {
                 $res[] = self::field_metadata($view_field['table'], $view_field['field'], $table, $view_field['name']);
             }
         } else {
-            $list = Schema::fieldList($table);
+            $list = Meta::fieldList($table);
             foreach ($list as $field) {
                 if (in_array($field, ["id", "created_at", "updated_at"])) continue;
                 $res[] = self::field_metadata($table, $field);
@@ -1004,7 +1001,7 @@ class CodeGenerator {
     static public function default_field_list(String $table) {
         $res = [];
 
-        $list = Schema::fieldList($table);
+        $list = Meta::fieldList($table);
         foreach ($list as $field) {
             if (in_array($field, ["id", "created_at", "updated_at"])) continue;
             $meta = self::field_metadata($table, $field);
@@ -1071,7 +1068,7 @@ class CodeGenerator {
                 $res[] = $elt;
             } elseif ('foreign_key' == $subtype) {
 
-                $target_table = Schema::foreignKeyReferencedTable($table, $field);
+                $target_table = Meta::foreignKeyReferencedTable($table, $field);
                 $target_class = Meta::class_name($target_table);
                 $element = Meta::element($target_table);
                 $list = $element . '_list';
@@ -1091,7 +1088,7 @@ class CodeGenerator {
     static public function id_data_type(String $table) {
 
         $type = "string";
-        $primary = Schema::primaryIndex($table);
+        $primary = Meta::primaryIndex($table);
         $primary_type = Meta::type($table, $primary);
 
         if ($primary_type == "varchar") {
@@ -1115,7 +1112,7 @@ class CodeGenerator {
     static public function type_mutators(String $table, String $mutating_type) {
         $res = [];
         $list = Meta::fillable_fields($table);
-        $list = Schema::fieldList($table);
+        $list = Meta::fieldList($table);
 
         foreach ($list as $field) {
             $type = Meta::type($table, $field);
@@ -1142,7 +1139,7 @@ class CodeGenerator {
     static public function picture_file_url($table, $subtype) {
         $res = [];
         $picture = false;
-        foreach (Schema::fieldList($table) as $field) {
+        foreach (Meta::fieldList($table) as $field) {
             if ($subtype == Meta::subtype($table, $field)) {
                 $picture = true;
                 break;
@@ -1160,7 +1157,7 @@ class CodeGenerator {
     static public function controller_list($table) {
         $res = [];
         $element = Meta::element($table);
-        foreach (Schema::fieldList($table) as $field) {
+        foreach (Meta::fieldList($table) as $field) {
             $subtype = Meta::subtype($table, $field);
             $field_type = Meta::type($table, $field);
 
@@ -1196,7 +1193,7 @@ class CodeGenerator {
     static public function enumerate_list($table) {
         $res = [];
         // $element = Meta::element($table);
-        foreach (Schema::fieldList($table) as $field) {
+        foreach (Meta::fieldList($table) as $field) {
             $subtype = Meta::subtype($table, $field);
             // $field_type = Meta::type($table, $field);
             $options = Meta::field_metadata($table, $field);
@@ -1222,16 +1219,16 @@ class CodeGenerator {
     static public function foreign_keys($table) {
         $res = "";
 
-        foreach (Schema::fieldList($table) as $field) {
-            if (Schema::foreignKey($table, $field)) {
-                $foreign_table = Schema::foreignKeyReferencedTable($table, $field);
-                $foreign_field = Schema::foreignKeyReferencedColumn($table, $field);
+        foreach (Meta::fieldList($table) as $field) {
+            if (Meta::foreignKey($table, $field)) {
+                $foreign_table = Meta::foreignKeyReferencedTable($table, $field);
+                $foreign_field = Meta::foreignKeyReferencedColumn($table, $field);
                 $res .= "\n\t\t\t";
                 $res .= "\$table->foreign('$field')->references('$foreign_field')->on('$foreign_table')";
 
                 // Fetch the type: restrict | cascade | no action from the database ...
-                $delete_rule =  Schema::onDeleteConstraint($table, $field);
-                $update_rule = Schema::onUpdateConstraint($table, $field);
+                $delete_rule = Meta::onDeleteConstraint($table, $field);
+                $update_rule = Meta::onUpdateConstraint($table, $field);
 
                 $res .= "->onUpdate('$update_rule')->onDelete('$delete_rule');";
             }
@@ -1247,9 +1244,9 @@ class CodeGenerator {
      */
     static public function factory_referenced_models($table) {
         $res = '';
-        foreach (Schema::fieldList($table) as $field) {
-            if (Schema::foreignKey($table, $field)) {
-                $foreign_table = Schema::foreignKeyReferencedTable($table, $field);
+        foreach (Meta::fieldList($table) as $field) {
+            if (Meta::foreignKey($table, $field)) {
+                $foreign_table = Meta::foreignKeyReferencedTable($table, $field);
                 $foreign_class = Meta::class_name($foreign_table);
                 if ("User" == $foreign_class) {
                     $res .= "use App\Models\User;\n";
@@ -1266,9 +1263,9 @@ class CodeGenerator {
      */
     static public function foreign_key_list($table) {
         $res = [];
-        foreach (Schema::fieldList($table) as $field) {
-            if (Schema::foreignKey($table, $field)) {
-                $foreign_table = Schema::foreignKeyReferencedTable($table, $field);
+        foreach (Meta::fieldList($table) as $field) {
+            if (Meta::foreignKey($table, $field)) {
+                $foreign_table = Meta::foreignKeyReferencedTable($table, $field);
                 $foreign_class = Meta::class_name($foreign_table);
                 $elt = [];
                 $elt['foreign_table'] = $foreign_table;
@@ -1287,7 +1284,7 @@ class CodeGenerator {
      * @return array[]
      */
     static public function metadata(String $table) {
-        $is_view = ViewSchema::isView($table);
+        $is_view = Meta::isView($table);
         // ($is_view) ? '' :
         return array(
             'table' => $table,
@@ -1302,10 +1299,10 @@ class CodeGenerator {
             'default_field_list' => self::default_field_list($table),
             'button_edit' => self::button_edit($table),
             'button_delete' => self::button_delete($table),
-            'primary_index' => Schema::primaryIndex($table),
+            'primary_index' => Meta::primaryIndex($table),
             'select_list' => self::select_list($table),
             'id_data_type' => self::id_data_type($table),
-            'is_referenced' => (!$is_view && Schema::isReferenced($table)) ? "true" : "",
+            'is_referenced' => (!$is_view && Meta::isReferenced($table)) ? "true" : "",
             'date_mutators' => ($is_view) ? '' : self::type_mutators($table, "date"),
             'datetime_mutators' => ($is_view) ? '' : self::type_mutators($table, "datetime"),
             'currency_mutators' => ($is_view) ? '' : self::type_mutators($table, "undefined_currency"),

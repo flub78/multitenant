@@ -59,14 +59,14 @@ use App\Helpers\BladeHelper as Blade;
 
            <div class="form-floating mb-2 border">
              <input type="color" class="form-control" name="backgroundColor" 
-              value="{{ old("backgroundColor", $defaultBackgroundColor)  }}"/>
+              value="{{ old("backgroundColor", $backgroundColor)  }}"/>
 
              <label class="form-label" for="backgroundColor">{{__("calendar_event.backgroundColor")}}</label>
           </div>
 
            <div class="form-floating mb-2 border">
               <input type="color" class="form-control" name="textColor" 
-                value="{{ old("textColor", $defaultTextColor) }}"/>
+                value="{{ old("textColor", $textColor) }}"/>
               <label class="form-label" for="textColor">{{__("calendar_event.textColor")}}</label>
           </div>
           

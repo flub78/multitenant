@@ -91,9 +91,13 @@ class CalendarEventController extends Controller {
 		    $data['start'] = "";
 		}
 		
-		// TODO: get the default values from the meta data
-		$data['defaultBackgroundColor'] = "#00FFFF";
-		$data['defaultTextColor'] = "#808080";
+        $data["title"] = "titre";
+        $data["allDay"] = "1";
+        $data["editable"] = "1";
+        $data["startEditable"] = "1";
+        $data["durationEditable"] = "1";
+        $data["backgroundColor"] = "#ffffcc";
+        $data["textColor"] = "#000066";
 		
 		return view ( $this->base_view . 'create', $data );
 	}

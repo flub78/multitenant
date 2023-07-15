@@ -17,5 +17,20 @@ https://kinsta.com/fr/blog/stripe-vs-paypal/
 
 https://www.laravelia.com/post/laravel-10-paypal-payment-and-dive-into-details
 
+## Stripe
+
+* subscription billing services
+* Cashier is the Laravel Interface to Stripe
+* https://stripe.com/fr
+* Credit card cost 1,5 % + 0,25 €
+
+## Hello Asso
+
+https://www.helloasso.com/
+
+## PayPal
+ 
+
+
 
 

@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Tenants\Metadata as MetaModel;
 use App\Models\Schema;
+use App\Models\ViewSchema;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -424,5 +425,177 @@ class MetadataHelper {
 	    return $res;
 	}
 	
+    /**
+     * Returns the primary index of a table
+     * 
+     * @param String $table
+     * @return unknown|string
+     */
+    public static function primaryIndex(String $table) {
+		return Schema::primaryIndex($table);
+	}	
+
+	/**
+     * Returns the table referenced by a foreign key
+     * 
+     * @param string $table
+     * @param string $field
+     * @return NULL
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
+     */
+    public static function foreignKeyReferencedTable (string $table, string $field) {
+		return Schema::foreignKeyReferencedTable($table, $field);
+	}
+
+	/**
+     * Returns true when a column is required in a database table
+     * 
+     * @param string $table
+     * @param string $field
+     * @return boolean
+     */
+    public static function required (string $table, string $field) {
+		return Schema::required($table, $field);
+	}
+
+	    /**
+     * Returns the size of a field or 0 when undefined
+     * 
+     * @param string $table
+     * @param string $field
+     * @return 0|number
+     */
+    public static function columnSize (string $table, string $field) {
+		return Schema::columnSize($table, $field);
+	}
+
+	/**
+     * Returns an object containing column information
+     *    Attributes are Field, Type, Null, Key, Default, Extra and Comment
+     *    
+     * @param string $table
+     * @param string $field
+     * @return NULL| the info object
+     */
+    public static function columnInformation (string $table, string $field) {
+		return Schema::columnInformation($table, $field);
+	}
+
+	/**
+     * Returns the list of fields of a table
+     * 
+     * @param string $table
+     * @return NULL| and array of string containing the field names
+     */
+    public static function fieldList (string $table) {
+		return Schema::fieldList($table);
+	}
+
+	/**
+     * If a field is a foreign key returns information about it
+     * else returns null
+     * 
+     * @param string $table
+     * @param string $field
+     * @return unknown|NULL
+     */
+    public static function foreignKey (string $table, string $field) {
+		return Schema::foreignKey($table, $field);
+	}
+
+    /**
+     * Returns the column referenced by a foreign key
+     * 
+     * @param string $table
+     * @param string $field
+     * @return NULL
+     *
+     * @SuppressWarnings("PMD.ShortVariable")
+     */
+    public static function foreignKeyReferencedColumn (string $table, string $field) {
+		return Schema::foreignKeyReferencedColumn($table, $field);
+    }
 	
+	/**
+     * True when a table field element cannot be duplicated
+     * 
+     * @param string $table
+     * @param string $field
+     * @return boolean
+     */
+    public static function unique(string $table, string $field) {
+		return Schema::unique($table, $field);
+	}
+
+	    /**
+     * returns the comment of a field
+     * 
+     * @param string $table
+     * @param string $field
+     * @return unknown
+     */
+    public static function columnComment (string $table, string $field) {
+		return Schema::columnComment($table, $field);
+	}
+
+	/**
+     * True when a field is unsigned
+     * 
+     * @param string $table
+     * @param string $field
+     * @return boolean
+     */
+    public static function unsignedType (string $table, string $field) {
+		return Schema::unsignedType($table, $field);
+	}
+
+	/**
+     * Returns the type of on delete constraint
+     * 
+     * @param string $table
+     * @param string $field
+     */
+    public static function onDeleteConstraint(string $table, string $field, string $type = "on_delete") {
+		return Schema::onDeleteConstraint($table, $field, $type);
+	}
+
+	/**
+     * Returns the type of on delete constraint
+     *
+     * @param string $table
+     * @param string $field
+     */
+    public static function onUpdateConstraint(string $table, string $field) {
+		return Schema::onUpdateConstraint($table, $field);
+	}
+
+	/**
+     * True if this table is referenced in another table. In which case there
+     * is a foreign key in the other table which points to this table.
+     * 
+     * @param string $target_table
+     */
+    public static function isReferenced(string $target_table) {
+		return Schema::isReferenced($target_table);
+	}
+
+	/**
+     * Check if a table is a view and returns the view definition if any
+     * @param String $view
+     * @return string|unknown
+     */
+    public static function isView(String $view) {
+		return ViewSchema::isView($view);
+	}
+
+	/**
+     * Analyze a view definition and returns a list of field definition
+     * 
+     * @param unknown $def
+     * @return NULL|unknown[][]|mixed[][]
+     */
+    public static function ScanViewDefinition($def) {
+		return ViewSchema::ScanViewDefinition($def);
+	}
 }
