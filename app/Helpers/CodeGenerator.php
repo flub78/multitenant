@@ -612,7 +612,7 @@ class CodeGenerator {
         $options = Meta::field_metadata($table, $field);
         $field_type = Meta::type($table, $field);
 
-        echo "field_rule_create table=$table, field=$field, subtype=$subtype, field_type=$field_type\n";
+        // echo "field_rule_create table=$table, field=$field, subtype=$subtype, field_type=$field_type\n";
 
         $rules = [];
         if ($subtype != "checkbox") {
