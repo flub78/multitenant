@@ -191,11 +191,11 @@ class MetadataHelper {
 	/**
 	 * Return a subtype for a field. The information is looked for either in the json encoded
 	 * comment of a field or in the metadata table.
-	 * @param unknown $table
-	 * @param unknown $field
+	 * @param string $table
+	 * @param string $field
 	 * @return string
 	 */
-	static public function subtype($table, $field) {
+	static public function subtype(string $table, string $field) {
 	    
 	    $key = 'subtype_' . $table . '___' . $field;
 	    if (array_key_exists($key, self::$memoization)) {
@@ -217,6 +217,7 @@ class MetadataHelper {
 		}
 					
 		// Not found, maybe it's a derived field, look for root field
+		// Is it a password confirmation ?
 		if (preg_match('/(.*)(\_confirmation)/', $field, $matches)) {
 			$root = $matches[1];
 			
@@ -227,7 +228,8 @@ class MetadataHelper {
 			    return self::$memoization[$key];
 			}
 		}
-						
+		
+		// maybe it's a bitfield
 		if (preg_match('/(.*)(\_boxes)/', $field, $matches)) {
 			$root = $matches[1];
 			
@@ -385,7 +387,7 @@ class MetadataHelper {
 			// ignore some work fields
 			if (in_array($field, ["id", "created_at", "updated_at"])) continue;
 			
-			// in most cases derived fields also return the base field
+			// in most cases derived_fields also returns the base field
 			$derived_flds = self::derived_fields($table, $field);
 			foreach ($derived_flds as $new_field) {
 				$full_list[] = $new_field;

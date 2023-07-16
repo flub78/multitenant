@@ -31,11 +31,11 @@ class CodeGenerator {
     /**
      * Transform an underscore separated string into camel case
      *
-     * @param unknown $string
+     * @param string $string
      * @param boolean $capitalizeFirstCharacter
      * @return mixed
      */
-    static public function toCamelCase($string, $capitalizeFirstCharacter = true) {
+    static public function toCamelCase(string $string, $capitalizeFirstCharacter = true) {
 
         $str = str_replace('_', ' ', $string);
         $str = ucwords($str);
@@ -51,9 +51,9 @@ class CodeGenerator {
     /**
      * return a string at the format '["elt1", "elt2"]' from an array of string
      * 
-     * @param unknown $array
+     * @param array $array
      */
-    static public function array_to_string($array) {
+    static public function array_to_string(array $array) {
         $res = '[';
         if ($array) {
             $res .= '"' . implode('", "', $array) . '"';
@@ -165,7 +165,7 @@ class CodeGenerator {
      * @param String $field
      * @return string
      */
-    static public function field_label(String $table, String $field, String $view = "", String $view_field = "",) {
+    static public function field_label(String $table, String $field, String $view = "", String $view_field = "") {
         $element = Meta::element($table);
         $subtype = Meta::subtype($table, $field);
         $class = "form-label";
@@ -612,6 +612,8 @@ class CodeGenerator {
         $options = Meta::field_metadata($table, $field);
         $field_type = Meta::type($table, $field);
 
+        echo "field_rule_create table=$table, field=$field, subtype=$subtype, field_type=$field_type\n";
+
         $rules = [];
         if ($subtype != "checkbox") {
             if (Meta::required($table, $field)) {
@@ -624,7 +626,7 @@ class CodeGenerator {
         }
 
         if (in_array($field_type, ['year', 'double', 'decimal', 'bigint', 'int'])) {
-            $rules[] = "'numeric'";
+            if ($subtype != "bitfield") $rules[] = "'numeric'";
         }
 
         if ($options && array_key_exists("min", $options)) {

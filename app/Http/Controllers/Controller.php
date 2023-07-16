@@ -108,12 +108,12 @@ class Controller extends BaseController
     }
 
     /**
-     * @param unknown $validatedData
-     * @param unknown $field
+     * @param array $validatedData
+     * @param string $field
      * @param unknown $request
-     * @param unknown $table
+     * @param string $table
      */
-    public function store_bitfield(&$validatedData, $field, $request, $table) {
+    public function store_bitfield(array &$validatedData, string $field, $request, string $table) {
     	$boxes = $field . '_boxes';
     	if (array_key_exists($boxes, $validatedData)) {
     		$bitfield = 0;
