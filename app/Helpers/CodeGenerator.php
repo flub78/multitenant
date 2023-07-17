@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Helpers\MetadataHelper as Meta;
 use App\Helpers\HtmlHelper as HH;
 use App\Helpers\BladeHelper as Blade;
+use App\Helpers\CgFactory;
 
 /**
  * Code Generator
@@ -837,7 +838,7 @@ class CodeGenerator {
 
         $subtype = Meta::subtype($table, $field);
         $type = Meta::type($table, $field);
-                $res = '';
+        $res = '';
         $info = Meta::columnInformation($table, $field);
         if (!$info || !$info->Default) return "";
        
@@ -855,24 +856,27 @@ class CodeGenerator {
      */
     static public function field_metadata(String $table, String $field, String $view = "", String $view_field = "") {
 
+        $type = Meta::type($table, $field);
         $subtype = Meta::subtype($table, $field);
+
+        $cg = CgFactory::instance($type, $subtype);
+
         if ('bitfield_boxes' == $subtype) $field = substr($field, 0, -6);  // remove '_boxes'
         $element = Meta::element($table);
 
         $res = [
             'name' => $field,
-            'display' => self::field_display($table, $field, $view, $view_field),
-            'label' => self::field_label($table, $field, $view, $view_field),
-            //'input_create' => self::field_input_create($table, $field),
-            'label_input_edit' => self::field_label_input_edit($table, $field),
-            'label_input_create' => self::field_label_input_create($table, $field),
-            'rule_edit' => self::field_rule_edit($table, $field),
-            'rule_create' => self::field_rule_create($table, $field),
-            'faker' => self::field_faker($table, $field),
+            'display'   => $cg->field_display($table, $field, $view, $view_field),   
+            'label' => $cg->field_label($table, $field, $view, $view_field),
+            'label_input_edit' => $cg->field_label_input_edit($table, $field),
+            'label_input_create' => $cg->field_label_input_create($table, $field),
+            'rule_edit' => $cg->field_rule_edit($table, $field),
+            'rule_create' => $cg->field_rule_create($table, $field),
+            'faker' => $cg->field_faker($table, $field),
             'display_name' => ucfirst(str_replace('_', ' ', $field)),
             'element_name' => $element . '.' . $field,
-            'migration' => self::field_migration($table, $field),
-            'default' => self::field_default($table, $field),
+            'migration' => $cg->field_migration($table, $field),
+            'default' => $cg->field_default($table, $field),
         ];
 
         if ($view) $res['element'] = $element;
