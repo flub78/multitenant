@@ -7,16 +7,24 @@ use Tests\TestCase;
 use App\Helpers\CodeGenerator as CG;
 use App\Models\Tenants\Metadata;
 use App\Helpers\MetadataHelper as Meta;
+use App\Helpers\CgFactory;
 
 class CodeGeneratorTest extends TestCase {
-    
-    public function test_array_to_string() {
-        $this->assertEquals('[]', CG::array_to_string([]));
-        $this->assertEquals('["one", "two", "three"]', CG::array_to_string(['one', 'two', 'three']));
+
+	protected $cg;
+
+    function Setup(): void {
+		parent::setUp();
+        $this->cg = CgFactory::instance();
+    }
+	
+	public function test_array_to_string() {
+        $this->assertEquals('[]', $this->cg->array_to_string([]));
+        $this->assertEquals('["one", "two", "three"]', $this->cg->array_to_string(['one', 'two', 'three']));
     }
 	
 	public function test_field_label() {
-		$label = CG::field_label("calendar_events", "start");
+		$label = $this->cg->field_label("calendar_events", "start");
 		$this->assertEquals('<label class="form-label" for="start">{{__("calendar_event.start")}}</label>', $label);
 	}
 	
@@ -26,7 +34,7 @@ class CodeGeneratorTest extends TestCase {
 	}
 	
 	public function test_field_input_create() {
-		$input = CG::field_input_create("calendar_events", "start_date");
+		$input = $this->cg->field_input_create("calendar_events", "start_date");
 		// echo $input;
 		$this->assertNotEquals('', $input);
 	}
@@ -54,10 +62,10 @@ class CodeGeneratorTest extends TestCase {
 		$metadata = Metadata::factory()->make($elt);
 		$metadata->save();
 		
-		$input = CG::field_input_create($table, $field);
+		$input = $this->cg->field_input_create($table, $field);
 		$this->assertNotEquals('', $input);
 		
-		$rules = CG::field_rule_create($table, $field);
+		$rules = $this->cg->field_rule_create($table, $field);
 		
 		$metadata->delete();
 	}

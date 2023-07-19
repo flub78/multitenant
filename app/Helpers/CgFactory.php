@@ -15,7 +15,7 @@ class CgFactory {
      * @param string $subtype
      * @return Cg
      */
-    public static function instance (string $type, string $subtype) {
+    public static function instance (string $type = "", string $subtype = "") {
         return new Cg($type, $subtype);
     }
 

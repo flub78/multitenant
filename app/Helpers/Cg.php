@@ -19,7 +19,7 @@ class Cg {
      * 
      * 
      */
-    public function __construct($type, $subtype) {
+    public function __construct(string $type, string $subtype) {
         $this->type = $type;
         $this->subtype = $subtype;
     }
@@ -234,7 +234,7 @@ class Cg {
      * @param String $field
      * @return string
      */
-    public function field_input_edit(String $table, String $field) {
+    public function field_input_edit(String $table, String $field) : string {
         $type = "text";
         $element = Meta::element($table);
         $field_type = $this->type;
@@ -268,7 +268,8 @@ class Cg {
 
         if ($subtype == "bitfield") {
             $options = Meta::field_metadata($table, $field);
-            if (!array_key_exists("values", $options)) return $value;
+            if (!$options) return "";
+            if (!array_key_exists("values", $options)) return "";
             $str_values = self::array_to_string($options['values']);
 
             return '{!! Blade::bitfield_input("' . $table . '", "' . $field . '", $' . $element  . '->' . $field

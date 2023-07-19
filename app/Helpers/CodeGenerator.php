@@ -3,8 +3,6 @@
 namespace App\Helpers;
 
 use App\Helpers\MetadataHelper as Meta;
-use App\Helpers\HtmlHelper as HH;
-use App\Helpers\BladeHelper as Blade;
 use App\Helpers\CgFactory;
 
 /**
