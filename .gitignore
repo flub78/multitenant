@@ -28,3 +28,4 @@ yarn-error.log
 /.phpunit.result (Copie en conflit de DESKTOP-RC6BFKD 2022-05-30).cache
 ansible/target.sh
 ansible/hosts
+app/Helpers/Cg copy.php

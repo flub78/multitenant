@@ -6,18 +6,16 @@ use App\Helpers\HtmlHelper as HH;
 use App\Helpers\BladeHelper as Blade;
 
 /**
- * Abstract class for code generation
+ * Parent class for code generation
  */
 class Cg {
 
-    // $type and $subtype are temporary parameters for the constructor. They will dispappear in one there is one class per type and subtype
-    private $type;
-    private $subtype;
+    // $type and $subtype are temporary parameters for the constructor. They will dispappear once there is one class per type and subtype
+    protected $type;
+    protected $subtype;
 
     /**
      * Create a new code generation instance
-     * 
-     * 
      */
     public function __construct(string $type, string $subtype) {
         $this->type = $type;
@@ -47,8 +45,7 @@ class Cg {
      * @return string
      */
     public function field_display(String $table, String $field, String $view = "", String $view_field = "") {
-        // $subtype = Meta::subtype($table, $field);
-        // $field_type = Meta::type($table, $field);
+
         $field_type = $this->type;
         $subtype = $this->subtype;
 
@@ -60,9 +57,7 @@ class Cg {
             $value = '$' . $element . '->' . $field;
         }
 
-        if ($field_type == "date") {
-            return '{{DateFormat::to_local_date(' . $value . ')}}';
-        } elseif ($field_type == "datetime") {
+        if ($field_type == "datetime") {
             return '{{DateFormat::local_datetime(' . $value . ')}}';
         }
 
@@ -197,11 +192,6 @@ class Cg {
 
         $class = 'form-control';
 
-        if ($field_type == "date") {
-            // $class .= ' datepicker';  no more used with HTML 5
-            $type = 'date';
-        }
-
         if ($field_type == "time") {
             // $class .= ' timepicker';
             $type = "time";
@@ -293,11 +283,6 @@ class Cg {
 
         $class = 'form-control';
         $prefix = "";
-
-        if ($field_type == "date") {
-            // $class .= ' datepicker';
-            $type = 'date';
-        }
 
         if ($field_type == "time") {
             // $class .= ' timepicker';
@@ -603,8 +588,6 @@ class Cg {
 
         if ('varchar' == $type) {
             $res =  "\"$field" . '_" . $next . "_" . ' . 'Str::random()';
-        } elseif ('date' == $type) {
-            $res = $faker . '->date(__("general.database_date_format"))';
         } elseif ('datetime' == $type) {
             $res = $faker . '->date(__("general.database_datetime_format"))';
         } elseif ('time' == $type) {
@@ -683,8 +666,6 @@ class Cg {
         if ('varchar' == $type) {
             $size = Meta::columnSize($table, $field);
             $res .= "->string('$field', $size)";
-        } elseif ('date' == $type) {
-            $res .= "->date('$field')";
         } elseif ('datetime' == $type) {
             $res .= "->datetime('$field')";
         } elseif ('time' == $type) {
