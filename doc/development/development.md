@@ -3,7 +3,7 @@
 
 ## General workflow for a new feature
 
-Defines use cases using
+Defines user story using
   * As a user
   * I want to 
   * So ..

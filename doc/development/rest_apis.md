@@ -1,13 +1,16 @@
-# Writing APIs
+# Writing REST APIs
 
-One of the goal of this framework is to provide a REST API service. Most, if not all resources should be accessible through a REST API. API access to the central application is of lower priority than API access for tenants.
+One of the goal of this framework is facilitate the development of REST APIs. Most resources should be accessible through a REST API. 
 
 ## Example accessing the calendar events through a REST API
 
+The command
 
     php artisan make:controller Api\CalendarEventController --resource --api
     
-generates \app\Http\Controllers\Api\CalendarEventController.php
+generates the file 
+
+    \app\Http\Controllers\Api\CalendarEventController.php
 
 ## Simplified Workflow to create an API
 
@@ -52,6 +55,41 @@ On success it returns a json answer
     {"url":null,
     "label":"&raquo; Suivante","active":false}],"next_page_url":null,"path":"http:\/\/abbeville.tenants.com\/api\/role","per_page":1000000,"prev_page_url":null,"to":2,"total":2}
 
+Another API
+
+http://abbeville.tenants.com/api/calendar_event
+
+{"current_page":1,
+    "data":[
+        {"id":1,
+        "title":"Dentiste",
+        "description":null,
+        "allDay":0,
+        "start":"2023-07-11 12:43:00",
+        "end":null,
+        "backgroundColor":"#2bff00",
+        "borderColor":null,
+        "textColor":"#f90101","created_at":"2023-07-11T10:43:51.000000Z","updated_at":"2023-07-11T10:43:51.000000Z"},
+        
+        {"id":2,
+        "title":"Default",
+        "description":null,
+        "allDay":0,
+        "start":"2023-07-11 12:44:00",
+        "end":null,
+        "backgroundColor":"#00ffff",
+        "borderColor":null,
+        "textColor":"#808080","created_at":"2023-07-11T10:44:15.000000Z","updated_at":"2023-07-11T10:44:15.000000Z"},
+        
+        {"id":3,
+        "title":"title",
+        "description":null,
+        "allDay":0,
+        "start":"2023-07-11 12:45:00",
+        "end":null,
+        "backgroundColor":"#00ffff",
+        "borderColor":null,"textColor":"#000000","created_at":"2023-07-11T10:45:49.000000Z","updated_at":"2023-07-11T10:45:49.000000Z"}],"first_page_url":"http:\/\/abbeville.tenants.com\/api\/calendar_event?page=1","from":1,"last_page":1,"last_page_url":"http:\/\/abbeville.tenants.com\/api\/calendar_event?page=1","links":[{"url":null,"label":"&laquo; Pr\u00e9c\u00e9dant","active":false},{"url":"http:\/\/abbeville.tenants.com\/api\/calendar_event?page=1","label":"1","active":true},{"url":null,"label":"&raquo; Suivante","active":false}],"next_page_url":null,"path":"http:\/\/abbeville.tenants.com\/api\/calendar_event","per_page":1000000,"prev_page_url":null,"to":3,"total":3}
+        
 ## Authentication
 
 ### Sanctum

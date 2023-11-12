@@ -65,7 +65,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/ExampleTest.php
     @rem Helpers
     @rem -------
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/DirHelperTest.php
-php vendor/phpunit/phpunit/phpunit tests/Feature/LeitnerHelperTest.php
+@rem php vendor/phpunit/phpunit/phpunit tests/Feature/LeitnerHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/TenantHelperTest.php
 @rem php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/BackupHelperTest.php
 
