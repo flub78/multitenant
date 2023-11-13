@@ -23,7 +23,7 @@ Setup the route in the tenant.php file.
 
 To test the API:
 
-    http://abbeville.tenants.com/api/role
+http://abbeville.tenants.com/api/role
     
 On success it returns a json answer
 
@@ -100,8 +100,12 @@ API Tokens
 
 API tokens are currently generated from the /user/token route. Token are shown in the clear only then (the value stored in database is encrypted).
 
+    token=4|rLKqYyyVoCmDMtLSgZsIFMUwLEkcIXkIo83HslKK All tokens: token=
+
 I have only been able to access Sanctum protected API with Postman.
-Use Authorization.Type = Bearer Token and past the value returned by the user controller.
+Use Authorization.Type = Bearer Token and past the value returned by the user/token controller.
+
+When the authorization is declined the request is currently redirected to the home page. To be changed to return an access denied error.
 
 
 #### Sanctum Installation
