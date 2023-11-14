@@ -29,7 +29,7 @@
             </div>
             
             <h3>Tenant Test Controller</h3>
-            <p>This page should be disabled in deployment</p>
+            <p>This page should be disabled in deployment. </p>
             <p>Configuration locale = {{$locale}}</p>
             <p>Application locale = {{$app_locale}}</p>
             <p>url = {{$url}}</p>
@@ -40,7 +40,7 @@
             	<div>
             	<a href="http://abbeville.tenants.com/api/calendar_event" class="btn btn-info m-2" role="button">Calendar json API</a>
 				</div><div>
-            	<a href="http://abbeville.tenants.com/api/calendar_event" class="btn btn-info m-2" role="button">Calendar json API</a>
+            	<a href="http://abbeville.tenants.com/api/role" class="btn btn-info m-2" role="button">Role json API</a>
 				</div><div>
             	<a href="http://abbeville.tenants.com/api/calendar_event" class="btn btn-info m-2" role="button">Calendar json API</a>
 				</div><div>
