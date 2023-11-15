@@ -125,3 +125,47 @@ When the authorization is declined the request is currently redirected to the ho
 
 https://josipmisko.com/posts/rest-api-error-handling
 
+To handle in Json the not found exception edit /app/Exceptions/Handler.php
+
+## Testing
+
+### All the items
+http://abbeville.tenants.com/api/calendar_event
+
+### One item		
+http://abbeville.tenants.com/api/calendar_event/1
+
+### A non existing item		
+http://abbeville.tenants.com/api/calendar_event/9999
+			
+returns 404 not found    (HTML)
+
+## Laravel and Json
+
+https://www.akilischool.com/cours/laravel-creer-une-api-json
+https://laravel.com/docs/10.x/eloquent-serialization
+
+There is some automatic support for Json and RST API in JSON.
+
+In the correct context the toJson method is automatically called and the query result is automatically translated.
+
+    return $query->paginate (15);
+
+a more explicit way
+
+```
+    $users = User::all();
+
+    // On retourne les informations des utilisateurs en JSON
+    return response()->json($users);
+```
+
+### API generation
+
+The artisan command can create a controller and the option --api removes the edit and create methods.
+
+    php artisan make:controller API/UserController --model=User --api
+
+Or the code generator may be used.
+
+
