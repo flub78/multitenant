@@ -5,7 +5,6 @@
 <div> <!-- End of body -->
 
 	<script type="text/javascript">
-	<!--
 	$(document).ready( function () {
 	
 	var locale = document.documentElement.lang;    // fr, en, ...
@@ -86,7 +85,6 @@
 });
 
 
-	//-->
 	</script>
 
 </div>
