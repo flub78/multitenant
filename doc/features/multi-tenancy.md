@@ -17,6 +17,8 @@ The application uses the tenancy for Laravel module (see below).
 ## References
 
 * [Tenancy for Laravel](https://tenancyforlaravel.com/)
+  * With documentation
+  * and tutorial
 
 * [Stancl module documentation](https://github.com/stancl/tenancy-docs)
 

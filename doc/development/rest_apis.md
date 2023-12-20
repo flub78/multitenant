@@ -125,20 +125,30 @@ When the authorization is declined the request is currently redirected to the ho
 
 https://josipmisko.com/posts/rest-api-error-handling
 
-To handle in Json the not found exception edit /app/Exceptions/Handler.php
+To handle in Json the not found exception edit /app/Exceptions/Handler.php. It works for all HTML verbs, GET, DELETE, etc..
 
 ## Testing
 
-### All the items
+### Manual testing
+
+* All the items
 http://abbeville.tenants.com/api/calendar_event
 
-### One item		
+* One item		
 http://abbeville.tenants.com/api/calendar_event/1
 
-### A non existing item		
+* A non existing item (returns 404)		
 http://abbeville.tenants.com/api/calendar_event/9999
 			
-returns 404 not found    (HTML)
+### Automated testing
+
+The unit test vasic creation, update and delete, access to non existing elements, pagination, sort and basic filtering.
+
+```
+php vendor/phpunit/phpunit/phpunit tests/Feature/Api/CalendarEventControllerTest.php
+
+php vendor/phpunit/phpunit/phpunit tests/Feature/Api/RoleControllerTest.php
+```
 
 ## Laravel and Json
 

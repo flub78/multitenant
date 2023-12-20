@@ -185,4 +185,9 @@
 
 	set table=motd_todays
     php artisan mustache:generate --install %table% all
-    
+
+## personal_access_token
+
+	set table=personal_access_tokens
+	set element=personal_access_token
+    php artisan mustache:generate --install %table% all

@@ -146,8 +146,6 @@ class CodeGenTypeController extends Controller {
 	 */
 	public function destroy(CodeGenType $code_gen_type) {
 		$id = $code_gen_type->id;
-		
-        
         
 		if ($code_gen_type->picture) $this->destroy_file($code_gen_type->picture);
 		if ($code_gen_type->attachment) $this->destroy_file($code_gen_type->attachment);

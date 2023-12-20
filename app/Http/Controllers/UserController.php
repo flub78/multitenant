@@ -120,6 +120,12 @@ class UserController extends Controller {
 		return redirect ( '/user' )->with ( 'success', __('user.deleted', ['name' =>  $name] ) );
 	}
 	
+	/**
+	 * Create a token to access to the API.
+	 * 
+	 * Token should be generated per user and a user token should have exactly the same
+	 * rights as the user.
+	 */
 	public function token(Request $request) {
 		
 		$token = $request->user()->createToken("user_token", ['api-access']);

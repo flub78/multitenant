@@ -114,4 +114,13 @@ This mechanism can be extended, but should remain simple.
 
 ## REST API data filtering
 
+Already supported at least infrastructure and basic filtering.
+
+The filtering unit tests are not yet supported by the code generator. 
+
 ## GUI data filtering
+
+1. Do a manual implementation for one of the controllers like CalendarEvents or CodeGenTypes.
+2. Update the unit tests
+3. Update code generation
+

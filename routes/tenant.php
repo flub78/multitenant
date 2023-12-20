@@ -135,6 +135,9 @@ Route::middleware([
 		
 		Route::resource('api/motd_today', App\Http\Controllers\Api\MotdTodayController::class, ['as' => 'api'])
 			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+
+		Route::resource('api/test', App\Http\Controllers\Api\TestController::class, ['as' => 'api'])
+			->middleware(['auth:sanctum', 'ability:check-status,api-access']);
 			
 	});
 	
