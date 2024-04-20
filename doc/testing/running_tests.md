@@ -10,8 +10,12 @@ I uses two dummy domains for testing
 
     http://tenants.com/             for central application    
     http://abbeville.tenants.com/   for tenant application
+
+On windows they must be defined in the C:\windows\system32\drivers\etc\hosts file.
     
 environment variables are defined in the .env file.
+
+The multi_test base must have been created.
 
 ### phpunit tests
 
