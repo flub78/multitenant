@@ -1,11 +1,7 @@
 # Todo list
 
-
-## DevOps
-
-* Deployment end to end tests
-* Installation end to end tests
-* Automatic deployment
+- [ ] migrate code generation to use ddd-gen
+- [ ] Work on project derivation
 
 ## Development
 

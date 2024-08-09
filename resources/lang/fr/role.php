@@ -13,7 +13,7 @@
 */
     
 return 	[
-		"title" => "Rôles d&#39;utilisateur",
+		"title" => "Rôles des utilisateurs",
 			"list" => "Liste",
 			"elt" => "rôle",
 			"new" => "Nouveau rôle",
