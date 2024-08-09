@@ -21,7 +21,8 @@
     :: -------
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CarbonTest.php
 :: php vendor/phpunit/phpunit/phpunit  tests/Unit/Tenants/TenantTestCaseTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/PersonalAccessTokenModelTest.php
+:: php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/PersonalAccessTokenModelTest.php
+   
     :: Tenant models
     :: -------------
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ExperimentationOnModelTest.php
@@ -95,6 +96,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/PersonalAccessTokenModelTe
 :: php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypeControllerFilterTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/CodeGenTypesView1ControllerTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/ProfileControllerTest.php
+php vendor/phpunit/phpunit/phpunit tests/Feature/Tenants/PersonalAccessTokenControllerTest.php
 
 :: php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdControllerTest.php
 :: php vendor/phpunit/phpunit/phpunit  tests/Feature/Tenants/MotdTodayControllerTest.php

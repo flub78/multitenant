@@ -30,6 +30,8 @@
 - [x] roles
 - [x] configuration
 - [x] Calendar
+- [ ] personal_access_token WIP
+  *  route not defined...
 
 ## Tests
 
