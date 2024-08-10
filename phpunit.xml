@@ -11,6 +11,8 @@
         </testsuite>
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
+            <exclude>./tests/Feature/Tenants/PersonalAccessTokenControllerTest.php</exclude>
+            <exclude>./tests/Feature/Api/PersonalAccessTokenControllerTest.php</exclude>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">

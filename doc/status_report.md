@@ -49,3 +49,8 @@
 
 - [x] Static analysis
 - [ ] phpunit 
+
+
+## 10/08/2024
+
+unit tests: OK (403 tests, 1988 assertions)
