@@ -15,7 +15,7 @@ On windows they must be defined in the C:\windows\system32\drivers\etc\hosts fil
     
 environment variables are defined in the .env file.
 
-The multi_test base must have been created.
+The multi_test base must exist.
 
 ### phpunit tests
 
@@ -32,7 +32,7 @@ All tests cases use the .env.testing environment file, which defines a master da
 By default the central database for testing is
 DB_DATABASE=multi_test
 
-Warning: to migrate the multi_test database, I edit temporarly the .env file to point to multi_test. I shoud find a cleaner way.
+Warning: to migrate the multi_test database, I edit temporary the .env file to point to multi_test. I should find a cleaner way.
 
 Tenant databases are named tenant . tenant('id')
 

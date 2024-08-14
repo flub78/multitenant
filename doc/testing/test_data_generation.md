@@ -10,7 +10,7 @@ Except for installation tests the test pre-requisites are
 * The tenant test database exists
 * There is an admin in the tenant test database
 
-The test environment should be prepared by a specific jenkins job. Wich should also perform some minimal smoke tests (login, logout and access to one view).
+The test environment should be prepared by a specific jenkins job. Which should also perform some minimal smoke tests (login, logout and access to one view).
 
 These minimal requirements are setup by restoring standard test databases before the test.
 There is one test database for tenant and one for central.

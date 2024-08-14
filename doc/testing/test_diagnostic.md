@@ -1,6 +1,6 @@
 # Test diagnostic
 
-The test environment start to become complicated and the diagnostic in case of failure is not really easy. It can be interresting to keep track of some diagnostic session. The information can be useful if the issue happens again. The ultimate goal would be to define a process to find the issues but it there is likely too many cases so I can describes them all. But even if this ultimate goal is not achievable it will help to have some cases documented.
+The test environment start to become complicated and the diagnostic in case of failure is not really easy. It can be interesting to keep track of some diagnostic session. The information can be useful if the issue happens again. The ultimate goal would be to define a process to find the issues but it there is likely too many cases so I can describes them all. But even if this ultimate goal is not achievable it will help to have some cases documented.
 
 To create this documentation the easiest way is to describe the resolution of some real cases, and then to identify commonalities to create the skeleton of a debuging process. So I'll describe some error cases
 

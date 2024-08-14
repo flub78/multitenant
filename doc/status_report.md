@@ -30,6 +30,7 @@
 - [x] roles
 - [x] configuration
 - [x] Calendar
+- [x] Localization
 - [ ] personal_access_token WIP
   *  route not defined...
 
@@ -53,4 +54,12 @@
 
 ## 10/08/2024
 
-unit tests: OK (403 tests, 1988 assertions)
+* unit tests: OK (403 tests, 1988 assertions)
+
+* code coverage: Warning:       No code coverage driver available
+
+* dusk tests: 
+
+  * Localization: 7, Assertions: 13, Errors: 1, Failures: 6.
+  * Central
+  * Tenants

@@ -52,8 +52,7 @@ This project is a framework for Web applications. It provides a starting point f
 3. Refactoring
 4. New features
 
-These are the priorities to keep a high level of quality. This project is a hobby and I am curious to see these rules applied strictly. In professional environment it is difficult to follow them due to the pressure of the business.
-Their strict application is an experiment and I will observe the impact on velocity.
+These are the priorities to keep a high level of quality. This project is a hobby and I am curious to see these rules applied strictly. 
 
 Fix of known bugs is the highest priority activity. Even the fix of minor bugs. Bugs are the demonstration that something wrong happened in the development process and we want to get it fixed as soon as possible. Of course in implies fix of the build jobs.
 

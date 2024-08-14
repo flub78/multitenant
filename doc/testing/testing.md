@@ -72,7 +72,7 @@ In other words BDD, and end to end tests are black box and loosely coupled with 
 
 Note also that efforts to keep a high percentage of lines covered by unit testing is also a white box approach.
 
-The suggestion to only test private method indirectly looks biased to me. If you have to design your input test to cover the internal private method you are already doing implementation dependent testing. In others words, if you do that, you alrady have a detailled knowledge of the implementation.
+The suggestion to only test private method indirectly looks biased to me. If you have to design your input test to cover the internal private method you are already doing implementation dependent testing. In others words, if you do that, you already have a detailed knowledge of the implementation.
 
 Note also that the importance of a strict encapsulation, which makes all the methods which are not strictly part of the API private, depends on the audience of the software. It is critical for a large open source project used by thousands of developers. It is less important of a private project or something used by a small team. 
 
@@ -121,7 +121,7 @@ Usually there are several scenarios per feature.
 
 By definition it should be applied at the feature test level (not unit test). Laravel multitenancy tends to transform tests that should logically be unit tests into feature tests because tenant testing require some context to be established (container) and containers are only created for feature tests. There is no need to be BDD for these unit tests in the feature directory.
 
-Should I use a special framework like cumcumber or behat to implement BDD? The simplest implementation is just to create BDD scenarios as comments inside regular tests. It can make it a little more difficult to access test descriptions for non technical persons (the source of truth is inside the code). But a simple script to extract them may be simpler to write and more flexible than deploying a BDD framework.
+Should I use a special framework like cucumber or behat to implement BDD? The simplest implementation is just to create BDD scenarios as comments inside regular tests. It can make it a little more difficult to access test descriptions for non technical persons (the source of truth is inside the code). But a simple script to extract them may be simpler to write and more flexible than deploying a BDD framework.
 
 The drawback of this approach is that it requires more discipline.
 
