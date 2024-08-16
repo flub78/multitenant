@@ -2,14 +2,18 @@
 
 namespace tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use App\Models\User;
 
 class UsersModelTest extends TestCase {
 
+    // Do not use RefreshDatabase;
+    // It deletes all tables and recreates them which erases all data
+
     // Execute each test in a transaction
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     /**
      * Test element creation, read, update and delete
@@ -76,15 +80,18 @@ class UsersModelTest extends TestCase {
     }
 
     public function test_computed_attributes() {
+
+        $initial_count = User::count();
+
         $user = User::factory()->create();
         $user2 = User::factory()->create();
 
         $this->assertEquals($user->name, $user->full_name, "full_name");
 
         $selector = User::selector();
-        $this->assertEquals(2, count($selector));
-        $this->assertEquals($user->id, $selector[0]['id']);
-        $this->assertEquals($user2->full_name, $selector[1]['name']);
+        $this->assertEquals($initial_count + 2, count($selector));
+        $this->assertEquals($user->id, $selector[count($selector) - 2]['id']);
+        $this->assertEquals($user2->full_name, $selector[count($selector) - 1]['name']);
 
         $selector2 = User::selector(['id' => $user2->id]);
         $this->assertEquals(1, count($selector2));
