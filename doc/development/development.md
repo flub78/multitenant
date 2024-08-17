@@ -160,6 +160,8 @@ Note as chrome may be updated on the development platform, desynchronization of 
 In this case the solution is to update the chrome web driver.
 
     php artisan dusk:chrome-driver 101
+
+Does not work anymore on recent versions of chrome. Install chrome driver manually.
     
 Once the driver is up to date you can run the test.
 

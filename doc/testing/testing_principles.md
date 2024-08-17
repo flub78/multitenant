@@ -53,7 +53,7 @@ These test check the behavior of the system under heavy load and should provide 
 
 A discussion on how to chose between unit test and BDD (given-when-then) tests. https://specflow.org/challenges/bdd-vs-unit-tests/
 
-## Testing philosophies
+## Testing philosophy
 
 ### Considerations on Unit testing
 

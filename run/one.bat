@@ -8,7 +8,7 @@
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/HtmlHelperTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/BladeHelperTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/TranslationHelperTest.php
-php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
+:: php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheHelperTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/MustacheTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/MetadataHelperTest.php
@@ -28,7 +28,7 @@ php vendor/phpunit/phpunit/phpunit tests/Unit/UsersModelTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ExperimentationOnModelTest.php
 
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/ConfigurationModelTest.php
-:: :: php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php
+php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/CalendarEventModelTest.php
 
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/RoleModelTest.php
 :: php vendor/phpunit/phpunit/phpunit tests/Unit/Tenants/UserRoleModelTest.php

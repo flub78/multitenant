@@ -1,12 +1,11 @@
-# Test diagnostic
+# Test trouble shooting
 
 The test environment start to become complicated and the diagnostic in case of failure is not really easy. It can be interesting to keep track of some diagnostic session. The information can be useful if the issue happens again. The ultimate goal would be to define a process to find the issues but it there is likely too many cases so I can describes them all. But even if this ultimate goal is not achievable it will help to have some cases documented.
 
-To create this documentation the easiest way is to describe the resolution of some real cases, and then to identify commonalities to create the skeleton of a debuging process. So I'll describe some error cases
+To create this documentation the easiest way is to describe the resolution of some real cases, and then to identify commonalities to create the skeleton of a debugging process. So I'll describe some error cases
 
-## Error cases description
 
-### Case 1: Multitenant_phpunit crash on pastille
+## Case: Multitenant_phpunit crash on pastille
 
 - 2023-02-28
 - pastille Linuxmint fanless CI jenkins server
@@ -18,9 +17,30 @@ Build step 'Exécuter un script shell' marked build as failure
 ```
 
 
-### Case 2
+## Case: No database connection
 
-## Debuging process
+	Multitenant run\tests.bat SQLSTATE[HY000] [2002] Aucune connexion n’a pu être établie
+
+Start Apache and MySQL.
+
+## Case: This version of ChromeDriver only supports Chrome version 105
+
+php artisan dusk:chrome-driver
+
+## Case: Data deleted in database
+
+Use the transaction trait instead of RefreshDatabase trait. The second one tends to delete data.
+
+## Environment variables not set in the test context.
+
+Never use
+
+	php artisan config:cache
+
+I had to delete xampp\htdocs\multitenant\bootstrap\cache/config.php because a bad configuration was cached.
+
+
+# Debugging process
 
 ### Step 1 collect information
 
@@ -78,12 +98,3 @@ Tests: 112, Assertions: 256, Errors: 49.
 That's a very small number of test I was expecting around 400 ... confirmed by a second execution ...
 
 
-# In case of error
-
-#### Multitenant run\tests.bat SQLSTATE[HY000] [2002] Aucune connexion n’a pu être établie
-
-Start Apache and MySQL.
-
-#### This version of ChromeDriver only supports Chrome version 105
-
-php artisan dusk:chrome-driver
