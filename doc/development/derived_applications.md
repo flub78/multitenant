@@ -23,6 +23,13 @@ Note that due to the high level of nesting between common and derived, gitub sub
 
 Maybe that merging developments done in derived and cherry picking is the best approach ???
 
+## Using composer
+
+It is a much better use case.
+
+- As a developer I want to start a new project from a common base
+- As a developer I want to update the common base in my project
+
 
 
 

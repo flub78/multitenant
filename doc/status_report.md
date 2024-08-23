@@ -7,6 +7,7 @@
 - [x] github.com/flub78/multitenant
 - [X] Development environment
 
+Local deployment:
     http://tenants.com/
     http://abbeville.tenants.com/
 
@@ -31,9 +32,15 @@
 - [x] configuration
 - [x] Calendar
 - [x] Localization
+- [x] pagination and filtering
 - [ ] personal_access_token WIP
   *  route not defined...
 
+### Next steps
+
+- [ ] Code generation migration to ddd-gen
+- [ ] Derivation of other projects
+  
 ## Tests
 
 ### Local
@@ -42,7 +49,6 @@
   
   Tests: 424, Assertions: 1963, Errors: 20, Failures: 3.
 
-  
 
 ### Jenkins / CI
     

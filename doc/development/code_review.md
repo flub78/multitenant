@@ -12,7 +12,7 @@ The backlog should only contains elements for which the decision to work on them
 
 ## Checklist
 
-* The date of the last review is in the file header
+* The date of the last review is in the file header marked by "reviewed"
 * The reviewer name is in the file header
 * Indentation is correct (can be taken care by automatic reformatting if the team can agree on a formatter not too harmful).
 * Correct PHPDoc
@@ -23,6 +23,7 @@ The backlog should only contains elements for which the decision to work on them
 * The reviewer have checked the result of the static analyzers on the file
 * No obvious bugs or missing use cases, 
 * Test coverage is correct
+* The code has been scanned by an AI like cody
 
 * remarks are either
     * rejected
@@ -33,7 +34,7 @@ The backlog should only contains elements for which the decision to work on them
 # When to do code reviews
 
 * By pair programming
-* When code is commited
+* When code is committed
 * When a file has never been reviewed (allocate some time for catching up)
 
 # Tools to support code reviews
@@ -48,3 +49,6 @@ A simple convention to keep track of code reviews is just to insert a comment in
 
 With that it is easy to check if a file has been reviewed or not and if there is not to much time between the latest changes and the latest review. Ideally the latest review should have the same date than the latest change.
      
+I started a tool to keep track of code reviews:
+
+    php artisan dev:review
