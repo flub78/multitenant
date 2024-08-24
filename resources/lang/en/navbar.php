@@ -2,7 +2,7 @@
 
 return [
 
-    /*
+	/*
     |--------------------------------------------------------------------------
     | Menu strings to translate (English version)
     |--------------------------------------------------------------------------
@@ -11,7 +11,7 @@ return [
     */
 
 	'logout' => "Logout",
-	'tenant' => "tenant",	
+	'tenant' => "tenant",
 	'Tenants' => 'Tenants',
 	'back_to' => "Back to",
 	'admin' => "Admin",
@@ -23,5 +23,6 @@ return [
 	'configuration' => "Configuration",
 	'roles' => "Roles",
 	'user_roles' => "Roles for users",
-    'motd' => "Messages of the day"		
+	'motd' => "Messages of the day",
+	'motd_today' => "Today",
 ];

@@ -2,7 +2,7 @@
 
 return [
 
-    /*
+	/*
     |--------------------------------------------------------------------------
     | Menu strings to translate (French version)
     |--------------------------------------------------------------------------
@@ -23,5 +23,6 @@ return [
 	'configuration' => "Configuration",
 	'roles' => "Rôles",
 	'user_roles' => "Rôles des utilisateurs",
-    'motd' => "Messages du jour"
+	'motd' => "Messages du jour",
+	'motd_today' => "Aujourd'hui",
 ];

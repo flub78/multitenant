@@ -87,7 +87,6 @@ Short design notes are kept in the doc directory as a set of md files. Plantuml 
 - [Development introspection](doc/development/development_introspection.md)
 - [Development rules](doc/development/development_rules.md)
 - [Dusk Chrome version issue](doc/development/dusk_chrome_version_issue.md)
-- [Eclipse](doc/development/eclipse.md)
 - [Fields validation](doc/development/Fields_validation.md)
 - [Filtering](doc/development/filtering.md)
 - [Graphical user interfaces](doc/development/gui.md)
@@ -102,7 +101,7 @@ Short design notes are kept in the doc directory as a set of md files. Plantuml 
 - [Routes](doc/development/routes.txt)
 - [Selectors](doc/development/selectors.md)
 - [Testing with Postman](doc/development/testing_with_postman.md)
-- [Translation](doc/development/translation.md)
+- [Translation in other languages](doc/development/translation.md)
 - [Windows development environment](doc/development/windows_development_environment.md)
  
 

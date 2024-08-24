@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is generated from a template with metadata extracted from the data model.
  * If modifications are required, it is important to consider if they should be done in the template
@@ -17,7 +18,7 @@ use Carbon\Exceptions\InvalidFormatException;
 /**
  * MotdToday model
  *
- * Acces to the percistency layer
+ * Access to the persistency layer
  * motd_todays is a MySQL view
  *
  * @author fred
@@ -30,7 +31,7 @@ class MotdToday extends ModelWithLogs {
      * The associated database table
      */
     protected $table = 'motd_todays';
- 
+
     /**
      * Views usually have no regular factories. The generation of test data
      * usually implies to generate data in others tables.
