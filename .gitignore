@@ -12,6 +12,7 @@ yarn-error.log
 /.idea
 /.vscode
 /storage/
+/vendor
 !/storage/app
 /storage/app/backup
 /storage/app/public

@@ -14,7 +14,7 @@ The domain can be public and declared in the DNS or private, in which case it mu
 
 ## Ansible Installation
 
-It is possible to install the application with the install.yml ansible playbook.
+It is possible to deploy the application with the install.yml ansible playbook.
 
 ## Installation steps
 
@@ -36,6 +36,20 @@ A typically development environment has
 
 Usually they use at least one database for human and one for the test, sometimes more for the test. (multi and 
 multi_test)
+
+### Composer
+
+    composer install
+or
+    composer update
+
+If you get a cache error, run the provided valid_cache_path.sh script.
+
+### Generate a laravel key
+
+If you are in development and already have a key in the .env files you should skip this step.
+
+	php artisan key:generate
 
 ### Migrate and seed the database
 
@@ -65,11 +79,7 @@ It is possible to restore a backup, but it is only going to restore the central 
 not to create previous tenants.
 		
 
-### Generate a laravel key
 
-If you are in development and already have a key in the .env files you should skip this step.
-
-	php artisan key:generate
 
 ## Details
 
