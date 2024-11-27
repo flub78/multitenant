@@ -433,16 +433,16 @@
             @else
             <div class="flex justify-center flex-column">
                 <h1>Webapp Central application - Tenants management</h1>
-                <h2>Tenants : </h2>
-                <select name="tenant" id="tenant">
-                    @foreach($tenants as $tenant)
-                    <option value="{{ $tenant['href'] }}">
-                        <a href="{{ $tenant['href'] }}">
-                            {{ $tenant['id'] }}
-                        </a>
-                    </option>
-                    @endforeach
-                </select>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="tenantDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Tenant
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="tenantDropdown">
+                        @foreach($tenants as $tenant)
+                        <li><a class="dropdown-item" href="{{ $tenant['href'] }}">{{ $tenant['id'] }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
             @endif
             <br>
