@@ -10,16 +10,18 @@
 
       <div class="collapse navbar-collapse" id="mynavbar">
         <ul class="navbar-nav me-auto"> <!-- left side of the navbar -->
-        
-          @auth
-          
-          @if (tenant('id'))
-          <li class="nav-item">
-          	<a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="nav-link ">{{__("navbar.back_to") . ' ' . config('tenancy.central_domains')[0]}}</a>
-		  </li>
-		  @endif
 
-		  <!--  Exemple of dropdown menu 
+          @auth
+
+          @if (tenant('id'))
+
+          <li class="nav-item">
+
+            <a href="{{ 'http://' . config('tenancy.central_domains')[0]  }}" class="nav-link ">{{__("navbar.back_to") . ' ' . config('tenancy.central_domains')[0]}}</a>
+          </li>
+          @endif
+
+          <!--  Exemple of dropdown menu 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Dropdown</a>
             <ul class="dropdown-menu">
@@ -31,12 +33,12 @@
             </ul>
           </li>
           -->
-          
+
           @if (auth()->user()->isAdmin())
-          
+
           @if (tenant('id'))
           <!-- admin for tenant -->
-          
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Admin</a>
             <ul class="dropdown-menu">
@@ -49,7 +51,7 @@
               <li><a class="dropdown-item" href="{{ route('motd_today.index') }}">{{__('navbar.motd_today')}}</a></li>
             </ul>
           </li>
-          
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Development</a>
             <ul class="dropdown-menu">
@@ -62,21 +64,21 @@
               <li><a class="dropdown-item" href="{{ route('test.checklist') }}">Manual resource testing checklist</a></li>
             </ul>
           </li>
-          
+
           @else
           <!-- admin for central application -->
           <!-- Central flat admin navbar -->
-          
+
           <li class="nav-item">
-          	<a href="{{ route('user.index') }}" class="nav-link ">Users</a>
-		  </li>
+            <a href="{{ route('user.index') }}" class="nav-link ">Users</a>
+          </li>
           <li class="nav-item">
-          	<a href="{{ route('tenants.index') }}" class="nav-link ">Tenants</a>
-		  </li>
+            <a href="{{ route('tenants.index') }}" class="nav-link ">Tenants</a>
+          </li>
           <li class="nav-item">
-          	<a href="{{ route('backup.index') }}" class="nav-link ">Backups</a>
-		  </li>
-          
+            <a href="{{ route('backup.index') }}" class="nav-link ">Backups</a>
+          </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Development</a>
             <ul class="dropdown-menu">
@@ -86,12 +88,12 @@
               <li><a class="dropdown-item" href="#">central database = {{env ( 'DB_DATABASE' )}}</a></li>
             </ul>
           </li>
-          
+
           @endif <!-- (tenant('id')) -->
           @endif <!-- (auth()->user()->isAdmin()) -->
 
           @if (tenant('id'))
-          
+
           <!-- Feature Menu items for tenants -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{{__('calendar_event.feature')}}</a>
@@ -100,58 +102,55 @@
               <li><a class="dropdown-item" href="{{ route('calendar_event.index') }}">{{__('calendar_event.list')}}</a></li>
               <li><a class="dropdown-item" href="{{ route('calendar_event.create') }}">{{__('calendar_event.add')}}</a></li>
             </ul>
-          </li>          
-          
+          </li>
+
           @endif <!-- (tenant('id')) -->
-          
+
         </ul>
-		
+
         <form class="d-flex"> <!-- right side of the navbar -->
           <input class="form-control me-2" type="text" placeholder="Search">
           <button class="btn btn-primary" type="button">Search</button>
         </form>
-        
+
 
         <li class="nav-item dropdown  ">
           <a class="nav-link dropdown-toggle  text-white" href="#" role="button" data-bs-toggle="dropdown" dusk="user_name">
-          	{{ Auth::user()->name }}
+            {{ Auth::user()->name }}
             <i class="fa-solid fa-user fa-2xl"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-sm-end">
             <li><a class="dropdown-item" href="{{ route('change_password.change_password') }}">Change password</a></li>
             <li><a class="dropdown-item" href="{{ route('tokens.create') }}">{{__('user.generate_token')}}</a></li>
-              
+
             <li><a class="dropdown-item" href="{{ route('logout') }}" dusk="logout"
-                                     onclick="event.preventDefault();
+                onclick="event.preventDefault();
                                                    document.getElementById('logout-form').submit();">
-                                      {{ __('navbar.logout') }}
-                                    </a>
-                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                   @csrf
-                 </form>
+                {{ __('navbar.logout') }}
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+              </form>
             </li>
           </ul>
         </li>
-		@endauth
-		
-		@guest
-          @if (Route::has('login'))
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-            </li>
-          @endif
+        @endauth
 
-          @if (Route::has('register'))
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-            </li>
-          @endif
+        @guest
+        @if (Route::has('login'))
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+        </li>
+        @endif
+
+        @if (Route::has('register'))
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+        </li>
+        @endif
         @endguest
 
       </div>
-    
+
     </div>
   </nav>
-  
-
-  

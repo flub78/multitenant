@@ -29,9 +29,7 @@ Route::middleware([
      */
 	Auth::routes();
 
-	Route::get('/', function () {
-		return view('welcome');
-	});
+	Route::get('/', [App\Http\Controllers\Tenants\WelcomeController::class, 'index'])->name('home');
 
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 	Route::get('/test', [App\Http\Controllers\Tenants\TenantTestController::class, 'index'])->name('test')->middleware('auth');

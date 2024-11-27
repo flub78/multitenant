@@ -34,8 +34,6 @@ class WelcomeController extends Controller {
             ];
         }
 
-        // var_dump($tenants);
-        // exit;
         return view('welcome', compact('tenants'));
     }
 }

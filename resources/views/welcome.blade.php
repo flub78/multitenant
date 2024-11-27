@@ -428,7 +428,7 @@
             @if (tenant('id'))
             <div class="flex justify-center">
                 <h1>WEBAPP - Welcome to {{tenant('id')}}</h1>
-                <a href="{{ 'http://' .config('tenancy.central_domains')[0] }}" class="ml-4 text-sm text-light underline">Central application {{config('tenancy.central_domains')[0]}}</a>
+                <a href="{{ 'http://' .config('tenancy.central_domains')[0]  . ':' . $port}}" class="ml-4 text-sm text-light underline">Central</a>
             </div>
             @else
             <div class="flex justify-center flex-column">
