@@ -13,10 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
 
 Auth::routes();
 
@@ -31,7 +28,7 @@ Route::post('/repas', [App\Http\Controllers\RepasController::class, 'csv'])->nam
 Route::group(['middleware' => ['admin']], function () {
 	Route::resource('user', App\Http\Controllers\UserController::class)->middleware('auth');
 	Route::resource('tenants', App\Http\Controllers\TenantController::class)->middleware('auth');
-	
+
 	// Backup controller is not a full resource
 	Route::get('/backup', [App\Http\Controllers\BackupController::class, 'index'])->name('backup.index')->middleware('auth');
 	Route::get('/backup/create', [App\Http\Controllers\BackupController::class, 'create'])->name('backup.create')->middleware('auth');
@@ -39,9 +36,8 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::delete('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'destroy'])->name('backup.destroy')->middleware('auth');
 	Route::get('/backup/{backup}', [App\Http\Controllers\BackupController::class, 'download'])->name('backup.download')->middleware('auth');
 	Route::post('/backup', [App\Http\Controllers\BackupController::class, 'upload'])->name('backup.upload')->middleware('auth');
-	
+
 	Route::get('/test', [App\Http\Controllers\TestController::class, 'index'])->name('test')->middleware('auth');
 	Route::get('/info', [App\Http\Controllers\TestController::class, 'info'])->name('info')->middleware('auth');
 	Route::get('/test/email', [App\Http\Controllers\TestController::class, 'email'])->name('test.email')->middleware('auth');
-	
 });

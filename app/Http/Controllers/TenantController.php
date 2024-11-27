@@ -11,18 +11,17 @@ use App\Helpers\TenantHelper;
 use Illuminate\Validation\Rule;
 
 
-class TenantController extends Controller
-{
-	
-	/**
+class TenantController extends Controller {
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index() {
-    	$tenants = Tenant::all();
-    	
-    	return view ( 'tenants_management.index', compact ( 'tenants' ) );
+        $tenants = Tenant::all();
+
+        return view('tenants_management.index', compact('tenants'));
     }
 
     /**
@@ -31,7 +30,7 @@ class TenantController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-    	return view ( 'tenants_management.create' );
+        return view('tenants_management.create');
     }
 
     /**
@@ -41,20 +40,20 @@ class TenantController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(TenantRequest $request) {
-    	$validatedData = $request->validated ();
-    	 	
-    	$tenant_id =  $validatedData ['id'];
-    	        	
-    	$tenant = Tenant::create($validatedData);
-    	    	    	
-    	$tenant->domains()->create(['domain' => $validatedData['domain']]);
-    	
-    	// create local storage for the tenant
-    	$storage = TenantHelper::storage_dirpath($tenant_id);
-    	if (!is_dir($storage))
-    		mkdir($storage, 0755, true);
-    	
-    	return redirect ( '/tenants' )->with ( 'success', "Tenant $tenant_id  has been created" );
+        $validatedData = $request->validated();
+
+        $tenant_id =  $validatedData['id'];
+
+        $tenant = Tenant::create($validatedData);
+
+        $tenant->domains()->create(['domain' => $validatedData['domain']]);
+
+        // create local storage for the tenant
+        $storage = TenantHelper::storage_dirpath($tenant_id);
+        if (!is_dir($storage))
+            mkdir($storage, 0755, true);
+
+        return redirect('/tenants')->with('success', "Tenant $tenant_id  has been created");
     }
 
     /**
@@ -67,7 +66,7 @@ class TenantController extends Controller
         //
     }
      */
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -77,8 +76,8 @@ class TenantController extends Controller
      * @SuppressWarnings("PMD.ShortVariable")
      */
     public function edit($id) {
-    	$tenant = Tenant::findOrFail ( $id );
-    	return view ( 'tenants_management.edit' )->with ( compact ( 'tenant' ) );
+        $tenant = Tenant::findOrFail($id);
+        return view('tenants_management.edit')->with(compact('tenant'));
     }
 
     /**
@@ -91,20 +90,20 @@ class TenantController extends Controller
      * @SuppressWarnings("PMD.ShortVariable")
      */
     public function update(TenantRequest $request, $id) {
-    	// $db = request('db_name');
-    	
-    	$validatedData = $request->validated ();
-    	    	
-    	// $domain = $validatedData ['domain'];
-    	unset($validatedData ['domain']);
-    	
-    	$tenant = Tenant::whereId ( $id );
-    	$tenant->update ( $validatedData );
-    	
-    	// $tenant->domains()->update(['domain' => $domain]);
-    	
-    	$tenant_name = $validatedData ['id'];
-    	return redirect ( '/tenants' )->with ( 'success', "Tenant $tenant_name has been updated" );    	
+        // $db = request('db_name');
+
+        $validatedData = $request->validated();
+
+        // $domain = $validatedData ['domain'];
+        unset($validatedData['domain']);
+
+        $tenant = Tenant::whereId($id);
+        $tenant->update($validatedData);
+
+        // $tenant->domains()->update(['domain' => $domain]);
+
+        $tenant_name = $validatedData['id'];
+        return redirect('/tenants')->with('success', "Tenant $tenant_name has been updated");
     }
 
     /**
@@ -116,17 +115,17 @@ class TenantController extends Controller
      * @SuppressWarnings("PMD.ShortVariable")
      */
     public function destroy($id) {
-    	$tenant = Tenant::findOrFail ( $id );
-    	$id = $tenant->id;
+        $tenant = Tenant::findOrFail($id);
+        $id = $tenant->id;
 
         // An error is raised if the tenant database has already been deleted
         // It is not a regular use case but it can happen during testing ...
-    	$tenant->delete ();
-    	
-    	// delete tenant storage
-    	$storage = TenantHelper::storage_dirpath($id);
-		DirHelper::rrmdir($storage);
-		
-    	return redirect ( '/tenants' )->with ( 'success', "Tenant $id has been deleted" );
+        $tenant->delete();
+
+        // delete tenant storage
+        $storage = TenantHelper::storage_dirpath($id);
+        DirHelper::rrmdir($storage);
+
+        return redirect('/tenants')->with('success', "Tenant $id has been deleted");
     }
 }
