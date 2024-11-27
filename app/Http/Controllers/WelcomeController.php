@@ -19,8 +19,23 @@ class WelcomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $tenants = Tenant::all();
 
+        $port = request()->getPort();
+        $protocol = request()->getScheme(); // Returns 'http' or 'https'
+
+        $tenants_data = Tenant::all();
+
+        $tenants = [];
+
+        foreach ($tenants_data as $tenant) {
+            $tenants[] = [
+                "id" => $tenant->id,
+                'href' => $protocol . '://' . $tenant->domain . ':' . $port
+            ];
+        }
+
+        // var_dump($tenants);
+        // exit;
         return view('welcome', compact('tenants'));
     }
 }

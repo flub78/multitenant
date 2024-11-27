@@ -434,6 +434,15 @@
             <div class="flex justify-center flex-column">
                 <h1>Webapp Central application - Tenants management</h1>
                 <h2>Tenants : </h2>
+                <select name="tenant" id="tenant">
+                    @foreach($tenants as $tenant)
+                    <option value="{{ $tenant['href'] }}">
+                        <a href="{{ $tenant['href'] }}">
+                            {{ $tenant['id'] }}
+                        </a>
+                    </option>
+                    @endforeach
+                </select>
             </div>
             @endif
             <br>
