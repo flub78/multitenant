@@ -17,7 +17,7 @@
 
           <li class="nav-item">
 
-            <a href="{{ 'http://' . config('tenancy.central_domains')[0]  }}" class="nav-link ">{{__("navbar.back_to") . ' ' . config('tenancy.central_domains')[0]}}</a>
+            <a href="{{ 'http://' . config('tenancy.central_domains')[0] . ':' . $_SERVER['SERVER_PORT'] }}" class="nav-link ">Central</a>
           </li>
           @endif
 
