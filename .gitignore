@@ -30,3 +30,5 @@ yarn-error.log
 ansible/target.sh
 ansible/hosts
 app/Helpers/Cg copy.php
+setenv.py
+setenv.sh
