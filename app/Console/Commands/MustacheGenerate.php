@@ -20,27 +20,40 @@ use Illuminate\Support\Facades\Artisan;
  *
  */
 class MustacheGenerate extends Command {
-	
+
 	// The tool also support special templates migration and doc
-	
-	protected $templates = [ "controller","model","request","index","create","edit", "show", "english", "api",
-		"factory", "test_model","test_controller","test_dusk", "test_api"
+
+	protected $templates = [
+		"controller",
+		"model",
+		"request",
+		"index",
+		"create",
+		"edit",
+		"show",
+		"english",
+		"api",
+		"factory",
+		"test_model",
+		"test_controller",
+		"test_dusk",
+		"test_api"
 	];
 
-	
+
 	/**
 	 * The name and signature of the console command.
 	 *
 	 * @var string
 	 */
-	protected $signature = 'mustache:generate' 
-			. ' {--compare : compare generated files with current version}' 
-			. ' {--install : install generated files from current version}' 
-			. ' {--delete  : delete installed files}'
-			. ' {--pretend : simulation, no actions}' 
-			. ' {table : database table}' 
-					. ' {template :  mustache template, all|controller|model|request|index|create|edit|show|english|test_model|test_controller|api|test_api|migration}' 
-			. '';
+	protected $signature = 'mustache:generate'
+		. ' {--compare : compare generated files with current version}'
+		. ' {--install : install generated files from current version}'
+		. ' {--delete  : delete installed files}'
+		. ' {--pretend : simulation, no actions}'
+		. ' {table : database table}'
+		. ' {template :  mustache template, all|controller|model|request|index|create|edit|show|english|test_model|test_controller|api|test_api|migration}'
+		. '';
 
 	/**
 	 * The console command description.
@@ -66,7 +79,7 @@ class MustacheGenerate extends Command {
 	 * @param string $content
 	 * @param string $filename
 
-     * @SuppressWarnings("PMD.ShortVariable")
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	protected function write_file(string $content, string $filename) {
 		$dirname = dirname($filename);
@@ -104,9 +117,10 @@ class MustacheGenerate extends Command {
 			echo "\nprocessing $table\n" . "template=$template_file\n" . "result=$result_file\n";
 			echo "Metadata schema=" . env("DB_SCHEMA") . "\n";
 		}
-		
+
 		if ($verbose) {
-			$mustache = new \Mustache_Engine([ 'logger' => Log::channel('stderr')
+			$mustache = new \Mustache_Engine([
+				'logger' => Log::channel('stderr')
 			]);
 		} else {
 			$mustache = new \Mustache_Engine();
@@ -115,14 +129,14 @@ class MustacheGenerate extends Command {
 
 		// $metadata = MustacheHelper::metadata($table);
 		if ($this->argument('template') == "english") $metadata['language'] = "English";
-		
+
 		$rendered = $mustache->render($template, $this->metadata);
 		if ($verbose && !($this->option('compare') || $install))
 			echo $rendered;
-		
+
 		$this->write_file($rendered, $result_file);
 	}
-	
+
 	/**
 	 * Display the documentation (which is a template)
 	 *
@@ -130,19 +144,19 @@ class MustacheGenerate extends Command {
 	 * @param string $template
 	 */
 	protected function process_doc(string $table) {
-		
+
 		$template_file = MustacheHelper::template_file($table, 'doc');
-		
+
 		$mustache = new \Mustache_Engine();
-		
+
 		$template = file_get_contents($template_file);
-		
+
 		$metadata = MustacheHelper::metadata($table);
-		
+
 		$rendered = $mustache->render($template, $metadata);
-		echo $rendered;			
+		echo $rendered;
 	}
-	
+
 
 	/**
 	 * Execute the console command.
@@ -156,7 +170,7 @@ class MustacheGenerate extends Command {
 		$verbose = $this->option('verbose');
 		$pretend = $this->option('pretend');
 		$element = Meta::element($table);
-		
+
 		if ($verbose) {
 			$msg = "php artisant mustache:generate";
 			$msg .= " table=$table";
@@ -165,7 +179,7 @@ class MustacheGenerate extends Command {
 			$msg .= "\n";
 			echo $msg;
 		}
-		
+
 		if (!$this->check_db_connection()) {
 			$this->error("No connection to database " . env("DB_SCHEMA", 'tenanttest'));
 			return 1;
@@ -177,13 +191,13 @@ class MustacheGenerate extends Command {
 			$this->error("Unknown table $table in " . ENV('DB_SCHEMA', 'tenanttest') . " database");
 			return 1;
 		}
-		
+
 		if ($template == "all") {
 			$template_list = $this->templates;
 		} else {
 			$template_list = [$template];
 		}
-		
+
 		if ($this->option('delete')) {
 			foreach ($template_list as $tpl) {
 				$install_file = MustacheHelper::result_file($table, $tpl, true);
@@ -199,9 +213,9 @@ class MustacheGenerate extends Command {
 				echo "\ndelete $translation";
 				if (file_exists($translation)) unlink($translation);
 			}
-			return 0;	
+			return 0;
 		}
-		
+
 		// process all templates and generate the result
 		$this->metadata = MustacheHelper::metadata($table);
 		try {
@@ -215,18 +229,22 @@ class MustacheGenerate extends Command {
 			echo "Error: " . $e->getMessage();
 			return 1;
 		}
-		
+
 		if ($this->option('compare')) {
-			$comparator = "WinMergeU";
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+				$comparator = "WinMergeU";
+			} else {
+				$comparator = "kdiff3";
+			}
 			foreach ($template_list as $tpl) {
 				$result_file = MustacheHelper::result_file($table, $tpl);
 				$install_file = MustacheHelper::result_file($table, $tpl, true);
 				$cmd = "$comparator $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
-					
+
 				$returnVar = NULL;
-				$output = NULL;										
-				if (!$pretend) exec ( $cmd, $output, $returnVar );
+				$output = NULL;
+				if (!$pretend) exec($cmd, $output, $returnVar);
 			}
 		}
 
@@ -234,23 +252,23 @@ class MustacheGenerate extends Command {
 			foreach ($template_list as $tpl) {
 				$result_file = MustacheHelper::result_file($table, $tpl);
 				$install_file = MustacheHelper::result_file($table, $tpl, true);
-				
+
 				$dir = dirname($install_file);
 				if (!is_dir($dir)) {
 					mkdir($dir, 0777, true);
 				}
-				
+
 				$cmd = "copy $result_file $install_file";
 				if ($verbose) echo "\ncmd = $cmd";
-					
+
 				$returnVar = NULL;
 				$output = NULL;
 				if (!$pretend) copy($result_file, $install_file);
 			}
-			
+
 			if ($template == "all") {
 				// Special case of global install
-				
+
 				// translate the English strings
 				$exitCode = Artisan::call("mustache:translate --install $element");
 				if ($exitCode) {
@@ -258,13 +276,12 @@ class MustacheGenerate extends Command {
 				} else {
 					echo "\nFrench translation: resources/lang/fr/$element.php\n";
 				}
-				
+
 				// And display information about the rest
 				$this->process_doc($table);
 			}
 		}
-		
+
 		return 0;
 	}
-
 }

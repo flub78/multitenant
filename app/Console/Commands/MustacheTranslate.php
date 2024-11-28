@@ -15,25 +15,25 @@ use Exception;
  *
  */
 class MustacheTranslate extends Command {
-	protected $templates = [ "lang"];
+	protected $templates = ["lang"];
 
 	/*
 	 * "test_model","test_controller","test_dusk"
 	 */
-	
+
 	/**
 	 * The name and signature of the console command.
 	 *
 	 * @var string
 	 */
-	protected $signature = 'mustache:translate' 
-			. ' {--compare : compare generated files with current version}' 
-			. ' {--install : install generated files from current version}' 
-			. ' {--pretend : simulation, no actions}' 
-			. ' {--lang=fr : target language}' 
-			. ' {file : database table}' 
-			. ' {template=translation :  mustache template}' 
-			. '';
+	protected $signature = 'mustache:translate'
+		. ' {--compare : compare generated files with current version}'
+		. ' {--install : install generated files from current version}'
+		. ' {--pretend : simulation, no actions}'
+		. ' {--lang=fr : target language}'
+		. ' {file : database table}'
+		. ' {template=translation :  mustache template}'
+		. '';
 
 	/**
 	 * The console command description.
@@ -56,8 +56,8 @@ class MustacheTranslate extends Command {
 	 * 
 	 * @param string $content
 	 * @param string $filename
-     *
-     * @SuppressWarnings("PMD.ShortVariable")
+	 *
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	protected function write_file(string $content, string $filename) {
 		$dirname = dirname($filename);
@@ -87,7 +87,8 @@ class MustacheTranslate extends Command {
 		}
 
 		if ($verbose) {
-			$mustache = new \Mustache_Engine([ 'logger' => Log::channel('stderr')
+			$mustache = new \Mustache_Engine([
+				'logger' => Log::channel('stderr')
 			]);
 		} else {
 			$mustache = new \Mustache_Engine();
@@ -95,15 +96,15 @@ class MustacheTranslate extends Command {
 		$template = file_get_contents($template_file);
 		$source = file_get_contents($source_file);
 		$source = str_replace('<?php', '', $source);
-		
+
 		$data['language'] = $lang;
 		$hash = eval($source);
 		$translated_hash = Translate::translate_array($hash, $lang);
-		
+
 		$data['translated'] = Translate::pretty_print($translated_hash, 1);
- 		
+
 		$rendered = $mustache->render($template, $data);
-		if ($verbose && !($this->option('compare') || $install) )
+		if ($verbose && !($this->option('compare') || $install))
 			echo $rendered;
 		$this->write_file($rendered, $result_file);
 	}
@@ -115,35 +116,38 @@ class MustacheTranslate extends Command {
 	 */
 	public function handle() {
 		$file = $this->argument('file');
-		$lang = $this->option ( 'lang' );
+		$lang = $this->option('lang');
 		$template = $this->argument('template');
 		$install = $this->option('install');
 		$verbose = $this->option('verbose');
 		$pretend = $this->option('pretend');
-		
+
 
 		try {
 			$template_file = MustacheHelper::template_file($file . 's', $template);
 			$result_file = MustacheHelper::translation_result_file($file, $lang);
 			$source_file = MustacheHelper::source_language_file($file);
 			$this->translate_file($lang, $source_file, $template_file, $result_file, ['file' => $file]);
-			
 		} catch (Exception $e) {
 			echo "Error: " . $e->getMessage();
 			return 1;
 		}
-		
+
 		if ($this->option('compare')) {
-			$comparator = "WinMergeU";
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+				$comparator = "WinMergeU";
+			} else {
+				$comparator = "kdiff3";
+			}
 
 			$result_file = MustacheHelper::translation_result_file($file, $lang);
 			$install_file = MustacheHelper::translation_result_file($file, $lang, true);
 			$cmd = "$comparator $result_file $install_file";
 			if ($verbose) echo "\ncmd = $cmd";
-				
+
 			$returnVar = NULL;
 			$output = NULL;
-			if (!$pretend) exec ( $cmd, $output, $returnVar );
+			if (!$pretend) exec($cmd, $output, $returnVar);
 		}
 
 		if ($install) {
@@ -151,13 +155,12 @@ class MustacheTranslate extends Command {
 			$install_file = MustacheHelper::translation_result_file($file, $lang, true);
 			$cmd = "copy $result_file $install_file";
 			if ($verbose) echo "\ncmd = $cmd";
-				
+
 			$returnVar = NULL;
 			$output = NULL;
-			if (!$pretend) copy ($result_file,  $install_file);	
+			if (!$pretend) copy($result_file,  $install_file);
 		}
-		
+
 		return 0;
 	}
-
 }
