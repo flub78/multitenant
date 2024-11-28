@@ -8,7 +8,7 @@ The objective is to generate code indistinguishable from human generated code. T
 
 ## The php artisan command
 
-By default the database analyzed to extract metadata is the tenanttest one, so the database created for a tenant named test.
+By default the database analyzed to extract metadata is tenanttest. Create the test tenant before any code generation.
 
 The whole mechanism is available through a few php artisan commands:
 

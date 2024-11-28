@@ -12,10 +12,20 @@ I uses two dummy domains for testing
     http://abbeville.tenants.com/   for tenant application
 
 On windows they must be defined in the C:\windows\system32\drivers\etc\hosts file.
+On Linux in the /etc/hosts file.
     
 environment variables are defined in the .env file.
 
-The multi_test base must exist.
+The multi_test base must exist and have been migrated.
+
+.env.testing must exist and be configured for the test environment.
+
+Note: the .env.testing file is not committed in git.
+
+Note: to access to the testing environment 
+
+    APP_ENV=testing php artisan serve --host=tenants.com --port=8000 
+
 
 ### phpunit tests
 
