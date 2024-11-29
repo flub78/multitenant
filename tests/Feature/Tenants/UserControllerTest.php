@@ -13,39 +13,39 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  *
  */
 class UserControllerTest extends TenantTestCase {
-	
+
 	protected $basename = "users";
-	
+
 	protected $tenancy = true;
-	
+
 	// Clean up the database
 	use RefreshDatabase;
-	
-	function __construct() {
-		parent::__construct ();
+
+	function __construct(?string $name = null) {
+		parent::__construct($name);
 
 		// required to be able to use the factory inside the constructor
-		$this->createApplication ();
+		$this->createApplication();
 		// $this->user = factory(User::class)->create();
 		// $this->user = User::factory ()->make ();
-		$this->user = User::factory()->create ();
+		$this->user = User::factory()->create();
 		$this->user->admin = true;
 	}
 
 	function __destruct() {
-		$this->user->delete ();
+		$this->user->delete();
 	}
-	
+
 	/**
 	 * Create an element and returns its id
 	 * @return int
 	 */
 	private function create_first() {
-		$this->be ( $this->user );
-		
+		$this->be($this->user);
+
 		$initial_count = User::count();
 		$this->assertTrue($initial_count == 0, "No element after refresh");
-		
+
 		// Create
 		$game = User::factory()->make();
 		$game->save();
@@ -54,7 +54,7 @@ class UserControllerTest extends TenantTestCase {
 
 		# Read
 		$stored = User::where('name', $game->name)->first();
-		return ($stored->id);		
+		return ($stored->id);
 	}
 
 	/**
@@ -63,11 +63,11 @@ class UserControllerTest extends TenantTestCase {
 	 * @return void
 	 */
 	public function test_users_index_view() {
-				
-		$this->be ( $this->user );
-		$response = $this->get ( '/user' );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText ( 'Users' );
+
+		$this->be($this->user);
+		$response = $this->get('/user');
+		$response->assertStatus(200);
+		$response->assertSeeText('Users');
 	}
 
 	/**
@@ -76,57 +76,57 @@ class UserControllerTest extends TenantTestCase {
 	 * @return void
 	 */
 	public function test_users_create_view() {
-		$this->be ( $this->user );
-		$response = $this->get ( '/user/create' );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText (__('user.new'));
+		$this->be($this->user);
+		$response = $this->get('/user/create');
+		$response->assertStatus(200);
+		$response->assertSeeText(__('user.new'));
 	}
-	
+
 	/**
 	 * Edit view
 	 *
 	 * @return void
 	 */
 	public function test_users_edit_view_existing_element() {
-		
+
 		$id = $this->create_first();
-		
-		$response = $this->get ( "/user/$id/edit" );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText ( __('general.edit') );
-		$response->assertSeeText ( __('user.elt') );
+
+		$response = $this->get("/user/$id/edit");
+		$response->assertStatus(200);
+		$response->assertSeeText(__('general.edit'));
+		$response->assertSeeText(__('user.elt'));
 	}
-	
+
 	/**
 	 * Edit view
 	 *
 	 * @return void
 	 */
 	public function test_users_edit_view_unknown_element_return_404() {
-		
+
 		$id = $this->create_first() + 1000;
-		
-		$response = $this->get ( "/user/$id/edit" );
-		$response->assertStatus ( 404 );	// not found		
+
+		$response = $this->get("/user/$id/edit");
+		$response->assertStatus(404);	// not found		
 	}
-		
+
 	/**
 	 * Test element storage
 	 */
-	public function test_users_store() {		
-		
+	public function test_users_store() {
+
 		// to avoid the error: 419 = Authentication timeout
 		$this->withoutMiddleware();
-				
+
 		$initial_count = User::count();
-		
+
 		$elt = array('name' => 'Turlututu', 'email' => 'turlututu@free.fr', 'password' => 'password', 'password_confirmation' => 'password');
 		$response = $this->post('/user', $elt);
-		
+
 		if (session('errors')) {
 			$this->assertTrue(session('errors'), "session has no errors");
 		}
-		
+
 		$count = User::count();
 		$this->assertTrue($count == $initial_count + 1, "One new elements in the table");
 	}
@@ -135,98 +135,100 @@ class UserControllerTest extends TenantTestCase {
 	 * Test element storage
 	 */
 	public function test_users_store_incorrect_element() {
-		
+
 		// to avoid the error: 419 = Authentication timeout
 		$this->withoutMiddleware();
-		
+
 		$initial_count = User::count();
-		
+
 		$elt = array('name' => 'Turlututu', 'email' => 'go.email');
 		$response = $this->post('/user', $elt);
-		$response->assertStatus ( 302);
-		
+		$response->assertStatus(302);
+
 		if (!session('errors')) {
 			$this->assertTrue(session('errors'), "session has errors");
 		}
-		
+
 		$count = User::count();
 		$this->assertTrue($count == $initial_count, "No creation in the table");
 	}
-	
+
 	/**
 	 * 
 	 */
 	public function test_users_update_and_delete() {
 		$this->test_users_store();
-		
+
 		$initial_count = User::count();
-		
+
 		$stored = User::where('name', 'Turlututu')->first();
-		$this->assertEquals( $stored->email, 'turlututu@free.fr', "check retrieve value");
+		$this->assertEquals($stored->email, 'turlututu@free.fr', "check retrieve value");
 		$new_email = 'new.email@free.fr';
 		$elt = array('name' => $stored->name, 'email' => $new_email, 'id' => $stored->id, 'password' => 'password', 'password_confirmation' => 'password');
-		
+
 		$url = "/user/" . $stored->id;
 		$response = $this->patch($url, $elt);
-		
-		$response->assertStatus (302);
+
+		$response->assertStatus(302);
 		$this->assertNull(session('errors'), "session has no errors");
-		
+
 		$elt['admin'] = 1;
 		unset($elt['password']);
 		unset($elt['password_confirmation']);
 		$response = $this->patch($url, $elt);
 		$this->assertNull(session('errors'), "session has no errors");
-		
+
 		$stored = User::where('name', 'Turlututu')->first();
-		$this->assertEquals( $stored->email, $new_email, "value updated");
+		$this->assertEquals($stored->email, $new_email, "value updated");
 		// $this->assertEquals(1, $stored->isAdmin());
 		// echo "admin = " . $stored->admin;
-		
+
 		$url = "/user/" . $stored->id;
 		$this->delete($url);
 		$count = User::count();
-		$this->assertTrue($count == $initial_count - 1, "Element updated then deleted ($url)"); 
+		$this->assertTrue($count == $initial_count - 1, "Element updated then deleted ($url)");
 	}
-	
+
 	/**
 	 * Change password
 	 *
 	 * @return void
 	 */
 	public function test_users_can_access_change_password_view() {
-		$this->be ( $this->user );
-		$response = $this->get ( '/change_password/change_password' );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText (__('user.change_password'));
+		$this->be($this->user);
+		$response = $this->get('/change_password/change_password');
+		$response->assertStatus(200);
+		$response->assertSeeText(__('user.change_password'));
 	}
-	
-	public function test_user_can_change_password_and_email () {
-		$this->be ( $this->user );
-		
+
+	public function test_user_can_change_password_and_email() {
+		$this->be($this->user);
+
 		// put a user in database
 		$email = 'jean@gmail.com';
-		$user = User::factory()->create ([
-				'name' => 'Jean',
-				'password' => 'password',
-				'email' => $email
+		$user = User::factory()->create([
+			'name' => 'Jean',
+			'password' => 'password',
+			'email' => $email
 		]);
-				
+
 		$new_mail = 'my-new-email@free.fr';
-		$elt = array('id' => $user->id,
-				'password' => 'password', 
-				'new_password' => 'new_password',
-				'email' => $new_mail,
-				'new_password_confirmation' => 'new_password');
-		
+		$elt = array(
+			'id' => $user->id,
+			'password' => 'password',
+			'new_password' => 'new_password',
+			'email' => $new_mail,
+			'new_password_confirmation' => 'new_password'
+		);
+
 		$url = "/change_password/password";
 		$response = $this->followingRedirects()->patch($url, $elt);
-		$response->assertStatus ( 200 );
+		$response->assertStatus(200);
 		$response->assertSeeText(__("Password changed"));
 		// $response->dump();
 		$updated = User::where(['email' => $email])->first();
 		//$this->assertEquals($new_mail, $updated->email);
-		
+
 		$user->delete();
 	}
 }

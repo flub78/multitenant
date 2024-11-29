@@ -5,6 +5,7 @@
  *
  * Just a way to automatically trigger the test controller
  */
+
 namespace tests\Feature\Central;
 
 use Tests\TestCase;
@@ -17,41 +18,40 @@ class TestControllerTest extends TestCase {
 	// Not refreshing the database may break others tests
 	use RefreshDatabase;
 
-	function __construct() {
-		parent::__construct ();
+	function __construct(?string $name = null) {
+		parent::__construct($name);
 
 		// required to be able to use the factory inside the constructor
-		$this->createApplication ();
+		$this->createApplication();
 		// $this->user = factory(User::class)->create();
-		$this->user = User::factory ()->make ();
+		$this->user = User::factory()->make();
 		$this->user->admin = true;
 	}
 
 	function __destruct() {
-		$this->user->delete ();
+		$this->user->delete();
 	}
 
-	
+
 	/**
 	 */
 	public function test_index_page() {
-		$this->be ( $this->user );
-	
+		$this->be($this->user);
+
 		// main test entry
-		$response = $this->get ( '/test' );
-		$response->assertStatus ( 200 );
-		$response->assertSeeText('Test page');		
+		$response = $this->get('/test');
+		$response->assertStatus(200);
+		$response->assertSeeText('Test page');
 	}
-	
+
 	/**
 	 * Disabled because phpinfo take a lot of space in the test logs
 	 */
 	public function ttest_info() {
-		$this->be ( $this->user );
-		
+		$this->be($this->user);
+
 		// main test entry
-		$response = $this->get ( '/info' );
-		$response->assertStatus ( 200 );
+		$response = $this->get('/info');
+		$response->assertStatus(200);
 	}
-	
 }

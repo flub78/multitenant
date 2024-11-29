@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is generated from a template with metadata extracted from the data model.
  * If modifications are required, it is important to consider if they should be done in the template
@@ -50,45 +51,45 @@ use App\Helpers\CodeGenerator as CG;
 class PersonalAccessTokenControllerTest extends TenantTestCase {
 
     protected $tenancy = true;
-    
-	protected $basename = "personal_access_token";	
-	
-	function __construct() {
-		parent::__construct();
-		
-		// required to be able to use the factory inside the constructor
-		$this->createApplication();
-				
-		$this->user = User::factory()->make();
-		$this->user->admin = true;
-	}
-	
-	function __destruct() {
-		$this->user->delete();
-	}		
 
-	
-	/**
-	 * 
-	 * @param string $segments
-	 * @return string
-	 */
-	protected function base_url($segments = "") {
-		$url = "/" . $this->basename;
-		if ($segments) {
-			$url = join("/", [$url, $segments]);
-		}
-		return $url;
-	}
-	
-	/**
-	 * Return the number of elements in the table managed by the CRUD controller under test
-	 * @return int
-	 */
-	protected function eltCount() {
-		return PersonalAccessToken::count(); 
-	}
-    
+    protected $basename = "personal_access_token";
+
+    function __construct(?string $name = null) {
+        parent::__construct($name);
+
+        // required to be able to use the factory inside the constructor
+        $this->createApplication();
+
+        $this->user = User::factory()->make();
+        $this->user->admin = true;
+    }
+
+    function __destruct() {
+        $this->user->delete();
+    }
+
+
+    /**
+     * 
+     * @param string $segments
+     * @return string
+     */
+    protected function base_url($segments = "") {
+        $url = "/" . $this->basename;
+        if ($segments) {
+            $url = join("/", [$url, $segments]);
+        }
+        return $url;
+    }
+
+    /**
+     * Return the number of elements in the table managed by the CRUD controller under test
+     * @return int
+     */
+    protected function eltCount() {
+        return PersonalAccessToken::count();
+    }
+
     /**
      * Test display of all elements
      * Given the user is logged on
@@ -97,16 +98,16 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testBaseUrlDisplaysTableView() {   
+    public function testBaseUrlDisplaysTableView() {
         Log::Debug(__METHOD__);
-        
+
         $look_for = [__('personal_access_token.title'), __('navbar.tenant'), tenant('id')];
-        $look_for[] = __('personal_access_token.tokenable_type'); 
-        $look_for[] = __('personal_access_token.tokenable_id'); 
-        $look_for[] = __('personal_access_token.name'); 
-        $look_for[] = __('personal_access_token.token'); 
-        $look_for[] = __('personal_access_token.abilities'); 
-        $look_for[] = __('personal_access_token.last_used_at'); 
+        $look_for[] = __('personal_access_token.tokenable_type');
+        $look_for[] = __('personal_access_token.tokenable_id');
+        $look_for[] = __('personal_access_token.name');
+        $look_for[] = __('personal_access_token.token');
+        $look_for[] = __('personal_access_token.abilities');
+        $look_for[] = __('personal_access_token.last_used_at');
 
         $this->get_tenant_url($this->user, 'personal_access_token', $look_for);
     }
@@ -119,9 +120,9 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
      */
     public function testCreateUrlDisplaysCreationForm() {
         Log::Debug(__METHOD__);
-        $this->get_tenant_url($this->user, 'personal_access_token/create', [__('personal_access_token.new')]);   
-     }
-    
+        $this->get_tenant_url($this->user, 'personal_access_token/create', [__('personal_access_token.new')]);
+    }
+
     /**
      * Test display of one element
      * Given the user is logged on
@@ -131,17 +132,17 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testGetRequestShowsElement() {        
+    public function testGetRequestShowsElement() {
         Log::Debug(__METHOD__);
-        
+
         PersonalAccessToken::factory()->create();
         $latest = PersonalAccessToken::latest()->first();
-        
+
         $id = $latest->id;
-        
+
         $this->get_tenant_url($this->user, 'personal_access_token/' . $id);
     }
-    
+
     /**
      * Test a post request
      * Given the user is logged on
@@ -150,30 +151,29 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testPostRequestStoresElement()
-    {    	        
+    public function testPostRequestStoresElement() {
         Log::Debug(__METHOD__);
-        
+
         // Post a creation request
         $personal_access_token = PersonalAccessToken::factory()->make();
         $elt = ['_token' => csrf_token()];
-        $elt['tokenable_type'] = $personal_access_token->tokenable_type; 
-        $elt['tokenable_id'] = $personal_access_token->tokenable_id; 
-        $elt['name'] = $personal_access_token->name; 
-        $elt['token'] = $personal_access_token->token; 
-        $elt['abilities'] = $personal_access_token->abilities; 
-        $elt['last_used_at'] = $personal_access_token->last_used_at; 
+        $elt['tokenable_type'] = $personal_access_token->tokenable_type;
+        $elt['tokenable_id'] = $personal_access_token->tokenable_id;
+        $elt['name'] = $personal_access_token->name;
+        $elt['token'] = $personal_access_token->token;
+        $elt['abilities'] = $personal_access_token->abilities;
+        $elt['last_used_at'] = $personal_access_token->last_used_at;
 
-        $initial_count = PersonalAccessToken::count ();
-        
+        $initial_count = PersonalAccessToken::count();
+
         // call the post method to create it
         $this->post_tenant_url($this->user, 'personal_access_token', ['created'], $elt);
-        
-        $new_count = PersonalAccessToken::count ();
+
+        $new_count = PersonalAccessToken::count();
         $expected = $initial_count + 1;
-        $this->assertEquals ( $expected, $new_count, "personal_access_token created, actual=$new_count, expected=$expected" );       
+        $this->assertEquals($expected, $new_count, "personal_access_token created, actual=$new_count, expected=$expected");
     }
-    
+
     /**
      * Test an invalid post request
      * 
@@ -188,23 +188,23 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 
         $cnt = 1;
         foreach (PersonalAccessToken::factory()->error_cases() as $case) {
-            $initial_count = PersonalAccessToken::count ();
-                
+            $initial_count = PersonalAccessToken::count();
+
             $elt = ['_token' => csrf_token()];
             $elt = array_merge($elt, $case["fields"]);
-        
-            $response = $this->post_tenant_url( $this->user, 'personal_access_token', [], $elt, $errors_expected = true);
+
+            $response = $this->post_tenant_url($this->user, 'personal_access_token', [], $elt, $errors_expected = true);
             // $response->dumpSession();
-        
+
             $response->assertSessionHasErrors($case["errors"]);
-        
-            $new_count = PersonalAccessToken::count ();
-            $this->assertEquals ( $initial_count, $new_count, "error case $cnt: personal_access_token not created, actual=$new_count, expected=$initial_count" );
+
+            $new_count = PersonalAccessToken::count();
+            $this->assertEquals($initial_count, $new_count, "error case $cnt: personal_access_token not created, actual=$new_count, expected=$initial_count");
             $cnt = $cnt + 1;
         }
         $this->assertTrue($cnt == 1 + count(PersonalAccessToken::factory()->error_cases()));
     }
-    
+
 
     /**
      * Check that the edit form is correctly displayed
@@ -214,13 +214,13 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testEditUrlDisplaysPopulatedEditForm() {        
+    public function testEditUrlDisplaysPopulatedEditForm() {
         Log::Debug(__METHOD__);
-        
+
         PersonalAccessToken::factory()->create();
         $latest = PersonalAccessToken::latest()->first();
         $id = $latest->id;
-        
+
         $this->get_tenant_url($this->user, 'personal_access_token/' . $id . '/edit', [__('general.edit') . " " . __('personal_access_token.elt')]);
     }
 
@@ -233,46 +233,46 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testPostRequestUpdatesElement() {   
+    public function testPostRequestUpdatesElement() {
         Log::Debug(__METHOD__);
-        
+
         $personal_access_token = PersonalAccessToken::factory()->make();                // create an element
         $personal_access_token2 = PersonalAccessToken::factory()->make();               // and a second one
         $elt = ['_token' => csrf_token()];
         $elt2 = ['_token' => csrf_token()];
-        
-        foreach ([ "tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at" ] as $field) {
+
+        foreach (["tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at"] as $field) {
             $elt[$field] = $personal_access_token->$field;
             $elt2[$field] = $personal_access_token2->$field;
         }
-        
+
         $personal_access_token->save();                            // save the first element
         $latest = PersonalAccessToken::latest()->first();
         $this->assertNotNull($latest);
         $id = $latest->id;
         $this->assertNotNull($id);
-        
+
         $initial = PersonalAccessToken::where('id', $id)->first();     // get it back
         $this->assertNotNull($initial);
-        
+
         $table = "personal_access_tokens";
         // Check that the first saved element has the correct values and is different from the second one
-        foreach ([ "tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at" ] as $field) {
+        foreach (["tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at"] as $field) {
             if ($field != 'id') {
                 $this->assertEquals($initial->$field, $elt[$field], "correct field $field retreived from the database");
                 if (CG::lot_of_values($table, $field))
                     $this->assertNotEquals($initial->$field, $personal_access_token2->$field, "field $field is different between two random instances");
             }
         }
-                
+
         // Update the values using the second element
         $elt2['id'] = $id;
         $this->patch_tenant_url($this->user, 'personal_access_token/' . $id, $elt2);
-        
+
         $updated = PersonalAccessToken::where('id', $id)->first();
-        $this->assertNotNull($updated);     
-        foreach ([ "tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at" ] as $field) {
-            if ($field != 'id' && CG::testable($table, $field) ) {
+        $this->assertNotNull($updated);
+        foreach (["tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at"] as $field) {
+            if ($field != 'id' && CG::testable($table, $field)) {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }
         }
@@ -289,24 +289,24 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
      */
     public function testDeleteRequestsRemovesElement() {
         Log::Debug(__METHOD__);
-        
-        $initial_count = PersonalAccessToken::count ();
+
+        $initial_count = PersonalAccessToken::count();
 
         PersonalAccessToken::factory()->create();
         $latest = PersonalAccessToken::latest()->first();
         $id = $latest->id;
-        
-        $new_count = PersonalAccessToken::count ();
+
+        $new_count = PersonalAccessToken::count();
         $expected = $initial_count + 1;
-        $this->assertEquals ( $expected, $new_count, "one personal_access_token created, actual=$new_count, expected=$expected" );
-        
+        $this->assertEquals($expected, $new_count, "one personal_access_token created, actual=$new_count, expected=$expected");
+
         $this->delete_tenant_url($this->user, 'personal_access_token/' . $id, ['deleted']);
-        
-        $count_after_delete = PersonalAccessToken::count ();
+
+        $count_after_delete = PersonalAccessToken::count();
         $expected = $initial_count;
-        $this->assertEquals ( $expected, $count_after_delete, "personal_access_token deleted, actual=$count_after_delete, expected=$expected" );             
+        $this->assertEquals($expected, $count_after_delete, "personal_access_token deleted, actual=$count_after_delete, expected=$expected");
     }
-   
+
     /**
      * Test not found URL
      * Given the user is logged on
@@ -333,38 +333,38 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
      */
     public function testPagesAreDisplayedAccordingToLocaleLanguage() {
         Log::Debug(__METHOD__);
-        
+
         /**
          * Scenario: PersonalAccessToken testLocale fr
          * Given the local is set to fr
          * When calling URLs
          * Then views are displayed in French
          */
-        
+
         $this->be($this->user);
-        
+
         $locale = App::getLocale();
 
-    	App::setLocale('fr');
-        $this->get_tenant_url($this->user, 'personal_access_token/create', [__('personal_access_token.new')]);      
+        App::setLocale('fr');
+        $this->get_tenant_url($this->user, 'personal_access_token/create', [__('personal_access_token.new')]);
         $fr_string = __('personal_access_token.new');
 
-    	/**
-    	 * Scenario: PersonalAccessToken testLocale en
-    	 * Given the local is set to en
-    	 * When calling URLs
-    	 * Then views are displayed in English
-    	 */
-    	
-    	App::setLocale('en');
-        $this->get_tenant_url($this->user, 'personal_access_token/create', [__('personal_access_token.new')]);      
+        /**
+         * Scenario: PersonalAccessToken testLocale en
+         * Given the local is set to en
+         * When calling URLs
+         * Then views are displayed in English
+         */
+
+        App::setLocale('en');
+        $this->get_tenant_url($this->user, 'personal_access_token/create', [__('personal_access_token.new')]);
         $en_string = __('personal_access_token.new');
-        $this->get_tenant_url($this->user, 'personal_access_token', [__('personal_access_token.title')]);      
+        $this->get_tenant_url($this->user, 'personal_access_token', [__('personal_access_token.title')]);
         $en_string = __('personal_access_token.title');
-       $this->assertNotEquals($fr_string, $en_string);
-   	
-    	App::setLocale($locale);
-    	$new_locale = App::getLocale();
-    	$this->assertTrue($new_locale == $locale, "Locale back to initial value");	
-    }    
+        $this->assertNotEquals($fr_string, $en_string);
+
+        App::setLocale($locale);
+        $new_locale = App::getLocale();
+        $this->assertTrue($new_locale == $locale, "Locale back to initial value");
+    }
 }

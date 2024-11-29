@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is generated from a template with metadata extracted from the data model.
  * If modifications are required, it is important to consider if they should be done in the template
@@ -50,45 +51,45 @@ use App\Helpers\CodeGenerator as CG;
 class CodeGenTypeControllerTest extends TenantTestCase {
 
     protected $tenancy = true;
-    
-	protected $basename = "code_gen_type";	
-	
-	function __construct() {
-		parent::__construct();
-		
-		// required to be able to use the factory inside the constructor
-		$this->createApplication();
-				
-		$this->user = User::factory()->make();
-		$this->user->admin = true;
-	}
-	
-	function __destruct() {
-		$this->user->delete();
-	}		
 
-	
-	/**
-	 * 
-	 * @param string $segments
-	 * @return string
-	 */
-	protected function base_url($segments = "") {
-		$url = "/" . $this->basename;
-		if ($segments) {
-			$url = join("/", [$url, $segments]);
-		}
-		return $url;
-	}
-	
-	/**
-	 * Return the number of elements in the table managed by the CRUD controller under test
-	 * @return int
-	 */
-	protected function eltCount() {
-		return CodeGenType::count(); 
-	}
-    
+    protected $basename = "code_gen_type";
+
+    function __construct(?string $name = null) {
+        parent::__construct($name);
+
+        // required to be able to use the factory inside the constructor
+        $this->createApplication();
+
+        $this->user = User::factory()->make();
+        $this->user->admin = true;
+    }
+
+    function __destruct() {
+        $this->user->delete();
+    }
+
+
+    /**
+     * 
+     * @param string $segments
+     * @return string
+     */
+    protected function base_url($segments = "") {
+        $url = "/" . $this->basename;
+        if ($segments) {
+            $url = join("/", [$url, $segments]);
+        }
+        return $url;
+    }
+
+    /**
+     * Return the number of elements in the table managed by the CRUD controller under test
+     * @return int
+     */
+    protected function eltCount() {
+        return CodeGenType::count();
+    }
+
     /**
      * Test display of all elements
      * Given the user is logged on
@@ -97,25 +98,25 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testBaseUrlDisplaysTableView() {   
+    public function testBaseUrlDisplaysTableView() {
         Log::Debug(__METHOD__);
-        
+
         $look_for = [__('code_gen_type.title'), __('navbar.tenant'), tenant('id')];
-        $look_for[] = __('code_gen_type.name'); 
-        $look_for[] = __('code_gen_type.phone'); 
-        $look_for[] = __('code_gen_type.description'); 
-        $look_for[] = __('code_gen_type.year_of_birth'); 
-        $look_for[] = __('code_gen_type.weight'); 
-        $look_for[] = __('code_gen_type.birthday'); 
-        $look_for[] = __('code_gen_type.tea_time'); 
-        $look_for[] = __('code_gen_type.takeoff'); 
-        $look_for[] = __('code_gen_type.price'); 
-        $look_for[] = __('code_gen_type.big_price'); 
-        $look_for[] = __('code_gen_type.qualifications'); 
-        $look_for[] = __('code_gen_type.black_and_white'); 
-        $look_for[] = __('code_gen_type.color_name'); 
-        $look_for[] = __('code_gen_type.picture'); 
-        $look_for[] = __('code_gen_type.attachment'); 
+        $look_for[] = __('code_gen_type.name');
+        $look_for[] = __('code_gen_type.phone');
+        $look_for[] = __('code_gen_type.description');
+        $look_for[] = __('code_gen_type.year_of_birth');
+        $look_for[] = __('code_gen_type.weight');
+        $look_for[] = __('code_gen_type.birthday');
+        $look_for[] = __('code_gen_type.tea_time');
+        $look_for[] = __('code_gen_type.takeoff');
+        $look_for[] = __('code_gen_type.price');
+        $look_for[] = __('code_gen_type.big_price');
+        $look_for[] = __('code_gen_type.qualifications');
+        $look_for[] = __('code_gen_type.black_and_white');
+        $look_for[] = __('code_gen_type.color_name');
+        $look_for[] = __('code_gen_type.picture');
+        $look_for[] = __('code_gen_type.attachment');
 
         $this->get_tenant_url($this->user, 'code_gen_type', $look_for);
     }
@@ -128,9 +129,9 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      */
     public function testCreateUrlDisplaysCreationForm() {
         Log::Debug(__METHOD__);
-        $this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);   
-     }
-    
+        $this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);
+    }
+
     /**
      * Test display of one element
      * Given the user is logged on
@@ -140,17 +141,17 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testGetRequestShowsElement() {        
+    public function testGetRequestShowsElement() {
         Log::Debug(__METHOD__);
-        
+
         CodeGenType::factory()->create();
         $latest = CodeGenType::latest()->first();
-        
+
         $id = $latest->id;
-        
+
         $this->get_tenant_url($this->user, 'code_gen_type/' . $id);
     }
-    
+
     /**
      * Test a post request
      * Given the user is logged on
@@ -159,39 +160,38 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testPostRequestStoresElement()
-    {    	        
+    public function testPostRequestStoresElement() {
         Log::Debug(__METHOD__);
-        
+
         // Post a creation request
         $code_gen_type = CodeGenType::factory()->make();
         $elt = ['_token' => csrf_token()];
-        $elt['name'] = $code_gen_type->name; 
-        $elt['phone'] = $code_gen_type->phone; 
-        $elt['description'] = $code_gen_type->description; 
-        $elt['year_of_birth'] = $code_gen_type->year_of_birth; 
-        $elt['weight'] = $code_gen_type->weight; 
-        $elt['birthday'] = $code_gen_type->birthday; 
-        $elt['tea_time'] = $code_gen_type->tea_time; 
-        $elt['takeoff'] = $code_gen_type->takeoff; 
-        $elt['price'] = $code_gen_type->price; 
-        $elt['big_price'] = $code_gen_type->big_price; 
-        $elt['qualifications'] = $code_gen_type->qualifications; 
-        $elt['black_and_white'] = $code_gen_type->black_and_white; 
-        $elt['color_name'] = $code_gen_type->color_name; 
-        $elt['picture'] = $code_gen_type->picture; 
+        $elt['name'] = $code_gen_type->name;
+        $elt['phone'] = $code_gen_type->phone;
+        $elt['description'] = $code_gen_type->description;
+        $elt['year_of_birth'] = $code_gen_type->year_of_birth;
+        $elt['weight'] = $code_gen_type->weight;
+        $elt['birthday'] = $code_gen_type->birthday;
+        $elt['tea_time'] = $code_gen_type->tea_time;
+        $elt['takeoff'] = $code_gen_type->takeoff;
+        $elt['price'] = $code_gen_type->price;
+        $elt['big_price'] = $code_gen_type->big_price;
+        $elt['qualifications'] = $code_gen_type->qualifications;
+        $elt['black_and_white'] = $code_gen_type->black_and_white;
+        $elt['color_name'] = $code_gen_type->color_name;
+        $elt['picture'] = $code_gen_type->picture;
         $elt['attachment'] = $code_gen_type->attachment;
-                
-        $initial_count = CodeGenType::count ();
-                
+
+        $initial_count = CodeGenType::count();
+
         // call the post method to create it
         $this->post_tenant_url($this->user, 'code_gen_type', ['created'], $elt);
 
-        $new_count = CodeGenType::count ();
+        $new_count = CodeGenType::count();
         $expected = $initial_count + 1;
-        $this->assertEquals ( $expected, $new_count, "code_gen_type created, actual=$new_count, expected=$expected" );       
+        $this->assertEquals($expected, $new_count, "code_gen_type created, actual=$new_count, expected=$expected");
     }
-    
+
     /**
      * Test an invalid post request
      * 
@@ -206,23 +206,23 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 
         $cnt = 1;
         foreach (CodeGenType::factory()->error_cases() as $case) {
-            $initial_count = CodeGenType::count ();
-                
+            $initial_count = CodeGenType::count();
+
             $elt = ['_token' => csrf_token()];
             $elt = array_merge($elt, $case["fields"]);
-        
-            $response = $this->post_tenant_url( $this->user, 'code_gen_type', [], $elt, $errors_expected = true);
+
+            $response = $this->post_tenant_url($this->user, 'code_gen_type', [], $elt, $errors_expected = true);
             // $response->dumpSession();
-        
+
             $response->assertSessionHasErrors($case["errors"]);
-        
-            $new_count = CodeGenType::count ();
-            $this->assertEquals ( $initial_count, $new_count, "error case $cnt: code_gen_type not created, actual=$new_count, expected=$initial_count" );
+
+            $new_count = CodeGenType::count();
+            $this->assertEquals($initial_count, $new_count, "error case $cnt: code_gen_type not created, actual=$new_count, expected=$initial_count");
             $cnt = $cnt + 1;
         }
         $this->assertTrue($cnt == 1 + count(CodeGenType::factory()->error_cases()));
     }
-    
+
 
     /**
      * Check that the edit form is correctly displayed
@@ -232,13 +232,13 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testEditUrlDisplaysPopulatedEditForm() {        
+    public function testEditUrlDisplaysPopulatedEditForm() {
         Log::Debug(__METHOD__);
-        
+
         CodeGenType::factory()->create();
         $latest = CodeGenType::latest()->first();
         $id = $latest->id;
-        
+
         $this->get_tenant_url($this->user, 'code_gen_type/' . $id . '/edit', [__('general.edit') . " " . __('code_gen_type.elt')]);
     }
 
@@ -251,19 +251,19 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      * 
      * @return void
      */
-    public function testPostRequestUpdatesElement() {   
+    public function testPostRequestUpdatesElement() {
         Log::Debug(__METHOD__);
-        
+
         $code_gen_type = CodeGenType::factory()->make();                // create an element
         $code_gen_type2 = CodeGenType::factory()->make();               // and a second one
         $elt = ['_token' => csrf_token()];
         $elt2 = ['_token' => csrf_token()];
-        
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
+
+        foreach (["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment"] as $field) {
             $elt[$field] = $code_gen_type->$field;
             $elt2[$field] = $code_gen_type2->$field;
         }
-        
+
         $code_gen_type->save();                            // save the first element
         $latest = CodeGenType::latest()->first();
         $this->assertNotNull($latest);
@@ -272,27 +272,27 @@ class CodeGenTypeControllerTest extends TenantTestCase {
 
         $initial = CodeGenType::where('id', $id)->first();     // get it back
         $this->assertNotNull($initial);
-        
+
         $table = "code_gen_types";
         // Check that the first saved element has the correct values and is different from the second one
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
+        foreach (["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment"] as $field) {
             if ($field != 'id') {
                 $this->assertEquals($initial->$field, $elt[$field], "correct field $field retreived from the database");
                 if (CG::lot_of_values($table, $field))
                     $this->assertNotEquals($initial->$field, $code_gen_type2->$field, "field $field is different between two random instances");
             }
         }
-                
+
         // Update the values using the second element
         $elt2['id'] = $id;
         $this->patch_tenant_url($this->user, 'code_gen_type/' . $id, $elt2);
-        
+
         $updated = CodeGenType::where('id', $id)->first();
-        $this->assertNotNull($updated);     
-        foreach ([ "name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment" ] as $field) {
-        	if ($field != 'id' && CG::testable($table, $field) ) {
+        $this->assertNotNull($updated);
+        foreach (["name", "phone", "description", "year_of_birth", "weight", "birthday", "tea_time", "takeoff", "price", "big_price", "qualifications", "black_and_white", "color_name", "picture", "attachment"] as $field) {
+            if ($field != 'id' && CG::testable($table, $field)) {
                 $this->assertEquals($updated->$field, $elt2[$field]);
-            }            
+            }
         }
         $updated->delete();
     }
@@ -307,25 +307,25 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      */
     public function testDeleteRequestsRemovesElement() {
         Log::Debug(__METHOD__);
-        
-        $initial_count = CodeGenType::count ();
+
+        $initial_count = CodeGenType::count();
 
         CodeGenType::factory()->create();
         $latest = CodeGenType::latest()->first();
         $id = $latest->id;
-        
-        $new_count = CodeGenType::count ();
+
+        $new_count = CodeGenType::count();
         $expected = $initial_count + 1;
-        $this->assertEquals ( $expected, $new_count, "one code_gen_type created, actual=$new_count, expected=$expected" );
-        
+        $this->assertEquals($expected, $new_count, "one code_gen_type created, actual=$new_count, expected=$expected");
+
         $this->delete_tenant_url($this->user, 'code_gen_type/' . $id, ['deleted']);
-        
-        $count_after_delete = CodeGenType::count ();
+
+        $count_after_delete = CodeGenType::count();
         $expected = $initial_count;
-        $this->assertEquals ( $expected, $count_after_delete, "code_gen_type deleted, actual=$count_after_delete, expected=$expected" );             
+        $this->assertEquals($expected, $count_after_delete, "code_gen_type deleted, actual=$count_after_delete, expected=$expected");
     }
-    
-   
+
+
     /**
      * Test not found URL
      * Given the user is logged on
@@ -352,39 +352,38 @@ class CodeGenTypeControllerTest extends TenantTestCase {
      */
     public function testPagesAreDisplayedAccordingToLocaleLanguage() {
         Log::Debug(__METHOD__);
-        
+
         /**
          * Scenario: CodeGenType testLocale fr
          * Given the local is set to fr
          * When calling URLs
          * Then views are displayed in French
          */
-        
+
         $this->be($this->user);
-        
+
         $locale = App::getLocale();
 
-    	App::setLocale('fr');
-    	$this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);    	
-    	$fr_string = __('code_gen_type.new');
-    	
-    	/**
-    	 * Scenario: CodeGenType testLocale en
-    	 * Given the local is set to en
-    	 * When calling URLs
-    	 * Then views are displayed in English
-    	 */
-    	
-    	App::setLocale('en');
-    	$this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);    	
-    	$en_string = __('code_gen_type.new');
-        $this->get_tenant_url($this->user, 'code_gen_type', [__('code_gen_type.title')]);      
+        App::setLocale('fr');
+        $this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);
+        $fr_string = __('code_gen_type.new');
+
+        /**
+         * Scenario: CodeGenType testLocale en
+         * Given the local is set to en
+         * When calling URLs
+         * Then views are displayed in English
+         */
+
+        App::setLocale('en');
+        $this->get_tenant_url($this->user, 'code_gen_type/create', [__('code_gen_type.new')]);
+        $en_string = __('code_gen_type.new');
+        $this->get_tenant_url($this->user, 'code_gen_type', [__('code_gen_type.title')]);
         $en_string = __('code_gen_type.title');
-    	$this->assertNotEquals($fr_string, $en_string);
-    	
-    	App::setLocale($locale);
-    	$new_locale = App::getLocale();
-    	$this->assertTrue($new_locale == $locale, "Locale back to initial value");	
+        $this->assertNotEquals($fr_string, $en_string);
+
+        App::setLocale($locale);
+        $new_locale = App::getLocale();
+        $this->assertTrue($new_locale == $locale, "Locale back to initial value");
     }
-        
 }

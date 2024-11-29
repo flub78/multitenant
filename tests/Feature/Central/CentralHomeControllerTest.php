@@ -11,6 +11,7 @@
  *
  * attempt to create, restore or delete a backup as non admin
  */
+
 namespace tests\Feature\Central;
 
 use Tests\TestCase;
@@ -23,31 +24,30 @@ class CentralHomeControllerTest extends TestCase {
 	// Not refreshing the database may break others tests
 	use RefreshDatabase;
 
-	function __construct() {
-		parent::__construct ();
+	function __construct(?string $name = null) {
+		parent::__construct($name);
 
 		// required to be able to use the factory inside the constructor
-		$this->createApplication ();
+		$this->createApplication();
 		// $this->user = factory(User::class)->create();
-		$this->user = User::factory ()->make ();
+		$this->user = User::factory()->make();
 		$this->user->admin = true;
 	}
 
 	function __destruct() {
-		$this->user->delete ();
+		$this->user->delete();
 	}
 
-	
+
 	/**
 	 */
 	public function test_home() {
-		$this->be ( $this->user );
+		$this->be($this->user);
 
 		// Home page
-		$response = $this->get ( '/home' );
-		$response->assertStatus ( 200 );
+		$response = $this->get('/home');
+		$response->assertStatus(200);
 		$response->assertSeeText('Central Application');
-		$response->assertSeeText('Dashboard');		
+		$response->assertSeeText('Dashboard');
 	}
-
 }
