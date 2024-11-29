@@ -202,7 +202,7 @@ class MustacheGenerate extends Command {
 			foreach ($template_list as $tpl) {
 				$install_file = MustacheHelper::result_file($table, $tpl, true);
 				if (file_exists($install_file)) {
-					echo "\ndelete $install_file";
+					# echo "\ndelete $install_file";
 					unlink($install_file);
 				} else {
 					echo "\ncannot delete $install_file (not found)";
@@ -210,7 +210,7 @@ class MustacheGenerate extends Command {
 			}
 			if ($template == "all") {
 				$translation = "resources/lang/fr/$element.php";
-				echo "\ndelete $translation";
+				# echo "\ndelete $translation";
 				if (file_exists($translation)) unlink($translation);
 			}
 			return 0;
@@ -220,7 +220,7 @@ class MustacheGenerate extends Command {
 		$this->metadata = MustacheHelper::metadata($table);
 		try {
 			foreach ($template_list as $tpl) {
-				echo "processing $tpl\n";
+				if ($verbose) echo "processing $tpl\n";
 				$tpl_file = MustacheHelper::template_file($table, $tpl);
 				$result_file = MustacheHelper::result_file($table, $tpl);
 				$this->process_file($table, $tpl_file, $result_file);
@@ -274,7 +274,7 @@ class MustacheGenerate extends Command {
 				if ($exitCode) {
 					echo "\nError while generating French translation $exitCode\n";
 				} else {
-					echo "\nFrench translation: resources/lang/fr/$element.php\n";
+					if ($verbose) echo "\nFrench translation: resources/lang/fr/$element.php\n";
 				}
 
 				// And display information about the rest

@@ -114,13 +114,13 @@ class CodeGenTypeControllerFilterTest extends TenantTestCase {
 		// var_dump($json);
 		$cnt = 0;
 		foreach ($json["data"] as $elt) {
-			echo $elt['birthday'] . "\n";
+			# echo $elt['birthday'] . "\n";
 			$cnt++;
 			// take a date in the middle of the range
 			if ($cnt == 5) $mid_date =  $elt['birthday'];
 		}
 
-		echo "mid date = $mid_date\n";
+		# echo "mid date = $mid_date\n";
 
 		// filter on the mid range date
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url
