@@ -30,10 +30,18 @@
     </thead>
 
     <tbody>
+      @php
+      if (array_key_exists("SERVER_PORT",$_SERVER)) {
+      $SERVER_PORT = $_SERVER['SERVER_PORT'];
+      } else {
+      $SERVER_PORT = "8000";
+      }
+      @endphp
+
       @foreach($tenants as $tenant)
       <tr>
         <td>{{$tenant->id}}</td>
-        <td><a href="{{ $tenant->url() . ':' . $_SERVER['SERVER_PORT'] }}">{{$tenant->domain}}</a></td>
+        <td><a href="{{ $tenant->url() . ':' . $SERVER_PORT}}">{{$tenant->domain}}</a></td>
         <td><A HREF="mailto:{{$tenant->email}}">{{$tenant->email}}</A></td>
         <td>{{$tenant->db_name}}</td>
 

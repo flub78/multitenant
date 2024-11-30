@@ -17,7 +17,16 @@
 
           <li class="nav-item">
 
-            <a href="{{ 'http://' . config('tenancy.central_domains')[0] . ':' . $_SERVER['SERVER_PORT'] }}" class="nav-link ">Central</a>
+            @php
+            if (array_key_exists("SERVER_PORT",$_SERVER)) {
+            $SERVER_PORT = $_SERVER['SERVER_PORT'];
+            } else {
+            $SERVER_PORT = "8000";
+            }
+            @endphp
+
+
+            <a href="{{ 'http://' . config('tenancy.central_domains')[0] . ':' . $SERVER_PORT }}" class="nav-link ">Central</a>
           </li>
           @endif
 
