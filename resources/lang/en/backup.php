@@ -2,7 +2,7 @@
 
 return [
 
-    /*
+	/*
     |--------------------------------------------------------------------------
     | Menu strings to translate (English version)
     |--------------------------------------------------------------------------
@@ -14,12 +14,12 @@ return [
 	'number' => 'Number',
 	'restore' => 'Restore',
 	'backup' => 'Backup',
-	'new' => 'Make a Backup',
+	'new' => 'Create a Backup',
 	'not_found' => 'Backup :id not found',
 	'deleted' => 'Backup :id deleted',
 	'restored' => 'Backup :id restored',
 	'created' => 'Backup :id created',
 	'error' => 'Error in backup :id',
-		
+
 	'upload_backup' => 'Upload backup',
 ];
