@@ -424,7 +424,10 @@
 
     <div class2="max-w-6xl mx-auto sm:px-6 lg:px-8" class="container-fluid p-3 bg-success text-white text-center">
         <header class="d-flex justify-center p-4 pt-8 sm:justify-start sm:pt-0">
+            @php
+            if (!isset($port)) $port = "undefined port number";
 
+            @endphp
             @if (tenant('id'))
             <div class="flex justify-center">
                 <h1>WEBAPP - Welcome to {{tenant('id')}}</h1>
