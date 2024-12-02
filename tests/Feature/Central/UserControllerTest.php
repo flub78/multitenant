@@ -4,7 +4,7 @@ namespace tests\Feature\Central;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Test UserController for central application
@@ -18,7 +18,7 @@ class UserControllerTest extends TestCase {
 
 
 	// Clean up the database
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	function __construct(?string $name = null) {
 		parent::__construct($name);

@@ -4,7 +4,7 @@ namespace tests\Feature\Tenants;
 
 use Tests\TenantTestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Test for the UserController
@@ -19,7 +19,7 @@ class UserControllerTest extends TenantTestCase {
 	protected $tenancy = true;
 
 	// Clean up the database
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	function __construct(?string $name = null) {
 		parent::__construct($name);

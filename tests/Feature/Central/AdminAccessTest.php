@@ -4,7 +4,7 @@ namespace tests\Feature\Central;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Test that admin can access to admin pages while regular users cannot
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class AdminAccessTest extends TestCase {
 
 	// Clean up the database
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	function __construct(?string $name = null) {
 		parent::__construct($name);

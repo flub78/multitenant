@@ -16,7 +16,7 @@ namespace tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Artisan;
 use App\Helpers\TenantHelper;
 use App\Models\Tenant;
@@ -25,7 +25,7 @@ class CentralBackupArtisanTest extends TestCase {
 
 	// Clean up the database
 	// Not refreshing the database may break others tests
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	function __construct(?string $name = null) {
 		parent::__construct($name);

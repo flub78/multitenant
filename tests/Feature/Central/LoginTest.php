@@ -4,7 +4,7 @@ namespace tests\Feature\Central;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Test login
@@ -17,7 +17,7 @@ class LoginTest extends TestCase {
 	protected $basename = "users";
 
 	// Clean up the database
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	function __construct(?string $name = null) {
 		parent::__construct($name);

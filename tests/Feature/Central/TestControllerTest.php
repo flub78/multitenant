@@ -10,13 +10,13 @@ namespace tests\Feature\Central;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TestControllerTest extends TestCase {
 
 	// Clean up the database
 	// Not refreshing the database may break others tests
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	function __construct(?string $name = null) {
 		parent::__construct($name);
