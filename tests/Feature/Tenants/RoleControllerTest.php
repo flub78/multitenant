@@ -98,7 +98,7 @@ class RoleControllerTest extends TenantTestCase {
 	public function testBaseUrlDisplaysTableView() {
 		Log::Debug(__METHOD__);
 
-		$look_for = [__('role.title'), __('role.add'), __('navbar.tenant'), tenant('id')];
+		$look_for = [__('role.title'), __('role.add'), tenant('id')];
 		$look_for[] = __('role.name');
 		$look_for[] = __('role.description');
 

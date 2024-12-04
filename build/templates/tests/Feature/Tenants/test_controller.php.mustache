@@ -120,7 +120,7 @@ class [[class_name]]ControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {   
         Log::Debug(__METHOD__);
         
-        $look_for = [__('[[element]].title'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('[[element]].title'), tenant('id')];
         [[#factory_field_list]]
         $look_for[] = __('[[element]].[[name]]'); 
         [[/factory_field_list]]

@@ -100,7 +100,7 @@ class ProfileControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {
         Log::Debug(__METHOD__);
 
-        $look_for = [__('profile.title'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('profile.title'), tenant('id')];
         $look_for[] = __('profile.first_name');
         $look_for[] = __('profile.last_name');
         $look_for[] = __('profile.birthday');

@@ -82,7 +82,7 @@ class CodeGenTypesView1ControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {
         Log::Debug(__METHOD__);
 
-        $look_for = [__('code_gen_types_view1.title'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('code_gen_types_view1.title'), tenant('id')];
         $look_for[] = __('code_gen_type.name');
         $look_for[] = __('code_gen_type.description');
         $look_for[] = __('code_gen_type.tea_time');

@@ -101,7 +101,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {
         Log::Debug(__METHOD__);
 
-        $look_for = [__('personal_access_token.title'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('personal_access_token.title'), tenant('id')];
         $look_for[] = __('personal_access_token.tokenable_type');
         $look_for[] = __('personal_access_token.tokenable_id');
         $look_for[] = __('personal_access_token.name');

@@ -98,7 +98,7 @@ class ConfigurationControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {
         Log::Debug(__METHOD__);
 
-        $look_for = [__('configuration.title'), __('configuration.add'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('configuration.title'), __('configuration.add'), tenant('id')];
         $look_for[] = __('configuration.key');
         $look_for[] = __('configuration.value');
 

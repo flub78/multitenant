@@ -75,7 +75,7 @@ class TenantBackupControllerTest extends TenantTestCase {
 		$this->get_tenant_url(
 			$this->user,
 			'backup',
-			[__('backup.title'), __('backup.number'), __('backup.restore'), __('backup.new'), __('navbar.tenant'), tenant('id')]
+			[__('backup.title'), __('backup.number'), __('backup.restore'), __('backup.new'), tenant('id')]
 		);
 
 

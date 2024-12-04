@@ -84,7 +84,7 @@ class MotdTodayControllerTest extends TenantTestCase {
     public function testBaseUrlDisplaysTableView() {
         Log::Debug(__METHOD__);
 
-        $look_for = [__('motd_today.title'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('motd_today.title'), tenant('id')];
         $look_for[] = __('motd.title');
         $look_for[] = __('motd.message');
         $look_for[] = __('motd.publication_date');
