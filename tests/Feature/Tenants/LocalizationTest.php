@@ -49,7 +49,7 @@ class LocalizationTest extends TenantTestCase {
 	 * Test for English
 	 */
 	protected function check_en() {
-		$this->get_tenant_url($this->user, 'configuration/', ["Tenant Configuration",  "Key", "Value", 'tenant', tenant('id')]);
+		$this->get_tenant_url($this->user, 'configuration/', ["Tenant Configuration",  "Key", "Value", tenant('id')]);
 	}
 
 	public function test_language_when_app_locale_is_not_defined_in_database() {
