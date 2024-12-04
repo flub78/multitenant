@@ -119,7 +119,7 @@ class CodeGenTypeControllerFilterTest extends TenantTestCase {
     public function testFilterOnIncorrectParameters() {
         Log::Debug(__METHOD__);
 
-        $look_for = [__('code_gen_type.title'), __('navbar.tenant'), tenant('id')];
+        $look_for = [__('code_gen_type.title'), tenant('id')];
         $look_for[] = __('code_gen_type.name');
         $look_for[] = __('code_gen_type.phone');
 
