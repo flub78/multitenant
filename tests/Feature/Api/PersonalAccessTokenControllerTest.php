@@ -21,13 +21,14 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 	function __construct(?string $name = null) {
 		parent::__construct($name);
 
-		// required to be able to use the factory inside the constructor
+		// required to use the factory inside the constructor
 		$this->createApplication();
 		// $this->user = factory(User::class)->create();
 		$this->user = User::factory()->make();
 		$this->user->admin = true;
 
-		$this->base_url = '/personal_access_token';
+		# $this->base_url = '/personal_access_token';
+		$this->full_url = 'http://' . $this->domain(tenant('id')) . ':' . request()->getPort() . '/personal_access_token';
 	}
 
 	function __destruct() {
@@ -58,8 +59,12 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		$elements = $this->create_elements(2);
 
 		// Without page parameter the URL returns a collection
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url);
-		$response->assertStatus(200);
+		$url = $this->full_url;
+		$url = 'http://test.tenants.com:8000/personal_access_token';
+
+		$response = $this->getJson($url);
+		# $response->assertStatus(200);
+		$this->assertTrue($response->status() === 200, "Expected status 200, got {$response->status()} for URL: $url");
 
 		$json = $response->json();
 		$this->assertEquals(2, count($json['data']));
@@ -79,7 +84,9 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		$personal_access_token1 = PersonalAccessToken::factory()->create();
 		PersonalAccessToken::factory()->create();
 
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/1');
+		$url = $this->full_url . '/1';
+
+		$response = $this->getJson($url);
 		$response->assertStatus(200);
 		$json = $response->json();
 		foreach (["tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at"] as $field) {
@@ -114,7 +121,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		}
 
 		// call the post method to create it
-		$response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
+		$response = $this->postJson($this->full_url, $elt);
 
 		// $response->dump();
 		$response->assertStatus(201);
@@ -153,7 +160,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 
 			$elt = $case["fields"];
 
-			$response = $this->postJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url, $elt);
+			$response = $this->postJson($this->full_url, $elt);
 			$json = $response->json();
 			$this->assertEquals('The given data was invalid.', $json['message']);
 			foreach ($case["errors"] as $field => $msg) {
@@ -183,7 +190,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		$back = PersonalAccessToken::latest()->first();
 		$id = $back->id;
 
-		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id);
+		$response = $this->deleteJson($this->full_url . '/' . $id);
 
 		// $response->dump();
 		$json = $response->json();
@@ -201,7 +208,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		$id = "123456789";
 		$initial_count = PersonalAccessToken::count();
 
-		$response = $this->deleteJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id);
+		$response = $this->deleteJson($this->full_url . '/' . $id);
 
 		// $response->dump();
 		$json = $response->json();
@@ -234,7 +241,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		}
 		$elt['_token'] = csrf_token();
 
-		$response = $this->patchJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/' . $id, $elt);
+		$response = $this->patchJson($this->full_url . '/' . $id, $elt);
 		$this->assertEquals(1, $response->json());
 
 		$updated = PersonalAccessToken::findOrFail($id);
@@ -265,7 +272,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 			if ($cnt == 19) sleep(2); // because lastest has a second precision
 		}
 
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson($this->full_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 
 		$json = $response->json();
@@ -292,7 +299,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 			PersonalAccessToken::factory()->create();
 		}
 
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=120');
+		$response = $this->getJson($this->full_url . '?per_page=20&page=120');
 		$response->assertStatus(200);
 
 		$json = $response->json();
@@ -321,7 +328,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		}
 
 		// Call a page
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson($this->full_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 
 		$json = $response->json();
@@ -332,8 +339,8 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		}
 
 		// Sorting on start (reverse order)
-		$first_field = ["tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at"][0];
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=-' . $first_field);
+		$first_field = ["tokenable_type", "tokenable_id", "name", "token", "abiliti es", "last_used_at"][0];
+		$response = $this->getJson($this->full_url . '?sort=-' . $first_field);
 		$json = $response->json();
 
 		foreach (["tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at"] as $field) {
@@ -354,7 +361,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		}
 
 		// First page, non sorted
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?per_page=20&page=1');
+		$response = $this->getJson($this->full_url . '?per_page=20&page=1');
 		$response->assertStatus(200);
 
 		$json = $response->json();
@@ -363,7 +370,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		$this->assertEquals('event_1', $json['data'][0]['title']);  // regular order
 
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=allDay,-start');
+		$response = $this->getJson($this->full_url . '?sort=allDay,-start');
 		$json = $response->json();
 		$this->assertEquals('event_100', $json['data'][0]['title']); // reverse order
 		$this->assertEquals('event_98', $json['data'][1]['title']); // reverse order
@@ -391,7 +398,7 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		}
 
 		// Sorting on multiple columns
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=Unknown,-ColumnName');
+		$response = $this->getJson($this->full_url . '?sort=Unknown,-ColumnName');
 		$json = $response->json();
 		$this->assertEquals("Illuminate\Database\QueryException", $json['exception']);
 		$this->assertStringContainsString("Unknown column ", $json['message']);
@@ -406,19 +413,19 @@ class PersonalAccessTokenControllerTest extends TenantTestCase {
 		}
 
 		// Filtering on multiple columns
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1');
+		$response = $this->getJson($this->full_url . '?filter=allDay:1');
 		$json = $response->json();
 		$this->assertEquals(50, count($json['data']));
 
 		// Filtering on multiple columns
 		$limit = $date->sub(10, 'hour');
 		$after =  htmlspecialchars(',start:>' . $limit->toDateTimeString());
-		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after);
+		$response = $this->getJson($this->full_url . '?filter=allDay:1' . $after);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));
 
 		$after =  htmlspecialchars(',start:>=' . $limit->toDateTimeString());
-		$url = 'http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?filter=allDay:1' . $after;
+		$url = $this->full_url . '?filter=allDay:1' . $after;
 		$response = $this->getJson($url);
 		$json = $response->json();
 		$this->assertEquals(3, count($json['data']));
