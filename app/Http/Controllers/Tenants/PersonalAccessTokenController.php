@@ -35,7 +35,7 @@ class PersonalAccessTokenController extends Controller {
         if ($request->has('filter')) {
             $this->applyFilter($query, $request->input('filter'));
         }
-        $personal_access_tokens = $query->get();
+        $personal_access_tokens = $query->with('tokenable')->get();
 
         return view('tenants/personal_access_token/index', compact('personal_access_tokens'))
             ->with('filter_open', $filter_open);

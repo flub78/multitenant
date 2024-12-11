@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is generated from a template with metadata extracted from the data model.
  * If modifications are required, it is important to consider if they should be done in the template
@@ -31,7 +32,7 @@ class PersonalAccessToken extends ModelWithLogs {
      * The associated database table
      */
     protected $table = 'personal_access_tokens';
- 
+
     /**
      * The primary key associated with the table.
      *
@@ -44,5 +45,9 @@ class PersonalAccessToken extends ModelWithLogs {
      *
      * @var array
      */
-	protected $fillable = ["tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at"];
+    protected $fillable = ["tokenable_type", "tokenable_id", "name", "token", "abilities", "last_used_at"];
+
+    public function tokenable() {
+        return $this->morphTo();
+    }
 }
