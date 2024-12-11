@@ -32,7 +32,7 @@ class PersonalAccessTokenController extends Controller {
         $query = PersonalAccessToken::query();
 
         // Show only user's own tokens if not admin
-        if (!auth()->user()->is_admin) {
+        if (!auth()->user()->isAdmin()) {
             $query->where('tokenable_id', auth()->id())
                 ->where('tokenable_type', get_class(auth()->user()));
         }
@@ -107,7 +107,7 @@ class PersonalAccessTokenController extends Controller {
         $personal_access_token = PersonalAccessToken::findOrFail($id);
 
         if (
-            !auth()->user()->is_admin &&
+            !auth()->user()->isAdmin() &&
             ($personal_access_token->tokenable_id !== auth()->id() ||
                 $personal_access_token->tokenable_type !== get_class(auth()->user()))
         ) {
@@ -132,7 +132,7 @@ class PersonalAccessTokenController extends Controller {
      */
     public function destroy(PersonalAccessToken $personal_access_token) {
         if (
-            !auth()->user()->is_admin &&
+            !auth()->user()->isAdmin() &&
             ($personal_access_token->tokenable_id !== auth()->id() ||
                 $personal_access_token->tokenable_type !== get_class(auth()->user()))
         ) {
