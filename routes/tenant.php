@@ -65,11 +65,16 @@ Route::middleware([
 	Route::get('/motd/setCookie', [App\Http\Controllers\Tenants\MotdController::class, 'setCookie'])->name('setCookie')->middleware('auth');
 	Route::get('/motd/getCookie', [App\Http\Controllers\Tenants\MotdController::class, 'getCookie'])->name('getCookie')->middleware('auth');
 
+	Route::get('/user/token', [App\Http\Controllers\UserController::class, 'token'])->name('tokens.create')->middleware('auth');
+
+	Route::resource('personal_access_token', App\Http\Controllers\Tenants\PersonalAccessTokenController::class)
+		->middleware('auth');
+
 	/*
 	 * admin routes
 	 */
 	Route::group(['middleware' => ['admin']], function () {
-		Route::get('/user/token', [App\Http\Controllers\UserController::class, 'token'])->name('tokens.create')->middleware('auth');
+
 		Route::resource('user', App\Http\Controllers\UserController::class)->middleware('auth');
 
 		Route::resource('user_role', App\Http\Controllers\Tenants\UserRoleController::class)->middleware('auth');
@@ -99,9 +104,6 @@ Route::middleware([
 			->middleware('auth');
 
 		Route::resource('motd_today', App\Http\Controllers\Tenants\MotdTodayController::class)
-			->middleware('auth');
-
-		Route::resource('personal_access_token', App\Http\Controllers\Tenants\PersonalAccessTokenController::class)
 			->middleware('auth');
 	});
 });

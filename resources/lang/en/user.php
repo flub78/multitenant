@@ -2,7 +2,7 @@
 
 return [
 
-    /*
+	/*
     |--------------------------------------------------------------------------
     | Menu strings to translate (English version)
     |--------------------------------------------------------------------------
@@ -11,11 +11,11 @@ return [
     */
 
 	'title' => "Users",
-	'list' => "List of users",	
+	'list' => "List of users",
 	'elt' => "user",
 	'new' => "New User",
 	'add' => "Add User",
-    'name' => "Name",
+	'name' => "Name",
 	'email' => "Email",
 	'admin' => 'Admin',
 	'active' => 'Active',
@@ -25,9 +25,11 @@ return [
 	'current_password' => 'Current password',
 	'new_password' => 'New password',
 	'confirm_new' => 'Confirm new password',
-		
+	'generate_token' => 'Generate token',
+	'tokens' => 'Tokens',
+
 	'created' => 'User :name created',
 	'updated' => 'User :name updated',
 	'deleted' => 'User :name deleted',
-		
+
 ];
