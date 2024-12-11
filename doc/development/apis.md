@@ -105,6 +105,10 @@ https://laravel.com/docs/10.x/sanctum
 
 #### API Tokens
 
+Sanctum allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
+
+Tokens are used to authenticate the user. They are equivalent to the user id and password used for authentication in the web interface. It is quite logical to allow the user to manage his own tokens. Admin users may also revoke or delete user tokens, for example if the user has lost his phone.
+
 API tokens are currently generated from the **/user/token**
 route. 
 
@@ -126,6 +130,8 @@ With Postman, use Authorization.Type = Bearer Token and past the value returned 
 When the authorization is declined, a json error message is returned.
 
     {"message":"Unauthenticated."}
+
+
 
 
 #### Sanctum Installation
