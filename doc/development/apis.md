@@ -105,14 +105,27 @@ https://laravel.com/docs/10.x/sanctum
 
 #### API Tokens
 
-API tokens are currently generated from the /user/token route. Token are shown in the clear only then (the value stored in database is encrypted).
+API tokens are currently generated from the **/user/token**
+route. 
+
+Token are shown in the clear only then (the value stored in database is encrypted).
 
     token=4|rLKqYyyVoCmDMtLSgZsIFMUwLEkcIXkIo83HslKK All tokens: token=
 
-I am only been able to test Sanctum protected API with Postman.
-Use Authorization.Type = Bearer Token and past the value returned by the user/token controller.
+Postman or curl are used to test REST APIs.
 
-When the authorization is declined the request is currently redirected to the home page. To be changed to return an access denied error.
+```
+    curl -X GET \
+     -H "Authorization: Bearer 2|kS2ObVVngb7up55vBjcLkoBWTkAHOeBrBVPUFga4081b4928" \
+     -H "Accept: application/json" \
+     http://abbeville.tenants.com:8000/api/role
+```
+
+With Postman, use Authorization.Type = Bearer Token and past the value returned by the user/token controller.
+
+When the authorization is declined, a json error message is returned.
+
+    {"message":"Unauthenticated."}
 
 
 #### Sanctum Installation
