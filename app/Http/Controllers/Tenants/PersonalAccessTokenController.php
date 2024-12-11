@@ -31,6 +31,12 @@ class PersonalAccessTokenController extends Controller {
 
         $query = PersonalAccessToken::query();
 
+        // Show only user's own tokens if not admin
+        if (!auth()->user()->is_admin) {
+            $query->where('tokenable_id', auth()->id())
+                ->where('tokenable_type', get_class(auth()->user()));
+        }
+
         $filter_open = ($request->has('filter_open')) ? "-show" : "";
         if ($request->has('filter')) {
             $this->applyFilter($query, $request->input('filter'));
@@ -98,6 +104,17 @@ class PersonalAccessTokenController extends Controller {
      * @SuppressWarnings("PMD.ShortVariable")
      */
     public function update(PersonalAccessTokenRequest $request, $id) {
+        $personal_access_token = PersonalAccessToken::findOrFail($id);
+
+        if (
+            !auth()->user()->is_admin &&
+            ($personal_access_token->tokenable_id !== auth()->id() ||
+                $personal_access_token->tokenable_type !== get_class(auth()->user()))
+        ) {
+            return redirect('personal_access_token')
+                ->with('error', __('general.unauthorized_action'));
+        }
+
         $validatedData = $request->validated();
         $previous = PersonalAccessToken::find($id);
 
@@ -114,6 +131,15 @@ class PersonalAccessTokenController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(PersonalAccessToken $personal_access_token) {
+        if (
+            !auth()->user()->is_admin &&
+            ($personal_access_token->tokenable_id !== auth()->id() ||
+                $personal_access_token->tokenable_type !== get_class(auth()->user()))
+        ) {
+            return redirect('personal_access_token')
+                ->with('error', __('general.unauthorized_action'));
+        }
+
         $id = $personal_access_token->id;
         $personal_access_token->delete();
         return redirect('personal_access_token')->with('success', __('general.deletion_success', ['elt' => $id]));
