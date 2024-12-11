@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is a template generated file automatically translated from the English version.
  * If modifications are required, it is important to consider if they should be done in the template,
@@ -11,18 +12,17 @@
 |--------------------------------------------------------------------------
 ||
 */
-    
-return 	[
-		"title" => "Jeton d&#39;accès personnel",
-			"list" => "Liste PersonalAccessToken.",
-			"elt" => "jeton_d&#39;accès_personnel",
-			"new" => "Nouveau jeton_d&#39;accès_personnel",
-			"add" => "Ajouter un personal_access_token",
-			"tokenable_type" => "Type jetonnable",
-			"tokenable_id" => "Identifiant jetonnable",
-			"name" => "Nom",
-			"token" => "Jeton",
-			"abilities" => "Capacités",
-			"last_used_at" => "Dernière utilisation à"
-	];
 
+return 	[
+	"title" => "Jeton d'accès personnel",
+	"list" => "Liste des jetons.",
+	"elt" => "jeton d'accès personnel",
+	"new" => "Nouveau jeton d'accès personnel",
+	"add" => "Créer un jeton",
+	"tokenable_type" => "Type",
+	"tokenable_id" => "Utilisateur",
+	"name" => "Nom",
+	"token" => "Jeton",
+	"abilities" => "Capacités",
+	"last_used_at" => "Dernière utilisation à"
+];
