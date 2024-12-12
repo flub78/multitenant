@@ -18,5 +18,5 @@ return [
     'throttled' => "Attendez avant d'essayer à nouveau.",
     'token' => 'Jeton de réinitialisation du mot de passe invalid.',
     'user' => "Pas d'utilisateur avec cette addresse mail.",
-
+    'change_password' => 'Changer le mot de passe',
 ];

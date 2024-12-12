@@ -129,9 +129,8 @@
             <i class="fa-solid fa-user fa-2xl"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-sm-end">
-            <li><a class="dropdown-item" href="{{ route('change_password.change_password') }}">Change password</a></li>
-            <li><a class="dropdown-item" href="{{ route('personal_access_token.index') }}">{{__('user.tokens')}}</a></li>
-            <li><a class="dropdown-item" href="{{ route('tokens.create') }}">{{__('user.generate_token')}}</a></li>
+            <li><a class="dropdown-item" href="{{ route('change_password.change_password') }}">{{__('passwords.change_password')}}</a></li>
+            <li><a class="dropdown-item" href="{{ route('personal_access_token.index') }}">{{__('personal_access_token.list')}}</a></li>
 
             <li><a class="dropdown-item" href="{{ route('logout') }}" dusk="logout"
                 onclick="event.preventDefault();

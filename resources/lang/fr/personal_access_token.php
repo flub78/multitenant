@@ -14,15 +14,16 @@
 */
 
 return 	[
-	"title" => "Jeton d'accès personnel",
-	"list" => "Liste des jetons.",
-	"elt" => "jeton d'accès personnel",
-	"new" => "Nouveau jeton d'accès personnel",
+	"title" => "Jeton d'APIs",
+	"list" => "Jetons d'APIs.",
+	"elt" => "Jeton d'API",
+	"new" => "Nouveau jeton d'API",
 	"add" => "Créer un jeton",
 	"tokenable_type" => "Type",
 	"tokenable_id" => "Utilisateur",
 	"name" => "Nom",
 	"token" => "Jeton",
 	"abilities" => "Capacités",
-	"last_used_at" => "Dernière utilisation à"
+	"last_used_at" => "Dernière utilisation à",
+	"warning" => "Copiez le jeton avant de quitter cette page. Il ne sera plus affiché en clair après avoir quitté cette page.",
 ];

@@ -26,4 +26,6 @@ return [
 	'token' => "Token",
 	'abilities' => "Abilities",
 	'last_used_at' => "Last used at",
+	"warning" => "Copy the token before leaving this page. It will no longer be displayed in plain text after leaving this page.",
+
 ];

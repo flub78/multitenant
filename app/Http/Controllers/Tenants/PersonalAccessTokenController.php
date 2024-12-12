@@ -142,9 +142,9 @@ class PersonalAccessTokenController extends Controller {
                 ->with('error', __('general.unauthorized_action'));
         }
 
-        $id = $personal_access_token->id;
+        $name = $personal_access_token->name;
         $personal_access_token->delete();
-        return redirect('personal_access_token')->with('success', __('general.deletion_success', ['elt' => $id]));
+        return redirect('personal_access_token')->with('success', __('general.deletion_success', ['elt' => $name]));
     }
 
     /**

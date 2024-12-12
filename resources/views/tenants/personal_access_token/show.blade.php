@@ -30,6 +30,10 @@ use App\Helpers\DateFormat;
     </div><br />
     @endif
 
+    <div class="alert alert-warning">
+      {{__("personal_access_token.warning")}}
+    </div>
+
     <form method="get" action="{{ route('personal_access_token.index' ) }}" enctype="multipart/form-data">
       @csrf
 
@@ -44,10 +48,6 @@ use App\Helpers\DateFormat;
       </div>
 
       <div class="form-group mb-2">
-        <label class="form-label" for="name">{{__("personal_access_token.name")}}</label> : {{$personal_access_token->accessToken->tokenable->name}}
-      </div>
-
-      <div class="form-group mb-2">
         <label class="form-label" for="token">{{__("personal_access_token.token")}}</label> : {{$personal_access_token->plainTextToken}}
       </div>
 
@@ -55,7 +55,9 @@ use App\Helpers\DateFormat;
         <label class="form-label" for="abilities">{{__("personal_access_token.abilities")}}</label> : {{$personal_access_token->accessToken->tokenable->abilities}}
       </div>
 
-      <button type="submit" class="btn btn-primary">{{__('personal_access_token.validate')}}</button>
+
+
+      <button type="submit" class="btn btn-primary">{{__('general.submit')}}</button>
 
     </form>
   </div>

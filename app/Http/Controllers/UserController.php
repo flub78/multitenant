@@ -125,6 +125,7 @@ class UserController extends Controller {
 	 * 
 	 * Token should be generated per user and a user token should have exactly the same
 	 * rights as the user.
+	 * Todo: This function is obsolete, the feature has been moved to PersonalAccessTokenController. To remove later.
 	 */
 	public function token(Request $request) {
 
