@@ -65,8 +65,10 @@ class PersonalAccessTokenController extends Controller {
     public function store(PersonalAccessTokenRequest $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
 
-        PersonalAccessToken::create($validatedData);
-        return redirect('/personal_access_token')->with('success', __('general.creation_success', ['elt' => __("personal_access_token.elt")]));
+        $personal_access_token = $request->user()->createToken($validatedData['name'], ['api-access']);
+        // echo "token=" . $personal_access_token->plainTextToken . "\n";
+
+        return view('tenants/personal_access_token/show', compact('personal_access_token'));
     }
 
     /**

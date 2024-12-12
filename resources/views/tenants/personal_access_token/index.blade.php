@@ -34,7 +34,6 @@ use App\Helpers\DateFormat;
           <th style="width: 30px;"></th>
           <th style="width: 30px;"></th>
 
-          <th> {{__('personal_access_token.tokenable_type')}} </th>
           <th> {{__('personal_access_token.tokenable_id')}} </th>
           <th> {{__('personal_access_token.name')}} </th>
           <th> {{__('personal_access_token.token')}} </th>
@@ -54,7 +53,6 @@ use App\Helpers\DateFormat;
               <button class="btn btn-danger" type="submit" dusk="delete_{{ $personal_access_token->id }}"><i class="fa-solid fa-trash"></i></button>
             </form>
           </td>
-          <td> {{$personal_access_token->tokenable_type}}</td>
           <td> {{ $personal_access_token->tokenable->email }}</td>
           <td> {{$personal_access_token->name}}</td>
           <td> {{$personal_access_token->token}}</td>
