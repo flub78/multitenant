@@ -1,7 +1,12 @@
 # Todo list
+General tasks to do whicare not attached to a specifc file.
 
 - [ ] migrate code generation to use ddd-gen
 - [ ] Work on project derivation
+- [ ] Unit test for tokens
+- [ ] Check Dusk tests
+- [ ] Tests on jenkins
+- [ ] Global Search Mechanism
 
 ## Development
 

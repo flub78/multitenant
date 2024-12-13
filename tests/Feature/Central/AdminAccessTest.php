@@ -81,7 +81,7 @@ class AdminAccessTest extends TestCase {
 
 		$this->assertFalse($this->user->isActive());
 
-		// TODO: For some reason, active users are only denied access on live systems ???
+		// TODO: For some reason, active users are only denied access to live systems ???
 		return;
 		$this->be($this->user);
 

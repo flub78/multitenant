@@ -6,8 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Handler extends ExceptionHandler
-{
+class Handler extends ExceptionHandler {
     /**
      * A list of the exception types that are not reported.
      *
@@ -33,17 +32,16 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         //         $this->reportable(function (Throwable $e) {
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->is("api/*")) {
-            // Error 404 in JSON
-            return response()->json([
-                "message" => "Not found"
-                // TODO localize the error message
-            ], 404);
-        }
+                // Error 404 in JSON
+                return response()->json([
+                    // API error message are not localized
+                    "message" => "Not found"
+                ], 404);
+            }
         });
     }
 }
