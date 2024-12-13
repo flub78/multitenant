@@ -14,13 +14,13 @@
 */
 
 return 	[
-	"accepted" => "L':attribute doit être accepté.",
-	"active_url" => "L':attribute n'est pas une URL valide.",
+	"accepted" => "Le champ :attribute doit être accepté.",
+	"active_url" => "Le champ :attribute n'est pas une URL valide.",
 	"after" => "Le :attribute doit être une date après :date.",
 	"after_or_equal" => "Le :attribute doit être une date postérieure ou égale à :date.",
-	"alpha" => "L':attribute ne doit contenir que des lettres.",
-	"alpha_dash" => "L':attribute ne doit contenir que des lettres, des chiffres, des tirets et des traits de soulignement.",
-	"alpha_num" => "L':attribute ne doit contenir que des lettres et des chiffres.",
+	"alpha" => "Le champ :attribute ne doit contenir que des lettres.",
+	"alpha_dash" => "Le champ :attribute ne doit contenir que des lettres, des chiffres, des tirets et des traits de soulignement.",
+	"alpha_num" => "Le champ :attribute ne doit contenir que des lettres et des chiffres.",
 	"array" => "Le :attribute doit être un tableau.",
 	"before" => "Le :attribute doit être une date avant :date.",
 	"before_or_equal" => "Le :attribute doit être une date antérieure ou égale à :date.",
@@ -28,21 +28,21 @@ return 	[
 		"numeric" => "Le :attribute doit être compris entre :min et :max.",
 		"file" => "Le :attribute doit être compris entre :min et :max kilo-octets.",
 		"string" => "Le :attribute doit être compris entre :min et :max caractères.",
-		"array" => "L':attribute doit avoir entre :min et :max éléments."
+		"array" => "Le champ :attribute doit avoir entre :min et :max éléments."
 	],
 	"boolean" => "Le champ :attribute doit être vrai ou faux.",
 	"confirmed" => "La confirmation :attribute ne correspond pas.",
-	"date" => "L':attribute n'est pas une date valide.",
+	"date" => "Le champ :attribute n'est pas une date valide.",
 	"date_equals" => "Le :attribute doit être une date égale à :date.",
 	"date_format" => "Le :attribute ne correspond pas au format :format.",
 	"different" => "Le :attribute et :other doivent être différents.",
 	"digits" => "Le :attribute doit être :digits chiffres.",
 	"digits_between" => "Le :attribute doit être compris entre :min et :max chiffres.",
-	"dimensions" => "L':attribute a des dimensions d'image non valides.",
+	"dimensions" => "Le champ :attribute a des dimensions d'image non valides.",
 	"distinct" => "Le champ :attribute a une valeur en double.",
-	"email" => "L':attribute doit être une adresse e-mail valide.",
+	"email" => "Le champ :attribute doit être une adresse e-mail valide.",
 	"ends_with" => "Le :attribute doit se terminer par l'un des éléments suivants : :values.",
-	"exists" => "L':attribute sélectionné n'est pas valide.",
+	"exists" => "Le champ :attribute sélectionné n'est pas valide.",
 	"file" => "Le :attribute doit être un fichier.",
 	"filled" => "Le champ :attribute doit avoir une valeur.",
 	"gt" => 		[
@@ -57,14 +57,14 @@ return 	[
 		"string" => "Le :attribute doit être supérieur ou égal à :value caractères.",
 		"array" => "Le :attribute doit avoir des éléments :value ou plus."
 	],
-	"image" => "L':attribute doit être une image.",
-	"in" => "L':attribute sélectionné n'est pas valide.",
+	"image" => "Le champ :attribute doit être une image.",
+	"in" => "Le champ :attribute sélectionné n'est pas valide.",
 	"in_array" => "Le champ :attribute n'existe pas dans :other.",
-	"integer" => "L':attribute doit être un entier.",
-	"ip" => "L':attribute doit être une adresse IP valide.",
-	"ipv4" => "L':attribute doit être une adresse IPv4 valide.",
-	"ipv6" => "L':attribute doit être une adresse IPv6 valide.",
-	"json" => "L':attribute doit être une chaîne JSON valide.",
+	"integer" => "Le champ :attribute doit être un entier.",
+	"ip" => "Le champ :attribute doit être une adresse IP valide.",
+	"ipv4" => "Le champ :attribute doit être une adresse IPv4 valide.",
+	"ipv6" => "Le champ :attribute doit être une adresse IPv6 valide.",
+	"json" => "Le champ :attribute doit être une chaîne JSON valide.",
 	"lt" => 		[
 		"numeric" => "Le :attribute doit être inférieur à :value.",
 		"file" => "Le :attribute doit être inférieur à :value kilo-octets.",
@@ -92,7 +92,7 @@ return 	[
 		"array" => "Le :attribute doit avoir au moins :min éléments."
 	],
 	"multiple_of" => "Le :attribute doit être un multiple de :value.",
-	"not_in" => "L':attribute sélectionné n'est pas valide.",
+	"not_in" => "Le champ :attribute sélectionné n'est pas valide.",
 	"not_regex" => "Le format :attribute n'est pas valide.",
 	"numeric" => "Le :attribute doit être un nombre.",
 	"password" => "Le mot de passe est incorrect.",
@@ -112,16 +112,16 @@ return 	[
 	"size" => 		[
 		"numeric" => "Le :attribute doit être :size.",
 		"file" => "Le :attribute doit être :size kilo-octets.",
-		"string" => "L':attribute doit contenir des caractères :size.",
-		"array" => "L':attribute doit contenir des éléments :size."
+		"string" => "Le champ :attribute doit contenir des caractères :size.",
+		"array" => "Le champ :attribute doit contenir des éléments :size."
 	],
 	"starts_with" => "Le :attribute doit commencer par l'un des éléments suivants : :values.",
 	"string" => "Le :attribute doit être une chaîne.",
-	"timezone" => "L':attribute doit être une zone valide.",
-	"unique" => "L':attribute a déjà été pris.",
-	"uploaded" => "L':attribute n'a pas pu être téléchargé.",
+	"timezone" => "Le champ :attribute doit être une zone valide.",
+	"unique" => "Le champ :attribute doit être unique.",
+	"uploaded" => "Le champ :attribute n'a pas pu être téléchargé.",
 	"url" => "Le format :attribute n'est pas valide.",
-	"uuid" => "L':attribute doit être un UUID valide.",
+	"uuid" => "Le champ :attribute doit être un UUID valide.",
 
 	"custom" => [
 		"attribute-name" => [
@@ -131,6 +131,9 @@ return 	[
 
 	"attributes" => [
 		'title' => 'Titre',
-		'start' => 'Début'
-	]	
+		'start' => 'Début',
+		'name' => 'nom',
+		'email' => 'adresse e-mail',
+		'password' => 'mot de passe',
+	]
 ];
