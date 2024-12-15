@@ -68,6 +68,10 @@ class PersonalAccessTokenController extends Controller {
         $personal_access_token = $request->user()->createToken($validatedData['name'], ['api-access']);
         // echo "token=" . $personal_access_token->plainTextToken . "\n";
 
+        echo "token=" . $personal_access_token->plainTextToken . "\n";
+        var_dump($personal_access_token);
+        exit;
+
         return view('tenants/personal_access_token/show', compact('personal_access_token'));
     }
 
