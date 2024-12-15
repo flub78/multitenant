@@ -78,7 +78,7 @@ class LocalizationTest extends TenantTestCase {
 		$this->assertEquals('fr', App::getLocale());
 
 		// configuration list
-		$this->get_tenant_url($this->user, 'configuration/', ["Configuration de l'application",  "Clé", "Valeur", 'locataire', 'test']);
+		$this->get_tenant_url($this->user, 'configuration/', ["Configuration de l'application",  "Clé", "Valeur",  'test']);
 	}
 
 	public function test_login_localization() {
