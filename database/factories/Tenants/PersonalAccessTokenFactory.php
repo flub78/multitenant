@@ -31,9 +31,11 @@ class PersonalAccessTokenFactory extends Factory {
         $count = PersonalAccessToken::count();
         $next = $count + 1;
 
+        $user_id = \App\Models\User::factory()->create(['admin' => true])->id;
+
         return [
-            'tokenable_type' => "tokenable_type_" . $next . "_" . Str::random(),
-            'tokenable_id' => rand(0, 10000),
+            'tokenable_type' => \App\Models\User::class,
+            'tokenable_id' => $user_id,
             'name' => "name_" . $next . "_" . Str::random(),
             'token' => "token_" . $next . "_" . Str::random(),
             'abilities' => $this->faker->unique()->text(200),
