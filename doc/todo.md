@@ -10,6 +10,7 @@ General tasks to do whicare not attached to a specifc file.
 
 ## Features
 - [ ] Global Search Mechanism
+- [ ] Test API tokens
 
 ## Development
 
