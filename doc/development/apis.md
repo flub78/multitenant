@@ -116,7 +116,7 @@ Token are shown in the clear only then (the value stored in database is encrypte
 
     token=4|rLKqYyyVoCmDMtLSgZsIFMUwLEkcIXkIo83HslKK All tokens: token=
 
-Postman or curl are used to test REST APIs.
+Postman, Insomnia or curl can be used to test REST APIs.
 
 ```
     curl -X GET \
@@ -158,6 +158,8 @@ http://abbeville.tenants.com/api/calendar_event/1
 
 * A non existing item (returns 404)		
 http://abbeville.tenants.com/api/calendar_event/9999
+
+* The you can use Insomnia or Postman to access protected API entries.
 			
 ### Automated testing
 

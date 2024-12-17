@@ -10,7 +10,9 @@ General tasks to do whicare not attached to a specifc file.
 
 ## Features
 - [ ] Global Search Mechanism
-- [ ] Test API tokens
+- [x] Test API tokens
+- [ ] Markdown rendered for messages of the day
+- [ ] Metadata select availables tables and columns and subtypes
 
 ## Development
 

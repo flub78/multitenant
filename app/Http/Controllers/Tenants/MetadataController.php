@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Tenants;
 
 use app\Http\Controllers\Controller;
 use App\Models\Tenants\Metadata;
-use Illuminate\Http\Request;
 use App\Http\Requests\Tenants\MetadataRequest;
-use Illuminate\Database\QueryException;
 use Exception;
+use App\Models\Tenants\TenantSchema;
+use App\Helpers\HtmlHelper as HH;
 
 /**
  * Metadata controller
@@ -35,7 +35,27 @@ class MetadataController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view('tenants/metadata/create');
+		$attributes =  [
+			"class" => "form-select big-select",
+			'name' => "table_select",
+			'id' => "table_select"
+		];
+		$tl = TenantSchema::tableList();
+		$cl = TenantSchema::columnList();
+		$selected = "";
+		$table_select = HH::selector_from_list($tl, false, $selected, $attributes);
+
+		$attributes =  [
+			"class" => "form-select big-select",
+			'name' => "field_select",
+			'id' => "field_select"
+		];
+		$column_select = [];
+		foreach ($cl as $table => $columns) {
+			$column_select[$table] = HH::selector_from_list($columns, false, $selected, $attributes);
+		}
+		$initial_column_select = $column_select[$tl[0]];
+		return view('tenants/metadata/create', compact('table_select', 'column_select', 'initial_column_select'));
 	}
 
 	/**
@@ -48,7 +68,8 @@ class MetadataController extends Controller {
 		$validatedData = $request->validated(); // Only retrieve the data, the validation is done
 		try {
 			$metadata = Metadata::create($validatedData);
-			return redirect('/metadata')->with('success', __('general.creation_success', [ 'elt' => $metadata->full_name
+			return redirect('/metadata')->with('success', __('general.creation_success', [
+				'elt' => $metadata->full_name
 			]));
 		} catch (Exception $e) {
 			// Should never happen as the validation should catch invalid data
@@ -73,18 +94,18 @@ class MetadataController extends Controller {
 	 * @param \Illuminate\Http\Request $request
 	 * @param \App\Models\Tenants\Metadata $metadata
 	 * @return \Illuminate\Http\Response
-     *
-     * @SuppressWarnings("PMD.ShortVariable")
+	 *
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function update(MetadataRequest $request, $id) {
 		$validatedData = $request->validated();
-		
-		$metadata = Metadata::find([ 'id' => $id])->first();
+
+		$metadata = Metadata::find(['id' => $id])->first();
 		$name = $metadata->full_name;
 		$metadata->update($validatedData);
-		
+
 		return redirect('/metadata')
-			->with('success', __('general.modification_success', [ 'elt' => $name]	));
+			->with('success', __('general.modification_success', ['elt' => $name]));
 	}
 
 	/**
@@ -96,8 +117,8 @@ class MetadataController extends Controller {
 	public function destroy(Metadata $metadata) {
 		$name = $metadata->full_name;
 		$metadata->delete();
-		return redirect('metadata')->with('success', __('general.deletion_success', [ 'elt' => $name
+		return redirect('metadata')->with('success', __('general.deletion_success', [
+			'elt' => $name
 		]));
 	}
-
 }
