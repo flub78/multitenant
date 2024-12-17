@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helpers;
 
 use App\Helpers\MetadataHelper as Meta;
@@ -123,7 +124,7 @@ class Cg {
         return '<label class="' . $class .  '" for="' . $field . '">{{__("' . $element . '.' . $field . '")}}</label>';
     }
 
-        /**
+    /**
      * Generate code for input in an create form
      *
      * @param String $table
@@ -224,7 +225,7 @@ class Cg {
      * @param String $field
      * @return string
      */
-    public function field_input_edit(String $table, String $field) : string {
+    public function field_input_edit(String $table, String $field): string {
         $type = "text";
         $element = Meta::element($table);
         $field_type = $this->type;
@@ -314,7 +315,7 @@ class Cg {
             . '" class="' . $class . '" name="'
             . $field . '" value="{{ old("' . $field . '", $' . $element . '->' . $field . ') }}"/>';
     }
-    
+
     /**
      * Generate code for input in an edit form
      *
@@ -325,8 +326,8 @@ class Cg {
     public function field_label_input_edit(String $table, String $field) {
         $type = "text";
         $element = Meta::element($table);
-        $subtype = $this->subtype;        
- 
+        $subtype = $this->subtype;
+
         if ($subtype == "file" || $subtype == "picture") {
             if ($subtype == "file") {
                 $prefix = '{{$' . $element . '->' . $field . '}}' . "\n";
@@ -368,7 +369,7 @@ class Cg {
         return $res;
     }
 
-    
+
     /**
      * Generate code for input in a create form
      *
@@ -399,7 +400,7 @@ class Cg {
         return $res;
     }
 
-    
+
     /**
      * Generate a validation rule for an edit input field
      *
@@ -450,7 +451,7 @@ class Cg {
         }
 
         if ($subtype == 'picture') {
-            $rules[] = "'mimes:jpeg,bmp,png'";
+            $rules[] = "'mimes:jpeg,bmp,png,webp,gif,svg'";
         }
 
         if ($subtype == 'email') {
@@ -528,7 +529,7 @@ class Cg {
         }
 
         if ($subtype == 'picture') {
-            $rules[] = "'mimes:jpeg,bmp,png'";
+            $rules[] = "'mimes:jpeg,bmp,png,webp,gif,svg'";
         }
 
         if ($subtype == 'email') {
@@ -559,7 +560,7 @@ class Cg {
         return  '[' . implode(",\n$tab", $rules) . ']';
     }
 
-    
+
     /**
      * Faker are used to create random elements for testing
      *
@@ -568,7 +569,7 @@ class Cg {
      * @return string
      */
     public function field_faker(String $table, String $field) {
-        
+
         $type = $this->type;
         $subtype = $this->subtype;
 
@@ -647,7 +648,7 @@ class Cg {
      *
      */
     public function field_migration(String $table, String $field) {
-    
+
         $type = $this->type;
         $subtype = $this->subtype;
         $unique = Meta::unique($table, $field);
@@ -717,11 +718,9 @@ class Cg {
         $res = '';
         $info = Meta::columnInformation($table, $field);
         if (!$info || !$info->Default) return "";
-       
+
         $res = '$data["' . $field . '"] = "' . $info->Default . '";';
-        
+
         return $res;
     }
-
-
 }
