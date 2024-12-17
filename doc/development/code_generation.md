@@ -6,6 +6,15 @@ This file describes a mechanism to generate code from a database schema. The inf
 
 The objective is to generate code indistinguishable from human generated code. The mechanism is based on the mustache template engine. It should support most of the php classes to implement a CRUD application for a resource.
 
+
+## Workflow
+
+* Define the database schema, include the metadata as json stings comment.
+* During development, the metadata can also be changed in the metadata CRUD
+* Run the code generator to generate the code.
+* Test
+* Do not forget to update the migration files and the test database
+
 ## The php artisan command
 
 By default the database analyzed to extract metadata is tenanttest. Create the test tenant before any code generation.

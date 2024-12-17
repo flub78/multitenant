@@ -4,7 +4,7 @@ namespace App\Models\Tenants;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tenants\Schema;
+use App\Models\Schema;
 use Exception;
 
 /**
@@ -39,9 +39,6 @@ class Metadata extends Model {
    */
   public static function create(array $params = []) {
 
-    $tl = Schema::tableList();
-    var_dump($tl);
-    exit;
     $info = Schema::columnInformation($params["table"], $params["field"]);
 
     if (!$info)
