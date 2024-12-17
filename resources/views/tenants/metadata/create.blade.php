@@ -33,30 +33,36 @@ use App\Helpers\BladeHelper as Blade;
       @csrf
 
       <div class="form-floating mb-2 border">
-        <select class="form-select big-select" name="table_select" id="table_select" onchange="tableSelectChanged()">
-          <option value="calendar_events">calendar_events</option>
-          <option value="code_gen_types">code_gen_types</option>
-          <option value="code_gen_types_view1">code_gen_types_view1</option>
-          <option value="configurations">configurations</option>
-          <option value="motd_todays">motd_todays</option>
-          <option value="motds">motds</option>
-          <option value="personal_access_tokens">personal_access_tokens</option>
-          <option value="profiles">profiles</option>
-          <option value="roles">roles</option>
-          <option value="user_roles">user_roles</option>
-          <option value="user_roles_view1">user_roles_view1</option>
-          <option value="users">users</option>
-        </select>
+        <input type="text" class="form-control" name="table" id="table" value="{{ old("table") }}" />
         <label class="form-label" for="table">{{__("metadata.table")}}</label>
       </div>
 
       <div class="form-floating mb-2 border">
-        {!! $initial_column_select !!}
+        <input type="text" class="form-control" name="field" id="field" value="{{ old("field") }}" />
         <label class="form-label" for="field">{{__("metadata.field")}}</label>
       </div>
 
       <div class="form-floating mb-2 border">
-        <input type="text" class="form-control" name="subtype" value="{{ old("subtype") }}" />
+        <select class="form-select big-select" name="subtype" id="subtype">
+          <option value=""></option>
+          <option value="email">email</option>
+          <option value="checkbox">checkbox</option>
+          <option value="enumerate">enumerate</option>
+          <option value="bitfield">bitfield</option>
+          <option value="picture">picture</option>
+          <option value="file">file</option>
+          <option value="currency">currency</option>
+          <option value="foreign_key">foreign_key</option>
+          <option value="bitfield_boxes">bitfield_boxes</option>
+          <option value="password_with_confirmation">password_with_confirmation</option>
+          <option value="password_confirmation">password_confirmation</option>
+          <option value="phone">phone</option>
+          <option value="color">color</option>
+          <option value=""></option>
+          <option value=""></option>
+          <option value=""></option>
+        </select>
+
         <label class="form-label" for="subtype">{{__("metadata.subtype")}}</label>
       </div>
 
@@ -80,7 +86,6 @@ use App\Helpers\BladeHelper as Blade;
         <label class="form-label" for="target_field">{{__("metadata.target_field")}}</label>
       </div>
 
-
       @button_submit({{__('general.submit')}})
 
     </form>
@@ -88,14 +93,58 @@ use App\Helpers\BladeHelper as Blade;
 </div>
 
 <script>
+  /** Callback for the table select */
   function tableSelectChanged() {
     var selectedTable = document.getElementById('table_select').value;
-    const column_select = @json($column_select);
-
-    console.log(column_select[selectedTable]);
-
-    document.getElementById('field_select').outerHTML = column_select[selectedTable];
+    replaceFieldBySelect(selectedTable);
   }
+
+  /**
+   * Replace the table input by a select with the available tables
+   */
+  function replaceTableBySelect() {
+    const tables = @json($tables);
+    const tableArray = Object.values(tables);
+    // console.log('Available tables:', tables);
+
+    let selectHtml = '<select class="form-select" id="table_select" name="table" onchange="tableSelectChanged()">';
+
+    for (const table of tableArray) {
+      selectHtml += `<option value="${table}">${table}</option>`;
+    }
+
+    selectHtml += '</select>';
+
+    document.getElementById('table').outerHTML = selectHtml;
+  }
+
+  /**
+   * Replace the field input by a select with the available tables
+   */
+  function replaceFieldBySelect(table) {
+    const columns = @json($columns);
+
+    const fields = columns[table];
+
+    let selectHtml = '<select class="form-select" id="field" name="field">';
+    for (const field of fields) {
+      selectHtml += `<option value="${field}">${field}</option>`;
+    }
+    selectHtml += '</select>';
+
+    document.getElementById('field').outerHTML = selectHtml;
+  }
+
+  /**
+   * When the page is displayed
+   */
+  document.addEventListener('DOMContentLoaded', function() {
+    const tables = @json($tables);
+    const tableArray = Object.values(tables);
+
+    replaceTableBySelect();
+    replaceFieldBySelect(tableArray[0]);
+  });
 </script>
 
 @endsection

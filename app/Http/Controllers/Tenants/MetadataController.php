@@ -35,27 +35,11 @@ class MetadataController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		$attributes =  [
-			"class" => "form-select big-select",
-			'name' => "table_select",
-			'id' => "table_select"
-		];
-		$tl = TenantSchema::tableList();
-		$cl = TenantSchema::columnList();
-		$selected = "";
-		$table_select = HH::selector_from_list($tl, false, $selected, $attributes);
 
-		$attributes =  [
-			"class" => "form-select big-select",
-			'name' => "field_select",
-			'id' => "field_select"
-		];
-		$column_select = [];
-		foreach ($cl as $table => $columns) {
-			$column_select[$table] = HH::selector_from_list($columns, false, $selected, $attributes);
-		}
-		$initial_column_select = $column_select[$tl[0]];
-		return view('tenants/metadata/create', compact('table_select', 'column_select', 'initial_column_select'));
+		$tables = TenantSchema::tableList();
+		$columns = TenantSchema::columnList();
+
+		return view('tenants/metadata/create', compact('tables', 'columns'));
 	}
 
 	/**
