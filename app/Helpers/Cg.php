@@ -117,6 +117,16 @@ class Cg {
             // $class .= " mt-4";
         }
 
+        if ($subtype == "picture") {
+            $class .= " btn btn-primary";
+            $txt = '<label class="' . $class .  '" for="' . $field . '">';
+            $txt .= '<i class="fas fa-camera"></i>';
+            $txt .= '{{__("' . $element . '.' . $field . '")}}</label>';
+            $txt .= '';
+
+            return $txt;
+        }
+
         if ($subtype == "checkbox") {
             $class .= " m-2";
         }

@@ -43,9 +43,17 @@
                 <div>
                     <a href="{{$url . '/api/role'}}" class="btn btn-info m-2" role="button">Role json API</a>
                 </div>
+
+            </div>
+            <div class="d-flex flex-row">
+
                 <form action="/upload_article_image" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="article_image" accept="image/*" capture="camera">
-                    <button type="submit">Upload</button>
+                    <label for="article_image" class="btn btn-primary">
+                        <i class="fas fa-camera"></i> Photo
+                    </label>
+                    <input type="file" id="article_image" name="article_image" accept="image/*" capture="camera" style="display:none" onchange="document.getElementById('file-name').textContent = this.files.length ? this.files[0].name : ''">
+                    <span id="file-name"></span>
+                    <button type="submit" class="btn btn-success">Upload</button>
                 </form>
             </div>
         </div>
