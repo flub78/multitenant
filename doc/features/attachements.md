@@ -9,7 +9,7 @@ As a user
 * I want to store the scan of a bill in an accounting application
 * I want to upload a GPS track of a flight
 * I want to download a file that I have uploaded or others files for which I have permission
-* I want to replace a file that I have uploaded
+* I want to <span style="color:red">**replace**</span> a file that I have uploaded
 * I want to delete a file that I have uploaded
 * I want to see the list of attachments if there are several
 * I do not want others user to be able to view my files.
@@ -59,3 +59,11 @@ It could be managed in several ways:
 * Have a non_editable attribute for attachment and check it.
 * Use the onDelete and onUpdate restrict mechanism to prevent it to happen. It would require a table to reference the frozen attachment (a table named registered_attachements or frozen_attachements with a attachement_id foreign key). Likely a robust approach.
 
+## HTML5 implementation
+
+I had the pleasant surprise to discover that the HTML5 specification includes a mechanism to activate the camera of a smartphone to take a picture and upload it to a server.
+
+```html
+<input type="file" id="file" name="file" accept="image/*" capture="camera">
+```
+The idea is to display attachements 
