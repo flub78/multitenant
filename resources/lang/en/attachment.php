@@ -24,5 +24,6 @@ return [
 	'referenced_id' => "Referenced id",
 	'user_id' => "User id",
 	'description' => "Description",
+	'filename' => "Filename",
 	'file' => "File",
 ];

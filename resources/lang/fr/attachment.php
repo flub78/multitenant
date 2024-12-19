@@ -23,5 +23,6 @@ return 	[
 	"referenced_id" => "ID en référence",
 	"user_id" => "ID de l'utilisateur",
 	"description" => "Description",
+	"filename" => "Nom du fichier",
 	"file" => "Fichier"
 ];

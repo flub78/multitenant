@@ -35,7 +35,6 @@ class AttachmentFactory extends Factory
             'referenced_table' => "referenced_table_" . $next . "_" . Str::random(),
             'referenced_id' => "referenced_id_" . $next . "_" . Str::random(),
             'user_id' => rand(0, 10000),
-            'filename' => "filename_" . $next . "_" . Str::random(),
             'description' => "description_" . $next . "_" . Str::random(),
             'file' => $file = UploadedFile::fake()->create('file.pdf', 3)->store('file.pdf'),
         ];

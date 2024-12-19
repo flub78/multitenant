@@ -48,11 +48,6 @@ use App\Helpers\BladeHelper as Blade;
           </div>
 
            <div class="form-floating mb-2 border">
-              <input type="text" class="form-control" name="filename" value="{{ old("filename") }}"/>
-              <label class="form-label" for="filename">{{__("attachment.filename")}}</label>
-          </div>
-
-           <div class="form-floating mb-2 border">
               <input type="text" class="form-control" name="description" value="{{ old("description") }}"/>
               <label class="form-label" for="description">{{__("attachment.description")}}</label>
           </div>

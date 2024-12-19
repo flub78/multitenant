@@ -39,10 +39,13 @@ class BladeHelper {
 	 *        	<option value="F-CFXR">xPégase - F-CFXR - (B114)</option>
 	 *        	</select>
 	 *        
-     * @SuppressWarnings("PMD.ShortVariable")
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function selector($id = "", $values = [ ], $selected = "", $attrs = [ ]) {
-		$attributes = array_merge($attrs, [ "class" => "form-select",'name' => $id,'id' => $id
+	static public function selector($id = "", $values = [], $selected = "", $attrs = []) {
+		$attributes = array_merge($attrs, [
+			"class" => "form-select",
+			'name' => $id,
+			'id' => $id
 		]);
 		return HH::selector($values, false, $selected, $attributes);
 	}
@@ -58,8 +61,11 @@ class BladeHelper {
 	 * 
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function selector_with_null(string $id = "", array $values = [ ], string $selected = "", array $attrs = [ ]) {
-		$attributes = array_merge($attrs, [ "class" => "form-select",'name' => $id,'id' => $id
+	static public function selector_with_null(string $id = "", array $values = [], string $selected = "", array $attrs = []) {
+		$attributes = array_merge($attrs, [
+			"class" => "form-select",
+			'name' => $id,
+			'id' => $id
 		]);
 		return HH::selector($values, true, $selected, $attributes);
 	}
@@ -74,10 +80,13 @@ class BladeHelper {
 	 * @param array $attrs
 	 * @return string
 	 * 
-     * @SuppressWarnings("PMD.ShortVariable")
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function select($id, $values = [ ], $with_null = false, $selected = "", $attrs = [ ]) {
-		return HH::select($values, $with_null, $selected, array_merge($attrs, [ "class" => "form-select",'name' => $id,'id' => $id
+	static public function select($id, $values = [], $with_null = false, $selected = "", $attrs = []) {
+		return HH::select($values, $with_null, $selected, array_merge($attrs, [
+			"class" => "form-select",
+			'name' => $id,
+			'id' => $id
 		]));
 	}
 
@@ -89,11 +98,11 @@ class BladeHelper {
 	 * @param unknown $table_field
 	 * @return string
 	 */
-	static public function upload_name($name, $table_field) {
+	static public function upload_name($name, $filename) {
 		$ext = pathinfo($name, PATHINFO_EXTENSION);
-		return $table_field . '_' . Str::random(16) . '.' . $ext;
+		return $filename . '_' . Str::random(8) . '.' . $ext;
 	}
-	
+
 	/**
 	 * Generate an a link to an image from a thumbnail
 	 * @param unknown $route_name
@@ -102,11 +111,11 @@ class BladeHelper {
 	 * @param string $label
 	 * @return string
 	 * 
-     * @SuppressWarnings("PMD.ShortVariable")
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function picture($route_name, $id, $field, $filename, $label="") {
+	static public function picture($route_name, $id, $field, $filename, $label = "") {
 		if (!$filename) return "";
-		$url = route ($route_name, ['id' => $id, 'field' => $field]);
+		$url = route($route_name, ['id' => $id, 'field' => $field]);
 		$img = ($label) ? $label : $field;
 		$res = '<img src="'
 			. $url . '" '
@@ -115,7 +124,7 @@ class BladeHelper {
 			. ' width="50" height="auto">';
 		return "<a href=\"$url\">$res</a>";
 	}
-	
+
 	/**
 	 * Localized display of an enumerate value
 	 * 
@@ -127,7 +136,7 @@ class BladeHelper {
 		if (!$value) return "";
 		return __($table_field . '.' . $value);
 	}
-	
+
 	/**
 	 * Display a bitfield
 	 * 
@@ -138,7 +147,7 @@ class BladeHelper {
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function bitfield($table, $field, $bitfield, $element, $values = []) {
-		
+
 		$cnt = 0;
 		$res = "";
 		foreach ($values as $value) {
@@ -152,7 +161,7 @@ class BladeHelper {
 		}
 		return $res;
 	}
-	
+
 	/**
 	 * Input for bitfield
 	 *
@@ -164,7 +173,7 @@ class BladeHelper {
 		$res = self::radioboxes($table, $field, $values, $bitfield, $element);
 		return $res;
 	}
-	
+
 	/**
 	 * Generate a link to download an uploaded file
 	 * @param unknown $route_name
@@ -173,7 +182,7 @@ class BladeHelper {
 	 * @param unknown $label
 	 * @return string
 
-     * @SuppressWarnings("PMD.ShortVariable")
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	static public function download($route_name, $id, $field, $filename, $label = "") {
 		if (!$filename) return "";
@@ -181,30 +190,30 @@ class BladeHelper {
 		if (!$label) $label = $field;
 		return "<a href=\"$url\">$label</a>";
 	}
-	
+
 	/**
 	 * Display float values according to locale
 	 * 
 	 * @param unknown $value
 	 * @return string
 	 */
-	static public function float ($value) {
+	static public function float($value) {
 		if (is_null($value)) return "";
 		return number_format($value, 2);
 	}
-	
+
 	/**
 	 * Display currency values according to locale
 	 * 
 	 * @param unknown $value
 	 * @return string
 	 */
-	static public function currency ($value) {
+	static public function currency($value) {
 		if ($value == "") return "";
 		$symbol = Config::config('app.currency_symbol');
 		return number_format($value, 2) . "&nbsp" . $symbol;
 	}
-	
+
 	/**
 	 * Generate a set of radioboxes for bitfield
 	 *
@@ -216,31 +225,30 @@ class BladeHelper {
 	 *
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	static public function radioboxes($table, $field, $values = [ ], $bitfield = 0, $element) {
-		
+	static public function radioboxes($table, $field, $values = [], $bitfield = 0, $element) {
+
 		$cnt = 0;
 		$res = "<fieldset class=\"form-group d-sm-flex flex-wrap mt-5 mb-3 ms-2\">\n";
 		foreach ($values as $value) {
-		    $res .= "             <div>\n";
-		    
-		    $res .= '               <label for="" class="form-label">';
-		    $lang_key = $element . '.'  . $field . '.' . $value;
-		    
-		    $res .= (__($lang_key) == $lang_key) ? $value : __($lang_key);
-		    $res .= "</label>\n";
-		    
-		    $res .= '               <input type="checkbox" name="' . $field .'_boxes[]" value="' . $cnt .'"';
-		    $res .= ' class="form-check-input me-3"';
-		    if (BO::bit_at($bitfield, $cnt)) $res .= ' checked="checked"';
-		    $res .= " />\n";
-		    $res .= "             </div>\n";
-		    
-		    $cnt++;
+			$res .= "             <div>\n";
+
+			$res .= '               <label for="" class="form-label">';
+			$lang_key = $element . '.'  . $field . '.' . $value;
+
+			$res .= (__($lang_key) == $lang_key) ? $value : __($lang_key);
+			$res .= "</label>\n";
+
+			$res .= '               <input type="checkbox" name="' . $field . '_boxes[]" value="' . $cnt . '"';
+			$res .= ' class="form-check-input me-3"';
+			if (BO::bit_at($bitfield, $cnt)) $res .= ' checked="checked"';
+			$res .= " />\n";
+			$res .= "             </div>\n";
+
+			$cnt++;
 		}
-		
+
 		$res .= "</fieldset>\n";
-		
+
 		return $res;
 	}
-	
 }

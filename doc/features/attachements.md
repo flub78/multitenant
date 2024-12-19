@@ -5,22 +5,24 @@ A file storage mechanism to attach files to elements of table.
 ## Use cases
 
 As a user
-* I want to store a picture of me in my profile (not really an attachment rather a file type in the model)
-* I want to store the scan of a bill in an accounting application
-* I want to upload a GPS track of a flight
-* I want to download a file that I have uploaded or others files for which I have permission
-* I want to <span style="color:red">**replace**</span> a file that I have uploaded
-* I want to delete a file that I have uploaded
-* I want to see the list of attachments if there are several
+* I store a picture of me in my profile, the scan of a bill in an accounting application, a GPS track of a flight, or any other kind of file.
+
+* I can download a file that I have uploaded or others files for which I have permission.
+
+* I can <span style="color:red">**replace**</span> a file that I have uploaded
+
+* I can delete a file that I have uploaded
+
+* I can see the list of attachments if there are several
+
 * I do not want others user to be able to view my files.
+* 
+* I want to use a smartphone application to upload pictures directly in the multi tenant WEB application.
 
 As an admin
 * I want to do what the users can do but for any user.
+  
 * I want to set limits to the total storage for a user
-
-And later
-
-* I want to use a smartphone application to upload pictures directly in the multi tenant WEB application.
 
 ## Requirements
 
@@ -32,13 +34,13 @@ And later
 
 * In some cases it will be possible to attach many files to an item in others cases only one file will be allowed for one purpose. For example a user picture, uploading another one will replace the previous one.
 
-* It should be possible to control the file types and sizes to avoid that users saturate the storage or use it as personnal storage.
+* It should be possible to control the file types and sizes to avoid that users saturate the storage or use it as personal storage.
 
 * In some case of general purpose storage it may be convenient to structure the storage into sub-directories. (or is it just the purpose?)
 
 * It must be possible to backup and restore the storage per tenant.
 
-
+* Thumbnails are used to display attachments. On click they should open the file in the browser if it is a supported mime type. If possible, the thumbnails should be dynamically generated. If not, display an icon to show the type of the file, like a pdf icon. If the mime type is totally unknown, just display a file icon and offer to download it.
 
 ## Design
 
@@ -66,4 +68,16 @@ I had the pleasant surprise to discover that the HTML5 specification includes a 
 ```html
 <input type="file" id="file" name="file" accept="image/*" capture="camera">
 ```
-The idea is to display attachements 
+The idea is to display attachements
+## Local filenames
+
+I want a user to be able to retrieve a file in the server local storage (for debugging and to make backup and restore easier).
+
+In previous implementations the initial filename was not used, which is a good thing especially when I get a file from a smartphone.
+
+Storage structure
+* /uploads/
+* /uploads/2024
+* /uploads/2024/username_yjAHh9R.gif
+
+When the user does not provide a filename, the server generates a name from the table and field to which the file is attached.

@@ -10,7 +10,7 @@ The objective is to generate code indistinguishable from human generated code. T
 ## Workflow
 
 * Define the database schema, include the metadata as json stings comment.
-* During development, the metadata can also be changed in the metadata CRUD
+* During development, the metadata can also be changed in the metadata database table.
 * Run the code generator to generate the code.
 * Test
 * Do not forget to update the migration files and the test database

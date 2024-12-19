@@ -37,7 +37,6 @@ use App\Helpers\DateFormat;
           <th> {{__('attachment.referenced_table')}} </th>
           <th> {{__('attachment.referenced_id')}} </th>
           <th> {{__('attachment.user_id')}} </th>
-          <th> {{__('attachment.filename')}} </th>
           <th> {{__('attachment.description')}} </th>
           <th> {{__('attachment.file')}} </th>
         </tr>
@@ -56,9 +55,8 @@ use App\Helpers\DateFormat;
           <td> {{$attachment->referenced_table}}</td>
           <td> {{$attachment->referenced_id}}</td>
           <td> {{$attachment->user_id}}</td>
-          <td> {{$attachment->filename}}</td>
           <td> {{$attachment->description}}</td>
-          <td> {!! Blade::download("attachment.file", $attachment->id, "file", $attachment->file, "File") !!}</td>
+          <td> {!! Blade::download("attachment.file", $attachment->id, "file", $attachment->file, "attachment.file") !!}</td>
 		              
         </tr>
         @endforeach

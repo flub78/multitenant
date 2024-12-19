@@ -47,15 +47,11 @@ use App\Helpers\DateFormat;
              </div>
            
              <div class="form-group mb-2">
-               <label class="form-label" for="filename">{{__("attachment.filename")}}</label> : {{$attachment->filename}}
-             </div>
-           
-             <div class="form-group mb-2">
                <label class="form-label" for="description">{{__("attachment.description")}}</label> : {{$attachment->description}}
              </div>
            
              <div class="form-group mb-2">
-               <label class="form-label" for="file">{{__("attachment.file")}}</label> : {!! Blade::download("attachment.file", $attachment->id, "file", $attachment->file, "File") !!}
+               <label class="form-label" for="file">{{__("attachment.file")}}</label> : {!! Blade::download("attachment.file", $attachment->id, "file", $attachment->file, "attachment.file") !!}
              </div>
            
              

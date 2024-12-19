@@ -63,7 +63,7 @@ class AttachmentControllerTest extends TenantTestCase {
 		$json = $response->json();
 		$this->assertEquals(2, count($json['data']));
 
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             if ($field != "id")
                 $this->assertEquals($elements[0]->$field, $json['data'][0][$field]);             
         }
@@ -81,7 +81,7 @@ class AttachmentControllerTest extends TenantTestCase {
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '/1');
 		$response->assertStatus(200);
 		$json = $response->json();
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             if ($field != "id")
                 $this->assertEquals($attachment1->$field, $json[$field]);             
         }
@@ -104,7 +104,7 @@ class AttachmentControllerTest extends TenantTestCase {
         // But in this context all middleware are disabled ...
         // $elt['_token'] = csrf_token();
 		$table = "attachments";
-		foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+		foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
 			if (CG::testable($table, $field)) {
 		    	$elt[$field] = $attachment->$field;
 			} else {
@@ -120,7 +120,7 @@ class AttachmentControllerTest extends TenantTestCase {
 		$json = $response->json();
 		
 		// by default the store method returns the created element
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
 			if (CG::testable($table, $field)) 
 	            $this->assertEquals($attachment->$field, $json[$field]);             
         }
@@ -133,7 +133,7 @@ class AttachmentControllerTest extends TenantTestCase {
 		// and it can be retrieved		
 		$back = Attachment::latest()->first();
 		$this->assertNotNull($back);
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
 			if (CG::testable($table, $field)) 
 	            $this->assertEquals($attachment->$field, $back->$field);             
         }
@@ -228,7 +228,7 @@ class AttachmentControllerTest extends TenantTestCase {
         //prepare another element
         $attachment = Attachment::factory()->make();
         $elt = [];
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             $elt[$field] = $attachment->$field;
         }
 		$elt['_token'] = csrf_token();
@@ -239,7 +239,7 @@ class AttachmentControllerTest extends TenantTestCase {
 		$updated = Attachment::findOrFail($id);
 		
 		$table = "attachments";
-		foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+		foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
 		    if ($field != "id" && CG::testable($table, $field))
                 $this->assertEquals($elt[$field], $updated->$field);             
         }
@@ -271,7 +271,7 @@ class AttachmentControllerTest extends TenantTestCase {
 		// with a page parameter the API returns the collection in the data field
         // Check that 20 elements out of 100 have been received
 		$this->assertEquals(20, count($json['data']));
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             $this->assertEquals($elt20->$field, $json['data'][19][$field]);
         }
 		
@@ -326,16 +326,16 @@ class AttachmentControllerTest extends TenantTestCase {
 		$json = $response->json();
 		// First call without sorting
 		$this->assertEquals(20, count($json['data']));
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             $this->assertEquals($elt20->$field, $json['data'][19][$field]);
         }
 		
 		// Sorting on start (reverse order)
-		$first_field = [ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ][0];
+		$first_field = [ "referenced_table", "referenced_id", "user_id", "description", "file" ][0];
 		$response = $this->getJson('http://' . $this->domain(tenant('id')) . '/api' . $this->base_url . '?sort=-' . $first_field);
 		$json = $response->json();
 		
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             $this->assertEquals($elt85->$field, $json['data'][6][$field]);
         }
 	}

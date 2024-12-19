@@ -104,7 +104,6 @@ class AttachmentControllerTest extends TenantTestCase {
         $look_for[] = __('attachment.referenced_table'); 
         $look_for[] = __('attachment.referenced_id'); 
         $look_for[] = __('attachment.user_id'); 
-        $look_for[] = __('attachment.filename'); 
         $look_for[] = __('attachment.description'); 
         $look_for[] = __('attachment.file'); 
 
@@ -160,7 +159,6 @@ class AttachmentControllerTest extends TenantTestCase {
         $elt['referenced_table'] = $attachment->referenced_table; 
         $elt['referenced_id'] = $attachment->referenced_id; 
         $elt['user_id'] = $attachment->user_id; 
-        $elt['filename'] = $attachment->filename; 
         $elt['description'] = $attachment->description; 
         $elt['file'] = $attachment->file; 
 
@@ -241,7 +239,7 @@ class AttachmentControllerTest extends TenantTestCase {
         $elt = ['_token' => csrf_token()];
         $elt2 = ['_token' => csrf_token()];
         
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             $elt[$field] = $attachment->$field;
             $elt2[$field] = $attachment2->$field;
         }
@@ -257,7 +255,7 @@ class AttachmentControllerTest extends TenantTestCase {
         
         $table = "attachments";
         // Check that the first saved element has the correct values and is different from the second one
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             if ($field != 'id') {
                 $this->assertEquals($initial->$field, $elt[$field], "correct field $field retreived from the database");
                 if (CG::lot_of_values($table, $field))
@@ -271,7 +269,7 @@ class AttachmentControllerTest extends TenantTestCase {
         
         $updated = Attachment::where('id', $id)->first();
         $this->assertNotNull($updated);     
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             if ($field != 'id' && CG::testable($table, $field) ) {
                 $this->assertEquals($updated->$field, $elt2[$field]);
             }

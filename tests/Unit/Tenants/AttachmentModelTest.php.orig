@@ -43,7 +43,7 @@ class AttachmentModelTest extends TenantTestCase {
         $attachment3 = Attachment::factory()->make();
         $this->assertNotNull($attachment3);
         $table = "attachments";
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             if (CG::lot_of_values($table, $field))
                 $this->assertNotEquals($latest->$field, $attachment3->$field, "different $field between two random element");
         }
@@ -55,12 +55,12 @@ class AttachmentModelTest extends TenantTestCase {
         $stored = Attachment::where(['id' => $id])->first();      
         $this->assertNotNull($stored, "It is possible to retrieve the attachment after creation");
         
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             $this->assertEquals($latest->$field, $stored->$field, "Checks the element $field fetched from the database");
         }
         
         // Update
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             if ($field != "id")
                 $stored->$field = $attachment3->$field;
         }
@@ -71,7 +71,7 @@ class AttachmentModelTest extends TenantTestCase {
         $back = Attachment::where('id', $id)->first();
         $this->assertNotNull($back, "It is possible to retrieve the attachment after update");
 
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             if ($field != "id") {
                 $this->assertEquals($back->$field, $attachment3->$field, "$field after update");
             }
@@ -81,7 +81,7 @@ class AttachmentModelTest extends TenantTestCase {
         $stored->delete();   
         $this->assertModelMissing($stored);
         $this->assertTrue(Attachment::count() == $initial_count + 1, "One less elements in the table");
-        foreach ([ "referenced_table", "referenced_id", "user_id", "filename", "description", "file" ] as $field) {
+        foreach ([ "referenced_table", "referenced_id", "user_id", "description", "file" ] as $field) {
             if ($field != "id" && (CG::lot_of_values($table, $field)) )
                 $this->assertDatabaseMissing('attachments', [$field => $attachment3->$field]);
         }
