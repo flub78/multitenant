@@ -3,7 +3,7 @@
 
 ## General workflow for a new feature
 
-Defines user story using
+Define the use cases
   * As a user
   * I want to 
   * So ..
@@ -32,8 +32,11 @@ For resources, the usual workflow is
 
 This is the workflow that I consider the most convenient in which the tables are created first in phpmyadmin and then the migration is generated from the table schema. If you are more comfortable writing migrations in PHP you can skip this step and create the migration with Artisan.
 
-    php artisan make:migration Profiles
- 
+```
+    php artisan make:migration Attachments
+    mv database/migrations/2024_12_19_082707_attachments.php database/migrations/tenant/
+```
+
 then edit and adapt the migration.
 
 
