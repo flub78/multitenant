@@ -70,6 +70,10 @@ Route::middleware([
 	Route::resource('personal_access_token', App\Http\Controllers\Tenants\PersonalAccessTokenController::class)
 		->middleware('auth');
 
+	Route::resource('attachment', App\Http\Controllers\Tenants\AttachmentController::class)
+		->middleware('auth');
+	Route::get('/attachment/download/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'download'])->name('attachment.file')->middleware('auth');
+
 	/*
 	 * admin routes
 	 */
@@ -140,5 +144,8 @@ Route::middleware([
 		->middleware(['auth:sanctum', 'ability:check-status,api-access']);
 
 	Route::resource('api/test', App\Http\Controllers\Api\TestController::class, ['as' => 'api'])
+		->middleware(['auth:sanctum', 'ability:check-status,api-access']);
+
+	Route::resource('api/attachment', App\Http\Controllers\Api\AttachmentController::class, ['as' => 'api'])
 		->middleware(['auth:sanctum', 'ability:check-status,api-access']);
 });

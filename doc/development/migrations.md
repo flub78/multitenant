@@ -2,6 +2,10 @@
 
 ## Migrations for upgrade deployment or manual test environment
 
+** Warning: the migration filename must be a snake-case version of the class name.**
+
+    Error migrations: Cannot declare class X, because the name is already in use
+
 ### Central application migration
 
     php artisan migrate

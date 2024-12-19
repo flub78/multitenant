@@ -104,6 +104,11 @@ the test database.
 
     set table=motds
     php artisan mustache:generate --install %table% all
+    
+on linux:
+
+    export TABLE=attachments
+    php artisan mustache:generate --install $TABLE all
 
 And follow the instructions displayed per the tool:
 
