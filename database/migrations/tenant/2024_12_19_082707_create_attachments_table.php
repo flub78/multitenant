@@ -15,8 +15,8 @@ class CreateAttachmentsTable extends Migration {
             $table->string('referenced_table', 128)->nullable();
             $table->string('referenced_id', 128)->nullable();
             $table->bigInteger('user_id')->nullable();
-            $table->string('filename', 128);
-            $table->string('description', 1024);
+            $table->string('filename', 128)->nullable();
+            $table->string('description', 1024)->nullable();
 
             $table->string('file')->nullable()->comment('{"subtype" : "file", "file_types" : ["txt", "pdf", "jpg"]}');
 

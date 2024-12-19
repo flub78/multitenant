@@ -88,7 +88,7 @@ class CodeGenTypeRequest extends FormRequest {
 						'picture' => [
 							'nullable',
 							'max:2000',
-							'mimes:jpeg,bmp,png,webp,gif,svg'
+							'mimes:jpeg,bmp,png,webp,gif,svg,avif'
 						],
 						'attachment' => [
 							'nullable',
@@ -144,7 +144,7 @@ class CodeGenTypeRequest extends FormRequest {
 						'picture' => [
 							'nullable',
 							'max:2000',
-							'mimes:jpeg,bmp,png,webp,gif,svg'
+							'mimes:jpeg,bmp,png,webp,gif,svg,avif'
 						],
 						'attachment' => [
 							'nullable',

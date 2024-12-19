@@ -461,7 +461,7 @@ class Cg {
         }
 
         if ($subtype == 'picture') {
-            $rules[] = "'mimes:jpeg,bmp,png,webp,gif,svg'";
+            $rules[] = "'mimes:jpeg,bmp,png,webp,gif,svg,avif'";
         }
 
         if ($subtype == 'email') {
@@ -539,7 +539,7 @@ class Cg {
         }
 
         if ($subtype == 'picture') {
-            $rules[] = "'mimes:jpeg,bmp,png,webp,gif,svg'";
+            $rules[] = "'mimes:jpeg,bmp,png,webp,gif,svg,avif'";
         }
 
         if ($subtype == 'email') {
