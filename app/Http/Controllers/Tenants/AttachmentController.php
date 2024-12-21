@@ -133,8 +133,36 @@ class AttachmentController extends Controller {
     public function download($id, $field) {
         $elt = Attachment::find($id);
         if ($elt) {
-            $filename = $elt->$field;
-            return $this->download_file($filename);
+            $file = $elt->file;
+
+            $mime = mime_content_type(storage_path('app/uploads/' . $file));
+
+            $displayable_types = [
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                'image/bmp',
+                'image/tiff',
+                'image/webp',
+                'image/x-icon',
+                'image/vnd.microsoft.icon',
+                'image/x-bmp',
+                'image/avif',
+                'image/svg+xml', // Images
+                'application/pdf', // PDF
+                'text/plain', // Text files
+                'text/markdown' // Markdown
+            ];
+
+            if (in_array($mime, $displayable_types)) {
+                // render the file in the browser
+                return response()->file(storage_path('app/uploads/' . $file));
+            }
+
+            // allow the user to download the file
+            return response()->download(storage_path('app/uploads/' . $file));
+        } else {
+            abort(404);
         }
     }
 

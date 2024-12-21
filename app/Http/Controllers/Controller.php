@@ -15,10 +15,9 @@ use Illuminate\Support\Str;
 
 
 
-class Controller extends BaseController
-{
+class Controller extends BaseController {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
+
     /**
      * Generate the name where an uploaded file is stored
      * @param unknown $name
@@ -26,19 +25,19 @@ class Controller extends BaseController
      * @return string
      */
     protected function upload_name($name, $table_field) {
-    	return Blade::upload_name($name, $table_field);
+        return Blade::upload_name($name, $table_field);
     }
-    
+
     /**
      * Download a file from the uploads storage
      * @param String $file
      */
     public function download_file($file) {
-    	if (!$file) return redirect ( 'code_gen_type' )->with ( 'error', "File not found");
-    	
-    	return Storage::download("uploads/" . $file);
+        if (!$file) return redirect('code_gen_type')->with('error', "File not found");
+
+        return Storage::download("uploads/" . $file);
     }
-    
+
     /**
      * Display an image in a browser
      *
@@ -46,41 +45,41 @@ class Controller extends BaseController
      * @return unknown
      */
     public function displayImage($filename) {
-    	$content = Storage::get('uploads/' . $filename);
-    	$mime = Storage::mimeType('uploads/' . $filename);
-    	$response = Response::make($content, 200);
-    	$response->header("Content-Type", $mime);
-    	return $response;
+        $content = Storage::get('uploads/' . $filename);
+        $mime = Storage::mimeType('uploads/' . $filename);
+        $response = Response::make($content, 200);
+        $response->header("Content-Type", $mime);
+        return $response;
     }
-    
+
     /*
      * Store functions
      */
-    
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
      */
     public function store_date(&$validatedData, $field) {
-    	$validatedData [$field] = DateFormat::date_to_db ( $validatedData [$field]);
+        $validatedData[$field] = DateFormat::date_to_db($validatedData[$field]);
     }
-    
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
      */
     public function store_checkbox(&$validatedData, $field, $request) {
-        $validatedData [$field] = $request->has ( $field ) && $request->$field;        
+        $validatedData[$field] = $request->has($field) && $request->$field;
     }
-    
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
      */
     public function store_datetime(&$validatedData, $field) {
-        $validatedData [$field] = DateFormat::datetime_to_db ($validatedData [$field]);
+        $validatedData[$field] = DateFormat::datetime_to_db($validatedData[$field]);
     }
-        
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
@@ -88,7 +87,7 @@ class Controller extends BaseController
      * @param unknown $table
      */
     public function store_picture(&$validatedData, $field, $request, $table) {
-    	$this->store_file($validatedData, $field, $request, $table);
+        $this->store_file($validatedData, $field, $request, $table);
     }
 
     /**
@@ -98,13 +97,15 @@ class Controller extends BaseController
      * @param unknown $table
      */
     public function store_file(&$validatedData, $field, $request, $table) {
-    	if ($request->file($field)) {
-    		$name =  $request->file($field)->getClientOriginalName();
-    		$filename = $this->upload_name($name, $table . '_' . $field);
-    		$request->file($field)->storeAs('uploads', $filename);
-    		$validatedData[$field] = $filename;
-    	}
-    	if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
+        if ($request->file($field)) {
+            $name =  $request->file($field)->getClientOriginalName();
+            $filename = $this->upload_name($name, $table . '_' . $field);
+            // By default public storage is not really public and must be dynamically served.
+
+            $request->file($field)->storeAs('uploads', $filename);
+            $validatedData[$field] = $filename;
+        }
+        if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
     }
 
     /**
@@ -114,37 +115,37 @@ class Controller extends BaseController
      * @param string $table
      */
     public function store_bitfield(array &$validatedData, string $field, $request, string $table) {
-    	$boxes = $field . '_boxes';
-    	if (array_key_exists($boxes, $validatedData)) {
-    		$bitfield = 0;
-    		foreach ($validatedData[$boxes] as $bit) {
-    			BO::set($bitfield, $bit);
-    		}
-    		unset($validatedData[$boxes]);
-    		$validatedData[$field] = $bitfield;
-    	}
+        $boxes = $field . '_boxes';
+        if (array_key_exists($boxes, $validatedData)) {
+            $bitfield = 0;
+            foreach ($validatedData[$boxes] as $bit) {
+                BO::set($bitfield, $bit);
+            }
+            unset($validatedData[$boxes]);
+            $validatedData[$field] = $bitfield;
+        }
     }
-    
+
     /*
      * Update functions
      */
-    
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
      */
     public function update_date(&$validatedData, $field) {
-    	$validatedData [$field] = DateFormat::date_to_db ( $validatedData [$field]);
+        $validatedData[$field] = DateFormat::date_to_db($validatedData[$field]);
     }
-    
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
      */
     public function update_datetime(&$validatedData, $field) {
-    	$validatedData [$field] = DateFormat::datetime_to_db ( $validatedData [$field]);
+        $validatedData[$field] = DateFormat::datetime_to_db($validatedData[$field]);
     }
-    
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
@@ -153,9 +154,9 @@ class Controller extends BaseController
      * @param unknown $previous
      */
     public function update_picture(&$validatedData, $field, $request, $table, $previous) {
-    	$this->update_file($validatedData, $field, $request, $table, $previous);
+        $this->update_file($validatedData, $field, $request, $table, $previous);
     }
-    
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
@@ -164,16 +165,16 @@ class Controller extends BaseController
      * @param unknown $previous
      */
     public function update_file(&$validatedData, $field, $request, $table, $previous) {
-    	if ($request->file($field)) {
-    		$name =  $request->file($field)->getClientOriginalName();
-    		$filename = $this->upload_name($name, $table . '_' . $field);
-    		if ($previous->$field) {
-    			Storage::delete('uploads/' . $previous->$field);
-    		}
-    		$request->file($field)->storeAs('uploads', $filename);
-    		$validatedData[$field] = $filename;
-    	}
-    	if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
+        if ($request->file($field)) {
+            $name =  $request->file($field)->getClientOriginalName();
+            $filename = $this->upload_name($name, $table . '_' . $field);
+            if ($previous->$field) {
+                Storage::delete('uploads/' . $previous->$field);
+            }
+            $request->file($field)->storeAs('uploads', $filename);
+            $validatedData[$field] = $filename;
+        }
+        if (array_key_exists($field, $validatedData) && !$validatedData[$field]) unset($validatedData[$field]);
     }
 
     /**
@@ -183,51 +184,51 @@ class Controller extends BaseController
      * @param unknown $table
      */
     public function update_bitfield(&$validatedData, $field, $request, $table) {
-    	$this->store_bitfield($validatedData, $field, $request, $table);
+        $this->store_bitfield($validatedData, $field, $request, $table);
     }
-    
+
     /*
      * Convert functions
      * 
      * They are used for type needing a conversion between the database and the edit form
      */
-    
+
     /**
      * @param unknown $validatedData
      * @param unknown $field
      */
     public function convert_datetime($object, $field) {
-        $object->$field = DateFormat::to_local_datetime ( $object->$field);
+        $object->$field = DateFormat::to_local_datetime($object->$field);
     }
-    
+
     /*
      * Destroy functions
      */
-    
+
     /**
      * @param unknown $file
      * @param unknown $context
      */
     public function destroy_file($file) {
-    	if ($file) {
-    		Storage::delete('uploads/' . $file);
-    	}   	
+        if ($file) {
+            Storage::delete('uploads/' . $file);
+        }
     }
-    
+
     /**
      * @param unknown $query
      * @param unknown $filter
      */
     protected function applyFilter(&$query, $filter) {
         // filter parameter are comma separated list of filter criteria
-        if (!$filter) return; 
-        
+        if (!$filter) return;
+
         $filters = explode(',', $filter);
         foreach ($filters as $filter) {
-            
+
             // a filter criteria is a field:value
             list($criteria, $value) = explode(':', $filter, 2);
-            
+
             $operator_found = false;
             foreach (['<=', '>=', '<', '>', '<like>', '<>'] as $op) {
                 if (Str::startsWith($value, $op)) {
@@ -240,7 +241,5 @@ class Controller extends BaseController
             }
             if (!$operator_found) $query->where($criteria, $value);
         }
-        
     }
-    
 }

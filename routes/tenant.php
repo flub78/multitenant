@@ -72,7 +72,7 @@ Route::middleware([
 
 	Route::resource('attachment', App\Http\Controllers\Tenants\AttachmentController::class)
 		->middleware('auth');
-	Route::get('/attachment/download/{id}/{field}', [App\Http\Controllers\Tenants\CodeGenTypeController::class, 'download'])->name('attachment.file')->middleware('auth');
+	Route::get('/attachment/download/{id}/{field}', [App\Http\Controllers\Tenants\AttachmentController::class, 'download'])->name('attachment.file')->middleware('auth');
 
 	/*
 	 * admin routes
