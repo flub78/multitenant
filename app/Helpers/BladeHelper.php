@@ -192,6 +192,47 @@ class BladeHelper {
 	}
 
 	/**
+	 * Generate a link to download an uploaded file
+	 * @param unknown $route_name
+	 * @param unknown $id
+	 * @param unknown $field
+	 * @param unknown $label
+	 * @return string
+
+	 * @SuppressWarnings("PMD.ShortVariable")
+	 */
+	static public function attachment($route_name, $id, $field, $filename, $label = "") {
+		if (!$filename) return "";
+
+		$mime_type = mime_content_type(storage_path('app/uploads/' . $filename));
+		$url = route($route_name, ['id' => $id, 'field' => $field]);
+
+		$inner_html = "";
+		if (str_starts_with($mime_type, 'image/')) {
+			$inner_html = "<img src=\"$url\" class=\"img-thumbnail\" alt=\"$label\" width=\"50\" height=\"auto\" >";
+		} else {
+			if (str_ends_with($mime_type, 'pdf')) {
+				$inner_html = "<i class=\"fas fa-file-pdf fa-2x\"></i>";
+			} else if (str_ends_with($mime_type, 'txt') || str_ends_with($mime_type, 'text/plain')) {
+				$inner_html = "<i class=\"fas fa-file-alt fa-2x\"></i>";
+			} else if (str_ends_with($mime_type, 'md') || str_ends_with($mime_type, 'markdown')) {
+				$inner_html = "<i class=\"fas fa-file-alt fa-2x\"></i>";
+			} else if (str_ends_with($mime_type, 'csv')) {
+				$inner_html = "<i class=\"fas fa-file-csv fa-2x\"></i>";
+			} else if (str_ends_with($mime_type, 'xlsx') || str_ends_with($mime_type, 'xls') || str_contains($mime_type, 'spreadsheet')) {
+				$inner_html = "<i class=\"fas fa-file-excel fa-2x\"></i>";
+			} else if (str_ends_with($mime_type, 'doc') || str_ends_with($mime_type, 'docx') || str_contains($mime_type, 'word')) {
+				$inner_html = "<i class=\"fas fa-file-word fa-2x\"></i>";
+			} else {
+				$inner_html = "<i class=\"fas fa-file fa-2x\"></i>";
+			}
+		}
+
+		if (!$label) $label = $field;
+		return "<a href=\"$url\" target=\"_blank\">$inner_html</a>";
+	}
+
+	/**
 	 * Display float values according to locale
 	 * 
 	 * @param unknown $value
