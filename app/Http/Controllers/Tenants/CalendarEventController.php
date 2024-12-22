@@ -3,6 +3,7 @@
  * Code generated from a template, if modifications are required, carefully consider if they should be done
  * in the generated code or in the template.
  */
+
 namespace App\Http\Controllers\Tenants;
 
 use app\Http\Controllers\Controller;
@@ -41,8 +42,8 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$events = CalendarEvent::all ();
-		return view ( $this->base_view . 'index', compact ( 'events' ) );
+		$events = CalendarEvent::all();
+		return view($this->base_view . 'index', compact('events'));
 	}
 
 	/**
@@ -52,9 +53,9 @@ class CalendarEventController extends Controller {
 	 */
 	public function fullcalendar() {
 		Log::Debug("CalendarEventController.fullcalendar");
-		
-		$events = CalendarEvent::all ();
-		return view ( $this->base_view . 'calendar', compact ( 'events' ) );
+
+		$events = CalendarEvent::all();
+		return view($this->base_view . 'calendar', compact('events'));
 	}
 
 
@@ -67,39 +68,39 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create(Request $request) {
-		
-		Log::debug("CalendarEventController.create, action=" . $request->get ('action') .
-				", start=" . $request->get ('start'));
-		
-		$data = ['action' => $request->get ('action')];
-			
-        /*
+
+		Log::debug("CalendarEventController.create, action=" . $request->get('action') .
+			", start=" . $request->get('start'));
+
+		$data = ['action' => $request->get('action')];
+
+		/*
          * A start parameter is specified when the method is called from the agenda.
          * It is used to prefill the creation form
          * It can be a date like 2022-09-14 or a datetime 2022-09-05T11:00:00
          * The datetime is in local time as displayed by the full calendar.
          */
-		if ($request->get ('start')) {
-			
-			$start = explode(' ', $request->get ('start'))[0];
-						
+		if ($request->get('start')) {
+
+			$start = explode(' ', $request->get('start'))[0];
+
 			$cstart = Carbon::parse($start);
 			$start_str = $cstart->format(__('general.datetime_format'));
 			// echo("strart_str = $start_str");
-			$data['start'] = $start_str;			
+			$data['start'] = $start_str;
 		} else {
-		    $data['start'] = "";
+			$data['start'] = "";
 		}
-		
-        $data["title"] = "titre";
-        $data["allDay"] = "1";
-        $data["editable"] = "1";
-        $data["startEditable"] = "1";
-        $data["durationEditable"] = "1";
-        $data["backgroundColor"] = "#ffffcc";
-        $data["textColor"] = "#000066";
-		
-		return view ( $this->base_view . 'create', $data );
+
+		$data["title"] = "titre";
+		$data["allDay"] = "1";
+		$data["editable"] = "1";
+		$data["startEditable"] = "1";
+		$data["durationEditable"] = "1";
+		$data["backgroundColor"] = "#ffffcc";
+		$data["textColor"] = "#000066";
+
+		return view($this->base_view . 'create', $data);
 	}
 
 	/**
@@ -109,8 +110,8 @@ class CalendarEventController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(CalendarEventRequest $request) {
-		$validatedData = $request->validated ();
-		
+		$validatedData = $request->validated();
+
 		/**
             array (
                 'title' => 'After midnight',
@@ -120,32 +121,31 @@ class CalendarEventController extends Controller {
                 'backgroundColor' => '#00ffff',
                 'textColor' => '#808080',
             ) 
-        */
+		 */
 
 		try {
-		
-		    $validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
-		
-		    $this->store_datetime($validatedData, 'start');
-		    $this->store_datetime($validatedData, 'end');
-				
-		    if (!array_key_exists ( 'backgroundColor', $validatedData )) {
-			  $validatedData ['backgroundColor'] = '#FFFFFF';
-		    }
-		    if (!array_key_exists ( 'textColor', $validatedData )) {
-			  $validatedData ['textColor'] = '#000000';
-		    }
 
-		    Log::Debug("CalendarEventController.stored: validated=" . var_export($validatedData, true));
-		
-		    CalendarEvent::create ( $validatedData );
+			$validatedData['allDay'] = $request->has('allDay') && $request->allDay;
 
-		    return redirect ( $this->base_url )->with ( 'success', __ ( 'general.creation_success', [ 
-				'elt' => $validatedData ['title']
-		    ] ) );
-		
+			$this->store_datetime($validatedData, 'start');
+			$this->store_datetime($validatedData, 'end');
+
+			if (!array_key_exists('backgroundColor', $validatedData)) {
+				$validatedData['backgroundColor'] = '#FFFFFF';
+			}
+			if (!array_key_exists('textColor', $validatedData)) {
+				$validatedData['textColor'] = '#000000';
+			}
+
+			Log::Debug("CalendarEventController.stored: validated=" . var_export($validatedData, true));
+
+			CalendarEvent::create($validatedData);
+
+			return redirect($this->base_url)->with('success', __('general.creation_success', [
+				'elt' => $validatedData['title']
+			]));
 		} catch (Exception $e) {
-		    return back()->withErrors(['msg' => $e->getMessage()]);   		    
+			return back()->withErrors(['msg' => $e->getMessage()]);
 		}
 	}
 
@@ -158,15 +158,20 @@ class CalendarEventController extends Controller {
 	 *        	the event
 	 * @return \Illuminate\Http\Response
 
-     * @SuppressWarnings("PMD.ShortVariable")
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function edit($id) {
-		$calendarEvent = CalendarEvent::findOrFail ( $id );
-		
+		$calendarEvent = CalendarEvent::findOrFail($id);
+
 		$calendarEvent->start = DateFormat::to_local_datetime($calendarEvent->start);
 		$calendarEvent->end = DateFormat::to_local_datetime($calendarEvent->end);
-		
-		return view ( $this->base_view . 'edit' )->with ( 'calendar_event', $calendarEvent );
+
+		$attachments = $calendarEvent->attachments;
+
+		return view($this->base_view . 'edit')->with('calendar_event', $calendarEvent)
+			->with('attachments', $attachments)
+			->with('referenced_table', 'calendar_events')
+			->with('reference_id', $id);
 	}
 
 	/**
@@ -177,26 +182,26 @@ class CalendarEventController extends Controller {
 	 *        	id of the event
 	 * @return \Illuminate\Http\Response
 
-     * @SuppressWarnings("PMD.ShortVariable")
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function update(CalendarEventRequest $request, $id) {
-		$validatedData = $request->validated ();
-		
+		$validatedData = $request->validated();
+
 		try {
-		  $this->store_datetime($validatedData, 'start');
-		  $this->store_datetime($validatedData, 'end');
-		
-		  Log::Debug("CalendarEventController.update: id=$id, validated=" . var_export($validatedData, true));
-		
-		  $validatedData ['allDay'] = $request->has ( 'allDay' ) && $request->allDay;
+			$this->store_datetime($validatedData, 'start');
+			$this->store_datetime($validatedData, 'end');
 
-		  CalendarEvent::whereId ( $id )->update ( $validatedData );
+			Log::Debug("CalendarEventController.update: id=$id, validated=" . var_export($validatedData, true));
 
-		  return redirect ( $this->base_url )->with ( 'success', __ ( 'general.modification_success', [ 
-				'elt' => $validatedData ['title']
-		  ] ) );
+			$validatedData['allDay'] = $request->has('allDay') && $request->allDay;
+
+			CalendarEvent::whereId($id)->update($validatedData);
+
+			return redirect($this->base_url)->with('success', __('general.modification_success', [
+				'elt' => $validatedData['title']
+			]));
 		} catch (Exception $e) {
-		  return back()->withErrors(['msg' => $e->getMessage()]);
+			return back()->withErrors(['msg' => $e->getMessage()]);
 		}
 	}
 
@@ -207,14 +212,19 @@ class CalendarEventController extends Controller {
 	 *        	the event
 	 * @return \Illuminate\Http\Response
 
-     * @SuppressWarnings("PMD.ShortVariable")
+	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
 	public function destroy(string $id) {
-		$calendarEvent = CalendarEvent::findOrFail ( $id );
+		$calendarEvent = CalendarEvent::findOrFail($id);
 		$title = $calendarEvent->title;
-		$calendarEvent->delete ();
 
-		return redirect ( $this->base_url )->with ( 'success', __('general.deletion_success', ['elt' => $title]));		
+		$calendar_event = CalendarEvent::findOrFail($id);
+
+		// Delete all associated attachments
+		$calendar_event->attachments()->delete();
+		$calendarEvent->delete();
+
+		return redirect($this->base_url)->with('success', __('general.deletion_success', ['elt' => $title]));
 	}
 
 	/**
@@ -224,72 +234,71 @@ class CalendarEventController extends Controller {
 	 * @return json status => 'OK' or ['error' => ['message' => 'error message', 'code' => 1234]];
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	public function dragged (Request $request) {
-		
-		$id = $request->get ('id');
-		$title = $request->get ('title');
-		$new_start = $request->get ('start');
-		$end = $request->get ('end');
-		$allDay = $request->get ('allDay');
-		
+	public function dragged(Request $request) {
+
+		$id = $request->get('id');
+		$title = $request->get('title');
+		$new_start = $request->get('start');
+		$end = $request->get('end');
+		$allDay = $request->get('allDay');
+
 		Log::Debug("Event $id, title=$title, has been draggged to $new_start end=$end, allDay=$allDay");
 		/*
 		 * Event 12, title=Docteur, has been draggged to 2022-01-05T09:00:00Z end=2022-01-05T13:00:00Z, allDay=false 
 		 * 
 		 * fullcalendar sends date in local time
 		 */
-		
+
 		if (! $id) {
 			$output = ['error' => ['message' => 'Missing calendar event ID', 'code' => 1]];
 			Log::Debug('Missing calendar event ID');
 			return response()->json($output);
 		}
-		
+
 		$start_datetime = null;
 		if (! $new_start) {
 			$output = ['error' => ['message' => 'Missing calendar event start', 'code' => 2]];
 			Log::Debug('Missing calendar event start');
-			
+
 			return response()->json($output);
-			
 		} else {
 			try {
 				$exploded = explode(' ', $new_start);
-				$start_datetime = Carbon::parse($exploded[0], Config::config('app.timezone'));		
-			} catch ( Exception $e ) {
+				$start_datetime = Carbon::parse($exploded[0], Config::config('app.timezone'));
+			} catch (Exception $e) {
 				$output = ['error' => ['message' => 'Incorrect event start format', 'code' => 3]];
 				Log::Debug('Incorrect event start format: ' . $new_start);
 				return response()->json($output);
 			}
 		}
-		
+
 		// Fetch the event
-		$event = CalendarEvent::find ($id);	
-		
+		$event = CalendarEvent::find($id);
+
 		if (! $event) {
 			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]];
 			Log::Debug('Unknown calendar event ID');
 			return response()->json($output);
 		}
-		
+
 		// compute the difference between initial and last position
 		$initial_start = Carbon::parse($event['start']);
 		$initial_start->tz(Config::config('app.timezone'));
-		
+
 		$delta = $initial_start->diff($start_datetime);
-		
+
 		Log::debug("initial start = " . $initial_start->format('Y-m-d H:i e'));
 		Log::debug("new start     = " . $start_datetime->format('Y-m-d H:i e'));
 		Log::debug('delta = ' . $delta->format("%a days %H:%I:%S"));
-		Log::debug('diffInHours = ' . $initial_start->diffInHours($start_datetime) );
-		
+		Log::debug('diffInHours = ' . $initial_start->diffInHours($start_datetime));
+
 		// apply the delta to start dateTime
 		$start_datetime->setTimezone('UTC');
-		
+
 		$data = [];
-		$data ['start'] = $start_datetime->format("Y-m-d H:i");
-		$data ['allDay'] = ($allDay != "false") ? 1 : 0;
-		
+		$data['start'] = $start_datetime->format("Y-m-d H:i");
+		$data['allDay'] = ($allDay != "false") ? 1 : 0;
+
 		// If all day delete the end dateTime
 		// if not apply the delta to end dateTime
 		if (isset($event['end'])) {
@@ -297,16 +306,16 @@ class CalendarEventController extends Controller {
 			$end_datetime = $end_datetime->add($delta);
 			$data['end'] = $end_datetime->format("Y-m-d H:i");
 		}
-		
+
 		// Log::Debug('Updating event: ' . var_export($event, true) . " with " . var_export($data, true));
 		// update the event
-		CalendarEvent::whereId ( $id )->update ( $data );
-		
+		CalendarEvent::whereId($id)->update($data);
+
 		$success = ['status' => 'OK'];
 		$output = $success;
 		return response()->json($output);
 	}
-	
+
 	/**
 	 * Called by fullcalendar when an event is dragged
 	 *
@@ -315,64 +324,61 @@ class CalendarEventController extends Controller {
 	 * 
 	 * @SuppressWarnings("PMD.ShortVariable")
 	 */
-	public function resized (Request $request) {
-		$id = $request->get ('id');
-		$title = $request->get ('title');
-		$new_end = $request->get ('end');
-		$allDay = $request->get ('allDay');
-		
+	public function resized(Request $request) {
+		$id = $request->get('id');
+		$title = $request->get('title');
+		$new_end = $request->get('end');
+		$allDay = $request->get('allDay');
+
 		Log::Debug("Event $id, title=$title, has been resized to end=$new_end, allDay=$allDay");
-		
+
 		if (! $id) {
 			$output = ['error' => ['message' => 'Missing calendar event ID', 'code' => 1]];
 			Log::Debug('Missing calendar event ID');
 			return response()->json($output);
 		}
-		
+
 		$end_datetime = null;
 		if (! $new_end) {
 			$output = ['error' => ['message' => 'Missing calendar event end', 'code' => 2]];
 			Log::Debug('Missing calendar event end');
-			
+
 			return response()->json($output);
-			
 		} else {
 			try {
 				$exploded = explode(' ', $new_end);
 				$end_datetime = Carbon::parse($exploded[0], Config::config('app.timezone'));
-				
-			} catch ( Exception $e ) {
+			} catch (Exception $e) {
 				$output = ['error' => ['message' => 'Incorrect event end format', 'code' => 3]];
 				Log::Debug('Incorrect event end format: ' . $new_end);
 				return response()->json($output);
 			}
 		}
-		
+
 		// Fetch the event
-		$event = CalendarEvent::find ($id);	
+		$event = CalendarEvent::find($id);
 
 		if (! $event) {
 			$output = ['error' => ['message' => 'Unknown calendar event ID', 'code' => 4]];
 			Log::Debug('Unknown calendar event ID');
 			return response()->json($output);
 		}
-		
+
 		// Check that the start dateTime has not changed
-				
+
 		Log::debug("initial end = " . $event->end);
 		Log::debug("new end     = " . $end_datetime->format('Y-m-d H:i e'));
-		
+
 		// update the event
 		$end_datetime->setTimezone('UTC');
-		
+
 		$data = [];
-		$data ['end'] = $end_datetime->format("Y-m-d H:i");
-		
-		CalendarEvent::whereId ( $id )->update ( $data );
-		
+		$data['end'] = $end_datetime->format("Y-m-d H:i");
+
+		CalendarEvent::whereId($id)->update($data);
+
 		$success = ['status' => 'OK'];
 		$output = $success;
 		return response()->json($output);
 	}
-	
 }

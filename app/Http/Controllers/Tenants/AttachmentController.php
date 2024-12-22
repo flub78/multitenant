@@ -46,8 +46,14 @@ class AttachmentController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        return view('tenants/attachment/create');
+    public function create(Request $request) {
+        // echo "create ";
+        // echo " referenced_table = " . $request->referenced_table;
+        // echo " referenced_id = " . $request->referenced_id;
+        // exit;
+        return view('tenants.attachment.create')
+            ->with('referenced_table', $request->referenced_table)
+            ->with('referenced_id', $request->referenced_id);
     }
 
     /**
@@ -61,7 +67,8 @@ class AttachmentController extends Controller {
 
         $this->store_file($validatedData, "file", $request, "attachment");
         Attachment::create($validatedData);
-        return redirect('/attachment')->with('success', __('general.creation_success', ['elt' => __("attachment.elt")]));
+        return redirect()->back();
+        // return redirect('/attachment')->with('success', __('general.creation_success', ['elt' => __("attachment.elt")]));
     }
 
     /**

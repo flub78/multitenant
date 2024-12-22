@@ -30,81 +30,90 @@ use Illuminate\Support\Facades\Log;
  * reviewed 2022-01-08
  *
  */
-class CalendarEvent extends ModelWithLogs
-{
+class CalendarEvent extends ModelWithLogs {
     use HasFactory;
-    
+
     protected $primaryKey = 'id';
-    
+
     protected $table = 'calendar_events';
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-    		'title',
-    		'description',
-    		'allDay',
-    		'start', 'end',
-    		'editable', 'startEditable', 'durationEditable',
-    		'backgroundColor', 'borderColor', 'textColor'
+        'title',
+        'description',
+        'allDay',
+        'start',
+        'end',
+        'editable',
+        'startEditable',
+        'durationEditable',
+        'backgroundColor',
+        'borderColor',
+        'textColor'
     ];
-    
+
     /**
      * The attributes that are guarded (not mass assignable)
      * Use either $fillable or $guarded, not both...
      */
     // protected $guarded = [];
-    
+
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-    		'editable', 'startEditable', 'durationEditable'
+        'editable',
+        'startEditable',
+        'durationEditable'
     ];
-    
-    
+
+
     /**
      * return a local start date time in format "2022-01-30" or "2022-01-24 09:15:00"
      */
     public function getFullcalendarStart() {
-    	
-    	if (strlen($this->start) > 16) {
-    		$date = Carbon::createFromFormat('Y-m-d H:i:s', $this->start);
-    	} else {
-    		$date = Carbon::createFromFormat('Y-m-d', $this->start);
-    	}
-    	$date->tz(Config::config('app.timezone'));
-    	
-    	if ($this->allDay) {
-    		return $date->format('Y-m-d');
-    	} else {
-    		return $date->format('Y-m-d H:i:s');
-    	}
+
+        if (strlen($this->start) > 16) {
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->start);
+        } else {
+            $date = Carbon::createFromFormat('Y-m-d', $this->start);
+        }
+        $date->tz(Config::config('app.timezone'));
+
+        if ($this->allDay) {
+            return $date->format('Y-m-d');
+        } else {
+            return $date->format('Y-m-d H:i:s');
+        }
     }
 
     /**
      * return a local end date time in format "2022-01-30" or "2022-01-24 09:15:00"
      */
     public function getFullcalendarEnd() {
-    	if (! $this->end) return "";
-    	Log::debug('getFullcalendarEnd ' . $this->end);
-    	if (strlen($this->end) > 16) {
-    		$date = Carbon::createFromFormat('Y-m-d H:i:s', $this->end);
-    	} else {
-    		$date = Carbon::createFromFormat('Y-m-d', $this->end);
-    	}
-    	$date->tz(Config::config('app.timezone'));
-    	
-    	if ($this->allDay) {
-    		return $date->format('Y-m-d');
-    	} else {
-    		return $date->format('Y-m-d H:i:s');
-    	}
+        if (! $this->end) return "";
+        Log::debug('getFullcalendarEnd ' . $this->end);
+        if (strlen($this->end) > 16) {
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->end);
+        } else {
+            $date = Carbon::createFromFormat('Y-m-d', $this->end);
+        }
+        $date->tz(Config::config('app.timezone'));
+
+        if ($this->allDay) {
+            return $date->format('Y-m-d');
+        } else {
+            return $date->format('Y-m-d H:i:s');
+        }
     }
-    
+
+    public function attachments() {
+        return $this->morphMany(Attachment::class, 'referenced', 'referenced_table', 'referenced_id');
+    }
 }
