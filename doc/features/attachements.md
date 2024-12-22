@@ -5,9 +5,9 @@ A file storage mechanism to attach files to elements of table.
 ## Use cases
 
 As a user
-* I store a picture of me in my profile, the scan of a bill in an accounting application, a GPS track of a flight, or any other kind of file.
+* I can store a picture of me in my profile, the scan of a bill in an accounting application, a GPS track of a flight, or any other kind of file.
 
-* I can download a file that I have uploaded or others files for which I have permission.
+* Ican view attachments in a new tab in the browser when the browser does not support to mime type, I can download it.
 
 * I can <span style="color:red">**replace**</span> a file that I have uploaded
 
@@ -16,8 +16,8 @@ As a user
 * I can see the list of attachments if there are several
 
 * I do not want others user to be able to view my files.
-* 
-* I want to use a smartphone application to upload pictures directly in the multi tenant WEB application.
+  
+* I can use a smartphone to upload a pictures directly in WEB application.
 
 As an admin
 * I want to do what the users can do but for any user.
@@ -32,15 +32,13 @@ As an admin
 
 * It must be possible to attach several files to an item or to limit to a certain number.
 
-* In some cases it will be possible to attach many files to an item in others cases only one file will be allowed for one purpose. For example a user picture, uploading another one will replace the previous one.
-
 * It should be possible to control the file types and sizes to avoid that users saturate the storage or use it as personal storage.
 
 * In some case of general purpose storage it may be convenient to structure the storage into sub-directories. (or is it just the purpose?)
 
 * It must be possible to backup and restore the storage per tenant.
 
-* Thumbnails are used to display attachments. On click they should open the file in the browser if it is a supported mime type. If possible, the thumbnails should be dynamically generated. If not, display an icon to show the type of the file, like a pdf icon. If the mime type is totally unknown, just display a file icon and offer to download it.
+* Thumbnails are used to display attachments. They are either preview images or mime type icons.
 
 ## Design
 
@@ -55,7 +53,7 @@ Let's limit the feature to table with integer key to start (most of the cases, a
 Referenced_table, referenced_id, user_id and purpose are defined by the application, the others attributes are defined by the user. 
 Is it possible to manage that as a set of hidden attributes ? Is it safe ? or should the validation also check that the hidden fields have not been tampered ?
 
-There are cases in which it is legitimate to let to the user the full control on the uploaded files t. In other cases these files may be supporting documents (expense bills, etc.) 
+There are cases in which it is legitimate to let to the user the full control on the uploaded files. In other cases these files may be supporting documents (expense bills, etc.) 
 It could be managed in several ways:
 * changing the ownership of the files once they have been uploaded making them belong to accounting. It would prevent the user to see them or download them back.
 * Have a non_editable attribute for attachment and check it.
@@ -69,6 +67,7 @@ I had the pleasant surprise to discover that the HTML5 specification includes a 
 <input type="file" id="file" name="file" accept="image/*" capture="camera">
 ```
 The idea is to display attachements
+
 ## Local filenames
 
 I want a user to be able to retrieve a file in the server local storage (for debugging and to make backup and restore easier).

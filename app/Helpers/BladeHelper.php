@@ -209,25 +209,26 @@ class BladeHelper {
 
 		$inner_html = "";
 		if (str_starts_with($mime_type, 'image/')) {
-			$inner_html = "<img src=\"$url\" class=\"img-thumbnail\" alt=\"$label\" width=\"50\" height=\"auto\" >";
+			$inner_html = "<img src=\"$url\" class=\"img-thumbnail\" alt=\"$label\" title=\"$filename\" width=\"50\" height=\"auto\" >";
 		} else {
 			if (str_ends_with($mime_type, 'pdf')) {
-				$inner_html = "<i class=\"fas fa-file-pdf fa-2x\"></i>";
+				$inner_html = "<i class=\"fas fa-file-pdf fa-2x text-danger\" title=\"$filename\"></i>";
 			} else if (str_ends_with($mime_type, 'txt') || str_ends_with($mime_type, 'text/plain')) {
-				$inner_html = "<i class=\"fas fa-file-alt fa-2x\"></i>";
+				$inner_html = "<i class=\"fas fa-file-alt fa-2x\" title=\"$filename\"></i>";
 			} else if (str_ends_with($mime_type, 'md') || str_ends_with($mime_type, 'markdown')) {
-				$inner_html = "<i class=\"fas fa-file-alt fa-2x\"></i>";
+				$inner_html = "<i class=\"fas fa-file-alt fa-2x\" title=\"$filename\"></i>";
 			} else if (str_ends_with($mime_type, 'csv')) {
-				$inner_html = "<i class=\"fas fa-file-csv fa-2x\"></i>";
+				$inner_html = "<i class=\"fas fa-file-csv fa-2x\" title=\"$filename\"></i>";
 			} else if (str_ends_with($mime_type, 'xlsx') || str_ends_with($mime_type, 'xls') || str_contains($mime_type, 'spreadsheet')) {
-				$inner_html = "<i class=\"fas fa-file-excel fa-2x\"></i>";
+				$inner_html = "<i class=\"fas fa-file-excel fa-2x text-success\" title=\"$filename\"></i>";
 			} else if (str_ends_with($mime_type, 'doc') || str_ends_with($mime_type, 'docx') || str_contains($mime_type, 'word')) {
-				$inner_html = "<i class=\"fas fa-file-word fa-2x\"></i>";
+				$inner_html = "<i class=\"fas fa-file-word fa-2x text-primary\" title=\"$filename\"></i>";
+			} else if (str_ends_with($mime_type, 'ppt') || str_ends_with($mime_type, 'pptx') || str_contains($mime_type, 'powerpoint') || str_contains($mime_type, 'presentation')) {
+				$inner_html = "<i class=\"fas fa-file-powerpoint fa-2x text-warning\" title=\"$filename\"></i>";
 			} else {
-				$inner_html = "<i class=\"fas fa-file fa-2x\"></i>";
+				$inner_html = "<i class=\"fas fa-file fa-2x\" title=\"$filename\"></i>";
 			}
 		}
-
 		if (!$label) $label = $field;
 		return "<a href=\"$url\" target=\"_blank\">$inner_html</a>";
 	}

@@ -98,10 +98,21 @@ class Controller extends BaseController {
      */
     public function store_file(&$validatedData, $field, $request, $table) {
         if ($request->file($field)) {
-            $name =  $request->file($field)->getClientOriginalName();
-            $filename = $this->upload_name($name, $table . '_' . $field);
-            // By default public storage is not really public and must be dynamically served.
+            $original_name =  $request->file($field)->getClientOriginalName();
 
+            if ($validatedData['referenced_table']) {
+                // it's an attachment
+                $year = date('Y');
+                if (!Storage::exists('uploads/' . $year)) {
+                    Storage::makeDirectory('uploads/' . $year);
+                }
+                $name = ($validatedData['filename']) ? $validatedData['filename'] : $table . '_' . $field;
+                $filename = $this->upload_name($original_name, $year . '/' . $name);
+            } else {
+                $filename = $this->upload_name($original_name, $table . '_' . $field);
+            }
+
+            // By default public storage is not really public and must be dynamically served.
             $request->file($field)->storeAs('uploads', $filename);
             $validatedData[$field] = $filename;
         }
@@ -166,11 +177,25 @@ class Controller extends BaseController {
      */
     public function update_file(&$validatedData, $field, $request, $table, $previous) {
         if ($request->file($field)) {
-            $name =  $request->file($field)->getClientOriginalName();
-            $filename = $this->upload_name($name, $table . '_' . $field);
+            // delete previous file
             if ($previous->$field) {
                 Storage::delete('uploads/' . $previous->$field);
             }
+
+            // upload new file
+            $original_name =  $request->file($field)->getClientOriginalName();
+            if ($validatedData['referenced_table']) {
+                // it's an attachment
+                $year = date('Y');
+                if (!Storage::exists('uploads/' . $year)) {
+                    Storage::makeDirectory('uploads/' . $year);
+                }
+                $name = ($validatedData['filename']) ? $validatedData['filename'] : $table . '_' . $field;
+                $filename = $this->upload_name($original_name, $year . '/' . $name);
+            } else {
+                $filename = $this->upload_name($original_name, $table . '_' . $field);
+            }
+
             $request->file($field)->storeAs('uploads', $filename);
             $validatedData[$field] = $filename;
         }

@@ -27,19 +27,17 @@ use App\Helpers\DateFormat;
   </div>
 
   <div class="container-fluid mb-3">
-    <table class="table table-striped" id="maintable">
+    <table class="table table-striped" id="attachment_table">
       <caption>{{__('attachment.title')}}</caption>
       <thead>
         <tr>
           <th style="width: 30px;"></th>
           <th style="width: 30px;"></th>
 
-          <th> {{__('attachment.referenced_table')}} </th>
-          <th> {{__('attachment.referenced_id')}} </th>
-          <th> {{__('attachment.user_id')}} </th>
+
           <th> {{__('attachment.filename')}} </th>
           <th> {{__('attachment.description')}} </th>
-          <th> {{__('attachment.file')}} </th>
+          <th class="text-center"> {{__('attachment.file')}} </th>
         </tr>
       </thead>
 
@@ -54,12 +52,10 @@ use App\Helpers\DateFormat;
               <button class="btn btn-danger" type="submit" dusk="delete_{{ $attachment->id }}"><i class="fa-solid fa-trash"></i></button>
             </form>
           </td>
-          <td> {{$attachment->referenced_table}}</td>
-          <td> {{$attachment->referenced_id}}</td>
-          <td> {{$attachment->user_id}}</td>
+
           <td> {{$attachment->filename}}</td>
           <td> {{$attachment->description}}</td>
-          <td> {!! Blade::attachment("attachment.file", $attachment->id, "file", $attachment->file, "File") !!}</td>
+          <td class="text-center"> {!! Blade::attachment("attachment.file", $attachment->id, "file", $attachment->file, "File") !!}</td>
 
         </tr>
         @endforeach
