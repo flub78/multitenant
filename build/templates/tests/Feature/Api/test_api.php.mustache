@@ -18,8 +18,8 @@ class [[class_name]]ControllerTest extends TenantTestCase {
 	
 	protected $tenancy = true;
 	
-	function __construct() {
-		parent::__construct ();
+	function __construct(?string $name = null) {
+		parent::__construct ($name);
 
 		// required to be able to use the factory inside the constructor
 		$this->createApplication ();
