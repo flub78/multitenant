@@ -100,7 +100,7 @@ class Controller extends BaseController {
         if ($request->file($field)) {
             $original_name =  $request->file($field)->getClientOriginalName();
 
-            if ($validatedData['referenced_table']) {
+            if (isset($validatedData['referenced_table']) && $validatedData['referenced_table']) {
                 // it's an attachment
                 $year = date('Y');
                 if (!Storage::exists('uploads/' . $year)) {
@@ -178,13 +178,13 @@ class Controller extends BaseController {
     public function update_file(&$validatedData, $field, $request, $table, $previous) {
         if ($request->file($field)) {
             // delete previous file
-            if ($previous->$field) {
+            if ($previous && isset($previous->$field) && $previous->$field) {
                 Storage::delete('uploads/' . $previous->$field);
             }
 
             // upload new file
             $original_name =  $request->file($field)->getClientOriginalName();
-            if ($validatedData['referenced_table']) {
+            if (isset($validatedData['referenced_table']) && $validatedData['referenced_table']) {
                 // it's an attachment
                 $year = date('Y');
                 if (!Storage::exists('uploads/' . $year)) {

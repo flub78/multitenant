@@ -36,11 +36,6 @@ use App\Helpers\BladeHelper as Blade;
       <input type="hidden" name="referenced_id" value="{{ $referenced_id }}">
 
       <div class="form-floating mb-2 border">
-        <input type="text" class="form-control" name="user_id" value="{{ old("user_id") }}" />
-        <label class="form-label" for="user_id">{{__("attachment.user_id")}}</label>
-      </div>
-
-      <div class="form-floating mb-2 border">
         <input type="text" class="form-control" name="filename" value="{{ old("filename") }}" />
         <label class="form-label" for="filename">{{__("attachment.filename")}}</label>
       </div>
