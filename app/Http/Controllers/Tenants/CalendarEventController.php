@@ -15,7 +15,6 @@ use Carbon\Carbon;
 use Carbon\Exceptions\Exception;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\Config;
-use BaconQrCode\Common\FormatInformation;
 
 
 /**
@@ -221,10 +220,14 @@ class CalendarEventController extends Controller {
 		$calendarEvent = CalendarEvent::findOrFail($id);
 		$title = $calendarEvent->title;
 
-		$calendar_event = CalendarEvent::findOrFail($id);
+		// Get attachments and delete physical files
+		$attachments = \App\Models\Tenants\Attachment::where('referenced_table', 'calendar_events')
+			->where('referenced_id', $id)
+			->get();
 
-		// Delete all associated attachments
-		$calendar_event->attachments()->delete();
+		foreach ($attachments as $attachment) {
+			$attachment->delete();
+		}
 		$calendarEvent->delete();
 
 		return redirect($this->base_url)->with('success', __('general.deletion_success', ['elt' => $title]));

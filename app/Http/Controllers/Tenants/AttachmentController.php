@@ -128,9 +128,9 @@ class AttachmentController extends Controller {
      */
     public function destroy(Attachment $attachment) {
         $id = $attachment->id;
-        if ($attachment->file) $this->destroy_file($attachment->file);
+        // if ($attachment->file) $this->destroy_file($attachment->file);
         $attachment->delete();
-        return redirect('attachment')->with('success', __('general.deletion_success', ['elt' => $id]));
+        return redirect()->back()->with('success', __('general.deletion_success', ['elt' => $id]));
     }
 
     /**
