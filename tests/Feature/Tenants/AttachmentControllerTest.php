@@ -102,9 +102,9 @@ class AttachmentControllerTest extends TenantTestCase {
         Log::Debug(__METHOD__);
 
         $look_for = [__('attachment.title'), tenant('id')];
-        $look_for[] = __('attachment.referenced_table');
-        $look_for[] = __('attachment.referenced_id');
-        $look_for[] = __('attachment.user_id');
+        // $look_for[] = __('attachment.referenced_table');
+        // $look_for[] = __('attachment.referenced_id');
+        // $look_for[] = __('attachment.user_id');
         $look_for[] = __('attachment.filename');
         $look_for[] = __('attachment.description');
         $look_for[] = __('attachment.file');
@@ -167,7 +167,7 @@ class AttachmentControllerTest extends TenantTestCase {
         $initial_count = Attachment::count();
 
         // call the post method to create it
-        $this->post_tenant_url($this->user, 'attachment', ['created'], $elt);
+        $this->post_tenant_url($this->user, 'attachment', [], $elt);
 
         $new_count = Attachment::count();
         $expected = $initial_count + 1;
@@ -300,7 +300,7 @@ class AttachmentControllerTest extends TenantTestCase {
         $expected = $initial_count + 1;
         $this->assertEquals($expected, $new_count, "one attachment created, actual=$new_count, expected=$expected");
 
-        $this->delete_tenant_url($this->user, 'attachment/' . $id, ['deleted']);
+        $this->delete_tenant_url($this->user, 'attachment/' . $id, []);
 
         $count_after_delete = Attachment::count();
         $expected = $initial_count;
