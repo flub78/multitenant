@@ -166,7 +166,10 @@ class CalendarEventController extends Controller {
 		$calendarEvent->start = DateFormat::to_local_datetime($calendarEvent->start);
 		$calendarEvent->end = DateFormat::to_local_datetime($calendarEvent->end);
 
-		$attachments = $calendarEvent->attachments;
+		$attachments = \App\Models\Tenants\Attachment::where('referenced_table', 'calendar_events')
+			->where('referenced_id', $id)
+			->get();
+
 
 		return view($this->base_view . 'edit')->with('calendar_event', $calendarEvent)
 			->with('attachments', $attachments)

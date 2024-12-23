@@ -47,10 +47,9 @@ class AttachmentController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request) {
-        // echo "create ";
-        // echo " referenced_table = " . $request->referenced_table;
-        // echo " referenced_id = " . $request->referenced_id;
-        // exit;
+
+        session(['attachment_return_url' => url()->previous()]);
+
         return view('tenants.attachment.create')
             ->with('referenced_table', $request->referenced_table)
             ->with('referenced_id', $request->referenced_id);
@@ -65,10 +64,12 @@ class AttachmentController extends Controller {
     public function store(AttachmentRequest $request) {
         $validatedData = $request->validated(); // Only retrieve the data, the validation is done
 
+        $validatedData['user_id'] = auth()->id();
+
         $this->store_file($validatedData, "file", $request, "attachment");
         Attachment::create($validatedData);
-        return redirect()->back();
-        // return redirect('/attachment')->with('success', __('general.creation_success', ['elt' => __("attachment.elt")]));
+
+        return redirect(session('attachment_return_url', '/'));
     }
 
     /**
@@ -92,6 +93,8 @@ class AttachmentController extends Controller {
      */
     public function edit(Attachment $attachment) {
 
+        session(['attachment_return_url' => url()->previous()]);
+
         return view('tenants/attachment/edit')
             ->with(compact('attachment'));
     }
@@ -113,7 +116,7 @@ class AttachmentController extends Controller {
         $this->update_file($validatedData, "file", $request, "attachment", $previous);
         Attachment::where(['id' => $id])->update($validatedData);
 
-        return redirect('/attachment')->with('success', __('general.modification_success', ['elt' => __("attachment.elt")]));
+        return redirect(session('attachment_return_url', '/'))->with('success', __('general.modification_success', ['elt' => __("attachment.elt")]));
     }
 
 
